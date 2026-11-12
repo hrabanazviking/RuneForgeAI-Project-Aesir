@@ -212,6 +212,11 @@ from tests.test_vulkan_buffers import (
     test_vulkan_buffer_alloc_rejection,
     test_vulkan_buffer_no_leak,
 )
+from tests.test_vulkan_dispatch import (
+    test_vulkan_dispatch_vec_add_oracle,
+    test_vulkan_dispatch_rejection,
+    test_vulkan_dispatch_no_leak,
+)
 from tests.test_npu_realm import (
     test_npu_probe_absence,
     test_npu_gemm_dispatch_bounds,
@@ -743,6 +748,9 @@ def main() raises:
         test_vulkan_buffer_alloc_rejection,
     )
     run_case(ledger, "gpu.vulkan_buffer_no_leak", test_vulkan_buffer_no_leak)
+    run_case(ledger, "gpu.vulkan_dispatch_vec_add_oracle", test_vulkan_dispatch_vec_add_oracle)
+    run_case(ledger, "gpu.vulkan_dispatch_rejection", test_vulkan_dispatch_rejection)
+    run_case(ledger, "gpu.vulkan_dispatch_no_leak", test_vulkan_dispatch_no_leak)
     run_case(
         ledger,
         "gpu.resilience_allocation_rejection",
@@ -1197,4 +1205,6 @@ def main() raises:
     # on this branch's ba0cf066 base; the union total reconciles at
     # banking after A-011/A-012 land ahead of this slice.
     # Union re-pin (A-014 banking 2026-11-12): 306 -> 310 -- both sides' registrations counted (run_case + record_skip).
-    ledger.finish(310)
+    # A-015 re-pin: 310 -> 313 -- three Vulkan dispatch cases added
+    # (gpu.vulkan_dispatch_* in tests/test_vulkan_dispatch.mojo).
+    ledger.finish(313)

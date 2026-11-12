@@ -897,3 +897,330 @@ uint64_t aesir_vk_live_bytes(void) {
 int aesir_vk_live_count(void) {
     return g_live_count;
 }
+
+/* ---- A-015: Vulkan compute dispatch smoke (vector add) ----
+ *
+ * One trivial SPIR-V kernel (aesir_engine/shaders/vec_add.comp,
+ * c[i] = a[i] + b[i], local_size_x 256, element count passed as a
+ * push constant so non-multiple sizes are exact) dispatched on the
+ * A-014 context above: same instance, physical device, logical
+ * device and compute queue, operating directly on A-014 buffer
+ * slots (which are created with STORAGE_BUFFER usage). No second
+ * context is created. The SPIR-V words below are the verbatim
+ * glslangValidator output for vec_add.comp (SPIR-V 1.0, 1608 bytes,
+ * sha256 b228710b1f464b3aa810a4d4cb73e67f2325fdf1eabaa2ceb6b2cf73309ce15b
+ * at build time; the A-015 ledger records the regeneration command).
+ * Pipeline objects are created per dispatch and destroyed before
+ * return - this is a smoke path, not a cached-pipeline engine path.
+ * Returns 0 on success (after vkQueueWaitIdle, so mapped reads of
+ * the output buffer observe the completed dispatch), the negative
+ * VkResult on Vulkan failure, AESIR_VK_ABSENT when a dispatch entry
+ * point is missing, AESIR_VK_INVALID for bad ids / sizes. */
+
+typedef void *VkShaderModule_t;
+typedef void *VkDescriptorSetLayout_t;
+typedef void *VkPipelineLayout_t;
+typedef void *VkPipeline_t;
+typedef void *VkDescriptorPool_t;
+typedef void *VkDescriptorSet_t;
+typedef void *VkCommandPool_t;
+typedef void *VkCommandBuffer_t;
+
+typedef struct { uint32_t sType; const void *pNext; VkFlags_t flags; size_t codeSize; const uint32_t *pCode; } AesirVkShaderModuleCreateInfo;
+typedef struct { uint32_t binding; uint32_t descriptorType; uint32_t descriptorCount; uint32_t stageFlags; const void *pImmutableSamplers; } AesirVkDescriptorSetLayoutBinding;
+typedef struct { uint32_t sType; const void *pNext; VkFlags_t flags; uint32_t bindingCount; const AesirVkDescriptorSetLayoutBinding *pBindings; } AesirVkDescriptorSetLayoutCreateInfo;
+typedef struct { uint32_t stageFlags; uint32_t offset; uint32_t size; } AesirVkPushConstantRange;
+typedef struct { uint32_t sType; const void *pNext; VkFlags_t flags; uint32_t setLayoutCount; const VkDescriptorSetLayout_t *pSetLayouts; uint32_t pushConstantRangeCount; const AesirVkPushConstantRange *pPushConstantRanges; } AesirVkPipelineLayoutCreateInfo;
+typedef struct { uint32_t type; uint32_t descriptorCount; } AesirVkDescriptorPoolSize;
+typedef struct { uint32_t sType; const void *pNext; VkFlags_t flags; uint32_t maxSets; uint32_t poolSizeCount; const AesirVkDescriptorPoolSize *pPoolSizes; } AesirVkDescriptorPoolCreateInfo;
+typedef struct { uint32_t sType; const void *pNext; VkDescriptorPool_t descriptorPool; uint32_t descriptorSetCount; const VkDescriptorSetLayout_t *pSetLayouts; } AesirVkDescriptorSetAllocateInfo;
+typedef struct { VkBuffer_t buffer; uint64_t offset; uint64_t range; } AesirVkDescriptorBufferInfo;
+typedef struct { uint32_t sType; const void *pNext; VkDescriptorSet_t dstSet; uint32_t dstBinding; uint32_t dstArrayElement; uint32_t descriptorCount; uint32_t descriptorType; const void *pImageInfo; const AesirVkDescriptorBufferInfo *pBufferInfo; const void *pTexelBufferView; } AesirVkWriteDescriptorSet;
+typedef struct { uint32_t sType; const void *pNext; VkFlags_t flags; uint32_t stage; VkShaderModule_t module; const char *pName; const void *pSpecializationInfo; } AesirVkPipelineShaderStageCreateInfo;
+typedef struct { uint32_t sType; const void *pNext; VkFlags_t flags; AesirVkPipelineShaderStageCreateInfo stage; VkPipelineLayout_t layout; VkPipeline_t basePipelineHandle; int32_t basePipelineIndex; } AesirVkComputePipelineCreateInfo;
+typedef struct { uint32_t sType; const void *pNext; VkFlags_t flags; uint32_t queueFamilyIndex; } AesirVkCommandPoolCreateInfo;
+typedef struct { uint32_t sType; const void *pNext; VkCommandPool_t commandPool; uint32_t level; uint32_t commandBufferCount; } AesirVkCommandBufferAllocateInfo;
+typedef struct { uint32_t sType; const void *pNext; VkFlags_t flags; const void *pInheritanceInfo; } AesirVkCommandBufferBeginInfo;
+typedef struct { uint32_t sType; const void *pNext; uint32_t waitSemaphoreCount; const void *pWaitSemaphores; const uint32_t *pWaitDstStageMask; uint32_t commandBufferCount; const VkCommandBuffer_t *pCommandBuffers; uint32_t signalSemaphoreCount; const void *pSignalSemaphores; } AesirVkSubmitInfo;
+
+typedef VkResult_t (*vk_create_shader_module_fn)(VkDevice_t, const AesirVkShaderModuleCreateInfo *, const void *, VkShaderModule_t *);
+typedef void (*vk_destroy_shader_module_fn)(VkDevice_t, VkShaderModule_t, const void *);
+typedef VkResult_t (*vk_create_descriptor_set_layout_fn)(VkDevice_t, const AesirVkDescriptorSetLayoutCreateInfo *, const void *, VkDescriptorSetLayout_t *);
+typedef void (*vk_destroy_descriptor_set_layout_fn)(VkDevice_t, VkDescriptorSetLayout_t, const void *);
+typedef VkResult_t (*vk_create_pipeline_layout_fn)(VkDevice_t, const AesirVkPipelineLayoutCreateInfo *, const void *, VkPipelineLayout_t *);
+typedef void (*vk_destroy_pipeline_layout_fn)(VkDevice_t, VkPipelineLayout_t, const void *);
+typedef VkResult_t (*vk_create_compute_pipelines_fn)(VkDevice_t, void *, uint32_t, const AesirVkComputePipelineCreateInfo *, const void *, VkPipeline_t *);
+typedef void (*vk_destroy_pipeline_fn)(VkDevice_t, VkPipeline_t, const void *);
+typedef VkResult_t (*vk_create_descriptor_pool_fn)(VkDevice_t, const AesirVkDescriptorPoolCreateInfo *, const void *, VkDescriptorPool_t *);
+typedef void (*vk_destroy_descriptor_pool_fn)(VkDevice_t, VkDescriptorPool_t, const void *);
+typedef VkResult_t (*vk_allocate_descriptor_sets_fn)(VkDevice_t, const AesirVkDescriptorSetAllocateInfo *, VkDescriptorSet_t *);
+typedef void (*vk_update_descriptor_sets_fn)(VkDevice_t, uint32_t, const AesirVkWriteDescriptorSet *, uint32_t, const void *);
+typedef VkResult_t (*vk_create_command_pool_fn)(VkDevice_t, const AesirVkCommandPoolCreateInfo *, const void *, VkCommandPool_t *);
+typedef void (*vk_destroy_command_pool_fn)(VkDevice_t, VkCommandPool_t, const void *);
+typedef VkResult_t (*vk_allocate_command_buffers_fn)(VkDevice_t, const AesirVkCommandBufferAllocateInfo *, VkCommandBuffer_t *);
+typedef VkResult_t (*vk_begin_command_buffer_fn)(VkCommandBuffer_t, const AesirVkCommandBufferBeginInfo *);
+typedef VkResult_t (*vk_end_command_buffer_fn)(VkCommandBuffer_t);
+typedef void (*vk_cmd_bind_pipeline_fn)(VkCommandBuffer_t, uint32_t, VkPipeline_t);
+typedef void (*vk_cmd_bind_descriptor_sets_fn)(VkCommandBuffer_t, uint32_t, VkPipelineLayout_t, uint32_t, uint32_t, const VkDescriptorSet_t *, uint32_t, const uint32_t *);
+typedef void (*vk_cmd_push_constants_fn)(VkCommandBuffer_t, VkPipelineLayout_t, uint32_t, uint32_t, uint32_t, const void *);
+typedef void (*vk_cmd_dispatch_fn)(VkCommandBuffer_t, uint32_t, uint32_t, uint32_t);
+typedef VkResult_t (*vk_queue_submit_fn)(VkQueue_t, uint32_t, const AesirVkSubmitInfo *, void *);
+typedef VkResult_t (*vk_queue_wait_idle_fn)(VkQueue_t);
+
+static vk_create_shader_module_fn d_create_shader_module = NULL;
+static vk_destroy_shader_module_fn d_destroy_shader_module = NULL;
+static vk_create_descriptor_set_layout_fn d_create_dsl = NULL;
+static vk_destroy_descriptor_set_layout_fn d_destroy_dsl = NULL;
+static vk_create_pipeline_layout_fn d_create_pl = NULL;
+static vk_destroy_pipeline_layout_fn d_destroy_pl = NULL;
+static vk_create_compute_pipelines_fn d_create_cp = NULL;
+static vk_destroy_pipeline_fn d_destroy_pipeline = NULL;
+static vk_create_descriptor_pool_fn d_create_dpool = NULL;
+static vk_destroy_descriptor_pool_fn d_destroy_dpool = NULL;
+static vk_allocate_descriptor_sets_fn d_alloc_dsets = NULL;
+static vk_update_descriptor_sets_fn d_update_dsets = NULL;
+static vk_create_command_pool_fn d_create_cpool = NULL;
+static vk_destroy_command_pool_fn d_destroy_cpool = NULL;
+static vk_allocate_command_buffers_fn d_alloc_cbufs = NULL;
+static vk_begin_command_buffer_fn d_begin_cbuf = NULL;
+static vk_end_command_buffer_fn d_end_cbuf = NULL;
+static vk_cmd_bind_pipeline_fn d_cmd_bind_pipeline = NULL;
+static vk_cmd_bind_descriptor_sets_fn d_cmd_bind_dsets = NULL;
+static vk_cmd_push_constants_fn d_cmd_push = NULL;
+static vk_cmd_dispatch_fn d_cmd_dispatch = NULL;
+static vk_queue_submit_fn d_queue_submit = NULL;
+static vk_queue_wait_idle_fn d_queue_wait_idle = NULL;
+static int g_dispatch_tried = 0;
+static int g_dispatch_ok = 0;
+
+static void aesir_vk_load_dispatch(void) {
+    if (g_dispatch_tried) { return; }
+    g_dispatch_tried = 1;
+    aesir_vk_load();
+    if (g_lib == NULL) { return; }
+    d_create_shader_module = (vk_create_shader_module_fn)dlsym(g_lib, "vkCreateShaderModule");
+    d_destroy_shader_module = (vk_destroy_shader_module_fn)dlsym(g_lib, "vkDestroyShaderModule");
+    d_create_dsl = (vk_create_descriptor_set_layout_fn)dlsym(g_lib, "vkCreateDescriptorSetLayout");
+    d_destroy_dsl = (vk_destroy_descriptor_set_layout_fn)dlsym(g_lib, "vkDestroyDescriptorSetLayout");
+    d_create_pl = (vk_create_pipeline_layout_fn)dlsym(g_lib, "vkCreatePipelineLayout");
+    d_destroy_pl = (vk_destroy_pipeline_layout_fn)dlsym(g_lib, "vkDestroyPipelineLayout");
+    d_create_cp = (vk_create_compute_pipelines_fn)dlsym(g_lib, "vkCreateComputePipelines");
+    d_destroy_pipeline = (vk_destroy_pipeline_fn)dlsym(g_lib, "vkDestroyPipeline");
+    d_create_dpool = (vk_create_descriptor_pool_fn)dlsym(g_lib, "vkCreateDescriptorPool");
+    d_destroy_dpool = (vk_destroy_descriptor_pool_fn)dlsym(g_lib, "vkDestroyDescriptorPool");
+    d_alloc_dsets = (vk_allocate_descriptor_sets_fn)dlsym(g_lib, "vkAllocateDescriptorSets");
+    d_update_dsets = (vk_update_descriptor_sets_fn)dlsym(g_lib, "vkUpdateDescriptorSets");
+    d_create_cpool = (vk_create_command_pool_fn)dlsym(g_lib, "vkCreateCommandPool");
+    d_destroy_cpool = (vk_destroy_command_pool_fn)dlsym(g_lib, "vkDestroyCommandPool");
+    d_alloc_cbufs = (vk_allocate_command_buffers_fn)dlsym(g_lib, "vkAllocateCommandBuffers");
+    d_begin_cbuf = (vk_begin_command_buffer_fn)dlsym(g_lib, "vkBeginCommandBuffer");
+    d_end_cbuf = (vk_end_command_buffer_fn)dlsym(g_lib, "vkEndCommandBuffer");
+    d_cmd_bind_pipeline = (vk_cmd_bind_pipeline_fn)dlsym(g_lib, "vkCmdBindPipeline");
+    d_cmd_bind_dsets = (vk_cmd_bind_descriptor_sets_fn)dlsym(g_lib, "vkCmdBindDescriptorSets");
+    d_cmd_push = (vk_cmd_push_constants_fn)dlsym(g_lib, "vkCmdPushConstants");
+    d_cmd_dispatch = (vk_cmd_dispatch_fn)dlsym(g_lib, "vkCmdDispatch");
+    d_queue_submit = (vk_queue_submit_fn)dlsym(g_lib, "vkQueueSubmit");
+    d_queue_wait_idle = (vk_queue_wait_idle_fn)dlsym(g_lib, "vkQueueWaitIdle");
+    g_dispatch_ok = (d_create_shader_module && d_destroy_shader_module && d_create_dsl && d_destroy_dsl && d_create_pl && d_destroy_pl && d_create_cp && d_destroy_pipeline && d_create_dpool && d_destroy_dpool && d_alloc_dsets && d_update_dsets && d_create_cpool && d_destroy_cpool && d_alloc_cbufs && d_begin_cbuf && d_end_cbuf && d_cmd_bind_pipeline && d_cmd_bind_dsets && d_cmd_push && d_cmd_dispatch && d_queue_submit && d_queue_wait_idle) ? 1 : 0;
+}
+
+int aesir_vk_dispatch_available(void) {
+    aesir_vk_load_dispatch();
+    return g_dispatch_ok ? 1 : 0;
+}
+static const uint32_t kVecAddSpv[] = {
+    0x07230203u, 0x00010000u, 0x0008000bu, 0x00000038u,
+    0x00000000u, 0x00020011u, 0x00000001u, 0x0006000bu,
+    0x00000001u, 0x4c534c47u, 0x6474732eu, 0x3035342eu,
+    0x00000000u, 0x0003000eu, 0x00000000u, 0x00000001u,
+    0x0006000fu, 0x00000005u, 0x00000004u, 0x6e69616du,
+    0x00000000u, 0x0000000bu, 0x00060010u, 0x00000004u,
+    0x00000011u, 0x00000100u, 0x00000001u, 0x00000001u,
+    0x00030003u, 0x00000002u, 0x000001c2u, 0x00040005u,
+    0x00000004u, 0x6e69616du, 0x00000000u, 0x00030005u,
+    0x00000008u, 0x00000069u, 0x00080005u, 0x0000000bu,
+    0x475f6c67u, 0x61626f6cu, 0x766e496cu, 0x7461636fu,
+    0x496e6f69u, 0x00000044u, 0x00040005u, 0x00000011u,
+    0x68737550u, 0x00000000u, 0x00040006u, 0x00000011u,
+    0x00000000u, 0x0000006eu, 0x00030005u, 0x00000013u,
+    0x00006370u, 0x00040005u, 0x00000020u, 0x66754243u,
+    0x00000000u, 0x00040006u, 0x00000020u, 0x00000000u,
+    0x00000063u, 0x00030005u, 0x00000022u, 0x00000000u,
+    0x00040005u, 0x00000025u, 0x66754241u, 0x00000000u,
+    0x00040006u, 0x00000025u, 0x00000000u, 0x00000061u,
+    0x00030005u, 0x00000027u, 0x00000000u, 0x00040005u,
+    0x0000002du, 0x66754242u, 0x00000000u, 0x00040006u,
+    0x0000002du, 0x00000000u, 0x00000062u, 0x00030005u,
+    0x0000002fu, 0x00000000u, 0x00040047u, 0x0000000bu,
+    0x0000000bu, 0x0000001cu, 0x00030047u, 0x00000011u,
+    0x00000002u, 0x00050048u, 0x00000011u, 0x00000000u,
+    0x00000023u, 0x00000000u, 0x00040047u, 0x0000001fu,
+    0x00000006u, 0x00000004u, 0x00030047u, 0x00000020u,
+    0x00000003u, 0x00050048u, 0x00000020u, 0x00000000u,
+    0x00000023u, 0x00000000u, 0x00040047u, 0x00000022u,
+    0x00000021u, 0x00000002u, 0x00040047u, 0x00000022u,
+    0x00000022u, 0x00000000u, 0x00040047u, 0x00000024u,
+    0x00000006u, 0x00000004u, 0x00030047u, 0x00000025u,
+    0x00000003u, 0x00040048u, 0x00000025u, 0x00000000u,
+    0x00000018u, 0x00050048u, 0x00000025u, 0x00000000u,
+    0x00000023u, 0x00000000u, 0x00030047u, 0x00000027u,
+    0x00000018u, 0x00040047u, 0x00000027u, 0x00000021u,
+    0x00000000u, 0x00040047u, 0x00000027u, 0x00000022u,
+    0x00000000u, 0x00040047u, 0x0000002cu, 0x00000006u,
+    0x00000004u, 0x00030047u, 0x0000002du, 0x00000003u,
+    0x00040048u, 0x0000002du, 0x00000000u, 0x00000018u,
+    0x00050048u, 0x0000002du, 0x00000000u, 0x00000023u,
+    0x00000000u, 0x00030047u, 0x0000002fu, 0x00000018u,
+    0x00040047u, 0x0000002fu, 0x00000021u, 0x00000001u,
+    0x00040047u, 0x0000002fu, 0x00000022u, 0x00000000u,
+    0x00040047u, 0x00000037u, 0x0000000bu, 0x00000019u,
+    0x00020013u, 0x00000002u, 0x00030021u, 0x00000003u,
+    0x00000002u, 0x00040015u, 0x00000006u, 0x00000020u,
+    0x00000000u, 0x00040020u, 0x00000007u, 0x00000007u,
+    0x00000006u, 0x00040017u, 0x00000009u, 0x00000006u,
+    0x00000003u, 0x00040020u, 0x0000000au, 0x00000001u,
+    0x00000009u, 0x0004003bu, 0x0000000au, 0x0000000bu,
+    0x00000001u, 0x0004002bu, 0x00000006u, 0x0000000cu,
+    0x00000000u, 0x00040020u, 0x0000000du, 0x00000001u,
+    0x00000006u, 0x0003001eu, 0x00000011u, 0x00000006u,
+    0x00040020u, 0x00000012u, 0x00000009u, 0x00000011u,
+    0x0004003bu, 0x00000012u, 0x00000013u, 0x00000009u,
+    0x00040015u, 0x00000014u, 0x00000020u, 0x00000001u,
+    0x0004002bu, 0x00000014u, 0x00000015u, 0x00000000u,
+    0x00040020u, 0x00000016u, 0x00000009u, 0x00000006u,
+    0x00020014u, 0x00000019u, 0x00030016u, 0x0000001eu,
+    0x00000020u, 0x0003001du, 0x0000001fu, 0x0000001eu,
+    0x0003001eu, 0x00000020u, 0x0000001fu, 0x00040020u,
+    0x00000021u, 0x00000002u, 0x00000020u, 0x0004003bu,
+    0x00000021u, 0x00000022u, 0x00000002u, 0x0003001du,
+    0x00000024u, 0x0000001eu, 0x0003001eu, 0x00000025u,
+    0x00000024u, 0x00040020u, 0x00000026u, 0x00000002u,
+    0x00000025u, 0x0004003bu, 0x00000026u, 0x00000027u,
+    0x00000002u, 0x00040020u, 0x00000029u, 0x00000002u,
+    0x0000001eu, 0x0003001du, 0x0000002cu, 0x0000001eu,
+    0x0003001eu, 0x0000002du, 0x0000002cu, 0x00040020u,
+    0x0000002eu, 0x00000002u, 0x0000002du, 0x0004003bu,
+    0x0000002eu, 0x0000002fu, 0x00000002u, 0x0004002bu,
+    0x00000006u, 0x00000035u, 0x00000100u, 0x0004002bu,
+    0x00000006u, 0x00000036u, 0x00000001u, 0x0006002cu,
+    0x00000009u, 0x00000037u, 0x00000035u, 0x00000036u,
+    0x00000036u, 0x00050036u, 0x00000002u, 0x00000004u,
+    0x00000000u, 0x00000003u, 0x000200f8u, 0x00000005u,
+    0x0004003bu, 0x00000007u, 0x00000008u, 0x00000007u,
+    0x00050041u, 0x0000000du, 0x0000000eu, 0x0000000bu,
+    0x0000000cu, 0x0004003du, 0x00000006u, 0x0000000fu,
+    0x0000000eu, 0x0003003eu, 0x00000008u, 0x0000000fu,
+    0x0004003du, 0x00000006u, 0x00000010u, 0x00000008u,
+    0x00050041u, 0x00000016u, 0x00000017u, 0x00000013u,
+    0x00000015u, 0x0004003du, 0x00000006u, 0x00000018u,
+    0x00000017u, 0x000500aeu, 0x00000019u, 0x0000001au,
+    0x00000010u, 0x00000018u, 0x000300f7u, 0x0000001cu,
+    0x00000000u, 0x000400fau, 0x0000001au, 0x0000001bu,
+    0x0000001cu, 0x000200f8u, 0x0000001bu, 0x000100fdu,
+    0x000200f8u, 0x0000001cu, 0x0004003du, 0x00000006u,
+    0x00000023u, 0x00000008u, 0x0004003du, 0x00000006u,
+    0x00000028u, 0x00000008u, 0x00060041u, 0x00000029u,
+    0x0000002au, 0x00000027u, 0x00000015u, 0x00000028u,
+    0x0004003du, 0x0000001eu, 0x0000002bu, 0x0000002au,
+    0x0004003du, 0x00000006u, 0x00000030u, 0x00000008u,
+    0x00060041u, 0x00000029u, 0x00000031u, 0x0000002fu,
+    0x00000015u, 0x00000030u, 0x0004003du, 0x0000001eu,
+    0x00000032u, 0x00000031u, 0x00050081u, 0x0000001eu,
+    0x00000033u, 0x0000002bu, 0x00000032u, 0x00060041u,
+    0x00000029u, 0x00000034u, 0x00000022u, 0x00000015u,
+    0x00000023u, 0x0003003eu, 0x00000034u, 0x00000033u,
+    0x000100fdu, 0x00010038u,
+};
+static const size_t kVecAddSpvBytes = sizeof(kVecAddSpv);
+
+int aesir_vk_buffer_vec_add(uint64_t id_a, uint64_t id_b, uint64_t id_c, uint32_t n) {
+    int rc = aesir_vk_init();
+    if (rc != 0) { return rc; }
+    aesir_vk_load_dispatch();
+    if (!g_dispatch_ok) { return AESIR_VK_ABSENT; }
+    AesirVkBufferSlot *sa = slot_for(id_a);
+    AesirVkBufferSlot *sb = slot_for(id_b);
+    AesirVkBufferSlot *sc = slot_for(id_c);
+    if (sa == NULL || sb == NULL || sc == NULL || n == 0) { return AESIR_VK_INVALID; }
+    uint64_t need = (uint64_t)n * 4u;
+    if (sa->requested_size < need || sb->requested_size < need || sc->requested_size < need) { return AESIR_VK_INVALID; }
+    VkShaderModule_t shader = NULL;
+    VkDescriptorSetLayout_t dsl = NULL;
+    VkPipelineLayout_t pl = NULL;
+    VkPipeline_t pipe = NULL;
+    VkDescriptorPool_t dpool = NULL;
+    VkDescriptorSet_t dset = NULL;
+    VkCommandPool_t cpool = NULL;
+    VkCommandBuffer_t cbuf = NULL;
+    int out_rc = 0;
+    AesirVkShaderModuleCreateInfo smci; memset(&smci, 0, sizeof(smci));
+    smci.sType = 16; /* VK_STRUCTURE_TYPE_SHADER_MODULE_CREATE_INFO */ smci.codeSize = kVecAddSpvBytes; smci.pCode = kVecAddSpv;
+    rc = (int)d_create_shader_module(g_device, &smci, NULL, &shader);
+    if (rc != 0) { out_rc = rc; goto done; }
+    AesirVkDescriptorSetLayoutBinding binds[3]; memset(binds, 0, sizeof(binds));
+    for (int i = 0; i < 3; i++) { binds[i].binding = (uint32_t)i; binds[i].descriptorType = 6; binds[i].descriptorCount = 1; binds[i].stageFlags = 0x20u; }
+    AesirVkDescriptorSetLayoutCreateInfo dslci; memset(&dslci, 0, sizeof(dslci));
+    dslci.sType = 32; dslci.bindingCount = 3; dslci.pBindings = binds;
+    rc = (int)d_create_dsl(g_device, &dslci, NULL, &dsl);
+    if (rc != 0) { out_rc = rc; goto done; }
+    AesirVkPushConstantRange pcr; memset(&pcr, 0, sizeof(pcr));
+    pcr.stageFlags = 0x20u; pcr.offset = 0; pcr.size = 4;
+    AesirVkPipelineLayoutCreateInfo plci; memset(&plci, 0, sizeof(plci));
+    plci.sType = 30; plci.setLayoutCount = 1; plci.pSetLayouts = &dsl; plci.pushConstantRangeCount = 1; plci.pPushConstantRanges = &pcr;
+    rc = (int)d_create_pl(g_device, &plci, NULL, &pl);
+    if (rc != 0) { out_rc = rc; goto done; }
+    AesirVkComputePipelineCreateInfo cpci; memset(&cpci, 0, sizeof(cpci));
+    cpci.sType = 29; cpci.stage.sType = 18; cpci.stage.stage = 0x20u; cpci.stage.module = shader; cpci.stage.pName = "main"; cpci.layout = pl; cpci.basePipelineIndex = -1;
+    rc = (int)d_create_cp(g_device, NULL, 1, &cpci, NULL, &pipe);
+    if (rc != 0) { out_rc = rc; goto done; }
+    AesirVkDescriptorPoolSize psz; memset(&psz, 0, sizeof(psz));
+    psz.type = 6; psz.descriptorCount = 3;
+    AesirVkDescriptorPoolCreateInfo dpci; memset(&dpci, 0, sizeof(dpci));
+    dpci.sType = 33; dpci.maxSets = 1; dpci.poolSizeCount = 1; dpci.pPoolSizes = &psz;
+    rc = (int)d_create_dpool(g_device, &dpci, NULL, &dpool);
+    if (rc != 0) { out_rc = rc; goto done; }
+    AesirVkDescriptorSetAllocateInfo dsai; memset(&dsai, 0, sizeof(dsai));
+    dsai.sType = 34; dsai.descriptorPool = dpool; dsai.descriptorSetCount = 1; dsai.pSetLayouts = &dsl;
+    rc = (int)d_alloc_dsets(g_device, &dsai, &dset);
+    if (rc != 0) { out_rc = rc; goto done; }
+    AesirVkDescriptorBufferInfo dbi[3]; memset(dbi, 0, sizeof(dbi));
+    dbi[0].buffer = sa->buffer; dbi[0].range = need;
+    dbi[1].buffer = sb->buffer; dbi[1].range = need;
+    dbi[2].buffer = sc->buffer; dbi[2].range = need;
+    AesirVkWriteDescriptorSet writes[3]; memset(writes, 0, sizeof(writes));
+    for (int i = 0; i < 3; i++) { writes[i].sType = 35; writes[i].dstSet = dset; writes[i].dstBinding = (uint32_t)i; writes[i].descriptorCount = 1; writes[i].descriptorType = 6; writes[i].pBufferInfo = &dbi[i]; }
+    d_update_dsets(g_device, 3, writes, 0, NULL);
+    AesirVkCommandPoolCreateInfo cpi; memset(&cpi, 0, sizeof(cpi));
+    cpi.sType = 39; cpi.queueFamilyIndex = g_queue_family;
+    rc = (int)d_create_cpool(g_device, &cpi, NULL, &cpool);
+    if (rc != 0) { out_rc = rc; goto done; }
+    AesirVkCommandBufferAllocateInfo cbai; memset(&cbai, 0, sizeof(cbai));
+    cbai.sType = 40; cbai.commandPool = cpool; cbai.level = 0; cbai.commandBufferCount = 1;
+    rc = (int)d_alloc_cbufs(g_device, &cbai, &cbuf);
+    if (rc != 0) { out_rc = rc; goto done; }
+    AesirVkCommandBufferBeginInfo cbbi; memset(&cbbi, 0, sizeof(cbbi));
+    cbbi.sType = 42;
+    rc = (int)d_begin_cbuf(cbuf, &cbbi);
+    if (rc != 0) { out_rc = rc; goto done; }
+    d_cmd_bind_pipeline(cbuf, 1, pipe); /* VK_PIPELINE_BIND_POINT_COMPUTE */
+    d_cmd_bind_dsets(cbuf, 1, pl, 0, 1, &dset, 0, NULL); /* COMPUTE bind point */
+    d_cmd_push(cbuf, pl, 0x20u, 0, 4, &n);
+    d_cmd_dispatch(cbuf, (n + 255u) / 256u, 1, 1);
+    rc = (int)d_end_cbuf(cbuf);
+    if (rc != 0) { out_rc = rc; goto done; }
+    AesirVkSubmitInfo si; memset(&si, 0, sizeof(si));
+    si.sType = 4; si.commandBufferCount = 1; si.pCommandBuffers = &cbuf;
+    rc = (int)d_queue_submit(g_queue, 1, &si, NULL);
+    if (rc != 0) { out_rc = rc; goto done; }
+    rc = (int)d_queue_wait_idle(g_queue);
+    if (rc != 0) { out_rc = rc; goto done; }
+    out_rc = 0;
+done:
+    if (cpool != NULL) { d_destroy_cpool(g_device, cpool, NULL); }
+    if (dpool != NULL) { d_destroy_dpool(g_device, dpool, NULL); }
+    if (pipe != NULL) { d_destroy_pipeline(g_device, pipe, NULL); }
+    if (pl != NULL) { d_destroy_pl(g_device, pl, NULL); }
+    if (dsl != NULL) { d_destroy_dsl(g_device, dsl, NULL); }
+    if (shader != NULL) { d_destroy_shader_module(g_device, shader, NULL); }
+    return out_rc;
+}

@@ -1,0 +1,15 @@
+#version 450
+// A-015 vector-add compute kernel: c[i] = a[i] + b[i] over float arrays.
+// Workgroup size 256; the push-constant element count guards every
+// invocation so sizes that are not multiples of 256 are exact (the
+// tail workgroup's extra invocations return without touching memory).
+layout(local_size_x = 256, local_size_y = 1, local_size_z = 1) in;
+layout(std430, set = 0, binding = 0) readonly buffer ABuf { float a[]; };
+layout(std430, set = 0, binding = 1) readonly buffer BBuf { float b[]; };
+layout(std430, set = 0, binding = 2) buffer CBuf { float c[]; };
+layout(push_constant) uniform Push { uint n; } pc;
+void main() {
+    uint i = gl_GlobalInvocationID.x;
+    if (i >= pc.n) { return; }
+    c[i] = a[i] + b[i];
+}

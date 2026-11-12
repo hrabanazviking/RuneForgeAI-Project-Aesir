@@ -430,6 +430,38 @@ struct VulkanBuffers:
             Self._raise_for_rc("free", rc)
 
     @staticmethod
+    def dispatch_available() -> Bool:
+        """True iff the shim resolved every Vulkan compute dispatch
+        entry point (A-015). Library-level probe; device presence is
+        device_info()'s job."""
+        return external_call["aesir_vk_dispatch_available", Int32]() == Int32(1)
+
+    @staticmethod
+    def vec_add(
+        a: VulkanAllocation,
+        b: VulkanAllocation,
+        c: VulkanAllocation,
+        n: Int,
+    ) raises:
+        """Dispatch the A-015 vector-add kernel: c[i] = a[i] + b[i]
+        for i in [0, n), Float32 elements, on the A-014 context and
+        its compute queue. The shim creates the pipeline per call,
+        submits, and waits for the queue to go idle before returning,
+        so a mapped read of c after this call observes the completed
+        dispatch. All three buffers must hold at least n Float32
+        elements; n must be positive. Raises (fail-closed) on any
+        Vulkan failure - nothing is computed on the host instead."""
+        if n <= 0:
+            raise Error("VulkanBuffers.vec_add: element count must be positive")
+        if a.requested_size < n * 4 or b.requested_size < n * 4 or c.requested_size < n * 4:
+            raise Error("VulkanBuffers.vec_add: a buffer is smaller than the element count")
+        var rc = external_call["aesir_vk_buffer_vec_add", Int32](
+            UInt64(a.id), UInt64(b.id), UInt64(c.id), UInt32(n)
+        )
+        if rc != 0:
+            Self._raise_for_rc("vec_add", rc)
+
+    @staticmethod
     def live_bytes() -> Int:
         """Shim accounting: bytes held by live A-014 allocations."""
         return Int(external_call["aesir_vk_live_bytes", UInt64]())

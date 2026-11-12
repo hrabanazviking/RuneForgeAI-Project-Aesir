@@ -1,0 +1,11 @@
+buffer_available=1 dispatch_available=1
+device rc=0 name=AMD Radeon 8060S Graphics (RADV STRIX_HALO) vendor=0x1002 type=1 qf=0
+n=1 dispatch ok, mismatches=0 BYTE-EXACT
+n=7 dispatch ok, mismatches=0 BYTE-EXACT
+n=255 dispatch ok, mismatches=0 BYTE-EXACT
+n=256 dispatch ok, mismatches=0 BYTE-EXACT
+n=257 dispatch ok, mismatches=0 BYTE-EXACT
+n=1000 dispatch ok, mismatches=0 BYTE-EXACT
+n=4097 dispatch ok, mismatches=0 BYTE-EXACT
+n=65537 dispatch ok, mismatches=0 BYTE-EXACT
+RESULT PASS fails=0
