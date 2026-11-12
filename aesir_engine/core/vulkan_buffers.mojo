@@ -43,6 +43,7 @@ from std.ffi import external_call
 from std.memory import Pointer
 from std.memory.alloc import alloc
 from core.checked_span import checked_span
+from core.buffer_ownership import ownership_taxonomy_name
 
 comptime _VK_ABSENT = -1000000
 comptime _VK_INVALID = -1000001
@@ -241,6 +242,12 @@ struct VulkanBuffers:
             raise Error(
                 "VulkanBuffers." + what + ": invalid buffer id or"
                 " argument for the Vulkan shim"
+            )
+        if Int(rc) <= -22004 and Int(rc) >= -22016:
+            raise Error(
+                "VulkanBuffers." + what + ": buffer ownership law refused"
+                " the operation: " + ownership_taxonomy_name(Int(rc))
+                + " (A-022)"
             )
         raise Error(
             "VulkanBuffers." + what + ": Vulkan call failed, VkResult "
@@ -480,6 +487,43 @@ struct VulkanBuffers:
         )
         if rc != 0:
             Self._raise_for_rc("free", rc)
+
+    @staticmethod
+    def handoff(
+        allocation: VulkanAllocation,
+    ) raises -> VulkanAllocation:
+        """Hand ownership to a receiver (A-022): the sender's id
+        tombstones; the returned allocation carries the receiver's
+        new generation-tagged id, inert until claim()."""
+        var new_id: UInt64 = 0
+        var rc = external_call["aesir_vk_buffer_handoff", Int32](
+            UInt64(allocation.id), Pointer(to=new_id)
+        )
+        if rc != 0:
+            Self._raise_for_rc("handoff", rc)
+        return VulkanAllocation(
+            Int(new_id),
+            allocation.requested_size,
+            allocation.alloc_size,
+            allocation.alignment,
+            allocation.type_index,
+        )
+
+    @staticmethod
+    def claim(allocation: VulkanAllocation) raises:
+        """The receiver claims a handed-off allocation."""
+        var rc = external_call["aesir_vk_buffer_claim", Int32](
+            UInt64(allocation.id)
+        )
+        if rc != 0:
+            Self._raise_for_rc("claim", rc)
+
+    @staticmethod
+    def ownership_violation_count() -> Int:
+        """Refused ownership operations so far (A-022 evidence)."""
+        return Int(
+            external_call["aesir_vk_ownership_violation_count", UInt64]()
+        )
 
     @staticmethod
     def dispatch_available() -> Bool:

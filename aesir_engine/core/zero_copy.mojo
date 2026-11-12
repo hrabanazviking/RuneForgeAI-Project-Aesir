@@ -37,6 +37,7 @@ from std.ffi import external_call
 from std.memory import Pointer
 from core.checked_span import checked_span, CheckedSpan
 from core.vulkan_buffers import VulkanBuffers, VulkanAllocation
+from core.buffer_ownership import ownership_taxonomy_name
 
 comptime BACKEND_HIP_MANAGED = 1
 comptime BACKEND_VULKAN_CACHED = 2
@@ -72,6 +73,8 @@ struct ZeroCopyCounters(Copyable, ImplicitlyCopyable):
     var hip_kernel_launches: Int
     var hip_memcpy_calls: Int
     var vk_copy_calls: Int
+    var hip_violations: Int
+    var vk_violations: Int
 
     def __init__(
         out self,
@@ -81,6 +84,8 @@ struct ZeroCopyCounters(Copyable, ImplicitlyCopyable):
         hip_kernel_launches: Int,
         hip_memcpy_calls: Int,
         vk_copy_calls: Int,
+        hip_violations: Int,
+        vk_violations: Int,
     ):
         self.hip_allocs = hip_allocs
         self.hip_frees = hip_frees
@@ -88,6 +93,8 @@ struct ZeroCopyCounters(Copyable, ImplicitlyCopyable):
         self.hip_kernel_launches = hip_kernel_launches
         self.hip_memcpy_calls = hip_memcpy_calls
         self.vk_copy_calls = vk_copy_calls
+        self.hip_violations = hip_violations
+        self.vk_violations = vk_violations
 
 
 struct ZeroCopy:
@@ -105,6 +112,12 @@ struct ZeroCopy:
             raise Error(
                 "ZeroCopy." + what + ": HIP/HIPRTC runtime is not"
                 " loadable on this host (honest-absent)"
+            )
+        if Int(rc) <= -22004 and Int(rc) >= -22016:
+            raise Error(
+                "ZeroCopy." + what + ": buffer ownership law refused"
+                " the operation: " + ownership_taxonomy_name(Int(rc))
+                + " (A-022)"
             )
         raise Error(
             "ZeroCopy." + what + ": HIP call failed, code " + String(Int(rc))
@@ -159,6 +172,46 @@ struct ZeroCopy:
             VulkanBuffers.free(buffer.vk)
             return
         raise Error("ZeroCopy.free: unknown backend " + String(buffer.backend))
+
+    @staticmethod
+    def handoff(buffer: ZeroCopyBuffer) raises -> ZeroCopyBuffer:
+        """Hand ownership to a receiver (A-022): the sender's
+        handle tombstones in the backend shim; the returned buffer
+        is the receiver's handle, inert until claim()."""
+        if buffer.backend == BACKEND_HIP_MANAGED:
+            var ptr = Pointer[UInt8, MutUntrackedOrigin](
+                unsafe_from_address=buffer.hip_addr
+            )
+            var rc = external_call["aesir_zc_handoff", Int32](ptr)
+            if rc != 0:
+                Self._raise_for_rc("handoff", rc)
+            return buffer
+        if buffer.backend == BACKEND_VULKAN_CACHED:
+            var new_vk = VulkanBuffers.handoff(buffer.vk)
+            return ZeroCopyBuffer(
+                buffer.backend, buffer.size, buffer.hip_addr, new_vk
+            )
+        raise Error(
+            "ZeroCopy.handoff: unknown backend " + String(buffer.backend)
+        )
+
+    @staticmethod
+    def claim(buffer: ZeroCopyBuffer) raises:
+        """The receiver claims a handed-off buffer."""
+        if buffer.backend == BACKEND_HIP_MANAGED:
+            var ptr = Pointer[UInt8, MutUntrackedOrigin](
+                unsafe_from_address=buffer.hip_addr
+            )
+            var rc = external_call["aesir_zc_claim", Int32](ptr)
+            if rc != 0:
+                Self._raise_for_rc("claim", rc)
+            return
+        if buffer.backend == BACKEND_VULKAN_CACHED:
+            VulkanBuffers.claim(buffer.vk)
+            return
+        raise Error(
+            "ZeroCopy.claim: unknown backend " + String(buffer.backend)
+        )
 
     @staticmethod
     def checked_f32_span(
@@ -271,4 +324,6 @@ struct ZeroCopy:
             Int(external_call["aesir_zc_kernel_launch_count", UInt64]()),
             Int(external_call["aesir_zc_memcpy_call_count", UInt64]()),
             VulkanBuffers.copy_call_count(),
+            Int(external_call["aesir_zc_ownership_violation_count", UInt64]()),
+            VulkanBuffers.ownership_violation_count(),
         )

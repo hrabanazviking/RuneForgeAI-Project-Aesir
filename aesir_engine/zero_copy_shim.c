@@ -34,6 +34,7 @@
 #include <stdint.h>
 #include <stdlib.h>
 #include <string.h>
+#include "buffer_ownership.h"
 
 typedef int (*hip_get_device_count_fn)(int *);
 typedef int (*hip_malloc_managed_fn)(void **, size_t, unsigned int);
@@ -82,6 +83,70 @@ static uint64_t g_memcpy_calls = 0; /* no copy entry point exists here */
 #define AESIR_ZC_MAX_ALLOCS 4096
 static void *g_ptrs[AESIR_ZC_MAX_ALLOCS];
 static uint64_t g_sizes[AESIR_ZC_MAX_ALLOCS];
+/* A-022 ownership states parallel to the pointer registry above;
+ * freed entries keep their pointer as a tombstone so a second free
+ * is detectable instead of reaching hipFree again. */
+static int g_states[AESIR_ZC_MAX_ALLOCS];
+static uint64_t g_violations = 0;
+
+static int zc_find(const void *ptr) {
+    for (int i = 0; i < AESIR_ZC_MAX_ALLOCS; i++) {
+        if (g_states[i] != AESIR_OWN_STATE_EMPTY && g_ptrs[i] == ptr) {
+            return i;
+        }
+    }
+    return -1;
+}
+
+
+/* A-022 cross-shim live-ownership query (exported): 1 when ptr is a
+ * LIVE or HANDED_OFF allocation of THIS shim, else 0. Pure lookup. */
+int aesir_zc_own_live(void *ptr) {
+    int i = zc_find(ptr);
+    if (i < 0) {
+        return 0;
+    }
+    return (g_states[i] == AESIR_OWN_STATE_LIVE ||
+            g_states[i] == AESIR_OWN_STATE_HANDED_OFF)
+               ? 1
+               : 0;
+}
+
+typedef int (*aesir_hip_own_live_kind_fn)(void *);
+
+static int zc_hip_own_live_kind(void *ptr) {
+    static aesir_hip_own_live_kind_fn fn = NULL;
+    static int tried = 0;
+    if (!tried) {
+        tried = 1;
+        void *global = dlopen(NULL, RTLD_NOW);
+        if (global != NULL) {
+            fn = (aesir_hip_own_live_kind_fn)dlsym(
+                global, "aesir_hip_own_live_kind");
+        }
+    }
+    if (fn == NULL) {
+        return 0;
+    }
+    return fn(ptr);
+}
+
+static int zc_validate_use(const void *ptr) {
+    int i = zc_find(ptr);
+    if (i < 0) {
+        g_violations += 1;
+        return AESIR_OWN_CROSS_DEVICE;
+    }
+    if (g_states[i] == AESIR_OWN_STATE_FREED) {
+        g_violations += 1;
+        return AESIR_OWN_USE_AFTER_FREE;
+    }
+    if (g_states[i] == AESIR_OWN_STATE_HANDED_OFF) {
+        g_violations += 1;
+        return AESIR_OWN_USE_AFTER_HANDOFF;
+    }
+    return 0;
+}
 
 static void *try_dlopen(const char *a, const char *b, const char *c) {
     void *h = NULL;
@@ -143,13 +208,26 @@ int aesir_zc_hip_alloc_managed(void **out, uint64_t size_bytes) {
     int rc = g_managed(&ptr, (size_t)size_bytes, 1u /* hipMemAttachGlobal */);
     if (rc != 0) return rc;
     if (ptr == NULL) return -3;
-    for (int i = 0; i < AESIR_ZC_MAX_ALLOCS; i++) {
-        if (g_ptrs[i] == NULL) {
-            g_ptrs[i] = ptr;
-            g_sizes[i] = size_bytes;
-            break;
+    int slot = zc_find(ptr);
+    if (slot >= 0 && g_states[slot] != AESIR_OWN_STATE_FREED) {
+        g_free(ptr);
+        return AESIR_OWN_INVALID;
+    }
+    if (slot < 0) {
+        for (int i = 0; i < AESIR_ZC_MAX_ALLOCS; i++) {
+            if (g_states[i] == AESIR_OWN_STATE_EMPTY) {
+                slot = i;
+                break;
+            }
         }
     }
+    if (slot < 0) {
+        g_free(ptr);
+        return AESIR_OWN_INVALID;
+    }
+    g_ptrs[slot] = ptr;
+    g_sizes[slot] = size_bytes;
+    g_states[slot] = AESIR_OWN_STATE_LIVE;
     g_allocs += 1;
     g_live_bytes += size_bytes;
     *out = ptr;
@@ -160,17 +238,78 @@ int aesir_zc_hip_free(void *ptr) {
     aesir_zc_init();
     if (!g_ok) return -1;
     if (ptr == NULL) return 0;
+    /* A-022 cross-shim: a pointer live in the A-011 HIP shim is not
+     * this shim's to free, whatever this registry's tombstones say
+     * about its (reused) address. Refuse as MEM-013, before the
+     * tombstone check below can misreport it as MEM-005. */
+    if (zc_hip_own_live_kind(ptr)) {
+        g_violations += 1;
+        return AESIR_OWN_NOT_OWNER;
+    }
+    /* A-022: the registry decides BEFORE hipFree is touched. The
+     * pre-A-022 code called hipFree unconditionally and only fixed
+     * the accounting afterwards, so double frees and foreign
+     * pointers (including A-011 HIP-shim allocations) reached the
+     * driver unimpeded - that hole is closed here. */
+    int i = zc_find(ptr);
+    if (i < 0) {
+        g_violations += 1;
+        return AESIR_OWN_NOT_OWNER;
+    }
+    if (g_states[i] == AESIR_OWN_STATE_FREED) {
+        g_violations += 1;
+        return AESIR_OWN_DOUBLE_FREE;
+    }
+    if (g_states[i] == AESIR_OWN_STATE_HANDED_OFF) {
+        g_violations += 1;
+        return AESIR_OWN_USE_AFTER_HANDOFF;
+    }
     int rc = g_free(ptr);
     if (rc != 0) return rc;
-    for (int i = 0; i < AESIR_ZC_MAX_ALLOCS; i++) {
-        if (g_ptrs[i] == ptr) {
-            g_live_bytes -= g_sizes[i];
-            g_ptrs[i] = NULL;
-            g_sizes[i] = 0;
-            break;
-        }
-    }
+    g_live_bytes -= g_sizes[i];
+    g_sizes[i] = 0;
+    g_states[i] = AESIR_OWN_STATE_FREED;
     g_frees += 1;
+    return 0;
+}
+
+int aesir_zc_handoff(void *ptr) {
+    aesir_zc_init();
+    if (!g_ok) return -1;
+    int i = zc_find(ptr);
+    if (i < 0) {
+        g_violations += 1;
+        return AESIR_OWN_NOT_OWNER;
+    }
+    if (g_states[i] == AESIR_OWN_STATE_FREED) {
+        g_violations += 1;
+        return AESIR_OWN_USE_AFTER_FREE;
+    }
+    if (g_states[i] == AESIR_OWN_STATE_HANDED_OFF) {
+        g_violations += 1;
+        return AESIR_OWN_USE_AFTER_HANDOFF;
+    }
+    g_states[i] = AESIR_OWN_STATE_HANDED_OFF;
+    return 0;
+}
+
+int aesir_zc_claim(void *ptr) {
+    aesir_zc_init();
+    if (!g_ok) return -1;
+    int i = zc_find(ptr);
+    if (i < 0) {
+        g_violations += 1;
+        return AESIR_OWN_NOT_OWNER;
+    }
+    if (g_states[i] == AESIR_OWN_STATE_FREED) {
+        g_violations += 1;
+        return AESIR_OWN_USE_AFTER_FREE;
+    }
+    if (g_states[i] != AESIR_OWN_STATE_HANDED_OFF) {
+        g_violations += 1;
+        return AESIR_OWN_INVALID;
+    }
+    g_states[i] = AESIR_OWN_STATE_LIVE;
     return 0;
 }
 
@@ -244,6 +383,10 @@ int aesir_zc_hip_transform(void *in_ptr, void *out_ptr, uint32_t n) {
     aesir_zc_init();
     if (!g_ok) return -1;
     if (in_ptr == NULL || out_ptr == NULL || n == 0) return -3;
+    int v = zc_validate_use(in_ptr);
+    if (v != 0) return v;
+    v = zc_validate_use(out_ptr);
+    if (v != 0) return v;
     int rc = aesir_zc_kernels_init();
     if (rc != 0) return rc;
     void *args[] = {&in_ptr, &out_ptr, &n};
@@ -254,6 +397,8 @@ int aesir_zc_hip_fill(void *out_ptr, uint32_t n) {
     aesir_zc_init();
     if (!g_ok) return -1;
     if (out_ptr == NULL || n == 0) return -3;
+    int v = zc_validate_use(out_ptr);
+    if (v != 0) return v;
     int rc = aesir_zc_kernels_init();
     if (rc != 0) return rc;
     void *args[] = {&out_ptr, &n};
@@ -267,3 +412,4 @@ uint64_t aesir_zc_free_count(void) { return g_frees; }
 uint64_t aesir_zc_live_bytes(void) { return g_live_bytes; }
 uint64_t aesir_zc_kernel_launch_count(void) { return g_kernel_launches; }
 uint64_t aesir_zc_memcpy_call_count(void) { return g_memcpy_calls; }
+uint64_t aesir_zc_ownership_violation_count(void) { return g_violations; }

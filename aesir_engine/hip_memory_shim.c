@@ -22,6 +22,7 @@
 #include <dlfcn.h>
 #include <stddef.h>
 #include <stdint.h>
+#include "buffer_ownership.h"
 
 typedef int (*hip_get_device_count_fn)(int *);
 typedef int (*hip_malloc_fn)(void **, size_t);
@@ -73,6 +74,226 @@ static int g_reg_ok = 0;
 static int g_xfer_ok = 0;
 static int g_tried = 0;
 static int g_ok = 0;
+
+/* --- A-022 buffer ownership registry --------------------------------
+ * One registry for every allocation this shim makes (device, managed,
+ * pinned host) plus stream/event handle tables. Validation always
+ * precedes the driver call; a refusal returns a named AESIR_OWN_*
+ * code, bumps g_own_violations, and changes nothing else. Freed
+ * entries stay as tombstones so a double-free is detectable; a
+ * tombstone slot is recycled only for a fresh allocation of the same
+ * pointer or when no empty slot remains. */
+#define AESIR_HIP_MAX_OWN 8192
+#define AESIR_HIP_MAX_HANDLES 4096
+#define AESIR_HIP_KIND_DEVICE 1
+#define AESIR_HIP_KIND_MANAGED 2
+#define AESIR_HIP_KIND_HOST 3
+
+typedef struct {
+    void *ptr;
+    uint64_t size;
+    int kind;
+    int state;
+} AesirHipOwn;
+
+static AesirHipOwn g_own[AESIR_HIP_MAX_OWN];
+static uint64_t g_own_live_bytes = 0;
+static uint64_t g_own_live_count = 0;
+static uint64_t g_own_allocs = 0;
+static uint64_t g_own_frees = 0;
+static uint64_t g_own_violations = 0;
+
+typedef struct {
+    uint64_t handle;
+    int state;
+} AesirHipHandleRec;
+
+static AesirHipHandleRec g_stream_recs[AESIR_HIP_MAX_HANDLES];
+static AesirHipHandleRec g_event_recs[AESIR_HIP_MAX_HANDLES];
+
+static AesirHipOwn *hip_own_find(void *ptr) {
+    for (int i = 0; i < AESIR_HIP_MAX_OWN; i++) {
+        if (g_own[i].state != AESIR_OWN_STATE_EMPTY &&
+            g_own[i].ptr == ptr) {
+            return &g_own[i];
+        }
+    }
+    return NULL;
+}
+
+
+/* A-022 cross-shim live-ownership query (exported): the allocation
+ * kind (>0) when ptr is a LIVE or HANDED_OFF allocation of THIS
+ * shim, else 0. Pure lookup: no counters, no state change. The
+ * zero-copy shim queries this through the process-global symbol
+ * table so a pointer currently live in this shim is refused there
+ * as MEM-013 even when its address coincides with a stale
+ * zero-copy tombstone: the unified pool reuses a freed 4096-byte
+ * managed address for the very next managed allocation, so a
+ * tombstone-only check misreports cross-shim frees as MEM-005
+ * double-frees (proven on purpleraider, A-022 debug probe). */
+int aesir_hip_own_live_kind(void *ptr) {
+    AesirHipOwn *e = hip_own_find(ptr);
+    if (e == NULL) {
+        return 0;
+    }
+    if (e->state == AESIR_OWN_STATE_LIVE ||
+        e->state == AESIR_OWN_STATE_HANDED_OFF) {
+        return e->kind;
+    }
+    return 0;
+}
+
+typedef int (*aesir_zc_own_live_fn)(void *);
+
+static int hip_zc_own_live(void *ptr) {
+    static aesir_zc_own_live_fn fn = NULL;
+    static int tried = 0;
+    if (!tried) {
+        tried = 1;
+        void *global = dlopen(NULL, RTLD_NOW);
+        if (global != NULL) {
+            fn = (aesir_zc_own_live_fn)dlsym(global,
+                                             "aesir_zc_own_live");
+        }
+    }
+    if (fn == NULL) {
+        return 0;
+    }
+    return fn(ptr);
+}
+
+static int hip_own_register(void *ptr, uint64_t size, int kind) {
+    AesirHipOwn *e = hip_own_find(ptr);
+    if (e != NULL) {
+        if (e->state == AESIR_OWN_STATE_LIVE ||
+            e->state == AESIR_OWN_STATE_HANDED_OFF) {
+            return AESIR_OWN_INVALID;
+        }
+        e->size = size;
+        e->kind = kind;
+        e->state = AESIR_OWN_STATE_LIVE;
+        g_own_allocs += 1;
+        g_own_live_count += 1;
+        g_own_live_bytes += size;
+        return 0;
+    }
+    AesirHipOwn *slot = NULL;
+    AesirHipOwn *tomb = NULL;
+    for (int i = 0; i < AESIR_HIP_MAX_OWN; i++) {
+        if (g_own[i].state == AESIR_OWN_STATE_EMPTY) {
+            slot = &g_own[i];
+            break;
+        }
+        if (tomb == NULL && g_own[i].state == AESIR_OWN_STATE_FREED) {
+            tomb = &g_own[i];
+        }
+    }
+    if (slot == NULL) {
+        slot = tomb;
+    }
+    if (slot == NULL) {
+        return AESIR_OWN_INVALID;
+    }
+    slot->ptr = ptr;
+    slot->size = size;
+    slot->kind = kind;
+    slot->state = AESIR_OWN_STATE_LIVE;
+    g_own_allocs += 1;
+    g_own_live_count += 1;
+    g_own_live_bytes += size;
+    return 0;
+}
+
+/* Validate a pointer presented for use (memcpy endpoints). Foreign
+ * pointers (pageable host memory and the like) are not this shim's to
+ * police on the use path and pass; pointers this shim issued are
+ * checked against their tombstones, hand-off state, and bounds. */
+static int hip_own_validate_use(const void *ptr, uint64_t len) {
+    if (ptr == NULL) {
+        return 0;
+    }
+    for (int i = 0; i < AESIR_HIP_MAX_OWN; i++) {
+        if (g_own[i].state == AESIR_OWN_STATE_EMPTY) {
+            continue;
+        }
+        uintptr_t base = (uintptr_t)g_own[i].ptr;
+        uintptr_t p = (uintptr_t)ptr;
+        if (p < base || p >= base + g_own[i].size) {
+            continue;
+        }
+        if (g_own[i].state == AESIR_OWN_STATE_FREED) {
+            g_own_violations += 1;
+            return AESIR_OWN_USE_AFTER_FREE;
+        }
+        if (g_own[i].state == AESIR_OWN_STATE_HANDED_OFF) {
+            g_own_violations += 1;
+            return AESIR_OWN_USE_AFTER_HANDOFF;
+        }
+        if ((p - base) + len > g_own[i].size) {
+            g_own_violations += 1;
+            return AESIR_OWN_INVALID;
+        }
+        return 0;
+    }
+    return 0;
+}
+
+static AesirHipHandleRec *hip_handle_find(AesirHipHandleRec *recs,
+                                          uint64_t h) {
+    for (int i = 0; i < AESIR_HIP_MAX_HANDLES; i++) {
+        if (recs[i].state != AESIR_OWN_STATE_EMPTY &&
+            recs[i].handle == h) {
+            return &recs[i];
+        }
+    }
+    return NULL;
+}
+
+static void hip_handle_register(AesirHipHandleRec *recs, uint64_t h) {
+    AesirHipHandleRec *e = hip_handle_find(recs, h);
+    if (e != NULL) {
+        e->state = AESIR_OWN_STATE_LIVE;
+        return;
+    }
+    AesirHipHandleRec *slot = NULL;
+    AesirHipHandleRec *tomb = NULL;
+    for (int i = 0; i < AESIR_HIP_MAX_HANDLES; i++) {
+        if (recs[i].state == AESIR_OWN_STATE_EMPTY) {
+            slot = &recs[i];
+            break;
+        }
+        if (tomb == NULL && recs[i].state == AESIR_OWN_STATE_FREED) {
+            tomb = &recs[i];
+        }
+    }
+    if (slot == NULL) {
+        slot = tomb;
+    }
+    if (slot == NULL) {
+        return;
+    }
+    slot->handle = h;
+    slot->state = AESIR_OWN_STATE_LIVE;
+}
+
+static int hip_handle_validate(AesirHipHandleRec *recs, uint64_t h,
+                               int for_destroy) {
+    if (h == 0) {
+        return 0; /* legacy default stream: not shim-owned */
+    }
+    AesirHipHandleRec *e = hip_handle_find(recs, h);
+    if (e == NULL) {
+        g_own_violations += 1;
+        return AESIR_OWN_NOT_OWNER;
+    }
+    if (e->state == AESIR_OWN_STATE_FREED) {
+        g_own_violations += 1;
+        return for_destroy ? AESIR_OWN_DOUBLE_FREE
+                           : AESIR_OWN_USE_AFTER_FREE;
+    }
+    return 0;
+}
 
 static void aesir_hip_init(void) {
     if (g_tried) {
@@ -161,7 +382,19 @@ int aesir_hip_malloc(void **out, uint64_t size_bytes) {
     if (!g_ok) {
         return -1;
     }
-    return g_malloc(out, (size_t)size_bytes);
+    int rc = g_malloc(out, (size_t)size_bytes);
+    if (rc != 0) {
+        return rc;
+    }
+    if (out == NULL || *out == NULL) {
+        return AESIR_OWN_INVALID;
+    }
+    if (hip_own_register(*out, size_bytes, AESIR_HIP_KIND_DEVICE) != 0) {
+        g_free(*out);
+        *out = NULL;
+        return AESIR_OWN_INVALID;
+    }
+    return 0;
 }
 
 int aesir_hip_malloc_managed(void **out, uint64_t size_bytes) {
@@ -170,7 +403,19 @@ int aesir_hip_malloc_managed(void **out, uint64_t size_bytes) {
         return -1;
     }
     /* hipMemAttachGlobal = 1: accessible from any device and the host. */
-    return g_managed(out, (size_t)size_bytes, 1u);
+    int rc = g_managed(out, (size_t)size_bytes, 1u);
+    if (rc != 0) {
+        return rc;
+    }
+    if (out == NULL || *out == NULL) {
+        return AESIR_OWN_INVALID;
+    }
+    if (hip_own_register(*out, size_bytes, AESIR_HIP_KIND_MANAGED) != 0) {
+        g_free(*out);
+        *out = NULL;
+        return AESIR_OWN_INVALID;
+    }
+    return 0;
 }
 
 int aesir_hip_free(void *ptr) {
@@ -178,7 +423,95 @@ int aesir_hip_free(void *ptr) {
     if (!g_ok) {
         return -1;
     }
-    return g_free(ptr);
+    if (ptr == NULL) {
+        return 0;
+    }
+    /* A-022 cross-shim: a pointer live in the zero-copy shim is not
+     * this shim's to free, whatever this registry's tombstones say
+     * about its (reused) address. Refuse as MEM-013. */
+    if (hip_zc_own_live(ptr)) {
+        g_own_violations += 1;
+        return AESIR_OWN_NOT_OWNER;
+    }
+    AesirHipOwn *e = hip_own_find(ptr);
+    if (e == NULL) {
+        g_own_violations += 1;
+        return AESIR_OWN_NOT_OWNER;
+    }
+    if (e->state == AESIR_OWN_STATE_FREED) {
+        g_own_violations += 1;
+        return AESIR_OWN_DOUBLE_FREE;
+    }
+    if (e->state == AESIR_OWN_STATE_HANDED_OFF) {
+        g_own_violations += 1;
+        return AESIR_OWN_USE_AFTER_HANDOFF;
+    }
+    if (e->kind == AESIR_HIP_KIND_HOST) {
+        g_own_violations += 1;
+        return AESIR_OWN_CROSS_DEVICE;
+    }
+    int rc = g_free(ptr);
+    if (rc == 0) {
+        e->state = AESIR_OWN_STATE_FREED;
+        g_own_live_bytes -= e->size;
+        g_own_live_count -= 1;
+        g_own_frees += 1;
+    }
+    return rc;
+}
+
+/* A-022 hand-off: the sender's ownership tombstones; every further
+ * sender-side use/free is refused until the receiver claims. */
+int aesir_hip_handoff(void *ptr) {
+    aesir_hip_init();
+    if (!g_ok) {
+        return -1;
+    }
+    AesirHipOwn *e = hip_own_find(ptr);
+    if (e == NULL) {
+        g_own_violations += 1;
+        return AESIR_OWN_NOT_OWNER;
+    }
+    if (e->state == AESIR_OWN_STATE_FREED) {
+        g_own_violations += 1;
+        return AESIR_OWN_USE_AFTER_FREE;
+    }
+    if (e->state == AESIR_OWN_STATE_HANDED_OFF) {
+        g_own_violations += 1;
+        return AESIR_OWN_USE_AFTER_HANDOFF;
+    }
+    e->state = AESIR_OWN_STATE_HANDED_OFF;
+    return 0;
+}
+
+int aesir_hip_claim(void *ptr) {
+    aesir_hip_init();
+    if (!g_ok) {
+        return -1;
+    }
+    AesirHipOwn *e = hip_own_find(ptr);
+    if (e == NULL) {
+        g_own_violations += 1;
+        return AESIR_OWN_NOT_OWNER;
+    }
+    if (e->state == AESIR_OWN_STATE_FREED) {
+        g_own_violations += 1;
+        return AESIR_OWN_USE_AFTER_FREE;
+    }
+    if (e->state != AESIR_OWN_STATE_HANDED_OFF) {
+        g_own_violations += 1;
+        return AESIR_OWN_INVALID;
+    }
+    e->state = AESIR_OWN_STATE_LIVE;
+    return 0;
+}
+
+uint64_t aesir_hip_live_bytes(void) { return g_own_live_bytes; }
+uint64_t aesir_hip_live_count(void) { return g_own_live_count; }
+uint64_t aesir_hip_alloc_count(void) { return g_own_allocs; }
+uint64_t aesir_hip_free_count(void) { return g_own_frees; }
+uint64_t aesir_hip_ownership_violation_count(void) {
+    return g_own_violations;
 }
 
 int aesir_hip_memcpy(void *dst, const void *src, uint64_t size_bytes,
@@ -186,6 +519,14 @@ int aesir_hip_memcpy(void *dst, const void *src, uint64_t size_bytes,
     aesir_hip_init();
     if (!g_ok) {
         return -1;
+    }
+    int v = hip_own_validate_use(dst, size_bytes);
+    if (v != 0) {
+        return v;
+    }
+    v = hip_own_validate_use(src, size_bytes);
+    if (v != 0) {
+        return v;
     }
     return g_memcpy(dst, src, (size_t)size_bytes, kind);
 }
@@ -220,6 +561,8 @@ int aesir_hip_stream_create(uint64_t *out_handle) {
      * legacy default stream, so distinct streams can overlap. */
     int rc = g_screate(&stream, 1u);
     if (rc == 0) {
+        hip_handle_register(g_stream_recs,
+                            (uint64_t)(uintptr_t)stream);
         *out_handle = (uint64_t)(uintptr_t)stream;
     }
     return rc;
@@ -230,13 +573,28 @@ int aesir_hip_stream_destroy(uint64_t handle) {
     if (!g_xfer_ok) {
         return -1;
     }
-    return g_sdestroy((void *)(uintptr_t)handle);
+    int v = hip_handle_validate(g_stream_recs, handle, 1);
+    if (v != 0) {
+        return v;
+    }
+    int rc = g_sdestroy((void *)(uintptr_t)handle);
+    if (rc == 0) {
+        AesirHipHandleRec *e = hip_handle_find(g_stream_recs, handle);
+        if (e != NULL) {
+            e->state = AESIR_OWN_STATE_FREED;
+        }
+    }
+    return rc;
 }
 
 int aesir_hip_stream_synchronize(uint64_t handle) {
     aesir_hip_init();
     if (!g_xfer_ok) {
         return -1;
+    }
+    int v = hip_handle_validate(g_stream_recs, handle, 0);
+    if (v != 0) {
+        return v;
     }
     return g_ssync((void *)(uintptr_t)handle);
 }
@@ -246,6 +604,10 @@ int aesir_hip_stream_query(uint64_t handle) {
     if (!g_xfer_ok) {
         return -1;
     }
+    int v = hip_handle_validate(g_stream_recs, handle, 0);
+    if (v != 0) {
+        return v;
+    }
     return g_squery((void *)(uintptr_t)handle);
 }
 
@@ -254,6 +616,18 @@ int aesir_hip_memcpy_async(void *dst, const void *src, uint64_t size_bytes,
     aesir_hip_init();
     if (!g_xfer_ok) {
         return -1;
+    }
+    int v = hip_handle_validate(g_stream_recs, stream, 0);
+    if (v != 0) {
+        return v;
+    }
+    v = hip_own_validate_use(dst, size_bytes);
+    if (v != 0) {
+        return v;
+    }
+    v = hip_own_validate_use(src, size_bytes);
+    if (v != 0) {
+        return v;
     }
     return g_memcpy_async(dst, src, (size_t)size_bytes, kind,
                           (void *)(uintptr_t)stream);
@@ -265,7 +639,19 @@ int aesir_hip_host_malloc(void **out, uint64_t size_bytes) {
         return -1;
     }
     /* flags 0 = hipHostMallocDefault: portable pinned host memory. */
-    return g_host_malloc(out, (size_t)size_bytes, 0u);
+    int rc = g_host_malloc(out, (size_t)size_bytes, 0u);
+    if (rc != 0) {
+        return rc;
+    }
+    if (out == NULL || *out == NULL) {
+        return AESIR_OWN_INVALID;
+    }
+    if (hip_own_register(*out, size_bytes, AESIR_HIP_KIND_HOST) != 0) {
+        g_host_free(*out);
+        *out = NULL;
+        return AESIR_OWN_INVALID;
+    }
+    return 0;
 }
 
 int aesir_hip_host_free(void *ptr) {
@@ -273,7 +659,38 @@ int aesir_hip_host_free(void *ptr) {
     if (!g_xfer_ok) {
         return -1;
     }
-    return g_host_free(ptr);
+    if (ptr == NULL) {
+        return 0;
+    }
+    if (hip_zc_own_live(ptr)) {
+        g_own_violations += 1;
+        return AESIR_OWN_NOT_OWNER;
+    }
+    AesirHipOwn *e = hip_own_find(ptr);
+    if (e == NULL) {
+        g_own_violations += 1;
+        return AESIR_OWN_NOT_OWNER;
+    }
+    if (e->state == AESIR_OWN_STATE_FREED) {
+        g_own_violations += 1;
+        return AESIR_OWN_DOUBLE_FREE;
+    }
+    if (e->state == AESIR_OWN_STATE_HANDED_OFF) {
+        g_own_violations += 1;
+        return AESIR_OWN_USE_AFTER_HANDOFF;
+    }
+    if (e->kind != AESIR_HIP_KIND_HOST) {
+        g_own_violations += 1;
+        return AESIR_OWN_CROSS_DEVICE;
+    }
+    int rc = g_host_free(ptr);
+    if (rc == 0) {
+        e->state = AESIR_OWN_STATE_FREED;
+        g_own_live_bytes -= e->size;
+        g_own_live_count -= 1;
+        g_own_frees += 1;
+    }
+    return rc;
 }
 
 int aesir_hip_event_create(uint64_t *out_handle) {
@@ -284,6 +701,7 @@ int aesir_hip_event_create(uint64_t *out_handle) {
     void *event = NULL;
     int rc = g_ecreate(&event);
     if (rc == 0) {
+        hip_handle_register(g_event_recs, (uint64_t)(uintptr_t)event);
         *out_handle = (uint64_t)(uintptr_t)event;
     }
     return rc;
@@ -294,6 +712,14 @@ int aesir_hip_event_record(uint64_t event, uint64_t stream) {
     if (!g_xfer_ok) {
         return -1;
     }
+    int v = hip_handle_validate(g_event_recs, event, 0);
+    if (v != 0) {
+        return v;
+    }
+    v = hip_handle_validate(g_stream_recs, stream, 0);
+    if (v != 0) {
+        return v;
+    }
     return g_erecord((void *)(uintptr_t)event, (void *)(uintptr_t)stream);
 }
 
@@ -302,6 +728,10 @@ int aesir_hip_event_synchronize(uint64_t event) {
     if (!g_xfer_ok) {
         return -1;
     }
+    int v = hip_handle_validate(g_event_recs, event, 0);
+    if (v != 0) {
+        return v;
+    }
     return g_esync((void *)(uintptr_t)event);
 }
 
@@ -309,6 +739,14 @@ int aesir_hip_event_elapsed_ms(uint64_t start, uint64_t end, float *out_ms) {
     aesir_hip_init();
     if (!g_xfer_ok) {
         return -1;
+    }
+    int v = hip_handle_validate(g_event_recs, start, 0);
+    if (v != 0) {
+        return v;
+    }
+    v = hip_handle_validate(g_event_recs, end, 0);
+    if (v != 0) {
+        return v;
     }
     return g_eelapsed(out_ms, (void *)(uintptr_t)start,
                       (void *)(uintptr_t)end);
@@ -319,7 +757,18 @@ int aesir_hip_event_destroy(uint64_t event) {
     if (!g_xfer_ok) {
         return -1;
     }
-    return g_edestroy((void *)(uintptr_t)event);
+    int v = hip_handle_validate(g_event_recs, event, 1);
+    if (v != 0) {
+        return v;
+    }
+    int rc = g_edestroy((void *)(uintptr_t)event);
+    if (rc == 0) {
+        AesirHipHandleRec *e = hip_handle_find(g_event_recs, event);
+        if (e != NULL) {
+            e->state = AESIR_OWN_STATE_FREED;
+        }
+    }
+    return rc;
 }
 
 /* A-020 weight residency: HIP host registration of an existing mmap

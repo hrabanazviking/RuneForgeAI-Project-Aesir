@@ -39,6 +39,7 @@
 #include <stddef.h>
 #include <stdint.h>
 #include <string.h>
+#include "buffer_ownership.h"
 
 /* Vulkan core types (subset; ABI-stable, from vulkan_core.h 1.4). */
 typedef int32_t VkResult_t;
@@ -372,11 +373,112 @@ typedef struct {
     uint64_t alloc_size;
     uint64_t requested_size;
     uint32_t memory_type_index;
+    /* A-022: generation-tagged ids + ownership state. The caller-
+     * visible id is (generation << 32) | (slot + 1); generation bumps
+     * on every slot reuse and on hand-off, so a stale id can never
+     * alias a later buffer in the same slot (the pre-A-022 ABA hole:
+     * ids were bare slot indices). */
+    uint32_t generation;
+    int state;
 } AesirVkBufferSlot;
 
 static AesirVkBufferSlot g_slots[AESIR_VK_MAX_BUFFERS];
 static uint64_t g_live_bytes = 0;
 static int g_live_count = 0;
+
+/* --- A-022 Vulkan buffer ownership (generation-tagged ids) -------- */
+static uint64_t g_own_violations = 0;
+
+int aesir_vk_init(void);
+
+static uint64_t vk_encode_id(int slot, uint32_t generation) {
+    return ((uint64_t)generation << 32) | (uint64_t)(slot + 1);
+}
+
+/* Validate a caller-presented id BEFORE any driver call. Returns 0
+ * plus the live slot on success; every refusal is a named code,
+ * bumps g_own_violations, and touches nothing. */
+static int vk_own_validate(uint64_t id, int for_free,
+                           AesirVkBufferSlot **out) {
+    if (id == 0) {
+        return AESIR_VK_INVALID;
+    }
+    uint64_t idx = id & 0xffffffffULL;
+    uint32_t gen = (uint32_t)(id >> 32);
+    if (idx == 0 || idx > AESIR_VK_MAX_BUFFERS) {
+        return AESIR_VK_INVALID;
+    }
+    AesirVkBufferSlot *s = &g_slots[idx - 1];
+    if (s->state == AESIR_OWN_STATE_EMPTY) {
+        return AESIR_VK_INVALID;
+    }
+    if (gen > s->generation) {
+        return AESIR_VK_INVALID;
+    }
+    if (s->state == AESIR_OWN_STATE_HANDED_OFF) {
+        g_own_violations += 1;
+        return AESIR_OWN_USE_AFTER_HANDOFF;
+    }
+    if (gen < s->generation) {
+        g_own_violations += 1;
+        return AESIR_OWN_STALE_HANDLE;
+    }
+    if (s->state == AESIR_OWN_STATE_FREED) {
+        g_own_violations += 1;
+        return for_free ? AESIR_OWN_DOUBLE_FREE
+                        : AESIR_OWN_USE_AFTER_FREE;
+    }
+    *out = s;
+    return 0;
+}
+
+uint64_t aesir_vk_ownership_violation_count(void) {
+    return g_own_violations;
+}
+
+int aesir_vk_buffer_handoff(uint64_t id, uint64_t *out_new_id) {
+    int rc = aesir_vk_init();
+    if (rc != 0) {
+        return rc;
+    }
+    if (out_new_id == NULL) {
+        return AESIR_VK_INVALID;
+    }
+    AesirVkBufferSlot *s = NULL;
+    rc = vk_own_validate(id, 0, &s);
+    if (rc != 0) {
+        return rc;
+    }
+    s->state = AESIR_OWN_STATE_HANDED_OFF;
+    s->in_use = 0;
+    s->generation += 1;
+    *out_new_id = vk_encode_id((int)(s - g_slots), s->generation);
+    return 0;
+}
+
+int aesir_vk_buffer_claim(uint64_t id) {
+    int rc = aesir_vk_init();
+    if (rc != 0) {
+        return rc;
+    }
+    if (id == 0) {
+        return AESIR_VK_INVALID;
+    }
+    uint64_t idx = id & 0xffffffffULL;
+    uint32_t gen = (uint32_t)(id >> 32);
+    if (idx == 0 || idx > AESIR_VK_MAX_BUFFERS) {
+        return AESIR_VK_INVALID;
+    }
+    AesirVkBufferSlot *s = &g_slots[idx - 1];
+    if (s->state != AESIR_OWN_STATE_HANDED_OFF ||
+        gen != s->generation) {
+        g_own_violations += 1;
+        return AESIR_OWN_USE_AFTER_HANDOFF;
+    }
+    s->state = AESIR_OWN_STATE_LIVE;
+    s->in_use = 1;
+    return 0;
+}
 
 static void aesir_vk_load(void) {
     if (g_lib_tried) {
@@ -793,7 +895,10 @@ static int buffer_alloc_impl(uint64_t size, int cached_only,
     }
     int slot = -1;
     for (int i = 0; i < AESIR_VK_MAX_BUFFERS; i++) {
-        if (!g_slots[i].in_use) {
+        /* A-022: live and handed-off slots are owned; only empty or
+         * tombstoned (freed) slots may be recycled. */
+        if (g_slots[i].state == AESIR_OWN_STATE_EMPTY ||
+            g_slots[i].state == AESIR_OWN_STATE_FREED) {
             slot = i;
             break;
         }
@@ -845,10 +950,12 @@ static int buffer_alloc_impl(uint64_t size, int cached_only,
     g_slots[slot].alloc_size = (uint64_t)reqs.size;
     g_slots[slot].requested_size = size;
     g_slots[slot].memory_type_index = tindex;
+    g_slots[slot].generation += 1;
+    g_slots[slot].state = AESIR_OWN_STATE_LIVE;
     g_live_bytes += (uint64_t)reqs.size;
     g_live_count += 1;
     if (out_id) {
-        *out_id = (uint64_t)(slot + 1);
+        *out_id = vk_encode_id(slot, g_slots[slot].generation);
     }
     if (out_alloc_size) {
         *out_alloc_size = (uint64_t)reqs.size;
@@ -887,11 +994,11 @@ int aesir_vk_buffer_alloc_cached(uint64_t size, uint64_t *out_id,
 }
 
 static AesirVkBufferSlot *slot_for(uint64_t id) {
-    if (id == 0 || id > AESIR_VK_MAX_BUFFERS) {
+    AesirVkBufferSlot *s = NULL;
+    if (vk_own_validate(id, 0, &s) != 0) {
         return NULL;
     }
-    AesirVkBufferSlot *s = &g_slots[id - 1];
-    return s->in_use ? s : NULL;
+    return s;
 }
 
 int aesir_vk_buffer_map(uint64_t id, uint64_t *out_addr) {
@@ -899,9 +1006,10 @@ int aesir_vk_buffer_map(uint64_t id, uint64_t *out_addr) {
     if (rc != 0) {
         return rc;
     }
-    AesirVkBufferSlot *s = slot_for(id);
-    if (s == NULL) {
-        return AESIR_VK_INVALID;
+    AesirVkBufferSlot *s = NULL;
+    int vrc = vk_own_validate(id, 0, &s);
+    if (vrc != 0) {
+        return vrc;
     }
     if (s->mapped) {
         return AESIR_VK_INVALID;
@@ -926,9 +1034,10 @@ int aesir_vk_buffer_unmap(uint64_t id) {
     if (rc != 0) {
         return rc;
     }
-    AesirVkBufferSlot *s = slot_for(id);
-    if (s == NULL) {
-        return AESIR_VK_INVALID;
+    AesirVkBufferSlot *s = NULL;
+    int vrc = vk_own_validate(id, 0, &s);
+    if (vrc != 0) {
+        return vrc;
     }
     if (!s->mapped) {
         return AESIR_VK_INVALID;
@@ -943,9 +1052,10 @@ int aesir_vk_buffer_free(uint64_t id) {
     if (rc != 0) {
         return rc;
     }
-    AesirVkBufferSlot *s = slot_for(id);
-    if (s == NULL) {
-        return AESIR_VK_INVALID;
+    AesirVkBufferSlot *s = NULL;
+    rc = vk_own_validate(id, 1, &s);
+    if (rc != 0) {
+        return rc;
     }
     if (s->mapped) {
         p_unmap_mem(g_device, s->memory);
@@ -955,7 +1065,15 @@ int aesir_vk_buffer_free(uint64_t id) {
     p_free_mem(g_device, s->memory, NULL);
     g_live_bytes -= s->alloc_size;
     g_live_count -= 1;
-    memset(s, 0, sizeof(*s));
+    /* A-022 tombstone: keep generation + state so the second free
+     * is a detectable MEM-005 instead of a silent double destroy
+     * (the pre-A-022 memset erased exactly this evidence). */
+    s->buffer = NULL;
+    s->memory = NULL;
+    s->alloc_size = 0;
+    s->requested_size = 0;
+    s->in_use = 0;
+    s->state = AESIR_OWN_STATE_FREED;
     return 0;
 }
 
@@ -1207,10 +1325,16 @@ int aesir_vk_buffer_vec_add(uint64_t id_a, uint64_t id_b, uint64_t id_c, uint32_
     if (rc != 0) { return rc; }
     aesir_vk_load_dispatch();
     if (!g_dispatch_ok) { return AESIR_VK_ABSENT; }
-    AesirVkBufferSlot *sa = slot_for(id_a);
-    AesirVkBufferSlot *sb = slot_for(id_b);
-    AesirVkBufferSlot *sc = slot_for(id_c);
-    if (sa == NULL || sb == NULL || sc == NULL || n == 0) { return AESIR_VK_INVALID; }
+    AesirVkBufferSlot *sa = NULL;
+    AesirVkBufferSlot *sb = NULL;
+    AesirVkBufferSlot *sc = NULL;
+    int vrc = vk_own_validate(id_a, 0, &sa);
+    if (vrc != 0) { return vrc; }
+    vrc = vk_own_validate(id_b, 0, &sb);
+    if (vrc != 0) { return vrc; }
+    vrc = vk_own_validate(id_c, 0, &sc);
+    if (vrc != 0) { return vrc; }
+    if (n == 0) { return AESIR_VK_INVALID; }
     uint64_t need = (uint64_t)n * 4u;
     if (sa->requested_size < need || sb->requested_size < need || sc->requested_size < need) { return AESIR_VK_INVALID; }
     VkShaderModule_t shader = NULL;
@@ -1310,9 +1434,10 @@ int aesir_vk_buffer_type_flags(uint64_t id, uint32_t *out_flags) {
     if (rc != 0) {
         return rc;
     }
-    AesirVkBufferSlot *s = slot_for(id);
-    if (s == NULL || out_flags == NULL) {
-        return AESIR_VK_INVALID;
+    AesirVkBufferSlot *s = NULL;
+    int vrc = vk_own_validate(id, 0, &s);
+    if (vrc != 0 || out_flags == NULL) {
+        return vrc != 0 ? vrc : AESIR_VK_INVALID;
     }
     *out_flags =
         g_memprops.memoryTypes[s->memory_type_index].propertyFlags;

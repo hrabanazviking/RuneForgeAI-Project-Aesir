@@ -34,6 +34,7 @@
 from std.ffi import external_call
 from std.memory import Pointer
 from core.checked_span import checked_span
+from core.buffer_ownership import ownership_taxonomy_name
 
 comptime _HIP_MEMCPY_HOST_TO_DEVICE = 1
 comptime _HIP_MEMCPY_DEVICE_TO_HOST = 2
@@ -67,6 +68,12 @@ struct HipMemory:
             raise Error(
                 "HipMemory." + what + ": HIP runtime is not loadable on"
                 " this host (honest-absent)"
+            )
+        if Int(rc) <= -22004 and Int(rc) >= -22016:
+            raise Error(
+                "HipMemory." + what + ": buffer ownership law refused"
+                " the operation: " + ownership_taxonomy_name(Int(rc))
+                + " (A-022)"
             )
         raise Error(
             "HipMemory." + what + ": HIP call failed, code " + String(Int(rc))
@@ -143,6 +150,47 @@ struct HipMemory:
         var rc = external_call["aesir_hip_free", Int32](ptr)
         if rc != 0:
             Self._raise_for_rc("free", rc)
+
+    @staticmethod
+    def live_bytes() -> Int:
+        """A-022 ownership-registry accounting: bytes held by live
+        HipMemory allocations (device + managed + pinned host)."""
+        return Int(external_call["aesir_hip_live_bytes", UInt64]())
+
+    @staticmethod
+    def live_count() -> Int:
+        return Int(external_call["aesir_hip_live_count", UInt64]())
+
+    @staticmethod
+    def alloc_count() -> Int:
+        return Int(external_call["aesir_hip_alloc_count", UInt64]())
+
+    @staticmethod
+    def free_count() -> Int:
+        return Int(external_call["aesir_hip_free_count", UInt64]())
+
+    @staticmethod
+    def ownership_violation_count() -> Int:
+        """Refused ownership operations so far (A-022 evidence that
+        adversarial calls were stopped at the shim, not the driver)."""
+        return Int(
+            external_call["aesir_hip_ownership_violation_count", UInt64]()
+        )
+
+    @staticmethod
+    def handoff(ptr: Pointer[UInt8, MutUntrackedOrigin]) raises:
+        """Hand ownership of a live allocation to a receiver: the
+        sender's pointer tombstones until claim() is called."""
+        var rc = external_call["aesir_hip_handoff", Int32](ptr)
+        if rc != 0:
+            Self._raise_for_rc("handoff", rc)
+
+    @staticmethod
+    def claim(ptr: Pointer[UInt8, MutUntrackedOrigin]) raises:
+        """The receiver claims a handed-off allocation."""
+        var rc = external_call["aesir_hip_claim", Int32](ptr)
+        if rc != 0:
+            Self._raise_for_rc("claim", rc)
 
     @staticmethod
     def device_synchronize() raises:

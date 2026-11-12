@@ -35,6 +35,7 @@
 from std.ffi import external_call
 from std.memory import Pointer
 from core.checked_span import checked_span
+from core.buffer_ownership import ownership_taxonomy_name
 
 comptime _HIP_MEMCPY_HOST_TO_DEVICE = 1
 comptime _HIP_MEMCPY_DEVICE_TO_HOST = 2
@@ -48,6 +49,12 @@ def _raise_for_rc(what: String, rc: Int32) raises:
         raise Error(
             "HipTransfer." + what + ": HIP runtime / transfer symbols are"
             " not loadable on this host (honest-absent)"
+        )
+    if Int(rc) <= -22004 and Int(rc) >= -22016:
+        raise Error(
+            "HipTransfer." + what + ": buffer ownership law refused"
+            " the operation: " + ownership_taxonomy_name(Int(rc))
+            + " (A-022)"
         )
     raise Error(
         "HipTransfer." + what + ": HIP call failed, code " + String(Int(rc))
@@ -144,17 +151,17 @@ struct HipStream(Copyable, ImplicitlyCopyable):
             )
 
     def destroy(mut self) raises:
-        """hipStreamDestroy. The handle is zeroed first so a second
-        destroy (or any later use) is rejected locally, never passed
-        to HIP as a dangling handle."""
+        """hipStreamDestroy. The handle is zeroed only after the shim
+        accepts the destroy (A-022): a refused destroy changes no state,
+        so later use of a copied handle is refused by the shim registry."""
         self._require_live("destroy")
         var handle = self.handle
-        self.handle = 0
         var rc = external_call["aesir_hip_stream_destroy", Int32](
             UInt64(handle)
         )
         if rc != 0:
             _raise_for_rc("stream_destroy", rc)
+        self.handle = 0
 
     def synchronize(self) raises:
         """hipStreamSynchronize: block until this stream's work drains."""
@@ -265,15 +272,15 @@ struct HipEvent(Copyable, ImplicitlyCopyable):
             )
 
     def destroy(mut self) raises:
-        """hipEventDestroy; the handle is zeroed first (see HipStream)."""
+        """hipEventDestroy; the handle is zeroed only after the shim accepts (A-022)."""
         self._require_live("destroy")
         var handle = self.handle
-        self.handle = 0
         var rc = external_call["aesir_hip_event_destroy", Int32](
             UInt64(handle)
         )
         if rc != 0:
             _raise_for_rc("event_destroy", rc)
+        self.handle = 0
 
     def record(self, stream: HipStream) raises:
         """hipEventRecord on the given (live) stream."""

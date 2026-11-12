@@ -238,6 +238,12 @@ from tests.test_kv_unified import (
     test_kv_unified_append_roundtrip,
     test_kv_unified_vulkan_shared,
 )
+from tests.test_buffer_ownership import (
+    test_hip_buffer_ownership_adversarial,
+    test_vulkan_buffer_ownership_adversarial,
+    test_zero_copy_buffer_ownership_adversarial,
+    test_xrt_bo_ownership_contract,
+)
 from tests.test_npu_realm import (
     test_npu_probe_absence,
     test_npu_gemm_dispatch_bounds,
@@ -817,6 +823,10 @@ def main() raises:
     run_case(ledger, "gpu.kv_unified_cpu_write_gpu_read", test_kv_unified_cpu_write_gpu_read)
     run_case(ledger, "gpu.kv_unified_append_roundtrip", test_kv_unified_append_roundtrip)
     run_case(ledger, "gpu.kv_unified_vulkan_shared", test_kv_unified_vulkan_shared)
+    run_case(ledger, "gpu.buffer_ownership_hip_adversarial", test_hip_buffer_ownership_adversarial)
+    run_case(ledger, "gpu.buffer_ownership_vulkan_adversarial", test_vulkan_buffer_ownership_adversarial)
+    run_case(ledger, "gpu.buffer_ownership_zero_copy_adversarial", test_zero_copy_buffer_ownership_adversarial)
+    run_case(ledger, "gpu.buffer_ownership_xrt_contract", test_xrt_bo_ownership_contract)
     run_case(
         ledger,
         "gpu.resilience_allocation_rejection",
@@ -1305,4 +1315,9 @@ def main() raises:
     # cases (gpu.kv_unified_* in tests/test_kv_unified.mojo).
     # Union re-pin (A-021 banking 2026-11-12): 332 -> 338 -- six
     # kv_unified cases counted on top of A-020 pin.
-    ledger.finish(338)
+    # A-022 re-pin: 328 -> 332 -- four buffer ownership law cases
+    # (gpu.buffer_ownership_* in tests/test_buffer_ownership.mojo)
+    # counted on top of A-019 pin.
+    # Union re-pin (A-022 banking 2026-11-12): 338 -> 342 -- four
+    # buffer ownership cases counted on top of A-021 pin.
+    ledger.finish(342)
