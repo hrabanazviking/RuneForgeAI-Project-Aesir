@@ -68,7 +68,15 @@ when its lead is live on its assigned slice in its own worktree.
 
 ## State
 
-- Banked: **61 of 216** (A-001..A-061). A-061 banked at the
+- Banked: **62 of 216** (A-001..A-062). A-062 banked at the
+  seat 2026-11-12 (team-06 commit c8e6cd0f cherry-picked
+  as eda188ef; Vulkan decode attention + SPIR-V dedup and
+  12-kernel shader registration, run_all pin unioned
+  480 -> 485 and vulkan_buffer_shim.c composed at banking:
+  four hand-embedded GEMV arrays removed, call sites
+  repointed to the generated header, A-059 IQ / A-060
+  RMSNorm+RoPE / A-061 elementwise+softmax sections
+  intact). A-061 banked at the
   seat 2026-11-12 (team-02 commit fdbbfba4 cherry-picked
   as 43c1e902; Vulkan elementwise + softmax, run_all pin
   unioned 474 -> 480 and vulkan_buffer_shim.c composed at
@@ -102,9 +110,9 @@ when its lead is live on its assigned slice in its own worktree.
   **Wave 3 (A-019..A-027) is COMPLETE. Wave 4
   (A-028..A-036) is COMPLETE. Wave 5 (A-037..A-045)
   is COMPLETE. Wave 6 (A-046..A-054) is COMPLETE.
-  Wave 7 (A-055..A-063) is IN PROGRESS (7 of 9).**
-- Seat gate after this banking: A-061 (seat_gate_a061.log)
-  477 passed / 1 failed / 2 skipped / 480 total, exact on
+  Wave 7 (A-055..A-063) is IN PROGRESS (8 of 9).**
+- Seat gate after this banking: A-062 (seat_gate_a062.log)
+  482 passed / 1 failed / 2 skipped / 485 total, exact on
   the first run. Sole failure the pre-existing
   gguf.tensor_directory_interface (J-022 drift), skips the
   2 pre-declared. Known intermittents (proven pre-existing
@@ -114,8 +122,8 @@ when its lead is live on its assigned slice in its own worktree.
   resilience.state_vault_rejects_growth (bug B2) - neither
   appeared in the accepted gate run.
 - Queue: teams take slices in roadmap order as theirs
-  bank (keeper flow): team-06 A-062 (in flight), then
-  team-03 A-063, team-04 A-064, team-01 A-065.
+  bank (keeper flow): team-03 A-063, team-04 A-064,
+  team-01 A-065.
   Sole failure in every suite =
   pre-existing gguf.tensor_directory_interface J-022 drift
   (roads A-165 primary / A-121); skips = the 2 pre-declared.
