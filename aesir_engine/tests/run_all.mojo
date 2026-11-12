@@ -5,7 +5,7 @@
 # Run with (from the repository root; the FFI shims must be staged and
 # linked exactly as in scripts/launch.py, and the -Xlinker flags must
 # precede the source file or the JIT cannot resolve the FFI symbols):
-#   staging="$(mktemp -d)" && cc -std=c11 -fPIC -shared aesir_engine/hailo10h_stub.c -o "$staging/libaesir_hailo10h.so" && cc -std=c11 -O2 -fPIC -shared aesir_engine/thread_par.c -o "$staging/libaesir_par.so" -lpthread && cc -std=c11 -O2 -fPIC -shared aesir_engine/hip_memory_shim.c -o "$staging/libaesir_hip.so" -ldl && pixi run mojo run -I . --target-accelerator sm_89 -Xlinker "-L$staging" -Xlinker -laesir_hailo10h -Xlinker -laesir_par -Xlinker -laesir_hip aesir_engine/tests/run_all.mojo
+#   staging="$(mktemp -d)" && cc -std=c11 -fPIC -shared aesir_engine/hailo10h_stub.c -o "$staging/libaesir_hailo10h.so" && cc -std=c11 -O2 -fPIC -shared aesir_engine/thread_par.c -o "$staging/libaesir_par.so" -lpthread && cc -std=c11 -O2 -fPIC -shared aesir_engine/hip_memory_shim.c -o "$staging/libaesir_hip.so" -ldl && cc -std=c11 -O2 -fPIC -shared aesir_engine/vulkan_context_shim.c -o "$staging/libaesir_vulkan.so" -ldl && pixi run mojo run -I . --target-accelerator sm_89 -Xlinker "-L$staging" -Xlinker -laesir_hailo10h -Xlinker -laesir_par -Xlinker -laesir_hip -Xlinker -laesir_vulkan aesir_engine/tests/run_all.mojo
 #
 # Known issue (pre-existing, proven identical on the unmodified base
 # tree in both JIT and AOT modes): the run currently segfaults inside
@@ -199,6 +199,12 @@ from tests.test_amd_realm import (
     test_hip_stream_overlap_smoke,
     test_hip_event_timing,
     test_hip_stream_rejection,
+)
+from tests.test_vulkan_context import (
+    test_vulkan_context_create,
+    test_vulkan_taxonomy_mapping,
+    test_vulkan_forced_failure_taxonomy,
+    test_vulkan_context_rejection,
 )
 from tests.test_npu_realm import (
     test_npu_probe_absence,
@@ -705,6 +711,18 @@ def main() raises:
     )
     run_case(ledger, "gpu.amd_hip_event_timing", test_hip_event_timing)
     run_case(ledger, "gpu.amd_hip_stream_rejection", test_hip_stream_rejection)
+    run_case(ledger, "gpu.vulkan_context_create", test_vulkan_context_create)
+    run_case(
+        ledger, "gpu.vulkan_taxonomy_mapping", test_vulkan_taxonomy_mapping
+    )
+    run_case(
+        ledger,
+        "gpu.vulkan_forced_failure_taxonomy",
+        test_vulkan_forced_failure_taxonomy,
+    )
+    run_case(
+        ledger, "gpu.vulkan_context_rejection", test_vulkan_context_rejection
+    )
     run_case(
         ledger,
         "gpu.resilience_allocation_rejection",
@@ -1150,4 +1168,8 @@ def main() raises:
     # (gpu.amd_hip_sync_oracle_round_trip, gpu.amd_hip_stream_*,
     # gpu.amd_hip_event_timing in tests/test_amd_realm.mojo).
     # Union re-pin (A-012 banking 2026-11-12): 297 -> 302 -- both sides' registrations counted (run_case + record_skip); only A-012's own diff was banked (its parent fab684da is a cherry-pick twin of A-011 and was not re-banked).
-    ledger.finish(302)
+    # A-013 re-pin: 280 -> 284 for the four gpu.vulkan_* cases
+    # (context create, taxonomy mapping, forced-failure taxonomy,
+    # local rejection) registered by the A-013 slice.
+    # Union re-pin (A-013 banking 2026-11-12): 302 -> 306 -- both sides' registrations counted (run_case + record_skip).
+    ledger.finish(306)
