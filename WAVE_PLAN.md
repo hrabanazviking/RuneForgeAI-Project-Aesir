@@ -68,15 +68,17 @@ when its lead is live on its assigned slice in its own worktree.
 
 ## State
 
-- Banked: **10 of 216** (A-001..A-010). A-010 banked at the seat
-  2026-11-12 (team-01 commit 7bed5e27 cherry-picked; run_all pin
-  unioned to 292; evidence hidden_files/run_a010.sh + team-01 logs).
-- Committed, awaiting banking in roadmap order: A-011 (team-02,
-  83c9fdf9), A-012 (team-03, 67aca2d0), A-013 (team-04, c72705e1),
-  A-014 (team-05, 8ec21143). Sole failure in every suite =
-  pre-existing gguf.tensor_directory_interface J-022 drift (roads
-  A-165 primary / A-121); skips = the 2 pre-declared.
-- Next: banking continues A-011..A-014 in order this session (run_all
+- Banked: **11 of 216** (A-001..A-011). A-011 banked at the seat
+  2026-11-12 (team-02 commit 83c9fdf9 cherry-picked; its amd_gate
+  soname hunk subsumed by A-010's versioned-first probe - see the
+  A011 ledger banking note; run_all pin unioned to 297; evidence
+  hidden_files/A011_LEDGER.md).
+- Committed, awaiting banking in roadmap order: A-012 (team-03,
+  67aca2d0), A-013 (team-04, c72705e1), A-014 (team-05, 8ec21143).
+  Sole failure in every suite = pre-existing
+  gguf.tensor_directory_interface J-022 drift (roads A-165 primary /
+  A-121); skips = the 2 pre-declared.
+- Next: banking continues A-012..A-014 in order this session (run_all
   case-pin union + A-013/A-014 Vulkan symbol convergence reconciled
   at merge time). A-007 caveat: unprivileged xrt-smi is blocked by
   RLIMIT_MEMLOCK (8192 kB vs the 64 MiB locked map XRT wants) - NPU

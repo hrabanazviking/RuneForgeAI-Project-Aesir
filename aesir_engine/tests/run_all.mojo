@@ -5,7 +5,7 @@
 # Run with (from the repository root; the FFI shims must be staged and
 # linked exactly as in scripts/launch.py, and the -Xlinker flags must
 # precede the source file or the JIT cannot resolve the FFI symbols):
-#   staging="$(mktemp -d)" && cc -std=c11 -fPIC -shared aesir_engine/hailo10h_stub.c -o "$staging/libaesir_hailo10h.so" && cc -std=c11 -O2 -fPIC -shared aesir_engine/thread_par.c -o "$staging/libaesir_par.so" -lpthread && pixi run mojo run -I . --target-accelerator sm_89 -Xlinker "-L$staging" -Xlinker -laesir_hailo10h -Xlinker -laesir_par aesir_engine/tests/run_all.mojo
+#   staging="$(mktemp -d)" && cc -std=c11 -fPIC -shared aesir_engine/hailo10h_stub.c -o "$staging/libaesir_hailo10h.so" && cc -std=c11 -O2 -fPIC -shared aesir_engine/thread_par.c -o "$staging/libaesir_par.so" -lpthread && cc -std=c11 -O2 -fPIC -shared aesir_engine/hip_memory_shim.c -o "$staging/libaesir_hip.so" -ldl && pixi run mojo run -I . --target-accelerator sm_89 -Xlinker "-L$staging" -Xlinker -laesir_hailo10h -Xlinker -laesir_par -Xlinker -laesir_hip aesir_engine/tests/run_all.mojo
 #
 # Known issue (pre-existing, proven identical on the unmodified base
 # tree in both JIT and AOT modes): the run currently segfaults inside
@@ -189,6 +189,11 @@ from tests.test_amd_realm import (
     test_amd_hip_device_gate,
     test_amd_hip_properties_parser,
     test_amd_realm_unsupported_gateways,
+    test_hip_malloc_free_round_trip,
+    test_hip_alloc_rejection,
+    test_hip_malloc_managed_round_trip,
+    test_hip_mem_get_info_accounting,
+    test_hip_no_leak_1000,
 )
 from tests.test_npu_realm import (
     test_npu_probe_absence,
@@ -670,6 +675,21 @@ def main() raises:
         ledger, "gpu.amd_hip_properties_parser", test_amd_hip_properties_parser
     )
     run_case(
+        ledger, "gpu.amd_hip_malloc_free_round_trip", test_hip_malloc_free_round_trip
+    )
+    run_case(ledger, "gpu.amd_hip_alloc_rejection", test_hip_alloc_rejection)
+    run_case(
+        ledger,
+        "gpu.amd_hip_malloc_managed_round_trip",
+        test_hip_malloc_managed_round_trip,
+    )
+    run_case(
+        ledger,
+        "gpu.amd_hip_mem_get_info_accounting",
+        test_hip_mem_get_info_accounting,
+    )
+    run_case(ledger, "gpu.amd_hip_no_leak_1000", test_hip_no_leak_1000)
+    run_case(
         ledger,
         "gpu.resilience_allocation_rejection",
         test_non_positive_allocation_rejection,
@@ -1107,4 +1127,7 @@ def main() raises:
     # A-010: 286 -> 288 for gpu.amd_hip_device_gate and
     # gpu.amd_hip_properties_parser.
     # Union re-pin (A-010 banking 2026-11-12): 290 -> 292 -- both sides' registrations counted (run_case + record_skip); the incoming A-001 catch-up was already carried by the seat, so only A-010's 2 cases move the seat pin.
-    ledger.finish(292)
+    # A-011 re-pin: 280 -> 285 -- five HIP memory cases added
+    # (gpu.amd_hip_* in tests/test_amd_realm.mojo).
+    # Union re-pin (A-011 banking 2026-11-12): 292 -> 297 -- both sides' registrations counted (run_case + record_skip); A-011's amd_gate soname hunk was already subsumed by A-010's versioned-first probe, so the seat amd_gate is kept.
+    ledger.finish(297)
