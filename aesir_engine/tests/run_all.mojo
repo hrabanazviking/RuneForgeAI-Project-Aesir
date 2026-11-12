@@ -247,6 +247,13 @@ from tests.test_spirv_pipeline_a055 import (
     test_spirv_pipeline_no_runtime_fetch,
     test_spirv_pipeline_toolchain_recorded,
 )
+from tests.test_vulkan_q8_gemv import (
+    test_vulkan_q8_gemv_oracle_parity,
+    test_vulkan_q8_gemv_known_value,
+    test_vulkan_q8_gemv_engine_crosscheck,
+    test_vulkan_q8_gemv_rejection,
+    test_vulkan_q8_gemv_dispatch_evidence,
+)
 from tests.test_zero_copy import (
     test_zero_copy_hip_cpu_write_gpu_read,
     test_zero_copy_hip_gpu_write_cpu_read,
@@ -975,6 +982,11 @@ def main() raises:
     run_case(ledger, "gpu.spirv_pipeline_header_embedded", test_spirv_pipeline_header_embedded)
     run_case(ledger, "gpu.spirv_pipeline_no_runtime_fetch", test_spirv_pipeline_no_runtime_fetch)
     run_case(ledger, "gpu.spirv_pipeline_toolchain_recorded", test_spirv_pipeline_toolchain_recorded)
+    run_case(ledger, "gpu.vulkan_q8_gemv_oracle_parity", test_vulkan_q8_gemv_oracle_parity)
+    run_case(ledger, "gpu.vulkan_q8_gemv_known_value", test_vulkan_q8_gemv_known_value)
+    run_case(ledger, "gpu.vulkan_q8_gemv_engine_crosscheck", test_vulkan_q8_gemv_engine_crosscheck)
+    run_case(ledger, "gpu.vulkan_q8_gemv_rejection", test_vulkan_q8_gemv_rejection)
+    run_case(ledger, "gpu.vulkan_q8_gemv_dispatch_evidence", test_vulkan_q8_gemv_dispatch_evidence)
     run_case(ledger, "gpu.zero_copy_hip_cpu_write_gpu_read", test_zero_copy_hip_cpu_write_gpu_read)
     run_case(ledger, "gpu.zero_copy_hip_gpu_write_cpu_read", test_zero_copy_hip_gpu_write_cpu_read)
     run_case(ledger, "gpu.zero_copy_vulkan_cpu_write_gpu_read", test_zero_copy_vulkan_cpu_write_gpu_read)
@@ -1650,4 +1662,8 @@ def main() raises:
     # A-055 re-pin: 445 -> 450 -- five SPIR-V pipeline cases added
     # (gpu.spirv_pipeline_* in tests/test_spirv_pipeline_a055.mojo)
     # counted on top of the A-053 union pin at the b62b1481 seat.
-    ledger.finish(450)
+    # Union re-pin (A-056 banking 2026-11-12): 450 -> 455 -- five
+    # Vulkan Q8_0 GEMV cases (gpu.vulkan_q8_gemv_* in
+    # tests/test_vulkan_q8_gemv.mojo) counted on top of the
+    # A-055 seat pin.
+    ledger.finish(455)
