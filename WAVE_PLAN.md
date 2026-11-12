@@ -68,29 +68,33 @@ when its lead is live on its assigned slice in its own worktree.
 
 ## State
 
-- Banked: **51 of 216** (A-001..A-051). A-051 banked at the
-  seat 2026-11-12 (team-01 commit fbece4ae cherry-picked as
-  e47bb2aa; Chat-template goldens, run_all pin unioned
-  430 -> 435 at banking - conflict only on the pin).
-  A-050 banked at the seat 2026-11-12 (team-09 commit
-  054c1d9b cherry-picked clean as 17c75e7a; Tokenizer edge
-  battery, pin 424 -> 430).
-  A-049 banked at the seat 2026-11-12 (team-08 commit
-  6d75c4c6 cherry-picked clean as 65b6667e; Oversized-model
-  streaming, +0 run_all cases, pin unchanged).
+- Banked: **54 of 216** (A-001..A-054). A-054 banked at the
+  seat 2026-11-12 (team-03 commit 60c5ee54 cherry-picked
+  clean as b83bc3be; Part II gate, +0 run_all cases;
+  verdict PASS - GO conditional for Part III, Z13 CPU path
+  declared the campaign reference oracle).
+  A-053 banked at the seat 2026-11-12 (team-06 commit
+  bdd433a2 cherry-picked as 5d4d9601; State on Z13 storage,
+  run_all pin unioned 441 -> 445 at banking).
+  A-052 banked at the seat 2026-11-12 (team-02 commit
+  eb60d6eb cherry-picked clean as b8826c6e; Long context on
+  CPU, pin 435 -> 441).
   **Wave 3 (A-019..A-027) is COMPLETE. Wave 4
   (A-028..A-036) is COMPLETE. Wave 5 (A-037..A-045)
-  is COMPLETE. Wave 6 (A-046..A-054) is OPEN (6 of 9).**
-- Seat gate after this banking: A-051 (seat_gate_a051.log)
-  432 passed / 1 failed / 2 skipped / 435 total, exact on
-  first run. Sole failure the pre-existing
+  is COMPLETE. Wave 6 (A-046..A-054) is COMPLETE.
+  Wave 7 (A-055..A-063) is OPEN.**
+- Seat gate after this banking: A-054 (seat_gate_a054.log)
+  442 passed / 1 failed / 2 skipped / 445 total, exact on
+  re-run (run 1: 441/2/2 - resilience.state_vault_rejects_growth
+  contention flake, log preserved as seat_gate_a054_run1.log).
+  Sole failure the pre-existing
   gguf.tensor_directory_interface (J-022 drift), skips the
   2 pre-declared.
 - Queue: teams take slices in roadmap order as theirs
-  bank (keeper flow): team-02 A-052, team-06 A-053,
-  team-03 A-054, team-04 A-055, team-07 A-056,
+  bank (keeper flow): team-04 A-055, team-07 A-056,
   team-08 A-057, team-09 A-058, team-01 A-059,
-  team-05 A-060.
+  team-05 A-060, team-02 A-061, team-06 A-062,
+  team-03 A-063, team-04 A-064.
   Sole failure in every suite =
   pre-existing gguf.tensor_directory_interface J-022 drift
   (roads A-165 primary / A-121); skips = the 2 pre-declared.
