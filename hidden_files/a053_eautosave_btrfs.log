@@ -1,0 +1,1 @@
+PASS native autosave: private no-symlink root; committed turn survived SIGKILL; interrupted generation identified; lock contention, owned-only cleanup, and corruption refusal

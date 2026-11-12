@@ -1,0 +1,7 @@
+GATE_FAST: E-MASTER suite, CPU path (build_matrix cpu entry)
+MATRIX [cpu]: E-MASTER suite, no accelerator flag (zero NVIDIA flags)
+MATRIX: suite summary: 435 passed / 2 failed / 2 skipped / 439 total
+MATRIX: unexplained failures present
+MATRIX RESULT: FAIL (cpu)
+GATE_FAST: elapsed 149s (budget 600s), build_matrix rc=1
+GATE_FAST RESULT: FAIL (build_matrix cpu entry failed)

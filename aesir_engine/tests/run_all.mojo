@@ -394,6 +394,12 @@ from tests.test_long_context_a052 import (
     test_long_context_kv_growth_execution,
     test_long_context_needle_probes,
 )
+from tests.test_state_storage_a053 import (
+    test_storage_z13_autosave_generations,
+    test_storage_z13_state_vault_disk,
+    test_storage_z13_catalog_restart,
+    test_storage_z13_conversation_snapshot,
+)
 from tests.test_fused_attention_a043 import (
     test_gqa_simd_reference_parity,
     test_gqa_simd_dyadic_bitwise,
@@ -1254,6 +1260,10 @@ def main() raises:
     run_case(ledger, "long_context.probe_grading", test_long_context_probe_grading)
     run_case(ledger, "long_context.kv_growth_execution", test_long_context_kv_growth_execution)
     run_case(ledger, "long_context.needle_probes", test_long_context_needle_probes)
+    run_case(ledger, "storage.z13_autosave_generations", test_storage_z13_autosave_generations)
+    run_case(ledger, "storage.z13_state_vault_disk", test_storage_z13_state_vault_disk)
+    run_case(ledger, "storage.z13_catalog_restart", test_storage_z13_catalog_restart)
+    run_case(ledger, "storage.z13_conversation_snapshot", test_storage_z13_conversation_snapshot)
     run_case(ledger, "attention.gqa_simd_reference_parity", test_gqa_simd_reference_parity)
     run_case(ledger, "attention.gqa_simd_dyadic_bitwise", test_gqa_simd_dyadic_bitwise)
     run_case(ledger, "attention.gqa_simd_tail_parity", test_gqa_simd_tail_parity)
@@ -1621,4 +1631,8 @@ def main() raises:
     # A-052 re-pin: 435 -> 441 -- six long-context cases
     # (long_context.* in tests/test_long_context_a052.mojo)
     # counted on top of the A-051 seat pin.
-    ledger.finish(441)
+    # Union re-pin (A-053 banking 2026-11-12): 441 -> 445 -- four
+    # Z13 storage cases (storage.z13_* in
+    # tests/test_state_storage_a053.mojo) counted on top of the
+    # A-052 seat pin.
+    ledger.finish(445)

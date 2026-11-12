@@ -1,0 +1,9 @@
+GATE_FAST: E-MASTER suite, CPU path (build_matrix cpu entry)
+MATRIX [cpu]: E-MASTER suite, no accelerator flag (zero NVIDIA flags)
+MATRIX: suite summary: 436 passed / 1 failed / 2 skipped / 439 total
+MATRIX: sole failure is the tolerated gguf.tensor_directory_interface (J-022 drift)
+MATRIX RESULT: PASS (cpu)
+GATE_FAST: elapsed 56s (budget 600s), build_matrix rc=0
+GATE_FAST: suite summary: 436 passed / 1 failed / 2 skipped / 439 total
+GATE_FAST: sole failure is the tolerated gguf.tensor_directory_interface (J-022 drift)
+GATE_FAST RESULT: PASS (56s)
