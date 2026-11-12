@@ -268,6 +268,14 @@ from tests.test_vulkan_iq_gemv import (
     test_vulkan_iq_gemv_rejection,
     test_vulkan_iq_gemv_dispatch_evidence,
 )
+from tests.test_vulkan_elementwise_softmax_a061 import (
+    test_vulkan_elementwise_oracle_parity,
+    test_vulkan_elementwise_known_value,
+    test_vulkan_softmax_oracle_parity,
+    test_vulkan_softmax_adversarial,
+    test_vulkan_elementwise_softmax_rejection,
+    test_vulkan_elementwise_softmax_dispatch_evidence,
+)
 from tests.test_vulkan_q4k_gemv_a057 import (
     test_vulkan_q4k_gemv_oracle,
     test_vulkan_q4k_gemv_rejection,
@@ -1024,6 +1032,12 @@ def main() raises:
     run_case(ledger, "gpu.vulkan_iq_gemv_engine_crosscheck", test_vulkan_iq_gemv_engine_crosscheck)
     run_case(ledger, "gpu.vulkan_iq_gemv_rejection", test_vulkan_iq_gemv_rejection)
     run_case(ledger, "gpu.vulkan_iq_gemv_dispatch_evidence", test_vulkan_iq_gemv_dispatch_evidence)
+    run_case(ledger, "gpu.vulkan_elementwise_oracle_parity", test_vulkan_elementwise_oracle_parity)
+    run_case(ledger, "gpu.vulkan_elementwise_known_value", test_vulkan_elementwise_known_value)
+    run_case(ledger, "gpu.vulkan_softmax_oracle_parity", test_vulkan_softmax_oracle_parity)
+    run_case(ledger, "gpu.vulkan_softmax_adversarial", test_vulkan_softmax_adversarial)
+    run_case(ledger, "gpu.vulkan_elementwise_softmax_rejection", test_vulkan_elementwise_softmax_rejection)
+    run_case(ledger, "gpu.vulkan_elementwise_softmax_dispatch_evidence", test_vulkan_elementwise_softmax_dispatch_evidence)
     run_case(ledger, "gpu.vulkan_q4k_gemv_oracle", test_vulkan_q4k_gemv_oracle)
     run_case(ledger, "gpu.vulkan_q4k_gemv_rejection", test_vulkan_q4k_gemv_rejection)
     run_case(ledger, "gpu.vulkan_q4k_gemv_no_leak", test_vulkan_q4k_gemv_no_leak)
@@ -1728,4 +1742,12 @@ def main() raises:
     # Vulkan RMSNorm + RoPE cases (gpu.vulkan_rmsnorm_* /
     # gpu.vulkan_rope_* in tests/test_vulkan_rmsnorm_rope_a060.mojo)
     # counted on top of the A-059 seat pin.
-    ledger.finish(474)
+    # A-061 (team-02): 463 -> 469 -- six Vulkan elementwise +
+    # softmax cases (gpu.vulkan_elementwise_* / gpu.vulkan_softmax_*
+    # in tests/test_vulkan_elementwise_softmax_a061.mojo) counted
+    # on top of the A-058 seat pin on this branch's base; the
+    # union total reconciles at banking.
+    # Union re-pin (A-061 banking 2026-11-12): 474 -> 480 -- six
+    # Vulkan elementwise + softmax cases counted on top of the
+    # A-060 seat pin.
+    ledger.finish(480)
