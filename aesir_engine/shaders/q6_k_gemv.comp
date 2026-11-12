@@ -1,0 +1,63 @@
+#version 450
+// A-058 Q6_K GEMV kernel: y[row] = sum_k dequant(W[row,k]) * x[k].
+// W is the raw GGUF Q6_K byte layout: per 256-value block, ql[128]
+// low nibbles, qh[64] high 2-bit fields, int8 scales[16], one fp16
+// d at byte 208 (210 bytes per block) - exactly the layout the CPU
+// oracle (_dequantize_ggml_k_simd type 14) consumes. Byte
+// extraction and fp16 decode run in-shader; dequant is GPU work.
+// One workgroup of 256 invocations per output row; strided partial
+// sums reduced through shared memory. cols must be a multiple of
+// 256 (Q6_K block size); the Mojo gateway enforces this.
+layout(local_size_x = 256, local_size_y = 1, local_size_z = 1) in;
+layout(std430, set = 0, binding = 0) readonly buffer WBuf { uint w[]; };
+layout(std430, set = 0, binding = 1) readonly buffer XBuf { float x[]; };
+layout(std430, set = 0, binding = 2) buffer YBuf { float y[]; };
+layout(push_constant) uniform Push { uint cols; uint rows; } pc;
+shared float sdata[256];
+uint get_byte(uint idx) {
+    uint word = w[idx >> 2u];
+    return (word >> ((idx & 3u) * 8u)) & 0xFFu;
+}
+float half_to_float(uint h) {
+    float sign = ((h >> 15u) & 1u) == 1u ? -1.0 : 1.0;
+    uint exp = (h >> 10u) & 0x1Fu;
+    uint frac = h & 0x3FFu;
+    if (exp == 0u) { return sign * float(frac) * (1.0 / 16777216.0); }
+    if (exp == 31u) { return sign * (frac == 0u ? 3.4028235e38 : 0.0); }
+    return sign * ldexp(1.0 + float(frac) * (1.0 / 1024.0), int(exp) - 15);
+}
+void main() {
+    uint row = gl_WorkGroupID.x;
+    uint tid = gl_LocalInvocationID.x;
+    if (row >= pc.rows) { return; }
+    uint blocks_per_row = pc.cols / 256u;
+    uint row_byte0 = row * blocks_per_row * 210u;
+    float partial = 0.0;
+    for (uint k = tid; k < pc.cols; k += 256u) {
+        uint blk = k / 256u;
+        uint i = k - blk * 256u;
+        uint base = row_byte0 + blk * 210u;
+        uint c = i / 16u;
+        uint lane = i - c * 16u;
+        uint haf = c / 8u;
+        uint within = c - haf * 8u;
+        uint grp = within / 2u;
+        uint hl = within - grp * 2u;
+        uint ql = get_byte(base + haf * 64u + (grp % 2u) * 32u + hl * 16u + lane);
+        uint nib = grp < 2u ? (ql & 0xFu) : (ql >> 4u);
+        uint qh = get_byte(base + 128u + haf * 32u + hl * 16u + lane);
+        uint hi = (qh >> (2u * grp)) & 3u;
+        float q = float(nib | (hi << 4u)) - 32.0;
+        uint scb = get_byte(base + 192u + c);
+        float scale = scb >= 128u ? float(int(scb) - 256) : float(scb);
+        float d = half_to_float(get_byte(base + 208u) | (get_byte(base + 209u) << 8u));
+        partial += d * scale * q * x[k];
+    }
+    sdata[tid] = partial;
+    barrier();
+    for (uint stride = 128u; stride > 0u; stride >>= 1u) {
+        if (tid < stride) { sdata[tid] += sdata[tid + stride]; }
+        barrier();
+    }
+    if (tid == 0u) { y[row] = sdata[0]; }
+}

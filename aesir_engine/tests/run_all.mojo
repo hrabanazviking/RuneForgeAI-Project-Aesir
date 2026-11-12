@@ -254,6 +254,13 @@ from tests.test_vulkan_q8_gemv import (
     test_vulkan_q8_gemv_rejection,
     test_vulkan_q8_gemv_dispatch_evidence,
 )
+from tests.test_vulkan_q6k_q5k_gemv import (
+    test_vulkan_q6k_q5k_oracle_parity,
+    test_vulkan_q6k_q5k_known_value,
+    test_vulkan_q6k_q5k_engine_crosscheck,
+    test_vulkan_q6k_q5k_rejection,
+    test_vulkan_q6k_q5k_dispatch_evidence,
+)
 from tests.test_vulkan_q4k_gemv_a057 import (
     test_vulkan_q4k_gemv_oracle,
     test_vulkan_q4k_gemv_rejection,
@@ -992,6 +999,11 @@ def main() raises:
     run_case(ledger, "gpu.vulkan_q8_gemv_engine_crosscheck", test_vulkan_q8_gemv_engine_crosscheck)
     run_case(ledger, "gpu.vulkan_q8_gemv_rejection", test_vulkan_q8_gemv_rejection)
     run_case(ledger, "gpu.vulkan_q8_gemv_dispatch_evidence", test_vulkan_q8_gemv_dispatch_evidence)
+    run_case(ledger, "gpu.vulkan_q6k_q5k_oracle_parity", test_vulkan_q6k_q5k_oracle_parity)
+    run_case(ledger, "gpu.vulkan_q6k_q5k_known_value", test_vulkan_q6k_q5k_known_value)
+    run_case(ledger, "gpu.vulkan_q6k_q5k_engine_crosscheck", test_vulkan_q6k_q5k_engine_crosscheck)
+    run_case(ledger, "gpu.vulkan_q6k_q5k_rejection", test_vulkan_q6k_q5k_rejection)
+    run_case(ledger, "gpu.vulkan_q6k_q5k_dispatch_evidence", test_vulkan_q6k_q5k_dispatch_evidence)
     run_case(ledger, "gpu.vulkan_q4k_gemv_oracle", test_vulkan_q4k_gemv_oracle)
     run_case(ledger, "gpu.vulkan_q4k_gemv_rejection", test_vulkan_q4k_gemv_rejection)
     run_case(ledger, "gpu.vulkan_q4k_gemv_no_leak", test_vulkan_q4k_gemv_no_leak)
@@ -1678,4 +1690,8 @@ def main() raises:
     # Vulkan Q4_K GEMV cases (gpu.vulkan_q4k_gemv_* in
     # tests/test_vulkan_q4k_gemv_a057.mojo) counted on top of the
     # A-056 seat pin.
-    ledger.finish(458)
+    # Union re-pin (A-058 banking 2026-11-12): 458 -> 463 -- five
+    # Vulkan Q6_K + Q5_K GEMV cases (gpu.vulkan_q6k_q5k_* in
+    # tests/test_vulkan_q6k_q5k_gemv.mojo) counted on top of the
+    # A-057 seat pin.
+    ledger.finish(463)

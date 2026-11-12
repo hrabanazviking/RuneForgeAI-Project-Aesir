@@ -102,3 +102,82 @@ struct VulkanGemv:
         """Completed A-056 GEMV dispatches on the device so far
         (shim counter; increments only after submit + wait-idle)."""
         return Int(external_call["aesir_vk_q8_gemv_dispatch_count", UInt64]())
+
+    @staticmethod
+    def q6_k_gemv(
+        w: VulkanAllocation,
+        x: VulkanAllocation,
+        y: VulkanAllocation,
+        rows: Int,
+        cols: Int,
+    ) raises:
+        """Dispatch the A-058 Q6_K GEMV kernel: y[r] = sum_k
+        dequant(w[r, k]) * x[k]. w holds rows * (cols/256) * 210
+        raw Q6_K bytes (ql[128] + qh[64] + int8 scales[16] + fp16
+        d per 256-value block), x holds cols Float32, y holds rows
+        Float32. cols must be a positive multiple of 256; rows
+        must be positive. Fail-closed like q8_0_gemv: raises on any
+        violation or Vulkan failure, nothing computed on host."""
+        if rows <= 0:
+            raise Error("VAL-003 VALUE_OUT_OF_RANGE: VulkanGemv.q6_k_gemv: row count must be positive")
+        if cols <= 0 or cols % 256 != 0:
+            raise Error(
+                "VAL-003 VALUE_OUT_OF_RANGE: VulkanGemv.q6_k_gemv: column count must be a"
+                " positive multiple of the 256-wide Q6_K block"
+            )
+        var need_w = rows * (cols // 256) * 210
+        if w.requested_size < need_w:
+            raise Error("VAL-003 VALUE_OUT_OF_RANGE: VulkanGemv.q6_k_gemv: weight buffer is smaller than the Q6_K operand")
+        if x.requested_size < cols * 4:
+            raise Error("VAL-003 VALUE_OUT_OF_RANGE: VulkanGemv.q6_k_gemv: activation buffer is smaller than the column count")
+        if y.requested_size < rows * 4:
+            raise Error("VAL-003 VALUE_OUT_OF_RANGE: VulkanGemv.q6_k_gemv: output buffer is smaller than the row count")
+        var rc = external_call["aesir_vk_buffer_q6_gemv", Int32](
+            UInt64(w.id), UInt64(x.id), UInt64(y.id), UInt32(rows), UInt32(cols)
+        )
+        if rc != 0:
+            Self._raise_for_rc("q6_k_gemv", rc)
+
+    @staticmethod
+    def q6_dispatch_count() -> Int:
+        """Completed A-058 Q6_K GEMV dispatches on the device."""
+        return Int(external_call["aesir_vk_q6_gemv_dispatch_count", UInt64]())
+
+    @staticmethod
+    def q5_k_gemv(
+        w: VulkanAllocation,
+        x: VulkanAllocation,
+        y: VulkanAllocation,
+        rows: Int,
+        cols: Int,
+    ) raises:
+        """Dispatch the A-058 Q5_K GEMV kernel: y[r] = sum_k
+        dequant(w[r, k]) * x[k]. w holds rows * (cols/256) * 176
+        raw Q5_K bytes (fp16 d + fp16 dmin + 12 packed scale/min
+        bytes + qh[32] + qs[128] per 256-value block), x holds cols
+        Float32, y holds rows Float32. cols must be a positive
+        multiple of 256; rows must be positive. Fail-closed."""
+        if rows <= 0:
+            raise Error("VAL-003 VALUE_OUT_OF_RANGE: VulkanGemv.q5_k_gemv: row count must be positive")
+        if cols <= 0 or cols % 256 != 0:
+            raise Error(
+                "VAL-003 VALUE_OUT_OF_RANGE: VulkanGemv.q5_k_gemv: column count must be a"
+                " positive multiple of the 256-wide Q5_K block"
+            )
+        var need_w = rows * (cols // 256) * 176
+        if w.requested_size < need_w:
+            raise Error("VAL-003 VALUE_OUT_OF_RANGE: VulkanGemv.q5_k_gemv: weight buffer is smaller than the Q5_K operand")
+        if x.requested_size < cols * 4:
+            raise Error("VAL-003 VALUE_OUT_OF_RANGE: VulkanGemv.q5_k_gemv: activation buffer is smaller than the column count")
+        if y.requested_size < rows * 4:
+            raise Error("VAL-003 VALUE_OUT_OF_RANGE: VulkanGemv.q5_k_gemv: output buffer is smaller than the row count")
+        var rc = external_call["aesir_vk_buffer_q5_gemv", Int32](
+            UInt64(w.id), UInt64(x.id), UInt64(y.id), UInt32(rows), UInt32(cols)
+        )
+        if rc != 0:
+            Self._raise_for_rc("q5_k_gemv", rc)
+
+    @staticmethod
+    def q5_dispatch_count() -> Int:
+        """Completed A-058 Q5_K GEMV dispatches on the device."""
+        return Int(external_call["aesir_vk_q5_gemv_dispatch_count", UInt64]())
