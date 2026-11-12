@@ -68,31 +68,38 @@ when its lead is live on its assigned slice in its own worktree.
 
 ## State
 
-- Banked: **54 of 216** (A-001..A-054). A-054 banked at the
-  seat 2026-11-12 (team-03 commit 60c5ee54 cherry-picked
-  clean as b83bc3be; Part II gate, +0 run_all cases;
-  verdict PASS - GO conditional for Part III, Z13 CPU path
-  declared the campaign reference oracle).
-  A-053 banked at the seat 2026-11-12 (team-06 commit
-  bdd433a2 cherry-picked as 5d4d9601; State on Z13 storage,
-  run_all pin unioned 441 -> 445 at banking).
-  A-052 banked at the seat 2026-11-12 (team-02 commit
-  eb60d6eb cherry-picked clean as b8826c6e; Long context on
-  CPU, pin 435 -> 441).
+- Banked: **57 of 216** (A-001..A-057). A-057 banked at the
+  seat 2026-11-12 (team-08 commit 056bf09d cherry-picked
+  as 066eca4f; Vulkan Q4_K GEMV, run_all pin unioned
+  455 -> 458 and vulkan_buffer_shim.c composed at banking).
+  A-056 banked at the seat 2026-11-12 (team-07 commit
+  45ba57e6 cherry-picked as 99323c17; Vulkan Q8_0 GEMV,
+  run_all pin unioned 450 -> 455 at banking).
+  A-055 banked at the seat 2026-11-12 (team-04 commit
+  5d96a54b cherry-picked as c86433da; SPIR-V build
+  pipeline, pin 445 -> 450).
   **Wave 3 (A-019..A-027) is COMPLETE. Wave 4
   (A-028..A-036) is COMPLETE. Wave 5 (A-037..A-045)
   is COMPLETE. Wave 6 (A-046..A-054) is COMPLETE.
-  Wave 7 (A-055..A-063) is OPEN.**
-- Seat gate after this banking: A-054 (seat_gate_a054.log)
-  442 passed / 1 failed / 2 skipped / 445 total, exact on
-  re-run (run 1: 441/2/2 - resilience.state_vault_rejects_growth
-  contention flake, log preserved as seat_gate_a054_run1.log).
-  Sole failure the pre-existing
+  Wave 7 (A-055..A-063) is IN PROGRESS (3 of 9).**
+- Seat gate after this banking: A-057 (seat_gate_a057.log)
+  455 passed / 1 failed / 2 skipped / 458 total, exact on
+  the re-run (first run caught a seat merge-slip - a
+  missing import paren in run_all; log preserved as
+  seat_gate_a057_run1.log; fixed in the A-057 seat commit,
+  re-run exact). Sole failure the pre-existing
   gguf.tensor_directory_interface (J-022 drift), skips the
-  2 pre-declared.
+  2 pre-declared. Known intermittents (proven pre-existing
+  at base b62b1481 by the A-055 base bisect, NOT caused by
+  these slices): gguf.weight_residency_gpu_visibility
+  (A-055 ledger bug B1) and
+  resilience.state_vault_rejects_growth (bug B2) - neither
+  appeared in the accepted gate run.
 - Queue: teams take slices in roadmap order as theirs
-  bank (keeper flow): team-04 A-055, team-07 A-056,
-  team-08 A-057, team-09 A-058, team-01 A-059,
+  bank (keeper flow): team-09 A-058 (in flight),
+  team-01 A-059 (inherits Bug A-046:B1 AND the A-055
+  ledger bugs B1 residency USE_AFTER_FREE / B2
+  state_vault intermittence as named next work),
   team-05 A-060, team-02 A-061, team-06 A-062,
   team-03 A-063, team-04 A-064.
   Sole failure in every suite =
