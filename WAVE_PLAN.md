@@ -68,7 +68,13 @@ when its lead is live on its assigned slice in its own worktree.
 
 ## State
 
-- Banked: **66 of 216** (A-001..A-066). A-066 banked at the
+- Banked: **67 of 216** (A-001..A-067). A-067 banked at the
+  seat 2026-11-12 (team-03 commit 78e0ace9 cherry-picked
+  as 1355c7dd with the run_all union, pin 505 -> 512;
+  real-model GPU decode on the pinned Llama-3.1-8B
+  Q4_K_M fixture, copied into the seat fixtures dir and
+  sha256 re-verified so the seat gate ran for real).
+  A-066 banked at the
   seat 2026-11-12 (team-02 commit ee393126 cherry-picked
   clean as 259a9510; full decode loop on GPU, run_all pin
   501 -> 505 at banking, shader manifest 13 -> 16 kernels,
@@ -126,9 +132,9 @@ when its lead is live on its assigned slice in its own worktree.
   (A-028..A-036) is COMPLETE. Wave 5 (A-037..A-045)
   is COMPLETE. Wave 6 (A-046..A-054) is COMPLETE.
   Wave 7 (A-055..A-063) is COMPLETE. Wave 8
-  (A-064..A-072) is IN PROGRESS (3 of 9).**
-- Seat gate after this banking: A-066 (seat_gate_a066.log)
-  502 passed / 1 failed / 2 skipped / 505 total, exact on
+  (A-064..A-072) is IN PROGRESS (4 of 9).**
+- Seat gate after this banking: A-067 (seat_gate_a067.log)
+  509 passed / 1 failed / 2 skipped / 512 total, exact on
   the first run. Sole failure the pre-existing
   gguf.tensor_directory_interface (J-022 drift), skips the
   2 pre-declared. Known intermittents (proven pre-existing
@@ -138,10 +144,12 @@ when its lead is live on its assigned slice in its own worktree.
   resilience.state_vault_rejects_growth (bug B2) - neither
   appeared in the accepted gate run.
 - Queue: teams take slices in roadmap order as theirs
-  bank (keeper flow): team-03 A-067 (committed 78e0ace9,
-  banking next in roadmap order), team-01 A-068 (suite
-  counted 504/1/2 of 507 at 16:22 EST, commit pending at
-  this banking). A-066 closed the A-065 KV-append gap
+  bank (keeper flow): team-01 A-068 (suite counted 504/1/2 of 507
+  at 16:22 EST; the previous lead stopped before
+  ledger/commit and a fresh lead was mustered by the
+  keeper to finish and commit it). After A-068 banks,
+  teams flow onto A-069 onward in roadmap order.
+  A-066 closed the A-065 KV-append gap
   (kv_append kernel, bit-exact).
   Sole failure in every suite =
   pre-existing gguf.tensor_directory_interface J-022 drift
