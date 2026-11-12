@@ -371,6 +371,13 @@ from tests.test_iq_simd_parity import (
     test_iq_simd_parity_iq4_nl,
     test_iq_simd_parity_iq4_xs,
 )
+from tests.test_prefill_batching import (
+    test_prefill_batching_policy,
+    test_prefill_batching_dense_range_parity,
+    test_prefill_batching_dense_public_parity,
+    test_prefill_batching_q8_range_parity,
+    test_prefill_batching_q4_0_public_parity,
+)
 from tests.test_quantization_hardening import (
     test_dequantizer_zero_and_null_bounds,
     test_gemm_invalid_dimensions_rejection,
@@ -1164,6 +1171,11 @@ def main() raises:
     run_case(ledger, "quantization.iq_simd_parity_iq3_s", test_iq_simd_parity_iq3_s)
     run_case(ledger, "quantization.iq_simd_parity_iq4_nl", test_iq_simd_parity_iq4_nl)
     run_case(ledger, "quantization.iq_simd_parity_iq4_xs", test_iq_simd_parity_iq4_xs)
+    run_case(ledger, "prefill.batching_policy", test_prefill_batching_policy)
+    run_case(ledger, "prefill.batching_dense_range_parity", test_prefill_batching_dense_range_parity)
+    run_case(ledger, "prefill.batching_dense_public_parity", test_prefill_batching_dense_public_parity)
+    run_case(ledger, "prefill.batching_q8_range_parity", test_prefill_batching_q8_range_parity)
+    run_case(ledger, "prefill.batching_q4_0_public_parity", test_prefill_batching_q4_0_public_parity)
     run_case(
         ledger,
         "quantization.format_metadata",
@@ -1502,4 +1514,8 @@ def main() raises:
     # (cpu.thread_scaling_* in tests/test_thread_scaling.mojo).
     # Union re-pin (A-041 banking 2026-11-12): 392 -> 398 -- six
     # thread scaling cases counted on top of the A-040 seat pin.
-    ledger.finish(398)
+    # A-042 re-pin: 389 -> 394 -- five prefill batching audit
+    # cases (prefill.* in tests/test_prefill_batching.mojo).
+    # Union re-pin (A-042 banking 2026-11-12): 398 -> 403 -- five
+    # prefill batching cases counted on top of the A-041 seat pin.
+    ledger.finish(403)

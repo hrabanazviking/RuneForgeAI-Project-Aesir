@@ -1058,13 +1058,22 @@ def _gemm_q8_0_fast_range(
 ):
     """Decode-once fast range for the Q8_0 GEMM.
 
-    Each output row's Q8_0 blocks are decoded to an F32 scratch row a
-    single time, then every A row dots against the scratch with SIMD
-    (W=16 F32 lanes). The serial body re-decoded every block for every
-    element of every row. Summation inside a dot is lane-grouped, so
-    results can differ from the serial body in final rounding only —
-    the same accepted fast-path class as _gemm_k_fast. The bit-exact
-    serial body remains in _gemm_q8_0_range.
+    Each output row's Q8_0 blocks are decoded to an F32 scratch row
+    a single time, then every A row dots against the scratch. The
+    A-042 audit found the previous body was 5-9x SLOWER than the
+    per-row A-038 GEMV range it was supposed to beat: it decoded
+    scalar-ly (32 loads + casts per block) and its dot gathered
+    SIMD vectors lane-by-lane from scalar loads. Both halves are
+    now width-16 vector work in the A-038/A-039 pattern: decode is
+    two width-16 int8 loads widened to F32 and scaled per block;
+    the dot is the _gemm_f16_dense_range reduction (width-16
+    vector loads, per-chunk reduce_add, scalar tail), so per-output
+    accumulation is SIMD-chunked in ascending K order. Results can
+    differ from the serial body in final rounding only -- the same
+    accepted fast-path class as _gemm_k_fast; on exact (dyadic)
+    data every order agrees bitwise. The bit-exact serial body
+    remains in _gemm_q8_0_range. A-042 evidence:
+    hidden_files/A042_LEDGER.md (before/after bench rows).
     """
     var a_data = Pointer[Scalar[f16], MutUntrackedOrigin](
         unsafe_from_address=Int(a_addr)
@@ -1078,35 +1087,34 @@ def _gemm_q8_0_fast_range(
     comptime W = 16
     var blocks_per_row = a_cols // 32
     var scratch = alloc[Float32](a_cols)
-    var limit = a_cols - (a_cols % W)
+    var simd_end = (a_cols // W) * W
     for output in range(out_lo, out_hi):
         var row_base = output * blocks_per_row * 34
         for block in range(blocks_per_row):
             var p = row_base + block * 34
             var scale = weights.unsafe_offset(p).unsafe_bitcast[Float16]().unsafe_load().cast[DType.float32]()
-            var dst = block * 32
-            for lane in range(32):
-                var q = weights.unsafe_load(p + 2 + lane).cast[DType.int8]()
-                scratch.unsafe_store(dst + lane, Float32(q) * scale)
+            var svec = SIMD[DType.float32, W](scale)
+            var qs_ptr = weights.unsafe_offset(p + 2).unsafe_bitcast[Scalar[DType.int8]]()
+            var col = block * 32
+            var q_lo = qs_ptr.unsafe_load[width=16](0).cast[DType.float32]()
+            var q_hi = qs_ptr.unsafe_load[width=16](16).cast[DType.float32]()
+            scratch.unsafe_store[width=16](col, q_lo * svec)
+            scratch.unsafe_store[width=16](col + 16, q_hi * svec)
         for row in range(a_rows):
             var a_base = row * a_cols
-            var acc = SIMD[DType.float32, W](0.0)
-            var j = 0
-            while j < limit:
-                var avec = SIMD[DType.float32, W]()
-                var wvec = SIMD[DType.float32, W]()
-                for lane in range(W):
-                    avec[lane] = a_data.unsafe_load(a_base + j + lane).cast[f32]()
-                    wvec[lane] = scratch.unsafe_load(j + lane)
-                acc += avec * wvec
-                j += W
-            var total = Float32(0.0)
-            for lane in range(W):
-                total += acc[lane]
-            while j < a_cols:
-                total += a_data.unsafe_load(a_base + j).cast[f32]() * scratch.unsafe_load(j)
-                j += 1
-            c_data.unsafe_store(row * c_cols + output, total.cast[f16]())
+            var sum: Scalar[f32] = 0.0
+            for inner in range(0, simd_end, W):
+                var input_values = a_data.unsafe_load[width=W](
+                    a_base + inner
+                ).cast[f32]()
+                var weight_values = scratch.unsafe_load[width=W](inner)
+                sum += (input_values * weight_values).reduce_add()
+            for inner in range(simd_end, a_cols):
+                sum += (
+                    a_data.unsafe_load(a_base + inner).cast[f32]()
+                    * scratch.unsafe_load(inner)
+                )
+            c_data.unsafe_store(row * c_cols + output, sum.cast[f16]())
     scratch.unsafe_free()
 
 
