@@ -68,16 +68,19 @@ when its lead is live on its assigned slice in its own worktree.
 
 ## State
 
-- Banked: **7 of 216** (A-001..A-007; A-006 + A-007 banked at the seat 2026-11-12, remote main was 670d5716,
-  git ls-remote verified == local main at the seat, keeper tick
-  2026-11-11 23:55 EST). Push blocker RESOLVED: gh auth is live on
-  purpleraider (hrabanazviking) and the A-001..A-005 push landed
-  ~23:15 EST 2026-11-11.
-- Committed, awaiting banking in roadmap order (all held behind the
-  unbuilt A-008/A-009): A-010 (team-01, 7bed5e27, suite 285/1/2 of
-  288), A-011 (team-02, 83c9fdf9, 282/1/2 of 285), A-012 (team-03,
-  67aca2d0, 287/1/2 of 290), A-013 (team-04, c72705e1, 281/1/2 of
-  284), A-014 (team-05, 8ec21143, 281/1/2 of 284). Sole failure in
-  every suite = pre-existing gguf.tensor_directory_interface J-022
-  drift (roads A-165 primary / A-121); skips = the 2 pre-declared.
-- Next: muster team-08+09 on the following ticks for A-008 (unified-memory semantics probe) and A-009 (backend registry skeleton); then banking runs A-008..A-014 in order (run_all case-pin union + A-013/A-014 Vulkan-context convergence reconciled at merge time). A-007 caveat: unprivileged xrt-smi is blocked by RLIMIT_MEMLOCK (8192 kB vs the 64 MiB locked map XRT wants) - NPU tools run via sudo until Volmarr rules on raising the user memlock limit; xrt-smi validate needs the Xilinx VTD archive, first step of A-092.
+- Banked: **8 of 216** (A-001..A-008). A-008 banked at the seat
+  2026-11-12 (team-08 commit 88b9aacf cherry-picked; evidence
+  hidden_files/A008_LEDGER.md).
+- Committed, awaiting banking in roadmap order: A-009 (team-09,
+  1222a383), A-010 (team-01, 7bed5e27), A-011 (team-02, 83c9fdf9),
+  A-012 (team-03, 67aca2d0), A-013 (team-04, c72705e1), A-014 (team-05,
+  8ec21143). Sole failure in every suite = pre-existing
+  gguf.tensor_directory_interface J-022 drift (roads A-165 primary /
+  A-121); skips = the 2 pre-declared.
+- Next: banking continues A-009..A-014 in order this session (run_all
+  case-pin union + A-013/A-014 Vulkan symbol convergence reconciled at
+  merge time). A-007 caveat: unprivileged xrt-smi is blocked by
+  RLIMIT_MEMLOCK (8192 kB vs the 64 MiB locked map XRT wants) - NPU
+  tools run via sudo until Volmarr rules on raising the user memlock
+  limit; xrt-smi validate needs the Xilinx VTD archive, first step of
+  A-092.
