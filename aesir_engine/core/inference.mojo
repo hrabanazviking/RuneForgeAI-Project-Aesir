@@ -1190,6 +1190,15 @@ def forward_pass(
             logits.data.unsafe_store(i, Scalar[f16](cap * tanh(v / cap)))
 
 
+    # A-045: teacher-forcing logit-row sink (KVCache.capture_logit_row).
+    # Captures the exact row the sampler sees -- after logit scaling
+    # and softcapping, before sampling. No-op when capture is off.
+    if kv_cache.capture_logit_row:
+        var row = List[Float32]()
+        for i in range(vocab_size):
+            row.append(logits.data.unsafe_load(i).cast[DType.float32]())
+        kv_cache.last_logit_row = row^
+
     # 6. Temperature & Top-K / Top-P sampling with repetition penalty
     var rng = replay_rng(seed, start_pos)
     var suppress_list = List[Int]()

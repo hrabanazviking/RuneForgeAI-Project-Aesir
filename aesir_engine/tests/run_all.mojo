@@ -459,6 +459,13 @@ from tests.test_phase_timing import (
     test_phase_timing_json_schema,
     test_phase_timing_kvcache_sink,
 )
+from tests.test_parity_battery_a045 import (
+    test_parity_top_token_ties,
+    test_parity_rank_arithmetic,
+    test_parity_gap_arithmetic,
+    test_parity_verdict_bands,
+    test_parity_logit_sink_defaults,
+)
 from tests.test_sampling_cost_a044 import (
     test_sampling_cost_simd_max_parity,
     test_sampling_cost_greedy_argmax_parity,
@@ -1063,6 +1070,11 @@ def main() raises:
     run_case(ledger, "timing.phase_disjoint_pure", test_phase_timing_disjoint_pure)
     run_case(ledger, "timing.phase_json_schema", test_phase_timing_json_schema)
     run_case(ledger, "timing.phase_kvcache_sink", test_phase_timing_kvcache_sink)
+    run_case(ledger, "parity.top_token_ties", test_parity_top_token_ties)
+    run_case(ledger, "parity.rank_arithmetic", test_parity_rank_arithmetic)
+    run_case(ledger, "parity.gap_arithmetic", test_parity_gap_arithmetic)
+    run_case(ledger, "parity.verdict_bands", test_parity_verdict_bands)
+    run_case(ledger, "parity.logit_sink_defaults", test_parity_logit_sink_defaults)
     run_case(ledger, "sampling_cost.simd_max_parity", test_sampling_cost_simd_max_parity)
     run_case(ledger, "sampling_cost.greedy_argmax_parity", test_sampling_cost_greedy_argmax_parity)
     run_case(ledger, "sampling_cost.sort_stable_reference", test_sampling_cost_sort_stable_reference)
@@ -1549,4 +1561,6 @@ def main() raises:
     # (sampling_cost.* in tests/test_sampling_cost_a044.mojo).
     # Union re-pin (A-044 banking 2026-11-12): 408 -> 413 -- five
     # sampling cost cases counted on top of the A-043 seat pin.
-    ledger.finish(413)
+    # A-045 re-pin: 413 -> 418 -- five parity battery cases added
+    # (parity.* in tests/test_parity_battery_a045.mojo).
+    ledger.finish(418)

@@ -1364,6 +1364,46 @@ struct AesirEngine:
         var config = GenerationConfig(max_new_tokens=max_new_tokens, temperature=0.0, repetition_penalty=1.0)
         return self._run_generation(prompt, config, Int32(-1), False)
 
+    def teacher_forcing_logit_rows(
+        mut self, tokens: List[Int]
+    ) raises -> List[List[Float32]]:
+        """A-045: teacher-forcing logit rows for the CPU parity battery.
+        Feeds the GIVEN token sequence position by position through the
+        per-token forward path (never the batched prefill, never a chat
+        template) with the KVCache logit-row sink on, and returns one
+        captured logit row per position: row p is the exact scaled /
+        softcapped pre-sampling distribution that predicts tokens[p+1].
+        Greedy configuration, repetition penalty 1.0 -- grading only,
+        the sampled return values are discarded. Reusable by every
+        later backend battery. Standard (llama-family) forward path
+        only: the sink lives in core/inference.forward_pass."""
+        if len(tokens) == 0:
+            raise Error("teacher_forcing_logit_rows: empty token sequence")
+        if not self.parser.is_loaded:
+            raise Error("teacher_forcing_logit_rows: model not loaded")
+        self.pool.offset = self.runtime_offset
+        var target_context_len = min(MAX_RUNTIME_CONTEXT, self.parser.config.context_length)
+        var kv_cache = KVCache(
+            target_context_len,
+            self.parser.config.kv_dim(),
+            self.pool,
+            self.parser.config.block_count,
+        )
+        kv_cache.capture_logit_row = True
+        var config = GenerationConfig(max_new_tokens=1, temperature=0.0, repetition_penalty=1.0)
+        var rows = List[List[Float32]]()
+        try:
+            for pos in range(len(tokens)):
+                _ = self._forward_position(tokens, kv_cache, pos, config, False)
+                if len(kv_cache.last_logit_row) == 0:
+                    raise Error("teacher_forcing_logit_rows: no logit row captured at position " + String(pos))
+                rows.append(kv_cache.last_logit_row.copy())
+            self.pool.offset = self.runtime_offset
+            return rows^
+        except e:
+            self.pool.offset = self.runtime_offset
+            raise e
+
     def _clear_image_span(mut self):
         self.image_span_start = -1
         self.image_span_rows = List[Float32]()

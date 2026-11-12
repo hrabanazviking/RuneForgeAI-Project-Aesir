@@ -896,6 +896,13 @@ struct KVCache(Copyable):
     # sample_token_from_logits call site; read by AesirEngine to build
     # the disjoint sample phase — see core/phase_timing.mojo).
     var sample_ns_total: Int64
+    # A-045: teacher-forcing logit-row sink. When capture_logit_row
+    # is set, the per-position forward path in core/inference.mojo
+    # copies the final (scaled/softcapped, pre-sampling) logit row
+    # into last_logit_row. Off by default; read by the A-045 CPU
+    # parity battery driver. Same sink pattern as sample_ns_total.
+    var capture_logit_row: Bool
+    var last_logit_row: List[Float32]
 
     def __init__(
         out self,
@@ -910,6 +917,8 @@ struct KVCache(Copyable):
         self.hidden_dim = hidden_dim
         self.num_layers = num_layers
         self.sample_ns_total = 0
+        self.capture_logit_row = False
+        self.last_logit_row = List[Float32]()
 
         var cache_rows = num_layers * max_seq_len
         if cache_rows <= 0 or cache_rows // num_layers != max_seq_len:
@@ -941,6 +950,8 @@ struct KVCache(Copyable):
         self.hidden_dim = hidden_dim
         self.num_layers = num_layers
         self.sample_ns_total = 0
+        self.capture_logit_row = False
+        self.last_logit_row = List[Float32]()
 
         var cache_rows = num_layers * max_seq_len
         if cache_rows <= 0 or cache_rows // num_layers != max_seq_len:
@@ -963,6 +974,8 @@ struct KVCache(Copyable):
         self.hidden_dim = hidden_dim
         self.num_layers = num_layers
         self.sample_ns_total = 0
+        self.capture_logit_row = False
+        self.last_logit_row = List[Float32]()
 
     def __copyinit__(out self, existing: Self):
         self.k = existing.k
@@ -971,6 +984,8 @@ struct KVCache(Copyable):
         self.hidden_dim = existing.hidden_dim
         self.num_layers = existing.num_layers
         self.sample_ns_total = existing.sample_ns_total
+        self.capture_logit_row = existing.capture_logit_row
+        self.last_logit_row = existing.last_logit_row.copy()
 
     @always_inline
     def append(
