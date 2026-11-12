@@ -68,23 +68,26 @@ when its lead is live on its assigned slice in its own worktree.
 
 ## State
 
-- Banked: **42 of 216** (A-001..A-042). A-042 banked at the
+- Banked: **43 of 216** (A-001..A-043). A-043 banked at the
+  seat 2026-11-12 (team-02 commit f669ed1a cherry-picked;
+  CPU fused attention, run_all pin 403 -> 408).
+  A-042 banked at the
   seat 2026-11-12 (team-01 commit 09f98aac cherry-picked;
   CPU prefill batching audit, run_all pin unioned
   398 -> 403).
   **Wave 3 (A-019..A-027) is COMPLETE. Wave 4
   (A-028..A-036) is COMPLETE. Wave 5 (A-037..A-045)
   is OPEN.**
-- Seat gate after this banking: A-042 (seat_gate_a042.log)
-  400 passed / 1 failed / 2 skipped / 403 total, exact on
+- Seat gate after this banking: A-043 (seat_gate_a043.log)
+  405 passed / 1 failed / 2 skipped / 408 total, exact on
   first run. Sole failure the pre-existing
   gguf.tensor_directory_interface (J-022 drift), skips the
   2 pre-declared.
 - Queue: teams take slices in roadmap order as theirs
-  bank (keeper flow): team-02 A-043, team-06 A-044,
-  team-03 A-045, team-04 A-046, team-05 A-047,
-  team-07 A-048, team-08 A-049, team-09 A-050,
-  team-01 A-051.
+  bank (keeper flow): team-06 A-044, team-03 A-045,
+  team-04 A-046, team-05 A-047, team-07 A-048,
+  team-08 A-049, team-09 A-050, team-01 A-051,
+  team-02 A-052.
   Sole failure in every suite =
   pre-existing gguf.tensor_directory_interface J-022 drift
   (roads A-165 primary / A-121); skips = the 2 pre-declared.

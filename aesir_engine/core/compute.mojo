@@ -3029,6 +3029,19 @@ def flash_attention_gqa(
     softmax (Gemma2 attention logit softcapping); sliding_window > 0
     restricts attention to positions with query_pos - position <
     sliding_window (Gemma2 local layers).
+
+    A-043 (CPU fused attention, census row C-002): the query head is
+    preloaded once into an F32 scratch row (it was re-loaded and
+    re-cast from F16 for every key position), and the QK^T dot, the
+    P*V accumulate, the accumulator zeroing and the final
+    normalization run width-16 SIMD with scalar tails (the
+    flash_attention_2 pattern) instead of per-element scalar loops.
+    The online-softmax recurrence is unchanged; the rescale factor
+    exp(running_max - next_max) is exactly 1.0 whenever the max did
+    not move, so that exp call is skipped on those positions. The
+    only numerics change vs the scalar body is the QK^T reduction
+    order (per-chunk reduce_add), the accepted fast-path class
+    filed in the A-043 ledger with bench + suite parity bounds.
     """
     if sequence_length <= 0 or query.rows != 1 or output.rows != 1:
         return
@@ -3041,13 +3054,28 @@ def flash_attention_gqa(
     if attn_scale != Scalar[f32](0.0):
         scale = attn_scale
 
+    var simd_end = (head_dim // simd_w_f32) * simd_w_f32
     var acc = alloc(Layout[Scalar[f32]](count=head_dim)).unsafe_leak()
+    var qbuf = alloc(Layout[Scalar[f32]](count=head_dim)).unsafe_leak()
     for query_head in range(query_head_count):
         var kv_head = query_head // query_heads_per_kv
         var query_base = query_head * head_dim
         var output_base = query_head * head_dim
-        for dimension in range(head_dim):
-            acc.unsafe_store(dimension, 0.0)
+        for k in range(0, simd_end, simd_w_f32):
+            qbuf.unsafe_store[width=simd_w_f32](
+                k,
+                query.data.unsafe_load[width=simd_w_f32](
+                    query_base + k
+                ).cast[f32](),
+            )
+            acc.unsafe_store[width=simd_w_f32](
+                k, SIMD[f32, simd_w_f32](0.0)
+            )
+        for k in range(simd_end, head_dim):
+            qbuf.unsafe_store(
+                k, query.data.unsafe_load(query_base + k).cast[f32]()
+            )
+            acc.unsafe_store(k, 0.0)
 
         var running_max: Scalar[f32] = -1e20
         var running_sum: Scalar[f32] = 0.0
@@ -3057,35 +3085,59 @@ def flash_attention_gqa(
             var key_base = position * keys.cols + kv_head * head_dim
             var value_base = position * values.cols + kv_head * head_dim
             var score: Scalar[f32] = 0.0
-            for dimension in range(head_dim):
-                score += (
-                    query.data.unsafe_load(query_base + dimension).cast[f32]()
-                    * keys.data.unsafe_load(key_base + dimension).cast[f32]()
-                )
+            for k in range(0, simd_end, simd_w_f32):
+                var q_vec = qbuf.unsafe_load[width=simd_w_f32](k)
+                var k_vec = keys.data.unsafe_load[width=simd_w_f32](
+                    key_base + k
+                ).cast[f32]()
+                score += (q_vec * k_vec).reduce_add()
+            for k in range(simd_end, head_dim):
+                score += qbuf.unsafe_load(k) * keys.data.unsafe_load(
+                    key_base + k
+                ).cast[f32]()
             score *= scale
             if softcap > Scalar[f32](0.0):
                 score = softcap * tanh(score / softcap)
             var next_max = max(running_max, score)
-            var previous_scale = exp(running_max - next_max)
+            var previous_scale: Scalar[f32] = 1.0
+            if next_max != running_max:
+                previous_scale = exp(running_max - next_max)
             var probability = exp(score - next_max)
             var next_sum = running_sum * previous_scale + probability
 
-            for dimension in range(head_dim):
-                var previous = acc.unsafe_load(dimension)
-                var value = values.data.unsafe_load(
-                    value_base + dimension
+            var prob_vec = SIMD[f32, simd_w_f32](probability)
+            var prev_vec = SIMD[f32, simd_w_f32](previous_scale)
+            for k in range(0, simd_end, simd_w_f32):
+                var v_vec = values.data.unsafe_load[width=simd_w_f32](
+                    value_base + k
                 ).cast[f32]()
-                acc.unsafe_store(dimension, previous * previous_scale + probability * value)
+                var a_vec = acc.unsafe_load[width=simd_w_f32](k)
+                acc.unsafe_store[width=simd_w_f32](
+                    k, a_vec * prev_vec + prob_vec * v_vec
+                )
+            for k in range(simd_end, head_dim):
+                var previous = acc.unsafe_load(k)
+                var value = values.data.unsafe_load(
+                    value_base + k
+                ).cast[f32]()
+                acc.unsafe_store(k, previous * previous_scale + probability * value)
             running_max = next_max
             running_sum = next_sum
 
-        for dimension in range(head_dim):
-            var accumulated = acc.unsafe_load(dimension)
+        var sum_vec = SIMD[f32, simd_w_f32](running_sum)
+        for k in range(0, simd_end, simd_w_f32):
+            var a_vec = acc.unsafe_load[width=simd_w_f32](k)
+            output.data.unsafe_store[width=simd_w_f32](
+                output_base + k, (a_vec / sum_vec).cast[f16]()
+            )
+        for k in range(simd_end, head_dim):
+            var accumulated = acc.unsafe_load(k)
             output.data.unsafe_store(
-                output_base + dimension,
+                output_base + k,
                 (accumulated / running_sum).cast[f16](),
             )
     acc.unsafe_free()
+    qbuf.unsafe_free()
 
 
 def flash_attention_2(

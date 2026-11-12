@@ -378,6 +378,13 @@ from tests.test_prefill_batching import (
     test_prefill_batching_q8_range_parity,
     test_prefill_batching_q4_0_public_parity,
 )
+from tests.test_fused_attention_a043 import (
+    test_gqa_simd_reference_parity,
+    test_gqa_simd_dyadic_bitwise,
+    test_gqa_simd_tail_parity,
+    test_gqa_simd_modifiers_parity,
+    test_gqa_simd_long_parity,
+)
 from tests.test_quantization_hardening import (
     test_dequantizer_zero_and_null_bounds,
     test_gemm_invalid_dimensions_rejection,
@@ -1176,6 +1183,11 @@ def main() raises:
     run_case(ledger, "prefill.batching_dense_public_parity", test_prefill_batching_dense_public_parity)
     run_case(ledger, "prefill.batching_q8_range_parity", test_prefill_batching_q8_range_parity)
     run_case(ledger, "prefill.batching_q4_0_public_parity", test_prefill_batching_q4_0_public_parity)
+    run_case(ledger, "attention.gqa_simd_reference_parity", test_gqa_simd_reference_parity)
+    run_case(ledger, "attention.gqa_simd_dyadic_bitwise", test_gqa_simd_dyadic_bitwise)
+    run_case(ledger, "attention.gqa_simd_tail_parity", test_gqa_simd_tail_parity)
+    run_case(ledger, "attention.gqa_simd_modifiers_parity", test_gqa_simd_modifiers_parity)
+    run_case(ledger, "attention.gqa_simd_long_parity", test_gqa_simd_long_parity)
     run_case(
         ledger,
         "quantization.format_metadata",
@@ -1518,4 +1530,7 @@ def main() raises:
     # cases (prefill.* in tests/test_prefill_batching.mojo).
     # Union re-pin (A-042 banking 2026-11-12): 398 -> 403 -- five
     # prefill batching cases counted on top of the A-041 seat pin.
-    ledger.finish(403)
+    # A-043 re-pin: 403 -> 408 -- five fused-attention SIMD parity
+    # cases (attention.gqa_simd_* in
+    # tests/test_fused_attention_a043.mojo).
+    ledger.finish(408)
