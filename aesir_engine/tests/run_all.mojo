@@ -252,6 +252,14 @@ from tests.test_memory_budget import (
     test_budget_accounting_baseline,
     test_budget_live_meminfo_pressure,
 )
+from tests.test_thread_placement import (
+    test_thread_placement_list_parse,
+    test_thread_placement_topology_build,
+    test_thread_placement_map_spread,
+    test_thread_placement_map_pack_ccd,
+    test_thread_placement_reject,
+    test_thread_placement_live_affinity,
+)
 from tests.test_npu_realm import (
     test_npu_probe_absence,
     test_npu_gemm_dispatch_bounds,
@@ -841,6 +849,12 @@ def main() raises:
     run_case(ledger, "memory.budget_configurability", test_budget_configurability)
     run_case(ledger, "memory.budget_accounting_baseline", test_budget_accounting_baseline)
     run_case(ledger, "memory.budget_live_meminfo_pressure", test_budget_live_meminfo_pressure)
+    run_case(ledger, "cpu.thread_placement_list_parse", test_thread_placement_list_parse)
+    run_case(ledger, "cpu.thread_placement_topology_build", test_thread_placement_topology_build)
+    run_case(ledger, "cpu.thread_placement_map_spread", test_thread_placement_map_spread)
+    run_case(ledger, "cpu.thread_placement_map_pack_ccd", test_thread_placement_map_pack_ccd)
+    run_case(ledger, "cpu.thread_placement_reject", test_thread_placement_reject)
+    run_case(ledger, "cpu.thread_placement_live_affinity", test_thread_placement_live_affinity)
     run_case(
         ledger,
         "gpu.resilience_allocation_rejection",
@@ -1338,4 +1352,6 @@ def main() raises:
     # (memory.budget_* in tests/test_memory_budget.mojo).
     # Union re-pin (A-023 banking 2026-11-12): 342 -> 348 -- six
     # memory budget governor cases counted on top of A-022 pin.
-    ledger.finish(348)
+    # Union re-pin (A-024 banking 2026-11-12): 348 -> 354 -- six
+    # thread placement cases counted on top of A-023 pin.
+    ledger.finish(354)
