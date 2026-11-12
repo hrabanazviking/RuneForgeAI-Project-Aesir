@@ -1,0 +1,12 @@
+staging=/tmp/tmp.X4Wz0vS1fu
+hailo_cc_exit=0
+par_cc_exit=0
+hip_cc_exit=0
+vulkan_cc_exit=0
+zc_cc_exit=0
+aff_cc_exit=0
+--- Testing HIP stream async round trip (A-012) ---
+Secondary CUID not available: AMDCUID support not enabled.
+HIP stream async round trip (1 MiB+13 pinned, H2D+D2H async, stream sync + query-complete, byte-exact): PASS
+HIP_ISOLATION_PASS
+MOJO_EXIT=0

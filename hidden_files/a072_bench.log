@@ -1,0 +1,23 @@
+staging=/tmp/tmp.UQHX3R4Ysi
+hailo_cc_exit=0
+par_cc_exit=0
+hip_cc_exit=0
+vulkan_cc_exit=0
+zc_cc_exit=0
+aff_cc_exit=0
+Imported from /home/volmarr/aesir-team-02/aesir_engine/tests/bench_continuous_batch_a072.mojo:23:
+/home/volmarr/aesir-team-02/aesir_engine/core/vulkan_buffers.mojo:267:24: warning: `alloc` without a `Layout` is deprecated, use the `Layout`-based `alloc` instead; as a temporary migration step, use `unsafe_alloc`
+        var name_buf = alloc[UInt8](256)
+                       ^~~~~
+<unknown>:0: note: 'alloc' declared here
+Imported from /home/volmarr/aesir-team-02/aesir_engine/tests/bench_continuous_batch_a072.mojo:23:
+/home/volmarr/aesir-team-02/aesir_engine/core/vulkan_buffers.mojo:295:24: warning: `alloc` without a `Layout` is deprecated, use the `Layout`-based `alloc` instead; as a temporary migration step, use `unsafe_alloc`
+        var name_buf = alloc[UInt8](256)
+                       ^~~~~
+<unknown>:0: note: 'alloc' declared here
+warmup correctness: batch == solo for 4 sequences
+solo serial: median 0.678793694 s, aggregate 94.28490654186896 tok/s
+batch x4   : median 0.680048632 s, aggregate 94.11091646751522 tok/s
+batch/solo aggregate ratio: 0.9981546349173451
+A072_BENCH: PASS
+MOJO_EXIT=0

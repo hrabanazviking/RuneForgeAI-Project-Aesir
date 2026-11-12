@@ -315,6 +315,14 @@ from tests.test_vulkan_async_a071 import (
     test_vulkan_async_rejection,
     test_vulkan_async_dispatch_evidence,
 )
+from tests.test_vulkan_batch_a072 import (
+    test_vulkan_continuous_batch_four_match_single,
+    test_vulkan_continuous_batch_heterogeneous,
+    test_vulkan_continuous_batch_dynamic_admission,
+    test_vulkan_continuous_batch_isolation,
+    test_vulkan_continuous_batch_rejection,
+    test_vulkan_continuous_batch_single_slot_serial,
+)
 from tests.test_vulkan_gemm_a068 import (
     test_vulkan_prefill_gemm_oracle_parity,
     test_vulkan_prefill_gemm_known_value,
@@ -1138,6 +1146,12 @@ def main() raises:
     run_case(ledger, "gpu.vulkan_chunked_prefill_kv_append_chunk_slots", test_vulkan_chunked_prefill_kv_append_chunk_slots)
     run_case(ledger, "gpu.vulkan_chunked_prefill_rejection", test_vulkan_chunked_prefill_rejection)
     run_case(ledger, "gpu.vulkan_chunked_prefill_dispatch_and_bounds", test_vulkan_chunked_prefill_dispatch_and_bounds)
+    run_case(ledger, "gpu.vulkan_continuous_batch_four_match_single", test_vulkan_continuous_batch_four_match_single)
+    run_case(ledger, "gpu.vulkan_continuous_batch_heterogeneous", test_vulkan_continuous_batch_heterogeneous)
+    run_case(ledger, "gpu.vulkan_continuous_batch_dynamic_admission", test_vulkan_continuous_batch_dynamic_admission)
+    run_case(ledger, "gpu.vulkan_continuous_batch_isolation", test_vulkan_continuous_batch_isolation)
+    run_case(ledger, "gpu.vulkan_continuous_batch_rejection", test_vulkan_continuous_batch_rejection)
+    run_case(ledger, "gpu.vulkan_continuous_batch_single_slot_serial", test_vulkan_continuous_batch_single_slot_serial)
     run_case(ledger, "gpu.vulkan_prefill_gemm_oracle_parity", test_vulkan_prefill_gemm_oracle_parity)
     run_case(ledger, "gpu.vulkan_prefill_gemm_known_value", test_vulkan_prefill_gemm_known_value)
     run_case(ledger, "gpu.vulkan_prefill_gemm_f32_parity", test_vulkan_prefill_gemm_f32_parity)
@@ -1925,4 +1939,10 @@ def main() raises:
     # tests/test_vulkan_async_a071.mojo) counted on top of the
     # A-070 seat pin (A-071 team pin was 518 -> 524 on its
     # own base; the union total reconciles at banking).
-    ledger.finish(537)
+    # A-072 union re-pin (banking 2026-11-12): 537 -> 543 --
+    # six continuous batching cases
+    # (gpu.vulkan_continuous_batch_* in
+    # tests/test_vulkan_batch_a072.mojo) counted on top of
+    # the A-071 seat pin (A-072 team pin was 531 -> 537 on its
+    # own base; the union total reconciles at banking).
+    ledger.finish(543)
