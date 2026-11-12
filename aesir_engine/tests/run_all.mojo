@@ -473,6 +473,14 @@ from tests.test_sampling_cost_a044 import (
     test_sampling_cost_topk_reference,
     test_sampling_cost_stochastic_determinism_large,
 )
+from tests.test_precision_paths import (
+    test_precision_f32_accumulation_dyadic_exact,
+    test_precision_f16_gemm_f64_reference,
+    test_precision_bf16_gemm_f64_reference,
+    test_precision_bf16_widening_exact,
+    test_precision_f16_roundtrip_bound,
+    test_precision_rmsnorm_f32_f64_reference,
+)
 from tests.test_conversation import (
     test_conversation_codec,
     test_conversation_compatibility,
@@ -1080,6 +1088,12 @@ def main() raises:
     run_case(ledger, "sampling_cost.sort_stable_reference", test_sampling_cost_sort_stable_reference)
     run_case(ledger, "sampling_cost.topk_reference", test_sampling_cost_topk_reference)
     run_case(ledger, "sampling_cost.stochastic_determinism_large", test_sampling_cost_stochastic_determinism_large)
+    run_case(ledger, "precision.f32_accumulation_dyadic_exact", test_precision_f32_accumulation_dyadic_exact)
+    run_case(ledger, "precision.f16_gemm_f64_reference", test_precision_f16_gemm_f64_reference)
+    run_case(ledger, "precision.bf16_gemm_f64_reference", test_precision_bf16_gemm_f64_reference)
+    run_case(ledger, "precision.bf16_widening_exact", test_precision_bf16_widening_exact)
+    run_case(ledger, "precision.f16_roundtrip_bound", test_precision_f16_roundtrip_bound)
+    run_case(ledger, "precision.rmsnorm_f32_f64_reference", test_precision_rmsnorm_f32_f64_reference)
     run_case(ledger, "cli.conversation_codec", test_conversation_codec)
     run_case(ledger, "core.prompt_prefix_exact", test_prompt_prefix)
     run_case(ledger, "core.dense_buffer_layout", test_dense_buffers)
@@ -1561,6 +1575,8 @@ def main() raises:
     # (sampling_cost.* in tests/test_sampling_cost_a044.mojo).
     # Union re-pin (A-044 banking 2026-11-12): 408 -> 413 -- five
     # sampling cost cases counted on top of the A-043 seat pin.
-    # A-045 re-pin: 413 -> 418 -- five parity battery cases added
-    # (parity.* in tests/test_parity_battery_a045.mojo).
-    ledger.finish(418)
+    # A-045 re-pin (A-047 banking 2026-11-12): 418 -> 424 -- six
+    # precision path cases (precision.* in
+    # tests/test_precision_paths.mojo) counted on top of the
+    # A-045 seat pin.
+    ledger.finish(424)
