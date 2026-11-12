@@ -68,24 +68,23 @@ when its lead is live on its assigned slice in its own worktree.
 
 ## State
 
-- Banked: **21 of 216** (A-001..A-021). A-020 + A-021 banked at
+- Banked: **23 of 216** (A-001..A-023). A-022 + A-023 banked at
   the seat 2026-11-12 (team commits cherry-picked in roadmap
-  order, one commit per slice; run_all pin unioned to 338:
-  A-020 +4 weight-residency cases on top of the A-019 pin
-  328 -> 332, A-021 +6 kv_unified cases 332 -> 338). Wave 2
+  order, one commit per slice; run_all pin unioned to 348:
+  A-022 +4 buffer-ownership cases on top of the A-021 pin
+  338 -> 342, A-023 +6 memory.budget cases 342 -> 348). Wave 2
   (A-010..A-018) is COMPLETE; Wave 3 (A-019..A-027) in progress.
-- Seat gate after this banking: A-021 (seat_gate_a021.log)
-  335 passed / 1 failed / 2 skipped / 338 total - run 1
-  (preserved as seat_gate_a021_run1.log) showed 334/2/2 with
-  one extra failure (resilience.state_vault_rejects_growth);
-  the re-run was exact, filed as a flake per the A-017/A-019
-  precedent. Sole failure the pre-existing J-022 drift, skips
+- Seat gate after this banking: A-023 (seat_gate_a023.log)
+  345 passed / 1 failed / 2 skipped / 348 total, exact on the
+  first run. Sole failure the pre-existing J-022 drift, skips
   the 2 pre-declared.
-- Queue: A-022 in flight (team-08), A-023 in flight (team-09);
-  teams then take slices in roadmap order as theirs bank
-  (keeper flow): team-01 A-024, team-02 A-025, team-03
-  A-026, team-04 A-027, team-05 A-028, team-06 A-029,
-  team-07 A-030, team-08 A-031, team-09 A-032. Sole
+- Queue: Wave 3 continues - A-024 in flight (team-01), A-025
+  in flight (team-02), A-026 in flight (team-06); teams then
+  take slices in roadmap order as theirs bank (keeper flow):
+  team-03 A-027, team-04 A-028, team-05 A-029, team-07 A-030,
+  team-08 A-031, team-09 A-032. A-026 also carries the
+  commissioned fix for the A-019 zero_copy_shim.c 4096-slot
+  table bug recorded in the A-023 memory-map row. Sole
   failure in every suite = pre-existing
   gguf.tensor_directory_interface J-022 drift (roads A-165
   primary / A-121); skips = the 2 pre-declared.

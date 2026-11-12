@@ -244,6 +244,14 @@ from tests.test_buffer_ownership import (
     test_zero_copy_buffer_ownership_adversarial,
     test_xrt_bo_ownership_contract,
 )
+from tests.test_memory_budget import (
+    test_budget_cap_honoured_measured,
+    test_budget_refusal_fail_closed,
+    test_budget_spill_degradation,
+    test_budget_configurability,
+    test_budget_accounting_baseline,
+    test_budget_live_meminfo_pressure,
+)
 from tests.test_npu_realm import (
     test_npu_probe_absence,
     test_npu_gemm_dispatch_bounds,
@@ -827,6 +835,12 @@ def main() raises:
     run_case(ledger, "gpu.buffer_ownership_vulkan_adversarial", test_vulkan_buffer_ownership_adversarial)
     run_case(ledger, "gpu.buffer_ownership_zero_copy_adversarial", test_zero_copy_buffer_ownership_adversarial)
     run_case(ledger, "gpu.buffer_ownership_xrt_contract", test_xrt_bo_ownership_contract)
+    run_case(ledger, "memory.budget_cap_honoured_measured", test_budget_cap_honoured_measured)
+    run_case(ledger, "memory.budget_refusal_fail_closed", test_budget_refusal_fail_closed)
+    run_case(ledger, "memory.budget_spill_degradation", test_budget_spill_degradation)
+    run_case(ledger, "memory.budget_configurability", test_budget_configurability)
+    run_case(ledger, "memory.budget_accounting_baseline", test_budget_accounting_baseline)
+    run_case(ledger, "memory.budget_live_meminfo_pressure", test_budget_live_meminfo_pressure)
     run_case(
         ledger,
         "gpu.resilience_allocation_rejection",
@@ -1320,4 +1334,8 @@ def main() raises:
     # counted on top of A-019 pin.
     # Union re-pin (A-022 banking 2026-11-12): 338 -> 342 -- four
     # buffer ownership cases counted on top of A-021 pin.
-    ledger.finish(342)
+    # A-023 re-pin: 328 -> 334 -- six memory budget governor cases
+    # (memory.budget_* in tests/test_memory_budget.mojo).
+    # Union re-pin (A-023 banking 2026-11-12): 342 -> 348 -- six
+    # memory budget governor cases counted on top of A-022 pin.
+    ledger.finish(348)
