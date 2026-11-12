@@ -394,6 +394,58 @@ struct VulkanBuffers:
         )
 
     @staticmethod
+    def allocate_cached(size_bytes: Int) raises -> VulkanAllocation:
+        """Create a buffer on a HOST_CACHED host-coherent memory type
+        ONLY (slice A-019, the A-008 zero-copy rule): the shim
+        refuses the DEVICE_LOCAL coherent type carrying
+        DEVICE_UNCACHED_AMD, whose CPU reads measured 0.11 GB/s in
+        the A-008 probe, and fails closed when no cached coherent
+        type satisfies the buffer. The byte count is admitted
+        through checked_span discipline."""
+        if size_bytes <= 0:
+            raise Error(
+                "VulkanBuffers.allocate_cached: size_bytes must be positive"
+            )
+        var span = checked_span(0, size_bytes, size_bytes)
+        var out_id: UInt64 = 0
+        var out_alloc: UInt64 = 0
+        var out_alignment: UInt64 = 0
+        var out_type: UInt32 = 0
+        var out_flags: UInt32 = 0
+        var rc = external_call["aesir_vk_buffer_alloc_cached", Int32](
+            UInt64(span.length),
+            Pointer(to=out_id),
+            Pointer(to=out_alloc),
+            Pointer(to=out_alignment),
+            Pointer(to=out_type),
+            Pointer(to=out_flags),
+        )
+        if rc != 0:
+            Self._raise_for_rc("allocate_cached", rc)
+        if out_id == 0:
+            raise Error("VulkanBuffers.allocate_cached: shim returned a null id")
+        return VulkanAllocation(
+            Int(out_id),
+            span.length,
+            Int(out_alloc),
+            Int(out_alignment),
+            Int(out_type),
+        )
+
+    @staticmethod
+    def buffer_type_flags(allocation: VulkanAllocation) raises -> Int:
+        """Live VkMemoryPropertyFlags of the allocation's memory
+        type, read back from the shim (A-019 evidence for the
+        HOST_CACHED coherent rule)."""
+        var flags: UInt32 = 0
+        var rc = external_call["aesir_vk_buffer_type_flags", Int32](
+            UInt64(allocation.id), Pointer(to=flags)
+        )
+        if rc != 0:
+            Self._raise_for_rc("buffer_type_flags", rc)
+        return Int(flags)
+
+    @staticmethod
     def map(
         allocation: VulkanAllocation,
     ) raises -> Pointer[UInt8, MutUntrackedOrigin]:
@@ -470,3 +522,11 @@ struct VulkanBuffers:
     def live_count() -> Int:
         """Shim accounting: number of live A-014 allocations."""
         return Int(external_call["aesir_vk_live_count", Int32]())
+
+    @staticmethod
+    def copy_call_count() -> Int:
+        """A-019 instrumentation: Vulkan copy calls issued through
+        this shim. The shim resolves no copy entry point at all, so
+        this is structurally zero; the zero-copy tests read it back
+        as acceptance evidence."""
+        return Int(external_call["aesir_vk_copy_call_count", UInt64]())

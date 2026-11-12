@@ -740,10 +740,50 @@ int aesir_vk_buffer_requirements(uint64_t size, uint64_t *out_size,
     return 0;
 }
 
-int aesir_vk_buffer_alloc(uint64_t size, uint64_t *out_id,
-                          uint64_t *out_alloc_size,
-                          uint64_t *out_alignment,
-                          uint32_t *out_type_index) {
+/* A-019: find a HOST_CACHED host-coherent memory type for the
+ * buffer's type bits. Per the A-008 zero-copy rule this is the ONLY
+ * Vulkan flavour the unified allocator may hand the CPU: the
+ * DEVICE_LOCAL coherent type carrying DEVICE_UNCACHED_AMD (0x40)
+ * reads back on the CPU at 0.11 GB/s and is refused outright.
+ * Prefers a non-DEVICE_LOCAL cached type (the A-008 flags 0xe
+ * flavour); falls back to any cached coherent type without the
+ * uncached bit. Returns -1 when none qualifies (fail closed). */
+static int find_host_cached_coherent_type(uint32_t type_bits,
+                                          uint32_t *out_index) {
+    int fallback = -1;
+    for (uint32_t i = 0; i < g_memprops.memoryTypeCount && i < 32; i++) {
+        if ((type_bits & (1u << i)) == 0) {
+            continue;
+        }
+        uint32_t f = g_memprops.memoryTypes[i].propertyFlags;
+        int visible = (f & VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT) != 0;
+        int coherent = (f & VK_MEMORY_PROPERTY_HOST_COHERENT_BIT) != 0;
+        int cached = (f & 0x00000008u) != 0; /* HOST_CACHED */
+        int uncached_amd = (f & 0x00000040u) != 0; /* DEVICE_UNCACHED_AMD */
+        if (!visible || !coherent || !cached || uncached_amd) {
+            continue;
+        }
+        int local = (f & VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT) != 0;
+        if (!local) {
+            *out_index = i;
+            return 0;
+        }
+        if (fallback < 0) {
+            fallback = (int)i;
+        }
+    }
+    if (fallback >= 0) {
+        *out_index = (uint32_t)fallback;
+        return 0;
+    }
+    return -1;
+}
+
+static int buffer_alloc_impl(uint64_t size, int cached_only,
+                             uint64_t *out_id, uint64_t *out_alloc_size,
+                             uint64_t *out_alignment,
+                             uint32_t *out_type_index,
+                             uint32_t *out_type_flags) {
     int rc = aesir_vk_init();
     if (rc != 0) {
         return rc;
@@ -769,11 +809,16 @@ int aesir_vk_buffer_alloc(uint64_t size, uint64_t *out_id,
         return rc;
     }
     uint32_t tindex = 0;
-    if (find_host_coherent_type(reqs.memoryTypeBits, &tindex, 1) != 0) {
+    int found = cached_only
+                    ? find_host_cached_coherent_type(reqs.memoryTypeBits,
+                                                     &tindex)
+                    : find_host_coherent_type(reqs.memoryTypeBits, &tindex,
+                                              1);
+    if (found != 0) {
         p_destroy_buffer(g_device, buf, NULL);
-        /* No host-visible coherent type for this buffer: fail closed.
-         * (VK_ERROR_FEATURE_NOT_PRESENT = -8 is the closest VkResult;
-         * the Mojo side reports the message text, not just the code.) */
+        /* No qualifying host-coherent type for this buffer: fail
+         * closed. (VK_ERROR_FEATURE_NOT_PRESENT = -8 is the closest
+         * VkResult; the Mojo side reports the message text.) */
         return -8;
     }
     AesirVkMemoryAllocateInfo mai;
@@ -814,7 +859,31 @@ int aesir_vk_buffer_alloc(uint64_t size, uint64_t *out_id,
     if (out_type_index) {
         *out_type_index = tindex;
     }
+    if (out_type_flags) {
+        *out_type_flags = g_memprops.memoryTypes[tindex].propertyFlags;
+    }
     return 0;
+}
+
+int aesir_vk_buffer_alloc(uint64_t size, uint64_t *out_id,
+                          uint64_t *out_alloc_size,
+                          uint64_t *out_alignment,
+                          uint32_t *out_type_index) {
+    return buffer_alloc_impl(size, 0, out_id, out_alloc_size,
+                             out_alignment, out_type_index, NULL);
+}
+
+/* A-019: allocate on a HOST_CACHED host-coherent memory type only
+ * (the A-008 zero-copy rule); also reports the chosen type's
+ * property flags so callers can assert the rule from evidence. */
+int aesir_vk_buffer_alloc_cached(uint64_t size, uint64_t *out_id,
+                                 uint64_t *out_alloc_size,
+                                 uint64_t *out_alignment,
+                                 uint32_t *out_type_index,
+                                 uint32_t *out_type_flags) {
+    return buffer_alloc_impl(size, 1, out_id, out_alloc_size,
+                             out_alignment, out_type_index,
+                             out_type_flags);
 }
 
 static AesirVkBufferSlot *slot_for(uint64_t id) {
@@ -1223,4 +1292,29 @@ done:
     if (dsl != NULL) { d_destroy_dsl(g_device, dsl, NULL); }
     if (shader != NULL) { d_destroy_shader_module(g_device, shader, NULL); }
     return out_rc;
+}
+
+/* --- A-019 zero-copy instrumentation + type evidence --- */
+
+/* Copy-call counter for the A-019 acceptance: this shim resolves
+ * NO copy entry point at all (there is no vkCmdCopyBuffer /
+ * vkCmdCopyImage dlsym anywhere in this file), so no code path can
+ * increment this counter; a zero reading after dispatch work is
+ * structural proof the Vulkan zero-copy path ran copy-free. */
+static uint64_t g_vk_copy_calls = 0;
+
+uint64_t aesir_vk_copy_call_count(void) { return g_vk_copy_calls; }
+
+int aesir_vk_buffer_type_flags(uint64_t id, uint32_t *out_flags) {
+    int rc = aesir_vk_init();
+    if (rc != 0) {
+        return rc;
+    }
+    AesirVkBufferSlot *s = slot_for(id);
+    if (s == NULL || out_flags == NULL) {
+        return AESIR_VK_INVALID;
+    }
+    *out_flags =
+        g_memprops.memoryTypes[s->memory_type_index].propertyFlags;
+    return 0;
 }

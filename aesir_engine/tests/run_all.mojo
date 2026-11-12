@@ -5,7 +5,7 @@
 # Run with (from the repository root; the FFI shims must be staged and
 # linked exactly as in scripts/launch.py, and the -Xlinker flags must
 # precede the source file or the JIT cannot resolve the FFI symbols):
-#   staging="$(mktemp -d)" && cc -std=c11 -fPIC -shared aesir_engine/hailo10h_stub.c -o "$staging/libaesir_hailo10h.so" && cc -std=c11 -O2 -fPIC -shared aesir_engine/thread_par.c -o "$staging/libaesir_par.so" -lpthread && cc -std=c11 -O2 -fPIC -shared aesir_engine/hip_memory_shim.c -o "$staging/libaesir_hip.so" -ldl && cc -std=c11 -O2 -fPIC -shared aesir_engine/vulkan_context_shim.c aesir_engine/vulkan_buffer_shim.c -o "$staging/libaesir_vulkan.so" -ldl && pixi run mojo run -I . --target-accelerator sm_89 -Xlinker "-L$staging" -Xlinker -laesir_hailo10h -Xlinker -laesir_par -Xlinker -laesir_hip -Xlinker -laesir_vulkan aesir_engine/tests/run_all.mojo
+#   staging="$(mktemp -d)" && cc -std=c11 -fPIC -shared aesir_engine/hailo10h_stub.c -o "$staging/libaesir_hailo10h.so" && cc -std=c11 -O2 -fPIC -shared aesir_engine/thread_par.c -o "$staging/libaesir_par.so" -lpthread && cc -std=c11 -O2 -fPIC -shared aesir_engine/hip_memory_shim.c -o "$staging/libaesir_hip.so" -ldl && cc -std=c11 -O2 -fPIC -shared aesir_engine/vulkan_context_shim.c aesir_engine/vulkan_buffer_shim.c -o "$staging/libaesir_vulkan.so" -ldl && cc -std=c11 -O2 -fPIC -shared aesir_engine/zero_copy_shim.c -o "$staging/libaesir_zc.so" -ldl && pixi run mojo run -I . --target-accelerator sm_89 -Xlinker "-L$staging" -Xlinker -laesir_hailo10h -Xlinker -laesir_par -Xlinker -laesir_hip -Xlinker -laesir_vulkan -Xlinker -laesir_zc aesir_engine/tests/run_all.mojo
 #
 # Known issue (pre-existing, proven identical on the unmodified base
 # tree in both JIT and AOT modes): the run currently segfaults inside
@@ -216,6 +216,13 @@ from tests.test_vulkan_dispatch import (
     test_vulkan_dispatch_vec_add_oracle,
     test_vulkan_dispatch_rejection,
     test_vulkan_dispatch_no_leak,
+)
+from tests.test_zero_copy import (
+    test_zero_copy_hip_cpu_write_gpu_read,
+    test_zero_copy_hip_gpu_write_cpu_read,
+    test_zero_copy_vulkan_cpu_write_gpu_read,
+    test_zero_copy_rejection,
+    test_zero_copy_no_leak,
 )
 from tests.test_npu_realm import (
     test_npu_probe_absence,
@@ -765,6 +772,11 @@ def main() raises:
     run_case(ledger, "gpu.vulkan_dispatch_vec_add_oracle", test_vulkan_dispatch_vec_add_oracle)
     run_case(ledger, "gpu.vulkan_dispatch_rejection", test_vulkan_dispatch_rejection)
     run_case(ledger, "gpu.vulkan_dispatch_no_leak", test_vulkan_dispatch_no_leak)
+    run_case(ledger, "gpu.zero_copy_hip_cpu_write_gpu_read", test_zero_copy_hip_cpu_write_gpu_read)
+    run_case(ledger, "gpu.zero_copy_hip_gpu_write_cpu_read", test_zero_copy_hip_gpu_write_cpu_read)
+    run_case(ledger, "gpu.zero_copy_vulkan_cpu_write_gpu_read", test_zero_copy_vulkan_cpu_write_gpu_read)
+    run_case(ledger, "gpu.zero_copy_rejection", test_zero_copy_rejection)
+    run_case(ledger, "gpu.zero_copy_no_leak", test_zero_copy_no_leak)
     run_case(
         ledger,
         "gpu.resilience_allocation_rejection",
@@ -1240,4 +1252,7 @@ def main() raises:
     # (thermal.hwmon_parsers, thermal.tolerance_tracking,
     # thermal.lines_fixture, thermal.live_sensors in
     # tests/test_thermal_power.mojo).
-    ledger.finish(323)
+    # Union re-pin (A-019 banking 2026-11-12): 323 -> 328 -- five
+    # zero-copy allocator cases (gpu.zero_copy_* in
+    # tests/test_zero_copy.mojo) counted on top of A-018 pin.
+    ledger.finish(328)

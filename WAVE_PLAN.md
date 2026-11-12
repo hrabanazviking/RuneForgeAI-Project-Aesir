@@ -68,25 +68,24 @@ when its lead is live on its assigned slice in its own worktree.
 
 ## State
 
-- Banked: **17 of 216** (A-001..A-017). A-015..A-017 banked at the
-  seat 2026-11-12 (team commits cherry-picked in roadmap order,
-  one commit per slice; run_all pin unioned slice by slice to
-  319: A-015 +3 dispatch cases, A-016 no suite change (sudo probe
-  not wired into run_all), A-017 +6 device-policy cases).
-- Seat gate after this banking (hidden_files/seat_gate_a017.log):
-  316 passed / 1 failed / 2 skipped / 319 total - sole failure the
-  pre-existing J-022 drift, skips the 2 pre-declared. The first
-  gate run showed one extra gpu.amd_hip_no_leak_1000 failure that
-  did not reproduce on immediate re-run (seat_gate_a017_run1.log)
-  - filed as a flake.
-- Queue: next unbuilt slice is A-018 (Wave 2 closer: Thermal &
-  power sensing); teams take slices in roadmap order as theirs
-  bank (keeper flow): team-04 A-018, team-05 A-019, team-06
-  A-020, team-07 A-021, team-08 A-022, team-09 A-023, then
-  team-01 A-024, team-02 A-025, team-03 A-026. Sole failure in
-  every suite = pre-existing gguf.tensor_directory_interface
-  J-022 drift (roads A-165 primary / A-121); skips = the 2
-  pre-declared.
+- Banked: **19 of 216** (A-001..A-019). A-018 + A-019 banked at
+  the seat 2026-11-12 (team commits cherry-picked in roadmap
+  order, one commit per slice; run_all pin unioned to 328:
+  A-018 +4 thermal cases, A-019 +5 zero-copy cases). Wave 2
+  (A-010..A-018) is COMPLETE.
+- Seat gates after this banking: A-018 (seat_gate_a018.log)
+  320 passed / 1 failed / 2 skipped / 323 total; A-019
+  (seat_gate_a019.log, stages libaesir_zc.so) 325 passed /
+  1 failed / 2 skipped / 328 total - sole failure in both the
+  pre-existing J-022 drift, skips the 2 pre-declared.
+- Queue: next unbuilt slice is A-020 (Weight residency, team-06
+  in flight at banking time); teams then take slices in roadmap
+  order as theirs bank (keeper flow): team-07 A-021, team-08
+  A-022, team-09 A-023, team-01 A-024, team-02 A-025, team-03
+  A-026, team-04 A-027, team-05 A-028, team-06 A-029. Sole
+  failure in every suite = pre-existing
+  gguf.tensor_directory_interface J-022 drift (roads A-165
+  primary / A-121); skips = the 2 pre-declared.
 - A-007 caveat: unprivileged xrt-smi is blocked by RLIMIT_MEMLOCK
   (8192 kB vs the 64 MiB locked map XRT wants) - NPU tools run via
   sudo until Volmarr rules on raising the user memlock limit;
