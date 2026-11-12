@@ -1,0 +1,39 @@
+Imported from /home/volmarr/aesir-team-02/aesir_engine/tests/a066_driver.mojo:2:
+Imported from /home/volmarr/aesir-team-02/aesir_engine/tests/test_vulkan_decode_a066.mojo:31:
+/home/volmarr/aesir-team-02/aesir_engine/core/vulkan_buffers.mojo:267:24: warning: `alloc` without a `Layout` is deprecated, use the `Layout`-based `alloc` instead; as a temporary migration step, use `unsafe_alloc`
+        var name_buf = alloc[UInt8](256)
+                       ^~~~~
+<unknown>:0: note: 'alloc' declared here
+Imported from /home/volmarr/aesir-team-02/aesir_engine/tests/a066_driver.mojo:2:
+Imported from /home/volmarr/aesir-team-02/aesir_engine/tests/test_vulkan_decode_a066.mojo:31:
+/home/volmarr/aesir-team-02/aesir_engine/core/vulkan_buffers.mojo:295:24: warning: `alloc` without a `Layout` is deprecated, use the `Layout`-based `alloc` instead; as a temporary migration step, use `unsafe_alloc`
+        var name_buf = alloc[UInt8](256)
+                       ^~~~~
+<unknown>:0: note: 'alloc' declared here
+--- Testing Vulkan KV-append parity (A-066) ---
+Vulkan KV-append parity (4 positions, bit-exact, slots isolated): PASS
+--- Testing Vulkan strided attention parity (A-066) ---
+  strided attention max_abs 5.9604645e-08
+Vulkan strided attention parity (kv_len 3 of max_len 16): PASS
+--- Testing Vulkan full decode token-exact (A-066) ---
+  oracle step 2 token 12 logit gap 1.4627514
+  oracle step 3 token 72 logit gap 6.245077
+  oracle step 4 token 74 logit gap 1.2121506
+  oracle step 5 token 66 logit gap 3.631874
+  oracle step 6 token 66 logit gap 0.6080437
+  oracle step 7 token 23 logit gap 3.5085793
+  oracle step 8 token 26 logit gap 1.3139744
+  oracle step 9 token 86 logit gap 0.28340912
+  step 0 gpu token 12 oracle token 12
+  step 1 gpu token 72 oracle token 72
+  step 2 gpu token 74 oracle token 74
+  step 3 gpu token 66 oracle token 66
+  step 4 gpu token 66 oracle token 66
+  step 5 gpu token 23 oracle token 23
+  step 6 gpu token 26 oracle token 26
+  step 7 gpu token 86 oracle token 86
+Vulkan full decode token-exact (8 greedy tokens, RADV dispatches counted): PASS
+--- Testing Vulkan decode rejection (A-066) ---
+Vulkan decode rejection (6 of 6 raise before dispatch): PASS
+A066 DRIVER ALL PASS
+MOJO_EXIT=0

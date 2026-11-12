@@ -101,3 +101,58 @@ struct VulkanAttention:
         device so far (shim counter; increments only after
         submit + wait-idle)."""
         return Int(external_call["aesir_vk_attn_decode_dispatch_count", UInt64]())
+
+    @staticmethod
+    def decode_attention_strided(
+        q: VulkanAllocation,
+        k: VulkanAllocation,
+        v: VulkanAllocation,
+        o: VulkanAllocation,
+        head_dim: Int,
+        kv_len: Int,
+        num_heads: Int,
+        kv_per_query: Int,
+        max_len: Int,
+    ) raises:
+        """Dispatch the A-066 strided decode attention kernel:
+        like decode_attention, but the K/V caches are
+        [num_kv_heads][max_len][head_dim] with max_len >= kv_len
+        (a decode loop's append-into cache). The A-062 kernel
+        derives its row stride from kv_len and would read the
+        wrong rows here. Raises (fail-closed) on any shape or
+        buffer violation or Vulkan failure."""
+        if head_dim <= 0:
+            raise Error("VAL-003 VALUE_OUT_OF_RANGE: VulkanAttention.decode_attention_strided: head_dim must be positive")
+        if kv_len <= 0:
+            raise Error("VAL-003 VALUE_OUT_OF_RANGE: VulkanAttention.decode_attention_strided: kv_len must be positive")
+        if num_heads <= 0:
+            raise Error("VAL-003 VALUE_OUT_OF_RANGE: VulkanAttention.decode_attention_strided: num_heads must be positive")
+        if kv_per_query <= 0:
+            raise Error("VAL-003 VALUE_OUT_OF_RANGE: VulkanAttention.decode_attention_strided: kv_per_query must be positive")
+        if num_heads % kv_per_query != 0:
+            raise Error("VAL-003 VALUE_OUT_OF_RANGE: VulkanAttention.decode_attention_strided: num_heads must be an exact multiple of kv_per_query (integer GQA ratio)")
+        if max_len < kv_len:
+            raise Error("VAL-003 VALUE_OUT_OF_RANGE: VulkanAttention.decode_attention_strided: max_len must be at least kv_len")
+        var num_kv_heads = num_heads // kv_per_query
+        var need_q = num_heads * head_dim * 4
+        var need_kv = num_kv_heads * max_len * head_dim * 4
+        if q.requested_size < need_q:
+            raise Error("VAL-003 VALUE_OUT_OF_RANGE: VulkanAttention.decode_attention_strided: q buffer is smaller than the query operand")
+        if k.requested_size < need_kv:
+            raise Error("VAL-003 VALUE_OUT_OF_RANGE: VulkanAttention.decode_attention_strided: k buffer is smaller than the KV cache")
+        if v.requested_size < need_kv:
+            raise Error("VAL-003 VALUE_OUT_OF_RANGE: VulkanAttention.decode_attention_strided: v buffer is smaller than the KV cache")
+        if o.requested_size < need_q:
+            raise Error("VAL-003 VALUE_OUT_OF_RANGE: VulkanAttention.decode_attention_strided: output buffer is smaller than the query operand")
+        var rc = external_call["aesir_vk_buffer_attn_decode_strided", Int32](
+            UInt64(q.id), UInt64(k.id), UInt64(v.id), UInt64(o.id),
+            UInt32(head_dim), UInt32(kv_len), UInt32(num_heads), UInt32(kv_per_query), UInt32(max_len),
+        )
+        if rc != 0:
+            Self._raise_for_rc("decode_attention_strided", rc)
+
+    @staticmethod
+    def strided_dispatch_count() -> Int:
+        """Completed A-066 strided decode attention dispatches
+        on the device so far (shim counter)."""
+        return Int(external_call["aesir_vk_attn_decode_strided_dispatch_count", UInt64]())

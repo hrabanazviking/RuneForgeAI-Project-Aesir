@@ -1,0 +1,20 @@
+#version 450
+// A-066: token embedding gather for the Vulkan decode loop.
+// Copies row `token` of the Float32 embedding table
+// [vocab][dim] into the step input row [dim]:
+// out[d] = emb[token * dim + d]. Pure data movement, bit-exact;
+// the token id arrives as a push constant (it is the previous
+// step's device-produced greedy output, read back by the host
+// loop - no host arithmetic is involved in the gather itself).
+layout(local_size_x = 64, local_size_y = 1, local_size_z = 1) in;
+layout(std430, set = 0, binding = 0) readonly buffer EmbBuf { float emb[]; };
+layout(std430, set = 0, binding = 1) buffer OutBuf { float o[]; };
+layout(push_constant) uniform Push {
+    uint dim;
+    uint token;
+} pc;
+void main() {
+    uint idx = gl_GlobalInvocationID.x;
+    if (idx >= pc.dim) { return; }
+    o[idx] = emb[pc.token * pc.dim + idx];
+}

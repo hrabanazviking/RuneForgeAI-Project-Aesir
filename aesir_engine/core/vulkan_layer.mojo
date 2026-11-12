@@ -44,6 +44,7 @@ from core.vulkan_norm_rope import VulkanNormRope
 from core.vulkan_gemv import VulkanGemv
 from core.vulkan_attention import VulkanAttention
 from core.vulkan_elementwise import VulkanElementwise
+from core.vulkan_kv_cache import VulkanKvCache
 
 
 struct VulkanLayerWeights(Copyable, ImplicitlyCopyable):
@@ -191,6 +192,130 @@ struct VulkanLayer:
         VulkanGemv.q8_0_gemv(weights.wo, attn, proj, dim, kv_dim)
         VulkanElementwise.elementwise(x, proj, res, dim, 2)
         # norm -> gated MLP -> residual.
+        VulkanNormRope.rmsnorm(res, weights.g_ffn, h2, dim, 1, eps)
+        VulkanGemv.q8_0_gemv(weights.w_gate, h2, gate, ffn_dim, dim)
+        VulkanGemv.q8_0_gemv(weights.w_up, h2, up, ffn_dim, dim)
+        VulkanElementwise.elementwise(gate, up, mlp, ffn_dim, 3)
+        VulkanGemv.q8_0_gemv(weights.w_down, mlp, down, dim, ffn_dim)
+        VulkanElementwise.elementwise(res, down, dst, dim, 2)
+
+        VulkanBuffers.free(h)
+        VulkanBuffers.free(q)
+        VulkanBuffers.free(k)
+        VulkanBuffers.free(v)
+        VulkanBuffers.free(attn)
+        VulkanBuffers.free(proj)
+        VulkanBuffers.free(res)
+        VulkanBuffers.free(h2)
+        VulkanBuffers.free(gate)
+        VulkanBuffers.free(up)
+        VulkanBuffers.free(mlp)
+        VulkanBuffers.free(down)
+
+    @staticmethod
+    def forward_kv(
+        x: VulkanAllocation,
+        weights: VulkanLayerWeights,
+        dst: VulkanAllocation,
+        k_cache: VulkanAllocation,
+        v_cache: VulkanAllocation,
+        dim: Int,
+        num_heads: Int,
+        kv_per_query: Int,
+        head_dim: Int,
+        ffn_dim: Int,
+        position: Int,
+        max_len: Int,
+        eps: Float32,
+        rope_base: Float32,
+    ) raises:
+        """One full decode layer with a multi-position KV cache
+        (A-066). Identical composition to forward(), except the
+        step's k/v projection rows are inserted into the caller-
+        owned caches at slot `position` via the A-066 KV-append
+        kernel and decode attention runs over kv_len =
+        position + 1 cached positions. Caches use the A-062
+        layout [kv_heads][max_len][head_dim]; the caller owns
+        their lifetime across steps. Same fail-closed contract:
+        every shape and buffer is validated before any dispatch
+        and nothing is computed on the host instead."""
+        if dim <= 0 or dim % 32 != 0:
+            raise Error("VAL-003 VALUE_OUT_OF_RANGE: VulkanLayer.forward_kv: dim must be a positive multiple of 32")
+        if num_heads <= 0:
+            raise Error("VAL-003 VALUE_OUT_OF_RANGE: VulkanLayer.forward_kv: num_heads must be positive")
+        if kv_per_query <= 0:
+            raise Error("VAL-003 VALUE_OUT_OF_RANGE: VulkanLayer.forward_kv: kv_per_query must be positive")
+        if num_heads % kv_per_query != 0:
+            raise Error("VAL-003 VALUE_OUT_OF_RANGE: VulkanLayer.forward_kv: num_heads must be an exact multiple of kv_per_query")
+        if head_dim <= 0 or head_dim % 2 != 0:
+            raise Error("VAL-003 VALUE_OUT_OF_RANGE: VulkanLayer.forward_kv: head_dim must be positive and even")
+        if num_heads * head_dim != dim:
+            raise Error("VAL-003 VALUE_OUT_OF_RANGE: VulkanLayer.forward_kv: num_heads * head_dim must equal dim")
+        if ffn_dim <= 0 or ffn_dim % 32 != 0:
+            raise Error("VAL-003 VALUE_OUT_OF_RANGE: VulkanLayer.forward_kv: ffn_dim must be a positive multiple of 32")
+        if position < 0:
+            raise Error("VAL-003 VALUE_OUT_OF_RANGE: VulkanLayer.forward_kv: position must be non-negative")
+        if max_len <= 0 or position >= max_len:
+            raise Error("VAL-003 VALUE_OUT_OF_RANGE: VulkanLayer.forward_kv: position must lie in [0, max_len)")
+        if eps <= Float32(0.0):
+            raise Error("VAL-003 VALUE_OUT_OF_RANGE: VulkanLayer.forward_kv: eps must be positive")
+        if rope_base <= Float32(0.0):
+            raise Error("VAL-003 VALUE_OUT_OF_RANGE: VulkanLayer.forward_kv: rope_base must be positive")
+        var kv_heads = num_heads // kv_per_query
+        var kv_dim = kv_heads * head_dim
+        if x.requested_size < dim * 4:
+            raise Error("VAL-003 VALUE_OUT_OF_RANGE: VulkanLayer.forward_kv: x buffer is smaller than dim Float32")
+        if dst.requested_size < dim * 4:
+            raise Error("VAL-003 VALUE_OUT_OF_RANGE: VulkanLayer.forward_kv: out buffer is smaller than dim Float32")
+        if k_cache.requested_size < kv_heads * max_len * head_dim * 4:
+            raise Error("VAL-003 VALUE_OUT_OF_RANGE: VulkanLayer.forward_kv: k_cache buffer is smaller than the KV cache")
+        if v_cache.requested_size < kv_heads * max_len * head_dim * 4:
+            raise Error("VAL-003 VALUE_OUT_OF_RANGE: VulkanLayer.forward_kv: v_cache buffer is smaller than the KV cache")
+        if weights.g_attn.requested_size < dim * 4:
+            raise Error("VAL-003 VALUE_OUT_OF_RANGE: VulkanLayer.forward_kv: g_attn buffer is smaller than dim Float32")
+        if weights.g_ffn.requested_size < dim * 4:
+            raise Error("VAL-003 VALUE_OUT_OF_RANGE: VulkanLayer.forward_kv: g_ffn buffer is smaller than dim Float32")
+        if weights.wq.requested_size < Self._q8_bytes(dim, dim):
+            raise Error("VAL-003 VALUE_OUT_OF_RANGE: VulkanLayer.forward_kv: wq buffer is smaller than the Q8_0 operand")
+        if weights.wk.requested_size < Self._q8_bytes(kv_dim, dim):
+            raise Error("VAL-003 VALUE_OUT_OF_RANGE: VulkanLayer.forward_kv: wk buffer is smaller than the Q8_0 operand")
+        if weights.wv.requested_size < Self._q8_bytes(kv_dim, dim):
+            raise Error("VAL-003 VALUE_OUT_OF_RANGE: VulkanLayer.forward_kv: wv buffer is smaller than the Q8_0 operand")
+        if weights.wo.requested_size < Self._q8_bytes(dim, kv_dim):
+            raise Error("VAL-003 VALUE_OUT_OF_RANGE: VulkanLayer.forward_kv: wo buffer is smaller than the Q8_0 operand")
+        if weights.w_gate.requested_size < Self._q8_bytes(ffn_dim, dim):
+            raise Error("VAL-003 VALUE_OUT_OF_RANGE: VulkanLayer.forward_kv: w_gate buffer is smaller than the Q8_0 operand")
+        if weights.w_up.requested_size < Self._q8_bytes(ffn_dim, dim):
+            raise Error("VAL-003 VALUE_OUT_OF_RANGE: VulkanLayer.forward_kv: w_up buffer is smaller than the Q8_0 operand")
+        if weights.w_down.requested_size < Self._q8_bytes(dim, ffn_dim):
+            raise Error("VAL-003 VALUE_OUT_OF_RANGE: VulkanLayer.forward_kv: w_down buffer is smaller than the Q8_0 operand")
+
+        var h = VulkanBuffers.allocate(dim * 4)
+        var q = VulkanBuffers.allocate(dim * 4)
+        var k = VulkanBuffers.allocate(kv_dim * 4)
+        var v = VulkanBuffers.allocate(kv_dim * 4)
+        var attn = VulkanBuffers.allocate(dim * 4)
+        var proj = VulkanBuffers.allocate(dim * 4)
+        var res = VulkanBuffers.allocate(dim * 4)
+        var h2 = VulkanBuffers.allocate(dim * 4)
+        var gate = VulkanBuffers.allocate(ffn_dim * 4)
+        var up = VulkanBuffers.allocate(ffn_dim * 4)
+        var mlp = VulkanBuffers.allocate(ffn_dim * 4)
+        var down = VulkanBuffers.allocate(dim * 4)
+
+        VulkanNormRope.rmsnorm(x, weights.g_attn, h, dim, 1, eps)
+        VulkanGemv.q8_0_gemv(weights.wq, h, q, dim, dim)
+        VulkanGemv.q8_0_gemv(weights.wk, h, k, kv_dim, dim)
+        VulkanGemv.q8_0_gemv(weights.wv, h, v, kv_dim, dim)
+        VulkanNormRope.rope(q, head_dim, num_heads, position, rope_base)
+        VulkanNormRope.rope(k, head_dim, kv_heads, position, rope_base)
+        VulkanKvCache.append(k, k_cache, head_dim, max_len, position, kv_heads)
+        VulkanKvCache.append(v, v_cache, head_dim, max_len, position, kv_heads)
+        VulkanAttention.decode_attention_strided(
+            q, k_cache, v_cache, attn, head_dim, position + 1, num_heads, kv_per_query, max_len
+        )
+        VulkanGemv.q8_0_gemv(weights.wo, attn, proj, dim, kv_dim)
+        VulkanElementwise.elementwise(x, proj, res, dim, 2)
         VulkanNormRope.rmsnorm(res, weights.g_ffn, h2, dim, 1, eps)
         VulkanGemv.q8_0_gemv(weights.w_gate, h2, gate, ffn_dim, dim)
         VulkanGemv.q8_0_gemv(weights.w_up, h2, up, ffn_dim, dim)

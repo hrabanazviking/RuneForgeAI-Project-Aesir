@@ -1,0 +1,25 @@
+#version 450
+// A-066: KV-append (insert-at-position) for the Vulkan decode
+// KV cache. Copies one decode step's k (or v) projection row
+// [kv_heads][head_dim] into the cache layout the A-062 decode
+// attention kernel consumes, [kv_heads][kv_len][head_dim], at
+// slot `position`: cache[(h * max_len + position) * head_dim + d]
+// = src[h * head_dim + d]. A pure data-movement compute kernel
+// (the shim resolves no vkCmdCopyBuffer - A-019 discipline);
+// every float lands bit-exact. Push constants carry all shape.
+layout(local_size_x = 64, local_size_y = 1, local_size_z = 1) in;
+layout(std430, set = 0, binding = 0) readonly buffer SrcBuf { float src[]; };
+layout(std430, set = 0, binding = 1) buffer CacheBuf { float cache[]; };
+layout(push_constant) uniform Push {
+    uint head_dim;
+    uint max_len;
+    uint position;
+    uint kv_heads;
+} pc;
+void main() {
+    uint idx = gl_GlobalInvocationID.x;
+    if (idx >= pc.kv_heads * pc.head_dim) { return; }
+    uint head = idx / pc.head_dim;
+    uint lane = idx % pc.head_dim;
+    cache[(head * pc.max_len + pc.position) * pc.head_dim + lane] = src[idx];
+}
