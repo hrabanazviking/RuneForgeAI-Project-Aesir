@@ -68,7 +68,12 @@ when its lead is live on its assigned slice in its own worktree.
 
 ## State
 
-- Banked: **70 of 216** (A-001..A-070). A-070 banked at the
+- Banked: **71 of 216** (A-001..A-071). A-071 banked at the
+  seat 2026-11-12 (team-01 commit 0b7496dd cherry-picked
+  as 46cefc41 with TWO run_all unions composed at
+  banking - import block and pin 531 -> 537; decode and
+  shim auto-merges verified composed; async dispatch).
+  A-070 banked at the
   seat 2026-11-12 (team-03 commits acba480f + b59731a4
   cherry-picked as 54fcb61e + eb254362 with the run_all
   union composed at banking, pin 525 -> 531; lawful CPU
@@ -151,9 +156,9 @@ when its lead is live on its assigned slice in its own worktree.
   (A-028..A-036) is COMPLETE. Wave 5 (A-037..A-045)
   is COMPLETE. Wave 6 (A-046..A-054) is COMPLETE.
   Wave 7 (A-055..A-063) is COMPLETE. Wave 8
-  (A-064..A-072) is IN PROGRESS (7 of 9).**
-- Seat gate after this banking: A-070 (seat_gate_a070.log)
-  528 passed / 1 failed / 2 skipped / 531 total, exact on
+  (A-064..A-072) is IN PROGRESS (8 of 9).**
+- Seat gate after this banking: A-071 (seat_gate_a071.log)
+  534 passed / 1 failed / 2 skipped / 537 total, exact on
   the first run. Sole failure the pre-existing
   gguf.tensor_directory_interface (J-022 drift), skips the
   2 pre-declared. Known intermittents (proven pre-existing
@@ -163,9 +168,8 @@ when its lead is live on its assigned slice in its own worktree.
   resilience.state_vault_rejects_growth (bug B2) - neither
   appeared in the accepted gate run.
 - Queue: teams take slices in roadmap order as theirs
-  bank (keeper flow): team-01 A-071 (async dispatch) -
-  in flight after the A-070 banking; teams then flow
-  onto A-072 onward in roadmap order.
+  bank (keeper flow): A-072 - next to bank; teams then
+  flow onto A-073 onward in roadmap order.
   A-066 closed the A-065 KV-append gap
   (kv_append kernel, bit-exact).
   Sole failure in every suite =
