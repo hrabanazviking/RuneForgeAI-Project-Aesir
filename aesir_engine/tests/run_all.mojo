@@ -282,6 +282,12 @@ from tests.test_hardware_census import (
     test_live_census_this_machine,
     test_cuda_absent_is_not_an_error,
 )
+from tests.test_backend_registry import (
+    test_backend_registry_all_present,
+    test_backend_registry_absent_combinations,
+    test_backend_registry_degraded_and_software_vulkan,
+    test_backend_registry_parsers,
+)
 from tests.test_conversation import (
     test_conversation_codec,
     test_conversation_compatibility,
@@ -730,6 +736,10 @@ def main() raises:
     run_case(ledger, "hardware.census_lines", test_census_lines_fixture)
     run_case(ledger, "hardware.census_live", test_live_census_this_machine)
     run_case(ledger, "hardware.census_cuda_absent", test_cuda_absent_is_not_an_error)
+    run_case(ledger, "cli.backend_registry_all_present", test_backend_registry_all_present)
+    run_case(ledger, "cli.backend_registry_absent_combinations", test_backend_registry_absent_combinations)
+    run_case(ledger, "cli.backend_registry_degraded_and_software_vulkan", test_backend_registry_degraded_and_software_vulkan)
+    run_case(ledger, "cli.backend_registry_parsers", test_backend_registry_parsers)
     run_case(ledger, "cli.conversation_codec", test_conversation_codec)
     run_case(ledger, "core.prompt_prefix_exact", test_prompt_prefix)
     run_case(ledger, "core.dense_buffer_layout", test_dense_buffers)
@@ -1082,4 +1092,6 @@ def main() raises:
     # (base control at 2444d610 counted 276/0/2/278 and failed here).
     # Union re-pin (merge-to-main sweep 2026-11-01): 278 -> 279 -- both sides' registrations counted (run_case + record_skip); the incoming branch's finish pin did not count its own added case.
     # Union re-pin (merge-to-main sweep 2026-11-01): 279 -> 280 -- both sides' registrations counted (run_case + record_skip); the incoming branch's finish pin did not count its own added case.
-    ledger.finish(280)
+    # A-009 re-pin: 280 -> 284 for the four cli.backend_registry_* cases.
+    # Union re-pin (A-009 banking 2026-11-12): 284 -> 290 -- both sides' registrations counted (run_case + record_skip); the seat already carried A-001's 6 census cases the incoming pin did not count.
+    ledger.finish(290)

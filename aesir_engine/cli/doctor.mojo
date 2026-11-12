@@ -7,6 +7,7 @@ from cli.storage import DurableModelStore
 from cli.model_preferences import DurableModelPreferences, PreferenceFinding, stale_preference_count
 from cli.model_inspect import inspect_model_reference, model_inspection_json, print_model_inspection_text
 from core.model_registry import ModelCompatibility
+from core.backend_registry import observe_backend_registry
 from server.api import json_escape_string
 from core.native_diagnostics import (
     human_bytes,
@@ -233,6 +234,7 @@ def dispatch_doctor(args: List[String]) raises:
     except:
         pass
 
+    var backend_registry = observe_backend_registry()
     var ready = doctor_system_ready(
         cuda_ready, store_ok, installed_count, broken_models, disk_known, disk_available,
     )
@@ -275,6 +277,11 @@ def dispatch_doctor(args: List[String]) raises:
                 issues_json += ","
             issues_json += issues[i].to_json()
         issues_json += "]"
+        var backends_json = String("{\"hip\":")
+        backends_json += '{"status":' + _json_string(backend_registry.hip.status_name()) + ',"version":' + _json_string(backend_registry.hip.version) + ',"device":' + _json_string(backend_registry.hip.device) + ',"detail":' + _json_string(backend_registry.hip.detail) + '}'
+        backends_json += ',"vulkan":' + '{"status":' + _json_string(backend_registry.vulkan.status_name()) + ',"version":' + _json_string(backend_registry.vulkan.version) + ',"device":' + _json_string(backend_registry.vulkan.device) + ',"detail":' + _json_string(backend_registry.vulkan.detail) + '}'
+        backends_json += ',"xrt":' + '{"status":' + _json_string(backend_registry.xrt.status_name()) + ',"version":' + _json_string(backend_registry.xrt.version) + ',"device":' + _json_string(backend_registry.xrt.device) + ',"detail":' + _json_string(backend_registry.xrt.detail) + '}'
+        backends_json += ',"cpu":' + '{"status":' + _json_string(backend_registry.cpu.status_name()) + ',"version":' + _json_string(backend_registry.cpu.version) + ',"device":' + _json_string(backend_registry.cpu.device) + ',"detail":' + _json_string(backend_registry.cpu.detail) + '}}'
         var optional_model = String("null")
         if model_reference != "":
             optional_model = (
@@ -345,6 +352,7 @@ def dispatch_doctor(args: List[String]) raises:
         census_json += ',"xrt_present":' + _json_bool(census.xrt_present)
         census_json += '}'
         output += census_json
+        output += ',"backends":' + backends_json
         output += ',"model":' + optional_model + ',"issues":' + issues_json + '}'
         print(output)
         return
@@ -375,6 +383,9 @@ def dispatch_doctor(args: List[String]) raises:
     for broken in broken_names:
         print("  broken: " + broken)
     _print_doctor_row("Network", "not probed (offline-safe)")
+    print("\nBackend registry\n")
+    for backend_line in backend_registry.lines():
+        print("  " + backend_line)
 
     print("\nHardware census (runtime-observed)\n")
     var census_rendered = census_lines(census)
