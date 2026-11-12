@@ -308,6 +308,11 @@ from tests.test_legacy_quantization import (
     test_q5_0_parity,
     test_q5_1_parity,
 )
+from tests.test_q8_0_gemv_simd import (
+    test_q8_0_gemv_simd_known_value,
+    test_q8_0_gemv_simd_parity,
+    test_q8_0_gemv_multirow_regression,
+)
 from tests.test_q8_fp8_quantization import (
     test_fused_q8_0_parity,
     test_fused_q8_1_parity,
@@ -1044,6 +1049,9 @@ def main() raises:
     run_case(ledger, "quantization.fused_q4_1_parity", test_q4_1_parity)
     run_case(ledger, "quantization.fused_q5_0_parity", test_q5_0_parity)
     run_case(ledger, "quantization.fused_q5_1_parity", test_q5_1_parity)
+    run_case(ledger, "quantization.q8_0_gemv_simd_known_value", test_q8_0_gemv_simd_known_value)
+    run_case(ledger, "quantization.q8_0_gemv_simd_parity", test_q8_0_gemv_simd_parity)
+    run_case(ledger, "quantization.q8_0_gemv_multirow_regression", test_q8_0_gemv_multirow_regression)
     run_case(ledger, "quantization.fused_q8_0_parity", test_fused_q8_0_parity)
     run_case(ledger, "quantization.fused_q8_1_parity", test_fused_q8_1_parity)
     run_case(
@@ -1433,4 +1441,9 @@ def main() raises:
     # (timing.phase_* in tests/test_phase_timing.mojo).
     # Union re-pin (A-036 banking 2026-11-12): 373 -> 377 -- four
     # phase timing cases counted on top of the A-033 seat pin.
-    ledger.finish(377)
+    # A-038 re-pin: 373 -> 376 -- three Q8_0 GEMV SIMD cases
+    # (quantization.q8_0_gemv_* in tests/test_q8_0_gemv_simd.mojo)
+    # counted on top of the A-033 union pin.
+    # Union re-pin (A-038 banking 2026-11-12): 377 -> 380 -- three
+    # Q8_0 GEMV SIMD cases counted on top of the A-036 seat pin.
+    ledger.finish(380)

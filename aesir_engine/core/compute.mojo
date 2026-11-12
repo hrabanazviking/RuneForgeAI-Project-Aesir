@@ -1049,6 +1049,91 @@ def _gemm_q8_0_fast_worker(ctx_addr: Int64, start: Int64, end: Int64):
     )
 
 
+def _gemm_q8_0_gemv_range(
+    a_addr: Int64,
+    b_addr: Int64,
+    c_addr: Int64,
+    a_rows: Int,
+    a_cols: Int,
+    c_cols: Int,
+    out_lo: Int,
+    out_hi: Int,
+):
+    """Single-row Q8_0 GEMV range with width-16 SIMD dequant (A-038).
+
+    The decode shape: A has exactly one row, so the decode-once
+    scratch of _gemm_q8_0_fast_range is pure overhead -- every weight
+    is decoded scalar-ly (32 byte loads + casts per block) and used
+    exactly once. This range fuses the decode into the dot: each
+    block's 32 int8 lanes are loaded as two width-16 vectors, widened
+    to F32, and multiplied in registers; no scratch is materialized.
+    This is the S-030 pattern (scalar decode was ~90% of the IQ
+    single-row cost; the same pocket in gemm_q8_0 is the proven
+    Coder-7B Q8_0 speed defect).
+
+    Numerics: the per-lane product order matches the serial body
+    exactly -- (a * Float32(q)) * scale, where a * Float32(q) is
+    exact in F32 -- so decoded products are bit-identical to
+    _gemm_q8_0_range. Accumulation is lane-grouped (16 partial sums,
+    reduced in ascending lane order per output), so the F32 total
+    can differ from the serial body in final rounding only, the same
+    accepted fast-path class as _gemm_q8_0_fast_range. The bit-exact
+    serial body remains in _gemm_q8_0_range as the comparator; the
+    A-038 parity evidence (hidden_files/A038_LEDGER.md) files the
+    measured output difference against it.
+    """
+    var a_data = Pointer[Scalar[f16], MutUntrackedOrigin](
+        unsafe_from_address=Int(a_addr)
+    )
+    var c_data = Pointer[Scalar[f16], MutUntrackedOrigin](
+        unsafe_from_address=Int(c_addr)
+    )
+    var weights = Pointer[UInt8, MutUntrackedOrigin](
+        unsafe_from_address=Int(b_addr)
+    )
+    comptime W = 16
+    var blocks_per_row = a_cols // 32
+    for row in range(a_rows):
+        var a_base = row * a_cols
+        for output in range(out_lo, out_hi):
+            var row_base = output * blocks_per_row * 34
+            var acc = SIMD[DType.float32, W](0.0)
+            for block in range(blocks_per_row):
+                var p = row_base + block * 34
+                var scale = weights.unsafe_offset(p).unsafe_bitcast[Float16]().unsafe_load().cast[DType.float32]()
+                var svec = SIMD[DType.float32, W](scale)
+                var qs_ptr = weights.unsafe_offset(p + 2).unsafe_bitcast[Scalar[DType.int8]]()
+                var col = block * 32
+                var q_lo = qs_ptr.unsafe_load[width=16](0).cast[DType.float32]()
+                var q_hi = qs_ptr.unsafe_load[width=16](16).cast[DType.float32]()
+                var a_lo = a_data.unsafe_load[width=16](a_base + col).cast[DType.float32]()
+                var a_hi = a_data.unsafe_load[width=16](a_base + col + 16).cast[DType.float32]()
+                acc += (a_lo * q_lo) * svec
+                acc += (a_hi * q_hi) * svec
+            var total: Float32 = 0
+            for lane in range(W):
+                total += acc[lane]
+            c_data.unsafe_store(row * c_cols + output, total.cast[f16]())
+
+
+def _gemm_q8_0_gemv_worker(ctx_addr: Int64, start: Int64, end: Int64):
+    """FFI range callback for the A-038 GEMV range; ctx slots as in
+    _gemm_q8_0_worker."""
+    var ctx = Pointer[Int64, MutUntrackedOrigin](
+        unsafe_from_address=Int(ctx_addr)
+    )
+    _gemm_q8_0_gemv_range(
+        ctx.unsafe_load(0),
+        ctx.unsafe_load(1),
+        ctx.unsafe_load(2),
+        Int(ctx.unsafe_load(3)),
+        Int(ctx.unsafe_load(4)),
+        Int(ctx.unsafe_load(5)),
+        Int(start),
+        Int(end),
+    )
+
+
 def _gemm_q8_0_worker(ctx_addr: Int64, start: Int64, end: Int64):
     """FFI range callback; ctx slots: [A.data, B.data, C.data,
     A.rows, A.cols, C.cols]."""
@@ -1083,6 +1168,10 @@ def gemm_q8_0(
     # crown short probe came from threading the serial body alone;
     # the fast range is measured separately. The bit-exact serial
     # range (_gemm_q8_0_range) remains as the reference body.
+    # A-038: single-row calls (the decode shape) route to the fused
+    # width-16 SIMD dequant GEMV range (_gemm_q8_0_gemv_range),
+    # which skips the decode-once scratch the fast range pays for
+    # weights that are used exactly once.
     var cp = alloc[Int64](6)
     cp.unsafe_store(0, Int64(Int(A.data)))
     cp.unsafe_store(1, Int64(Int(B.data)))
@@ -1090,11 +1179,18 @@ def gemm_q8_0(
     cp.unsafe_store(3, Int64(A.rows))
     cp.unsafe_store(4, Int64(A.cols))
     cp.unsafe_store(5, Int64(C.cols))
-    _ = par_for[_gemm_q8_0_fast_worker](
-        Int64(Int(cp)),
-        B.rows,
-        Int64(A.rows) * Int64(B.rows) * Int64(A.cols),
-    )
+    if A.rows == 1:
+        _ = par_for[_gemm_q8_0_gemv_worker](
+            Int64(Int(cp)),
+            B.rows,
+            Int64(A.rows) * Int64(B.rows) * Int64(A.cols),
+        )
+    else:
+        _ = par_for[_gemm_q8_0_fast_worker](
+            Int64(Int(cp)),
+            B.rows,
+            Int64(A.rows) * Int64(B.rows) * Int64(A.cols),
+        )
     cp.unsafe_free()
 
 
