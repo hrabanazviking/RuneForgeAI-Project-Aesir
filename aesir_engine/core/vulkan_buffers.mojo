@@ -558,6 +558,49 @@ struct VulkanBuffers:
             Self._raise_for_rc("vec_add", rc)
 
     @staticmethod
+    def q4k_gemv(
+        w: VulkanAllocation,
+        x: VulkanAllocation,
+        y: VulkanAllocation,
+        k_elems: Int,
+        n_rows: Int,
+    ) raises:
+        """Dispatch the A-057 Q4_K GEMV kernel: y[row] = sum over the
+        row's Q4_K super-blocks of dequantized weight times x, for
+        n_rows rows of k_elems elements each (batch-1 GEMV), on the
+        A-014 context and its compute queue. The shim creates the
+        pipeline per call, submits, and waits for the queue to go
+        idle before returning, so a mapped read of y after this call
+        observes the completed dispatch. k_elems must be a positive
+        multiple of 256 (whole Q4_K super-blocks); the buffers must
+        hold n_rows * (k_elems / 256) * 144 weight bytes, k_elems
+        Float32 inputs and n_rows Float32 outputs. Raises
+        (fail-closed) on any Vulkan failure - nothing is computed on
+        the host instead."""
+        if k_elems <= 0 or k_elems % 256 != 0:
+            raise Error("VAL-003 VALUE_OUT_OF_RANGE: VulkanBuffers.q4k_gemv: k_elems must be a positive multiple of 256")
+        if n_rows <= 0:
+            raise Error("VAL-003 VALUE_OUT_OF_RANGE: VulkanBuffers.q4k_gemv: n_rows must be positive")
+        var need_w = n_rows * (k_elems // 256) * 144
+        if w.requested_size < need_w or x.requested_size < k_elems * 4 or y.requested_size < n_rows * 4:
+            raise Error("VAL-003 VALUE_OUT_OF_RANGE: VulkanBuffers.q4k_gemv: a buffer is smaller than the GEMV shape")
+        var rc = external_call["aesir_vk_buffer_q4k_gemv", Int32](
+            UInt64(w.id), UInt64(x.id), UInt64(y.id), UInt32(k_elems), UInt32(n_rows)
+        )
+        if rc != 0:
+            Self._raise_for_rc("q4k_gemv", rc)
+
+    @staticmethod
+    def q4k_gemv_dispatch_count() -> Int:
+        """A-057 device-execution evidence: Q4_K GEMV dispatches the
+        shim has submitted and seen complete on the device. A count
+        that rises across a q4k_gemv() call proves the dispatch ran
+        on the device; nothing on the host path increments it."""
+        return Int(
+            external_call["aesir_vk_q4k_gemv_dispatch_count", UInt64]()
+        )
+
+    @staticmethod
     def live_bytes() -> Int:
         """Shim accounting: bytes held by live A-014 allocations."""
         return Int(external_call["aesir_vk_live_bytes", UInt64]())

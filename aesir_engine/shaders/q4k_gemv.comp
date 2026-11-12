@@ -1,0 +1,76 @@
+#version 450
+// A-057 Q4_K GEMV compute kernel: y[row] = sum_e dequant_q4k(W[row])[e] * x[e]
+// for a batch-1 (single input vector) GEMV over Q4_K super-blocks.
+//
+// W is the raw GGML Q4_K byte stream: each row holds k_elems/256
+// super-blocks of 144 bytes (fp16 d, fp16 dmin, 12 scale/min bytes,
+// 128 quant bytes). The decode mirrors the banked CPU oracle in
+// core/compute.mojo (_dequantize_ggml_k_simd, ggml_type 12) exactly:
+//   group g (32 values): scale/min unpacked from the 12 header bytes
+//   (g < 4: sc = b[4+g] & 63, mn = b[8+g] & 63; else the 6-bit fields
+//   are completed from the high bits of b[g] / b[4+g]);
+//   quant byte for element l of group g lives at qs + (g/2)*32 + l,
+//   low nibble for even g, high nibble for odd g;
+//   value = d * (scale * q) - dmin * min.
+// The CPU oracle rounds each dequantized weight to f16 before the dot;
+// this kernel keeps f32 throughout, so parity is judged at the filed
+// f16-rounding tolerance in the A-057 tests, never bit-exactness.
+//
+// Workgroup: 256 threads cooperating on one output row (one workgroup
+// per row, dispatched as n_rows workgroups); strided element loop plus
+// a shared-memory tree reduction; thread 0 writes the row result.
+layout(local_size_x = 256, local_size_y = 1, local_size_z = 1) in;
+layout(std430, set = 0, binding = 0) readonly buffer WBuf { uint w[]; };
+layout(std430, set = 0, binding = 1) readonly buffer XBuf { float x[]; };
+layout(std430, set = 0, binding = 2) buffer YBuf { float y[]; };
+layout(push_constant) uniform Push { uint k_elems; uint n_rows; } pc;
+shared float partial[256];
+
+uint get_byte(uint idx) {
+    return (w[idx >> 2] >> ((idx & 3u) * 8u)) & 0xFFu;
+}
+
+float get_f16(uint byte_idx) {
+    uint bits = get_byte(byte_idx) | (get_byte(byte_idx + 1u) << 8u);
+    return unpackHalf2x16(bits).x;
+}
+
+void main() {
+    uint row = gl_WorkGroupID.x;
+    uint tid = gl_LocalInvocationID.x;
+    if (row >= pc.n_rows) { return; }
+    uint nblocks = pc.k_elems / 256u;
+    uint row_block0 = row * nblocks;
+    float acc = 0.0;
+    for (uint e = tid; e < pc.k_elems; e += 256u) {
+        uint blk = e / 256u;
+        uint within = e - blk * 256u;
+        uint base = (row_block0 + blk) * 144u;
+        float d = get_f16(base);
+        float dmin = get_f16(base + 2u);
+        uint g = within / 32u;
+        uint l = within - g * 32u;
+        uint sc;
+        uint mn;
+        if (g < 4u) {
+            sc = get_byte(base + 4u + g) & 63u;
+            mn = get_byte(base + 8u + g) & 63u;
+        } else {
+            sc = (get_byte(base + 8u + g) & 15u)
+               | ((get_byte(base + g) >> 6u) << 4u);
+            mn = (get_byte(base + 8u + g) >> 4u)
+               | ((get_byte(base + 4u + g) >> 6u) << 4u);
+        }
+        uint qb = get_byte(base + 16u + (g >> 1) * 32u + l);
+        uint q = ((g & 1u) == 0u) ? (qb & 0xFu) : (qb >> 4u);
+        float wv = d * (float(sc) * float(q)) - dmin * float(mn);
+        acc += wv * x[e];
+    }
+    partial[tid] = acc;
+    barrier();
+    for (uint stride = 128u; stride > 0u; stride >>= 1u) {
+        if (tid < stride) { partial[tid] += partial[tid + stride]; }
+        barrier();
+    }
+    if (tid == 0u) { y[row] = partial[0]; }
+}

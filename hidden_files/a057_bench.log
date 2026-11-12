@@ -1,0 +1,89 @@
+2026-11-12T11:58:52-05:00
+purpleraider
+b62b14810750f03009584dede346aa0d573a152e
+yrsa/aesir-team-08
+ 11:58:52 up 10:17,  1 user,  load average: 2.63, 2.93, 2.86
+staging=/tmp/tmp.TkmIOlg2mT
+cc_libaesir_hailo10h=0
+cc_libaesir_par=0
+cc_libaesir_hip=0
+cc_libaesir_zc=0
+cc_libaesir_aff=0
+cc_vulkan=0
+/home/volmarr/aesir-team-08/aesir_engine/tests/bench_vulkan_q4k_gemv_a057.mojo:83:18: warning: `alloc` without a `Layout` is deprecated, use the `Layout`-based `alloc` instead; as a temporary migration step, use `unsafe_alloc`
+    var oracle = alloc[Float32](n_rows)
+                 ^~~~~
+<unknown>:0: note: 'alloc' declared here
+/home/volmarr/aesir-team-08/aesir_engine/tests/bench_vulkan_q4k_gemv_a057.mojo:84:18: warning: `alloc` without a `Layout` is deprecated, use the `Layout`-based `alloc` instead; as a temporary migration step, use `unsafe_alloc`
+    var w_host = alloc[UInt8](w_bytes)
+                 ^~~~~
+<unknown>:0: note: 'alloc' declared here
+/home/volmarr/aesir-team-08/aesir_engine/tests/bench_vulkan_q4k_gemv_a057.mojo:89:15: warning: `alloc` without a `Layout` is deprecated, use the `Layout`-based `alloc` instead; as a temporary migration step, use `unsafe_alloc`
+    var deq = alloc[Scalar[f16]](k_elems)
+              ^~~~~
+<unknown>:0: note: 'alloc' declared here
+Imported from /home/volmarr/aesir-team-08/aesir_engine/tests/bench_vulkan_q4k_gemv_a057.mojo:18:
+/home/volmarr/aesir-team-08/aesir_engine/core/vulkan_buffers.mojo:267:24: warning: `alloc` without a `Layout` is deprecated, use the `Layout`-based `alloc` instead; as a temporary migration step, use `unsafe_alloc`
+        var name_buf = alloc[UInt8](256)
+                       ^~~~~
+<unknown>:0: note: 'alloc' declared here
+Imported from /home/volmarr/aesir-team-08/aesir_engine/tests/bench_vulkan_q4k_gemv_a057.mojo:18:
+/home/volmarr/aesir-team-08/aesir_engine/core/vulkan_buffers.mojo:295:24: warning: `alloc` without a `Layout` is deprecated, use the `Layout`-based `alloc` instead; as a temporary migration step, use `unsafe_alloc`
+        var name_buf = alloc[UInt8](256)
+                       ^~~~~
+<unknown>:0: note: 'alloc' declared here
+	Command being timed: "pixi run --frozen mojo build -I . --target-accelerator gfx1151 -Xlinker -L/tmp/tmp.TkmIOlg2mT -Xlinker -laesir_hailo10h -Xlinker -laesir_par -Xlinker -laesir_hip -Xlinker -laesir_vulkan -Xlinker -laesir_zc -Xlinker -laesir_aff -o /tmp/a057_bench aesir_engine/tests/bench_vulkan_q4k_gemv_a057.mojo"
+	User time (seconds): 5.45
+	System time (seconds): 0.51
+	Percent of CPU this job got: 228%
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 0:02.61
+	Average shared text size (kbytes): 0
+	Average unshared data size (kbytes): 0
+	Average stack size (kbytes): 0
+	Average total size (kbytes): 0
+	Maximum resident set size (kbytes): 339116
+	Average resident set size (kbytes): 0
+	Major (requiring I/O) page faults: 49
+	Minor (reclaiming a frame) page faults: 111768
+	Voluntary context switches: 49286
+	Involuntary context switches: 4909
+	Swaps: 0
+	File system inputs: 69336
+	File system outputs: 1040
+	Socket messages sent: 0
+	Socket messages received: 0
+	Signals delivered: 0
+	Page size (bytes): 4096
+	Exit status: 0
+BUILD_EXIT=0
+A057_DEVICE vendor=4098 device=5510 type=1 api=4211042 RADV=1
+A057_SHAPE rows=1 k=256 max_abs_err=0.0014190674 max_rel_err=5.867199e-06 dispatches=3 gpu_median_ns=2993970 cpu_median_ns=551
+A057_SHAPE rows=7 k=512 max_abs_err=0.104904175 max_rel_err=0.0006425287 dispatches=3 gpu_median_ns=188973 cpu_median_ns=7164
+A057_SHAPE rows=64 k=1024 max_abs_err=0.23120117 max_rel_err=0.0034202542 dispatches=3 gpu_median_ns=404687 cpu_median_ns=127949
+A057_SHAPE rows=33 k=2048 max_abs_err=0.35473633 max_rel_err=0.0008034447 dispatches=3 gpu_median_ns=276216 cpu_median_ns=131556
+A057_SHAPE rows=4096 k=4096 max_abs_err=0.82373047 max_rel_err=0.21833426 dispatches=5 gpu_median_ns=417722 cpu_median_ns=31179343
+A057_VULKAN_Q4K_GEMV_BENCH: PASS
+	Command being timed: "env LD_LIBRARY_PATH=/tmp/tmp.TkmIOlg2mT /tmp/a057_bench"
+	User time (seconds): 1.92
+	System time (seconds): 0.04
+	Percent of CPU this job got: 99%
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 0:01.98
+	Average shared text size (kbytes): 0
+	Average unshared data size (kbytes): 0
+	Average stack size (kbytes): 0
+	Average total size (kbytes): 0
+	Maximum resident set size (kbytes): 90440
+	Average resident set size (kbytes): 0
+	Major (requiring I/O) page faults: 53
+	Minor (reclaiming a frame) page faults: 9013
+	Voluntary context switches: 185
+	Involuntary context switches: 90
+	Swaps: 0
+	File system inputs: 147728
+	File system outputs: 184
+	Socket messages sent: 0
+	Socket messages received: 0
+	Signals delivered: 0
+	Page size (bytes): 4096
+	Exit status: 0
+RUN_EXIT=0
