@@ -68,7 +68,12 @@ when its lead is live on its assigned slice in its own worktree.
 
 ## State
 
-- Banked: **68 of 216** (A-001..A-068). A-068 banked at the
+- Banked: **69 of 216** (A-001..A-069). A-069 banked at the
+  seat 2026-11-12 (team-02 commit 59ed5a9e cherry-picked
+  clean as 6a0b96dc, base == seat HEAD, no unions needed:
+  run_all pin 518 -> 525 as committed, shader manifest
+  22 -> 25 kernels, all 22 prior SPIR-V hashes
+  byte-identical; chunked prefill). A-068 banked at the
   seat 2026-11-12 (team-01 commit 943fa87b, finished and
   committed by a fresh lead mustered by the keeper after
   the first lead stopped post-suite, cherry-picked as
@@ -142,13 +147,10 @@ when its lead is live on its assigned slice in its own worktree.
   (A-028..A-036) is COMPLETE. Wave 5 (A-037..A-045)
   is COMPLETE. Wave 6 (A-046..A-054) is COMPLETE.
   Wave 7 (A-055..A-063) is COMPLETE. Wave 8
-  (A-064..A-072) is IN PROGRESS (5 of 9).**
-- Seat gate after this banking: A-068 (seat_gate_a068.log)
-  515 passed / 1 failed / 2 skipped / 518 total, exact on
-  the re-run (run 1: 514/2/2 - the extra failure was
-  memory.budget_live_meminfo_pressure under the gate own
-  memory peak with the 8B fixture resident, log preserved
-  as seat_gate_a068_run1_mempressure.log). Sole failure the pre-existing
+  (A-064..A-072) is IN PROGRESS (6 of 9).**
+- Seat gate after this banking: A-069 (seat_gate_a069.log)
+  522 passed / 1 failed / 2 skipped / 525 total, exact on
+  the first run. Sole failure the pre-existing
   gguf.tensor_directory_interface (J-022 drift), skips the
   2 pre-declared. Known intermittents (proven pre-existing
   at base b62b1481 by the A-055 base bisect, NOT caused by
@@ -157,10 +159,9 @@ when its lead is live on its assigned slice in its own worktree.
   resilience.state_vault_rejects_growth (bug B2) - neither
   appeared in the accepted gate run.
 - Queue: teams take slices in roadmap order as theirs
-  bank (keeper flow): team-02 A-069 (chunked prefill), team-03
-  A-070 (lawful CPU assist), team-01 A-071 (async
-  dispatch) - mustered by the keeper on the A-068
-  closure; teams then flow onto A-072 onward in
+  bank (keeper flow): team-03 A-070 (lawful CPU assist),
+  team-01 A-071 (async dispatch) - in flight after the
+  A-069 banking; teams then flow onto A-072 onward in
   roadmap order.
   A-066 closed the A-065 KV-append gap
   (kv_append kernel, bit-exact).
