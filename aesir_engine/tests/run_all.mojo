@@ -303,6 +303,12 @@ from tests.test_doctor import (
     test_doctor_disk_fallback_issue,
     test_doctor_listener_probe_issue,
 )
+from tests.test_thermal_power import (
+    test_thermal_parsers_and_formats,
+    test_thermal_tolerance_tracking,
+    test_thermal_lines_fixture,
+    test_thermal_live_this_machine,
+)
 from tests.test_hardware_census import (
     test_kfd_gfx_parser,
     test_os_release_and_uevent_parsers,
@@ -832,6 +838,10 @@ def main() raises:
     run_case(ledger, "hardware.census_lines", test_census_lines_fixture)
     run_case(ledger, "hardware.census_live", test_live_census_this_machine)
     run_case(ledger, "hardware.census_cuda_absent", test_cuda_absent_is_not_an_error)
+    run_case(ledger, "thermal.hwmon_parsers", test_thermal_parsers_and_formats)
+    run_case(ledger, "thermal.tolerance_tracking", test_thermal_tolerance_tracking)
+    run_case(ledger, "thermal.lines_fixture", test_thermal_lines_fixture)
+    run_case(ledger, "thermal.live_sensors", test_thermal_live_this_machine)
     run_case(ledger, "cli.backend_registry_all_present", test_backend_registry_all_present)
     run_case(ledger, "cli.backend_registry_absent_combinations", test_backend_registry_absent_combinations)
     run_case(ledger, "cli.backend_registry_degraded_and_software_vulkan", test_backend_registry_degraded_and_software_vulkan)
@@ -1226,4 +1236,8 @@ def main() raises:
     # fallback, CPU spillover/none, override, NPU proven path,
     # deterministic log) in tests/test_device_policy.mojo, counted
     # on top of A-015 pin at banking.
-    ledger.finish(319)
+    # A-018 re-pin: 319 -> 323 -- four thermal.* cases added
+    # (thermal.hwmon_parsers, thermal.tolerance_tracking,
+    # thermal.lines_fixture, thermal.live_sensors in
+    # tests/test_thermal_power.mojo).
+    ledger.finish(323)

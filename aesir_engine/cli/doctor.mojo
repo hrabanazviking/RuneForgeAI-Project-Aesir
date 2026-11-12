@@ -2,6 +2,7 @@
 
 from aesir import CUDAGate
 from core.hardware_census import census_lines, observe_hardware_census
+from core.thermal_power import observe_thermal_power, thermal_power_lines
 from config import validate_model_store_path
 from cli.storage import DurableModelStore
 from cli.model_preferences import DurableModelPreferences, PreferenceFinding, stale_preference_count
@@ -174,6 +175,7 @@ def dispatch_doctor(args: List[String]) raises:
         cuda_detail = "invalid discovery result — " + String(error)
 
     var census = observe_hardware_census()
+    var thermal = observe_thermal_power()
 
     var store_ok = False
     var store_detail: String
@@ -353,6 +355,17 @@ def dispatch_doctor(args: List[String]) raises:
         census_json += ',"xrt_present":' + _json_bool(census.xrt_present)
         census_json += '}'
         output += census_json
+        var thermal_json = String(',"thermal":{"gpu_present":')
+        thermal_json += _json_bool(thermal.gpu_present)
+        thermal_json += ',"gpu_temp_milli_c":' + doctor_json_bytes(thermal.gpu_temp_milli_c)
+        thermal_json += ',"gpu_power_microwatts":' + doctor_json_bytes(thermal.gpu_power_microwatts)
+        thermal_json += ',"cpu_temp_milli_c":' + doctor_json_bytes(thermal.cpu_temp_milli_c)
+        thermal_json += ',"fan_rpm":' + doctor_json_bytes(thermal.fan_rpm)
+        thermal_json += ',"rapl_present":' + _json_bool(thermal.rapl_present)
+        thermal_json += ',"rapl_name":' + _json_string(thermal.rapl_name)
+        thermal_json += ',"rapl_energy_uj":' + doctor_json_bytes(thermal.rapl_energy_uj)
+        thermal_json += ',"rapl_reason":' + _json_string(thermal.rapl_reason) + '}'
+        output += thermal_json
         output += ',"backends":' + backends_json
         var placement_policy = default_placement_policy()
         var placement_json = String("{\"effective_order\":")
@@ -410,6 +423,11 @@ def dispatch_doctor(args: List[String]) raises:
     var census_rendered = census_lines(census)
     for census_line in census_rendered:
         print("  " + census_line)
+
+    print("\nThermal & power (runtime-observed)\n")
+    var thermal_rendered = thermal_power_lines(thermal)
+    for thermal_line in thermal_rendered:
+        print("  " + thermal_line)
 
     print("\n" + ("SYSTEM READY" if ready else "SYSTEM NEEDS ATTENTION"))
     print("Scope: CUDA/storage prerequisites only; model execution not tested.")
