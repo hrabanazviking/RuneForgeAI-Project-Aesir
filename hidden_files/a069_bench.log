@@ -1,0 +1,27 @@
+staging=/tmp/tmp.Fo6nS7KlEn
+hailo_cc_exit=0
+par_cc_exit=0
+hip_cc_exit=0
+vulkan_cc_exit=0
+zc_cc_exit=0
+aff_cc_exit=0
+Imported from /home/volmarr/aesir-team-02/aesir_engine/tests/bench_chunked_prefill_a069.mojo:36:
+/home/volmarr/aesir-team-02/aesir_engine/core/vulkan_buffers.mojo:267:24: warning: `alloc` without a `Layout` is deprecated, use the `Layout`-based `alloc` instead; as a temporary migration step, use `unsafe_alloc`
+        var name_buf = alloc[UInt8](256)
+                       ^~~~~
+<unknown>:0: note: 'alloc' declared here
+Imported from /home/volmarr/aesir-team-02/aesir_engine/tests/bench_chunked_prefill_a069.mojo:36:
+/home/volmarr/aesir-team-02/aesir_engine/core/vulkan_buffers.mojo:295:24: warning: `alloc` without a `Layout` is deprecated, use the `Layout`-based `alloc` instead; as a temporary migration step, use `unsafe_alloc`
+        var name_buf = alloc[UInt8](256)
+                       ^~~~~
+<unknown>:0: note: 'alloc' declared here
+A069_BENCH_START
+A069_DEVICE vendor= 4098  radv= True
+A069_IDENTITY seq=1024 chunk256_vs_whole outputs+K max_abs= 0.0  live_mid_chunked= 356608  live_mid_whole= 553216
+A069_8K seq=8192 chunk=256 chunks= 32  seconds= 0.617148159  tokens_per_sec= 13273.96003785211
+A069_8K out_checksum= -5307.3101786307525  last_row_first4= 0.044486843 -0.10261205 0.49667809 -0.56356585
+A069_BOUNDED workspace_chunk256= 393216  workspace_single_chunk_8192= 12582912  kv_cache_one= 1048576  score_matrix_8k_one_head_bytes= 268435456  live_mid_8k= 2191616  live_mid_1k_chunked= 356608
+A069_DISPATCH rope_batched= 74  kv_append_chunk= 74  attention_prefill= 37
+A069_LIVE_AFTER_FREE= 0  start_live= 0
+A069_BENCH: PASS
+MOJO_EXIT=0

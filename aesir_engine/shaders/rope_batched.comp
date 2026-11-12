@@ -1,0 +1,37 @@
+#version 450
+// A-069: batched RoPE for chunked prefill. Like rope.comp
+// (rotate-half pairing, A-060) but each row carries its own
+// GLOBAL position: the buffer holds tokens * rows_per_token
+// rows of head_dim floats (e.g. rows_per_token == num_heads
+// for Q, kv_heads for K), and row r belongs to token
+// r / rows_per_token, whose position is
+// base_position + r / rows_per_token. Restarting positions
+// at zero per chunk would collide chunk 2+ keys with chunk 1
+// keys; the global position is what makes chunked attention
+// over earlier KV identical to the unchunked pass.
+layout(local_size_x = 256, local_size_y = 1, local_size_z = 1) in;
+layout(std430, set = 0, binding = 0) buffer XBuf { float x[]; };
+layout(push_constant) uniform Push {
+    uint head_dim;
+    uint rows;
+    uint rows_per_token;
+    uint base_position;
+    float base;
+} pc;
+void main() {
+    uint half_dim = pc.head_dim / 2;
+    uint idx = gl_GlobalInvocationID.x;
+    if (idx >= pc.rows * half_dim) { return; }
+    uint row = idx / half_dim;
+    uint i = idx % half_dim;
+    uint position = pc.base_position + row / pc.rows_per_token;
+    uint offset = row * pc.head_dim + i;
+    float theta = float(position)
+        * pow(pc.base, -2.0 * float(i) / float(pc.head_dim));
+    float c = cos(theta);
+    float s = sin(theta);
+    float a = x[offset];
+    float b = x[offset + half_dim];
+    x[offset] = a * c - b * s;
+    x[offset + half_dim] = b * c + a * s;
+}

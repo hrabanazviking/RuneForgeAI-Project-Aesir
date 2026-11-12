@@ -1,0 +1,30 @@
+#version 450
+// A-069: chunk KV-append for chunked prefill. Copies a whole
+// chunk of k (or v) projection rows, src laid out token-major
+// [tokens][kv_heads][head_dim], into the cache layout the
+// A-062/A-066 attention kernels consume,
+// [kv_heads][max_len][head_dim], at slots
+// chunk_start .. chunk_start + tokens - 1:
+// cache[(h * max_len + chunk_start + t) * head_dim + d]
+//   = src[(t * kv_heads + h) * head_dim + d].
+// A pure data-movement compute kernel (no vkCmdCopyBuffer -
+// A-019 discipline); every float lands bit-exact, so a chunked
+// cache is byte-identical to the unchunked one.
+layout(local_size_x = 64, local_size_y = 1, local_size_z = 1) in;
+layout(std430, set = 0, binding = 0) readonly buffer SrcBuf { float src[]; };
+layout(std430, set = 0, binding = 1) buffer CacheBuf { float cache[]; };
+layout(push_constant) uniform Push {
+    uint head_dim;
+    uint max_len;
+    uint chunk_start;
+    uint kv_heads;
+    uint tokens;
+} pc;
+void main() {
+    uint idx = gl_GlobalInvocationID.x;
+    if (idx >= pc.tokens * pc.kv_heads * pc.head_dim) { return; }
+    uint d = idx % pc.head_dim;
+    uint h = (idx / pc.head_dim) % pc.kv_heads;
+    uint t = idx / (pc.head_dim * pc.kv_heads);
+    cache[(h * pc.max_len + pc.chunk_start + t) * pc.head_dim + d] = src[idx];
+}

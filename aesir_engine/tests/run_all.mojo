@@ -298,6 +298,15 @@ from tests.test_vulkan_real_model_a067 import (
     test_vulkan_real_model_dispatch_evidence,
     test_vulkan_real_model_rejection,
 )
+from tests.test_vulkan_prefill_a069 import (
+    test_vulkan_chunked_prefill_cpu_oracle_parity,
+    test_vulkan_chunked_prefill_identical_to_unchunked,
+    test_vulkan_chunked_prefill_causal_isolation,
+    test_vulkan_chunked_prefill_rope_global_positions,
+    test_vulkan_chunked_prefill_kv_append_chunk_slots,
+    test_vulkan_chunked_prefill_rejection,
+    test_vulkan_chunked_prefill_dispatch_and_bounds,
+)
 from tests.test_vulkan_gemm_a068 import (
     test_vulkan_prefill_gemm_oracle_parity,
     test_vulkan_prefill_gemm_known_value,
@@ -1106,6 +1115,13 @@ def main() raises:
     run_case(ledger, "gpu.vulkan_real_model_generation", test_vulkan_real_model_generation)
     run_case(ledger, "gpu.vulkan_real_model_dispatch_evidence", test_vulkan_real_model_dispatch_evidence)
     run_case(ledger, "gpu.vulkan_real_model_rejection", test_vulkan_real_model_rejection)
+    run_case(ledger, "gpu.vulkan_chunked_prefill_cpu_oracle_parity", test_vulkan_chunked_prefill_cpu_oracle_parity)
+    run_case(ledger, "gpu.vulkan_chunked_prefill_identical_to_unchunked", test_vulkan_chunked_prefill_identical_to_unchunked)
+    run_case(ledger, "gpu.vulkan_chunked_prefill_causal_isolation", test_vulkan_chunked_prefill_causal_isolation)
+    run_case(ledger, "gpu.vulkan_chunked_prefill_rope_global_positions", test_vulkan_chunked_prefill_rope_global_positions)
+    run_case(ledger, "gpu.vulkan_chunked_prefill_kv_append_chunk_slots", test_vulkan_chunked_prefill_kv_append_chunk_slots)
+    run_case(ledger, "gpu.vulkan_chunked_prefill_rejection", test_vulkan_chunked_prefill_rejection)
+    run_case(ledger, "gpu.vulkan_chunked_prefill_dispatch_and_bounds", test_vulkan_chunked_prefill_dispatch_and_bounds)
     run_case(ledger, "gpu.vulkan_prefill_gemm_oracle_parity", test_vulkan_prefill_gemm_oracle_parity)
     run_case(ledger, "gpu.vulkan_prefill_gemm_known_value", test_vulkan_prefill_gemm_known_value)
     run_case(ledger, "gpu.vulkan_prefill_gemm_f32_parity", test_vulkan_prefill_gemm_f32_parity)
@@ -1867,4 +1883,8 @@ def main() raises:
     # tests/test_vulkan_gemm_a068.mojo) counted on top of the
     # A-067 seat pin (A-068 team pin was 501 -> 507 on its
     # own base; the union total reconciles at banking).
-    ledger.finish(518)
+    # A-069 re-pin: 518 -> 525 -- seven chunked prefill cases
+    # (gpu.vulkan_chunked_prefill_* in
+    # tests/test_vulkan_prefill_a069.mojo) counted on top of
+    # the A-068 seat pin.
+    ledger.finish(525)

@@ -5,7 +5,7 @@
   "glslang": "Glslang Version: 11:16.4.0",
   "spirv_val": "SPIRV-Tools v2026.3 unknown hash, 2026-10-03T10:00:00+00:00",
   "deterministic": true,
-  "kernel_count": 22,
+  "kernel_count": 25,
   "kernels": [
     {
       "name": "attention_decode",
@@ -23,6 +23,15 @@
       "spv_sha256": "e03262acbb2e3cb4548a13056ba05234ad65f506a6474f437f9365d172f7580f",
       "spv_bytes": 5408,
       "spv_words": 1352,
+      "spirv_version_word": 65536
+    },
+    {
+      "name": "attention_prefill",
+      "source": "aesir_engine/shaders/attention_prefill.comp",
+      "source_sha256": "a65e4eca1543bb9e4d6081277f1f16db030b88bc962f48ae18f2db2f005e7084",
+      "spv_sha256": "7c7a9432278a62d601e8719fc9510f8a84ee1b661731e4bee46625aa19a9cf82",
+      "spv_bytes": 6640,
+      "spv_words": 1660,
       "spirv_version_word": 65536
     },
     {
@@ -44,120 +53,21 @@
       "spirv_version_word": 65536
     },
     {
-      "name": "gemv_f32",
-      "source": "aesir_engine/shaders/gemv_f32.comp",
-      "source_sha256": "6ee74b44d75b399dfe2f7ed33e3e4687b8d3e1055d04145449feec6524f80c75",
-      "spv_sha256": "658061666ecb1c85a9b8d2d5d7a4804ad0c47eb2c6648b92d251fad26c6e907b",
-      "spv_bytes": 2224,
-      "spv_words": 556,
-      "spirv_version_word": 65536
-    },
-    {
-      "name": "kv_append",
-      "source": "aesir_engine/shaders/kv_append.comp",
-      "source_sha256": "ed3f2ccaafc50565fcf36773f6626a0b3d7de30f98890f09e4f80b423209c595",
-      "spv_sha256": "82c16b64489d1e6a9b5df39cb80000aa057c8ba77cf8bdfdc9aba7e505377120",
-      "spv_bytes": 2020,
-      "spv_words": 505,
-      "spirv_version_word": 65536
-    },
-    {
-      "name": "q4k_gemv",
-      "source": "aesir_engine/shaders/q4k_gemv.comp",
-      "source_sha256": "2f221f3e2fbafe3d81a191a54b3db1970a48ab81e2a41583a238963bc8df7cef",
-      "spv_sha256": "8241989c5994d480bce24b3475ad888be340b937f0daa776b1bb6c002e7bfe93",
-      "spv_bytes": 6916,
-      "spv_words": 1729,
-      "spirv_version_word": 65536
-    },
-    {
-      "name": "q5_k_gemv",
-      "source": "aesir_engine/shaders/q5_k_gemv.comp",
-      "source_sha256": "fcfa4ad4df123c53ac9329dc06a8ca9198e198580b9705eb153f4c5b15d6f52b",
-      "spv_sha256": "5385b81611037a52c85a62cb779744a5fdde4862ce7f0026b4420f6d8f2fff5e",
-      "spv_bytes": 9156,
-      "spv_words": 2289,
-      "spirv_version_word": 65536
-    },
-    {
-      "name": "q6_k_gemv",
-      "source": "aesir_engine/shaders/q6_k_gemv.comp",
-      "source_sha256": "2a029dbf5fe6e94dc3b51bea5682e385c74ae2f53ffe20a138c2a108650a7a25",
-      "spv_sha256": "bf97687308c7e654e68e79949c28af1a7577753e89516f40443f11e6b45af15b",
-      "spv_bytes": 7928,
-      "spv_words": 1982,
-      "spirv_version_word": 65536
-    },
-    {
-      "name": "q8_0_gemv",
-      "source": "aesir_engine/shaders/q8_0_gemv.comp",
-      "source_sha256": "1919c081ed0e833b92556120b814d11259a73ea25d9fbe7905fd2bc67a45b0a0",
-      "spv_sha256": "af3a2f037eff04e192cb9477debbcab14bcebb9354874dcec8e8b337b47ce302",
-      "spv_bytes": 6076,
-      "spv_words": 1519,
-      "spirv_version_word": 65536
-    },
-    {
-      "name": "rmsnorm",
-      "source": "aesir_engine/shaders/rmsnorm.comp",
-      "source_sha256": "74a4c2e758f42b70076cc8e7f12d309520f0e1dd8f5370654a12918e99c8030c",
-      "spv_sha256": "b23cb30bc450a41d97e447c608063a7498b5df218ac95c4702a54c1187d3c7ae",
-      "spv_bytes": 3984,
-      "spv_words": 996,
-      "spirv_version_word": 65536
-    },
-    {
-      "name": "rope",
-      "source": "aesir_engine/shaders/rope.comp",
-      "source_sha256": "1f63e9790883396df28db0e8123957f826d52b79aca1e02ad7b04dc54121412f",
-      "spv_sha256": "5de79760b84c0ca6bbe0ce773241b5fc6a5e260c1a98e86f560e10665da50768",
-      "spv_bytes": 2880,
-      "spv_words": 720,
-      "spirv_version_word": 65536
-    },
-    {
-      "name": "sampling_greedy",
-      "source": "aesir_engine/shaders/sampling_greedy.comp",
-      "source_sha256": "d6e02a70cbbf49f1330e62e12c102eb110b0ae174ea9a7904371fb1969346146",
-      "spv_sha256": "a381ed5a989591d9854a8384c7d80ce33a9c3f04a075cd5c33cf77d71f1486db",
-      "spv_bytes": 3788,
-      "spv_words": 947,
-      "spirv_version_word": 65536
-    },
-    {
-      "name": "sampling_sample",
-      "source": "aesir_engine/shaders/sampling_sample.comp",
-      "source_sha256": "164accb3fa879362f88d84e2c675edd4671efda5304ef8a09ed933cb8d5f4033",
-      "spv_sha256": "b979830ca31206c743a36dc9a433e81348b45140b80b7eb90b156c1c8ca44648",
-      "spv_bytes": 6996,
-      "spv_words": 1749,
-      "spirv_version_word": 65536
-    },
-    {
-      "name": "softmax",
-      "source": "aesir_engine/shaders/softmax.comp",
-      "source_sha256": "46e6bf13342793f2af43f6fb419774e9428f9d69231e2dbac65f2d435c474a63",
-      "spv_sha256": "706162baf9e9194a8ea5f3e558bd6bbe00acbce026bd7cd1487b6a95e482c1cc",
-      "spv_bytes": 4552,
-      "spv_words": 1138,
-      "spirv_version_word": 65536
-    },
-    {
-      "name": "vec_add",
-      "source": "aesir_engine/shaders/vec_add.comp",
-      "source_sha256": "e20f7cd84b67a59738253385369ddbb6352388a9c44223001ae80120ec761155",
-      "spv_sha256": "b228710b1f464b3aa810a4d4cb73e67f2325fdf1eabaa2ceb6b2cf73309ce15b",
-      "spv_bytes": 1608,
-      "spv_words": 402,
-      "spirv_version_word": 65536
-    },
-    {
       "name": "gemm_f32",
       "source": "aesir_engine/shaders/gemm_f32.comp",
       "source_sha256": "8c9146e2525d2b9452c7d6e5ac2729d89b177ec0f7a883b902d1d708e23d4b4f",
       "spv_sha256": "4b219a0e3d474d98f724543c020546f2b5bae45045c1a7ecc6281108b4dc36ae",
       "spv_bytes": 3780,
       "spv_words": 945,
+      "spirv_version_word": 65536
+    },
+    {
+      "name": "gemv_f32",
+      "source": "aesir_engine/shaders/gemv_f32.comp",
+      "source_sha256": "6ee74b44d75b399dfe2f7ed33e3e4687b8d3e1055d04145449feec6524f80c75",
+      "spv_sha256": "658061666ecb1c85a9b8d2d5d7a4804ad0c47eb2c6648b92d251fad26c6e907b",
+      "spv_bytes": 2224,
+      "spv_words": 556,
       "spirv_version_word": 65536
     },
     {
@@ -197,12 +107,129 @@
       "spirv_version_word": 65536
     },
     {
+      "name": "kv_append",
+      "source": "aesir_engine/shaders/kv_append.comp",
+      "source_sha256": "ed3f2ccaafc50565fcf36773f6626a0b3d7de30f98890f09e4f80b423209c595",
+      "spv_sha256": "82c16b64489d1e6a9b5df39cb80000aa057c8ba77cf8bdfdc9aba7e505377120",
+      "spv_bytes": 2020,
+      "spv_words": 505,
+      "spirv_version_word": 65536
+    },
+    {
+      "name": "kv_append_chunk",
+      "source": "aesir_engine/shaders/kv_append_chunk.comp",
+      "source_sha256": "8ed94045e79293e6c9e007a8c6a2560155f9d54b2febfe4a056c6e48a2798d35",
+      "spv_sha256": "92a7fb995536c7c07d9aad10eda3b6b1444978fbc55ea95e5c802bc0cd2bd19e",
+      "spv_bytes": 2388,
+      "spv_words": 597,
+      "spirv_version_word": 65536
+    },
+    {
+      "name": "q4k_gemv",
+      "source": "aesir_engine/shaders/q4k_gemv.comp",
+      "source_sha256": "2f221f3e2fbafe3d81a191a54b3db1970a48ab81e2a41583a238963bc8df7cef",
+      "spv_sha256": "8241989c5994d480bce24b3475ad888be340b937f0daa776b1bb6c002e7bfe93",
+      "spv_bytes": 6916,
+      "spv_words": 1729,
+      "spirv_version_word": 65536
+    },
+    {
+      "name": "q5_k_gemv",
+      "source": "aesir_engine/shaders/q5_k_gemv.comp",
+      "source_sha256": "fcfa4ad4df123c53ac9329dc06a8ca9198e198580b9705eb153f4c5b15d6f52b",
+      "spv_sha256": "5385b81611037a52c85a62cb779744a5fdde4862ce7f0026b4420f6d8f2fff5e",
+      "spv_bytes": 9156,
+      "spv_words": 2289,
+      "spirv_version_word": 65536
+    },
+    {
+      "name": "q6_k_gemv",
+      "source": "aesir_engine/shaders/q6_k_gemv.comp",
+      "source_sha256": "2a029dbf5fe6e94dc3b51bea5682e385c74ae2f53ffe20a138c2a108650a7a25",
+      "spv_sha256": "bf97687308c7e654e68e79949c28af1a7577753e89516f40443f11e6b45af15b",
+      "spv_bytes": 7928,
+      "spv_words": 1982,
+      "spirv_version_word": 65536
+    },
+    {
       "name": "q8_0_gemm",
       "source": "aesir_engine/shaders/q8_0_gemm.comp",
       "source_sha256": "5bbda3a368be7e08680ed24b6b824b20eca4e779192d5e1efed76eb98cd34fc6",
       "spv_sha256": "3c162d588a33b8e0b9f9caa59555947a6ae0e76c9d61e8b7a3e3ea39de4df210",
       "spv_bytes": 6620,
       "spv_words": 1655,
+      "spirv_version_word": 65536
+    },
+    {
+      "name": "q8_0_gemv",
+      "source": "aesir_engine/shaders/q8_0_gemv.comp",
+      "source_sha256": "1919c081ed0e833b92556120b814d11259a73ea25d9fbe7905fd2bc67a45b0a0",
+      "spv_sha256": "af3a2f037eff04e192cb9477debbcab14bcebb9354874dcec8e8b337b47ce302",
+      "spv_bytes": 6076,
+      "spv_words": 1519,
+      "spirv_version_word": 65536
+    },
+    {
+      "name": "rmsnorm",
+      "source": "aesir_engine/shaders/rmsnorm.comp",
+      "source_sha256": "74a4c2e758f42b70076cc8e7f12d309520f0e1dd8f5370654a12918e99c8030c",
+      "spv_sha256": "b23cb30bc450a41d97e447c608063a7498b5df218ac95c4702a54c1187d3c7ae",
+      "spv_bytes": 3984,
+      "spv_words": 996,
+      "spirv_version_word": 65536
+    },
+    {
+      "name": "rope",
+      "source": "aesir_engine/shaders/rope.comp",
+      "source_sha256": "1f63e9790883396df28db0e8123957f826d52b79aca1e02ad7b04dc54121412f",
+      "spv_sha256": "5de79760b84c0ca6bbe0ce773241b5fc6a5e260c1a98e86f560e10665da50768",
+      "spv_bytes": 2880,
+      "spv_words": 720,
+      "spirv_version_word": 65536
+    },
+    {
+      "name": "rope_batched",
+      "source": "aesir_engine/shaders/rope_batched.comp",
+      "source_sha256": "eaa2944a5f2a5219d93cbddfa93f47f57a4a9a1b2b1cab3145d18302e167bd3c",
+      "spv_sha256": "67e5cb28f333161fc8b531d288ca50c9fbe191aeb1a0e335b54bddc727597185",
+      "spv_bytes": 3048,
+      "spv_words": 762,
+      "spirv_version_word": 65536
+    },
+    {
+      "name": "sampling_greedy",
+      "source": "aesir_engine/shaders/sampling_greedy.comp",
+      "source_sha256": "d6e02a70cbbf49f1330e62e12c102eb110b0ae174ea9a7904371fb1969346146",
+      "spv_sha256": "a381ed5a989591d9854a8384c7d80ce33a9c3f04a075cd5c33cf77d71f1486db",
+      "spv_bytes": 3788,
+      "spv_words": 947,
+      "spirv_version_word": 65536
+    },
+    {
+      "name": "sampling_sample",
+      "source": "aesir_engine/shaders/sampling_sample.comp",
+      "source_sha256": "164accb3fa879362f88d84e2c675edd4671efda5304ef8a09ed933cb8d5f4033",
+      "spv_sha256": "b979830ca31206c743a36dc9a433e81348b45140b80b7eb90b156c1c8ca44648",
+      "spv_bytes": 6996,
+      "spv_words": 1749,
+      "spirv_version_word": 65536
+    },
+    {
+      "name": "softmax",
+      "source": "aesir_engine/shaders/softmax.comp",
+      "source_sha256": "46e6bf13342793f2af43f6fb419774e9428f9d69231e2dbac65f2d435c474a63",
+      "spv_sha256": "706162baf9e9194a8ea5f3e558bd6bbe00acbce026bd7cd1487b6a95e482c1cc",
+      "spv_bytes": 4552,
+      "spv_words": 1138,
+      "spirv_version_word": 65536
+    },
+    {
+      "name": "vec_add",
+      "source": "aesir_engine/shaders/vec_add.comp",
+      "source_sha256": "e20f7cd84b67a59738253385369ddbb6352388a9c44223001ae80120ec761155",
+      "spv_sha256": "b228710b1f464b3aa810a4d4cb73e67f2325fdf1eabaa2ceb6b2cf73309ce15b",
+      "spv_bytes": 1608,
+      "spv_words": 402,
       "spirv_version_word": 65536
     }
   ]

@@ -1,0 +1,68 @@
+#version 450
+// A-069: chunk causal attention for chunked prefill. For each
+// query token t of the chunk (global position
+// p = chunk_start + t), attends over cache positions
+// 0 .. p inclusive - all prior chunks' KV plus the causal
+// prefix of this chunk - and writes the attention output row.
+// Q/O are [tokens][num_heads][head_dim]; K/V are the caches
+// [kv_heads][max_len][head_dim] (A-062 layout, max_len stride).
+// GQA mapping h / kv_per_query, scores scaled by
+// 1/sqrt(head_dim), max-subtraction softmax - the A-062 math.
+// BOUNDED MEMORY: no score matrix is ever materialised; the
+// kernel recomputes scores in a second pass instead of
+// storing seq * seq weights, so workspace is O(chunk), never
+// O(seq^2). The accumulation order over positions is the
+// same increasing order an unchunked pass uses, so chunked
+// and unchunked outputs agree to accumulation order.
+// One invocation per (token, query head); the invocation
+// loops positions serially and writes all head_dim outputs.
+layout(local_size_x = 32, local_size_y = 1, local_size_z = 1) in;
+layout(std430, set = 0, binding = 0) readonly buffer QBuf { float q[]; };
+layout(std430, set = 0, binding = 1) readonly buffer KBuf { float k[]; };
+layout(std430, set = 0, binding = 2) readonly buffer VBuf { float v[]; };
+layout(std430, set = 0, binding = 3) buffer OBuf { float o[]; };
+layout(push_constant) uniform Push {
+    uint head_dim;
+    uint max_len;
+    uint chunk_start;
+    uint tokens;
+    uint num_heads;
+    uint kv_per_query;
+} pc;
+void main() {
+    uint idx = gl_GlobalInvocationID.x;
+    if (idx >= pc.tokens * pc.num_heads) { return; }
+    uint head = idx % pc.num_heads;
+    uint t = idx / pc.num_heads;
+    uint kv_head = head / pc.kv_per_query;
+    uint p = pc.chunk_start + t;
+    uint qbase = (t * pc.num_heads + head) * pc.head_dim;
+    float scale = 1.0 / sqrt(float(pc.head_dim));
+    float row_max = -1.0 / 0.0;
+    for (uint s = 0; s <= p; s++) {
+        uint kbase = (kv_head * pc.max_len + s) * pc.head_dim;
+        float score = 0.0;
+        for (uint d = 0; d < pc.head_dim; d++) {
+            score += q[qbase + d] * k[kbase + d];
+        }
+        row_max = max(row_max, score * scale);
+    }
+    float denom = 0.0;
+    float acc[64];
+    for (uint d = 0; d < pc.head_dim; d++) { acc[d] = 0.0; }
+    for (uint s = 0; s <= p; s++) {
+        uint kbase = (kv_head * pc.max_len + s) * pc.head_dim;
+        float score = 0.0;
+        for (uint d = 0; d < pc.head_dim; d++) {
+            score += q[qbase + d] * k[kbase + d];
+        }
+        float w = exp(score * scale - row_max);
+        denom += w;
+        for (uint d = 0; d < pc.head_dim; d++) {
+            acc[d] += w * v[kbase + d];
+        }
+    }
+    for (uint d = 0; d < pc.head_dim; d++) {
+        o[qbase + d] = acc[d] / denom;
+    }
+}

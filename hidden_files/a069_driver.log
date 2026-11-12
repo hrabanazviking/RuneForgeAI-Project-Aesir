@@ -1,0 +1,40 @@
+staging=/tmp/tmp.8JWly1e1jl
+hailo_cc_exit=0
+par_cc_exit=0
+hip_cc_exit=0
+vulkan_cc_exit=0
+zc_cc_exit=0
+aff_cc_exit=0
+Imported from /home/volmarr/aesir-team-02/aesir_engine/a069_driver.mojo:2:
+Imported from /home/volmarr/aesir-team-02/aesir_engine/tests/test_vulkan_prefill_a069.mojo:43:
+/home/volmarr/aesir-team-02/aesir_engine/core/vulkan_buffers.mojo:267:24: warning: `alloc` without a `Layout` is deprecated, use the `Layout`-based `alloc` instead; as a temporary migration step, use `unsafe_alloc`
+        var name_buf = alloc[UInt8](256)
+                       ^~~~~
+<unknown>:0: note: 'alloc' declared here
+Imported from /home/volmarr/aesir-team-02/aesir_engine/a069_driver.mojo:2:
+Imported from /home/volmarr/aesir-team-02/aesir_engine/tests/test_vulkan_prefill_a069.mojo:43:
+/home/volmarr/aesir-team-02/aesir_engine/core/vulkan_buffers.mojo:295:24: warning: `alloc` without a `Layout` is deprecated, use the `Layout`-based `alloc` instead; as a temporary migration step, use `unsafe_alloc`
+        var name_buf = alloc[UInt8](256)
+                       ^~~~~
+<unknown>:0: note: 'alloc' declared here
+--- Testing Vulkan chunked prefill CPU oracle parity (A-069) ---
+A069_ORACLE seq= 40  chunk=16 (16/16/8 partial final)  max_len= 64  out_max_abs= 1.1324882e-06  k_max_abs= 4.6491623e-06  v_max_abs= 9.536743e-07
+Vulkan chunked prefill CPU oracle parity (seq=40, chunk=16, outputs + KV caches, RADV device): PASS
+--- Testing Vulkan chunked prefill identical to unchunked (A-069) ---
+A069_IDENTICAL seq= 40  chunk16_vs_whole_out= 0.0  chunk7_vs_whole_out= 0.0  chunk7_k= 0.0  chunk7_v= 0.0
+Vulkan chunked prefill identical to unchunked (chunk 16 and chunk 7 vs single-chunk, outputs + KV): PASS
+--- Testing Vulkan chunked prefill causal isolation (A-069) ---
+A069_CAUSAL perturbed_token=20 early_max_abs= 0.0  late_max_abs= 2.3295732
+Vulkan chunked prefill causal isolation (token 20 perturbation: positions <20 bitwise unchanged, >=20 changed): PASS
+--- Testing Vulkan chunked prefill RoPE global positions (A-069) ---
+A069_ROPE base_position=8 vs_global_max_abs= 5.9604645e-07  vs_local_max_abs= 1.8964828
+Vulkan chunked prefill RoPE global positions (chunk starting at 8 matches global oracle, differs from restarted): PASS
+--- Testing Vulkan chunked prefill KV append chunk slots (A-069) ---
+Vulkan chunked prefill KV append chunk (5 tokens at slot 7, bit-exact, neighbours untouched): PASS
+--- Testing Vulkan chunked prefill rejection (A-069) ---
+Vulkan chunked prefill rejection (zero tokens, chunk overrun, head_dim 128, append overrun, bogus id; counters unmoved): PASS
+--- Testing Vulkan chunked prefill dispatch evidence + bounds (A-069) ---
+A069_BOUNDS workspace_chunk256= 786432  kv_cache_8k_bytes= 2097152  live_count_delta= 0
+Vulkan chunked prefill dispatch evidence + bounds (per-chunk deltas rope 2 / kv 2 / attn 1 / rmsnorm 2 / gemm 7 / elem 3; 8k plan 32 chunks; workspace chunk-sized only): PASS
+A069_DRIVER_ALL_PASS
+MOJO_EXIT=0
