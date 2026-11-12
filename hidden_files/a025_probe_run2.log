@@ -1,0 +1,154 @@
+Secondary CUID not available: AMDCUID support not enabled.
+DEVICE name=AMD Radeon 8060S Graphics gcnArch=gfx1151 totalMem=133143986176 concurrentManaged=1 canMapHost=1
+KERNEL sumk compiled via HIPRTC for gfx1151 codeSize=5160 - real GPU execution follows
+=== SIZE bytes=1048576 (1 MiB) reps=7 ===
+VERIFY warmup_dev gpu_sum=262144.0 want=262144.0 rel=0.00e+00 OK
+VERIFY warmup_managed gpu_sum=524288.0 want=524288.0 rel=0.00e+00 OK
+VERIFY warmup_pinned_zc gpu_sum=786432.0 want=786432.0 rel=0.00e+00 OK
+STAGED_E2E_H2D pageable->pinned->device s=0.00004 bw=25.17 GB/s
+VERIFY staged_e2e gpu_sum=262144.0 want=262144.0 rel=0.00e+00 OK
+STAGED_COPYONLY_H2D hipMemcpy pinned->device s=0.00003 bw=39.29 GB/s
+STAGED_E2E_D2H device->pinned->pageable s=0.00004 bw=25.87 GB/s verify=1.0
+DIRECTCOPY_H2D hipMemcpy pageable->device s=0.00004 bw=28.17 GB/s
+VERIFY directcopy gpu_sum=262144.0 want=262144.0 rel=0.00e+00 OK
+VERIFY managed_direct gpu_sum=524288.0 want=524288.0 rel=0.00e+00 OK
+VERIFY managed_direct gpu_sum=524288.0 want=524288.0 rel=0.00e+00 OK
+VERIFY managed_direct gpu_sum=524288.0 want=524288.0 rel=0.00e+00 OK
+VERIFY managed_direct gpu_sum=524288.0 want=524288.0 rel=0.00e+00 OK
+VERIFY managed_direct gpu_sum=524288.0 want=524288.0 rel=0.00e+00 OK
+VERIFY managed_direct gpu_sum=524288.0 want=524288.0 rel=0.00e+00 OK
+VERIFY managed_direct gpu_sum=524288.0 want=524288.0 rel=0.00e+00 OK
+DIRECT_MANAGED gpu_read_inplace s=0.00003 bw=38.54 GB/s (cpu fill excluded; no copy call in path)
+VERIFY pinned_zc_direct gpu_sum=786432.0 want=786432.0 rel=0.00e+00 OK
+VERIFY pinned_zc_direct gpu_sum=786432.0 want=786432.0 rel=0.00e+00 OK
+VERIFY pinned_zc_direct gpu_sum=786432.0 want=786432.0 rel=0.00e+00 OK
+VERIFY pinned_zc_direct gpu_sum=786432.0 want=786432.0 rel=0.00e+00 OK
+VERIFY pinned_zc_direct gpu_sum=786432.0 want=786432.0 rel=0.00e+00 OK
+VERIFY pinned_zc_direct gpu_sum=786432.0 want=786432.0 rel=0.00e+00 OK
+VERIFY pinned_zc_direct gpu_sum=786432.0 want=786432.0 rel=0.00e+00 OK
+DIRECT_PINNED_ZC gpu_read_inplace s=0.00003 bw=41.60 GB/s (cpu fill excluded; no copy call in path)
+VERIFY e2e_staged gpu_sum=262144.0 want=262144.0 rel=0.00e+00 OK
+VERIFY e2e_staged gpu_sum=262144.0 want=262144.0 rel=0.00e+00 OK
+VERIFY e2e_staged gpu_sum=262144.0 want=262144.0 rel=0.00e+00 OK
+VERIFY e2e_staged gpu_sum=262144.0 want=262144.0 rel=0.00e+00 OK
+VERIFY e2e_staged gpu_sum=262144.0 want=262144.0 rel=0.00e+00 OK
+VERIFY e2e_staged gpu_sum=262144.0 want=262144.0 rel=0.00e+00 OK
+VERIFY e2e_staged gpu_sum=262144.0 want=262144.0 rel=0.00e+00 OK
+E2E_LOAD_STAGED host->gpu-read-complete s=0.00014 eff_bw=7.41 GB/s
+VERIFY e2e_managed gpu_sum=524288.0 want=524288.0 rel=0.00e+00 OK
+VERIFY e2e_managed gpu_sum=524288.0 want=524288.0 rel=0.00e+00 OK
+VERIFY e2e_managed gpu_sum=524288.0 want=524288.0 rel=0.00e+00 OK
+VERIFY e2e_managed gpu_sum=524288.0 want=524288.0 rel=0.00e+00 OK
+VERIFY e2e_managed gpu_sum=524288.0 want=524288.0 rel=0.00e+00 OK
+VERIFY e2e_managed gpu_sum=524288.0 want=524288.0 rel=0.00e+00 OK
+VERIFY e2e_managed gpu_sum=524288.0 want=524288.0 rel=0.00e+00 OK
+E2E_LOAD_MANAGED host->gpu-read-complete s=0.00008 eff_bw=12.44 GB/s
+VERIFY e2e_pinned gpu_sum=786432.0 want=786432.0 rel=0.00e+00 OK
+VERIFY e2e_pinned gpu_sum=786432.0 want=786432.0 rel=0.00e+00 OK
+VERIFY e2e_pinned gpu_sum=786432.0 want=786432.0 rel=0.00e+00 OK
+VERIFY e2e_pinned gpu_sum=786432.0 want=786432.0 rel=0.00e+00 OK
+VERIFY e2e_pinned gpu_sum=786432.0 want=786432.0 rel=0.00e+00 OK
+VERIFY e2e_pinned gpu_sum=786432.0 want=786432.0 rel=0.00e+00 OK
+VERIFY e2e_pinned gpu_sum=786432.0 want=786432.0 rel=0.00e+00 OK
+E2E_LOAD_PINNEDZC host->gpu-read-complete s=0.00008 eff_bw=12.60 GB/s
+=== SIZE bytes=16777216 (16 MiB) reps=7 ===
+VERIFY warmup_dev gpu_sum=4194304.0 want=4194304.0 rel=0.00e+00 OK
+VERIFY warmup_managed gpu_sum=8388608.0 want=8388608.0 rel=0.00e+00 OK
+VERIFY warmup_pinned_zc gpu_sum=12582912.0 want=12582912.0 rel=0.00e+00 OK
+STAGED_E2E_H2D pageable->pinned->device s=0.00075 bw=22.52 GB/s
+VERIFY staged_e2e gpu_sum=4194304.0 want=4194304.0 rel=0.00e+00 OK
+STAGED_COPYONLY_H2D hipMemcpy pinned->device s=0.00027 bw=61.95 GB/s
+STAGED_E2E_D2H device->pinned->pageable s=0.00077 bw=21.67 GB/s verify=1.0
+DIRECTCOPY_H2D hipMemcpy pageable->device s=0.00023 bw=73.96 GB/s
+VERIFY directcopy gpu_sum=4194304.0 want=4194304.0 rel=0.00e+00 OK
+VERIFY managed_direct gpu_sum=8388608.0 want=8388608.0 rel=0.00e+00 OK
+VERIFY managed_direct gpu_sum=8388608.0 want=8388608.0 rel=0.00e+00 OK
+VERIFY managed_direct gpu_sum=8388608.0 want=8388608.0 rel=0.00e+00 OK
+VERIFY managed_direct gpu_sum=8388608.0 want=8388608.0 rel=0.00e+00 OK
+VERIFY managed_direct gpu_sum=8388608.0 want=8388608.0 rel=0.00e+00 OK
+VERIFY managed_direct gpu_sum=8388608.0 want=8388608.0 rel=0.00e+00 OK
+VERIFY managed_direct gpu_sum=8388608.0 want=8388608.0 rel=0.00e+00 OK
+DIRECT_MANAGED gpu_read_inplace s=0.00029 bw=58.35 GB/s (cpu fill excluded; no copy call in path)
+VERIFY pinned_zc_direct gpu_sum=12582912.0 want=12582912.0 rel=0.00e+00 OK
+VERIFY pinned_zc_direct gpu_sum=12582912.0 want=12582912.0 rel=0.00e+00 OK
+VERIFY pinned_zc_direct gpu_sum=12582912.0 want=12582912.0 rel=0.00e+00 OK
+VERIFY pinned_zc_direct gpu_sum=12582912.0 want=12582912.0 rel=0.00e+00 OK
+VERIFY pinned_zc_direct gpu_sum=12582912.0 want=12582912.0 rel=0.00e+00 OK
+VERIFY pinned_zc_direct gpu_sum=12582912.0 want=12582912.0 rel=0.00e+00 OK
+VERIFY pinned_zc_direct gpu_sum=12582912.0 want=12582912.0 rel=0.00e+00 OK
+DIRECT_PINNED_ZC gpu_read_inplace s=0.00029 bw=58.37 GB/s (cpu fill excluded; no copy call in path)
+VERIFY e2e_staged gpu_sum=4194304.0 want=4194304.0 rel=0.00e+00 OK
+VERIFY e2e_staged gpu_sum=4194304.0 want=4194304.0 rel=0.00e+00 OK
+VERIFY e2e_staged gpu_sum=4194304.0 want=4194304.0 rel=0.00e+00 OK
+VERIFY e2e_staged gpu_sum=4194304.0 want=4194304.0 rel=0.00e+00 OK
+VERIFY e2e_staged gpu_sum=4194304.0 want=4194304.0 rel=0.00e+00 OK
+VERIFY e2e_staged gpu_sum=4194304.0 want=4194304.0 rel=0.00e+00 OK
+VERIFY e2e_staged gpu_sum=4194304.0 want=4194304.0 rel=0.00e+00 OK
+E2E_LOAD_STAGED host->gpu-read-complete s=0.00074 eff_bw=22.69 GB/s
+VERIFY e2e_managed gpu_sum=8388608.0 want=8388608.0 rel=0.00e+00 OK
+VERIFY e2e_managed gpu_sum=8388608.0 want=8388608.0 rel=0.00e+00 OK
+VERIFY e2e_managed gpu_sum=8388608.0 want=8388608.0 rel=0.00e+00 OK
+VERIFY e2e_managed gpu_sum=8388608.0 want=8388608.0 rel=0.00e+00 OK
+VERIFY e2e_managed gpu_sum=8388608.0 want=8388608.0 rel=0.00e+00 OK
+VERIFY e2e_managed gpu_sum=8388608.0 want=8388608.0 rel=0.00e+00 OK
+VERIFY e2e_managed gpu_sum=8388608.0 want=8388608.0 rel=0.00e+00 OK
+E2E_LOAD_MANAGED host->gpu-read-complete s=0.00078 eff_bw=21.57 GB/s
+VERIFY e2e_pinned gpu_sum=12582912.0 want=12582912.0 rel=0.00e+00 OK
+VERIFY e2e_pinned gpu_sum=12582912.0 want=12582912.0 rel=0.00e+00 OK
+VERIFY e2e_pinned gpu_sum=12582912.0 want=12582912.0 rel=0.00e+00 OK
+VERIFY e2e_pinned gpu_sum=12582912.0 want=12582912.0 rel=0.00e+00 OK
+VERIFY e2e_pinned gpu_sum=12582912.0 want=12582912.0 rel=0.00e+00 OK
+VERIFY e2e_pinned gpu_sum=12582912.0 want=12582912.0 rel=0.00e+00 OK
+VERIFY e2e_pinned gpu_sum=12582912.0 want=12582912.0 rel=0.00e+00 OK
+E2E_LOAD_PINNEDZC host->gpu-read-complete s=0.00079 eff_bw=21.16 GB/s
+=== SIZE bytes=67108864 (64 MiB) reps=7 ===
+VERIFY warmup_dev gpu_sum=16777216.0 want=16777216.0 rel=0.00e+00 OK
+VERIFY warmup_managed gpu_sum=33554432.0 want=33554432.0 rel=0.00e+00 OK
+VERIFY warmup_pinned_zc gpu_sum=50331648.0 want=50331648.0 rel=0.00e+00 OK
+STAGED_E2E_H2D pageable->pinned->device s=0.00412 bw=16.31 GB/s
+VERIFY staged_e2e gpu_sum=16777216.0 want=16777216.0 rel=0.00e+00 OK
+STAGED_COPYONLY_H2D hipMemcpy pinned->device s=0.00084 bw=79.78 GB/s
+STAGED_E2E_D2H device->pinned->pageable s=0.00398 bw=16.85 GB/s verify=1.0
+DIRECTCOPY_H2D hipMemcpy pageable->device s=0.00085 bw=79.41 GB/s
+VERIFY directcopy gpu_sum=16777216.0 want=16777216.0 rel=0.00e+00 OK
+VERIFY managed_direct gpu_sum=33554432.0 want=33554432.0 rel=0.00e+00 OK
+VERIFY managed_direct gpu_sum=33554432.0 want=33554432.0 rel=0.00e+00 OK
+VERIFY managed_direct gpu_sum=33554432.0 want=33554432.0 rel=0.00e+00 OK
+VERIFY managed_direct gpu_sum=33554432.0 want=33554432.0 rel=0.00e+00 OK
+VERIFY managed_direct gpu_sum=33554432.0 want=33554432.0 rel=0.00e+00 OK
+VERIFY managed_direct gpu_sum=33554432.0 want=33554432.0 rel=0.00e+00 OK
+VERIFY managed_direct gpu_sum=33554432.0 want=33554432.0 rel=0.00e+00 OK
+DIRECT_MANAGED gpu_read_inplace s=0.00067 bw=99.72 GB/s (cpu fill excluded; no copy call in path)
+VERIFY pinned_zc_direct gpu_sum=50331648.0 want=50331648.0 rel=0.00e+00 OK
+VERIFY pinned_zc_direct gpu_sum=50331648.0 want=50331648.0 rel=0.00e+00 OK
+VERIFY pinned_zc_direct gpu_sum=50331648.0 want=50331648.0 rel=0.00e+00 OK
+VERIFY pinned_zc_direct gpu_sum=50331648.0 want=50331648.0 rel=0.00e+00 OK
+VERIFY pinned_zc_direct gpu_sum=50331648.0 want=50331648.0 rel=0.00e+00 OK
+VERIFY pinned_zc_direct gpu_sum=50331648.0 want=50331648.0 rel=0.00e+00 OK
+VERIFY pinned_zc_direct gpu_sum=50331648.0 want=50331648.0 rel=0.00e+00 OK
+DIRECT_PINNED_ZC gpu_read_inplace s=0.00094 bw=71.47 GB/s (cpu fill excluded; no copy call in path)
+VERIFY e2e_staged gpu_sum=16777216.0 want=16777216.0 rel=0.00e+00 OK
+VERIFY e2e_staged gpu_sum=16777216.0 want=16777216.0 rel=0.00e+00 OK
+VERIFY e2e_staged gpu_sum=16777216.0 want=16777216.0 rel=0.00e+00 OK
+VERIFY e2e_staged gpu_sum=16777216.0 want=16777216.0 rel=0.00e+00 OK
+VERIFY e2e_staged gpu_sum=16777216.0 want=16777216.0 rel=0.00e+00 OK
+VERIFY e2e_staged gpu_sum=16777216.0 want=16777216.0 rel=0.00e+00 OK
+VERIFY e2e_staged gpu_sum=16777216.0 want=16777216.0 rel=0.00e+00 OK
+E2E_LOAD_STAGED host->gpu-read-complete s=0.00492 eff_bw=13.64 GB/s
+VERIFY e2e_managed gpu_sum=33554432.0 want=33554432.0 rel=0.00e+00 OK
+VERIFY e2e_managed gpu_sum=33554432.0 want=33554432.0 rel=0.00e+00 OK
+VERIFY e2e_managed gpu_sum=33554432.0 want=33554432.0 rel=0.00e+00 OK
+VERIFY e2e_managed gpu_sum=33554432.0 want=33554432.0 rel=0.00e+00 OK
+VERIFY e2e_managed gpu_sum=33554432.0 want=33554432.0 rel=0.00e+00 OK
+VERIFY e2e_managed gpu_sum=33554432.0 want=33554432.0 rel=0.00e+00 OK
+VERIFY e2e_managed gpu_sum=33554432.0 want=33554432.0 rel=0.00e+00 OK
+E2E_LOAD_MANAGED host->gpu-read-complete s=0.00298 eff_bw=22.49 GB/s
+VERIFY e2e_pinned gpu_sum=50331648.0 want=50331648.0 rel=0.00e+00 OK
+VERIFY e2e_pinned gpu_sum=50331648.0 want=50331648.0 rel=0.00e+00 OK
+VERIFY e2e_pinned gpu_sum=50331648.0 want=50331648.0 rel=0.00e+00 OK
+VERIFY e2e_pinned gpu_sum=50331648.0 want=50331648.0 rel=0.00e+00 OK
+VERIFY e2e_pinned gpu_sum=50331648.0 want=50331648.0 rel=0.00e+00 OK
+VERIFY e2e_pinned gpu_sum=50331648.0 want=50331648.0 rel=0.00e+00 OK
+VERIFY e2e_pinned gpu_sum=50331648.0 want=50331648.0 rel=0.00e+00 OK
+E2E_LOAD_PINNEDZC host->gpu-read-complete s=0.00284 eff_bw=23.64 GB/s
+DONE

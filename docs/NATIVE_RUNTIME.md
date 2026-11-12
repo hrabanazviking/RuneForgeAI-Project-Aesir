@@ -122,6 +122,44 @@ and chooses the corresponding defaults. Model-specific shapes and tokenizers
 still have to pass admission. Unsupported GGUFs do not become supported merely
 because their architecture string says `llama`.
 
+## Copy-path verdict (A-025)
+
+Measured on the Z13 (Radeon 8060S, gfx1151) on 2026-11-12 with a HIPRTC
+sum kernel verifying every buffer it read (full numbers and method:
+`hidden_files/A025_LEDGER.md`; medians of 7 reps after warmup):
+
+| Path | 1 MiB | 16 MiB | 64 MiB |
+| --- | --- | --- | --- |
+| Pinned staging end to end (pageable -> pinned `memcpy` -> `hipMemcpy` -> device) | 25.8 GB/s | 22.3 GB/s | 16.2 GB/s |
+| `hipMemcpy` alone, pinned -> device | 39.4 GB/s | 62.4 GB/s | 82.0 GB/s |
+| `hipMemcpy` alone, pageable -> device (no staging buffer) | 40.3 GB/s | 77.4 GB/s | 80.8 GB/s |
+| End to end, host bytes -> GPU read complete: staged | 12.9 GB/s | 20.4 GB/s | 13.7 GB/s |
+| End to end, host bytes -> GPU read complete: managed direct | 12.8 GB/s | 21.6 GB/s | 25.0 GB/s |
+| End to end, host bytes -> GPU read complete: pinned zero-copy | 12.7 GB/s | 21.3 GB/s | 22.7 GB/s |
+
+At 256 MiB the GPU reads unified buffers in place at 200.3 GB/s
+(managed) and 176.7 GB/s (pinned zero-copy) with no copy call in the
+path (the A-008 probe, re-run in the same session). The staged path is
+the slowest route at every size: the staging `memcpy` serializes a
+single-threaded host pass in front of a copy that itself never beats
+direct access, and it leaves a second resident copy behind.
+
+Verdict: on this unified-memory machine the engine stages nothing.
+Weights arrive by mmap and HIP host registration (A-020), the KV cache
+and shared buffers live in the managed zero-copy allocator (A-019,
+A-021), Vulkan uses host-visible coherent mappings, and the Vulkan and
+zero-copy shims resolve no copy entry point at all. The HIP `memcpy`
+entry points remain only as measured capability surface for device
+buffers and tests; no production Z13 path routes through them.
+
+The one staged copy left in the tree is the CUDA upload described
+above (one pinned chunk, capped at 64 MiB, synchronized before reuse).
+It is justified, and it is not a Z13 path: a discrete CUDA device
+cannot read pageable host memory directly, the MAX host-buffer API
+enqueues copies out of pinned memory, and the uploader refuses any
+non-CUDA context, so it can never run on this machine. Removing it
+would remove the discrete-GPU upload, not a staging inefficiency.
+
 ## Model aliases and favorites
 
 Aliases and favorites live beside the catalog in `.aesir/models/preferences.v1`

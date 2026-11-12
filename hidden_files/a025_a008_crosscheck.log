@@ -1,0 +1,31 @@
+Secondary CUID not available: AMDCUID support not enabled.
+DEVICE name=AMD Radeon 8060S Graphics gcnArch=gfx1151 totalMem=133143986176 concurrentManaged=1 pageableMemAccess=0 canMapHost=1
+MEMINFO free=126796656640 total=133143986176
+KERNELS compiled via HIPRTC for gfx1151, codeSize=7016 - real GPU execution follows
+BUFFER floats=67108864 bytes=268435456 (256 MiB) reps=5
+MANAGED cpu_first_touch_write_s=0.0081 bw=33.33 GB/s
+MANAGED cpu_warm_write_s=0.0080 bw=33.63 GB/s
+MANAGED cpu_read_of_cpu_written_s=0.0077 bw=34.78 GB/s sum_ok=1
+VERIFY managed_cpu_written gpu_sum=134217728.0 want=134217728.0 rel=0.00e+00 OK
+VERIFY managed_cpu_written gpu_sum=134217728.0 want=134217728.0 rel=0.00e+00 OK
+VERIFY managed_cpu_written gpu_sum=134217728.0 want=134217728.0 rel=0.00e+00 OK
+VERIFY managed_cpu_written gpu_sum=134217728.0 want=134217728.0 rel=0.00e+00 OK
+VERIFY managed_cpu_written gpu_sum=134217728.0 want=134217728.0 rel=0.00e+00 OK
+MANAGED gpu_read_of_cpu_written_s=0.0013 bw=200.28 GB/s
+MANAGED gpu_fill_s=0.0013 bw=206.17 GB/s
+MANAGED cpu_read_of_gpu_written_s=0.0086 bw=31.25 GB/s sum=201326592.0 OK
+MANAGED gpu_first_touch_sum_s=0.0019 steady_sum_s=0.0013 fault_overhead_s=0.0006 pages=65536 per_page_us=0.010
+DEVICE memcpy_H2D_pageable_s=0.0033 bw=80.59 GB/s
+VERIFY device_buffer gpu_sum=268435456.0 want=268435456.0 rel=0.00e+00 OK
+DEVICE gpu_fill_s=0.0012 bw=227.04 GB/s
+DEVICE memcpy_D2H_pageable_s=0.0040 bw=67.54 GB/s verify0=5.0
+PINNED memcpy_H2D_s=0.0033 bw=82.45 GB/s
+VERIFY device_from_pinned gpu_sum=402653184.0 want=402653184.0 rel=0.00e+00 OK
+VERIFY pinned_zerocopy gpu_sum=402653184.0 want=402653184.0 rel=0.00e+00 OK
+VERIFY pinned_zerocopy gpu_sum=402653184.0 want=402653184.0 rel=0.00e+00 OK
+VERIFY pinned_zerocopy gpu_sum=402653184.0 want=402653184.0 rel=0.00e+00 OK
+VERIFY pinned_zerocopy gpu_sum=402653184.0 want=402653184.0 rel=0.00e+00 OK
+VERIFY pinned_zerocopy gpu_sum=402653184.0 want=402653184.0 rel=0.00e+00 OK
+PINNED gpu_read_zerocopy_s=0.0015 bw=176.66 GB/s
+PINNED gpu_fill_zerocopy_s=0.0013 bw=199.53 GB/s cpu_sees=7.0
+DONE
