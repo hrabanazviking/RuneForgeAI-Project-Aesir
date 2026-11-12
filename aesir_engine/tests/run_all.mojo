@@ -33,6 +33,7 @@ from tests.test_compute import (
 )
 from tests.test_gguf import test_gguf_parsing, test_ggml_type
 from tests.test_tokenizer import test_tokenizer, test_byte_bpe_merge_baseline, test_byte_bpe_merge_interface, test_byte_bpe_merge_adversarial, test_byte_bpe_merge_integration, test_byte_bpe_merge_negative_scores, test_unicode_normalization_baseline, test_unicode_normalization_interface, test_unicode_normalization_integration, test_unicode_normalization_adversarial, test_invalid_utf8_rejection, test_invalid_utf8_adversarial, test_invalid_utf8_integration, test_invalid_utf8_single_byte_sweep
+from tests.test_tokenizer_edge_a050 import test_tokenizer_edge_empty_and_bos, test_tokenizer_edge_no_vocab_fallback, test_tokenizer_edge_unicode_emoji, test_tokenizer_edge_control_tokens, test_tokenizer_edge_invalid_utf8, test_tokenizer_edge_oversized
 from tests.test_local_protocol import test_local_json, test_local_http, test_local_http_bounds, test_local_http_framing, test_local_generation_request, test_local_path_bounds, test_ollama_sampling_bounds, test_gemma_tool_protocol
 from tests.test_local_transport_ownership import test_owned_fd_transfer_release, test_socket_admission_rejection, test_socketpair_request_transport, test_request_transport_adversarial
 from tests.test_generation_control import test_generation_deadline, test_generation_control_rejection, test_generation_sigint
@@ -644,6 +645,12 @@ def main() raises:
     run_case(ledger, "tokenizer.invalid_utf8_adversarial", test_invalid_utf8_adversarial)
     run_case(ledger, "tokenizer.invalid_utf8_integration", test_invalid_utf8_integration)
     run_case(ledger, "tokenizer.invalid_utf8_single_byte_sweep", test_invalid_utf8_single_byte_sweep)
+    run_case(ledger, "tokenizer.edge_empty_and_bos", test_tokenizer_edge_empty_and_bos)
+    run_case(ledger, "tokenizer.edge_no_vocab_fallback", test_tokenizer_edge_no_vocab_fallback)
+    run_case(ledger, "tokenizer.edge_unicode_emoji", test_tokenizer_edge_unicode_emoji)
+    run_case(ledger, "tokenizer.edge_control_tokens", test_tokenizer_edge_control_tokens)
+    run_case(ledger, "tokenizer.edge_invalid_utf8", test_tokenizer_edge_invalid_utf8)
+    run_case(ledger, "tokenizer.edge_oversized", test_tokenizer_edge_oversized)
     run_case(
         ledger, "tokenizer.linear_bpe_perf", test_bpe_tokenizer_linear_perf
     )
@@ -1579,4 +1586,6 @@ def main() raises:
     # precision path cases (precision.* in
     # tests/test_precision_paths.mojo) counted on top of the
     # A-045 seat pin.
-    ledger.finish(424)
+    # A-050 re-pin: 424 -> 430 -- six tokenizer edge battery cases
+    # (tokenizer.edge_* in tests/test_tokenizer_edge_a050.mojo).
+    ledger.finish(430)
