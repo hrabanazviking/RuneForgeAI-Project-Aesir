@@ -395,6 +395,14 @@ from tests.test_device_policy import (
     test_device_policy_npu_proven_path,
     test_device_policy_deterministic_log,
 )
+from tests.test_backend_config import (
+    test_backend_config_vocabulary,
+    test_backend_config_file_and_cli_surface,
+    test_backend_config_explicit_resolution,
+    test_backend_config_absent_fail_closed,
+    test_backend_config_npu_honesty_gate,
+    test_backend_config_auto_order,
+)
 from tests.test_conversation import (
     test_conversation_codec,
     test_conversation_compatibility,
@@ -971,6 +979,12 @@ def main() raises:
     run_case(ledger, "cli.device_policy_override", test_device_policy_override)
     run_case(ledger, "cli.device_policy_npu_proven_path", test_device_policy_npu_proven_path)
     run_case(ledger, "cli.device_policy_deterministic_log", test_device_policy_deterministic_log)
+    run_case(ledger, "cli.backend_config_vocabulary", test_backend_config_vocabulary)
+    run_case(ledger, "cli.backend_config_file_and_cli_surface", test_backend_config_file_and_cli_surface)
+    run_case(ledger, "cli.backend_config_explicit_resolution", test_backend_config_explicit_resolution)
+    run_case(ledger, "cli.backend_config_absent_fail_closed", test_backend_config_absent_fail_closed)
+    run_case(ledger, "cli.backend_config_npu_honesty_gate", test_backend_config_npu_honesty_gate)
+    run_case(ledger, "cli.backend_config_auto_order", test_backend_config_auto_order)
     run_case(ledger, "cli.conversation_codec", test_conversation_codec)
     run_case(ledger, "core.prompt_prefix_exact", test_prompt_prefix)
     run_case(ledger, "core.dense_buffer_layout", test_dense_buffers)
@@ -1387,4 +1401,6 @@ def main() raises:
     # arena allocator cases counted on top of A-024 pin.
     # Re-pin (A-029): 359 -> 362 -- three Mojo-native GPU target
     # cases (gpu.mojo_native_* in tests/test_mojo_gpu_target.mojo).
-    ledger.finish(362)
+    # A-032 re-pin: 362 -> 368 -- six backend config surface cases
+    # (cli.backend_config_* in tests/test_backend_config.mojo).
+    ledger.finish(368)

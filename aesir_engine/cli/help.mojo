@@ -19,7 +19,7 @@ def get_help_overview() -> String:
     help_str += "  config                 Manage or display aesir.config.toml settings\n"
     help_str += "  help [command]         Show general help or help for a specific command\n\n"
     help_str += "FLAGS & OPTIONS:\n"
-    help_str += "  -a, --accel <backend>  Hardware acceleration (auto|cuda|metal|intel|amd|npu|cpu|max)\n"
+    help_str += "  -a, --accel <backend>  Hardware acceleration (auto|cpu|vulkan|hip|npu|cuda|metal|intel|amd|max)\n"
     help_str += "  -c, --config <path>    Specify path to configuration manifest (default: aesir.config.toml)\n"
     help_str += "  --skaldbrodir <on|off> Doom Loop Annihilation Protocol toggle\n"
     help_str += "  --thinking <on|off>    Thought token generation & suppression toggle\n"

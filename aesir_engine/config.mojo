@@ -401,6 +401,7 @@ struct ConfigJSONParser:
                 value != "auto" and value != "cpu" and value != "cuda"
                 and value != "metal" and value != "intel" and value != "amd"
                 and value != "npu" and value != "hailo10h" and value != "max"
+                and value != "vulkan" and value != "hip"
             ):
                 raise Error("invalid acceleration_backend: " + value)
             self.config.acceleration_backend = value

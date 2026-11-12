@@ -124,10 +124,12 @@ def validate_acceleration_backend(value: String) raises -> String:
         and value != "intel"
         and value != "amd"
         and value != "npu"
+        and value != "vulkan"
+        and value != "hip"
         and value != "hailo10h"
         and value != "max"
     ):
-        raise Error("--accel must be auto, cpu, cuda, metal, intel, amd, npu, hailo10h, or max")
+        raise Error("--accel must be auto, cpu, vulkan, hip, npu, cuda, metal, intel, amd, hailo10h, or max (Z13 backend selections: auto, cpu, vulkan, hip, npu)")
     return value
 
 
