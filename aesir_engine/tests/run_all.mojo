@@ -186,6 +186,8 @@ from tests.test_intel_realm import (
 from tests.test_amd_realm import (
     test_amd_gate_availability,
     test_amd_gemm_dispatch_bounds,
+    test_amd_hip_device_gate,
+    test_amd_hip_properties_parser,
     test_amd_realm_unsupported_gateways,
 )
 from tests.test_npu_realm import (
@@ -663,6 +665,10 @@ def main() raises:
         "gpu.amd_realm_unsupported_gateways",
         test_amd_realm_unsupported_gateways,
     )
+    run_case(ledger, "gpu.amd_hip_device_gate", test_amd_hip_device_gate)
+    run_case(
+        ledger, "gpu.amd_hip_properties_parser", test_amd_hip_properties_parser
+    )
     run_case(
         ledger,
         "gpu.resilience_allocation_rejection",
@@ -1094,4 +1100,11 @@ def main() raises:
     # Union re-pin (merge-to-main sweep 2026-11-01): 279 -> 280 -- both sides' registrations counted (run_case + record_skip); the incoming branch's finish pin did not count its own added case.
     # A-009 re-pin: 280 -> 284 for the four cli.backend_registry_* cases.
     # Union re-pin (A-009 banking 2026-11-12): 284 -> 290 -- both sides' registrations counted (run_case + record_skip); the seat already carried A-001's 6 census cases the incoming pin did not count.
-    ledger.finish(290)
+    # A-001 catch-up: 280 -> 286 for the six hardware.census_* cases
+    # A-001 registered without re-accounting this pin (baseline control
+    # at e33b6f0d counted 283 passed / 1 failed / 2 skipped / 286 total
+    # and failed on this pin alone).
+    # A-010: 286 -> 288 for gpu.amd_hip_device_gate and
+    # gpu.amd_hip_properties_parser.
+    # Union re-pin (A-010 banking 2026-11-12): 290 -> 292 -- both sides' registrations counted (run_case + record_skip); the incoming A-001 catch-up was already carried by the seat, so only A-010's 2 cases move the seat pin.
+    ledger.finish(292)

@@ -1,47 +1,194 @@
 # core/amd_gate.mojo
 # AMDGate: Native POSIX FFI Gateway & Memory Management for AMD ROCm / HIP Realm (Jötunheim)
+#
+# A-010 (Z13 roadmap): the HIP device gate is real.
+#
+# Library probe -- the A-010 bug fix: Ubuntu runtime packages ship
+# only the VERSIONED soname libamdhip64.so.7 (the unversioned
+# libamdhip64.so symlink belongs to -dev packages), so the pre-A-010
+# probe, which tried unversioned names only, reported a false absent
+# on this machine while a working HIP runtime was installed. The
+# probe now tries the versioned soname first.
+#
+# Device queries -- count, name, compute capability, multiprocessor
+# count, thread limits, wavefront size, clock rate, runtime version,
+# and device-visible memory are read live from the HIP runtime
+# through MAX DeviceContext(api="hip"), the same discovery mechanism
+# CUDAGate uses for CUDA. Every value MAX reports on purpleraider was
+# cross-checked against direct hipGetDeviceProperties /
+# hipDeviceGetAttribute calls and matched (name, major 11, minor 5,
+# multiProcessorCount 20, maxThreadsPerBlock 1024,
+# maxThreadsPerMultiProcessor 2048, wavefront 32, clockRate
+# 2900000 kHz, runtime version 71500000; transcript in the team-01
+# campaign log hidden_files/a010_offset_check.log). The gfx target
+# string and the memory clock / bus width come from the kernel KFD
+# topology through the A-001 census parsers -- the same sources the
+# census itself uses.
+#
+# Why not OwnedDLHandle for the HIP calls: its internal dlopen /
+# dlclose declarations cannot coexist in one compilation archive
+# with the sibling gates' hand-declared external_call dlopen /
+# dlclose (Mojo rejects them as conflicting signatures; three
+# compile attempts in the A-010 session failed on exactly this, in
+# both directions). The hand-declared probe below matches the
+# sibling gates' convention, and MAX carries the runtime queries.
+#
+# Memory provenance: on this unified-memory part MAX reports the
+# GPU-addressable total -- 56,657,969,152 bytes in the A-010 probe,
+# 58,700,595,200 in the acceptance run; the figure tracks the
+# currently addressable share and moves with system reservations --
+# while hipDeviceProp_t.totalGlobalMem states the full unified pool
+# (137,439,150,080 bytes). total_memory_bytes carries the MAX
+# figure -- the memory the device can actually address -- and the
+# difference is recorded here rather than hidden.
+#
+# HIP allocation, transfers, and kernel launch remain unsupported
+# and fail closed.
 
 from std.ffi import external_call
 from std.memory import Pointer
 from std.collections import Optional
+from max.gpu.host import DeviceAttribute, DeviceContext
 from core.mimir_well import Scalar, f16, RuneTensor
+from core.hardware_census import (
+    format_gfx_target,
+    parse_kfd_gfx_target_version,
+    parse_mem_bank_clock_mhz,
+    parse_mem_bank_width,
+)
+from core.posix_process import run_checked_argv
 
 comptime RTLD_NOW = 2
+
+comptime HIP_GATE_ABSENT = 0
+comptime HIP_GATE_PRESENT = 1
+comptime HIP_GATE_ERROR = 2
+
+
+def _read_text_or_empty(path: String) -> String:
+    """Whole file as text, or empty when unreadable (census idiom)."""
+    try:
+        var text: String
+        with open(path, "r") as source:
+            text = source.read()
+        return text
+    except:
+        return String("")
+
+
+struct HipDeviceProperties(Copyable, ImplicitlyCopyable):
+    """One HIP device's properties, as the runtime itself reports them.
+
+    Fields are -1 / empty when no source supplied them; a properties
+    record is only trusted after plausible() accepts it.
+    """
+
+    var name: String
+    var gfx_arch: String
+    var gcn_arch: Int
+    var total_memory_bytes: Int
+    var wavefront_size: Int
+    var max_threads_per_block: Int
+    var max_threads_per_multi_processor: Int
+    var multi_processor_count: Int
+    var compute_major: Int
+    var compute_minor: Int
+    var clock_rate_khz: Int
+    var memory_clock_rate_khz: Int
+    var memory_bus_width_bits: Int
+
+    def __init__(out self):
+        self.name = String()
+        self.gfx_arch = String()
+        self.gcn_arch = -1
+        self.total_memory_bytes = -1
+        self.wavefront_size = -1
+        self.max_threads_per_block = -1
+        self.max_threads_per_multi_processor = -1
+        self.multi_processor_count = -1
+        self.compute_major = -1
+        self.compute_minor = -1
+        self.clock_rate_khz = -1
+        self.memory_clock_rate_khz = -1
+        self.memory_bus_width_bits = -1
+
+    def plausible(self) -> Bool:
+        """Sanity gate: every field the A-010 acceptance relies on must
+        sit inside the range a real HIP device could report."""
+        if self.name.byte_length() == 0:
+            return False
+        if self.gcn_arch <= 0:
+            return False
+        if self.total_memory_bytes < 1073741824:
+            return False
+        if self.wavefront_size != 32 and self.wavefront_size != 64:
+            return False
+        if self.multi_processor_count <= 0:
+            return False
+        if self.max_threads_per_block <= 0:
+            return False
+        return True
+
 
 struct AMDGate:
     """
     ᛁᛟ·ᚷᚨᛏᛖ — The Jötunheim Gateway to AMD ROCm / HIP Silicon (AMDGate)
     ════════════════════════════════════════════════════════════════════
 
-    Native POSIX FFI interface to libamdhip64.so / libhipblas.so.
-    Probes whether an AMD runtime library is loadable. Physical device
-    discovery, HIP allocation, transfers, and kernel launch are unsupported.
+    Native POSIX FFI interface to libamdhip64 / libhipblas.
+    The library probe is hand-declared dlopen in the sibling gates'
+    convention, versioned soname first (A-010). Device count and
+    device properties are queried live through the HIP runtime.
+    HIP allocation, transfers, and kernel launch are unsupported
+    and fail closed.
     """
 
     @staticmethod
-    def get_handle() -> Optional[Pointer[Int8, MutUntrackedOrigin]]:
-        """Loads libamdhip64.so or libhipblas.so handle via dlopen, or returns None."""
-        var path1 = InlineArray[Int8, 32](fill=0)
-        var p1_bytes = String("libamdhip64.so").as_bytes()
-        for i in range(len(p1_bytes)):
-            path1[i] = Int8(p1_bytes[i])
-        var h1 = external_call["dlopen", Pointer[Int8, MutUntrackedOrigin]](path1.unsafe_ptr(), Int32(RTLD_NOW))
-        if Int(h1) != 0:
-            return Optional[Pointer[Int8, MutUntrackedOrigin]](h1)
-
-        var path2 = InlineArray[Int8, 32](fill=0)
-        var p2_bytes = String("libhipblas.so").as_bytes()
-        for i in range(len(p2_bytes)):
-            path2[i] = Int8(p2_bytes[i])
-        var h2 = external_call["dlopen", Pointer[Int8, MutUntrackedOrigin]](path2.unsafe_ptr(), Int32(RTLD_NOW))
-        if Int(h2) != 0:
-            return Optional[Pointer[Int8, MutUntrackedOrigin]](h2)
-
+    def _dlopen(
+        name: String,
+    ) -> Optional[Pointer[Int8, MutUntrackedOrigin]]:
+        """dlopen one soname, or None when the loader cannot find it."""
+        var path = InlineArray[Int8, 32](fill=0)
+        var bytes = name.as_bytes()
+        for i in range(len(bytes)):
+            if i >= 31:
+                break
+            path[i] = Int8(bytes[i])
+        var h = external_call["dlopen", Pointer[Int8, MutUntrackedOrigin]](
+            path.unsafe_ptr(), Int32(RTLD_NOW)
+        )
+        if Int(h) != 0:
+            return Optional[Pointer[Int8, MutUntrackedOrigin]](h)
         return None
 
     @staticmethod
+    def get_handle() -> Optional[Pointer[Int8, MutUntrackedOrigin]]:
+        """Loads libamdhip64.so.7, libamdhip64.so, or libhipblas.so
+        handle via dlopen, or returns None (versioned name first)."""
+        var h = AMDGate._dlopen(String("libamdhip64.so.7"))
+        if h:
+            return h
+        h = AMDGate._dlopen(String("libamdhip64.so"))
+        if h:
+            return h
+        return AMDGate._dlopen(String("libhipblas.so"))
+
+    @staticmethod
+    def hip_soname() -> String:
+        """First loadable libamdhip64 soname, or empty when absent."""
+        var h = AMDGate._dlopen(String("libamdhip64.so.7"))
+        if h:
+            _ = external_call["dlclose", Int32](h.value())
+            return String("libamdhip64.so.7")
+        h = AMDGate._dlopen(String("libamdhip64.so"))
+        if h:
+            _ = external_call["dlclose", Int32](h.value())
+            return String("libamdhip64.so")
+        return String()
+
+    @staticmethod
     def is_available() -> Bool:
-        """Checks if libamdhip64.so or libhipblas.so is present on host system."""
+        """Checks if a HIP runtime library is present on host system."""
         var opt_h = AMDGate.get_handle()
         if opt_h:
             _ = external_call["dlclose", Int32](opt_h.value())
@@ -49,9 +196,158 @@ struct AMDGate:
         return False
 
     @staticmethod
+    def _max_device_count() -> Tuple[Bool, Int]:
+        """(ok, count) from MAX's HIP device enumeration.
+
+        ok is False when MAX itself failed to enumerate, so callers
+        can tell a runtime error apart from an honest zero.
+        """
+        try:
+            var count = DeviceContext.number_of_devices(api="hip")
+            if count < 0:
+                return (False, Int(0))
+            return (True, count)
+        except:
+            return (False, Int(0))
+
+    @staticmethod
     def get_device_count() -> Int:
-        """Returns zero until hipGetDeviceCount is genuinely invoked."""
-        return 0
+        """Live HIP device count; zero when absent or on error."""
+        var q = AMDGate._max_device_count()
+        if not q[0]:
+            return 0
+        return q[1]
+
+    @staticmethod
+    def gate_status() -> Int:
+        """HIP_GATE_PRESENT / HIP_GATE_ABSENT / HIP_GATE_ERROR."""
+        if AMDGate.hip_soname().byte_length() == 0:
+            return HIP_GATE_ABSENT
+        var q = AMDGate._max_device_count()
+        if not q[0]:
+            return HIP_GATE_ERROR
+        if q[1] > 0:
+            return HIP_GATE_PRESENT
+        return HIP_GATE_ABSENT
+
+    @staticmethod
+    def runtime_version() -> Int:
+        """HIP runtime version integer, or -1 when unavailable."""
+        try:
+            with DeviceContext(0, api="hip") as context:
+                return context.get_api_version()
+        except:
+            return -1
+
+    @staticmethod
+    def _kfd_gpu_node() -> Tuple[String, Int]:
+        """(node name, gfx_target_version) of the first KFD GPU node.
+
+        ("", -1) when the KFD topology is absent or states no gfx
+        target. Node 0 is the CPU node (version 0); GPU nodes carry
+        a positive gfx_target_version.
+        """
+        try:
+            var nodes = run_checked_argv(
+                ["ls", "/sys/class/kfd/kfd/topology/nodes"], 4096
+            )
+            for raw_node in nodes.split("\n"):
+                var node = String(raw_node.strip())
+                if node.byte_length() == 0:
+                    continue
+                var props = _read_text_or_empty(
+                    "/sys/class/kfd/kfd/topology/nodes/"
+                    + node
+                    + "/properties"
+                )
+                if props.byte_length() == 0:
+                    continue
+                var version = -1
+                try:
+                    version = parse_kfd_gfx_target_version(props)
+                except:
+                    version = -1
+                if version > 0:
+                    return (node, version)
+        except:
+            pass
+        return (String(""), Int(-1))
+
+    @staticmethod
+    def kfd_gfx_target_version() -> Int:
+        """The kernel-stated gfx_target_version, or -1 when absent."""
+        return AMDGate._kfd_gpu_node()[1]
+
+    @staticmethod
+    def get_device_properties(device: Int) -> HipDeviceProperties:
+        """Live properties for one HIP device index.
+
+        Runtime fields come from MAX DeviceContext(api="hip"); the
+        gfx target and memory clock / bus width come from the KFD
+        topology. Returns the all--1 record when the runtime is
+        absent, the index is out of range, or the query fails;
+        trust the record only when plausible() accepts it.
+        """
+        var props = HipDeviceProperties()
+        if device < 0:
+            return props
+        try:
+            with DeviceContext(device, api="hip") as context:
+                props.name = context.name()
+                var memory = context.get_memory_info()
+                props.total_memory_bytes = Int(memory[1])
+                props.compute_major = context.get_attribute(
+                    DeviceAttribute.COMPUTE_CAPABILITY_MAJOR
+                )
+                props.compute_minor = context.get_attribute(
+                    DeviceAttribute.COMPUTE_CAPABILITY_MINOR
+                )
+                props.multi_processor_count = context.get_attribute(
+                    DeviceAttribute.MULTIPROCESSOR_COUNT
+                )
+                props.max_threads_per_block = context.get_attribute(
+                    DeviceAttribute.MAX_THREADS_PER_BLOCK
+                )
+                props.max_threads_per_multi_processor = (
+                    context.get_attribute(
+                        DeviceAttribute.MAX_THREADS_PER_MULTIPROCESSOR
+                    )
+                )
+                props.wavefront_size = context.get_attribute(
+                    DeviceAttribute.WARP_SIZE
+                )
+                props.clock_rate_khz = context.get_attribute(
+                    DeviceAttribute.CLOCK_RATE
+                )
+        except:
+            return HipDeviceProperties()
+        var node = AMDGate._kfd_gpu_node()
+        if node[1] > 0:
+            props.gfx_arch = format_gfx_target(node[1])
+            props.gcn_arch = (
+                (node[1] // 10000) * 100
+                + ((node[1] // 100) % 100) * 10
+                + (node[1] % 100)
+            )
+            var bank = _read_text_or_empty(
+                "/sys/class/kfd/kfd/topology/nodes/"
+                + node[0]
+                + "/mem_banks/0/properties"
+            )
+            if bank.byte_length() > 0:
+                try:
+                    var mhz = parse_mem_bank_clock_mhz(bank)
+                    if mhz > 0:
+                        props.memory_clock_rate_khz = mhz * 1000
+                except:
+                    pass
+                try:
+                    var width = parse_mem_bank_width(bank)
+                    if width > 0:
+                        props.memory_bus_width_bits = width
+                except:
+                    pass
+        return props
 
     @staticmethod
     def allocate_vram(size_bytes: Int) raises -> Pointer[Scalar[f16], MutUntrackedOrigin]:
