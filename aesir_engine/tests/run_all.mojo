@@ -347,6 +347,17 @@ from tests.test_extreme_quants import (
     test_iq3_xxs_known_value,
     test_tq1_0_known_value,
 )
+from tests.test_iq_simd_parity import (
+    test_iq_simd_parity_iq1_m,
+    test_iq_simd_parity_iq1_s,
+    test_iq_simd_parity_iq2_s,
+    test_iq_simd_parity_iq2_xs,
+    test_iq_simd_parity_iq2_xxs,
+    test_iq_simd_parity_iq3_s,
+    test_iq_simd_parity_iq3_xxs,
+    test_iq_simd_parity_iq4_nl,
+    test_iq_simd_parity_iq4_xs,
+)
 from tests.test_quantization_hardening import (
     test_dequantizer_zero_and_null_bounds,
     test_gemm_invalid_dimensions_rejection,
@@ -1122,6 +1133,15 @@ def main() raises:
         "quantization.tq1_0_known_value",
         test_tq1_0_known_value,
     )
+    run_case(ledger, "quantization.iq_simd_parity_iq1_s", test_iq_simd_parity_iq1_s)
+    run_case(ledger, "quantization.iq_simd_parity_iq1_m", test_iq_simd_parity_iq1_m)
+    run_case(ledger, "quantization.iq_simd_parity_iq2_xxs", test_iq_simd_parity_iq2_xxs)
+    run_case(ledger, "quantization.iq_simd_parity_iq2_xs", test_iq_simd_parity_iq2_xs)
+    run_case(ledger, "quantization.iq_simd_parity_iq2_s", test_iq_simd_parity_iq2_s)
+    run_case(ledger, "quantization.iq_simd_parity_iq3_xxs", test_iq_simd_parity_iq3_xxs)
+    run_case(ledger, "quantization.iq_simd_parity_iq3_s", test_iq_simd_parity_iq3_s)
+    run_case(ledger, "quantization.iq_simd_parity_iq4_nl", test_iq_simd_parity_iq4_nl)
+    run_case(ledger, "quantization.iq_simd_parity_iq4_xs", test_iq_simd_parity_iq4_xs)
     run_case(
         ledger,
         "quantization.format_metadata",
@@ -1446,4 +1466,9 @@ def main() raises:
     # counted on top of the A-033 union pin.
     # Union re-pin (A-038 banking 2026-11-12): 377 -> 380 -- three
     # Q8_0 GEMV SIMD cases counted on top of the A-036 seat pin.
-    ledger.finish(380)
+    # A-039 re-pin: 373 -> 382 -- nine wide-SIMD IQ dequant parity
+    # cases (quantization.iq_simd_parity_* in
+    # tests/test_iq_simd_parity.mojo), one per IQ format present.
+    # Union re-pin (A-039 banking 2026-11-12): 380 -> 389 -- nine
+    # IQ SIMD parity cases counted on top of the A-038 seat pin.
+    ledger.finish(389)
