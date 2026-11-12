@@ -98,7 +98,7 @@ from std.memory import Pointer
 from std.memory.alloc import alloc
 
 from core.device_inventory import CpuFacts, apply_hybrid_split, parse_cpuinfo
-from core.parallel import par_for, par_thread_count
+from core.parallel import par_for, par_refresh_config, par_thread_count
 from core.placement_harness import (
     HarnessConfig,
     TimingSummary,
@@ -346,11 +346,15 @@ def set_thread_knobs(threads: Int):
     small-work engagement threshold must not serialise it)."""
     _set_env("AESIR_THREADS", String(threads))
     _set_env("AESIR_PAR_MIN_WORK", String("1"))
+    # A-041: the par layer serves a cached snapshot; refresh it so
+    # the readback below (and every par_for) sees the new knobs.
+    par_refresh_config()
 
 
 def clear_thread_knobs():
     _unset_env("AESIR_THREADS")
     _unset_env("AESIR_PAR_MIN_WORK")
+    par_refresh_config()
 
 
 def _thread_product_range(

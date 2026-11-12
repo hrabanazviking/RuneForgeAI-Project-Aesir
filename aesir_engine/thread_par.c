@@ -37,6 +37,14 @@
 
 typedef void (*aesir_range_fn)(void *ctx, long start, long end);
 
+/* A-041 config cache state (see aesir_par_cpu_count and
+   aesir_par_config_refresh below). */
+static long aesir_sysconf_probes_count = 0;
+static long aesir_env_reads_count = 0;
+static long aesir_cached_threads_env = 0;
+static long aesir_cached_min_work_env = 0;
+static int aesir_config_loaded = 0;
+
 typedef struct {
     aesir_range_fn fn;
     void *ctx;
@@ -80,8 +88,18 @@ long aesir_par_for(aesir_range_fn fn, void *ctx, long n, long want) {
 }
 
 long aesir_par_cpu_count(void) {
-    long n = sysconf(_SC_NPROCESSORS_ONLN);
-    return n > 0 ? n : 1;
+    /* A-041 (census row C-008): the online count cannot change
+       while the process lives, so sysconf runs once and the
+       result is cached. Before this fix every par_for dispatch
+       re-paid the sysconf -> __get_nprocs -> sysfs open chain
+       (9.42% of decode cycles in the A-037 census). */
+    static long cached = -1;
+    if (cached < 0) {
+        long n = sysconf(_SC_NPROCESSORS_ONLN);
+        aesir_sysconf_probes_count++;
+        cached = n > 0 ? n : 1;
+    }
+    return cached;
 }
 
 /* CPU feature probes for the VNNI/BF16 GEMM paths (compute.mojo).
@@ -109,3 +127,64 @@ int aesir_cpu_bf16(void) {
     __get_cpuid_count(7, 1, &a, &b, &c, &d);
     return (a & (1u << 5)) ? 1 : 0;
 }
+
+/* --- A-041: cached thread/env configuration ---------------------
+ * The A-037 census (row C-008) found 12.81% of decode cycles
+ * re-reading thread/env config per dispatch: sysfs opens via
+ * aesir_par_cpu_count (above, now cached) plus getenv parsing in
+ * core::parallel::_env_int. The env half now lives here as a
+ * process-lifetime snapshot: AESIR_THREADS and AESIR_PAR_MIN_WORK
+ * are parsed once (lazily on first use, or eagerly by an explicit
+ * aesir_par_config_refresh) with exactly _env_int's semantics
+ * (digits only; unset/empty/any non-digit -> fallback 0; the
+ * >100000000 early return preserved). Production processes set
+ * env before launch, so a process-start snapshot is the config;
+ * the only in-process writers of these knobs -- thread_topology's
+ * set_thread_knobs/clear_thread_knobs -- call the refresh through
+ * core.parallel.par_refresh_config after every setenv/unsetenv.
+ * The counters exist so tests can prove the cache engages:
+ * sysconf probes stay at 1 and env reads grow only on refresh. */
+static long aesir_env_int_snapshot(const char *name, long fallback) {
+    const char *raw = getenv(name);
+    long value = 0;
+    int seen = 0;
+    int i;
+    if (!raw) return fallback;
+    for (i = 0; i < 24; i++) {
+        char c = raw[i];
+        if (c == '\0') break;
+        if (c < '0' || c > '9') return fallback;
+        value = value * 10 + (long)(c - '0');
+        seen = 1;
+        if (value > 100000000L) return value;
+    }
+    if (!seen) return fallback;
+    return value;
+}
+
+void aesir_par_config_refresh(void) {
+    aesir_cached_threads_env = aesir_env_int_snapshot("AESIR_THREADS", 0);
+    aesir_cached_min_work_env =
+        aesir_env_int_snapshot("AESIR_PAR_MIN_WORK", 0);
+    aesir_env_reads_count += 2;
+    aesir_config_loaded = 1;
+    (void)aesir_par_cpu_count();
+}
+
+static void aesir_config_ensure(void) {
+    if (!aesir_config_loaded) aesir_par_config_refresh();
+}
+
+long aesir_par_threads_env(void) {
+    aesir_config_ensure();
+    return aesir_cached_threads_env;
+}
+
+long aesir_par_min_work_env(void) {
+    aesir_config_ensure();
+    return aesir_cached_min_work_env;
+}
+
+long aesir_par_sysconf_probes(void) { return aesir_sysconf_probes_count; }
+
+long aesir_par_env_reads(void) { return aesir_env_reads_count; }

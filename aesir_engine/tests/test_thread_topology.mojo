@@ -20,7 +20,7 @@ from core.device_inventory import (
     apply_hybrid_split,
     parse_cpuinfo,
 )
-from core.parallel import par_cpu_count, par_thread_count
+from core.parallel import par_cpu_count, par_default_threads, par_thread_count
 from core.placement_harness import (
     HarnessConfig,
     prompt_workload,
@@ -235,8 +235,9 @@ def test_thread_knobs() raises:
     clear_thread_knobs()
     expect_eq(
         par_thread_count(),
-        par_cpu_count(),
-        "cleared knobs restore the online-CPU default",
+        par_default_threads(par_cpu_count()),
+        "cleared knobs restore the default policy (A-041 choke-guard "
+        "default since A-041; was the raw online-CPU count before)",
     )
     print("PASS: thread knobs set/read back/clear through Aesir's own thread layer")
 

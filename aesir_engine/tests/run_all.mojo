@@ -281,6 +281,14 @@ from tests.test_thread_placement import (
     test_thread_placement_reject,
     test_thread_placement_live_affinity,
 )
+from tests.test_thread_scaling import (
+    test_thread_scaling_default_policy,
+    test_thread_scaling_cache_probes,
+    test_thread_scaling_knob_readback,
+    test_thread_scaling_stale_until_refresh,
+    test_thread_scaling_min_work_cached,
+    test_thread_scaling_dispatch_identity,
+)
 from tests.test_structured_errors import (
     test_structured_errors_mapping_table,
     test_structured_errors_fault_injection,
@@ -926,6 +934,12 @@ def main() raises:
     run_case(ledger, "cpu.thread_placement_map_pack_ccd", test_thread_placement_map_pack_ccd)
     run_case(ledger, "cpu.thread_placement_reject", test_thread_placement_reject)
     run_case(ledger, "cpu.thread_placement_live_affinity", test_thread_placement_live_affinity)
+    run_case(ledger, "cpu.thread_scaling_default_policy", test_thread_scaling_default_policy)
+    run_case(ledger, "cpu.thread_scaling_cache_probes", test_thread_scaling_cache_probes)
+    run_case(ledger, "cpu.thread_scaling_knob_readback", test_thread_scaling_knob_readback)
+    run_case(ledger, "cpu.thread_scaling_stale_until_refresh", test_thread_scaling_stale_until_refresh)
+    run_case(ledger, "cpu.thread_scaling_min_work_cached", test_thread_scaling_min_work_cached)
+    run_case(ledger, "cpu.thread_scaling_dispatch_identity", test_thread_scaling_dispatch_identity)
     run_case(ledger, "errors.structured_mapping_table", test_structured_errors_mapping_table)
     run_case(ledger, "errors.structured_fault_injection", test_structured_errors_fault_injection)
     run_case(ledger, "errors.structured_real_paths", test_structured_errors_real_paths)
@@ -1484,4 +1498,8 @@ def main() raises:
     # tests/test_k_dequant_simd_a040.mojo).
     # Union re-pin (A-040 banking 2026-11-12): 389 -> 392 -- three
     # K-dequant SIMD cases counted on top of the A-039 seat pin.
-    ledger.finish(392)
+    # A-041 re-pin: 389 -> 395 -- six thread scaling law cases
+    # (cpu.thread_scaling_* in tests/test_thread_scaling.mojo).
+    # Union re-pin (A-041 banking 2026-11-12): 392 -> 398 -- six
+    # thread scaling cases counted on top of the A-040 seat pin.
+    ledger.finish(398)
