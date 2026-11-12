@@ -66,17 +66,17 @@ struct HipMemory:
     def _raise_for_rc(what: String, rc: Int32) raises:
         if Int(rc) == _HIP_ABSENT:
             raise Error(
-                "HipMemory." + what + ": HIP runtime is not loadable on"
+                "GPU-002 DEVICE_NOT_FOUND: HipMemory." + what + ": HIP runtime is not loadable on"
                 " this host (honest-absent)"
             )
         if Int(rc) <= -22004 and Int(rc) >= -22016:
             raise Error(
-                "HipMemory." + what + ": buffer ownership law refused"
+                "VAL-003 VALUE_OUT_OF_RANGE: HipMemory." + what + ": buffer ownership law refused"
                 " the operation: " + ownership_taxonomy_name(Int(rc))
                 + " (A-022)"
             )
         raise Error(
-            "HipMemory." + what + ": HIP call failed, code " + String(Int(rc))
+            "GPU-001 CUDA_INIT_FAILED: HipMemory." + what + ": HIP call failed, code " + String(Int(rc))
         )
 
     @staticmethod
@@ -106,7 +106,7 @@ struct HipMemory:
     def allocate(size_bytes: Int) raises -> Pointer[UInt8, MutUntrackedOrigin]:
         """hipMalloc: device-only allocation of size_bytes bytes."""
         if size_bytes <= 0:
-            raise Error("HipMemory.allocate: size_bytes must be positive")
+            raise Error("VAL-003 VALUE_OUT_OF_RANGE: HipMemory.allocate: size_bytes must be positive")
         var addr: Int = 0
         var rc = external_call["aesir_hip_malloc", Int32](
             Pointer(to=addr), UInt64(size_bytes)
@@ -114,7 +114,7 @@ struct HipMemory:
         if rc != 0:
             Self._raise_for_rc("allocate", rc)
         if addr == 0:
-            raise Error("HipMemory.allocate: hipMalloc returned null")
+            raise Error("MEM-002 DEVICE_ALLOC_FAILED: HipMemory.allocate: hipMalloc returned null")
         return Pointer[UInt8, MutUntrackedOrigin](unsafe_from_address=addr)
 
     @staticmethod
@@ -126,7 +126,7 @@ struct HipMemory:
         Halo's shared pool."""
         if size_bytes <= 0:
             raise Error(
-                "HipMemory.allocate_managed: size_bytes must be positive"
+                "VAL-003 VALUE_OUT_OF_RANGE: HipMemory.allocate_managed: size_bytes must be positive"
             )
         var addr: Int = 0
         var rc = external_call["aesir_hip_malloc_managed", Int32](
@@ -136,7 +136,7 @@ struct HipMemory:
             Self._raise_for_rc("allocate_managed", rc)
         if addr == 0:
             raise Error(
-                "HipMemory.allocate_managed: hipMallocManaged returned null"
+                "MEM-002 DEVICE_ALLOC_FAILED: HipMemory.allocate_managed: hipMallocManaged returned null"
             )
         return Pointer[UInt8, MutUntrackedOrigin](unsafe_from_address=addr)
 

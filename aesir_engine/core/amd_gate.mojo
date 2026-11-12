@@ -57,6 +57,7 @@ from core.hardware_census import (
     parse_mem_bank_width,
 )
 from core.posix_process import run_checked_argv
+from core.structured_errors import coded_error_text
 
 comptime RTLD_NOW = 2
 
@@ -353,14 +354,14 @@ struct AMDGate:
     def allocate_vram(size_bytes: Int) raises -> Pointer[Scalar[f16], MutUntrackedOrigin]:
         """Rejects simulated HIP allocation until hipMalloc is integrated."""
         if size_bytes <= 0:
-            raise Error("AMDGate.allocate_vram: size_bytes must be positive")
-        raise Error("AMDGate.allocate_vram: physical HIP VRAM allocation is not implemented")
+            raise Error(coded_error_text("VAL-003", "AMDGate.allocate_vram: size_bytes must be positive"))
+        raise Error(coded_error_text("GPU-002", "AMDGate.allocate_vram: physical HIP VRAM allocation is not implemented"))
 
     @staticmethod
     def free_vram(ptr: Pointer[Scalar[f16], MutUntrackedOrigin]) raises:
         """Reserved AMD free entry point; always fails closed."""
         _ = ptr
-        raise Error("AMDGate.free_vram: physical HIP VRAM ownership is not implemented")
+        raise Error(coded_error_text("GPU-002", "AMDGate.free_vram: physical HIP VRAM ownership is not implemented"))
 
     @staticmethod
     def memcpy_host_to_device(
@@ -373,7 +374,7 @@ struct AMDGate:
         _ = src_host
         if size_bytes <= 0:
             return
-        raise Error("AMDGate.memcpy_host_to_device: physical HIP transfer is not implemented")
+        raise Error(coded_error_text("GPU-002", "AMDGate.memcpy_host_to_device: physical HIP transfer is not implemented"))
 
     @staticmethod
     def memcpy_device_to_host(
@@ -386,7 +387,7 @@ struct AMDGate:
         _ = src_dev
         if size_bytes <= 0:
             return
-        raise Error("AMDGate.memcpy_device_to_host: physical HIP transfer is not implemented")
+        raise Error(coded_error_text("GPU-002", "AMDGate.memcpy_device_to_host: physical HIP transfer is not implemented"))
 
     @staticmethod
     def launch_gemm_amd(
@@ -398,8 +399,8 @@ struct AMDGate:
         Validates shapes and rejects execution until a real HIP kernel exists.
         """
         if A.rows <= 0 or A.cols <= 0 or B.rows <= 0 or B.cols <= 0 or C.rows <= 0 or C.cols <= 0:
-            raise Error("AMDGate.launch_gemm_amd: non-positive matrix dimensions are prohibited")
+            raise Error(coded_error_text("VAL-003", "AMDGate.launch_gemm_amd: non-positive matrix dimensions are prohibited"))
         if A.cols != B.cols or A.rows != C.rows or B.rows != C.cols:
-            raise Error("AMDGate.launch_gemm_amd: GEMM shape mismatch")
+            raise Error(coded_error_text("VAL-003", "AMDGate.launch_gemm_amd: GEMM shape mismatch"))
 
-        raise Error("AMD ROCm HIP GPU execution is not implemented: no physical HIP kernel was launched")
+        raise Error(coded_error_text("GPU-002", "AMD ROCm HIP GPU execution is not implemented: no physical HIP kernel was launched"))

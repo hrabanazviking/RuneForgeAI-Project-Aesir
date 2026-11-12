@@ -27,13 +27,13 @@ struct MAXGate:
         attached. It never substitutes a host scalar loop for acceleration.
         """
         if A.rows <= 0 or A.cols <= 0 or B.rows <= 0 or B.cols <= 0:
-            raise Error("MAXGate: tensor dimensions must be positive")
+            raise Error("VAL-003 VALUE_OUT_OF_RANGE: MAXGate: tensor dimensions must be positive")
 
         var M = A.rows
         var K = A.cols
         var N = B.cols
 
         if B.rows != K or C.rows != M or C.cols != N:
-            raise Error("MAXGate: Incompatible GEMM shape dimensions")
+            raise Error("VAL-003 VALUE_OUT_OF_RANGE: MAXGate: Incompatible GEMM shape dimensions")
 
-        raise Error("MAXGate graph execution is not implemented; use an explicit CUDA executor")
+        raise Error("GPU-002 DEVICE_NOT_FOUND: MAXGate graph execution is not implemented; use an explicit CUDA executor")

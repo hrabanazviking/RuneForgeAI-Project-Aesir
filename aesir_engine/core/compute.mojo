@@ -3464,10 +3464,10 @@ def gemm_f16_npu(
     to CPU compute under an NPU label.
     """
     if A.rows <= 0 or A.cols <= 0 or B.rows <= 0 or B.cols <= 0 or C.rows <= 0 or C.cols <= 0:
-        raise Error("gemm_f16_npu: non-positive matrix dimensions are prohibited")
+        raise Error("VAL-003 VALUE_OUT_OF_RANGE: gemm_f16_npu: non-positive matrix dimensions are prohibited")
     if A.cols != B.cols or A.rows != C.rows or B.rows != C.cols:
-        raise Error("gemm_f16_npu: GEMM shape mismatch")
-    raise Error("NPU execution is not implemented for backend " + backend.name() + ": no physical kernel was launched")
+        raise Error("VAL-003 VALUE_OUT_OF_RANGE: gemm_f16_npu: GEMM shape mismatch")
+    raise Error("GPU-002 DEVICE_NOT_FOUND: NPU execution is not implemented for backend " + backend.name() + ": no physical kernel was launched")
 
 
 def gemm_f16_gpgpu_vector(
@@ -3567,14 +3567,14 @@ def rmsnorm_gpu(
     if realm.value == GPURealmType.NVIDIA_CUDA:
         if not CUDAGate.is_available() or CUDAGate.get_device_count() <= 0:
             raise Error(
-                "GPU RMSNorm execution error: NVIDIA CUDA runtime or GPU device"
+                "GPU-002 DEVICE_NOT_FOUND: GPU RMSNorm execution error: NVIDIA CUDA runtime or GPU device"
                 " not found"
             )
         rmsnorm(T, weight, epsilon)
         return
 
     raise Error(
-        "GPU RMSNorm execution is not implemented for realm " + realm.name()
+        "GPU-002 DEVICE_NOT_FOUND: GPU RMSNorm execution is not implemented for realm " + realm.name()
     )
 
 
@@ -3611,7 +3611,7 @@ def gemm_f16_gpu(
         AMDGate.launch_gemm_amd(A, B, C)
         return
 
-    raise Error("GPU execution is not implemented for realm " + realm.name())
+    raise Error("GPU-002 DEVICE_NOT_FOUND: GPU execution is not implemented for realm " + realm.name())
 
 
 def gemm_f16_cuda(

@@ -281,6 +281,13 @@ from tests.test_thread_placement import (
     test_thread_placement_reject,
     test_thread_placement_live_affinity,
 )
+from tests.test_structured_errors import (
+    test_structured_errors_mapping_table,
+    test_structured_errors_fault_injection,
+    test_structured_errors_real_paths,
+    test_structured_errors_translation,
+    test_structured_errors_vulkan_cpu_consistency,
+)
 from tests.test_npu_realm import (
     test_npu_probe_absence,
     test_npu_gemm_dispatch_bounds,
@@ -892,6 +899,11 @@ def main() raises:
     run_case(ledger, "cpu.thread_placement_map_pack_ccd", test_thread_placement_map_pack_ccd)
     run_case(ledger, "cpu.thread_placement_reject", test_thread_placement_reject)
     run_case(ledger, "cpu.thread_placement_live_affinity", test_thread_placement_live_affinity)
+    run_case(ledger, "errors.structured_mapping_table", test_structured_errors_mapping_table)
+    run_case(ledger, "errors.structured_fault_injection", test_structured_errors_fault_injection)
+    run_case(ledger, "errors.structured_real_paths", test_structured_errors_real_paths)
+    run_case(ledger, "errors.structured_translation", test_structured_errors_translation)
+    run_case(ledger, "errors.structured_vulkan_cpu_consistency", test_structured_errors_vulkan_cpu_consistency)
     run_case(
         ledger,
         "gpu.resilience_allocation_rejection",
@@ -1403,4 +1415,8 @@ def main() raises:
     # cases (gpu.mojo_native_* in tests/test_mojo_gpu_target.mojo).
     # A-032 re-pin: 362 -> 368 -- six backend config surface cases
     # (cli.backend_config_* in tests/test_backend_config.mojo).
-    ledger.finish(368)
+    # A-033 re-pin: 362 -> 367 -- five structured-error cases added
+    # (errors.structured_* in tests/test_structured_errors.mojo).
+    # Union re-pin (A-033 banking 2026-11-12): 368 -> 373 -- five
+    # structured-error cases counted on top of the A-032 pin.
+    ledger.finish(373)

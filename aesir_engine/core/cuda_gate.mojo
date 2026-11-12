@@ -189,10 +189,10 @@ struct CUDAGate:
     ) raises -> Pointer[Scalar[f16], MutUntrackedOrigin]:
         """Allocates physical VRAM memory slab on the active CUDA device."""
         if size_bytes <= 0:
-            raise Error("CUDAGate.allocate_vram: size_bytes must be positive")
+            raise Error("VAL-003 VALUE_OUT_OF_RANGE: CUDAGate.allocate_vram: size_bytes must be positive")
         var count = CUDAGate.get_device_count()
         if count == 0:
-            raise Error("CUDAGate.allocate_vram: no CUDA devices available")
+            raise Error("GPU-002 DEVICE_NOT_FOUND: CUDAGate.allocate_vram: no CUDA devices available")
         from std.memory.alloc import alloc, Layout
         var memory = alloc(Layout[Scalar[f16]](count=max(1, size_bytes // 2)))
         return memory^.unsafe_leak()
@@ -214,7 +214,7 @@ struct CUDAGate:
         if size_bytes <= 0:
             return
         if Int(dst_dev) == 0 or Int(src_host) == 0:
-            raise Error("CUDAGate.memcpy_host_to_device: null memory pointer")
+            raise Error("VAL-003 VALUE_OUT_OF_RANGE: CUDAGate.memcpy_host_to_device: null memory pointer")
         unsafe_memcpy(dst_dev, src_host, size_bytes // 2)
 
     @staticmethod
@@ -227,7 +227,7 @@ struct CUDAGate:
         if size_bytes <= 0:
             return
         if Int(dst_host) == 0 or Int(src_dev) == 0:
-            raise Error("CUDAGate.memcpy_device_to_host: null memory pointer")
+            raise Error("VAL-003 VALUE_OUT_OF_RANGE: CUDAGate.memcpy_device_to_host: null memory pointer")
         unsafe_memcpy(dst_host, src_dev, size_bytes // 2)
 
     @staticmethod
@@ -246,15 +246,15 @@ struct CUDAGate:
             or C.cols <= 0
         ):
             raise Error(
-                "CUDAGate.launch_gemm_cuda: non-positive matrix dimensions are"
+                "VAL-003 VALUE_OUT_OF_RANGE: CUDAGate.launch_gemm_cuda: non-positive matrix dimensions are"
                 " prohibited"
             )
         if A.cols != B.cols or A.rows != C.rows or B.rows != C.cols:
-            raise Error("CUDAGate.launch_gemm_cuda: GEMM shape mismatch")
+            raise Error("VAL-003 VALUE_OUT_OF_RANGE: CUDAGate.launch_gemm_cuda: GEMM shape mismatch")
 
         var discovery = CUDAGate.discover_physical_devices()
         if not discovery.status.has_devices():
-            raise Error("CUDAGate.launch_gemm_cuda: no compatible CUDA device discovered")
+            raise Error("GPU-002 DEVICE_NOT_FOUND: CUDAGate.launch_gemm_cuda: no compatible CUDA device discovered")
 
         var physical_device = discovery.devices[0].copy()
         var plan = CUDAGemmPlan(A.rows, A.cols, C.cols)
@@ -282,10 +282,10 @@ struct CUDAGate:
 
         var count = CUDAGate.get_device_count()
         if count < 2:
-            raise Error("CUDAGate.memcpy_peer_cuda: multi-GPU peer copy requires at least 2 physical CUDA devices")
+            raise Error("GPU-002 DEVICE_NOT_FOUND: CUDAGate.memcpy_peer_cuda: multi-GPU peer copy requires at least 2 physical CUDA devices")
 
         var opt_h = CUDAGate.get_handle()
         if not opt_h:
-            raise Error("CUDAGate.memcpy_peer_cuda: CUDA library handle unavailable")
+            raise Error("GPU-001 CUDA_INIT_FAILED: CUDAGate.memcpy_peer_cuda: CUDA library handle unavailable")
         _ = external_call["dlclose", Int32](opt_h.value())
 

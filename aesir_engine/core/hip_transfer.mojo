@@ -47,17 +47,17 @@ comptime _HIP_ABSENT = -1
 def _raise_for_rc(what: String, rc: Int32) raises:
     if Int(rc) == _HIP_ABSENT:
         raise Error(
-            "HipTransfer." + what + ": HIP runtime / transfer symbols are"
+            "GPU-002 DEVICE_NOT_FOUND: HipTransfer." + what + ": HIP runtime / transfer symbols are"
             " not loadable on this host (honest-absent)"
         )
     if Int(rc) <= -22004 and Int(rc) >= -22016:
         raise Error(
-            "HipTransfer." + what + ": buffer ownership law refused"
+            "VAL-003 VALUE_OUT_OF_RANGE: HipTransfer." + what + ": buffer ownership law refused"
             " the operation: " + ownership_taxonomy_name(Int(rc))
             + " (A-022)"
         )
     raise Error(
-        "HipTransfer." + what + ": HIP call failed, code " + String(Int(rc))
+        "GPU-004 DEVICE_SYNCHRONIZE_TIMEOUT: HipTransfer." + what + ": HIP call failed, code " + String(Int(rc))
     )
 
 
@@ -79,7 +79,7 @@ struct HipTransfer:
         copies to/from pinned memory are genuinely asynchronous;
         pageable host memory may be staged by the runtime."""
         if size_bytes <= 0:
-            raise Error("HipTransfer.host_allocate: size_bytes must be positive")
+            raise Error("VAL-003 VALUE_OUT_OF_RANGE: HipTransfer.host_allocate: size_bytes must be positive")
         var addr: Int = 0
         var rc = external_call["aesir_hip_host_malloc", Int32](
             Pointer(to=addr), UInt64(size_bytes)
@@ -87,7 +87,7 @@ struct HipTransfer:
         if rc != 0:
             _raise_for_rc("host_allocate", rc)
         if addr == 0:
-            raise Error("HipTransfer.host_allocate: hipHostMalloc returned null")
+            raise Error("MEM-001 HOST_MALLOC_FAILED: HipTransfer.host_allocate: hipHostMalloc returned null")
         return Pointer[UInt8, MutUntrackedOrigin](unsafe_from_address=addr)
 
     @staticmethod
@@ -140,13 +140,13 @@ struct HipStream(Copyable, ImplicitlyCopyable):
         if rc != 0:
             _raise_for_rc("stream_create", rc)
         if addr == 0:
-            raise Error("HipStream.create: HIP returned a null stream handle")
+            raise Error("GPU-001 CUDA_INIT_FAILED: HipStream.create: HIP returned a null stream handle")
         return HipStream(addr)
 
     def _require_live(self, what: String) raises:
         if self.handle == 0:
             raise Error(
-                "HipStream." + what + ": stream handle is zero or already"
+                "VAL-003 VALUE_OUT_OF_RANGE: HipStream." + what + ": stream handle is zero or already"
                 " destroyed"
             )
 
@@ -261,13 +261,13 @@ struct HipEvent(Copyable, ImplicitlyCopyable):
         if rc != 0:
             _raise_for_rc("event_create", rc)
         if addr == 0:
-            raise Error("HipEvent.create: HIP returned a null event handle")
+            raise Error("GPU-001 CUDA_INIT_FAILED: HipEvent.create: HIP returned a null event handle")
         return HipEvent(addr)
 
     def _require_live(self, what: String) raises:
         if self.handle == 0:
             raise Error(
-                "HipEvent." + what + ": event handle is zero or already"
+                "VAL-003 VALUE_OUT_OF_RANGE: HipEvent." + what + ": event handle is zero or already"
                 " destroyed"
             )
 

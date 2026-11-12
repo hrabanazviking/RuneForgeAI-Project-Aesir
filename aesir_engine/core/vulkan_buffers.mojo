@@ -82,14 +82,14 @@ def align_up(value: Int, alignment: Int) raises -> Int:
     from the live limits. Overflow raises instead of wrapping.
     """
     if value < 0:
-        raise Error("VulkanBuffers.align_up: value must be nonnegative")
+        raise Error("VAL-003 VALUE_OUT_OF_RANGE: VulkanBuffers.align_up: value must be nonnegative")
     if not is_power_of_two(alignment):
         raise Error(
             "VulkanBuffers.align_up: alignment must be a positive"
             " power of two"
         )
     if value > 9223372036854775807 - (alignment - 1):
-        raise Error("VulkanBuffers.align_up: overflow")
+        raise Error("VAL-003 VALUE_OUT_OF_RANGE: VulkanBuffers.align_up: overflow")
     return (value + alignment - 1) & ~(alignment - 1)
 
 
@@ -235,22 +235,22 @@ struct VulkanBuffers:
     def _raise_for_rc(what: String, rc: Int32) raises:
         if Int(rc) == _VK_ABSENT:
             raise Error(
-                "VulkanBuffers." + what + ": Vulkan loader is not"
+                "GPU-002 DEVICE_NOT_FOUND: VulkanBuffers." + what + ": Vulkan loader is not"
                 " loadable on this host (honest-absent)"
             )
         if Int(rc) == _VK_INVALID:
             raise Error(
-                "VulkanBuffers." + what + ": invalid buffer id or"
+                "VAL-003 VALUE_OUT_OF_RANGE: VulkanBuffers." + what + ": invalid buffer id or"
                 " argument for the Vulkan shim"
             )
         if Int(rc) <= -22004 and Int(rc) >= -22016:
             raise Error(
-                "VulkanBuffers." + what + ": buffer ownership law refused"
+                "VAL-003 VALUE_OUT_OF_RANGE: VulkanBuffers." + what + ": buffer ownership law refused"
                 " the operation: " + ownership_taxonomy_name(Int(rc))
                 + " (A-022)"
             )
         raise Error(
-            "VulkanBuffers." + what + ": Vulkan call failed, VkResult "
+            "GPU-001 CUDA_INIT_FAILED: VulkanBuffers." + what + ": Vulkan call failed, VkResult "
             + String(Int(rc))
         )
 
@@ -349,7 +349,7 @@ struct VulkanBuffers:
         the shim)."""
         if size_bytes <= 0:
             raise Error(
-                "VulkanBuffers.requirements: size_bytes must be positive"
+                "VAL-003 VALUE_OUT_OF_RANGE: VulkanBuffers.requirements: size_bytes must be positive"
             )
         var out_size: UInt64 = 0
         var out_alignment: UInt64 = 0
@@ -375,7 +375,7 @@ struct VulkanBuffers:
         requirements size (>= size_bytes, a multiple of alignment).
         """
         if size_bytes <= 0:
-            raise Error("VulkanBuffers.allocate: size_bytes must be positive")
+            raise Error("VAL-003 VALUE_OUT_OF_RANGE: VulkanBuffers.allocate: size_bytes must be positive")
         var span = checked_span(0, size_bytes, size_bytes)
         var out_id: UInt64 = 0
         var out_alloc: UInt64 = 0
@@ -391,7 +391,7 @@ struct VulkanBuffers:
         if rc != 0:
             Self._raise_for_rc("allocate", rc)
         if out_id == 0:
-            raise Error("VulkanBuffers.allocate: shim returned a null id")
+            raise Error("MEM-002 DEVICE_ALLOC_FAILED: VulkanBuffers.allocate: shim returned a null id")
         return VulkanAllocation(
             Int(out_id),
             span.length,
@@ -411,7 +411,7 @@ struct VulkanBuffers:
         through checked_span discipline."""
         if size_bytes <= 0:
             raise Error(
-                "VulkanBuffers.allocate_cached: size_bytes must be positive"
+                "VAL-003 VALUE_OUT_OF_RANGE: VulkanBuffers.allocate_cached: size_bytes must be positive"
             )
         var span = checked_span(0, size_bytes, size_bytes)
         var out_id: UInt64 = 0
@@ -430,7 +430,7 @@ struct VulkanBuffers:
         if rc != 0:
             Self._raise_for_rc("allocate_cached", rc)
         if out_id == 0:
-            raise Error("VulkanBuffers.allocate_cached: shim returned a null id")
+            raise Error("MEM-002 DEVICE_ALLOC_FAILED: VulkanBuffers.allocate_cached: shim returned a null id")
         return VulkanAllocation(
             Int(out_id),
             span.length,
@@ -466,7 +466,7 @@ struct VulkanBuffers:
         if rc != 0:
             Self._raise_for_rc("map", rc)
         if addr == 0:
-            raise Error("VulkanBuffers.map: vkMapMemory returned null")
+            raise Error("MEM-001 HOST_MALLOC_FAILED: VulkanBuffers.map: vkMapMemory returned null")
         return Pointer[UInt8, MutUntrackedOrigin](unsafe_from_address=addr)
 
     @staticmethod
@@ -548,9 +548,9 @@ struct VulkanBuffers:
         elements; n must be positive. Raises (fail-closed) on any
         Vulkan failure - nothing is computed on the host instead."""
         if n <= 0:
-            raise Error("VulkanBuffers.vec_add: element count must be positive")
+            raise Error("VAL-003 VALUE_OUT_OF_RANGE: VulkanBuffers.vec_add: element count must be positive")
         if a.requested_size < n * 4 or b.requested_size < n * 4 or c.requested_size < n * 4:
-            raise Error("VulkanBuffers.vec_add: a buffer is smaller than the element count")
+            raise Error("VAL-003 VALUE_OUT_OF_RANGE: VulkanBuffers.vec_add: a buffer is smaller than the element count")
         var rc = external_call["aesir_vk_buffer_vec_add", Int32](
             UInt64(a.id), UInt64(b.id), UInt64(c.id), UInt32(n)
         )

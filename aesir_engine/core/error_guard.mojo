@@ -47,9 +47,9 @@ struct ErrorGuard:
         """
         var addr = Int(logits)
         if addr == 0 or addr == 1:
-            raise Error("logit sanitizer requires a non-sentinel pointer")
+            raise Error("VAL-003 VALUE_OUT_OF_RANGE: logit sanitizer requires a non-sentinel pointer")
         if count <= 0:
-            raise Error("logit sanitizer count must be positive")
+            raise Error("VAL-003 VALUE_OUT_OF_RANGE: logit sanitizer count must be positive")
 
         for i in range(count):
             var val = logits.unsafe_load(i)
@@ -98,9 +98,9 @@ struct ErrorGuard:
         """
         var addr = Int(ptr)
         if addr == 0 or addr == 1:
-            raise Error("logit sanitizer requires a non-sentinel pointer")
+            raise Error("VAL-003 VALUE_OUT_OF_RANGE: logit sanitizer requires a non-sentinel pointer")
         if count <= 0:
-            raise Error("logit sanitizer count must be positive")
+            raise Error("VAL-003 VALUE_OUT_OF_RANGE: logit sanitizer count must be positive")
 
         var bad = 0
         for i in range(count):

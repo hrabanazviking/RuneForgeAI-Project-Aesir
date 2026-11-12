@@ -12,6 +12,7 @@
 # blocked (RLIMIT_MEMLOCK) -- presence only, no NPU execution claim.
 
 from core.amd_gate import AMDGate
+from core.structured_errors import coded_error_text
 from core.native_hardware import observe_cpu_name
 from core.posix_process import run_checked_argv
 
@@ -160,7 +161,7 @@ struct BackendRegistry(Copyable, ImplicitlyCopyable):
             return self.xrt
         if runtime == "CPU":
             return self.cpu
-        raise Error("unknown backend runtime: " + runtime)
+        raise Error(coded_error_text("VAL-003", "unknown backend runtime: " + runtime))
 
     def lines(self) -> List[String]:
         var out = List[String]()

@@ -57,14 +57,14 @@ struct IntelGate:
     def allocate_vram(size_bytes: Int) raises -> Pointer[Scalar[f16], MutUntrackedOrigin]:
         """Reserved Intel allocation entry point; always fails closed."""
         if size_bytes <= 0:
-            raise Error("IntelGate.allocate_vram: size_bytes must be positive")
-        raise Error("IntelGate.allocate_vram: physical Level Zero allocation is not implemented")
+            raise Error("VAL-003 VALUE_OUT_OF_RANGE: IntelGate.allocate_vram: size_bytes must be positive")
+        raise Error("GPU-002 DEVICE_NOT_FOUND: IntelGate.allocate_vram: physical Level Zero allocation is not implemented")
 
     @staticmethod
     def free_vram(ptr: Pointer[Scalar[f16], MutUntrackedOrigin]) raises:
         """Reserved Intel free entry point; always fails closed."""
         _ = ptr
-        raise Error("IntelGate.free_vram: physical Level Zero ownership is not implemented")
+        raise Error("GPU-002 DEVICE_NOT_FOUND: IntelGate.free_vram: physical Level Zero ownership is not implemented")
 
     @staticmethod
     def memcpy_host_to_device(
@@ -77,7 +77,7 @@ struct IntelGate:
         _ = src_host
         if size_bytes <= 0:
             return
-        raise Error("IntelGate.memcpy_host_to_device: physical Level Zero transfer is not implemented")
+        raise Error("GPU-002 DEVICE_NOT_FOUND: IntelGate.memcpy_host_to_device: physical Level Zero transfer is not implemented")
 
     @staticmethod
     def memcpy_device_to_host(
@@ -90,7 +90,7 @@ struct IntelGate:
         _ = src_dev
         if size_bytes <= 0:
             return
-        raise Error("IntelGate.memcpy_device_to_host: physical Level Zero transfer is not implemented")
+        raise Error("GPU-002 DEVICE_NOT_FOUND: IntelGate.memcpy_device_to_host: physical Level Zero transfer is not implemented")
 
     @staticmethod
     def launch_gemm_intel(
@@ -102,8 +102,8 @@ struct IntelGate:
         Validates shapes and rejects execution until a real Level Zero kernel exists.
         """
         if A.rows <= 0 or A.cols <= 0 or B.rows <= 0 or B.cols <= 0 or C.rows <= 0 or C.cols <= 0:
-            raise Error("IntelGate.launch_gemm_intel: non-positive matrix dimensions are prohibited")
+            raise Error("VAL-003 VALUE_OUT_OF_RANGE: IntelGate.launch_gemm_intel: non-positive matrix dimensions are prohibited")
         if A.cols != B.cols or A.rows != C.rows or B.rows != C.cols:
-            raise Error("IntelGate.launch_gemm_intel: GEMM shape mismatch")
+            raise Error("VAL-003 VALUE_OUT_OF_RANGE: IntelGate.launch_gemm_intel: GEMM shape mismatch")
 
-        raise Error("Intel Level Zero GPU execution is not implemented: no physical kernel was launched")
+        raise Error("GPU-002 DEVICE_NOT_FOUND: Intel Level Zero GPU execution is not implemented: no physical kernel was launched")
