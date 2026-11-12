@@ -1,6 +1,7 @@
 """Truthful, read-mostly system and model diagnosis for Project Aesir."""
 
 from aesir import CUDAGate
+from core.hardware_census import census_lines, observe_hardware_census
 from config import validate_model_store_path
 from cli.storage import DurableModelStore
 from cli.model_preferences import DurableModelPreferences, PreferenceFinding, stale_preference_count
@@ -170,6 +171,8 @@ def dispatch_doctor(args: List[String]) raises:
     except error:
         cuda_detail = "invalid discovery result — " + String(error)
 
+    var census = observe_hardware_census()
+
     var store_ok = False
     var store_detail: String
     var model_count = 0
@@ -313,6 +316,35 @@ def dispatch_doctor(args: List[String]) raises:
             output += ',"target":' + _json_string(finding.target)
             output += ',"reason":' + _json_string(finding.reason) + '}'
         output += ']}'
+        var census_json = String(',"census":{"cpu_model":')
+        census_json += _json_string(census.cpu_model)
+        census_json += ',"cpu_logical":' + (String(census.cpu_logical) if census.cpu_logical >= 0 else "null")
+        census_json += ',"cpu_physical":' + (String(census.cpu_physical) if census.cpu_physical >= 0 else "null")
+        census_json += ',"gpu_present":' + _json_bool(census.gpu_present)
+        census_json += ',"gpu_gfx_target":' + (_json_string(census.gpu_gfx_target) if census.gpu_gfx_target.byte_length() > 0 else "null")
+        census_json += ',"gpu_driver":' + _json_string(census.gpu_driver)
+        census_json += ',"gpu_pci_id":' + _json_string(census.gpu_pci_id)
+        census_json += ',"gpu_vram_total_bytes":' + doctor_json_bytes(census.gpu_vram_total_bytes)
+        census_json += ',"gpu_gtt_total_bytes":' + doctor_json_bytes(census.gpu_gtt_total_bytes)
+        census_json += ',"gpu_unified":' + _json_bool(census.gpu_unified)
+        census_json += ',"npu_present":' + _json_bool(census.npu_present)
+        census_json += ',"npu_node":' + _json_string(census.npu_node)
+        census_json += ',"npu_driver":' + _json_string(census.npu_driver)
+        census_json += ',"npu_pci_id":' + _json_string(census.npu_pci_id)
+        census_json += ',"npu_fw_version":' + _json_string(census.npu_fw_version)
+        census_json += ',"mem_total_bytes":' + doctor_json_bytes(census.mem_total_bytes)
+        census_json += ',"mem_available_bytes":' + doctor_json_bytes(census.mem_available_bytes)
+        census_json += ',"mem_clk_max_mhz":' + doctor_json_bytes(census.mem_clk_max_mhz)
+        census_json += ',"nvme_present":' + _json_bool(census.nvme_present)
+        census_json += ',"nvme_model":' + _json_string(census.nvme_model)
+        census_json += ',"nvme_capacity_bytes":' + doctor_json_bytes(census.nvme_capacity_bytes)
+        census_json += ',"kernel_release":' + _json_string(census.kernel_release)
+        census_json += ',"os_pretty":' + _json_string(census.os_pretty)
+        census_json += ',"product_name":' + _json_string(census.product_name)
+        census_json += ',"rocm_present":' + _json_bool(census.rocm_present)
+        census_json += ',"xrt_present":' + _json_bool(census.xrt_present)
+        census_json += '}'
+        output += census_json
         output += ',"model":' + optional_model + ',"issues":' + issues_json + '}'
         print(output)
         return
@@ -343,6 +375,11 @@ def dispatch_doctor(args: List[String]) raises:
     for broken in broken_names:
         print("  broken: " + broken)
     _print_doctor_row("Network", "not probed (offline-safe)")
+
+    print("\nHardware census (runtime-observed)\n")
+    var census_rendered = census_lines(census)
+    for census_line in census_rendered:
+        print("  " + census_line)
 
     print("\n" + ("SYSTEM READY" if ready else "SYSTEM NEEDS ATTENTION"))
     print("Scope: CUDA/storage prerequisites only; model execution not tested.")

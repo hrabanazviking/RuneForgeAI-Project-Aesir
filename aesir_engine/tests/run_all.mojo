@@ -274,6 +274,14 @@ from tests.test_doctor import (
     test_doctor_disk_fallback_issue,
     test_doctor_listener_probe_issue,
 )
+from tests.test_hardware_census import (
+    test_kfd_gfx_parser,
+    test_os_release_and_uevent_parsers,
+    test_sysfs_number_parsers,
+    test_census_lines_fixture,
+    test_live_census_this_machine,
+    test_cuda_absent_is_not_an_error,
+)
 from tests.test_conversation import (
     test_conversation_codec,
     test_conversation_compatibility,
@@ -714,6 +722,14 @@ def main() raises:
     run_case(
         ledger, "cli.doctor_listener_probe_issue", test_doctor_listener_probe_issue
     )
+    run_case(ledger, "hardware.census_kfd_parser", test_kfd_gfx_parser)
+    run_case(
+        ledger, "hardware.census_release_parsers", test_os_release_and_uevent_parsers
+    )
+    run_case(ledger, "hardware.census_sysfs_numbers", test_sysfs_number_parsers)
+    run_case(ledger, "hardware.census_lines", test_census_lines_fixture)
+    run_case(ledger, "hardware.census_live", test_live_census_this_machine)
+    run_case(ledger, "hardware.census_cuda_absent", test_cuda_absent_is_not_an_error)
     run_case(ledger, "cli.conversation_codec", test_conversation_codec)
     run_case(ledger, "core.prompt_prefix_exact", test_prompt_prefix)
     run_case(ledger, "core.dense_buffer_layout", test_dense_buffers)

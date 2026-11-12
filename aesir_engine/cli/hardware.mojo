@@ -1,6 +1,7 @@
 """CLI presentation of observed resources and executable native model plans."""
 from aesir import choose_native_cuda_plan, explain_host_fit, observe_host_memory, observe_cpu_name, CUDAGate, bounded_decimal
 from cli.model_reference import resolve_model_reference
+from core.hardware_census import census_lines, observe_hardware_census
 
 
 def parse_device_index(value: String) raises -> Int:
@@ -28,6 +29,11 @@ def dispatch_hardware(args: List[String]) raises:
     print("  total_bytes=" + String(host.total_bytes) + " available_bytes=" + String(host.available_bytes))
     print("  memory_source=" + host.source + " cgroup_levels=" + String(host.cgroup_levels))
     print("  execution=Linux native CPU Llama F16; other CPU profiles require separate admission")
+    print("census (runtime-observed):")
+    var census = observe_hardware_census()
+    var census_rendered = census_lines(census)
+    for census_line in census_rendered:
+        print("  " + census_line)
     var cuda = CUDAGate.discover_physical_devices()
     cuda.validate()
     print("cuda status=" + cuda.status.name() + " detail=" + cuda.message)
