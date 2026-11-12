@@ -68,5 +68,5 @@ when its lead is live on its assigned slice in its own worktree.
 
 ## State
 
-- Banked: **0 of 216** (campaign stood up 2026-11-11).
-- Next: A-001 (team-01 probe muster).
+- Banked: **0 of 216 on remote** - A-001+A-002 merged and A-003 committed at the seat (local main ahead of remote); push blocked: no GitHub auth on purpleraider (gh not logged in, no credential helper, no SSH key). Needs Volmarr: gh auth login on purpleraider. Keeper retries the push every tick.
+- Next: team-01 to A-010, team-02 to A-011, team-03 to A-012; muster team-04+05 on following ticks.

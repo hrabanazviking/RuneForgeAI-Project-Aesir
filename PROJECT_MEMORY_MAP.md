@@ -33,6 +33,9 @@ purpleraider `~/aesir-forge`.)
 | Slice | Status | Evidence / commit |
 |---|---|---|
 | — | Campaign stood up 2026-11-11; roadmap filed at 00a66e35 | ls-remote verified |
+| A-001 | merged at seat, push blocked | e33b6f0d hardware census in doctor; suite 283/1/2 of 286; the 1 failure is pre-existing (gguf.tensor_directory_interface, J-022 drift; same failure as the A-003 baseline) |
+| A-002 | merged at seat, push blocked | f3b1f23b pixi env + CPU build on Z13; BUILD_EXIT=0, --help smoke exit 0; ledger hidden_files/A002_LEDGER.md |
+| A-003 | committed at seat, push blocked | E-MASTER baseline 277/1/2 of 280 at ba0cf066; evidence hidden_files/a003_baseline_summary.md (canonical log stays in team-03 worktree, sha256 in summary) |
 
 ## Lessons carried in (standing law for this campaign)
 
