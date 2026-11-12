@@ -68,29 +68,29 @@ when its lead is live on its assigned slice in its own worktree.
 
 ## State
 
-- Banked: **48 of 216** (A-001..A-048). A-047 banked at the
-  seat 2026-11-12 (team-05 commit cae6b507 cherry-picked as
-  3f03be59; Precision paths, run_all pin unioned
-  418 -> 424 at banking).
-  A-046 banked at the seat 2026-11-12 (team-04 commit
-  79a2436f cherry-picked as 0dda0094; Quant census,
-  +0 run_all cases, pin unchanged).
-  A-045 banked at the seat 2026-11-12 (team-03 commit
-  c386d561 cherry-picked as 479545d9; CPU parity battery,
-  run_all pin 413 -> 418).
+- Banked: **51 of 216** (A-001..A-051). A-051 banked at the
+  seat 2026-11-12 (team-01 commit fbece4ae cherry-picked as
+  e47bb2aa; Chat-template goldens, run_all pin unioned
+  430 -> 435 at banking - conflict only on the pin).
+  A-050 banked at the seat 2026-11-12 (team-09 commit
+  054c1d9b cherry-picked clean as 17c75e7a; Tokenizer edge
+  battery, pin 424 -> 430).
+  A-049 banked at the seat 2026-11-12 (team-08 commit
+  6d75c4c6 cherry-picked clean as 65b6667e; Oversized-model
+  streaming, +0 run_all cases, pin unchanged).
   **Wave 3 (A-019..A-027) is COMPLETE. Wave 4
   (A-028..A-036) is COMPLETE. Wave 5 (A-037..A-045)
-  is COMPLETE. Wave 6 (A-046..A-054) is OPEN.**
-- Seat gate after this banking: A-048 (seat_gate_a048.log)
-  421 passed / 1 failed / 2 skipped / 424 total, exact on
+  is COMPLETE. Wave 6 (A-046..A-054) is OPEN (6 of 9).**
+- Seat gate after this banking: A-051 (seat_gate_a051.log)
+  432 passed / 1 failed / 2 skipped / 435 total, exact on
   first run. Sole failure the pre-existing
   gguf.tensor_directory_interface (J-022 drift), skips the
   2 pre-declared.
 - Queue: teams take slices in roadmap order as theirs
-  bank (keeper flow): team-07 A-048, team-08 A-049,
-  team-09 A-050, team-01 A-051, team-02 A-052,
-  team-06 A-053, team-03 A-054, team-04 A-055,
-  team-07 A-056.
+  bank (keeper flow): team-02 A-052, team-06 A-053,
+  team-03 A-054, team-04 A-055, team-07 A-056,
+  team-08 A-057, team-09 A-058, team-01 A-059,
+  team-05 A-060.
   Sole failure in every suite =
   pre-existing gguf.tensor_directory_interface J-022 drift
   (roads A-165 primary / A-121); skips = the 2 pre-declared.
