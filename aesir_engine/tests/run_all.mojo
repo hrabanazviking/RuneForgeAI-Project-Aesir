@@ -459,6 +459,13 @@ from tests.test_phase_timing import (
     test_phase_timing_json_schema,
     test_phase_timing_kvcache_sink,
 )
+from tests.test_sampling_cost_a044 import (
+    test_sampling_cost_simd_max_parity,
+    test_sampling_cost_greedy_argmax_parity,
+    test_sampling_cost_sort_stable_reference,
+    test_sampling_cost_topk_reference,
+    test_sampling_cost_stochastic_determinism_large,
+)
 from tests.test_conversation import (
     test_conversation_codec,
     test_conversation_compatibility,
@@ -1056,6 +1063,11 @@ def main() raises:
     run_case(ledger, "timing.phase_disjoint_pure", test_phase_timing_disjoint_pure)
     run_case(ledger, "timing.phase_json_schema", test_phase_timing_json_schema)
     run_case(ledger, "timing.phase_kvcache_sink", test_phase_timing_kvcache_sink)
+    run_case(ledger, "sampling_cost.simd_max_parity", test_sampling_cost_simd_max_parity)
+    run_case(ledger, "sampling_cost.greedy_argmax_parity", test_sampling_cost_greedy_argmax_parity)
+    run_case(ledger, "sampling_cost.sort_stable_reference", test_sampling_cost_sort_stable_reference)
+    run_case(ledger, "sampling_cost.topk_reference", test_sampling_cost_topk_reference)
+    run_case(ledger, "sampling_cost.stochastic_determinism_large", test_sampling_cost_stochastic_determinism_large)
     run_case(ledger, "cli.conversation_codec", test_conversation_codec)
     run_case(ledger, "core.prompt_prefix_exact", test_prompt_prefix)
     run_case(ledger, "core.dense_buffer_layout", test_dense_buffers)
@@ -1533,4 +1545,8 @@ def main() raises:
     # A-043 re-pin: 403 -> 408 -- five fused-attention SIMD parity
     # cases (attention.gqa_simd_* in
     # tests/test_fused_attention_a043.mojo).
-    ledger.finish(408)
+    # A-044 re-pin: 403 -> 408 -- five sampling cost parity cases
+    # (sampling_cost.* in tests/test_sampling_cost_a044.mojo).
+    # Union re-pin (A-044 banking 2026-11-12): 408 -> 413 -- five
+    # sampling cost cases counted on top of the A-043 seat pin.
+    ledger.finish(413)

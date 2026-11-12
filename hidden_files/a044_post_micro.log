@@ -1,0 +1,60 @@
+=== A-036 phase timing bench (gfx1151, 6 shims) ===
+2026-11-12T08:26:59-05:00
+purpleraider
+Linux purpleraider 7.3.0-10-generic #10-Ubuntu SMP PREEMPT_DYNAMIC Thu Oct 22 07:35:54 UTC 2026 x86_64 GNU/Linux
+d8c57f2aaba791217f78cf8e9afb55a15fdcfbe2
+yrsa/aesir-team-06
+Mojo 1.2.0 (2016d0cd)
+57a81ed1c8b032ba29319eae80c3e568dbb5a16ce665a09da1a0efe2e4eb69e3  hidden_files/fixtures/stories260K.F16.gguf
+ 08:26:59 up  6:45,  1 user,  load average: 0.16, 0.16, 0.33
+staging=/tmp/tmp.1TpzwVa1PJ
+hailo_cc_exit=0
+par_cc_exit=0
+hip_cc_exit=0
+vulkan_cc_exit=0
+zc_cc_exit=0
+aff_cc_exit=0
+A044_MEASURED config=greedy vocab= 512  trial= 0  reps= 20000  elapsed_ns= 1190477  per_call_ns= 59  sink= 740000
+A044_MEASURED config=greedy vocab= 512  trial= 1  reps= 20000  elapsed_ns= 1201227  per_call_ns= 60  sink= 740000
+A044_MEASURED config=greedy vocab= 512  trial= 2  reps= 20000  elapsed_ns= 1194044  per_call_ns= 59  sink= 740000
+A044_MEASURED config=greedy vocab= 32000  trial= 0  reps= 2000  elapsed_ns= 6624432  per_call_ns= 3312  sink= 74000
+A044_MEASURED config=greedy vocab= 32000  trial= 1  reps= 2000  elapsed_ns= 6630093  per_call_ns= 3315  sink= 74000
+A044_MEASURED config=greedy vocab= 32000  trial= 2  reps= 2000  elapsed_ns= 7156307  per_call_ns= 3578  sink= 74000
+A044_MEASURED config= stoch_topk40_topp95  vocab= 512  trial= 0  reps= 2000  elapsed_ns= 18898333  per_call_ns= 9449  sink= 74000
+A044_MEASURED config= stoch_topk40_topp95  vocab= 512  trial= 1  reps= 2000  elapsed_ns= 19393870  per_call_ns= 9696  sink= 74000
+A044_MEASURED config= stoch_topk40_topp95  vocab= 512  trial= 2  reps= 2000  elapsed_ns= 18911257  per_call_ns= 9455  sink= 74000
+A044_MEASURED config= stoch_topk40_topp95  vocab= 32000  trial= 0  reps= 5  elapsed_ns= 2633767  per_call_ns= 526753  sink= 185
+A044_MEASURED config= stoch_topk40_topp95  vocab= 32000  trial= 1  reps= 5  elapsed_ns= 2393778  per_call_ns= 478755  sink= 185
+A044_MEASURED config= stoch_topk40_topp95  vocab= 32000  trial= 2  reps= 5  elapsed_ns= 2385122  per_call_ns= 477024  sink= 185
+A044_MEASURED config= stoch_untruncated  vocab= 512  trial= 0  reps= 2000  elapsed_ns= 7681550  per_call_ns= 3840  sink= 131007
+A044_MEASURED config= stoch_untruncated  vocab= 512  trial= 1  reps= 2000  elapsed_ns= 7676811  per_call_ns= 3838  sink= 131007
+A044_MEASURED config= stoch_untruncated  vocab= 512  trial= 2  reps= 2000  elapsed_ns= 7675879  per_call_ns= 3837  sink= 131007
+A044_MEASURED config= stoch_untruncated  vocab= 32000  trial= 0  reps= 200  elapsed_ns= 46478498  per_call_ns= 232392  sink= 2677916
+A044_MEASURED config= stoch_untruncated  vocab= 32000  trial= 1  reps= 200  elapsed_ns= 46439475  per_call_ns= 232197  sink= 2677916
+A044_MEASURED config= stoch_untruncated  vocab= 32000  trial= 2  reps= 200  elapsed_ns= 46421963  per_call_ns= 232109  sink= 2677916
+A044_BENCH: PASS
+	Command being timed: "pixi run --frozen mojo run -I . --target-accelerator gfx1151 -Xlinker -L/tmp/tmp.1TpzwVa1PJ -Xlinker -laesir_hailo10h -Xlinker -laesir_par -Xlinker -laesir_hip -Xlinker -laesir_vulkan -Xlinker -laesir_zc -Xlinker -laesir_aff aesir_engine/tests/bench_sampling_a044.mojo"
+	User time (seconds): 4.21
+	System time (seconds): 0.42
+	Percent of CPU this job got: 254%
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 0:01.82
+	Average shared text size (kbytes): 0
+	Average unshared data size (kbytes): 0
+	Average stack size (kbytes): 0
+	Average total size (kbytes): 0
+	Maximum resident set size (kbytes): 307536
+	Average resident set size (kbytes): 0
+	Major (requiring I/O) page faults: 0
+	Minor (reclaiming a frame) page faults: 98493
+	Voluntary context switches: 44635
+	Involuntary context switches: 4730
+	Swaps: 0
+	File system inputs: 0
+	File system outputs: 944
+	Socket messages sent: 0
+	Socket messages received: 0
+	Signals delivered: 0
+	Page size (bytes): 4096
+	Exit status: 0
+MOJO_EXIT=0
+=== end 2026-11-12T08:27:01-05:00 ===

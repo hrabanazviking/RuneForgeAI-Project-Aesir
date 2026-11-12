@@ -1,0 +1,302 @@
+=== A-036 phase timing bench (gfx1151, 6 shims) ===
+2026-11-12T08:15:22-05:00
+purpleraider
+Linux purpleraider 7.3.0-10-generic #10-Ubuntu SMP PREEMPT_DYNAMIC Thu Oct 22 07:35:54 UTC 2026 x86_64 GNU/Linux
+d8c57f2aaba791217f78cf8e9afb55a15fdcfbe2
+yrsa/aesir-team-06
+Mojo 1.2.0 (2016d0cd)
+57a81ed1c8b032ba29319eae80c3e568dbb5a16ce665a09da1a0efe2e4eb69e3  hidden_files/fixtures/stories260K.F16.gguf
+ 08:15:22 up  6:34,  1 user,  load average: 0.05, 0.18, 0.55
+staging=/tmp/tmp.ZNkG7I4OPl
+hailo_cc_exit=0
+par_cc_exit=0
+hip_cc_exit=0
+vulkan_cc_exit=0
+zc_cc_exit=0
+aff_cc_exit=0
+Imported from /home/volmarr/aesir-team-06/aesir_engine/tests/bench_phase_timing_a036.mojo:22:
+Imported from /home/volmarr/aesir-team-06/aesir_engine/aesir.mojo:6:
+/home/volmarr/aesir-team-06/aesir_engine/core/inference.mojo:2153:9: warning: '__del__' is deprecated; use '__deinit__'
+    def __del__(deinit self):
+        ^~~~~~~
+        __deinit__
+Imported from /home/volmarr/aesir-team-06/aesir_engine/tests/bench_phase_timing_a036.mojo:22:
+Imported from /home/volmarr/aesir-team-06/aesir_engine/aesir.mojo:6:
+/home/volmarr/aesir-team-06/aesir_engine/core/inference.mojo:2154:20: warning: 'free' is deprecated, use 'unsafe_free' instead
+        self.s_data.free()
+        ~~~~~~~~~~~^~~~~
+                    unsafe_free
+<unknown>:0: note: 'free' declared here
+Imported from /home/volmarr/aesir-team-06/aesir_engine/tests/bench_phase_timing_a036.mojo:22:
+Imported from /home/volmarr/aesir-team-06/aesir_engine/aesir.mojo:6:
+/home/volmarr/aesir-team-06/aesir_engine/core/inference.mojo:2155:23: warning: 'free' is deprecated, use 'unsafe_free' instead
+        self.conv_data.free()
+        ~~~~~~~~~~~~~~^~~~~
+                       unsafe_free
+<unknown>:0: note: 'free' declared here
+Imported from /home/volmarr/aesir-team-06/aesir_engine/tests/bench_phase_timing_a036.mojo:22:
+Imported from /home/volmarr/aesir-team-06/aesir_engine/aesir.mojo:6:
+/home/volmarr/aesir-team-06/aesir_engine/core/inference.mojo:2156:21: warning: 'free' is deprecated, use 'unsafe_free' instead
+        self.scratch.free()
+        ~~~~~~~~~~~~^~~~~
+                     unsafe_free
+<unknown>:0: note: 'free' declared here
+Imported from /home/volmarr/aesir-team-06/aesir_engine/tests/bench_phase_timing_a036.mojo:22:
+Imported from /home/volmarr/aesir-team-06/aesir_engine/aesir.mojo:7:
+/home/volmarr/aesir-team-06/aesir_engine/core/parallel.mojo:39:1: warning: 'alias' is deprecated; use 'comptime'
+alias RangeFn = def(Int64, Int64, Int64) thin -> None
+^~~~~
+comptime
+Imported from /home/volmarr/aesir-team-06/aesir_engine/tests/bench_phase_timing_a036.mojo:22:
+Imported from /home/volmarr/aesir-team-06/aesir_engine/aesir.mojo:6:
+/home/volmarr/aesir-team-06/aesir_engine/core/inference.mojo:949:27: warning: `alloc` without a `Layout` is deprecated, use the `Layout`-based `alloc` instead; as a temporary migration step, use `unsafe_alloc`
+            var scratch = alloc[Float32](256)
+                          ^~~~~
+<unknown>:0: note: 'alloc' declared here
+Imported from /home/volmarr/aesir-team-06/aesir_engine/tests/bench_phase_timing_a036.mojo:22:
+Imported from /home/volmarr/aesir-team-06/aesir_engine/aesir.mojo:6:
+/home/volmarr/aesir-team-06/aesir_engine/core/inference.mojo:970:30: warning: `alloc` without a `Layout` is deprecated, use the `Layout`-based `alloc` instead; as a temporary migration step, use `unsafe_alloc`
+            var nl_scratch = alloc[Float32](32)
+                             ^~~~~
+<unknown>:0: note: 'alloc' declared here
+Imported from /home/volmarr/aesir-team-06/aesir_engine/tests/bench_phase_timing_a036.mojo:22:
+Imported from /home/volmarr/aesir-team-06/aesir_engine/aesir.mojo:6:
+Imported from /home/volmarr/aesir-team-06/aesir_engine/core/inference.mojo:11:
+/home/volmarr/aesir-team-06/aesir_engine/core/compute.mojo:1970:15: warning: `alloc` without a `Layout` is deprecated, use the `Layout`-based `alloc` instead; as a temporary migration step, use `unsafe_alloc`
+    var dst = alloc[UInt16](2048)
+              ^~~~~
+<unknown>:0: note: 'alloc' declared here
+Imported from /home/volmarr/aesir-team-06/aesir_engine/tests/bench_phase_timing_a036.mojo:22:
+Imported from /home/volmarr/aesir-team-06/aesir_engine/aesir.mojo:6:
+Imported from /home/volmarr/aesir-team-06/aesir_engine/core/inference.mojo:11:
+/home/volmarr/aesir-team-06/aesir_engine/core/compute.mojo:1262:14: warning: `alloc` without a `Layout` is deprecated, use the `Layout`-based `alloc` instead; as a temporary migration step, use `unsafe_alloc`
+    var cp = alloc[Int64](6)
+             ^~~~~
+<unknown>:0: note: 'alloc' declared here
+Imported from /home/volmarr/aesir-team-06/aesir_engine/tests/bench_phase_timing_a036.mojo:22:
+Imported from /home/volmarr/aesir-team-06/aesir_engine/aesir.mojo:6:
+Imported from /home/volmarr/aesir-team-06/aesir_engine/core/inference.mojo:11:
+/home/volmarr/aesir-team-06/aesir_engine/core/compute.mojo:2632:14: warning: `alloc` without a `Layout` is deprecated, use the `Layout`-based `alloc` instead; as a temporary migration step, use `unsafe_alloc`
+    var cp = alloc[Int64](6)
+             ^~~~~
+<unknown>:0: note: 'alloc' declared here
+Imported from /home/volmarr/aesir-team-06/aesir_engine/tests/bench_phase_timing_a036.mojo:22:
+Imported from /home/volmarr/aesir-team-06/aesir_engine/aesir.mojo:6:
+Imported from /home/volmarr/aesir-team-06/aesir_engine/core/inference.mojo:11:
+/home/volmarr/aesir-team-06/aesir_engine/core/compute.mojo:2175:14: warning: `alloc` without a `Layout` is deprecated, use the `Layout`-based `alloc` instead; as a temporary migration step, use `unsafe_alloc`
+    var cp = alloc[Int64](7)
+             ^~~~~
+<unknown>:0: note: 'alloc' declared here
+Imported from /home/volmarr/aesir-team-06/aesir_engine/tests/bench_phase_timing_a036.mojo:22:
+Imported from /home/volmarr/aesir-team-06/aesir_engine/aesir.mojo:6:
+Imported from /home/volmarr/aesir-team-06/aesir_engine/core/inference.mojo:11:
+/home/volmarr/aesir-team-06/aesir_engine/core/compute.mojo:1089:19: warning: `alloc` without a `Layout` is deprecated, use the `Layout`-based `alloc` instead; as a temporary migration step, use `unsafe_alloc`
+    var scratch = alloc[Float32](a_cols)
+                  ^~~~~
+<unknown>:0: note: 'alloc' declared here
+Imported from /home/volmarr/aesir-team-06/aesir_engine/tests/bench_phase_timing_a036.mojo:22:
+Imported from /home/volmarr/aesir-team-06/aesir_engine/aesir.mojo:6:
+Imported from /home/volmarr/aesir-team-06/aesir_engine/core/inference.mojo:11:
+/home/volmarr/aesir-team-06/aesir_engine/core/compute.mojo:1935:14: warning: `alloc` without a `Layout` is deprecated, use the `Layout`-based `alloc` instead; as a temporary migration step, use `unsafe_alloc`
+    var cp = alloc[Int64](9)
+             ^~~~~
+<unknown>:0: note: 'alloc' declared here
+Imported from /home/volmarr/aesir-team-06/aesir_engine/tests/bench_phase_timing_a036.mojo:22:
+Imported from /home/volmarr/aesir-team-06/aesir_engine/aesir.mojo:6:
+Imported from /home/volmarr/aesir-team-06/aesir_engine/core/inference.mojo:11:
+/home/volmarr/aesir-team-06/aesir_engine/core/compute.mojo:2087:14: warning: `alloc` without a `Layout` is deprecated, use the `Layout`-based `alloc` instead; as a temporary migration step, use `unsafe_alloc`
+    var cp = alloc[Int64](8)
+             ^~~~~
+<unknown>:0: note: 'alloc' declared here
+Imported from /home/volmarr/aesir-team-06/aesir_engine/tests/bench_phase_timing_a036.mojo:22:
+Imported from /home/volmarr/aesir-team-06/aesir_engine/aesir.mojo:6:
+Imported from /home/volmarr/aesir-team-06/aesir_engine/core/inference.mojo:11:
+/home/volmarr/aesir-team-06/aesir_engine/core/compute.mojo:2552:14: warning: `alloc` without a `Layout` is deprecated, use the `Layout`-based `alloc` instead; as a temporary migration step, use `unsafe_alloc`
+    var cp = alloc[Int64](8)
+             ^~~~~
+<unknown>:0: note: 'alloc' declared here
+Imported from /home/volmarr/aesir-team-06/aesir_engine/tests/bench_phase_timing_a036.mojo:22:
+Imported from /home/volmarr/aesir-team-06/aesir_engine/aesir.mojo:6:
+Imported from /home/volmarr/aesir-team-06/aesir_engine/core/inference.mojo:11:
+/home/volmarr/aesir-team-06/aesir_engine/core/compute.mojo:1632:28: warning: unreachable code on right side of 'False and ...'
+    return VNNI_DEFAULT_ON and cpu_has_vnni()
+                           ^
+Imported from /home/volmarr/aesir-team-06/aesir_engine/tests/bench_phase_timing_a036.mojo:22:
+Imported from /home/volmarr/aesir-team-06/aesir_engine/aesir.mojo:6:
+Imported from /home/volmarr/aesir-team-06/aesir_engine/core/inference.mojo:11:
+/home/volmarr/aesir-team-06/aesir_engine/core/compute.mojo:1743:18: warning: `alloc` without a `Layout` is deprecated, use the `Layout`-based `alloc` instead; as a temporary migration step, use `unsafe_alloc`
+        var xq = alloc[Int8](rows_here * a_cols)
+                 ^~~~~
+<unknown>:0: note: 'alloc' declared here
+Imported from /home/volmarr/aesir-team-06/aesir_engine/tests/bench_phase_timing_a036.mojo:22:
+Imported from /home/volmarr/aesir-team-06/aesir_engine/aesir.mojo:6:
+Imported from /home/volmarr/aesir-team-06/aesir_engine/core/inference.mojo:11:
+/home/volmarr/aesir-team-06/aesir_engine/core/compute.mojo:1744:22: warning: `alloc` without a `Layout` is deprecated, use the `Layout`-based `alloc` instead; as a temporary migration step, use `unsafe_alloc`
+        var xscale = alloc[Float32](rows_here * blocks_per_row * nsub)
+                     ^~~~~
+<unknown>:0: note: 'alloc' declared here
+Imported from /home/volmarr/aesir-team-06/aesir_engine/tests/bench_phase_timing_a036.mojo:22:
+Imported from /home/volmarr/aesir-team-06/aesir_engine/aesir.mojo:6:
+Imported from /home/volmarr/aesir-team-06/aesir_engine/core/inference.mojo:11:
+/home/volmarr/aesir-team-06/aesir_engine/core/compute.mojo:1745:21: warning: `alloc` without a `Layout` is deprecated, use the `Layout`-based `alloc` instead; as a temporary migration step, use `unsafe_alloc`
+        var xsums = alloc[Float32](rows_here * blocks_per_row * nsub)
+                    ^~~~~
+<unknown>:0: note: 'alloc' declared here
+Included from /home/volmarr/aesir-team-06/aesir_engine/tests/bench_phase_timing_a036.mojo:22:
+/home/volmarr/aesir-team-06/aesir_engine/aesir.mojo:1236:30: warning: assignment to 'next_token' was never used; assign to '_' instead?
+            var next_token = -1
+                             ^
+Included from /home/volmarr/aesir-team-06/aesir_engine/tests/bench_phase_timing_a036.mojo:22:
+Included from /home/volmarr/aesir-team-06/aesir_engine/aesir.mojo:16:
+/home/volmarr/aesir-team-06/aesir_engine/loader/gguf.mojo:566:29: warning: assignment to 'width' was never used; assign to '_' instead?
+                var width = 0
+                            ^
+MimirWell initialized with 36327520 derived bytes.
+GGUF validated: 48 tensors, 21 metadata entries, architecture llama
+Starting deterministic generation loop (The Weaving of Fate)...
+Prompt tokens: 8 context_length: 128
+ Token generated: 265 ' the'
+ Token generated: 282 ' p'
+ Token generated: 295 'ar'
+ Token generated: 433 'k'
+ Token generated: 335 ' with'
+ Token generated: 345 ' his'
+ Token generated: 357 ' mom'
+ Token generated: 426 '.'
+ Token generated: 342 ' They'
+ Token generated: 394 ' saw'
+ Token generated: 261 ' a'
+ Token generated: 370 ' big'
+ Token generated: 268 ' b'
+ Token generated: 414 'o'
+ Token generated: 444 'x'
+ Token generated: 335 ' with'
+ Token generated: 261 ' a'
+ Token generated: 370 ' big'
+ Token generated: 268 ' b'
+ Token generated: 414 'o'
+ Token generated: 444 'x'
+ Token generated: 426 '.'
+ Token generated: 291 ' The'
+ Token generated: 268 ' b'
+ Token generated: 414 'o'
+ Token generated: 444 'x'
+ Token generated: 286 ' was'
+ Token generated: 399 ' very'
+ Token generated: 262 ' s'
+ Token generated: 423 'm'
+ Token generated: 388 'all'
+ Token generated: 269 ' and'
+AESIR_TIMING_JSON: {"timing_version":1,"load_ms":6.920,"prefill_ms":0.299,"decode_ms":1.602,"sample_ms":0.079,"accounted_ms":8.902,"wall_ms":8.904,"residual_ms":0.001,"coverage_pct":99.98,"prompt_tokens":8,"generated_tokens":32,"clock":"CLOCK_MONOTONIC","sample_scope":"sample_token_from_logits calls in the forward paths"}
+Generated 32 token(s); stop reason: length
+Inference complete. Fate is sealed.
+A036_MEASURED rep= 0  load_ns= 6920956  prefill_ns= 299551  decode_ns= 1602502  sample_ns= 79704  accounted_ns= 8902713  wall_engine_ns= 8904346  wall_external_ns= 8925978  coverage_engine_bp= 9998  coverage_external_bp= 9973  gate= True
+A036_JSON: {"timing_version":1,"load_ms":6.920,"prefill_ms":0.299,"decode_ms":1.602,"sample_ms":0.079,"accounted_ms":8.902,"wall_ms":8.904,"residual_ms":0.001,"coverage_pct":99.98,"prompt_tokens":8,"generated_tokens":32,"clock":"CLOCK_MONOTONIC","sample_scope":"sample_token_from_logits calls in the forward paths"}
+MimirWell initialized with 36327520 derived bytes.
+GGUF validated: 48 tensors, 21 metadata entries, architecture llama
+Starting deterministic generation loop (The Weaving of Fate)...
+Prompt tokens: 8 context_length: 128
+ Token generated: 265 ' the'
+ Token generated: 282 ' p'
+ Token generated: 295 'ar'
+ Token generated: 433 'k'
+ Token generated: 335 ' with'
+ Token generated: 345 ' his'
+ Token generated: 357 ' mom'
+ Token generated: 426 '.'
+ Token generated: 342 ' They'
+ Token generated: 394 ' saw'
+ Token generated: 261 ' a'
+ Token generated: 370 ' big'
+ Token generated: 268 ' b'
+ Token generated: 414 'o'
+ Token generated: 444 'x'
+ Token generated: 335 ' with'
+ Token generated: 261 ' a'
+ Token generated: 370 ' big'
+ Token generated: 268 ' b'
+ Token generated: 414 'o'
+ Token generated: 444 'x'
+ Token generated: 426 '.'
+ Token generated: 291 ' The'
+ Token generated: 268 ' b'
+ Token generated: 414 'o'
+ Token generated: 444 'x'
+ Token generated: 286 ' was'
+ Token generated: 399 ' very'
+ Token generated: 262 ' s'
+ Token generated: 423 'm'
+ Token generated: 388 'all'
+ Token generated: 269 ' and'
+AESIR_TIMING_JSON: {"timing_version":1,"load_ms":6.784,"prefill_ms":0.259,"decode_ms":1.581,"sample_ms":0.079,"accounted_ms":8.704,"wall_ms":8.705,"residual_ms":0.000,"coverage_pct":99.98,"prompt_tokens":8,"generated_tokens":32,"clock":"CLOCK_MONOTONIC","sample_scope":"sample_token_from_logits calls in the forward paths"}
+Generated 32 token(s); stop reason: length
+Inference complete. Fate is sealed.
+A036_MEASURED rep= 1  load_ns= 6784220  prefill_ns= 259315  decode_ns= 1581195  sample_ns= 79482  accounted_ns= 8704212  wall_engine_ns= 8705184  wall_external_ns= 8719772  coverage_engine_bp= 9998  coverage_external_bp= 9982  gate= True
+A036_JSON: {"timing_version":1,"load_ms":6.784,"prefill_ms":0.259,"decode_ms":1.581,"sample_ms":0.079,"accounted_ms":8.704,"wall_ms":8.705,"residual_ms":0.000,"coverage_pct":99.98,"prompt_tokens":8,"generated_tokens":32,"clock":"CLOCK_MONOTONIC","sample_scope":"sample_token_from_logits calls in the forward paths"}
+MimirWell initialized with 36327520 derived bytes.
+GGUF validated: 48 tensors, 21 metadata entries, architecture llama
+Starting deterministic generation loop (The Weaving of Fate)...
+Prompt tokens: 8 context_length: 128
+ Token generated: 265 ' the'
+ Token generated: 282 ' p'
+ Token generated: 295 'ar'
+ Token generated: 433 'k'
+ Token generated: 335 ' with'
+ Token generated: 345 ' his'
+ Token generated: 357 ' mom'
+ Token generated: 426 '.'
+ Token generated: 342 ' They'
+ Token generated: 394 ' saw'
+ Token generated: 261 ' a'
+ Token generated: 370 ' big'
+ Token generated: 268 ' b'
+ Token generated: 414 'o'
+ Token generated: 444 'x'
+ Token generated: 335 ' with'
+ Token generated: 261 ' a'
+ Token generated: 370 ' big'
+ Token generated: 268 ' b'
+ Token generated: 414 'o'
+ Token generated: 444 'x'
+ Token generated: 426 '.'
+ Token generated: 291 ' The'
+ Token generated: 268 ' b'
+ Token generated: 414 'o'
+ Token generated: 444 'x'
+ Token generated: 286 ' was'
+ Token generated: 399 ' very'
+ Token generated: 262 ' s'
+ Token generated: 423 'm'
+ Token generated: 388 'all'
+ Token generated: 269 ' and'
+AESIR_TIMING_JSON: {"timing_version":1,"load_ms":6.608,"prefill_ms":0.255,"decode_ms":1.575,"sample_ms":0.079,"accounted_ms":8.519,"wall_ms":8.520,"residual_ms":0.000,"coverage_pct":99.99,"prompt_tokens":8,"generated_tokens":32,"clock":"CLOCK_MONOTONIC","sample_scope":"sample_token_from_logits calls in the forward paths"}
+Generated 32 token(s); stop reason: length
+Inference complete. Fate is sealed.
+A036_MEASURED rep= 2  load_ns= 6608252  prefill_ns= 255849  decode_ns= 1575857  sample_ns= 79480  accounted_ns= 8519438  wall_engine_ns= 8520189  wall_external_ns= 8534084  coverage_engine_bp= 9999  coverage_external_bp= 9982  gate= True
+A036_JSON: {"timing_version":1,"load_ms":6.608,"prefill_ms":0.255,"decode_ms":1.575,"sample_ms":0.079,"accounted_ms":8.519,"wall_ms":8.520,"residual_ms":0.000,"coverage_pct":99.99,"prompt_tokens":8,"generated_tokens":32,"clock":"CLOCK_MONOTONIC","sample_scope":"sample_token_from_logits calls in the forward paths"}
+A036_BENCH: PASS
+	Command being timed: "pixi run --frozen mojo run -I . --target-accelerator gfx1151 -Xlinker -L/tmp/tmp.ZNkG7I4OPl -Xlinker -laesir_hailo10h -Xlinker -laesir_par -Xlinker -laesir_hip -Xlinker -laesir_vulkan -Xlinker -laesir_zc -Xlinker -laesir_aff aesir_engine/tests/bench_phase_timing_a036.mojo hidden_files/fixtures/stories260K.F16.gguf"
+	User time (seconds): 24.57
+	System time (seconds): 1.55
+	Percent of CPU this job got: 205%
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 0:12.69
+	Average shared text size (kbytes): 0
+	Average unshared data size (kbytes): 0
+	Average stack size (kbytes): 0
+	Average total size (kbytes): 0
+	Maximum resident set size (kbytes): 1128392
+	Average resident set size (kbytes): 0
+	Major (requiring I/O) page faults: 76
+	Minor (reclaiming a frame) page faults: 333737
+	Voluntary context switches: 192952
+	Involuntary context switches: 9090
+	Swaps: 0
+	File system inputs: 113584
+	File system outputs: 6840
+	Socket messages sent: 0
+	Socket messages received: 0
+	Signals delivered: 0
+	Page size (bytes): 4096
+	Exit status: 0
+MOJO_EXIT=0
+=== end 2026-11-12T08:15:35-05:00 ===
