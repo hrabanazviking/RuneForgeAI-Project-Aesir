@@ -68,7 +68,18 @@ when its lead is live on its assigned slice in its own worktree.
 
 ## State
 
-- Banked: **97 of 216** (A-001..A-097). A-097 banked at the
+- Banked: **98 of 216** (A-001..A-098). A-098 banked at the
+  seat 2026-11-13 (team-25 commit a6aca98e cherry-picked
+  as 825b947a, +0 run_all cases, pin stays 610; NPU
+  power profile - GPU is the perf-per-watt winner by
+  ~10x (51.20 GF/s/W gross); NPU ties CPU on gross
+  J/op, beats it 1.5x net of idle, at 22.1 W vs 79.4 W;
+  exact vs CPU oracle on all 3 paths; seat gate
+  607/1/2 of 610 exact on the detached re-run solo,
+  sole failure J-022 (run 1: 606/2/2 with the named
+  intermittent resilience.state_vault_rejects_growth,
+  log preserved); full note in PROJECT_MEMORY_MAP).
+  A-097 banked at the
   seat 2026-11-13 (team-27 commit bd0173f3 cherry-picked
   as 164c7aab, +0 run_all cases, pin stays 610; NPU
   sampler experiment - verdict NOT FIT for decode
@@ -436,9 +447,9 @@ when its lead is live on its assigned slice in its own worktree.
   resilience.state_vault_rejects_growth (bug B2) - neither
   appeared in the accepted gate run.
 - Queue: teams take slices in roadmap order as theirs
-  bank (keeper flow): A-098 - next to bank (team-25,
-  building); then A-099 (team-26, building).
-  Wave 11 stands 7 of 9.
+  bank (keeper flow): A-099 - next to bank (team-26,
+  DONE, committed baede81a); Wave 11 closer.
+  Wave 11 stands 8 of 9.
   A-066 closed the A-065 KV-append gap
   (kv_append kernel, bit-exact).
   Sole failure in every suite =
