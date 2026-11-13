@@ -1,0 +1,17 @@
+insts_bytes=1304 ninstr_words=326 gpu_reps=64
+npu_device_name=NPU Strix Halo
+xclbin_uuid=184c0a55-97ee-d107-bad0-060c59a9a278
+verify ert_cmd_state=4 (COMPLETED=4)
+npu_verify elements=131072 mismatches=0 sentinel_remaining=0 checksum=2848816214485251074
+gpu_candidate[0]=AMD Radeon 8060S Graphics (RADV STRIX_HALO) type=1
+gpu_candidate[1]=llvmpipe (LLVM 22.1.8, 256 bits) type=4
+gpu_device_name=AMD Radeon 8060S Graphics (RADV STRIX_HALO)
+gpu_verify dim=1024 max_abs_err=0.000035
+cpu_verify rounds=260 vocab=32768 checksum=3359139257229004943 repeat_equal=1
+TRACE mode=serial rep=0 leg=npu start_us=0.1 end_us=2719.0 dur_us=2718.9 leg=gpu start_us=2719.0 end_us=7272.0 dur_us=4553.0 leg=cpu start_us=7272.1 end_us=17255.3 dur_us=9983.3 wall_us=17256.0
+TRACE mode=overlap rep=0 leg=npu start_us=0.0 end_us=2203.6 dur_us=2203.6 leg=gpu start_us=4.5 end_us=4527.1 dur_us=4522.6 leg=cpu start_us=85.8 end_us=10072.4 dur_us=9986.7 wall_us=10080.1
+TIMING serial_wall_us median=18900.2 overlap_wall_us median=10019.5 reps=21
+LEGS overlap_mode_median_dur_us npu=2315.6 gpu=5166.9 cpu=9988.4
+TRACE_MEDIAN pairwise_overlap_us npu_gpu=2312.0 gpu_cpu=5140.2 npu_cpu=2283.7
+DELTA e2e_delta_us=8880.7 delta_pct_of_serial=46.99
+RESULT PASS pipeline overlap measured

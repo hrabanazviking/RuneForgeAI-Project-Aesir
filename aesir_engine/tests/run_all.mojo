@@ -514,6 +514,14 @@ from tests.test_hip_errors_a089 import (
     test_hip_errors_gateway_consistency,
     test_hip_errors_real_paths,
 )
+from tests.test_pipeline_overlap_a101 import (
+    test_pipeline_overlap_pairwise_math,
+    test_pipeline_overlap_wall_and_delta,
+    test_pipeline_overlap_trace_line,
+    test_pipeline_overlap_acceptance,
+    test_pipeline_overlap_plan_gating,
+    test_pipeline_overlap_filed_trace,
+)
 from tests.test_npu_realm import (
     test_npu_probe_absence,
     test_npu_gemm_dispatch_bounds,
@@ -1401,6 +1409,12 @@ def main() raises:
     run_case(ledger, "errors.hip_fallback_and_success", test_hip_errors_fallback_and_success)
     run_case(ledger, "errors.hip_gateway_consistency", test_hip_errors_gateway_consistency)
     run_case(ledger, "errors.hip_real_paths", test_hip_errors_real_paths)
+    run_case(ledger, "pipeline.overlap_pairwise_math", test_pipeline_overlap_pairwise_math)
+    run_case(ledger, "pipeline.overlap_wall_and_delta", test_pipeline_overlap_wall_and_delta)
+    run_case(ledger, "pipeline.overlap_trace_line", test_pipeline_overlap_trace_line)
+    run_case(ledger, "pipeline.overlap_acceptance", test_pipeline_overlap_acceptance)
+    run_case(ledger, "pipeline.overlap_plan_gating", test_pipeline_overlap_plan_gating)
+    run_case(ledger, "pipeline.overlap_filed_trace", test_pipeline_overlap_filed_trace)
     run_case(
         ledger,
         "gpu.resilience_allocation_rejection",
@@ -2179,4 +2193,8 @@ def main() raises:
     # A-100 re-pin: 610 -> 616 -- six placement planner cases
     # (planner.* in tests/test_placement_planner_a100.mojo)
     # counted on top of the A-099 seat pin.
-    ledger.finish(616)
+    # A-101 union re-pin at banking: 616 -> 622 -- six pipeline
+    # overlap cases (pipeline.overlap_* in
+    # tests/test_pipeline_overlap_a101.mojo) counted on top of
+    # the A-100 seat pin.
+    ledger.finish(622)
