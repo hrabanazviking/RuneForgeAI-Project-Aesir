@@ -68,7 +68,14 @@ when its lead is live on its assigned slice in its own worktree.
 
 ## State
 
-- Banked: **80 of 216** (A-001..A-080). A-080 banked at the
+- Banked: **81 of 216** (A-001..A-081). A-081 banked at the
+  seat 2026-11-13 (team-11 commit 31d88a29 cherry-picked
+  clean as 3e7ad295, +0 run_all cases, pin stays 581;
+  HONEST NEGATIVE Part III gate - GPU path NOT declared
+  primary, GPU 1.497 vs CPU 6.958 tok/s on the pinned 8B
+  Q4 fixture; seat gate 578/1/2 of 581 exact, sole
+  failure J-022; full note in PROJECT_MEMORY_MAP).
+  A-080 banked at the
   seat 2026-11-13 (team-10 commit 2a1c2eec cherry-picked
   as 161d07ab with the run_all union composed at banking,
   pin 575 -> 581; seat gate 578/1/2 of 581 exact, sole
@@ -225,8 +232,8 @@ when its lead is live on its assigned slice in its own worktree.
   is COMPLETE. Wave 6 (A-046..A-054) is COMPLETE.
   Wave 7 (A-055..A-063) is COMPLETE. Wave 8
   (A-064..A-072) is COMPLETE. Wave 9
-  (A-073..A-081) is IN PROGRESS (8 of 9).**
-- Seat gate after this banking: A-080 (seat_gate_a080.log, sha256 04dbf2a1...) 578 passed / 1 failed / 2 skipped / 581 total, EXACT, sole failure J-022, all 6 equivalence.* cases PASS, launched solo with no other suite live. Previous gate (A-079, seat_gate_a079.log): 572/1/2 of 575 exact, budget_live PASS after the reorder fix (history in the A-079 PROJECT_MEMORY_MAP row). Previous gate (A-078, seat_gate_a078.log):
+  (A-073..A-081) is COMPLETE.**
+- Seat gate after this banking: A-081 (seat_gate_a081.log, sha256 59f3d879...) 578 passed / 1 failed / 2 skipped / 581 total, EXACT, sole failure J-022 (the slice adds no run_all cases, pin unchanged), launched solo. Previous gate (A-080, seat_gate_a080.log): 578/1/2 of 581 exact, all 6 equivalence.* cases PASS. Previous gate (A-079, seat_gate_a079.log): 572/1/2 of 575 exact, budget_live PASS after the reorder fix (history in the A-079 PROJECT_MEMORY_MAP row). Previous gate (A-078, seat_gate_a078.log):
   565 passed / 1 failed / 2 skipped / 568 total,
   exact on run 4 (runs 1-2: 564/2/2 with the extra
   memory.budget_live_meminfo_pressure intermittent,
@@ -245,10 +252,10 @@ when its lead is live on its assigned slice in its own worktree.
   resilience.state_vault_rejects_growth (bug B2) - neither
   appeared in the accepted gate run.
 - Queue: teams take slices in roadmap order as theirs
-  bank (keeper flow): A-081 - next to bank (team-11 commit
-  31d88a29, honest negative, already built and tested);
-  A-082 (team-12 commit 62de1014) and A-083 (team-13
-  commit 0742431b) built and awaiting banking in order.
+  bank (keeper flow): A-082 - next to bank (team-12 commit
+  62de1014, HIP Q8_0 GEMV, already built and tested);
+  A-083 (team-13 commit 0742431b) built and awaiting
+  banking in order; teams 14+15 (A-084/A-085) muster next.
   A-066 closed the A-065 KV-append gap
   (kv_append kernel, bit-exact).
   Sole failure in every suite =
