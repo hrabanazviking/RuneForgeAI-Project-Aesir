@@ -68,7 +68,17 @@ when its lead is live on its assigned slice in its own worktree.
 
 ## State
 
-- Banked: **84 of 216** (A-001..A-084). A-084 banked at the
+- Banked: **85 of 216** (A-001..A-085). A-085 banked at the
+  seat 2026-11-13 (team-15 commit 134bcc13 cherry-picked
+  as 872798d7, doc-only slice, +0 run_all cases, pin
+  stays 594; the bake-off - Vulkan PRIMARY GPU road,
+  HIP PARKED probe-only with 4 written re-open criteria,
+  never silently dropped; Q4_K GEMV per-call Vulkan
+  faster at every shape on the real gfx1151 device,
+  both roads inside the filed parity band; seat gate
+  591/1/2 of 594 exact on run 2, solo, sole failure
+  J-022; full note in PROJECT_MEMORY_MAP).
+  A-084 banked at the
   seat 2026-11-13 (team-14 commit ef9b8965 cherry-picked
   as b68acac2 with the unions composed at banking, pin
   589 -> 594; HIP attention + norms - RMSNorm bit-exact,
@@ -259,7 +269,7 @@ when its lead is live on its assigned slice in its own worktree.
   Wave 7 (A-055..A-063) is COMPLETE. Wave 8
   (A-064..A-072) is COMPLETE. Wave 9
   (A-073..A-081) is COMPLETE.**
-- Seat gate after this banking: A-084 (seat_gate_a084.log, sha256 61267494...) 591 passed / 1 failed / 2 skipped / 594 total, EXACT on run 2, launched solo, sole failure J-022, all 5 gpu.hip_attn_norms_* cases PASS (run 1: 590/2/2 with the named pre-existing intermittent resilience.state_vault_rejects_growth, log preserved as seat_gate_a084_run1_statevaultflake.log). Previous gate (A-083, seat_gate_a083.log, sha256 77c519ab...) 586 passed / 1 failed / 2 skipped / 589 total, EXACT on the fourth run, launched solo on a quiet machine, sole failure J-022, all 3 gpu.hip_q4k_gemv_* cases PASS (runs 1-3 ran 585/2/2 with one named pre-existing intermittent each, logs preserved as seat_gate_a083_run1/run2/run3). Previous gate (A-081, seat_gate_a081.log, sha256 59f3d879...) 578 passed / 1 failed / 2 skipped / 581 total, EXACT, sole failure J-022 (the slice adds no run_all cases, pin unchanged), launched solo. Previous gate (A-080, seat_gate_a080.log): 578/1/2 of 581 exact, all 6 equivalence.* cases PASS. Previous gate (A-079, seat_gate_a079.log): 572/1/2 of 575 exact, budget_live PASS after the reorder fix (history in the A-079 PROJECT_MEMORY_MAP row). Previous gate (A-078, seat_gate_a078.log):
+- Seat gate after this banking: A-085 (seat_gate_a085.log, sha256 175385ba...) 591 passed / 1 failed / 2 skipped / 594 total, EXACT on run 2, launched solo, sole failure J-022 (doc-only slice, pin unchanged; run 1: 589/3/2 with BOTH named pre-existing intermittents - resilience.state_vault_rejects_growth and gpu.amd_hip_stream_async_round_trip - log preserved as seat_gate_a085_run1_bothintermittents.log). Previous gate (A-084, seat_gate_a084.log, sha256 61267494...) 591 passed / 1 failed / 2 skipped / 594 total, EXACT on run 2, launched solo, sole failure J-022, all 5 gpu.hip_attn_norms_* cases PASS (run 1: 590/2/2 with the named pre-existing intermittent resilience.state_vault_rejects_growth, log preserved as seat_gate_a084_run1_statevaultflake.log). Previous gate (A-083, seat_gate_a083.log, sha256 77c519ab...) 586 passed / 1 failed / 2 skipped / 589 total, EXACT on the fourth run, launched solo on a quiet machine, sole failure J-022, all 3 gpu.hip_q4k_gemv_* cases PASS (runs 1-3 ran 585/2/2 with one named pre-existing intermittent each, logs preserved as seat_gate_a083_run1/run2/run3). Previous gate (A-081, seat_gate_a081.log, sha256 59f3d879...) 578 passed / 1 failed / 2 skipped / 581 total, EXACT, sole failure J-022 (the slice adds no run_all cases, pin unchanged), launched solo. Previous gate (A-080, seat_gate_a080.log): 578/1/2 of 581 exact, all 6 equivalence.* cases PASS. Previous gate (A-079, seat_gate_a079.log): 572/1/2 of 575 exact, budget_live PASS after the reorder fix (history in the A-079 PROJECT_MEMORY_MAP row). Previous gate (A-078, seat_gate_a078.log):
   565 passed / 1 failed / 2 skipped / 568 total,
   exact on run 4 (runs 1-2: 564/2/2 with the extra
   memory.budget_live_meminfo_pressure intermittent,
@@ -278,11 +288,13 @@ when its lead is live on its assigned slice in its own worktree.
   resilience.state_vault_rejects_growth (bug B2) - neither
   appeared in the accepted gate run.
 - Queue: teams take slices in roadmap order as theirs
-  bank (keeper flow): A-085 - next to bank (team-15
-  commit 134bcc13, the bake-off, built and tested);
-  A-086 (team-16 prep commit 973a5ba5) applies the
-  banked A-085 verdict next, then A-087 (team-17
-  commit 174aa363); teams 18+19 muster this tick.
+  bank (keeper flow): A-086 - next to bank (team-16
+  prep commit 973a5ba5, verdict-parametric scaffolding;
+  the keeper applies the banked A-085 verdict - Vulkan
+  winner, HIP probe-only - through apply_bakeoff_verdict
+  at the seat and re-runs the suite before banking);
+  then A-087 (team-17 commit 174aa363, DONE); teams
+  18+19 mustered this tick (A-088/A-089).
   A-066 closed the A-065 KV-append gap
   (kv_append kernel, bit-exact).
   Sole failure in every suite =
@@ -308,5 +320,7 @@ when its lead is live on its assigned slice in its own worktree.
 - 2026-11-13 ~06:52 EST (keeper tick scheduled 06:47): seats team-12 and team-13 CREATED from banked main 3cfc4370 (78 of 216), verified by git worktree list. team-12 assigned A-082 (HIP Q8_0 GEMV), team-13 assigned A-083 (HIP Q4_K GEMV) — the next unassigned slices in roadmap order (Wave 10 opener). CAMPAIGN_STATE.md written + sha256-verified for both (team-12 e8cc06d1..., team-13 60c875bd...), hidden_files/ created. Leads spawned this tick, no 429; both briefed to defer full suites while team-03's probe + budget-reorder work runs solo. Team-03 RESTARTED this tick on the probe + budget-reorder fix road (critical path to unblocking A-079 banking). A-082/A-083 build in parallel and bank only in roadmap order after A-079/A-080/A-081 (and after each other).
 - 2026-11-13 ~08:02 EST (keeper tick): A-082 BANKED (82 of 216, closure 82591e7c). A-083 cherry-picked at the seat as ef184af7 (run_all union 586 -> 589, shim counters unioned, shim compiles) but its seat gate ran 585/2/2 three times (runs 1 and 3: resilience.state_vault_rejects_growth; run 2: gpu.amd_hip_stream_async_round_trip - the two named pre-existing intermittents, rotating, all A-083 cases PASS every run; logs preserved as seat_gate_a083_run1/run2/run3). The Z-100 soak probes resumed (STAT R) during runs 2-3, so the gate was NOT re-run further this tick; A-083 banks on the first exact solo gate on a quiet machine. Seats team-14 and team-15 CREATED from banked main 82591e7c (82 of 216), verified by git worktree list. team-14 assigned A-084 (HIP attention + norms), team-15 assigned A-085 (The bake-off) - the next unassigned slices in roadmap order. CAMPAIGN_STATE.md written for both (team-14 sha256 2782cc61..., team-15 sha256 64fa05a0...), hidden_files/ created. Leads spawned this tick; both briefed to defer full suites while heavy shared work is live and never concurrently with a seat gate. Teams 16-27 not yet created; muster 2-3 per tick in order.
 - 2026-11-13 ~08:17 EST (keeper tick): A-083 BANKED (83 of 216, closure de415271) - seat gate run 4 exact solo on a quiet machine: 586/1/2 of 589, sole failure J-022, all 3 gpu.hip_q4k_gemv_* PASS (seat_gate_a083.log sha256 77c519ab...). Team-14 and team-15 leads from the 08:02 muster were CANCELLED before finishing (no result); both left real uncommitted work (team-14: hip_attention_norms core + test + shim work in progress; team-15: A085_BAKEOFF.md draft + fresh HIP/Vulkan Q4_K bench logs 08:06) - fresh leads RESTARTED this tick to CONTINUE that work. Seats team-16 and team-17 CREATED from banked main de415271 (83 of 216), verified by git worktree list: team-16 A-086 (Winner integration - preparatory work only until the A-085 verdict banks), team-17 A-087 (ROCm install reproducibility). CAMPAIGN_STATE.md sha256-verified for both (team-16 a0e835cc..., team-17 c67d8f67...), hidden_files/ created, leads spawned this tick, no 429.
-- Teams 18-27: not yet created; muster 2-3 per tick in order on later ticks.
+- 2026-11-13 ~09:07 EST (keeper tick): A-084 BANKED (84 of 216, closure a2f19330) - seat gate exact on run 2 solo: 591/1/2 of 594, sole failure J-022, all 5 gpu.hip_attn_norms_* PASS. A-085 cherry-picked at the seat as 872798d7.
+- 2026-11-13 ~09:35 EST (keeper tick): A-085 BANKED (85 of 216) - seat gate run 2 exact solo: 591/1/2 of 594, sole failure J-022 (run 1: 589/3/2, both named intermittents). Verdict banked: Vulkan PRIMARY, HIP PARKED probe-only. Seats team-18 and team-19 CREATED from banked main (85 of 216) this tick: team-18 A-088 (HIP zero-copy measurement), team-19 A-089 (HIP error semantics).
+- Teams 20-27: not yet created; muster 2-3 per tick in order on later ticks.
 - Note: the 9-team layout text above is the original Wave 1 layout and is superseded by this expansion for team count; slice order and banking rules are unchanged.
