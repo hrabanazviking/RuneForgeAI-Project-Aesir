@@ -68,7 +68,13 @@ when its lead is live on its assigned slice in its own worktree.
 
 ## State
 
-- Banked: **78 of 216** (A-001..A-078). A-078 banked at the
+- Banked: **79 of 216** (A-001..A-079). A-079 banked at the
+  seat 2026-11-13 (team-03 commit c4b43c6f cherry-picked
+  as 30e46c64 with the run_all union composed at banking,
+  pin 568 -> 575, plus the budget-reorder fix 058a5b68 -
+  team-03 6755114f composed at the seat; seat gate
+  572/1/2 of 575 exact, sole failure J-022; full note in
+  PROJECT_MEMORY_MAP). A-078 banked at the
   seat 2026-11-12 (team-02 commit 31b304d3 cherry-picked
   as 34c9deaa with the run_all union composed at banking,
   pin 561 -> 568; GPU fuzz - seeded reproducible fuzzing
@@ -214,8 +220,8 @@ when its lead is live on its assigned slice in its own worktree.
   is COMPLETE. Wave 6 (A-046..A-054) is COMPLETE.
   Wave 7 (A-055..A-063) is COMPLETE. Wave 8
   (A-064..A-072) is COMPLETE. Wave 9
-  (A-073..A-081) is IN PROGRESS (6 of 9).**
-- Seat gate after this banking: A-078 (seat_gate_a078.log)
+  (A-073..A-081) is IN PROGRESS (7 of 9).**
+- Seat gate after this banking: A-079 (seat_gate_a079.log, sha256 239a301a...) 572 passed / 1 failed / 2 skipped / 575 total, EXACT, sole failure J-022, budget_live PASS after the reorder fix 058a5b68 (banking history + bisect verdict in PROJECT_MEMORY_MAP A-079 row + hidden_files/A079_FIX_LEDGER.md). Contention note: team-13 small driver/probe overlapped the gate tail; no other full suite ran. Previous gate (A-078, seat_gate_a078.log):
   565 passed / 1 failed / 2 skipped / 568 total,
   exact on run 4 (runs 1-2: 564/2/2 with the extra
   memory.budget_live_meminfo_pressure intermittent,
@@ -234,9 +240,11 @@ when its lead is live on its assigned slice in its own worktree.
   resilience.state_vault_rejects_growth (bug B2) - neither
   appeared in the accepted gate run.
 - Queue: teams take slices in roadmap order as theirs
-  bank (keeper flow): A-079 - next to bank (team-03 commit
-  c4b43c6f already built and tested); teams flow onto
-  A-080 onward in roadmap order after it.
+  bank (keeper flow): A-080 - next to bank (team-10 commit
+  2a1c2eec already built and tested); A-081 (team-11
+  commit 31d88a29, honest negative) and A-082 (team-12
+  commit 62de1014) built and awaiting banking in order;
+  A-083 in flight on team-13.
   A-066 closed the A-065 KV-append gap
   (kv_append kernel, bit-exact).
   Sole failure in every suite =
@@ -253,3 +261,12 @@ when its lead is live on its assigned slice in its own worktree.
   (8192 kB vs the 64 MiB locked map XRT wants) - NPU tools run via
   sudo until Volmarr rules on raising the user memlock limit;
   xrt-smi validate needs the Xilinx VTD archive, first step of A-092.
+
+## Expansion to 27 teams (Volmarr order 2026-11-13 ~05:59 EST)
+
+- Volmarr ordered the teams working on Project Aesir on purpleraider increased to 27, staggered so a sudden mass start does not kill them. Muster at most 2-3 NEW team leads per keeper tick, in team order, until all 27 flow. If a spawn is refused with a rate limit (429), stop mustering for that tick.
+- Seats created only when mustered, each from banked main with its own branch yrsa/aesir-team-NN, CAMPAIGN_STATE.md and hidden_files/.
+- 2026-11-13 ~06:20 EST (keeper tick): seats team-10 and team-11 CREATED from banked main 3cfc4370 (78 of 216), verified by git worktree list. team-10 assigned A-080 (Equivalence gate), team-11 assigned A-081 (Part III gate) — the next unassigned slices in roadmap order. A-080/A-081 build in parallel and bank only in roadmap order after A-079 (and after each other).
+- 2026-11-13 ~06:52 EST (keeper tick scheduled 06:47): seats team-12 and team-13 CREATED from banked main 3cfc4370 (78 of 216), verified by git worktree list. team-12 assigned A-082 (HIP Q8_0 GEMV), team-13 assigned A-083 (HIP Q4_K GEMV) — the next unassigned slices in roadmap order (Wave 10 opener). CAMPAIGN_STATE.md written + sha256-verified for both (team-12 e8cc06d1..., team-13 60c875bd...), hidden_files/ created. Leads spawned this tick, no 429; both briefed to defer full suites while team-03's probe + budget-reorder work runs solo. Team-03 RESTARTED this tick on the probe + budget-reorder fix road (critical path to unblocking A-079 banking). A-082/A-083 build in parallel and bank only in roadmap order after A-079/A-080/A-081 (and after each other).
+- Teams 14-27: not yet created; muster 2-3 per tick in order on later ticks.
+- Note: the 9-team layout text above is the original Wave 1 layout and is superseded by this expansion for team count; slice order and banking rules are unchanged.
