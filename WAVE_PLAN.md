@@ -68,7 +68,11 @@ when its lead is live on its assigned slice in its own worktree.
 
 ## State
 
-- Banked: **71 of 216** (A-001..A-071). A-071 banked at the
+- Banked: **72 of 216** (A-001..A-072). A-072 banked at the
+  seat 2026-11-12 (team-02 commit f650f01b cherry-picked
+  as a2cabb5c with the run_all union composed at
+  banking, pin 537 -> 543; continuous batching v1).
+  A-071 banked at the
   seat 2026-11-12 (team-01 commit 0b7496dd cherry-picked
   as 46cefc41 with TWO run_all unions composed at
   banking - import block and pin 531 -> 537; decode and
@@ -156,10 +160,14 @@ when its lead is live on its assigned slice in its own worktree.
   (A-028..A-036) is COMPLETE. Wave 5 (A-037..A-045)
   is COMPLETE. Wave 6 (A-046..A-054) is COMPLETE.
   Wave 7 (A-055..A-063) is COMPLETE. Wave 8
-  (A-064..A-072) is IN PROGRESS (8 of 9).**
-- Seat gate after this banking: A-071 (seat_gate_a071.log)
-  534 passed / 1 failed / 2 skipped / 537 total, exact on
-  the first run. Sole failure the pre-existing
+  (A-064..A-072) is COMPLETE. Wave 9
+  (A-073..A-081) is IN PROGRESS (0 of 9).**
+- Seat gate after this banking: A-072 (seat_gate_a072.log)
+  540 passed / 1 failed / 2 skipped / 543 total. Run 1
+  flaked with the extra gpu.amd_hip_stream_async_round_trip
+  MEM-004 intermittent (preserved as
+  seat_gate_a072_run1_flake.log); the accepted re-run is
+  exact. Sole failure the pre-existing
   gguf.tensor_directory_interface (J-022 drift), skips the
   2 pre-declared. Known intermittents (proven pre-existing
   at base b62b1481 by the A-055 base bisect, NOT caused by
@@ -168,8 +176,8 @@ when its lead is live on its assigned slice in its own worktree.
   resilience.state_vault_rejects_growth (bug B2) - neither
   appeared in the accepted gate run.
 - Queue: teams take slices in roadmap order as theirs
-  bank (keeper flow): A-072 - next to bank; teams then
-  flow onto A-073 onward in roadmap order.
+  bank (keeper flow): A-073 - next to bank; teams then
+  flow onto A-074 onward in roadmap order.
   A-066 closed the A-065 KV-append gap
   (kv_append kernel, bit-exact).
   Sole failure in every suite =
