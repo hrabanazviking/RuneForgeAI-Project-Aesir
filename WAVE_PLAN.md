@@ -68,7 +68,20 @@ when its lead is live on its assigned slice in its own worktree.
 
 ## State
 
-- Banked: **100 of 216** (A-001..A-100). A-100 banked at the
+- Banked: **101 of 216** (A-001..A-101). A-101 banked at the
+  seat 2026-11-13 (team-25 commit 6e177bf4 cherry-picked
+  as 117fbf6b, +6 run_all cases, seat pin 616 -> 622
+  (union with A-100 over the 610 base); pipeline
+  overlap - three-leg pipeline (GPU prefill, CPU
+  sampling prep, NPU assist) measured on device:
+  overlapped wall 10,015-10,079 us median vs serial
+  18,900-19,145 us, delta 46.8-47.7 percent, NPU exact
+  vs CPU oracle, GPU GEMV max err 0.000035; seat gate
+  619/1/2 of 622 exact on run 4 solo, sole failure
+  J-022 (runs 1-3: 618/2/2 each with the named
+  intermittent resilience.state_vault_rejects_growth,
+  logs preserved); full note in PROJECT_MEMORY_MAP).
+  A-100 banked at the
   seat 2026-11-13 (team-27 commit 7dd122f5 cherry-picked
   as 46fab692, +6 run_all cases, pin 610 -> 616;
   placement planner - per-op device assignment from the
@@ -468,9 +481,9 @@ when its lead is live on its assigned slice in its own worktree.
   resilience.state_vault_rejects_growth (bug B2) - neither
   appeared in the accepted gate run.
 - Queue: teams take slices in roadmap order as theirs
-  bank (keeper flow): A-101 - next to bank (team-25,
-  DONE, committed 6e177bf4; pipeline overlap).
-  Wave 12 stands 1 of 9.
+  bank (keeper flow): A-102 - next to bank (team-26,
+  DONE, committed b3e32e54; spillover policy).
+  Wave 12 stands 2 of 9.
   A-066 closed the A-065 KV-append gap
   (kv_append kernel, bit-exact).
   Sole failure in every suite =
