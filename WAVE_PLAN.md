@@ -68,7 +68,18 @@ when its lead is live on its assigned slice in its own worktree.
 
 ## State
 
-- Banked: **89 of 216** (A-001..A-089). A-089 banked at the
+- Banked: **90 of 216** (A-001..A-090). A-090 banked at the
+  seat 2026-11-13 (team-20 commit 12570d2e cherry-picked
+  clean as f9c56f72, doc-only slice, +0 run_all cases,
+  pin stays 610; HIP instability verdict - HIP is NOT
+  integrated (A-085/A-086 stand), no soak was run or
+  claimed, the instability evidence is filed as the
+  verdict in docs/bench/A090_HIP_INSTABILITY_VERDICT.md;
+  none of the A-085 re-open criteria met; seat gate
+  607/1/2 of 610 exact solo, sole failure J-022; full
+  note in PROJECT_MEMORY_MAP). **Wave 10 (A-082..A-090)
+  is COMPLETE.**
+  A-089 banked at the
   seat 2026-11-13 (team-19 commit 6fadfbcc cherry-picked
   as 6aec2156 with the run_all union composed at banking,
   pin 605 -> 610; HIP error semantics - core/hip_errors.mojo
@@ -318,8 +329,9 @@ when its lead is live on its assigned slice in its own worktree.
   is COMPLETE. Wave 6 (A-046..A-054) is COMPLETE.
   Wave 7 (A-055..A-063) is COMPLETE. Wave 8
   (A-064..A-072) is COMPLETE. Wave 9
-  (A-073..A-081) is COMPLETE.**
-- Seat gate after this banking: A-089 (seat_gate_a089.log, sha256 8a8d51ac...) 607 passed / 1 failed / 2 skipped / 610 total, EXACT on run 2 solo, sole failure J-022, all 5 errors.hip_* cases PASS (run 1: 605/3/2 with BOTH named pre-existing intermittents - gguf.weight_residency_gpu_visibility and resilience.state_vault_rejects_growth - log preserved as seat_gate_a089_run1_bothintermittents.log). Previous gate (A-088, seat_gate_a088.log, sha256 45ddf82a...) 602 passed / 1 failed / 2 skipped / 605 total, EXACT on run 2 solo, sole failure J-022 (doc+bench slice, pin unchanged; run 1: 601/2/2 with the named pre-existing intermittent gpu.amd_hip_stream_async_round_trip, log preserved as seat_gate_a088_run1_streamasyncflake.log). Previous gate (A-087, seat_gate_a087.log, sha256 930ed9bd...) 602 passed / 1 failed / 2 skipped / 605 total, EXACT solo, sole failure J-022, all 5 rocm_repro.* cases PASS. Previous gate (A-086, seat_gate_a086.log, sha256 58b6ee81...) 597 passed / 1 failed / 2 skipped / 600 total, EXACT on run 3, launched solo, sole failure J-022, all 6 gpu_winner.* cases PASS (run 1: 596/2/2 with the named pre-existing intermittent gguf.weight_residency_gpu_visibility, log preserved as seat_gate_a086_run1_weightresidencyflake.log; run 2: 596/2/2 with the named pre-existing intermittent resilience.state_vault_rejects_growth, log preserved as seat_gate_a086_run2_statevaultflake.log). Previous gate (A-085, seat_gate_a085.log, sha256 175385ba...) 591 passed / 1 failed / 2 skipped / 594 total, EXACT on run 2, launched solo, sole failure J-022 (doc-only slice, pin unchanged; run 1: 589/3/2 with BOTH named pre-existing intermittents - resilience.state_vault_rejects_growth and gpu.amd_hip_stream_async_round_trip - log preserved as seat_gate_a085_run1_bothintermittents.log). Previous gate (A-084, seat_gate_a084.log, sha256 61267494...) 591 passed / 1 failed / 2 skipped / 594 total, EXACT on run 2, launched solo, sole failure J-022, all 5 gpu.hip_attn_norms_* cases PASS (run 1: 590/2/2 with the named pre-existing intermittent resilience.state_vault_rejects_growth, log preserved as seat_gate_a084_run1_statevaultflake.log). Previous gate (A-083, seat_gate_a083.log, sha256 77c519ab...) 586 passed / 1 failed / 2 skipped / 589 total, EXACT on the fourth run, launched solo on a quiet machine, sole failure J-022, all 3 gpu.hip_q4k_gemv_* cases PASS (runs 1-3 ran 585/2/2 with one named pre-existing intermittent each, logs preserved as seat_gate_a083_run1/run2/run3). Previous gate (A-081, seat_gate_a081.log, sha256 59f3d879...) 578 passed / 1 failed / 2 skipped / 581 total, EXACT, sole failure J-022 (the slice adds no run_all cases, pin unchanged), launched solo. Previous gate (A-080, seat_gate_a080.log): 578/1/2 of 581 exact, all 6 equivalence.* cases PASS. Previous gate (A-079, seat_gate_a079.log): 572/1/2 of 575 exact, budget_live PASS after the reorder fix (history in the A-079 PROJECT_MEMORY_MAP row). Previous gate (A-078, seat_gate_a078.log):
+  (A-073..A-081) is COMPLETE. Wave 10
+  (A-082..A-090) is COMPLETE.**
+- Seat gate after this banking: A-090 (seat_gate_a090.log, sha256 851b7f65...) 607 passed / 1 failed / 2 skipped / 610 total, EXACT solo, sole failure J-022 (doc-only slice, pin unchanged). Previous gate (A-089, seat_gate_a089.log, sha256 8a8d51ac...) 607 passed / 1 failed / 2 skipped / 610 total, EXACT on run 2 solo, sole failure J-022, all 5 errors.hip_* cases PASS (run 1: 605/3/2 with BOTH named pre-existing intermittents - gguf.weight_residency_gpu_visibility and resilience.state_vault_rejects_growth - log preserved as seat_gate_a089_run1_bothintermittents.log). Previous gate (A-088, seat_gate_a088.log, sha256 45ddf82a...) 602 passed / 1 failed / 2 skipped / 605 total, EXACT on run 2 solo, sole failure J-022 (doc+bench slice, pin unchanged; run 1: 601/2/2 with the named pre-existing intermittent gpu.amd_hip_stream_async_round_trip, log preserved as seat_gate_a088_run1_streamasyncflake.log). Previous gate (A-087, seat_gate_a087.log, sha256 930ed9bd...) 602 passed / 1 failed / 2 skipped / 605 total, EXACT solo, sole failure J-022, all 5 rocm_repro.* cases PASS. Previous gate (A-086, seat_gate_a086.log, sha256 58b6ee81...) 597 passed / 1 failed / 2 skipped / 600 total, EXACT on run 3, launched solo, sole failure J-022, all 6 gpu_winner.* cases PASS (run 1: 596/2/2 with the named pre-existing intermittent gguf.weight_residency_gpu_visibility, log preserved as seat_gate_a086_run1_weightresidencyflake.log; run 2: 596/2/2 with the named pre-existing intermittent resilience.state_vault_rejects_growth, log preserved as seat_gate_a086_run2_statevaultflake.log). Previous gate (A-085, seat_gate_a085.log, sha256 175385ba...) 591 passed / 1 failed / 2 skipped / 594 total, EXACT on run 2, launched solo, sole failure J-022 (doc-only slice, pin unchanged; run 1: 589/3/2 with BOTH named pre-existing intermittents - resilience.state_vault_rejects_growth and gpu.amd_hip_stream_async_round_trip - log preserved as seat_gate_a085_run1_bothintermittents.log). Previous gate (A-084, seat_gate_a084.log, sha256 61267494...) 591 passed / 1 failed / 2 skipped / 594 total, EXACT on run 2, launched solo, sole failure J-022, all 5 gpu.hip_attn_norms_* cases PASS (run 1: 590/2/2 with the named pre-existing intermittent resilience.state_vault_rejects_growth, log preserved as seat_gate_a084_run1_statevaultflake.log). Previous gate (A-083, seat_gate_a083.log, sha256 77c519ab...) 586 passed / 1 failed / 2 skipped / 589 total, EXACT on the fourth run, launched solo on a quiet machine, sole failure J-022, all 3 gpu.hip_q4k_gemv_* cases PASS (runs 1-3 ran 585/2/2 with one named pre-existing intermittent each, logs preserved as seat_gate_a083_run1/run2/run3). Previous gate (A-081, seat_gate_a081.log, sha256 59f3d879...) 578 passed / 1 failed / 2 skipped / 581 total, EXACT, sole failure J-022 (the slice adds no run_all cases, pin unchanged), launched solo. Previous gate (A-080, seat_gate_a080.log): 578/1/2 of 581 exact, all 6 equivalence.* cases PASS. Previous gate (A-079, seat_gate_a079.log): 572/1/2 of 575 exact, budget_live PASS after the reorder fix (history in the A-079 PROJECT_MEMORY_MAP row). Previous gate (A-078, seat_gate_a078.log):
   565 passed / 1 failed / 2 skipped / 568 total,
   exact on run 4 (runs 1-2: 564/2/2 with the extra
   memory.budget_live_meminfo_pressure intermittent,
@@ -338,10 +350,9 @@ when its lead is live on its assigned slice in its own worktree.
   resilience.state_vault_rejects_growth (bug B2) - neither
   appeared in the accepted gate run.
 - Queue: teams take slices in roadmap order as theirs
-  bank (keeper flow): A-090 - next to bank (team-20
-  commit 12570d2e, DONE, Wave 10 closer); then A-091
-  (team-21 commit f41f1878, DONE); teams 22+23
-  mustered this tick (A-092/A-093).
+  bank (keeper flow): A-091 - next to bank (team-21
+  commit f41f1878, DONE, Wave 11 opener); teams 22+23
+  mustered this tick (A-092/A-093, building).
   A-066 closed the A-065 KV-append gap
   (kv_append kernel, bit-exact).
   Sole failure in every suite =
@@ -373,5 +384,6 @@ when its lead is live on its assigned slice in its own worktree.
 - 2026-11-13 ~11:30 EST (keeper tick): A-087 BANKED (87 of 216, closure below) - seat gate exact solo: 602/1/2 of 605, sole failure J-022, all 5 rocm_repro.* PASS (seat_gate_a087.log sha256 930ed9bd...). A-088 cherry-picked next in order.
 - 2026-11-13 ~11:40 EST (keeper tick): A-088 BANKED (88 of 216, closure below) - seat gate exact on run 2 solo: 602/1/2 of 605, sole failure J-022 (run 1: 601/2/2, named intermittent gpu.amd_hip_stream_async_round_trip, log preserved). A-089 cherry-picked next in order.
 - 2026-11-13 ~11:50 EST (keeper tick): A-089 BANKED (89 of 216, closure below) - seat gate exact on run 2 solo: 607/1/2 of 610, sole failure J-022, all 5 errors.hip_* PASS (run 1: 605/3/2, both named intermittents, log preserved). Seats team-22 and team-23 CREATED from banked main d67e0773 (88 of 216) this tick: team-22 A-092 (NPU hello-compute), team-23 A-093 (NPU memory sharing). A-090 cherry-picked next in order.
+- 2026-11-13 ~12:00 EST (keeper tick): A-090 BANKED (90 of 216, closure below) - WAVE 10 COMPLETE (A-082..A-090). Seat gate exact solo run 1: 607/1/2 of 610, sole failure J-022. Team-22 + team-23 leads spawned this tick (A-092/A-093), no 429. A-091 cherry-picked next in order.
 - Teams 24-27: not yet created; muster 2-3 per tick in order on later ticks.
 - Note: the 9-team layout text above is the original Wave 1 layout and is superseded by this expansion for team count; slice order and banking rules are unchanged.
