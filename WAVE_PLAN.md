@@ -68,7 +68,25 @@ when its lead is live on its assigned slice in its own worktree.
 
 ## State
 
-- Banked: **101 of 216** (A-001..A-101). A-101 banked at the
+- Banked: **102 of 216** (A-001..A-102). A-102 banked at the
+  seat 2026-11-13 (team-26 commit b3e32e54 cherry-picked
+  as f6450a07 + state commit de0027ea as c873ddc5, +7
+  run_all cases, seat pin 622 -> 629 (union over the
+  A-101 seat pin; team pin was 617 on the A-099 base);
+  spillover policy - whole-stack pre-dispatch placement
+  on the banked A-076 governor: accelerator-first,
+  spillable overflow spills to CPU, non-spillable
+  refuses MEM-003 atomically; oversized 8B fixture run
+  under a 1 GiB cap placed GPU 973,963,264 B / 6 layers,
+  CPU spill 3,938,935,040 B / 28 layers, placement log
+  reproducible (digest 3486865965604444507), embed span
+  executed in a real RADV buffer readback-exact; seat
+  gate 626/1/2 of 629 exact on run 4 solo, sole failure
+  J-022 (run 1: 624/3/2 with BOTH named intermittents;
+  run 2: 625/2/2 stream_async; run 3: 625/2/2
+  state_vault; logs preserved); full note in
+  PROJECT_MEMORY_MAP).
+  A-101 banked at the
   seat 2026-11-13 (team-25 commit 6e177bf4 cherry-picked
   as 117fbf6b, +6 run_all cases, seat pin 616 -> 622
   (union with A-100 over the 610 base); pipeline
@@ -481,9 +499,11 @@ when its lead is live on its assigned slice in its own worktree.
   resilience.state_vault_rejects_growth (bug B2) - neither
   appeared in the accepted gate run.
 - Queue: teams take slices in roadmap order as theirs
-  bank (keeper flow): A-102 - next to bank (team-26,
-  DONE, committed b3e32e54; spillover policy).
-  Wave 12 stands 2 of 9.
+  bank (keeper flow): A-103 - next to bank (team-27,
+  BUILDING, mustered 2026-11-13 by the keeper on banked
+  base 2bddc175; mid-run device failure re-planning).
+  A-104 BUILDING in parallel (team-25, same muster).
+  Wave 12 stands 3 of 9.
   A-066 closed the A-065 KV-append gap
   (kv_append kernel, bit-exact).
   Sole failure in every suite =
