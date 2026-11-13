@@ -1,0 +1,4 @@
+Secondary CUID not available: AMDCUID support not enabled.
+--- Testing StateVault rejects files that grew during read (F012) ---
+StateVault growth rejection: PASS
+RERUN_PASS resilience.state_vault_rejects_growth

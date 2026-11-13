@@ -700,6 +700,14 @@ from tests.test_gpu_winner_a086 import (
     test_gpu_winner_probe_only_never_placed,
     test_gpu_winner_determinism_and_clear,
 )
+from tests.test_placement_planner_a100 import (
+    test_planner_standard_fixtures,
+    test_planner_prefill_variants,
+    test_planner_gemm_thresholds,
+    test_planner_decode_and_sampling,
+    test_planner_honesty_and_fallback,
+    test_planner_cost_tables_and_lines,
+)
 from tests.test_phase_timing import (
     test_phase_timing_coverage_arithmetic,
     test_phase_timing_disjoint_pure,
@@ -1492,6 +1500,12 @@ def main() raises:
     run_case(ledger, "gpu_winner.invalid_verdicts_fail_closed", test_gpu_winner_invalid_verdicts_fail_closed)
     run_case(ledger, "gpu_winner.probe_only_never_placed", test_gpu_winner_probe_only_never_placed)
     run_case(ledger, "gpu_winner.determinism_and_clear", test_gpu_winner_determinism_and_clear)
+    run_case(ledger, "planner.standard_fixtures", test_planner_standard_fixtures)
+    run_case(ledger, "planner.prefill_variants", test_planner_prefill_variants)
+    run_case(ledger, "planner.gemm_thresholds", test_planner_gemm_thresholds)
+    run_case(ledger, "planner.decode_and_sampling", test_planner_decode_and_sampling)
+    run_case(ledger, "planner.honesty_and_fallback", test_planner_honesty_and_fallback)
+    run_case(ledger, "planner.cost_tables_and_lines", test_planner_cost_tables_and_lines)
     run_case(ledger, "timing.phase_coverage_arithmetic", test_phase_timing_coverage_arithmetic)
     run_case(ledger, "timing.phase_disjoint_pure", test_phase_timing_disjoint_pure)
     run_case(ledger, "timing.phase_json_schema", test_phase_timing_json_schema)
@@ -2162,4 +2176,7 @@ def main() raises:
     # tests/test_hip_errors_a089.mojo) counted on top of the
     # A-088 seat pin; the A-089 team pin (599 on the A-085
     # base) reconciles here at banking.
-    ledger.finish(610)
+    # A-100 re-pin: 610 -> 616 -- six placement planner cases
+    # (planner.* in tests/test_placement_planner_a100.mojo)
+    # counted on top of the A-099 seat pin.
+    ledger.finish(616)

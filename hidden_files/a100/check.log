@@ -1,0 +1,14 @@
+Secondary CUID not available: AMDCUID support not enabled.
+PASS prefill_default: prefill_projection -> GPU (Vulkan): MEASURED_OPTIMUM_A098: at 128x1024x1024 the GPU is fastest (67.5 us) and the perf-per-watt winner (51.20 GFLOP/s/W gross vs NPU 5.39, CPU 5.34); first-class GPU backend per A-086 [measured est 67.5 us]
+PASS prefill_power_capped: prefill_projection -> NPU (XRT): POWER_CAPPED_A098: NPU package draw is 22.1 W vs GPU 77.7 W at this shape class and its net-of-idle J/op beats CPU (0.0298 vs 0.0446); under a power cap that is the measured optimum [measured est 2258.2 us] [fallback: CPU (A-099 FALLBACK_<NAME>)]
+PASS prefill_overlap: prefill_projection -> NPU (XRT): OVERLAP_A096: NPU prefill computed inside the GPU decode shadow was fully hidden (median benefit 4,198 us over serial); overlapped, the NPU is the optimum [fallback: CPU (A-099 FALLBACK_<NAME>)]
+PASS gemm_small_32: gemm -> CPU (CPU): BELOW_FLOOR_A094: under ~0.1M MACs the 93.0 us NPU dispatch floor dominates (32x32x32 measured NPU 93.0 us vs CPU oracle 27.2 us, 0.29x) [measured est 27.2 us]
+PASS decode_gemv: gemv -> GPU (Vulkan): NOT_FIT_A094: decode GEMV (M=1) is not expressible in the stood-up NPU design (tile M=32) and per-op dispatch would cost ~19 ms/token across 32 layers; the Vulkan decode road owns decode
+PASS sampling_vocab_131072: sampling -> CPU (CPU): MEASURED_A097: NPU argmax loses to the CPU scan at both vocab sizes (104.8 vs 19.9 us at V=32768; 165.2 vs 76.7 us at V=131072) -- floor-bound, NOT FIT on NPU [measured est 76.7 us]
+PASS attention_prefill: attention -> GPU (Vulkan): A017_CLASS: attention is memory-bound over the KV cache and is not NPU-shaped in this engine; the Vulkan attention road owns it
+PASS embedding_lookup: embedding_lookup -> CPU (CPU): NOT_FIT_A094: embedding lookup is a gather with no arithmetic; no NPU crossover exists
+PASS elementwise_decode_row: elementwise -> CPU (CPU): FUSION_ONLY_A094: standalone elementwise can never repay the 93.0 us NPU dispatch floor at decode sizes; value only fused inside a resident GEMM design
+PASS embedding_projection_default: embedding_projection -> GPU (Vulkan): MEASURED_OPTIMUM_A098: at 128x1024x1024 the GPU is fastest (67.5 us) and the perf-per-watt winner (51.20 GFLOP/s/W gross vs NPU 5.39, CPU 5.34); first-class GPU backend per A-086 [measured est 67.5 us]
+PASS prefill_below_m_band: prefill_projection -> GPU (Vulkan): MEASURED_OPTIMUM_A098: at 128x1024x1024 the GPU is fastest (67.5 us) and the perf-per-watt winner (51.20 GFLOP/s/W gross vs NPU 5.39, CPU 5.34); first-class GPU backend per A-086
+PASS transfer_default: transfer -> GPU (Vulkan): A017_POLICY_DELEGATE (no A-100 measured row): skip NPU (NPU present (XRT) but no NPU execution is proven yet -- presence only, not placement). Vulkan GPU backend available (bake-off winner, first-class)
+A100_CHECK 12/12 fixtures at their measured optima

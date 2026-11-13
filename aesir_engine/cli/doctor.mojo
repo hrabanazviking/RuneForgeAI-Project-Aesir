@@ -16,6 +16,7 @@ from core.gpu_winner import (
     gpu_winner_summary,
 )
 from core.device_policy import default_placement_policy
+from core.placement_planner import planner_fixture_lines, planner_summary
 from server.api import json_escape_string
 from core.native_diagnostics import (
     human_bytes,
@@ -410,6 +411,7 @@ def dispatch_doctor(args: List[String]) raises:
         placement_json += "]"
         placement_json += ',"npu_execution_proven":' + _json_bool(placement_policy.npu_execution_proven) + '}'
         output += ',"placement":' + placement_json
+        output += ',"placement_planner":' + _json_string(planner_summary())
         output += ',"model":' + optional_model + ',"issues":' + issues_json + '}'
         print(output)
         return
@@ -453,6 +455,10 @@ def dispatch_doctor(args: List[String]) raises:
     print("  " + placement_policy.effective_order_line(backend_registry))
     for placement_line in placement_policy.decision_lines(backend_registry):
         print("  " + placement_line)
+
+    print("\nPlacement planner (A-100, measured tables)\n")
+    for planner_line in planner_fixture_lines(backend_registry):
+        print("  " + planner_line)
 
     print("\nHardware census (runtime-observed)\n")
     var census_rendered = census_lines(census)
