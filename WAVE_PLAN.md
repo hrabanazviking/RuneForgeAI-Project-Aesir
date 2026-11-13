@@ -68,7 +68,15 @@ when its lead is live on its assigned slice in its own worktree.
 
 ## State
 
-- Banked: **81 of 216** (A-001..A-081). A-081 banked at the
+- Banked: **82 of 216** (A-001..A-082). A-082 banked at the
+  seat 2026-11-13 (team-12 commit 62de1014 cherry-picked
+  as 2ea0c1d5 with the run_all union composed at banking,
+  pin 581 -> 586; HIP Q8_0 GEMV - parity BIT-EXACT vs the
+  CPU oracle on the real gfx1151 device, dispatch-evidence
+  counter counts only completed device dispatches; seat
+  gate 583/1/2 of 586 exact, sole failure J-022; full
+  note in PROJECT_MEMORY_MAP).
+  A-081 banked at the
   seat 2026-11-13 (team-11 commit 31d88a29 cherry-picked
   clean as 3e7ad295, +0 run_all cases, pin stays 581;
   HONEST NEGATIVE Part III gate - GPU path NOT declared
@@ -252,10 +260,9 @@ when its lead is live on its assigned slice in its own worktree.
   resilience.state_vault_rejects_growth (bug B2) - neither
   appeared in the accepted gate run.
 - Queue: teams take slices in roadmap order as theirs
-  bank (keeper flow): A-082 - next to bank (team-12 commit
-  62de1014, HIP Q8_0 GEMV, already built and tested);
-  A-083 (team-13 commit 0742431b) built and awaiting
-  banking in order; teams 14+15 (A-084/A-085) muster next.
+  bank (keeper flow): A-083 - next to bank (team-13 commit
+  0742431b, HIP Q4_K GEMV, already built and tested);
+  teams 14+15 (A-084/A-085) muster this tick.
   A-066 closed the A-065 KV-append gap
   (kv_append kernel, bit-exact).
   Sole failure in every suite =
