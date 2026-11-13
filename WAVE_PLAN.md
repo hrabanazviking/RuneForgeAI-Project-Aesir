@@ -68,7 +68,19 @@ when its lead is live on its assigned slice in its own worktree.
 
 ## State
 
-- Banked: **103 of 216** (A-001..A-103). A-103 banked at the
+- Banked: **104 of 216** (A-001..A-104). A-104 banked at the
+  seat 2026-11-13 (team-25 commit d94c2d05 cherry-picked
+  as 12f05449 with the run_all union composed at banking,
+  +6 run_all cases, seat pin 636 -> 642; big-model
+  placement - the sha-pinned Llama-3.1-8B Q4_K_M fixture
+  ran with a GPU/CPU layer split on the real gfx1151
+  (offloaded 16/33, 28.2 tok/s vs CPU-oracle 20.7 tok/s,
+  coherent 96-token continuation, coherence-graded);
+  seat gate 639/1/2 of 642 exact on run 3 solo, sole
+  failure J-022 (run 1 parse failure in the banking
+  union, fixed and preserved; run 2 stream_async
+  intermittent, preserved); full note in
+  PROJECT_MEMORY_MAP). A-103 banked at the
   seat 2026-11-13 (team-27 commit 64db4526 cherry-picked
   as 28e76993 with the run_all union composed at banking,
   +7 run_all cases, seat pin 629 -> 636; mid-run device
