@@ -68,7 +68,16 @@ when its lead is live on its assigned slice in its own worktree.
 
 ## State
 
-- Banked: **73 of 216** (A-001..A-073). A-073 banked at the
+- Banked: **74 of 216** (A-001..A-074). A-074 banked at the
+  seat 2026-11-12 (team-01 commit c8aaefdc cherry-picked
+  as d769885c, +0 cases, run_all pin stays 543;
+  subgroup reductions - the A-073-ledger Vulkan
+  1.1+/subgroup migration executed as the slice first
+  step (instance 1.1, subgroup-size-control, required
+  subgroup size 32 plumbing in the buffer shim);
+  attention_decode 8.6-9.1x, strided 8.6x, prefill
+  6.4x adopted; softmax an honest negative (+1.6..2.2%,
+  overlapping) reverted byte-identical). A-073 banked at the
   seat 2026-11-12 (team-03 commit cherry-picked
   as 7879e143, +0 cases, run_all pin stays 543;
   wavefront-32 tuning - re-scoped from the roadmap
@@ -172,12 +181,12 @@ when its lead is live on its assigned slice in its own worktree.
   is COMPLETE. Wave 6 (A-046..A-054) is COMPLETE.
   Wave 7 (A-055..A-063) is COMPLETE. Wave 8
   (A-064..A-072) is COMPLETE. Wave 9
-  (A-073..A-081) is IN PROGRESS (1 of 9).**
-- Seat gate after this banking: A-073 (seat_gate_a073.log)
+  (A-073..A-081) is IN PROGRESS (2 of 9).**
+- Seat gate after this banking: A-074 (seat_gate_a074.log)
   540 passed / 1 failed / 2 skipped / 543 total. Run 1
-  flaked with the extra resilience.state_vault_rejects_growth
-  B2 intermittent (preserved as
-  seat_gate_a073_run1_flake.log); the accepted re-run is
+  flaked with the extra memory.budget_live_meminfo_pressure
+  machine-pressure intermittent (preserved as
+  seat_gate_a074_run1_mempressure.log); the accepted re-run is
   exact. Sole failure the pre-existing
   gguf.tensor_directory_interface (J-022 drift), skips the
   2 pre-declared. Known intermittents (proven pre-existing
@@ -187,11 +196,8 @@ when its lead is live on its assigned slice in its own worktree.
   resilience.state_vault_rejects_growth (bug B2) - neither
   appeared in the accepted gate run.
 - Queue: teams take slices in roadmap order as theirs
-  bank (keeper flow): A-074 - next to bank, preceded
-  by the A-073-ledger Vulkan 1.1+/subgroup migration
-  road (A-074 first step: subgroup ops do not compile
-  under the banked vulkan1.0 pipeline); teams then
-  flow onto A-075 onward in roadmap order.
+  bank (keeper flow): A-075 - next to bank; teams then
+  flow onto A-076 onward in roadmap order.
   A-066 closed the A-065 KV-append gap
   (kv_append kernel, bit-exact).
   Sole failure in every suite =
