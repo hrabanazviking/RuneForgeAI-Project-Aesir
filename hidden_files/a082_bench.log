@@ -1,0 +1,22 @@
+Included from /home/volmarr/aesir-team-12/aesir_engine/tests/bench_hip_q8_gemv_a082.mojo:14:
+Included from /home/volmarr/aesir-team-12/aesir_engine/core/hip_gemv.mojo:45:
+/home/volmarr/aesir-team-12/aesir_engine/core/mojo_gpu_target.mojo:96:20: warning: 'except' logic is unreachable, try doesn't raise an exception
+            return -1
+                   ^
+Included from /home/volmarr/aesir-team-12/aesir_engine/tests/bench_hip_q8_gemv_a082.mojo:13:
+/home/volmarr/aesir-team-12/aesir_engine/core/amd_gate.mojo:266:31: warning: assignment to 'version' was never used; assign to '_' instead?
+                var version = -1
+                              ^
+A082 gate: hip_runtime_available= True
+Secondary CUID not available: AMDCUID support not enabled.
+A082 gate: hip_device_count= 1
+A082 gate: device_name= AMD Radeon 8060S Graphics
+A082 gate: gfx_arch= gfx1151  plausible= True
+A082 gate: mojo_device_name= AMD Radeon 8060S Graphics
+A082 gate: gate_ok= True
+A082_BENCH rows= 512  cols= 4096  max_abs= 0.0  hip_ms_per_gemv= 16.930112299999998  hip_GiBps= 0.12257422016627735  hip_repeated_ms_per_gemv= 1.0214465000000001  hip_repeated_GiBps= 2.031624086528271  cpu_ms_per_gemv= 1.6480113333333335  cpu_GiBps= 1.2592117969860237
+A082_BENCH rows= 64  cols= 1024  max_abs= 0.0  hip_ms_per_gemv= 13.40969995  hip_GiBps= 0.004836040609217733  hip_repeated_ms_per_gemv= 0.7079888000000001  hip_repeated_GiBps= 0.09159728729554055  cpu_ms_per_gemv= 0.05563066666666667  cpu_GiBps= 1.1657213080727356
+A082_BENCH rows= 37  cols= 320  max_abs= 0.0  hip_ms_per_gemv= 13.216701699999998  hip_GiBps= 0.0008864570188992554  hip_repeated_ms_per_gemv= 0.6608791  hip_repeated_GiBps= 0.017727959605111917  cpu_ms_per_gemv= 0.009771666666666666  cpu_GiBps= 1.1989805207568875
+A082 dispatches_in_bench= 123
+A082_BENCH_DONE
+Warning: Resource leak detected by SharedSignalPool, 5874 Signals leaked.

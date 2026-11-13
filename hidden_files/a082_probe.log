@@ -1,0 +1,52 @@
+Imported from /home/volmarr/aesir-team-12/aesir_engine/tests/probe_hip_q8_gemv_a082.mojo:2:
+Imported from /home/volmarr/aesir-team-12/aesir_engine/tests/test_hip_q8_gemv_a082.mojo:36:
+/home/volmarr/aesir-team-12/aesir_engine/core/compute.mojo:1262:14: warning: `alloc` without a `Layout` is deprecated, use the `Layout`-based `alloc` instead; as a temporary migration step, use `unsafe_alloc`
+    var cp = alloc[Int64](6)
+             ^~~~~
+<unknown>:0: note: 'alloc' declared here
+Imported from /home/volmarr/aesir-team-12/aesir_engine/tests/probe_hip_q8_gemv_a082.mojo:2:
+Imported from /home/volmarr/aesir-team-12/aesir_engine/tests/test_hip_q8_gemv_a082.mojo:36:
+Imported from /home/volmarr/aesir-team-12/aesir_engine/core/compute.mojo:9:
+/home/volmarr/aesir-team-12/aesir_engine/core/parallel.mojo:39:1: warning: 'alias' is deprecated; use 'comptime'
+alias RangeFn = def(Int64, Int64, Int64) thin -> None
+^~~~~
+comptime
+Imported from /home/volmarr/aesir-team-12/aesir_engine/tests/probe_hip_q8_gemv_a082.mojo:2:
+Imported from /home/volmarr/aesir-team-12/aesir_engine/tests/test_hip_q8_gemv_a082.mojo:36:
+/home/volmarr/aesir-team-12/aesir_engine/core/compute.mojo:1089:19: warning: `alloc` without a `Layout` is deprecated, use the `Layout`-based `alloc` instead; as a temporary migration step, use `unsafe_alloc`
+    var scratch = alloc[Float32](a_cols)
+                  ^~~~~
+<unknown>:0: note: 'alloc' declared here
+Included from /home/volmarr/aesir-team-12/aesir_engine/tests/probe_hip_q8_gemv_a082.mojo:2:
+Included from /home/volmarr/aesir-team-12/aesir_engine/tests/test_hip_q8_gemv_a082.mojo:34:
+Included from /home/volmarr/aesir-team-12/aesir_engine/core/hip_gemv.mojo:45:
+/home/volmarr/aesir-team-12/aesir_engine/core/mojo_gpu_target.mojo:96:20: warning: 'except' logic is unreachable, try doesn't raise an exception
+            return -1
+                   ^
+Included from /home/volmarr/aesir-team-12/aesir_engine/tests/probe_hip_q8_gemv_a082.mojo:2:
+Included from /home/volmarr/aesir-team-12/aesir_engine/tests/test_hip_q8_gemv_a082.mojo:34:
+Included from /home/volmarr/aesir-team-12/aesir_engine/core/hip_gemv.mojo:43:
+/home/volmarr/aesir-team-12/aesir_engine/core/amd_gate.mojo:266:31: warning: assignment to 'version' was never used; assign to '_' instead?
+                var version = -1
+                              ^
+--- Testing HIP Q8_0 GEMV oracle parity (A-082) ---
+Secondary CUID not available: AMDCUID support not enabled.
+A082_SHAPE rows= 1  cols= 32  cpu_oracle_max_abs= 0.0
+A082_SHAPE rows= 4  cols= 64  cpu_oracle_max_abs= 0.0
+A082_SHAPE rows= 16  cols= 288  cpu_oracle_max_abs= 0.0
+A082_SHAPE rows= 37  cols= 320  cpu_oracle_max_abs= 0.0
+A082_SHAPE rows= 64  cols= 1024  cpu_oracle_max_abs= 0.0
+A082_SHAPE rows= 13  cols= 4096  cpu_oracle_max_abs= 0.0
+HIP Q8_0 GEMV oracle parity (6 shapes incl. K=288 stories scale and K=4096, gfx1151 device, worst max_abs= 0.0 ): PASS
+--- Testing HIP Q8_0 GEMV known value (A-082) ---
+HIP Q8_0 GEMV known value (scale 0.25, q=i-16, x=1 -> -4 exact): PASS
+--- Testing HIP Q8_0 GEMV vs engine CPU GEMV (A-082) ---
+HIP Q8_0 GEMV vs engine CPU GEMV (dyadic K=1024 N=96, within half F16 ULP of engine output at every output): PASS
+--- Testing HIP Q8_0 GEMV rejection (A-082) ---
+HIP Q8_0 GEMV rejection (zero rows, cols=48, oversize, short x): PASS
+--- Testing HIP Q8_0 GEMV dispatch evidence (A-082) ---
+A082_SHAPE rows= 8  cols= 256  cpu_oracle_max_abs= 0.0
+A082_SHAPE rows= 8  cols= 256  cpu_oracle_max_abs= 0.0
+HIP Q8_0 GEMV dispatch evidence (device " AMD Radeon 8060S Graphics ", counter +2 for 2 dispatches): PASS
+A082_PROBE_ALL_PASS
+Warning: Resource leak detected by SharedSignalPool, 890 Signals leaked.

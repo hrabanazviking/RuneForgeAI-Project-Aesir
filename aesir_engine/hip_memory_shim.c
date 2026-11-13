@@ -896,3 +896,21 @@ int aesir_residency_mapping_bytes(uint64_t addr, uint64_t *rss_out,
     }
     return 0;
 }
+
+/* --- A-082: HIP Q8_0 GEMV dispatch evidence counter -------------
+ * The Mojo-native HIP kernel (core/hip_gemv.mojo) launches through
+ * MAX DeviceContext, not through this shim, so the shim cannot see
+ * the launch itself. The gateway calls aesir_hip_note_q8_gemv_
+ * dispatch() only after enqueue_function + enqueue_copy back +
+ * ctx.synchronize() have all completed without raising, so the
+ * counter counts exactly the GEMV dispatches that completed on
+ * the device - the A-082 device-execution evidence (law 6). */
+static uint64_t g_q8_gemv_dispatches = 0;
+
+void aesir_hip_note_q8_gemv_dispatch(void) {
+    g_q8_gemv_dispatches += 1;
+}
+
+uint64_t aesir_hip_q8_gemv_dispatch_count(void) {
+    return g_q8_gemv_dispatches;
+}

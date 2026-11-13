@@ -444,6 +444,13 @@ from tests.test_mojo_gpu_target import (
     test_mojo_native_gemm_oracle,
     test_mojo_native_rejection,
 )
+from tests.test_hip_q8_gemv_a082 import (
+    test_hip_q8_gemv_oracle_parity,
+    test_hip_q8_gemv_known_value,
+    test_hip_q8_gemv_engine_crosscheck,
+    test_hip_q8_gemv_rejection,
+    test_hip_q8_gemv_dispatch_evidence,
+)
 from tests.test_kv_unified import (
     test_kv_unified_layout,
     test_kv_unified_bounds,
@@ -1302,6 +1309,11 @@ def main() raises:
     run_case(ledger, "gpu.mojo_native_vec_add_oracle", test_mojo_native_vec_add_oracle)
     run_case(ledger, "gpu.mojo_native_gemm_oracle", test_mojo_native_gemm_oracle)
     run_case(ledger, "gpu.mojo_native_rejection", test_mojo_native_rejection)
+    run_case(ledger, "gpu.hip_q8_gemv_oracle_parity", test_hip_q8_gemv_oracle_parity)
+    run_case(ledger, "gpu.hip_q8_gemv_known_value", test_hip_q8_gemv_known_value)
+    run_case(ledger, "gpu.hip_q8_gemv_engine_crosscheck", test_hip_q8_gemv_engine_crosscheck)
+    run_case(ledger, "gpu.hip_q8_gemv_rejection", test_hip_q8_gemv_rejection)
+    run_case(ledger, "gpu.hip_q8_gemv_dispatch_evidence", test_hip_q8_gemv_dispatch_evidence)
     run_case(ledger, "gpu.kv_unified_layout", test_kv_unified_layout)
     run_case(ledger, "gpu.kv_unified_bounds", test_kv_unified_bounds)
     run_case(ledger, "gpu.kv_unified_gpu_write_cpu_read", test_kv_unified_gpu_write_cpu_read)
@@ -2060,4 +2072,9 @@ def main() raises:
     # tests/test_equivalence_gate_a080.mojo) counted on top
     # of the A-079 seat pin; the A-080 team pin (574 on the
     # A-078 base) reconciles here at banking.
-    ledger.finish(581)
+    # A-082 union re-pin (banking 2026-11-13): 581 -> 586 --
+    # five HIP Q8_0 GEMV cases (gpu.hip_q8_gemv_* in
+    # tests/test_hip_q8_gemv_a082.mojo) counted on top
+    # of the A-081 seat pin; the A-082 team pin (573 on
+    # the A-078 base) reconciles here at banking.
+    ledger.finish(586)
