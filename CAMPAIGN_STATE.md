@@ -1,18 +1,20 @@
-# CAMPAIGN_STATE - team-21 (Aesir Z13 forge)
+# CAMPAIGN_STATE - team-22 (Aesir Z13 forge)
 
-- Team: team-21 (1 lead + 6 Mythic Engineering sub-agents)
-- Worktree: /home/volmarr/aesir-team-21, branch yrsa/aesir-team-21
-- Base: 6396cd62 (banked main, 86 of 216, A-086 closure)
-- Assigned slice: A-091 - XDNA 2 capability census. AIE tile count, supported data types and ops, memory model - from XRT tooling + AMD documentation, distinguished as observed vs documented. Acceptance: census doc with the source of every claim marked.
-- Context: Wave 11 opener (NPU first light). The NPU earns its place by measurement or not at all. A-007 caveat stands: unprivileged xrt-smi is blocked by RLIMIT_MEMLOCK (8192 kB vs the 64 MiB locked map XRT wants) - NPU tools run via sudo until Volmarr rules on raising the user memlock limit; mark every claim OBSERVED (tooling on this Z13) or DOCUMENTED (AMD docs) - never merge the two.
-- Status: MUSTERED 2026-11-13 by the keeper (expansion to 27 teams). Build and commit on the team branch only; the keeper banks at the seat in roadmap order after A-090. Never merge or push from this worktree. Never touch README.md. No Docker, ever.
-- Suite baseline on this base: 597 passed / 1 failed / 2 skipped / 600 total (seat gate A-086); sole failure pre-existing gguf.tensor_directory_interface (J-022 drift); skips the 2 pre-declared. Known intermittents (pre-existing, proven at base): resilience.state_vault_rejects_growth, gpu.amd_hip_stream_async_round_trip and gguf.weight_residency_gpu_visibility - a suite showing only those plus J-022 is green-to-baseline; re-run once before treating any as new.
+- Team: team-22 (1 lead + 6 Mythic Engineering sub-agents)
+- Worktree: /home/volmarr/aesir-team-22, branch yrsa/aesir-team-22
+- Base: d67e0773 (banked main, 88 of 216, A-088 closure)
+- Assigned slice: A-092 - NPU hello-compute. One real matmul executed on the NPU via the chosen stack (XRT with an AIE kernel path, e.g. IRON/mlir-aie or the Ryzen AI software stack - chosen by A-007's outcome). Acceptance: result vs CPU oracle within tolerance + device-execution evidence; "it ran on the NPU" is proven, not inferred.
+- Context: Wave 11 (NPU first light). A-091 census (team-21, built, banks after A-090) found: OBSERVED aie2p topology 6x8, Total Columns 8 (sudo xrt-smi); DOCUMENTED 32 compute tiles; VTD archive absent (= this slice's first step: xrt-smi validate needs it); stacks absent on the box (MLIR-AIE/IRON, pyxrt, Python onnxruntime, Vitis AI EP); FastFlowLM xclbins present under /opt (third-party). A-007 caveat stands: unprivileged xrt-smi is blocked by RLIMIT_MEMLOCK (8192 kB vs the 64 MiB locked map XRT wants) - NPU tools run via sudo until Volmarr rules on raising the user memlock limit; never change that limit yourself. An honest evidenced-blocker outcome is acceptable if no lawful stack can execute a kernel - file the evidence, never claim NPU execution that did not happen.
+- Status: MUSTERED 2026-11-13 by the keeper (expansion to 27 teams). Build and commit on the team branch only; the keeper banks at the seat in roadmap order after A-091. Never merge or push from this worktree. Never touch README.md. No Docker, ever.
+- Suite baseline on this base: 602 passed / 1 failed / 2 skipped / 605 total (seat gate A-088); sole failure pre-existing gguf.tensor_directory_interface (J-022 drift); skips the 2 pre-declared. Known intermittents (pre-existing, proven at base): resilience.state_vault_rejects_growth, gpu.amd_hip_stream_async_round_trip and gguf.weight_residency_gpu_visibility - a suite showing only those plus J-022 is green-to-baseline; re-run once before treating any as new.
 - Machine note: defer full-suite runs while heavy shared work is live, and never run a suite concurrently with a seat gate.
 - Raw-oracle discipline for all correctness work; accelerator-visible is not accelerator-run - every accelerator claim needs device-execution evidence (dispatch counters / device identity on the real XDNA 2).
 
-## Outcome - A-091 DONE (2026-11-13, team-21 lead)
-- Census filed: docs/bench/A091_XDNA2_CENSUS.md. Headline: OBSERVED aie2p topology 6x8, Total Columns 8 (sudo xrt-smi, fresh); DOCUMENTED 32 compute tiles (8x4, AMD); 48 total tiles DERIVED only. No NPU compute run or claimed.
-- Fresh re-verifications: memlock wall (8192 kB vs 64 MiB map, unprivileged xrt-smi fails EAGAIN); validate blocked (VTD archive absent = A-092 first step); stacks absent (MLIR-AIE/IRON, pyxrt, Python onnxruntime, Vitis AI EP); FastFlowLM xclbins now present under /opt (third-party; corrects A-016 record).
-- Suite: hidden_files/a091_run_all.log = 597/1/2 of 600, baseline-exact, sole failure pre-existing J-022. Evidence: hidden_files/A091_LEDGER.md + a091_probe1-4.log + a091_xrtsmi.log.
-- Next work (for A-092, not this team): VTD archive fetch, kernel toolchain stand-up, memlock ruling is Volmarr's.
-- Status: committed on yrsa/aesir-team-21, ready for keeper banking after A-090. Never merged/pushed from this worktree.
+## Outcome - A-092 DONE (2026-11-13, team-22 lead)
+- PASS: one real matmul executed on the XDNA 2 NPU and verified exact vs CPU oracle - the first AIE kernel execution in this project. IRON/mlir-aie 1.4.5 design (spikes/a092_npu_hello/design_single_core.py) compiled with Peano for npu2, run through system XRT 2.25 via aesir_engine/npu_matmul_probe.cpp (sudo, memlock caveat, limit untouched).
+- Proof: 64x64x64 i16->i32, ert_cmd_state 4 COMPLETED, 4096/4096 elements exact, 0 mismatches, 0 sentinels remaining, checksum 16383547698108786409 identical on 3/3 runs (hidden_files/a092_run1.log, a092_run2.log). Device: NPU Strix Halo [0000:c5:00.1] aie2p 6x8.
+- VTD step done: xrt_smi_strx.a fetched from Xilinx/VTD (sha in ledger) into the documented root XRT data dir; xrt-smi validate all PASSED (gemm 3.7 TOPS vendor figure, latency 65.0 us, throughput 93723 op/s) - a092_validate2.log.
+- Toolchain stood up with NO system packages and NO Docker: vendor wheels + sources in scratch/a092 (uncommitted). Dead ends filed in the ledger: pyxrt absent (python3-xrt not installed, per orders), FastFlowLM xclbins cannot run a controlled matmul standalone.
+- NPU coordination: sudo NPU runs taken only after the A-090 seat gate cleared; team-23 showed no conflicting NPU use. This team NPU window is now closed.
+- Suite: hidden_files/a092_run_all.log = 602/1/2 of 605, baseline-exact, sole failure pre-existing J-022. No run_all cases added (sudo + scratch toolchain; A-016 precedent), pin stays 605.
+- Evidence: hidden_files/A092_LEDGER.md. Status: committed on yrsa/aesir-team-22, ready for keeper banking after A-091. Never merged/pushed from this worktree.
