@@ -68,7 +68,18 @@ when its lead is live on its assigned slice in its own worktree.
 
 ## State
 
-- Banked: **98 of 216** (A-001..A-098). A-098 banked at the
+- Banked: **99 of 216** (A-001..A-099). A-099 banked at the
+  seat 2026-11-13 (team-26 commit baede81a cherry-picked
+  as 7faf2120, +0 run_all cases, pin stays 610; NPU
+  fallback contract - every NPU failure degrades to
+  CPU with FALLBACK_<NAME> logged, fallback output
+  verified exact vs CPU oracle; fault injection proven
+  per failure mode; happy path unchanged, checksum
+  reproduced; seat gate 607/1/2 of 610 exact on run 1
+  solo, sole failure J-022, no intermittent fired;
+  full note in PROJECT_MEMORY_MAP). **Wave 11
+  (A-091..A-099) is COMPLETE.**
+  A-098 banked at the
   seat 2026-11-13 (team-25 commit a6aca98e cherry-picked
   as 825b947a, +0 run_all cases, pin stays 610; NPU
   power profile - GPU is the perf-per-watt winner by
@@ -447,9 +458,10 @@ when its lead is live on its assigned slice in its own worktree.
   resilience.state_vault_rejects_growth (bug B2) - neither
   appeared in the accepted gate run.
 - Queue: teams take slices in roadmap order as theirs
-  bank (keeper flow): A-099 - next to bank (team-26,
-  DONE, committed baede81a); Wave 11 closer.
-  Wave 11 stands 8 of 9.
+  bank (keeper flow): A-100 - next to bank (Wave 12
+  opener, placement planner; no team build yet -
+  teams mustered on the next slices in order).
+  Wave 11 stands 9 of 9 - COMPLETE.
   A-066 closed the A-065 KV-append gap
   (kv_append kernel, bit-exact).
   Sole failure in every suite =
