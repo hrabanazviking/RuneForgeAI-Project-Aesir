@@ -914,3 +914,17 @@ void aesir_hip_note_q8_gemv_dispatch(void) {
 uint64_t aesir_hip_q8_gemv_dispatch_count(void) {
     return g_q8_gemv_dispatches;
 }
+/* A-083: completed HIP Q4_K GEMV dispatch counter. The Mojo
+ * launcher (core/hip_q4k_gemv.mojo) calls note_dispatch only
+ * after the HIP device context synchronized without error, so a
+ * rising count is device-execution evidence (roadmap law 6),
+ * mirroring the Vulkan shim dispatch counters. */
+static uint64_t aesir_hip_q4k_dispatches = 0;
+
+uint64_t aesir_hip_q4k_dispatch_count(void) {
+    return aesir_hip_q4k_dispatches;
+}
+
+void aesir_hip_q4k_note_dispatch(void) {
+    aesir_hip_q4k_dispatches++;
+}

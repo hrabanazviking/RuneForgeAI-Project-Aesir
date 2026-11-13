@@ -451,6 +451,11 @@ from tests.test_hip_q8_gemv_a082 import (
     test_hip_q8_gemv_rejection,
     test_hip_q8_gemv_dispatch_evidence,
 )
+from tests.test_hip_q4k_gemv_a083 import (
+    test_hip_q4k_gemv_oracle,
+    test_hip_q4k_gemv_rejection,
+    test_hip_q4k_gemv_no_leak,
+)
 from tests.test_kv_unified import (
     test_kv_unified_layout,
     test_kv_unified_bounds,
@@ -1314,6 +1319,9 @@ def main() raises:
     run_case(ledger, "gpu.hip_q8_gemv_engine_crosscheck", test_hip_q8_gemv_engine_crosscheck)
     run_case(ledger, "gpu.hip_q8_gemv_rejection", test_hip_q8_gemv_rejection)
     run_case(ledger, "gpu.hip_q8_gemv_dispatch_evidence", test_hip_q8_gemv_dispatch_evidence)
+    run_case(ledger, "gpu.hip_q4k_gemv_oracle", test_hip_q4k_gemv_oracle)
+    run_case(ledger, "gpu.hip_q4k_gemv_rejection", test_hip_q4k_gemv_rejection)
+    run_case(ledger, "gpu.hip_q4k_gemv_no_leak", test_hip_q4k_gemv_no_leak)
     run_case(ledger, "gpu.kv_unified_layout", test_kv_unified_layout)
     run_case(ledger, "gpu.kv_unified_bounds", test_kv_unified_bounds)
     run_case(ledger, "gpu.kv_unified_gpu_write_cpu_read", test_kv_unified_gpu_write_cpu_read)
@@ -2077,4 +2085,9 @@ def main() raises:
     # tests/test_hip_q8_gemv_a082.mojo) counted on top
     # of the A-081 seat pin; the A-082 team pin (573 on
     # the A-078 base) reconciles here at banking.
-    ledger.finish(586)
+    # A-083 union re-pin (banking 2026-11-13): 586 -> 589 --
+    # three HIP Q4_K GEMV cases (gpu.hip_q4k_gemv_* in
+    # tests/test_hip_q4k_gemv_a083.mojo) counted on top
+    # of the A-082 seat pin; the A-083 team pin (571 on
+    # the A-078 base) reconciles here at banking.
+    ledger.finish(589)

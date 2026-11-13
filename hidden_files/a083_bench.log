@@ -1,0 +1,86 @@
+2026-11-13T07:07:50-05:00
+purpleraider
+3cfc43702ef1c3d96758d1f799a5946515ffadef
+yrsa/aesir-team-13
+ 07:07:50 up 1 day,  5:26,  1 user,  load average: 0.33, 1.40, 1.50
+staging=/tmp/tmp.Wr0PVACWOB
+hailo_cc_exit=0
+par_cc_exit=0
+hip_cc_exit=0
+vulkan_cc_exit=0
+zc_cc_exit=0
+aff_cc_exit=0
+/home/volmarr/aesir-team-13/aesir_engine/tests/bench_hip_q4k_gemv_a083.mojo:75:18: warning: `alloc` without a `Layout` is deprecated, use the `Layout`-based `alloc` instead; as a temporary migration step, use `unsafe_alloc`
+    var oracle = alloc[Float32](n_rows)
+                 ^~~~~
+<unknown>:0: note: 'alloc' declared here
+/home/volmarr/aesir-team-13/aesir_engine/tests/bench_hip_q4k_gemv_a083.mojo:76:18: warning: `alloc` without a `Layout` is deprecated, use the `Layout`-based `alloc` instead; as a temporary migration step, use `unsafe_alloc`
+    var w_host = alloc[UInt8](w_bytes)
+                 ^~~~~
+<unknown>:0: note: 'alloc' declared here
+/home/volmarr/aesir-team-13/aesir_engine/tests/bench_hip_q4k_gemv_a083.mojo:79:15: warning: `alloc` without a `Layout` is deprecated, use the `Layout`-based `alloc` instead; as a temporary migration step, use `unsafe_alloc`
+    var deq = alloc[Scalar[f16]](k_elems)
+              ^~~~~
+<unknown>:0: note: 'alloc' declared here
+Included from /home/volmarr/aesir-team-13/aesir_engine/tests/bench_hip_q4k_gemv_a083.mojo:18:
+Included from /home/volmarr/aesir-team-13/aesir_engine/core/hip_q4k_gemv.mojo:50:
+/home/volmarr/aesir-team-13/aesir_engine/core/mojo_gpu_target.mojo:96:20: warning: 'except' logic is unreachable, try doesn't raise an exception
+            return -1
+                   ^
+	Command being timed: "pixi run --frozen mojo build -I . --target-accelerator gfx1151 -Xlinker -L/tmp/tmp.Wr0PVACWOB -Xlinker -laesir_hailo10h -Xlinker -laesir_par -Xlinker -laesir_hip -Xlinker -laesir_vulkan -Xlinker -laesir_zc -Xlinker -laesir_aff -o /tmp/a083_bench aesir_engine/tests/bench_hip_q4k_gemv_a083.mojo"
+	User time (seconds): 7.18
+	System time (seconds): 1.27
+	Percent of CPU this job got: 296%
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 0:02.85
+	Average shared text size (kbytes): 0
+	Average unshared data size (kbytes): 0
+	Average stack size (kbytes): 0
+	Average total size (kbytes): 0
+	Maximum resident set size (kbytes): 534496
+	Average resident set size (kbytes): 0
+	Major (requiring I/O) page faults: 397
+	Minor (reclaiming a frame) page faults: 200432
+	Voluntary context switches: 113015
+	Involuntary context switches: 119075
+	Swaps: 0
+	File system inputs: 685136
+	File system outputs: 206144
+	Socket messages sent: 0
+	Socket messages received: 0
+	Signals delivered: 0
+	Page size (bytes): 4096
+	Exit status: 0
+BUILD_EXIT=0
+Secondary CUID not available: AMDCUID support not enabled.
+A083_DEVICE name=AMD Radeon 8060S Graphics
+A083_SHAPE rows=1 k=256 max_abs_err=0.07287598 max_rel_err=0.00026983334 dispatches=3 gpu_median_ns=7136858 cpu_median_ns=501
+A083_SHAPE rows=7 k=512 max_abs_err=0.09698486 max_rel_err=0.0026164849 dispatches=3 gpu_median_ns=2006976 cpu_median_ns=6512
+A083_SHAPE rows=64 k=1024 max_abs_err=0.32977295 max_rel_err=0.041257054 dispatches=3 gpu_median_ns=2987221 cpu_median_ns=118963
+A083_SHAPE rows=33 k=2048 max_abs_err=0.3864746 max_rel_err=0.0025252993 dispatches=3 gpu_median_ns=3866888 cpu_median_ns=122850
+A083_SHAPE rows=1024 k=4096 max_abs_err=0.8351822 max_rel_err=0.15571703 dispatches=3 gpu_median_ns=6986005 cpu_median_ns=7649207
+A083_HIP_Q4K_GEMV_BENCH: PASS
+Warning: Resource leak detected by SharedSignalPool, 1335 Signals leaked.
+	Command being timed: "env LD_LIBRARY_PATH=/tmp/tmp.Wr0PVACWOB /tmp/a083_bench"
+	User time (seconds): 0.08
+	System time (seconds): 3.59
+	Percent of CPU this job got: 94%
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 0:03.90
+	Average shared text size (kbytes): 0
+	Average unshared data size (kbytes): 0
+	Average stack size (kbytes): 0
+	Average total size (kbytes): 0
+	Maximum resident set size (kbytes): 1613740
+	Average resident set size (kbytes): 0
+	Major (requiring I/O) page faults: 447
+	Minor (reclaiming a frame) page faults: 422302
+	Voluntary context switches: 470
+	Involuntary context switches: 388
+	Swaps: 0
+	File system inputs: 250960
+	File system outputs: 8
+	Socket messages sent: 0
+	Socket messages received: 0
+	Signals delivered: 0
+	Page size (bytes): 4096
+	Exit status: 0
+RUN_EXIT=0
