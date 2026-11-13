@@ -20,3 +20,4 @@
 - Suite E-MASTER: 614 passed / 1 failed / 2 skipped / 617 total = baseline 607/1/2/610 + 7 new sched.spillover_* cases, all PASS; run_all finish re-pinned 610 -> 617 (union reconciles at banking). Sole failure pre-existing J-022 gguf.tensor_directory_interface; no intermittent fired.
 - Bugs: none in banked code; one in-slice design fix pre-compile (refusal path reset to header + refusal line for true atomicity, case-proven).
 - Committed on team branch only; keeper banks after A-100 and A-101 in roadmap order. Never merged or pushed.
+- Commit: b3e32e5496e6370fcb0d3189b5f4f0cc244cadfc "A-102: Spillover policy" on yrsa/aesir-team-26 (parent 1a611172). Suite counts above read from hidden_files/a102_run_all.log; bench evidence hidden_files/a102_bench.log.
