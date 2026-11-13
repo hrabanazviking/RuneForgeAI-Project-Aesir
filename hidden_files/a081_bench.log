@@ -1,0 +1,310 @@
+Imported from /home/volmarr/aesir-team-11/aesir_engine/tests/bench_part3_gate_a081.mojo:28:
+/home/volmarr/aesir-team-11/aesir_engine/core/vulkan_buffers.mojo:267:24: warning: `alloc` without a `Layout` is deprecated, use the `Layout`-based `alloc` instead; as a temporary migration step, use `unsafe_alloc`
+        var name_buf = alloc[UInt8](256)
+                       ^~~~~
+<unknown>:0: note: 'alloc' declared here
+Imported from /home/volmarr/aesir-team-11/aesir_engine/tests/bench_part3_gate_a081.mojo:28:
+/home/volmarr/aesir-team-11/aesir_engine/core/vulkan_buffers.mojo:295:24: warning: `alloc` without a `Layout` is deprecated, use the `Layout`-based `alloc` instead; as a temporary migration step, use `unsafe_alloc`
+        var name_buf = alloc[UInt8](256)
+                       ^~~~~
+<unknown>:0: note: 'alloc' declared here
+Imported from /home/volmarr/aesir-team-11/aesir_engine/tests/bench_part3_gate_a081.mojo:30:
+Imported from /home/volmarr/aesir-team-11/aesir_engine/aesir.mojo:6:
+/home/volmarr/aesir-team-11/aesir_engine/core/inference.mojo:2162:9: warning: '__del__' is deprecated; use '__deinit__'
+    def __del__(deinit self):
+        ^~~~~~~
+        __deinit__
+Imported from /home/volmarr/aesir-team-11/aesir_engine/tests/bench_part3_gate_a081.mojo:30:
+Imported from /home/volmarr/aesir-team-11/aesir_engine/aesir.mojo:6:
+/home/volmarr/aesir-team-11/aesir_engine/core/inference.mojo:2163:20: warning: 'free' is deprecated, use 'unsafe_free' instead
+        self.s_data.free()
+        ~~~~~~~~~~~^~~~~
+                    unsafe_free
+<unknown>:0: note: 'free' declared here
+Imported from /home/volmarr/aesir-team-11/aesir_engine/tests/bench_part3_gate_a081.mojo:30:
+Imported from /home/volmarr/aesir-team-11/aesir_engine/aesir.mojo:6:
+/home/volmarr/aesir-team-11/aesir_engine/core/inference.mojo:2164:23: warning: 'free' is deprecated, use 'unsafe_free' instead
+        self.conv_data.free()
+        ~~~~~~~~~~~~~~^~~~~
+                       unsafe_free
+<unknown>:0: note: 'free' declared here
+Imported from /home/volmarr/aesir-team-11/aesir_engine/tests/bench_part3_gate_a081.mojo:30:
+Imported from /home/volmarr/aesir-team-11/aesir_engine/aesir.mojo:6:
+/home/volmarr/aesir-team-11/aesir_engine/core/inference.mojo:2165:21: warning: 'free' is deprecated, use 'unsafe_free' instead
+        self.scratch.free()
+        ~~~~~~~~~~~~^~~~~
+                     unsafe_free
+<unknown>:0: note: 'free' declared here
+Imported from /home/volmarr/aesir-team-11/aesir_engine/tests/bench_part3_gate_a081.mojo:29:
+/home/volmarr/aesir-team-11/aesir_engine/core/vulkan_real_model.mojo:764:23: warning: `alloc` without a `Layout` is deprecated, use the `Layout`-based `alloc` instead; as a temporary migration step, use `unsafe_alloc`
+            var buf = alloc[Scalar[DType.float16]](self.dim)
+                      ^~~~~
+<unknown>:0: note: 'alloc' declared here
+Imported from /home/volmarr/aesir-team-11/aesir_engine/tests/bench_part3_gate_a081.mojo:29:
+/home/volmarr/aesir-team-11/aesir_engine/core/vulkan_real_model.mojo:767:31: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+                out.append(buf[i].cast[DType.float32]())
+                           ~~~^~~
+<unknown>:0: note: '__getitem__' declared here
+Imported from /home/volmarr/aesir-team-11/aesir_engine/tests/bench_part3_gate_a081.mojo:29:
+/home/volmarr/aesir-team-11/aesir_engine/core/vulkan_real_model.mojo:768:16: warning: 'free' is deprecated, use 'unsafe_free' instead
+            buf.free()
+            ~~~^~~~~
+                unsafe_free
+<unknown>:0: note: 'free' declared here
+Imported from /home/volmarr/aesir-team-11/aesir_engine/tests/bench_part3_gate_a081.mojo:30:
+Imported from /home/volmarr/aesir-team-11/aesir_engine/aesir.mojo:7:
+/home/volmarr/aesir-team-11/aesir_engine/core/parallel.mojo:39:1: warning: 'alias' is deprecated; use 'comptime'
+alias RangeFn = def(Int64, Int64, Int64) thin -> None
+^~~~~
+comptime
+Imported from /home/volmarr/aesir-team-11/aesir_engine/tests/bench_part3_gate_a081.mojo:30:
+Imported from /home/volmarr/aesir-team-11/aesir_engine/aesir.mojo:6:
+/home/volmarr/aesir-team-11/aesir_engine/core/inference.mojo:949:27: warning: `alloc` without a `Layout` is deprecated, use the `Layout`-based `alloc` instead; as a temporary migration step, use `unsafe_alloc`
+            var scratch = alloc[Float32](256)
+                          ^~~~~
+<unknown>:0: note: 'alloc' declared here
+Imported from /home/volmarr/aesir-team-11/aesir_engine/tests/bench_part3_gate_a081.mojo:30:
+Imported from /home/volmarr/aesir-team-11/aesir_engine/aesir.mojo:6:
+/home/volmarr/aesir-team-11/aesir_engine/core/inference.mojo:970:30: warning: `alloc` without a `Layout` is deprecated, use the `Layout`-based `alloc` instead; as a temporary migration step, use `unsafe_alloc`
+            var nl_scratch = alloc[Float32](32)
+                             ^~~~~
+<unknown>:0: note: 'alloc' declared here
+Imported from /home/volmarr/aesir-team-11/aesir_engine/tests/bench_part3_gate_a081.mojo:29:
+Imported from /home/volmarr/aesir-team-11/aesir_engine/core/vulkan_real_model.mojo:91:
+/home/volmarr/aesir-team-11/aesir_engine/core/compute.mojo:1970:15: warning: `alloc` without a `Layout` is deprecated, use the `Layout`-based `alloc` instead; as a temporary migration step, use `unsafe_alloc`
+    var dst = alloc[UInt16](2048)
+              ^~~~~
+<unknown>:0: note: 'alloc' declared here
+Imported from /home/volmarr/aesir-team-11/aesir_engine/tests/bench_part3_gate_a081.mojo:29:
+Imported from /home/volmarr/aesir-team-11/aesir_engine/core/vulkan_real_model.mojo:91:
+/home/volmarr/aesir-team-11/aesir_engine/core/compute.mojo:1262:14: warning: `alloc` without a `Layout` is deprecated, use the `Layout`-based `alloc` instead; as a temporary migration step, use `unsafe_alloc`
+    var cp = alloc[Int64](6)
+             ^~~~~
+<unknown>:0: note: 'alloc' declared here
+Imported from /home/volmarr/aesir-team-11/aesir_engine/tests/bench_part3_gate_a081.mojo:29:
+Imported from /home/volmarr/aesir-team-11/aesir_engine/core/vulkan_real_model.mojo:91:
+/home/volmarr/aesir-team-11/aesir_engine/core/compute.mojo:2632:14: warning: `alloc` without a `Layout` is deprecated, use the `Layout`-based `alloc` instead; as a temporary migration step, use `unsafe_alloc`
+    var cp = alloc[Int64](6)
+             ^~~~~
+<unknown>:0: note: 'alloc' declared here
+Imported from /home/volmarr/aesir-team-11/aesir_engine/tests/bench_part3_gate_a081.mojo:29:
+Imported from /home/volmarr/aesir-team-11/aesir_engine/core/vulkan_real_model.mojo:91:
+/home/volmarr/aesir-team-11/aesir_engine/core/compute.mojo:2175:14: warning: `alloc` without a `Layout` is deprecated, use the `Layout`-based `alloc` instead; as a temporary migration step, use `unsafe_alloc`
+    var cp = alloc[Int64](7)
+             ^~~~~
+<unknown>:0: note: 'alloc' declared here
+Imported from /home/volmarr/aesir-team-11/aesir_engine/tests/bench_part3_gate_a081.mojo:29:
+Imported from /home/volmarr/aesir-team-11/aesir_engine/core/vulkan_real_model.mojo:91:
+/home/volmarr/aesir-team-11/aesir_engine/core/compute.mojo:1089:19: warning: `alloc` without a `Layout` is deprecated, use the `Layout`-based `alloc` instead; as a temporary migration step, use `unsafe_alloc`
+    var scratch = alloc[Float32](a_cols)
+                  ^~~~~
+<unknown>:0: note: 'alloc' declared here
+Imported from /home/volmarr/aesir-team-11/aesir_engine/tests/bench_part3_gate_a081.mojo:29:
+Imported from /home/volmarr/aesir-team-11/aesir_engine/core/vulkan_real_model.mojo:91:
+/home/volmarr/aesir-team-11/aesir_engine/core/compute.mojo:1935:14: warning: `alloc` without a `Layout` is deprecated, use the `Layout`-based `alloc` instead; as a temporary migration step, use `unsafe_alloc`
+    var cp = alloc[Int64](9)
+             ^~~~~
+<unknown>:0: note: 'alloc' declared here
+Imported from /home/volmarr/aesir-team-11/aesir_engine/tests/bench_part3_gate_a081.mojo:29:
+Imported from /home/volmarr/aesir-team-11/aesir_engine/core/vulkan_real_model.mojo:91:
+/home/volmarr/aesir-team-11/aesir_engine/core/compute.mojo:2087:14: warning: `alloc` without a `Layout` is deprecated, use the `Layout`-based `alloc` instead; as a temporary migration step, use `unsafe_alloc`
+    var cp = alloc[Int64](8)
+             ^~~~~
+<unknown>:0: note: 'alloc' declared here
+Imported from /home/volmarr/aesir-team-11/aesir_engine/tests/bench_part3_gate_a081.mojo:29:
+Imported from /home/volmarr/aesir-team-11/aesir_engine/core/vulkan_real_model.mojo:91:
+/home/volmarr/aesir-team-11/aesir_engine/core/compute.mojo:2552:14: warning: `alloc` without a `Layout` is deprecated, use the `Layout`-based `alloc` instead; as a temporary migration step, use `unsafe_alloc`
+    var cp = alloc[Int64](8)
+             ^~~~~
+<unknown>:0: note: 'alloc' declared here
+Imported from /home/volmarr/aesir-team-11/aesir_engine/tests/bench_part3_gate_a081.mojo:29:
+Imported from /home/volmarr/aesir-team-11/aesir_engine/core/vulkan_real_model.mojo:91:
+/home/volmarr/aesir-team-11/aesir_engine/core/compute.mojo:1632:28: warning: unreachable code on right side of 'False and ...'
+    return VNNI_DEFAULT_ON and cpu_has_vnni()
+                           ^
+Imported from /home/volmarr/aesir-team-11/aesir_engine/tests/bench_part3_gate_a081.mojo:29:
+Imported from /home/volmarr/aesir-team-11/aesir_engine/core/vulkan_real_model.mojo:91:
+/home/volmarr/aesir-team-11/aesir_engine/core/compute.mojo:1743:18: warning: `alloc` without a `Layout` is deprecated, use the `Layout`-based `alloc` instead; as a temporary migration step, use `unsafe_alloc`
+        var xq = alloc[Int8](rows_here * a_cols)
+                 ^~~~~
+<unknown>:0: note: 'alloc' declared here
+Imported from /home/volmarr/aesir-team-11/aesir_engine/tests/bench_part3_gate_a081.mojo:29:
+Imported from /home/volmarr/aesir-team-11/aesir_engine/core/vulkan_real_model.mojo:91:
+/home/volmarr/aesir-team-11/aesir_engine/core/compute.mojo:1744:22: warning: `alloc` without a `Layout` is deprecated, use the `Layout`-based `alloc` instead; as a temporary migration step, use `unsafe_alloc`
+        var xscale = alloc[Float32](rows_here * blocks_per_row * nsub)
+                     ^~~~~
+<unknown>:0: note: 'alloc' declared here
+Imported from /home/volmarr/aesir-team-11/aesir_engine/tests/bench_part3_gate_a081.mojo:29:
+Imported from /home/volmarr/aesir-team-11/aesir_engine/core/vulkan_real_model.mojo:91:
+/home/volmarr/aesir-team-11/aesir_engine/core/compute.mojo:1745:21: warning: `alloc` without a `Layout` is deprecated, use the `Layout`-based `alloc` instead; as a temporary migration step, use `unsafe_alloc`
+        var xsums = alloc[Float32](rows_here * blocks_per_row * nsub)
+                    ^~~~~
+<unknown>:0: note: 'alloc' declared here
+Included from /home/volmarr/aesir-team-11/aesir_engine/tests/bench_part3_gate_a081.mojo:30:
+/home/volmarr/aesir-team-11/aesir_engine/aesir.mojo:1236:30: warning: assignment to 'next_token' was never used; assign to '_' instead?
+            var next_token = -1
+                             ^
+Included from /home/volmarr/aesir-team-11/aesir_engine/tests/bench_part3_gate_a081.mojo:30:
+Included from /home/volmarr/aesir-team-11/aesir_engine/aesir.mojo:16:
+/home/volmarr/aesir-team-11/aesir_engine/loader/gguf.mojo:566:29: warning: assignment to 'width' was never used; assign to '_' instead?
+                var width = 0
+                            ^
+A081_DEVICE vendor= 4098 type= 1
+MimirWell initialized with 2133881856 derived bytes.
+GGUF validated: 292 tensors, 33 metadata entries, architecture llama
+A081_PROMPT_TOKENS 6
+Starting deterministic generation loop (The Weaving of Fate)...
+Prompt tokens: 6 context_length: 131072
+ Token generated: 264 ' a'
+ Token generated: 3363 ' city'
+ Token generated: 315 ' of'
+ Token generated: 6800 ' grand'
+ Token generated: 12844 'eur'
+ Token generated: 323 ' and'
+ Token generated: 13444 ' beauty'
+ Token generated: 11 ','
+ Token generated: 449 ' with'
+ Token generated: 264 ' a'
+ Token generated: 9257 ' rich'
+ Token generated: 3925 ' history'
+ Token generated: 323 ' and'
+ Token generated: 7829 ' culture'
+ Token generated: 430 ' that'
+ Token generated: 374 ' is'
+ Token generated: 27000 ' reflected'
+ Token generated: 304 ' in'
+ Token generated: 1202 ' its'
+ Token generated: 20441 ' stunning'
+ Token generated: 18112 ' architecture'
+ Token generated: 11 ','
+ Token generated: 1917 ' world'
+ Token generated: 15144 '-class'
+ Token generated: 51677 ' museums'
+ Token generated: 11 ','
+ Token generated: 323 ' and'
+ Token generated: 34076 ' vibrant'
+ Token generated: 19071 ' arts'
+ Token generated: 6237 ' scene'
+ Token generated: 13 '.'
+ Token generated: 5659 ' From'
+AESIR_TIMING_JSON: {"timing_version":1,"load_ms":494.906,"prefill_ms":229.722,"decode_ms":4368.423,"sample_ms":0.703,"accounted_ms":5093.756,"wall_ms":5093.950,"residual_ms":0.193,"coverage_pct":99.99,"prompt_tokens":6,"generated_tokens":32,"clock":"CLOCK_MONOTONIC","sample_scope":"sample_token_from_logits calls in the forward paths"}
+Generated 32 token(s); stop reason: length
+Inference complete. Fate is sealed.
+A081_CPU_REP 0 decode_ns= 4368423320 generated= 32 tok_s= 7.325297402725155
+Starting deterministic generation loop (The Weaving of Fate)...
+Prompt tokens: 6 context_length: 131072
+ Token generated: 264 ' a'
+ Token generated: 3363 ' city'
+ Token generated: 315 ' of'
+ Token generated: 6800 ' grand'
+ Token generated: 12844 'eur'
+ Token generated: 323 ' and'
+ Token generated: 13444 ' beauty'
+ Token generated: 11 ','
+ Token generated: 449 ' with'
+ Token generated: 264 ' a'
+ Token generated: 9257 ' rich'
+ Token generated: 3925 ' history'
+ Token generated: 323 ' and'
+ Token generated: 7829 ' culture'
+ Token generated: 430 ' that'
+ Token generated: 374 ' is'
+ Token generated: 27000 ' reflected'
+ Token generated: 304 ' in'
+ Token generated: 1202 ' its'
+ Token generated: 20441 ' stunning'
+ Token generated: 18112 ' architecture'
+ Token generated: 11 ','
+ Token generated: 1917 ' world'
+ Token generated: 15144 '-class'
+ Token generated: 51677 ' museums'
+ Token generated: 11 ','
+ Token generated: 323 ' and'
+ Token generated: 34076 ' vibrant'
+ Token generated: 19071 ' arts'
+ Token generated: 6237 ' scene'
+ Token generated: 13 '.'
+ Token generated: 5659 ' From'
+AESIR_TIMING_JSON: {"timing_version":1,"load_ms":494.906,"prefill_ms":228.157,"decode_ms":4598.736,"sample_ms":0.612,"accounted_ms":5322.414,"wall_ms":9921.500,"residual_ms":4599.086,"coverage_pct":53.64,"prompt_tokens":6,"generated_tokens":32,"clock":"CLOCK_MONOTONIC","sample_scope":"sample_token_from_logits calls in the forward paths"}
+Generated 32 token(s); stop reason: length
+Inference complete. Fate is sealed.
+A081_CPU_REP 1 decode_ns= 4598736599 generated= 32 tok_s= 6.9584328893632295
+Starting deterministic generation loop (The Weaving of Fate)...
+Prompt tokens: 6 context_length: 131072
+ Token generated: 264 ' a'
+ Token generated: 3363 ' city'
+ Token generated: 315 ' of'
+ Token generated: 6800 ' grand'
+ Token generated: 12844 'eur'
+ Token generated: 323 ' and'
+ Token generated: 13444 ' beauty'
+ Token generated: 11 ','
+ Token generated: 449 ' with'
+ Token generated: 264 ' a'
+ Token generated: 9257 ' rich'
+ Token generated: 3925 ' history'
+ Token generated: 323 ' and'
+ Token generated: 7829 ' culture'
+ Token generated: 430 ' that'
+ Token generated: 374 ' is'
+ Token generated: 27000 ' reflected'
+ Token generated: 304 ' in'
+ Token generated: 1202 ' its'
+ Token generated: 20441 ' stunning'
+ Token generated: 18112 ' architecture'
+ Token generated: 11 ','
+ Token generated: 1917 ' world'
+ Token generated: 15144 '-class'
+ Token generated: 51677 ' museums'
+ Token generated: 11 ','
+ Token generated: 323 ' and'
+ Token generated: 34076 ' vibrant'
+ Token generated: 19071 ' arts'
+ Token generated: 6237 ' scene'
+ Token generated: 13 '.'
+ Token generated: 5659 ' From'
+AESIR_TIMING_JSON: {"timing_version":1,"load_ms":494.906,"prefill_ms":249.134,"decode_ms":4740.756,"sample_ms":0.561,"accounted_ms":5485.359,"wall_ms":14911.975,"residual_ms":9426.615,"coverage_pct":36.78,"prompt_tokens":6,"generated_tokens":32,"clock":"CLOCK_MONOTONIC","sample_scope":"sample_token_from_logits calls in the forward paths"}
+Generated 32 token(s); stop reason: length
+Inference complete. Fate is sealed.
+A081_CPU_REP 2 decode_ns= 4740756369 generated= 32 tok_s= 6.749977748118277
+A081_CPU_MEDIAN_TOK_S 6.9584328893632295
+GGUF validated: 292 tensors, 33 metadata entries, architecture llama
+A081_GPU_LOAD_MS 109
+A081_MODEL layers= 32 dim= 4096 ffn= 14336 heads= 32 kv_heads= 8 head_dim= 128 vocab= 128256
+A081_GPU_REP 0 decode_wall_ns= 21320186057 steps= 32 tok_s= 1.500924987917426
+A081_GPU_REP 1 decode_wall_ns= 21371103208 steps= 32 tok_s= 1.4973489991860227
+A081_GPU_REP 2 decode_wall_ns= 21713508242 steps= 32 tok_s= 1.4737369771552185
+A081_GPU_MEDIAN_TOK_S 1.4973489991860227
+A081_ID_EXACT 32 of 32
+A081_STATS steps= 114 step_ms_avg= 670 stream_ms_per_step= 377 stream_mb_per_step= 4185
+A081_A030_BASELINE_TOK_S 8745.9
+A081_THRESHOLD_2X_A030_TOK_S 17491.8
+A081_RATIO_GPU_VS_A030_X1000 0
+A081_RATIO_GPU_VS_CPU8B_X1000 215
+A081_PRIMARY_READING_A False
+A081_PRIMARY_READING_B False
+A081_DONE
+	Command being timed: "pixi run --frozen mojo run -I . -I aesir_engine --target-accelerator gfx1151 -Xlinker -L/tmp/tmp.mYaE2qENrm -Xlinker -laesir_hailo10h -Xlinker -laesir_par -Xlinker -laesir_hip -Xlinker -laesir_vulkan -Xlinker -laesir_zc -Xlinker -laesir_aff aesir_engine/tests/bench_part3_gate_a081.mojo /home/volmarr/aesir-team-11/hidden_files/fixtures/Meta-Llama-3.1-8B-Instruct-Q4_K_M.gguf"
+	User time (seconds): 167.91
+	System time (seconds): 41.50
+	Percent of CPU this job got: 197%
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 1:45.91
+	Average shared text size (kbytes): 0
+	Average unshared data size (kbytes): 0
+	Average stack size (kbytes): 0
+	Average total size (kbytes): 0
+	Maximum resident set size (kbytes): 8105760
+	Average resident set size (kbytes): 0
+	Major (requiring I/O) page faults: 453
+	Minor (reclaiming a frame) page faults: 9732120
+	Voluntary context switches: 735838
+	Involuntary context switches: 94396
+	Swaps: 0
+	File system inputs: 876944
+	File system outputs: 213752
+	Socket messages sent: 0
+	Socket messages received: 0
+	Signals delivered: 0
+	Page size (bytes): 4096
+	Exit status: 0
+MOJO_EXIT=0
