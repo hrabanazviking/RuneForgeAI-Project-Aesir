@@ -68,7 +68,16 @@ when its lead is live on its assigned slice in its own worktree.
 
 ## State
 
-- Banked: **82 of 216** (A-001..A-082). A-082 banked at the
+- Banked: **83 of 216** (A-001..A-083). A-083 banked at the
+  seat 2026-11-13 (team-13 commit 0742431b cherry-picked
+  as ef184af7 with the run_all union composed at banking,
+  pin 586 -> 589; HIP Q4_K GEMV - parity inside the filed
+  f16-rounding band at all 5 bench shapes on the real
+  gfx1151 device, dispatch-evidence counter counts only
+  completed device dispatches; seat gate 586/1/2 of 589
+  exact on the fourth run, solo, sole failure J-022;
+  full note in PROJECT_MEMORY_MAP).
+  A-082 banked at the
   seat 2026-11-13 (team-12 commit 62de1014 cherry-picked
   as 2ea0c1d5 with the run_all union composed at banking,
   pin 581 -> 586; HIP Q8_0 GEMV - parity BIT-EXACT vs the
@@ -241,7 +250,7 @@ when its lead is live on its assigned slice in its own worktree.
   Wave 7 (A-055..A-063) is COMPLETE. Wave 8
   (A-064..A-072) is COMPLETE. Wave 9
   (A-073..A-081) is COMPLETE.**
-- Seat gate after this banking: A-081 (seat_gate_a081.log, sha256 59f3d879...) 578 passed / 1 failed / 2 skipped / 581 total, EXACT, sole failure J-022 (the slice adds no run_all cases, pin unchanged), launched solo. Previous gate (A-080, seat_gate_a080.log): 578/1/2 of 581 exact, all 6 equivalence.* cases PASS. Previous gate (A-079, seat_gate_a079.log): 572/1/2 of 575 exact, budget_live PASS after the reorder fix (history in the A-079 PROJECT_MEMORY_MAP row). Previous gate (A-078, seat_gate_a078.log):
+- Seat gate after this banking: A-083 (seat_gate_a083.log, sha256 77c519ab...) 586 passed / 1 failed / 2 skipped / 589 total, EXACT on the fourth run, launched solo on a quiet machine, sole failure J-022, all 3 gpu.hip_q4k_gemv_* cases PASS (runs 1-3 ran 585/2/2 with one named pre-existing intermittent each, logs preserved as seat_gate_a083_run1/run2/run3). Previous gate (A-081, seat_gate_a081.log, sha256 59f3d879...) 578 passed / 1 failed / 2 skipped / 581 total, EXACT, sole failure J-022 (the slice adds no run_all cases, pin unchanged), launched solo. Previous gate (A-080, seat_gate_a080.log): 578/1/2 of 581 exact, all 6 equivalence.* cases PASS. Previous gate (A-079, seat_gate_a079.log): 572/1/2 of 575 exact, budget_live PASS after the reorder fix (history in the A-079 PROJECT_MEMORY_MAP row). Previous gate (A-078, seat_gate_a078.log):
   565 passed / 1 failed / 2 skipped / 568 total,
   exact on run 4 (runs 1-2: 564/2/2 with the extra
   memory.budget_live_meminfo_pressure intermittent,
@@ -260,9 +269,10 @@ when its lead is live on its assigned slice in its own worktree.
   resilience.state_vault_rejects_growth (bug B2) - neither
   appeared in the accepted gate run.
 - Queue: teams take slices in roadmap order as theirs
-  bank (keeper flow): A-083 - next to bank (team-13 commit
-  0742431b, HIP Q4_K GEMV, already built and tested);
-  teams 14+15 (A-084/A-085) muster this tick.
+  bank (keeper flow): A-084 - next to bank (team-14,
+  HIP attention + norms, building); A-085 (team-15,
+  the bake-off) building after it; teams 16+17
+  (A-086/A-087) muster this tick.
   A-066 closed the A-065 KV-append gap
   (kv_append kernel, bit-exact).
   Sole failure in every suite =
@@ -286,5 +296,6 @@ when its lead is live on its assigned slice in its own worktree.
 - Seats created only when mustered, each from banked main with its own branch yrsa/aesir-team-NN, CAMPAIGN_STATE.md and hidden_files/.
 - 2026-11-13 ~06:20 EST (keeper tick): seats team-10 and team-11 CREATED from banked main 3cfc4370 (78 of 216), verified by git worktree list. team-10 assigned A-080 (Equivalence gate), team-11 assigned A-081 (Part III gate) — the next unassigned slices in roadmap order. A-080/A-081 build in parallel and bank only in roadmap order after A-079 (and after each other).
 - 2026-11-13 ~06:52 EST (keeper tick scheduled 06:47): seats team-12 and team-13 CREATED from banked main 3cfc4370 (78 of 216), verified by git worktree list. team-12 assigned A-082 (HIP Q8_0 GEMV), team-13 assigned A-083 (HIP Q4_K GEMV) — the next unassigned slices in roadmap order (Wave 10 opener). CAMPAIGN_STATE.md written + sha256-verified for both (team-12 e8cc06d1..., team-13 60c875bd...), hidden_files/ created. Leads spawned this tick, no 429; both briefed to defer full suites while team-03's probe + budget-reorder work runs solo. Team-03 RESTARTED this tick on the probe + budget-reorder fix road (critical path to unblocking A-079 banking). A-082/A-083 build in parallel and bank only in roadmap order after A-079/A-080/A-081 (and after each other).
+- 2026-11-13 ~08:02 EST (keeper tick): A-082 BANKED (82 of 216, closure 82591e7c). A-083 cherry-picked at the seat as ef184af7 (run_all union 586 -> 589, shim counters unioned, shim compiles) but its seat gate ran 585/2/2 three times (runs 1 and 3: resilience.state_vault_rejects_growth; run 2: gpu.amd_hip_stream_async_round_trip - the two named pre-existing intermittents, rotating, all A-083 cases PASS every run; logs preserved as seat_gate_a083_run1/run2/run3). The Z-100 soak probes resumed (STAT R) during runs 2-3, so the gate was NOT re-run further this tick; A-083 banks on the first exact solo gate on a quiet machine. Seats team-14 and team-15 CREATED from banked main 82591e7c (82 of 216), verified by git worktree list. team-14 assigned A-084 (HIP attention + norms), team-15 assigned A-085 (The bake-off) - the next unassigned slices in roadmap order. CAMPAIGN_STATE.md written for both (team-14 sha256 2782cc61..., team-15 sha256 64fa05a0...), hidden_files/ created. Leads spawned this tick; both briefed to defer full suites while heavy shared work is live and never concurrently with a seat gate. Teams 16-27 not yet created; muster 2-3 per tick in order.
 - Teams 14-27: not yet created; muster 2-3 per tick in order on later ticks.
 - Note: the 9-team layout text above is the original Wave 1 layout and is superseded by this expansion for team count; slice order and banking rules are unchanged.
