@@ -1,0 +1,6 @@
+gpu_candidate[0]=AMD Radeon 8060S Graphics (RADV STRIX_HALO) type=1
+gpu_candidate[1]=llvmpipe (LLVM 22.1.8, 256 bits) type=4
+gpu_device_name=AMD Radeon 8060S Graphics (RADV STRIX_HALO)
+gpu_verify elements=131072 mismatches=0 max_abs_err=0.000000
+POWER path=GPU energy_uj_delta=157924984 wall_us=2028742.8 dispatches=30000 rapl_ok=1 final_mismatches=0
+RESULT PASS gpu gemm exact vs CPU oracle on Vulkan device

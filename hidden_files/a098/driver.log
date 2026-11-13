@@ -1,0 +1,58 @@
+=== idle1_start 2026-11-13T15:16:25-05:00
+IDLE energy_uj_delta=84627093 wall_s=10.000 avg_w=8.462
+=== idle1_end 2026-11-13T15:16:35-05:00
+=== cpu_r1_start 2026-11-13T15:16:35-05:00
+POWER path=CPU energy_uj_delta=818104283 wall_us=9901503.0 dispatches=16000 rapl_ok=1
+E2E path=CPU dispatches=16000 total_us=9901503.0 per_dispatch_us=618.8
+RESULT PASS cpu fallback exact vs oracle (selected=CPU reason=FLAG_DISABLED)
+=== cpu_r1_end 2026-11-13T15:16:45-05:00
+=== cpu_r2_start 2026-11-13T15:16:48-05:00
+POWER path=CPU energy_uj_delta=800324364 wall_us=10283656.2 dispatches=16000 rapl_ok=1
+E2E path=CPU dispatches=16000 total_us=10283656.2 per_dispatch_us=642.7
+RESULT PASS cpu fallback exact vs oracle (selected=CPU reason=FLAG_DISABLED)
+=== cpu_r2_end 2026-11-13T15:16:58-05:00
+=== cpu_r3_start 2026-11-13T15:17:02-05:00
+POWER path=CPU energy_uj_delta=792722554 wall_us=10174110.6 dispatches=16000 rapl_ok=1
+E2E path=CPU dispatches=16000 total_us=10174110.6 per_dispatch_us=635.9
+RESULT PASS cpu fallback exact vs oracle (selected=CPU reason=FLAG_DISABLED)
+=== cpu_r3_end 2026-11-13T15:17:12-05:00
+=== gpu_r1_start 2026-11-13T15:17:15-05:00
+gpu_device_name=AMD Radeon 8060S Graphics (RADV STRIX_HALO)
+POWER path=GPU energy_uj_delta=157924984 wall_us=2028742.8 dispatches=30000 rapl_ok=1 final_mismatches=0
+RESULT PASS gpu gemm exact vs CPU oracle on Vulkan device
+=== gpu_r1_end 2026-11-13T15:17:17-05:00
+=== gpu_r2_start 2026-11-13T15:17:20-05:00
+gpu_device_name=AMD Radeon 8060S Graphics (RADV STRIX_HALO)
+POWER path=GPU energy_uj_delta=157432029 wall_us=2025023.0 dispatches=30000 rapl_ok=1 final_mismatches=0
+RESULT PASS gpu gemm exact vs CPU oracle on Vulkan device
+=== gpu_r2_end 2026-11-13T15:17:22-05:00
+=== gpu_r3_start 2026-11-13T15:17:25-05:00
+gpu_device_name=AMD Radeon 8060S Graphics (RADV STRIX_HALO)
+POWER path=GPU energy_uj_delta=156509469 wall_us=2022561.0 dispatches=30000 rapl_ok=1 final_mismatches=0
+RESULT PASS gpu gemm exact vs CPU oracle on Vulkan device
+=== gpu_r3_end 2026-11-13T15:17:27-05:00
+=== npu_r1_start 2026-11-13T15:17:30-05:00
+device_name=NPU Strix Halo
+ert_cmd_state=4 (COMPLETED=4)
+POWER path=AMD_XDNA energy_uj_delta=197284247 wall_us=9195386.4 dispatches=4096 rapl_ok=1
+E2E path=AMD_XDNA dispatches=4096 total_us=9195386.4 per_dispatch_us=2245.0 final_mismatches=0 final_checksum=2848816214485251074 submitted_total=4118
+RESULT PASS matmul i16->i32 exact vs CPU oracle on NPU (resident context, 4118 dispatches)
+=== npu_r1_end 2026-11-13T15:17:40-05:00
+=== npu_r2_start 2026-11-13T15:17:43-05:00
+device_name=NPU Strix Halo
+ert_cmd_state=4 (COMPLETED=4)
+POWER path=AMD_XDNA energy_uj_delta=210704970 wall_us=9294471.8 dispatches=4096 rapl_ok=1
+E2E path=AMD_XDNA dispatches=4096 total_us=9294471.8 per_dispatch_us=2269.2 final_mismatches=0 final_checksum=2848816214485251074 submitted_total=4118
+RESULT PASS matmul i16->i32 exact vs CPU oracle on NPU (resident context, 4118 dispatches)
+=== npu_r2_end 2026-11-13T15:17:53-05:00
+=== npu_r3_start 2026-11-13T15:17:56-05:00
+device_name=NPU Strix Halo
+ert_cmd_state=4 (COMPLETED=4)
+POWER path=AMD_XDNA energy_uj_delta=204531537 wall_us=9258420.7 dispatches=4096 rapl_ok=1
+E2E path=AMD_XDNA dispatches=4096 total_us=9258420.7 per_dispatch_us=2260.4 final_mismatches=0 final_checksum=2848816214485251074 submitted_total=4118
+RESULT PASS matmul i16->i32 exact vs CPU oracle on NPU (resident context, 4118 dispatches)
+=== npu_r3_end 2026-11-13T15:18:05-05:00
+=== idle2_start 2026-11-13T15:18:08-05:00
+IDLE energy_uj_delta=92900332 wall_s=10.001 avg_w=9.290
+=== idle2_end 2026-11-13T15:18:18-05:00
+A098_PHASES_DONE

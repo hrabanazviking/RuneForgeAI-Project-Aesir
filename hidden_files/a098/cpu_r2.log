@@ -1,0 +1,6 @@
+DISPATCH op=prefill_projection shape=128x1024x1024 selected=CPU reason=FLAG_DISABLED flag=off macs=134217728 backend=AMD_XDNA
+CONV q4_to_i16 elems=1048576 median_us=669.0 sink=0 (weights-side, once per layer load)
+POWER path=CPU energy_uj_delta=800324364 wall_us=10283656.2 dispatches=16000 rapl_ok=1
+TIMING cpu_opt_us min=485.0 median=530.6 reps=5 threads=32 oracle_naive_us=263688.3 sink=-693
+E2E path=CPU dispatches=16000 total_us=10283656.2 per_dispatch_us=642.7
+RESULT PASS cpu fallback exact vs oracle (selected=CPU reason=FLAG_DISABLED)

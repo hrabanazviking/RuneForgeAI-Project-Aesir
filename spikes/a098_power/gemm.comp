@@ -1,0 +1,17 @@
+#version 450
+layout(local_size_x=256) in;
+layout(std430, binding=0) readonly buffer A { float a[]; };
+layout(std430, binding=1) readonly buffer B { float b[]; };
+layout(std430, binding=2) buffer C { float c[]; };
+layout(push_constant) uniform PC { uint reps; };
+void main(){
+  uint idx = gl_GlobalInvocationID.x;
+  uint i = idx / 1024u; uint j = idx % 1024u;
+  float acc = 0.0;
+  for (uint r = 0u; r < reps; r++){
+    float s = 0.0;
+    for (uint k = 0u; k < 1024u; k++) s += a[i*1024u+k] * b[k*1024u+j];
+    acc += s;
+  }
+  c[idx] = acc / float(reps);
+}
