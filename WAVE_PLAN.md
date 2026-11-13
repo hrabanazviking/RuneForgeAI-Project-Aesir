@@ -68,7 +68,12 @@ when its lead is live on its assigned slice in its own worktree.
 
 ## State
 
-- Banked: **79 of 216** (A-001..A-079). A-079 banked at the
+- Banked: **80 of 216** (A-001..A-080). A-080 banked at the
+  seat 2026-11-13 (team-10 commit 2a1c2eec cherry-picked
+  as 161d07ab with the run_all union composed at banking,
+  pin 575 -> 581; seat gate 578/1/2 of 581 exact, sole
+  failure J-022; full note in PROJECT_MEMORY_MAP).
+  A-079 banked at the
   seat 2026-11-13 (team-03 commit c4b43c6f cherry-picked
   as 30e46c64 with the run_all union composed at banking,
   pin 568 -> 575, plus the budget-reorder fix 058a5b68 -
@@ -220,8 +225,8 @@ when its lead is live on its assigned slice in its own worktree.
   is COMPLETE. Wave 6 (A-046..A-054) is COMPLETE.
   Wave 7 (A-055..A-063) is COMPLETE. Wave 8
   (A-064..A-072) is COMPLETE. Wave 9
-  (A-073..A-081) is IN PROGRESS (7 of 9).**
-- Seat gate after this banking: A-079 (seat_gate_a079.log, sha256 239a301a...) 572 passed / 1 failed / 2 skipped / 575 total, EXACT, sole failure J-022, budget_live PASS after the reorder fix 058a5b68 (banking history + bisect verdict in PROJECT_MEMORY_MAP A-079 row + hidden_files/A079_FIX_LEDGER.md). Contention note: team-13 small driver/probe overlapped the gate tail; no other full suite ran. Previous gate (A-078, seat_gate_a078.log):
+  (A-073..A-081) is IN PROGRESS (8 of 9).**
+- Seat gate after this banking: A-080 (seat_gate_a080.log, sha256 04dbf2a1...) 578 passed / 1 failed / 2 skipped / 581 total, EXACT, sole failure J-022, all 6 equivalence.* cases PASS, launched solo with no other suite live. Previous gate (A-079, seat_gate_a079.log): 572/1/2 of 575 exact, budget_live PASS after the reorder fix (history in the A-079 PROJECT_MEMORY_MAP row). Previous gate (A-078, seat_gate_a078.log):
   565 passed / 1 failed / 2 skipped / 568 total,
   exact on run 4 (runs 1-2: 564/2/2 with the extra
   memory.budget_live_meminfo_pressure intermittent,
@@ -240,11 +245,10 @@ when its lead is live on its assigned slice in its own worktree.
   resilience.state_vault_rejects_growth (bug B2) - neither
   appeared in the accepted gate run.
 - Queue: teams take slices in roadmap order as theirs
-  bank (keeper flow): A-080 - next to bank (team-10 commit
-  2a1c2eec already built and tested); A-081 (team-11
-  commit 31d88a29, honest negative) and A-082 (team-12
-  commit 62de1014) built and awaiting banking in order;
-  A-083 in flight on team-13.
+  bank (keeper flow): A-081 - next to bank (team-11 commit
+  31d88a29, honest negative, already built and tested);
+  A-082 (team-12 commit 62de1014) and A-083 (team-13
+  commit 0742431b) built and awaiting banking in order.
   A-066 closed the A-065 KV-append gap
   (kv_append kernel, bit-exact).
   Sole failure in every suite =
