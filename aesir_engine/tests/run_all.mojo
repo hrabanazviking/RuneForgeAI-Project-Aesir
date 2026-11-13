@@ -374,6 +374,16 @@ from tests.test_spillover_policy_a102 import (
     test_spillover_log_reproducible,
     test_spillover_device_execution,
 )
+from tests.test_fairness_a105 import (
+    test_fairness_equal_share,
+    test_fairness_weighted_share,
+    test_fairness_no_starvation_adversarial,
+    test_fairness_idle_no_hoard,
+    test_fairness_single_model_throughput,
+    test_fairness_governor_pressure,
+    test_fairness_log_reproducible,
+    test_fairness_device_execution,
+)
 from tests.test_vulkan_batch_a072 import (
     test_vulkan_continuous_batch_four_match_single,
     test_vulkan_continuous_batch_heterogeneous,
@@ -1336,6 +1346,14 @@ def main() raises:
     run_case(ledger, "sched.spillover_assist_evidence_gate", test_spillover_assist_evidence_gate)
     run_case(ledger, "sched.spillover_log_reproducible", test_spillover_log_reproducible)
     run_case(ledger, "sched.spillover_device_execution", test_spillover_device_execution)
+    run_case(ledger, "sched.fairness_equal_share", test_fairness_equal_share)
+    run_case(ledger, "sched.fairness_weighted_share", test_fairness_weighted_share)
+    run_case(ledger, "sched.fairness_no_starvation_adversarial", test_fairness_no_starvation_adversarial)
+    run_case(ledger, "sched.fairness_idle_no_hoard", test_fairness_idle_no_hoard)
+    run_case(ledger, "sched.fairness_single_model_throughput", test_fairness_single_model_throughput)
+    run_case(ledger, "sched.fairness_governor_pressure", test_fairness_governor_pressure)
+    run_case(ledger, "sched.fairness_log_reproducible", test_fairness_log_reproducible)
+    run_case(ledger, "sched.fairness_device_execution", test_fairness_device_execution)
     run_case(ledger, "gpu.gpu_soak_slope_flat_and_leak", test_gpu_soak_slope_flat_and_leak)
     run_case(ledger, "gpu.gpu_soak_verdict_precedence", test_gpu_soak_verdict_precedence)
     run_case(ledger, "gpu.gpu_soak_tally_accounting", test_gpu_soak_tally_accounting)
@@ -2258,4 +2276,9 @@ def main() raises:
     # tests/test_big_model_placement_a104.mojo) counted on top
     # of the A-103 seat pin (team branch pin was 628 on the
     # A-101 base; union reconciled here at banking).
-    ledger.finish(642)
+    # A-105 union re-pin at banking: 642 -> 650 -- eight
+    # two-model fairness cases (sched.fairness_* in
+    # tests/test_fairness_a105.mojo) counted on top of the
+    # A-104 seat pin (team branch pin was 637 on the A-102
+    # base; union reconciled here at banking).
+    ledger.finish(650)
