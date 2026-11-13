@@ -315,6 +315,14 @@ from tests.test_vulkan_async_a071 import (
     test_vulkan_async_rejection,
     test_vulkan_async_dispatch_evidence,
 )
+from tests.test_accum_policy_a075 import (
+    test_accum_policy_table_completeness,
+    test_accum_policy_table_uniform_fp32,
+    test_accum_policy_dot_error_k_scaling,
+    test_accum_policy_logit_gap_battery,
+    test_accum_policy_norm_mass_attention,
+    test_accum_policy_emulation_invariants,
+)
 from tests.test_vulkan_batch_a072 import (
     test_vulkan_continuous_batch_four_match_single,
     test_vulkan_continuous_batch_heterogeneous,
@@ -1152,6 +1160,12 @@ def main() raises:
     run_case(ledger, "gpu.vulkan_continuous_batch_isolation", test_vulkan_continuous_batch_isolation)
     run_case(ledger, "gpu.vulkan_continuous_batch_rejection", test_vulkan_continuous_batch_rejection)
     run_case(ledger, "gpu.vulkan_continuous_batch_single_slot_serial", test_vulkan_continuous_batch_single_slot_serial)
+    run_case(ledger, "accum_policy.table_completeness", test_accum_policy_table_completeness)
+    run_case(ledger, "accum_policy.table_uniform_fp32", test_accum_policy_table_uniform_fp32)
+    run_case(ledger, "accum_policy.dot_error_k_scaling", test_accum_policy_dot_error_k_scaling)
+    run_case(ledger, "accum_policy.logit_gap_battery", test_accum_policy_logit_gap_battery)
+    run_case(ledger, "accum_policy.norm_mass_attention", test_accum_policy_norm_mass_attention)
+    run_case(ledger, "accum_policy.emulation_invariants", test_accum_policy_emulation_invariants)
     run_case(ledger, "gpu.vulkan_prefill_gemm_oracle_parity", test_vulkan_prefill_gemm_oracle_parity)
     run_case(ledger, "gpu.vulkan_prefill_gemm_known_value", test_vulkan_prefill_gemm_known_value)
     run_case(ledger, "gpu.vulkan_prefill_gemm_f32_parity", test_vulkan_prefill_gemm_f32_parity)
@@ -1945,4 +1959,8 @@ def main() raises:
     # tests/test_vulkan_batch_a072.mojo) counted on top of
     # the A-071 seat pin (A-072 team pin was 531 -> 537 on its
     # own base; the union total reconciles at banking).
-    ledger.finish(543)
+    # A-075 re-pin: 543 -> 549 -- six accumulation policy cases
+    # (accum_policy.* in tests/test_accum_policy_a075.mojo) counted
+    # on top of the A-073 seat pin (A-075 team pin; the union total
+    # reconciles at banking).
+    ledger.finish(549)

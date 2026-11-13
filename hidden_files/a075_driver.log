@@ -1,0 +1,31 @@
+Secondary CUID not available: AMDCUID support not enabled.
+Imported from /home/volmarr/aesir-team-02/aesir_engine/tests/a075_driver_tmp.mojo:2:
+/home/volmarr/aesir-team-02/aesir_engine/tests/test_accum_policy_a075.mojo:91:21: warning: 'if' condition always evaluates to 'False'; 'if' branch is unreachable
+    if KERNEL_COUNT != 25:
+                    ^
+Imported from /home/volmarr/aesir-team-02/aesir_engine/tests/a075_driver_tmp.mojo:2:
+/home/volmarr/aesir-team-02/aesir_engine/tests/test_accum_policy_a075.mojo:93:25: warning: 'if' condition always evaluates to 'False'; 'if' branch is unreachable
+    if POLICY_ROW_COUNT != KERNEL_COUNT + CPU_SITE_COUNT:
+                        ^
+Imported from /home/volmarr/aesir-team-02/aesir_engine/tests/a075_driver_tmp.mojo:2:
+/home/volmarr/aesir-team-02/aesir_engine/tests/test_accum_policy_a075.mojo:95:23: warning: 'if' condition always evaluates to 'False'; 'if' branch is unreachable
+    if CPU_SITE_COUNT != 5:
+                      ^
+Included from /home/volmarr/aesir-team-02/aesir_engine/tests/a075_driver_tmp.mojo:2:
+/home/volmarr/aesir-team-02/aesir_engine/tests/test_accum_policy_a075.mojo:97:26: warning: assignment to 'manifest' was never used; assign to '_' instead?
+    var manifest = String("")
+                         ^
+--- Testing accumulation policy table completeness (A-075) ---
+accum_policy table completeness: PASS
+--- Testing accumulation policy uniformity (A-075) ---
+accum_policy uniform FP32: PASS
+--- Testing accumulation dot error vs K (A-075) ---
+accum_policy dot error K-scaling: PASS
+--- Testing accumulation logit-gap battery (A-075) ---
+accum_policy logit-gap battery: PASS
+--- Testing accumulation norm/mass/attention evidence (A-075) ---
+accum_policy norm/mass/attention evidence: PASS
+--- Testing accumulation emulation invariants (A-075) ---
+accum_policy emulation invariants: PASS
+A075_DRIVER_ALL_PASS
+MOJO_EXIT=0
