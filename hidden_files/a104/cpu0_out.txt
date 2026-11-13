@@ -1,0 +1,33 @@
+
+
+Loading model... |-\|/-\|/-\ 
+
+▄▄ ▄▄
+██ ██
+██ ██  ▀▀█▄ ███▄███▄  ▀▀█▄    ▄████ ████▄ ████▄
+██ ██ ▄█▀██ ██ ██ ██ ▄█▀██    ██    ██ ██ ██ ██
+██ ██ ▀█▄██ ██ ██ ██ ▀█▄██ ██ ▀████ ████▀ ████▀
+                                    ██    ██
+                                    ▀▀    ▀▀
+
+build      : b1-dd6b945
+model      : /home/volmarr/aesir-forge/hidden_files/fixtures/Meta-Llama-3.1-8B-Instruct-Q4_K_M.gguf
+ftype      : Q4_K - Medium
+modalities : text
+
+available commands:
+  /exit or Ctrl+C     stop or exit
+  /regen              regenerate the last response
+  /clear              clear the chat history
+  /read <file>        add a text file
+  /glob <pattern>     add text files using globbing pattern
+
+
+
+> The old lighthouse keeper of the northern fjord climbed the tower at dusk, lit the great lamp, and watched the longships
+...sail into the fading light, their sails billowing like white clouds as they made their way through the narrow passage. The old lighthouse keeper stood at the top of the tower, his eyes scanning the horizon as the last rays of the sun dipped below the water. The great lamp, a beacon of safety and guidance, cast its warm glow out across the fjord, illuminating the path for the ships and warning them of the treacherous rocks that lay hidden beneath
+
+[ Prompt: 437.1 t/s | Generation: 20.7 t/s ]
+
+
+Exiting...

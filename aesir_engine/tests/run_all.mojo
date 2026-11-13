@@ -540,6 +540,14 @@ from tests.test_failure_replan_a103 import (
     test_replan_second_failure_fails_closed,
     test_replan_edges_and_summary,
 )
+from tests.test_big_model_placement_a104 import (
+    test_big_model_geometry,
+    test_big_model_kv_accounting,
+    test_big_model_split_half,
+    test_big_model_split_edges,
+    test_big_model_pool_gate,
+    test_big_model_pressure_budget,
+)
 from tests.test_npu_realm import (
     test_npu_probe_absence,
     test_npu_gemm_dispatch_bounds,
@@ -1447,6 +1455,12 @@ def main() raises:
     run_case(ledger, "replan.cpu_loss_fails_closed", test_replan_cpu_loss_fails_closed)
     run_case(ledger, "replan.second_failure_fails_closed", test_replan_second_failure_fails_closed)
     run_case(ledger, "replan.edges_and_summary", test_replan_edges_and_summary)
+    run_case(ledger, "placement.big_model_geometry", test_big_model_geometry)
+    run_case(ledger, "placement.big_model_kv_accounting", test_big_model_kv_accounting)
+    run_case(ledger, "placement.big_model_split_half", test_big_model_split_half)
+    run_case(ledger, "placement.big_model_split_edges", test_big_model_split_edges)
+    run_case(ledger, "placement.big_model_pool_gate", test_big_model_pool_gate)
+    run_case(ledger, "placement.big_model_pressure_budget", test_big_model_pressure_budget)
     run_case(
         ledger,
         "gpu.resilience_allocation_rejection",
@@ -2239,4 +2253,9 @@ def main() raises:
     # tests/test_failure_replan_a103.mojo) counted on top of
     # the A-102 seat pin (team branch pin was 629 on the
     # A-101 base; union reconciled here at banking).
-    ledger.finish(636)
+    # A-104 union re-pin at banking: 636 -> 642 -- six
+    # big-model placement cases (placement.big_model_* in
+    # tests/test_big_model_placement_a104.mojo) counted on top
+    # of the A-103 seat pin (team branch pin was 628 on the
+    # A-101 base; union reconciled here at banking).
+    ledger.finish(642)

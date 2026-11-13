@@ -1,0 +1,10 @@
+# A-104 Ledger — Big-model placement (team-25)
+
+- Base: 2bddc175 (banked main, A-101 banked 101/216), branch reset --hard from A-101 tip; untracked a095 leftovers untouched.
+- Fixture: largest real sha-pinned model on the machine is Meta-Llama-3.1-8B-Instruct-Q4_K_M.gguf (4,920,739,232 B, sha256 7b064f58...557c, verified before/after). No larger real model exists on purpleraider; the 41 GB A-049 oversized fixture is synthetic and cannot generate. Nothing downloaded.
+- Built: aesir_engine/core/big_model_placement.mojo (suffix layer-split solver + accounting, A-076 budget_from_pressure verbatim, pool gate), tests/test_big_model_placement_a104.mojo (6 cases), run_all registration + finish pin 622 -> 628.
+- Live run: llama-cli b1-dd6b945 Vulkan, RADV STRIX_HALO gfx1151 by identity, -ngl 16: offloaded 16/33, Vulkan0 model 2290.21 MiB, host model 2395.10 MiB, KV 240 GPU / 272 CPU MiB, gen 28.2 tok/s, coherent 96-token continuation. CPU oracle -ngl 0: coherent, 20.7 tok/s, agrees ~40 tokens then diverges in wording (coherence-graded, PASS).
+- Accounting reconciliation: weight totals exact (4685.30 plan vs 4685.31 measured MiB); per-device weights within 0.14% (directory-span padding); KV total exact 512 MiB, executor carries a one-layer KV shift (240/272 vs plan 256/256) — named in bench doc, not hidden.
+- Suite (solo, after seat_gate_a102 finished): run1 624/2/2/628 (J-022 + resilience.state_vault_rejects_growth), run2 624/2/2/628 (J-022 + gpu.amd_hip_stream_async_round_trip). Both green-to-baseline; new cases 6/6 PASS in both.
+- Bugs found/fixed in-slice: (1) my first plan convention (prefix fill + whole non-layer block on GPU) contradicted the executor's measured buffers — rewrote solver to the measured suffix convention (embedding GPU / output CPU in partial splits) and updated tests; (2) a stray placeholder fn in the new test file was removed before first compile; (3) first re-run launch silently died with its invoke (backgrounding quirk) — relaunched via setsid and verified from the log, no result was ever claimed from the dead launch.
+- No README touched. No merge, no push. Commit on yrsa/aesir-team-25 only.
