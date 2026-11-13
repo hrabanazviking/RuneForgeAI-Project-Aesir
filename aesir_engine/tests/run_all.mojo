@@ -423,6 +423,14 @@ from tests.test_zero_copy import (
     test_zero_copy_rejection,
     test_zero_copy_no_leak,
 )
+from tests.test_memory_budget import (
+    test_budget_cap_honoured_measured,
+    test_budget_refusal_fail_closed,
+    test_budget_spill_degradation,
+    test_budget_configurability,
+    test_budget_accounting_baseline,
+    test_budget_live_meminfo_pressure,
+)
 from tests.test_mojo_gpu_target import (
     test_mojo_native_vec_add_oracle,
     test_mojo_native_gemm_oracle,
@@ -441,14 +449,6 @@ from tests.test_buffer_ownership import (
     test_vulkan_buffer_ownership_adversarial,
     test_zero_copy_buffer_ownership_adversarial,
     test_xrt_bo_ownership_contract,
-)
-from tests.test_memory_budget import (
-    test_budget_cap_honoured_measured,
-    test_budget_refusal_fail_closed,
-    test_budget_spill_degradation,
-    test_budget_configurability,
-    test_budget_accounting_baseline,
-    test_budget_live_meminfo_pressure,
 )
 from tests.test_thread_placement import (
     test_thread_placement_list_parse,
@@ -1279,6 +1279,12 @@ def main() raises:
     run_case(ledger, "gpu.arena_fragmentation_stress", test_arena_fragmentation_stress)
     run_case(ledger, "gpu.arena_pool_device", test_arena_pool_device)
     run_case(ledger, "gpu.arena_shim_registry_over_4096", test_arena_shim_registry_over_4096)
+    run_case(ledger, "memory.budget_cap_honoured_measured", test_budget_cap_honoured_measured)
+    run_case(ledger, "memory.budget_refusal_fail_closed", test_budget_refusal_fail_closed)
+    run_case(ledger, "memory.budget_spill_degradation", test_budget_spill_degradation)
+    run_case(ledger, "memory.budget_configurability", test_budget_configurability)
+    run_case(ledger, "memory.budget_accounting_baseline", test_budget_accounting_baseline)
+    run_case(ledger, "memory.budget_live_meminfo_pressure", test_budget_live_meminfo_pressure)
     run_case(ledger, "gpu.mojo_native_vec_add_oracle", test_mojo_native_vec_add_oracle)
     run_case(ledger, "gpu.mojo_native_gemm_oracle", test_mojo_native_gemm_oracle)
     run_case(ledger, "gpu.mojo_native_rejection", test_mojo_native_rejection)
@@ -1292,12 +1298,6 @@ def main() raises:
     run_case(ledger, "gpu.buffer_ownership_vulkan_adversarial", test_vulkan_buffer_ownership_adversarial)
     run_case(ledger, "gpu.buffer_ownership_zero_copy_adversarial", test_zero_copy_buffer_ownership_adversarial)
     run_case(ledger, "gpu.buffer_ownership_xrt_contract", test_xrt_bo_ownership_contract)
-    run_case(ledger, "memory.budget_cap_honoured_measured", test_budget_cap_honoured_measured)
-    run_case(ledger, "memory.budget_refusal_fail_closed", test_budget_refusal_fail_closed)
-    run_case(ledger, "memory.budget_spill_degradation", test_budget_spill_degradation)
-    run_case(ledger, "memory.budget_configurability", test_budget_configurability)
-    run_case(ledger, "memory.budget_accounting_baseline", test_budget_accounting_baseline)
-    run_case(ledger, "memory.budget_live_meminfo_pressure", test_budget_live_meminfo_pressure)
     run_case(ledger, "cpu.thread_placement_list_parse", test_thread_placement_list_parse)
     run_case(ledger, "cpu.thread_placement_topology_build", test_thread_placement_topology_build)
     run_case(ledger, "cpu.thread_placement_map_spread", test_thread_placement_map_spread)
