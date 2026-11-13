@@ -348,6 +348,14 @@ from tests.test_device_lost_a079 import (
     test_device_lost_watchdog_bound,
     test_device_lost_live_shim_fail_closed,
 )
+from tests.test_equivalence_gate_a080 import (
+    test_equivalence_classifier_table,
+    test_equivalence_battery_aggregation,
+    test_equivalence_regression_blocks,
+    test_equivalence_gate_script_contract,
+    test_equivalence_sampling_parity,
+    test_equivalence_real_model_parity,
+)
 from tests.test_gpu_pressure_a076 import (
     test_gpu_pressure_classification,
     test_gpu_pressure_gpu_route_baseline,
@@ -1225,6 +1233,12 @@ def main() raises:
     run_case(ledger, "gpu_fuzz.sampling_greedy", test_gpu_fuzz_sampling_greedy)
     run_case(ledger, "gpu_fuzz.sampling_temperature", test_gpu_fuzz_sampling_temperature)
     run_case(ledger, "gpu_fuzz.real_model_random_prompts", test_gpu_fuzz_real_model_random_prompts)
+    run_case(ledger, "equivalence.classifier_table", test_equivalence_classifier_table)
+    run_case(ledger, "equivalence.battery_aggregation", test_equivalence_battery_aggregation)
+    run_case(ledger, "equivalence.regression_blocks", test_equivalence_regression_blocks)
+    run_case(ledger, "equivalence.gate_script_contract", test_equivalence_gate_script_contract)
+    run_case(ledger, "equivalence.sampling_parity", test_equivalence_sampling_parity)
+    run_case(ledger, "equivalence.real_model_parity", test_equivalence_real_model_parity)
     run_case(ledger, "gpu.gpu_pressure_classification", test_gpu_pressure_classification)
     run_case(ledger, "gpu.gpu_pressure_gpu_route_baseline", test_gpu_pressure_gpu_route_baseline)
     run_case(ledger, "gpu.gpu_pressure_squeeze_spill_refuse", test_gpu_pressure_squeeze_spill_refuse)
@@ -2041,4 +2055,9 @@ def main() raises:
     # in tests/test_device_lost_a079.mojo) counted on top of
     # the A-078 seat pin; the A-079 team pin (563 on the
     # A-076 base) reconciles here at banking.
-    ledger.finish(575)
+    # A-080 union re-pin (banking 2026-11-13): 575 -> 581 --
+    # six equivalence gate cases (equivalence.* in
+    # tests/test_equivalence_gate_a080.mojo) counted on top
+    # of the A-079 seat pin; the A-080 team pin (574 on the
+    # A-078 base) reconciles here at banking.
+    ledger.finish(581)

@@ -50,5 +50,15 @@ if [ "$failed" = "1" ]; then
   grep -q '\[CASE FAIL\] gguf.tensor_directory_interface' "$SUITE_LOG" || { echo "GATE_FAST RESULT: FAIL (sole failure is not the tolerated J-022 case)"; exit 1; }
   echo "GATE_FAST: sole failure is the tolerated gguf.tensor_directory_interface (J-022 drift)"
 fi
+# A-080: GPU<->CPU equivalence gate, scripted into the fast tier.
+# A regression here FAILS the fast gate (and blocks banking; the
+# keeper enforces the same block at the seat).
+echo "GATE_FAST: running A-080 equivalence gate (scripts/gate_equivalence.sh)"
+scripts/gate_equivalence.sh
+equiv_rc=$?
+[ "$equiv_rc" -eq 0 ] || { echo "GATE_FAST RESULT: FAIL (EQUIV gate failed, rc=$equiv_rc -- banking blocked on equivalence regression)"; exit 1; }
+echo "GATE_FAST: EQUIV gate PASS"
+elapsed=$(( $(date +%s) - start ))
+[ "$elapsed" -lt "$BUDGET_S" ] || { echo "GATE_FAST RESULT: FAIL (budget overrun incl. EQUIV gate: ${elapsed}s >= ${BUDGET_S}s)"; exit 1; }
 echo "GATE_FAST RESULT: PASS (${elapsed}s)"
 exit 0
