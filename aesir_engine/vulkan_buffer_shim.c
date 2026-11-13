@@ -268,6 +268,20 @@ typedef struct {
     const float *pQueuePriorities;
 } AesirVkDeviceQueueCreateInfo;
 
+/* A-074: mirror structs for subgroup size control (ABI-stable
+ * prefixes of the Vulkan 1.4 structs; sTypes from vulkan_core.h). */
+typedef struct {
+    char extensionName[256];
+    uint32_t specVersion;
+} AesirVkExtensionPropertiesMirror;
+
+typedef struct {
+    uint32_t sType;
+    const void *pNext;
+    uint32_t subgroupSizeControl; /* VkBool32 */
+    uint32_t computeFullSubgroups; /* VkBool32 */
+} AesirVkSubgroupSizeControlFeatures;
+
 typedef struct {
     uint32_t sType;
     const void *pNext;
@@ -312,6 +326,8 @@ typedef void (*vk_get_physical_device_memory_properties_fn)(
     VkPhysicalDevice_t, AesirVkMemoryProperties *);
 typedef void (*vk_get_physical_device_queue_family_properties_fn)(
     VkPhysicalDevice_t, uint32_t *, AesirVkQueueFamilyProperties *);
+typedef VkResult_t (*vk_enumerate_device_extension_properties_fn)(
+    VkPhysicalDevice_t, const char *, uint32_t *, void *);
 typedef VkResult_t (*vk_create_device_fn)(VkPhysicalDevice_t, const void *,
                                           const void *, VkDevice_t *);
 typedef void (*vk_destroy_device_fn)(VkDevice_t, const void *);
@@ -345,6 +361,8 @@ static vk_get_physical_device_memory_properties_fn p_mem_props = NULL;
 static vk_get_physical_device_queue_family_properties_fn p_qfam_props =
     NULL;
 static vk_create_device_fn p_create_device = NULL;
+static vk_enumerate_device_extension_properties_fn p_enum_ext = NULL;
+static int g_subgroup_size_control = 0;
 static vk_destroy_device_fn p_destroy_device = NULL;
 static vk_get_device_queue_fn p_get_queue = NULL;
 static vk_create_buffer_fn p_create_buffer = NULL;
@@ -548,6 +566,10 @@ static void aesir_vk_load(void) {
         (vk_get_physical_device_queue_family_properties_fn)dlsym(
             g_lib, "vkGetPhysicalDeviceQueueFamilyProperties");
     p_create_device = (vk_create_device_fn)dlsym(g_lib, "vkCreateDevice");
+    /* A-074: optional (not part of g_lib_ok): subgroup size control
+     * extension discovery for the dispatch device. */
+    p_enum_ext = (vk_enumerate_device_extension_properties_fn)dlsym(
+        g_lib, "vkEnumerateDeviceExtensionProperties");
     p_destroy_device =
         (vk_destroy_device_fn)dlsym(g_lib, "vkDestroyDevice");
     p_get_queue = (vk_get_device_queue_fn)dlsym(g_lib, "vkGetDeviceQueue");
@@ -621,7 +643,11 @@ int aesir_vk_init(void) {
     app.applicationVersion = 1;
     app.pEngineName = "aesir";
     app.engineVersion = 1;
-    app.apiVersion = (1u << 22); /* VK_API_VERSION_1_0 */
+    /* A-074 migration: Vulkan 1.1, so SPIR-V 1.3 modules (subgroup
+     * arithmetic, compiled per-kernel at --target-env vulkan1.1 by
+     * scripts/build_shaders.py) are inside the declared level. All
+     * pre-A-074 kernels remain SPIR-V 1.0 modules, unchanged. */
+    app.apiVersion = (1u << 22) | (1u << 12); /* VK_API_VERSION_1_1 */
     AesirVkInstanceCreateInfo ici;
     memset(&ici, 0, sizeof(ici));
     ici.sType = 1; /* VK_STRUCTURE_TYPE_INSTANCE_CREATE_INFO */
@@ -708,7 +734,48 @@ int aesir_vk_init(void) {
     dci.sType = 3; /* VK_STRUCTURE_TYPE_DEVICE_CREATE_INFO */
     dci.queueCreateInfoCount = 1;
     dci.pQueueCreateInfos = &qci;
+    /* A-074: enable VK_EXT_subgroup_size_control when the device
+     * offers it, so subgroup-kernel pipelines may pin
+     * requiredSubgroupSize=32 (aesir_vk_require_subgroup32 below).
+     * Additive only: absent extension = pre-A-074 behaviour. */
+    AesirVkSubgroupSizeControlFeatures sg_feats;
+    memset(&sg_feats, 0, sizeof(sg_feats));
+    sg_feats.sType = 1000225002u; /* PHYSICAL_DEVICE_SUBGROUP_SIZE_CONTROL_FEATURES */
+    sg_feats.subgroupSizeControl = 1;
+    const char *sg_ext_name = "VK_EXT_subgroup_size_control";
+    g_subgroup_size_control = 0;
+    if (p_enum_ext != NULL) {
+        uint32_t ext_count = 0;
+        if (p_enum_ext(g_physical, NULL, &ext_count, NULL) == 0 &&
+            ext_count > 0 && ext_count <= 512) {
+            AesirVkExtensionPropertiesMirror exts[512];
+            memset(exts, 0, sizeof(exts));
+            if (p_enum_ext(g_physical, NULL, &ext_count, exts) == 0) {
+                for (uint32_t i = 0; i < ext_count; i++) {
+                    if (strcmp(exts[i].extensionName, sg_ext_name) == 0) {
+                        g_subgroup_size_control = 1;
+                        break;
+                    }
+                }
+            }
+        }
+    }
+    if (g_subgroup_size_control) {
+        dci.enabledExtensionCount = 1;
+        dci.ppEnabledExtensionNames = &sg_ext_name;
+        dci.pNext = &sg_feats;
+    }
     rc = p_create_device(g_physical, &dci, NULL, &g_device);
+    if (rc != 0 && g_subgroup_size_control) {
+        /* A-074 fallback: the extension enable is additive only -
+         * if the driver refuses the device with it, retry exactly
+         * as pre-A-074 (subgroup kernels stay correct, unpinned). */
+        g_subgroup_size_control = 0;
+        dci.enabledExtensionCount = 0;
+        dci.ppEnabledExtensionNames = NULL;
+        dci.pNext = NULL;
+        rc = p_create_device(g_physical, &dci, NULL, &g_device);
+    }
     if (rc != 0) {
         g_ctx_rc = (int)rc;
         return g_ctx_rc;
@@ -1303,6 +1370,30 @@ static int g_async_ready = 0;
 static int g_async_ts_ok = 0;
 static VkQueryPool_t g_async_qpool = NULL;
 #define AESIR_VK_ASYNC_RING 256
+typedef struct {
+    uint32_t sType;
+    const void *pNext;
+    uint32_t requiredSubgroupSize;
+} AesirVkRequiredSubgroupSizeCreateInfo;
+
+/* A-074: pin requiredSubgroupSize=32 on a compute pipeline's stage
+ * when the dispatch device enabled VK_EXT_subgroup_size_control.
+ * No-op otherwise (pipeline then runs at the driver default
+ * subgroup size; subgroup kernels are written size-agnostic via
+ * gl_SubgroupSize, so correctness never depends on the pin - the
+ * pin exists so the measured configuration is the filed one). */
+static void aesir_vk_require_subgroup32(
+    AesirVkComputePipelineCreateInfo *cpci,
+    AesirVkRequiredSubgroupSizeCreateInfo *storage) {
+    memset(storage, 0, sizeof(*storage));
+    if (!g_subgroup_size_control) {
+        return;
+    }
+    storage->sType = 1000225001u; /* PIPELINE_SHADER_STAGE_REQUIRED_SUBGROUP_SIZE_CREATE_INFO */
+    storage->requiredSubgroupSize = 32;
+    cpci->stage.pNext = storage;
+}
+
 typedef struct { VkFence_t fence; VkShaderModule_t shader; VkDescriptorSetLayout_t dsl; VkPipelineLayout_t pl; VkPipeline_t pipe; VkDescriptorPool_t dpool; VkCommandPool_t cpool; int state; int has_ts; uint64_t t0; uint64_t t1; } AesirVkAsyncSlot;
 static AesirVkAsyncSlot g_async_ring[AESIR_VK_ASYNC_RING];
 static int g_async_cur = -1;
@@ -2045,6 +2136,8 @@ int aesir_vk_buffer_attn_decode(uint64_t id_q, uint64_t id_k, uint64_t id_v, uin
     if (rc != 0) { out_rc = rc; goto done; }
     AesirVkComputePipelineCreateInfo cpci; memset(&cpci, 0, sizeof(cpci));
     cpci.sType = 29; cpci.stage.sType = 18; cpci.stage.stage = 0x20u; cpci.stage.module = shader; cpci.stage.pName = "main"; cpci.layout = pl; cpci.basePipelineIndex = -1;
+    AesirVkRequiredSubgroupSizeCreateInfo sg_req;
+    aesir_vk_require_subgroup32(&cpci, &sg_req); /* A-074 */
     rc = (int)d_create_cp(g_device, NULL, 1, &cpci, NULL, &pipe);
     if (rc != 0) { out_rc = rc; goto done; }
     AesirVkDescriptorPoolSize psz; memset(&psz, 0, sizeof(psz));
@@ -2159,6 +2252,8 @@ int aesir_vk_buffer_attn_decode_strided(uint64_t id_q, uint64_t id_k, uint64_t i
     if (rc != 0) { out_rc = rc; goto done; }
     AesirVkComputePipelineCreateInfo cpci; memset(&cpci, 0, sizeof(cpci));
     cpci.sType = 29; cpci.stage.sType = 18; cpci.stage.stage = 0x20u; cpci.stage.module = shader; cpci.stage.pName = "main"; cpci.layout = pl; cpci.basePipelineIndex = -1;
+    AesirVkRequiredSubgroupSizeCreateInfo sg_req;
+    aesir_vk_require_subgroup32(&cpci, &sg_req); /* A-074 */
     rc = (int)d_create_cp(g_device, NULL, 1, &cpci, NULL, &pipe);
     if (rc != 0) { out_rc = rc; goto done; }
     AesirVkDescriptorPoolSize psz; memset(&psz, 0, sizeof(psz));
@@ -3707,6 +3802,8 @@ int aesir_vk_buffer_attn_prefill_chunk(uint64_t id_q, uint64_t id_k, uint64_t id
     if (rc != 0) { out_rc = rc; goto done; }
     AesirVkComputePipelineCreateInfo cpci; memset(&cpci, 0, sizeof(cpci));
     cpci.sType = 29; cpci.stage.sType = 18; cpci.stage.stage = 0x20u; cpci.stage.module = shader; cpci.stage.pName = "main"; cpci.layout = pl; cpci.basePipelineIndex = -1;
+    AesirVkRequiredSubgroupSizeCreateInfo sg_req;
+    aesir_vk_require_subgroup32(&cpci, &sg_req); /* A-074 */
     rc = (int)d_create_cp(g_device, NULL, 1, &cpci, NULL, &pipe);
     if (rc != 0) { out_rc = rc; goto done; }
     AesirVkDescriptorPoolSize psz; memset(&psz, 0, sizeof(psz));
@@ -3742,7 +3839,9 @@ int aesir_vk_buffer_attn_prefill_chunk(uint64_t id_q, uint64_t id_k, uint64_t id
     d_cmd_bind_pipeline(cbuf, 1, pipe);
     d_cmd_bind_dsets(cbuf, 1, pl, 0, 1, &dset, 0, NULL);
     d_cmd_push(cbuf, pl, 0x20u, 0, 24, &push);
-    uint32_t groups = (tokens * num_heads + 31u) / 32u;
+    /* A-074: one workgroup per (token, head); the workgroup's 32
+     * lanes cooperate on that pair's scores (attention_prefill). */
+    uint32_t groups = tokens * num_heads;
     d_cmd_dispatch(cbuf, groups, 1, 1);
     rc = (int)d_end_cbuf(cbuf);
     if (rc != 0) { out_rc = rc; goto done; }

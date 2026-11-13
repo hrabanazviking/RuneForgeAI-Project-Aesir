@@ -37,6 +37,21 @@ GEN_DIR = SHADER_DIR / "generated"
 MANIFEST_PATH = SHADER_DIR / "SHADER_MANIFEST.json"
 HEADER_PATH = GEN_DIR / "aesir_shaders_spv.h"
 TARGET_ENV = "vulkan1.0"
+# A-074: per-kernel target-env overrides. Only kernels whose GLSL
+# needs a newer SPIR-V level opt in (subgroup arithmetic requires
+# SPIR-V 1.3, i.e. --target-env vulkan1.1); every other kernel stays
+# (softmax was tried and reverted in A-074: its subgroup reduction
+# measured noise-level through the per-dispatch pipeline path -
+# honest negative, numbers in hidden_files/A074_LEDGER.md);
+# at the default so its SPIR-V stays byte-identical to the banked
+# A-055 artefacts. The manifest records "target_env" per kernel
+# ONLY for overridden kernels, so unchanged kernels' manifest
+# records stay byte-identical too.
+TARGET_ENV_OVERRIDES = {
+    "attention_decode": "vulkan1.1",
+    "attention_decode_strided": "vulkan1.1",
+    "attention_prefill": "vulkan1.1",
+}
 SLICE = "A-055"
 
 
@@ -54,6 +69,7 @@ def tool_version(tool: str) -> str:
 def compile_kernel(glslang: str, spirv_val: str, src: Path, out_dir: Path):
     """Compile one kernel twice; return its manifest record."""
     name = src.stem
+    target_env = TARGET_ENV_OVERRIDES.get(name, TARGET_ENV)
     spv_paths = []
     for attempt in (1, 2):
         spv = out_dir / f"{name}.{attempt}.spv"
@@ -62,7 +78,7 @@ def compile_kernel(glslang: str, spirv_val: str, src: Path, out_dir: Path):
                 glslang,
                 "-V",
                 "--target-env",
-                TARGET_ENV,
+                target_env,
                 str(src),
                 "-o",
                 str(spv),
@@ -72,7 +88,7 @@ def compile_kernel(glslang: str, spirv_val: str, src: Path, out_dir: Path):
             check=True,
         )
         subprocess.run(
-            [spirv_val, "--target-env", TARGET_ENV, str(spv)],
+            [spirv_val, "--target-env", target_env, str(spv)],
             capture_output=True,
             text=True,
             check=True,
@@ -90,7 +106,11 @@ def compile_kernel(glslang: str, spirv_val: str, src: Path, out_dir: Path):
     ]
     if not words or words[0] != 0x07230203:
         raise SystemExit(f"FAIL: {name}: bad SPIR-V magic word")
+    record_extra = {}
+    if target_env != TARGET_ENV:
+        record_extra["target_env"] = target_env
     return {
+        **record_extra,
         "name": name,
         "source": f"aesir_engine/shaders/{src.name}",
         "source_sha256": sha256(src.read_bytes()),

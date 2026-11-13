@@ -68,8 +68,11 @@ def test_spirv_pipeline_hashes_recorded() raises:
     # the pipeline reproduces it byte-for-byte.
     if "b228710b1f464b3aa810a4d4cb73e67f2325fdf1eabaa2ceb6b2cf73309ce15b" not in manifest:
         raise Error("vec_add spv_sha256 differs from the A-015 pinned hash")
+    # A-074 re-recorded the attention_decode hash (subgroup
+    # cooperative scores, --target-env vulkan1.1); the other
+    # recorded hashes are unchanged kernels.
     var hashes = [
-        "53e44cae0bbf15d5381c2866b28b6493b266fb75c9a77e2a6bb47cd145c16981",
+        "93db734dfb7a76ba4ae68b8b08b18c6812482a0be8fef61cd7d72b9a4875b6cb",
         "804583081f7299d73d96d78ce565a276f51f64db815e6756d8512860d33170ca",
         "658061666ecb1c85a9b8d2d5d7a4804ad0c47eb2c6648b92d251fad26c6e907b",
         "b23cb30bc450a41d97e447c608063a7498b5df218ac95c4702a54c1187d3c7ae",

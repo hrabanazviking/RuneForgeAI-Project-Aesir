@@ -56,6 +56,10 @@ typedef VkResult (*vk_create_device_fn)(VkPhysicalDevice,
                                         VkDevice *);
 typedef void (*vk_destroy_device_fn)(VkDevice, const VkAllocationCallbacks *);
 typedef void (*vk_get_device_queue_fn)(VkDevice, uint32_t, uint32_t, VkQueue *);
+typedef VkResult (*vk_enumerate_device_extension_properties_fn)(
+    VkPhysicalDevice, const char *, uint32_t *, VkExtensionProperties *);
+typedef void (*vk_get_physical_device_properties2_fn)(
+    VkPhysicalDevice, VkPhysicalDeviceProperties2 *);
 typedef VkResult (*vk_create_command_pool_fn)(VkDevice,
                                               const VkCommandPoolCreateInfo *,
                                               const VkAllocationCallbacks *,
@@ -76,6 +80,9 @@ static vk_get_device_queue_fn g_get_queue = NULL;
 static vk_create_command_pool_fn g_create_pool = NULL;
 static vk_destroy_command_pool_fn g_destroy_pool = NULL;
 static vk_device_wait_idle_fn g_wait_idle = NULL;
+static vk_enumerate_device_extension_properties_fn g_enum_ext = NULL;
+static vk_get_physical_device_properties2_fn g_props2 = NULL;
+static int g_subgroup_size_control = 0;
 static int g_tried = 0;
 static int g_ok = 0;
 
@@ -116,6 +123,17 @@ static void aesir_vk_init(void) {
     g_destroy_pool = (vk_destroy_command_pool_fn)dlsym(
         g_handle, "vkDestroyCommandPool");
     g_wait_idle = (vk_device_wait_idle_fn)dlsym(g_handle, "vkDeviceWaitIdle");
+    /* A-074: optional entry points (not part of g_ok): device
+     * extension enumeration for VK_EXT_subgroup_size_control and
+     * the Vulkan 1.1 core Properties2 query for subgroup facts. */
+    g_enum_ext = (vk_enumerate_device_extension_properties_fn)dlsym(
+        g_handle, "vkEnumerateDeviceExtensionProperties");
+    g_props2 = (vk_get_physical_device_properties2_fn)dlsym(
+        g_handle, "vkGetPhysicalDeviceProperties2");
+    if (g_props2 == NULL) {
+        g_props2 = (vk_get_physical_device_properties2_fn)dlsym(
+            g_handle, "vkGetPhysicalDeviceProperties2KHR");
+    }
     g_ok = (g_create_instance != NULL && g_destroy_instance != NULL &&
             g_enumerate != NULL && g_props != NULL && g_qf_props != NULL &&
             g_create_device != NULL && g_destroy_device != NULL &&
@@ -164,7 +182,12 @@ int aesir_vk_create_instance(uint64_t *out) {
     app.applicationVersion = VK_MAKE_VERSION(0, 1, 0);
     app.pEngineName = "Aesir";
     app.engineVersion = VK_MAKE_VERSION(0, 1, 0);
-    app.apiVersion = VK_API_VERSION_1_0;
+    /* A-074 migration: the instance is created at Vulkan 1.1 so
+     * SPIR-V 1.3 modules (subgroup arithmetic, compiled per-kernel
+     * at --target-env vulkan1.1 by scripts/build_shaders.py) are
+     * inside the declared level. All pre-A-074 kernels remain
+     * SPIR-V 1.0 modules and run unchanged under 1.1. */
+    app.apiVersion = VK_API_VERSION_1_1;
     VkInstanceCreateInfo ci;
     memset(&ci, 0, sizeof(ci));
     ci.sType = VK_STRUCTURE_TYPE_INSTANCE_CREATE_INFO;
@@ -265,9 +288,54 @@ int aesir_vk_create_device(uint64_t phys, int32_t qf, uint64_t *out) {
     ci.sType = VK_STRUCTURE_TYPE_DEVICE_CREATE_INFO;
     ci.queueCreateInfoCount = 1;
     ci.pQueueCreateInfos = &qci;
+    /* A-074: enable VK_EXT_subgroup_size_control when the device
+     * offers it, so pipelines may pin requiredSubgroupSize (the
+     * buffer shim's dispatch device enables it too (A-074, in
+     * vulkan_buffer_shim.c, with the requiredSubgroupSize pin).
+     * Additive only:
+     * no existing behaviour changes when it is absent. */
+    VkPhysicalDeviceSubgroupSizeControlFeatures sg_features;
+    memset(&sg_features, 0, sizeof(sg_features));
+    sg_features.sType =
+        VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SUBGROUP_SIZE_CONTROL_FEATURES;
+    sg_features.subgroupSizeControl = VK_TRUE;
+    const char *sg_ext_name = VK_EXT_SUBGROUP_SIZE_CONTROL_EXTENSION_NAME;
+    g_subgroup_size_control = 0;
+    if (g_enum_ext != NULL) {
+        uint32_t ext_count = 0;
+        if (g_enum_ext((VkPhysicalDevice)(uintptr_t)phys, NULL,
+                       &ext_count, NULL) == VK_SUCCESS &&
+            ext_count > 0 && ext_count <= 1024) {
+            VkExtensionProperties exts[1024];
+            if (g_enum_ext((VkPhysicalDevice)(uintptr_t)phys, NULL,
+                           &ext_count, exts) == VK_SUCCESS) {
+                for (uint32_t i = 0; i < ext_count; i++) {
+                    if (strcmp(exts[i].extensionName, sg_ext_name) == 0) {
+                        g_subgroup_size_control = 1;
+                        break;
+                    }
+                }
+            }
+        }
+    }
+    if (g_subgroup_size_control) {
+        ci.enabledExtensionCount = 1;
+        ci.ppEnabledExtensionNames = &sg_ext_name;
+        ci.pNext = &sg_features;
+    }
     VkDevice dev = NULL;
     VkResult rc = g_create_device((VkPhysicalDevice)(uintptr_t)phys, &ci,
                                   NULL, &dev);
+    if (rc != VK_SUCCESS && g_subgroup_size_control) {
+        /* A-074 fallback: additive only - retry exactly as
+         * pre-A-074 if the driver refuses the extension. */
+        g_subgroup_size_control = 0;
+        ci.enabledExtensionCount = 0;
+        ci.ppEnabledExtensionNames = NULL;
+        ci.pNext = NULL;
+        rc = g_create_device((VkPhysicalDevice)(uintptr_t)phys, &ci,
+                             NULL, &dev);
+    }
     if (rc == VK_SUCCESS) {
         *out = (uint64_t)(uintptr_t)dev;
     }
@@ -333,6 +401,42 @@ void aesir_vk_destroy_device(uint64_t dev) {
         return;
     }
     g_destroy_device((VkDevice)(uintptr_t)dev, NULL);
+}
+
+/* A-074: subgroup facts for a physical device, via the Vulkan 1.1
+ * core Properties2 chain (SubgroupProperties +
+ * SubgroupSizeControlProperties). Any out pointer may be NULL.
+ * Returns VK_SUCCESS, or AESIR_VK_ABSENT when Properties2 did not
+ * resolve. Values are the DRIVER's for this device: on RADV
+ * STRIX_HALO size=64, min=32, max=64 (measured, A-073/A-074). */
+int aesir_vk_subgroup_info(uint64_t dev, uint32_t *size_out,
+                           uint32_t *min_out, uint32_t *max_out,
+                           uint32_t *stages_out, uint32_t *ops_out,
+                           int32_t *size_control_out) {
+    aesir_vk_init();
+    if (!g_ok || g_props2 == NULL) {
+        return AESIR_VK_ABSENT;
+    }
+    VkPhysicalDeviceSubgroupSizeControlProperties sg_size;
+    memset(&sg_size, 0, sizeof(sg_size));
+    sg_size.sType =
+        VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SUBGROUP_SIZE_CONTROL_PROPERTIES;
+    VkPhysicalDeviceSubgroupProperties sg;
+    memset(&sg, 0, sizeof(sg));
+    sg.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SUBGROUP_PROPERTIES;
+    sg.pNext = &sg_size;
+    VkPhysicalDeviceProperties2 props2;
+    memset(&props2, 0, sizeof(props2));
+    props2.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_PROPERTIES_2;
+    props2.pNext = &sg;
+    g_props2((VkPhysicalDevice)(uintptr_t)dev, &props2);
+    if (size_out) { *size_out = sg.subgroupSize; }
+    if (min_out) { *min_out = sg_size.minSubgroupSize; }
+    if (max_out) { *max_out = sg_size.maxSubgroupSize; }
+    if (stages_out) { *stages_out = (uint32_t)sg.supportedStages; }
+    if (ops_out) { *ops_out = (uint32_t)sg.supportedOperations; }
+    if (size_control_out) { *size_control_out = g_subgroup_size_control; }
+    return VK_SUCCESS;
 }
 
 void aesir_vk_destroy_instance(uint64_t inst) {

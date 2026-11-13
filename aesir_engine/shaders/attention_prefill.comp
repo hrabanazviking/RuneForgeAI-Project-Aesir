@@ -1,4 +1,6 @@
 #version 450
+#extension GL_KHR_shader_subgroup_basic : require
+#extension GL_KHR_shader_subgroup_arithmetic : require
 // A-069: chunk causal attention for chunked prefill. For each
 // query token t of the chunk (global position
 // p = chunk_start + t), attends over cache positions
@@ -14,8 +16,19 @@
 // O(seq^2). The accumulation order over positions is the
 // same increasing order an unchunked pass uses, so chunked
 // and unchunked outputs agree to accumulation order.
-// One invocation per (token, query head); the invocation
-// loops positions serially and writes all head_dim outputs.
+// A-074: one WORKGROUP per (token, query head) instead of one
+// invocation: the 32 lanes split every score dot product
+// (strided partials + subgroupAdd, which returns the full score
+// to every lane) and each lane accumulates the V rows for the
+// head_dim lanes it owns (lane and lane+32). The position-loop
+// order, max-subtraction and scaling are the A-069 math; only
+// the score accumulation order changes (inside the A-069 filed
+// parity bound). The cooperative path requires subgroup size
+// 32 (pinned by the host via requiredSubgroupSize when
+// VK_EXT_subgroup_size_control is offered); at any other
+// subgroup size lane 0 runs the original serial body and the
+// other lanes idle, so output is correct regardless.
+// Compiled per-kernel at --target-env vulkan1.1.
 layout(local_size_x = 32, local_size_y = 1, local_size_z = 1) in;
 layout(std430, set = 0, binding = 0) readonly buffer QBuf { float q[]; };
 layout(std430, set = 0, binding = 1) readonly buffer KBuf { float k[]; };
@@ -30,14 +43,54 @@ layout(push_constant) uniform Push {
     uint kv_per_query;
 } pc;
 void main() {
-    uint idx = gl_GlobalInvocationID.x;
-    if (idx >= pc.tokens * pc.num_heads) { return; }
-    uint head = idx % pc.num_heads;
-    uint t = idx / pc.num_heads;
+    uint lane = gl_LocalInvocationID.x;
+    uint th = gl_WorkGroupID.x;
+    uint head = th % pc.num_heads;
+    uint t = th / pc.num_heads;
+    if (t >= pc.tokens) { return; }
     uint kv_head = head / pc.kv_per_query;
     uint p = pc.chunk_start + t;
     uint qbase = (t * pc.num_heads + head) * pc.head_dim;
     float scale = 1.0 / sqrt(float(pc.head_dim));
+    if (gl_SubgroupSize == 32u) {
+        float row_max = -1.0 / 0.0;
+        for (uint s = 0; s <= p; s++) {
+            uint kbase = (kv_head * pc.max_len + s) * pc.head_dim;
+            float part = 0.0;
+            for (uint d = lane; d < pc.head_dim; d += 32u) {
+                part += q[qbase + d] * k[kbase + d];
+            }
+            float score = subgroupAdd(part);
+            row_max = max(row_max, score * scale);
+        }
+        float denom = 0.0;
+        float acc0 = 0.0;
+        float acc1 = 0.0;
+        for (uint s = 0; s <= p; s++) {
+            uint kbase = (kv_head * pc.max_len + s) * pc.head_dim;
+            float part = 0.0;
+            for (uint d = lane; d < pc.head_dim; d += 32u) {
+                part += q[qbase + d] * k[kbase + d];
+            }
+            float score = subgroupAdd(part);
+            float w = exp(score * scale - row_max);
+            denom += w;
+            if (lane < pc.head_dim) {
+                acc0 += w * v[kbase + lane];
+            }
+            if (lane + 32u < pc.head_dim) {
+                acc1 += w * v[kbase + lane + 32u];
+            }
+        }
+        if (lane < pc.head_dim) {
+            o[qbase + lane] = acc0 / denom;
+        }
+        if (lane + 32u < pc.head_dim) {
+            o[qbase + lane + 32u] = acc1 / denom;
+        }
+        return;
+    }
+    if (lane != 0u) { return; }
     float row_max = -1.0 / 0.0;
     for (uint s = 0; s <= p; s++) {
         uint kbase = (kv_head * pc.max_len + s) * pc.head_dim;

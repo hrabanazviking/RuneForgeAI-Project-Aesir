@@ -1,4 +1,6 @@
 #version 450
+#extension GL_KHR_shader_subgroup_basic : require
+#extension GL_KHR_shader_subgroup_arithmetic : require
 // A-055 foundation kernel (Wave 7, for A-062): single-query decode
 // attention over a unified KV cache with grouped-query mapping.
 // One invocation per (query head, head_dim lane): the query head h
@@ -6,6 +8,10 @@
 // numerically careful max-subtraction pattern of softmax.comp,
 // scaled by 1/sqrt(head_dim). Push constants carry every shape so
 // adversarial GQA ratios stay a caller's choice, not a recompile.
+// A-074: scores are computed cooperatively by each subgroup
+// (subgroupAdd over strided head_dim partials) when head_dim is a
+// multiple of the subgroup size; see dot_coop / the coop branch in
+// main. Compiled per-kernel at --target-env vulkan1.1.
 layout(local_size_x = 64, local_size_y = 1, local_size_z = 1) in;
 layout(std430, set = 0, binding = 0) readonly buffer QBuf { float q[]; };
 layout(std430, set = 0, binding = 1) readonly buffer KBuf { float k[]; };
@@ -17,30 +23,52 @@ layout(push_constant) uniform Push {
     uint num_heads;
     uint kv_per_query;
 } pc;
+float dot_serial(uint qbase, uint kbase) {
+    float s = 0.0;
+    for (uint d = 0; d < pc.head_dim; d++) {
+        s += q[qbase + d] * k[kbase + d];
+    }
+    return s;
+}
+float dot_coop(uint qbase, uint kbase) {
+    float s = 0.0;
+    for (uint d = gl_SubgroupInvocationID; d < pc.head_dim;
+         d += gl_SubgroupSize) {
+        s += q[qbase + d] * k[kbase + d];
+    }
+    return subgroupAdd(s);
+}
 void main() {
     uint idx = gl_GlobalInvocationID.x;
     if (idx >= pc.num_heads * pc.head_dim) { return; }
     uint head = idx / pc.head_dim;
     uint lane = idx % pc.head_dim;
     uint kv_head = head / pc.kv_per_query;
+    uint qbase = head * pc.head_dim;
     float scale = 1.0 / sqrt(float(pc.head_dim));
+    // A-074: cooperative score path. Invocations are head-major, so
+    // when head_dim is a multiple of the subgroup size a subgroup
+    // never straddles a head boundary and subgroupAdd returns the
+    // full dot product to every lane in it. The score accumulation
+    // ORDER changes (strided partials + subgroup tree) inside the
+    // origin slices' filed parity bounds. Any other head_dim takes
+    // the original serial path, byte-for-byte the pre-A-074 math.
+    bool coop = (pc.head_dim % gl_SubgroupSize) == 0u;
     float row_max = -1.0 / 0.0;
     for (uint t = 0; t < pc.kv_len; t++) {
         uint kbase = (kv_head * pc.kv_len + t) * pc.head_dim;
-        float score = 0.0;
-        for (uint d = 0; d < pc.head_dim; d++) {
-            score += q[head * pc.head_dim + d] * k[kbase + d];
-        }
+        float score;
+        if (coop) { score = dot_coop(qbase, kbase); }
+        else { score = dot_serial(qbase, kbase); }
         row_max = max(row_max, score * scale);
     }
     float denom = 0.0;
     float acc = 0.0;
     for (uint t = 0; t < pc.kv_len; t++) {
         uint kbase = (kv_head * pc.kv_len + t) * pc.head_dim;
-        float score = 0.0;
-        for (uint d = 0; d < pc.head_dim; d++) {
-            score += q[head * pc.head_dim + d] * k[kbase + d];
-        }
+        float score;
+        if (coop) { score = dot_coop(qbase, kbase); }
+        else { score = dot_serial(qbase, kbase); }
         float w = exp(score * scale - row_max);
         denom += w;
         acc += w * v[kbase + lane];

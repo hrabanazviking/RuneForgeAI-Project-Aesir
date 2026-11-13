@@ -8,31 +8,34 @@
   "kernel_count": 25,
   "kernels": [
     {
+      "target_env": "vulkan1.1",
       "name": "attention_decode",
       "source": "aesir_engine/shaders/attention_decode.comp",
-      "source_sha256": "8479a121bc481eff1189d77def4e3ea3d925956e11850e648893d9b865cc4f57",
-      "spv_sha256": "53e44cae0bbf15d5381c2866b28b6493b266fb75c9a77e2a6bb47cd145c16981",
-      "spv_bytes": 5348,
-      "spv_words": 1337,
-      "spirv_version_word": 65536
+      "source_sha256": "5af4325aa2fb34fc2148481ee1118399d90ee1c66559b78cc03f48c421675846",
+      "spv_sha256": "93db734dfb7a76ba4ae68b8b08b18c6812482a0be8fef61cd7d72b9a4875b6cb",
+      "spv_bytes": 7000,
+      "spv_words": 1750,
+      "spirv_version_word": 66304
     },
     {
+      "target_env": "vulkan1.1",
       "name": "attention_decode_strided",
       "source": "aesir_engine/shaders/attention_decode_strided.comp",
-      "source_sha256": "41f659f9ea611815e32b47317f2e797fa2407bc846bd6c797272dbda394b4520",
-      "spv_sha256": "e03262acbb2e3cb4548a13056ba05234ad65f506a6474f437f9365d172f7580f",
-      "spv_bytes": 5408,
-      "spv_words": 1352,
-      "spirv_version_word": 65536
+      "source_sha256": "b4eb02b166813b200edba049e4d3ad013a032b77f0b96240a40dbcbd86812bdf",
+      "spv_sha256": "1c67e94331a42853e3c008eef74f19f7d290a976d1d702ea52f699f410f41d9c",
+      "spv_bytes": 7060,
+      "spv_words": 1765,
+      "spirv_version_word": 66304
     },
     {
+      "target_env": "vulkan1.1",
       "name": "attention_prefill",
       "source": "aesir_engine/shaders/attention_prefill.comp",
-      "source_sha256": "a65e4eca1543bb9e4d6081277f1f16db030b88bc962f48ae18f2db2f005e7084",
-      "spv_sha256": "7c7a9432278a62d601e8719fc9510f8a84ee1b661731e4bee46625aa19a9cf82",
-      "spv_bytes": 6640,
-      "spv_words": 1660,
-      "spirv_version_word": 65536
+      "source_sha256": "1a91c5b8bee312f070683989ce390cbdb9e689ecb91529f48797c90eb05fc815",
+      "spv_sha256": "b0e30a35007b468a15f2037ac62003db722cf37fdd8760ea7c132f5b4ef649ea",
+      "spv_bytes": 11016,
+      "spv_words": 2754,
+      "spirv_version_word": 66304
     },
     {
       "name": "elementwise",
