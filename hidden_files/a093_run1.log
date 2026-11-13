@@ -1,0 +1,18 @@
+S0 device=0x60adb2d7af20
+S0 bo=0x60adb2d79ff0
+XRT build version: 2.25.00
+Build hash: 
+Build hash date: 
+Git branch: 
+PID: 4155706
+UID: 0
+[Fri Nov 13 17:47:06 2026 GMT]
+HOST: purpleraider
+EXE: /tmp/a093_probe
+[XRT] ERROR: DRM_IOCTL_PRIME_HANDLE_TO_FD IOCTL failed (err=-95): Operation not supported
+S2 export_fd=-1 errno=95 syncTO=0
+S2 RESULT DMABUF_FAIL fwd=0 rev=0
+S8 size=65536 boread_med_s=0.000000 boread_MBps=129937.9 mapcpy_med_s=0.000000 mapcpy_MBps=127288.5 zerocopy_map_read=direct(no copy)
+S8 size=1048576 boread_med_s=0.000013 boread_MBps=75557.3 mapcpy_med_s=0.000013 mapcpy_MBps=75620.0 zerocopy_map_read=direct(no copy)
+S8 size=16777216 boread_med_s=0.000453 boread_MBps=35321.1 mapcpy_med_s=0.000450 mapcpy_MBps=35524.6 zerocopy_map_read=direct(no copy)
+S2 FINAL FAIL

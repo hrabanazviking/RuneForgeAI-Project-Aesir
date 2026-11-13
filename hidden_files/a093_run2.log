@@ -1,0 +1,25 @@
+S0 device=0x56f3c5f9ff20
+S0 bo=0x56f3c5f9eff0
+XRT build version: 2.25.00
+Build hash: 
+Build hash date: 
+Git branch: 
+PID: 4156019
+UID: 0
+[Fri Nov 13 17:47:44 2026 GMT]
+HOST: purpleraider
+EXE: /tmp/a093_probe
+[XRT] ERROR: DRM_IOCTL_PRIME_HANDLE_TO_FD IOCTL failed (err=-95): Operation not supported
+S1 type1_export_fd=-1 (type1 export unsupported on amdxdna: PRIME_HANDLE_TO_FD EOPNOTSUPP, run1 log)
+S2 export_fd=4 errno=95 syncTO=0
+S2 fd_mmap=0x7ec718e41000 errno=95
+S2 fd_read mismatches=0
+S2 fd_write->syncFROM(0)->bomap mismatches=0
+S2b import_bo=0x56f3c5fa1680 dev2=0x56f3c5faaac0
+S2b import syncFROM=0 mismatches=0
+S2b RESULT IMPORT_BYTE_EXACT
+S2 RESULT DMABUF_BYTE_EXACT fwd=1 rev=1
+S8 size=65536 boread_med_s=0.000001 boread_MBps=70861.2 mapcpy_med_s=0.000001 mapcpy_MBps=73443.4 zerocopy_map_read=direct(no copy)
+S8 size=1048576 boread_med_s=0.000014 boread_MBps=73502.3 mapcpy_med_s=0.000014 mapcpy_MBps=73719.2 zerocopy_map_read=direct(no copy)
+S8 size=16777216 boread_med_s=0.000519 boread_MBps=30807.7 mapcpy_med_s=0.000475 mapcpy_MBps=33712.1 zerocopy_map_read=direct(no copy)
+S2 FINAL PASS
