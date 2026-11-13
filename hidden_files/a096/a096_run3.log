@@ -1,0 +1,12 @@
+insts_bytes=1304 ninstr_words=326 gpu_reps=64
+npu_device_name=NPU Strix Halo
+xclbin_uuid=184c0a55-97ee-d107-bad0-060c59a9a278
+verify ert_cmd_state=4 (COMPLETED=4)
+npu_verify elements=131072 mismatches=0 sentinel_remaining=0 checksum=2848816214485251074
+gpu_candidate[0]=AMD Radeon 8060S Graphics (RADV STRIX_HALO) type=1
+gpu_candidate[1]=llvmpipe (LLVM 22.1.8, 256 bits) type=4
+gpu_device_name=AMD Radeon 8060S Graphics (RADV STRIX_HALO)
+gpu_verify dim=1024 max_abs_err=0.000035
+TIMING npu_alone_us median=2237.2 gpu_alone_us median=4056.7 serial_us median=7915.5 overlap_us median=4096.4 reps=21
+OVERLAP benefit_us=3819.0 hidden_pct_of_shorter=170.7 serial_sum_check=6293.9
+RESULT PASS overlap benefit measured

@@ -1,0 +1,16 @@
+#version 450
+layout(local_size_x=256) in;
+layout(std430, binding=0) readonly buffer Wb { float w[]; } bw;
+layout(std430, binding=1) readonly buffer Xb { float x[]; } bx;
+layout(std430, binding=2) buffer Yb { float y[]; } by;
+layout(push_constant) uniform PC { uint reps; uint dim; } pc;
+void main(){
+  uint row = gl_GlobalInvocationID.x;
+  if (row >= pc.dim) return;
+  for (uint r = 0; r < pc.reps; r++) {
+    float acc = 0.0;
+    uint base = row * pc.dim;
+    for (uint k = 0; k < pc.dim; k++) acc += bw.w[base + k] * bx.x[k];
+    by.y[row] = acc;
+  }
+}

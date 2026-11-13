@@ -1,28 +1,32 @@
-# CAMPAIGN_STATE - team-25 (Aesir Z13 forge)
+# CAMPAIGN_STATE - team-26 (Aesir Z13 forge)
 
-- Team: team-25 (1 lead + 6 Mythic Engineering sub-agents)
-- Worktree: /home/volmarr/aesir-team-25, branch yrsa/aesir-team-25
-- Base: e20ab964 (banked main, 92 of 216, A-092 closure)
-- Assigned slice: A-095 - NPU offload #1. The best A-094 candidate implemented behind the registry. Acceptance: oracle parity + end-to-end effect measured (positive, neutral-with-value, or removed with numbers).
-- Context: Wave 11 (NPU first light). DEPENDENCY: this slice implements the best candidate from A-094 (team-24), which is building in parallel - until A-094's candidate table exists, do preparatory work only (registry integration shape, probe scaffolding reusing the banked A-092 stand-up recipe in hidden_files/A092_LEDGER.md at the seat; aesir_engine/npu_matmul_probe.cpp is the proven XRT host-runner pattern; toolchain in team-22's scratch/a092, same machine). Do NOT pick a candidate yourself before A-094 files its table; if A-094 has not landed when your prep is done, record the wait in this file and keep the prep review-ready. A-092 proved one real matmul on the XDNA 2 NPU via IRON/mlir-aie + system XRT 2.25 (sudo, memlock caveat - limit never changed). Coordinate sudo NPU tool use with teams 23/24 so probes do not collide. Parity is judged under raw-oracle discipline (teacher-forcing rank + logit gap on RAW prompts; CPU engine vs CPU comparator only); an honest neutral/removed verdict with numbers is a completed outcome per the acceptance.
-- Status: MUSTERED 2026-11-13 by the keeper (expansion to 27 teams). Build and commit on the team branch only; the keeper banks at the seat in roadmap order after A-094. Never merge or push from this worktree. Never touch README.md. No Docker, ever.
-- Suite baseline on this base: 607 passed / 1 failed / 2 skipped / 610 total (seat gate A-092); sole failure pre-existing gguf.tensor_directory_interface (J-022 drift); skips the 2 pre-declared. Known intermittents (pre-existing, proven at base): resilience.state_vault_rejects_growth, gpu.amd_hip_stream_async_round_trip and gguf.weight_residency_gpu_visibility - a suite showing only those plus J-022 is green-to-baseline; re-run once before treating any as new.
-- Machine note: defer full-suite runs while heavy shared work is live, and never run a suite concurrently with a seat gate.
-- Raw-oracle discipline for all correctness work; accelerator-visible is not accelerator-run - every accelerator claim needs device-execution evidence (dispatch counters / device identity on the real XDNA 2 / gfx1151).
+- Team: team-26 (1 lead + 6 Mythic Engineering sub-agents)
+- Worktree: /home/volmarr/aesir-team-26, branch yrsa/aesir-team-26
+- Base: ee1aa0a3 (banked main, 94 of 216, A-094 closure)
+- Assigned slice: A-096 - NPU prefill-assist experiment. NPU computes a prefill chunk while the GPU decodes the previous token. Acceptance: overlap benefit measured on a mixed workload - or an honest negative verdict filed.
+- Context: Wave 11 (NPU first light). Builds on banked A-092 (real NPU matmul proven), A-093 (NPU memory sharing), A-094 (candidate table: prefill projection GEMM M >= 64 is the FIT candidate; dispatch floor ~93 us warm) and A-095 (team-25, implementation in flight - coordinate; if A-095 has not landed, do preparatory/measurement-scaffolding work and file the dependency honestly). NPU tools run via sudo (RLIMIT_MEMLOCK wall from A-007; never change that limit yourself - it is Volmarr to rule on). Coordinate sudo NPU use with teams 25/27 so probes do not collide; never run a suite concurrently with a seat gate.
+- Status: MUSTERED 2026-11-13 by the keeper (expansion to 27 teams COMPLETE with this seat). Build and commit on the team branch only; the keeper banks at the seat in roadmap order after A-095. Never merge or push from this worktree. Never touch README.md. No Docker, ever.
+- Suite baseline on this base: 607 passed / 1 failed / 2 skipped / 610 total (seat gate A-094); sole failure pre-existing gguf.tensor_directory_interface (J-022 drift); skips the 2 pre-declared. Known intermittents (pre-existing): resilience.state_vault_rejects_growth, gpu.amd_hip_stream_async_round_trip, gguf.weight_residency_gpu_visibility - a suite showing only those plus J-022 is green-to-baseline; re-run once before treating any as new.
+- Raw-oracle discipline for all correctness work; accelerator-visible is not accelerator-run - every accelerator claim needs device-execution evidence on the real XDNA 2 / gfx1151.
 
-## Team-25 lead note 2026-11-13 ~12:50 EST - PREP DONE, WAITING ON A-094
-- 6 Mythic Engineering sub-agents mustered (no rate limit). Prep complete and review-ready: hidden_files/A095_PREP.md (5341 B, sha256 0fe58487aa48792d39a9b5b5883f89c41c9333e165c0f0428ce8dc79ec26e817) - registry integration shape verified in-tree (NPUBackendType in core/mimir_well.mojo has no AMD XDNA discriminant yet; config.mojo target_npu has no xDNA value yet; acceleration_backend already allows npu; AesirEngine sole config owner), probe scaffolding plan reusing banked A-092 recipe (npu_matmul_probe.cpp pattern, toolchain team-22 scratch/a092), raw-oracle parity + end-to-end measurement plan, suite gate plan.
-- A-094 (team-24) NOT landed at last check: worktree still at base e20ab964, no commit, no outcome in its CAMPAIGN_STATE.md, no A094 ledger. It IS actively working: hidden_files/a094/npu_timing_probe.cpp + built binary timestamped 12:45 EST, hostbuild.log in progress. No candidate picked by this team, per the brief.
-- No NPU run by team-25 this tick (nothing to implement yet; avoids colliding with team-24 timing probes). No suite run (no code changed; would only re-measure baseline). No commit: the slice is NOT complete - implementation, parity and end-to-end measurement all await the A-094 candidate table.
-- NEXT: when team-24 files its candidate table (CAMPAIGN_STATE outcome + A094 ledger), implement the best candidate behind the registry per A095_PREP.md sections 1-4, file A095_LEDGER.md, append outcome here, commit A-095: NPU offload #1.
-
-## Keeper note 2026-11-13 ~14:00 EST - A-095 implementation RESTARTED
-- The implementation lead spawned at ~13:15 EST was CANCELLED before finishing (no commit). On-disk WIP from that lead: hidden_files/a095/ (a095_run_64.log, a095_run_p128.log, cpu_compare binary + logs) and spikes/a095_measure/cpu_compare.cpp - measurement work started, nothing committed. A-093 and A-094 are now BANKED (94 of 216, ee1aa0a3), so the A-094 candidate table is banked law: prefill projection GEMM M >= 64. A fresh implementation lead is spawned this tick to continue from the on-disk WIP, reset the worktree onto banked ee1aa0a3 first (the prep files ride along untracked), and complete the slice.
-
-## Outcome (team-25, 2026-11-13) - A-095 DONE on team branch, awaiting keeper banking
-- Restarted per keeper note: branch reset onto banked main ee1aa0a3 (94 of 216; A-093/A-094 banked); prep + cancelled lead's WIP preserved and continued. 6 Mythic Engineering sub-agents mustered (no rate limit). Base line above (e20ab964) superseded by ee1aa0a3.
-- Implemented the A-094 winner behind the registry: NPUBackendType.AMD_XDNA = 7 (prep said 6; 6 is INTEL_NPU in the banked tree - corrected, recorded in the ledger), config target_npu accepts "xdna", new core/npu_offload.mojo dispatch (band M>=64 AND >=~0.1M MACs; flag = facade enable_npu, default OFF; named fallback reasons + dispatch log line), XRT host runner aesir_engine/npu_prefill_offload.cpp with resident hw context + BOs.
-- Parity exact on the real XDNA 2: 64^3 checksum 16383547698108786409 (banked A-092/A-094 value reproduced), 128x1024x1024 checksum 2848816214485251074 (cancelled lead's WIP reproduced); 0 mismatches, 0 sentinels; ert_cmd_state=4 (COMPLETED) throughout; 150 consecutive exact dispatches end-to-end at p128. Mojo dispatch check 6/6 PASS.
-- End-to-end verdict NEUTRAL-WITH-VALUE (acceptance-complete): NPU 2245.3 us/dispatch vs optimized-CPU 617.4 us/dispatch over 128 dispatches at 128x1024x1024 (single-tile ~3.6x slower than the 32-thread CPU GEMM, 116x vs the naive oracle); Q4->i16 boundary priced at 665-674 us per 1,048,576 weight elements, once per layer load. Flag OFF = zero production behavior change. Full numbers in hidden_files/A095_LEDGER.md.
-- Suite (E-MASTER, solo, detached; ps-verified no seat gate): 607 passed / 1 failed / 2 skipped / 610 total - baseline-EXACT; sole failure pre-existing gguf.tensor_directory_interface (J-022). +0 run_all cases, pin stays 610.
-- Committed on the team branch only, subject "A-095: NPU offload #1"; never merged or pushed - the keeper banks at the seat in roadmap order.
+## Team-26 outcome 2026-11-13 - A-096 DONE (POSITIVE, measured)
+- 6 Mythic Engineering sub-agents mustered, no rate limit.
+- Verdict POSITIVE: NPU prefill (128x1024x1024, A-094 FIT
+  shape) overlapped with GPU decode GEMV (Vulkan, Radeon
+  8060S) -- median benefit 4,198/4,289/3,819 us over serial
+  across 3 runs x 21 reps; overlap wall 4,000-4,111 us vs
+  serial 7,916-8,310 us. Doc: docs/bench/
+  A096_NPU_PREFILL_ASSIST.md; ledger hidden_files/
+  A096_LEDGER.md; logs hidden_files/a096/a096_run{1,2,3}.log.
+- Correctness: NPU exact vs CPU oracle (131,072 el, checksum
+  2848816214485251074 == team-25 A-095 p128); GPU GEMV max
+  err 0.000035. Device evidence in every run log.
+- A-095 dependency filed honestly: NOT landed at run time
+  (team-25 on 92-base, prep+measurements in flight); no
+  duplication -- concurrency premise measured on banked
+  A-092/A-094 artifacts; re-check end-to-end when A-095 banks.
+- Suite E-MASTER: 607 passed / 1 failed / 2 skipped / 610 =
+  baseline exactly; sole failure pre-existing J-022
+  gguf.tensor_directory_interface. Log hidden_files/a096/
+  a096_suite.log. Committed on team branch only; keeper banks
+  after A-095 in roadmap order.
