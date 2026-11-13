@@ -463,6 +463,13 @@ from tests.test_hip_attn_norms_a084 import (
     test_hip_attn_norms_rejection,
     test_hip_attn_norms_dispatch_evidence,
 )
+from tests.test_rocm_repro_a087 import (
+    test_rocm_repro_pin_table,
+    test_rocm_repro_convergence_accepts,
+    test_rocm_repro_convergence_rejects,
+    test_rocm_repro_script_contract,
+    test_rocm_repro_script_sync,
+)
 from tests.test_kv_unified import (
     test_kv_unified_layout,
     test_kv_unified_bounds,
@@ -1342,6 +1349,11 @@ def main() raises:
     run_case(ledger, "gpu.hip_attn_norms_attention_oracle", test_hip_attn_norms_attention_oracle)
     run_case(ledger, "gpu.hip_attn_norms_rejection", test_hip_attn_norms_rejection)
     run_case(ledger, "gpu.hip_attn_norms_dispatch_evidence", test_hip_attn_norms_dispatch_evidence)
+    run_case(ledger, "rocm_repro.pin_table_exact", test_rocm_repro_pin_table)
+    run_case(ledger, "rocm_repro.convergence_accepts", test_rocm_repro_convergence_accepts)
+    run_case(ledger, "rocm_repro.convergence_rejects_drift", test_rocm_repro_convergence_rejects)
+    run_case(ledger, "rocm_repro.script_contract", test_rocm_repro_script_contract)
+    run_case(ledger, "rocm_repro.script_core_sync", test_rocm_repro_script_sync)
     run_case(ledger, "gpu.kv_unified_layout", test_kv_unified_layout)
     run_case(ledger, "gpu.kv_unified_bounds", test_kv_unified_bounds)
     run_case(ledger, "gpu.kv_unified_gpu_write_cpu_read", test_kv_unified_gpu_write_cpu_read)
@@ -2128,4 +2140,9 @@ def main() raises:
     # base) reconciles here at banking. The banked A-085
     # verdict (Vulkan first-class, HIP probe-only) is applied
     # to the live registry at the seat in this banking.
-    ledger.finish(600)
+    # A-087 union re-pin (banking 2026-11-13): 600 -> 605 --
+    # five ROCm install reproducibility cases (rocm_repro.* in
+    # tests/test_rocm_repro_a087.mojo) counted on top of the
+    # A-086 seat pin; the A-087 team pin (594 on the A-083
+    # base) reconciles here at banking.
+    ledger.finish(605)
