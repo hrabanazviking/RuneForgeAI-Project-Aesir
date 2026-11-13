@@ -365,6 +365,15 @@ from tests.test_gpu_pressure_a076 import (
     test_gpu_pressure_live_and_log_bound,
     test_gpu_pressure_device_buffer,
 )
+from tests.test_spillover_policy_a102 import (
+    test_spillover_all_fit_gpu,
+    test_spillover_capacity_spill_order,
+    test_spillover_nonspillable_refusal_atomic,
+    test_spillover_spill_cap_bound,
+    test_spillover_assist_evidence_gate,
+    test_spillover_log_reproducible,
+    test_spillover_device_execution,
+)
 from tests.test_vulkan_batch_a072 import (
     test_vulkan_continuous_batch_four_match_single,
     test_vulkan_continuous_batch_heterogeneous,
@@ -1303,6 +1312,13 @@ def main() raises:
     run_case(ledger, "gpu.gpu_pressure_recovery", test_gpu_pressure_recovery)
     run_case(ledger, "gpu.gpu_pressure_live_and_log_bound", test_gpu_pressure_live_and_log_bound)
     run_case(ledger, "gpu.gpu_pressure_device_buffer", test_gpu_pressure_device_buffer)
+    run_case(ledger, "sched.spillover_all_fit_gpu", test_spillover_all_fit_gpu)
+    run_case(ledger, "sched.spillover_capacity_spill_order", test_spillover_capacity_spill_order)
+    run_case(ledger, "sched.spillover_nonspillable_refusal_atomic", test_spillover_nonspillable_refusal_atomic)
+    run_case(ledger, "sched.spillover_spill_cap_bound", test_spillover_spill_cap_bound)
+    run_case(ledger, "sched.spillover_assist_evidence_gate", test_spillover_assist_evidence_gate)
+    run_case(ledger, "sched.spillover_log_reproducible", test_spillover_log_reproducible)
+    run_case(ledger, "sched.spillover_device_execution", test_spillover_device_execution)
     run_case(ledger, "gpu.gpu_soak_slope_flat_and_leak", test_gpu_soak_slope_flat_and_leak)
     run_case(ledger, "gpu.gpu_soak_verdict_precedence", test_gpu_soak_verdict_precedence)
     run_case(ledger, "gpu.gpu_soak_tally_accounting", test_gpu_soak_tally_accounting)
@@ -2197,4 +2213,9 @@ def main() raises:
     # overlap cases (pipeline.overlap_* in
     # tests/test_pipeline_overlap_a101.mojo) counted on top of
     # the A-100 seat pin.
-    ledger.finish(622)
+    # A-102 union re-pin at banking: 622 -> 629 -- seven
+    # spillover policy cases (sched.spillover_* in
+    # tests/test_spillover_policy_a102.mojo) counted on top of
+    # the A-101 seat pin (team branch pin was 617 on the
+    # A-099 base; union reconciled here per the A-102 note).
+    ledger.finish(629)
