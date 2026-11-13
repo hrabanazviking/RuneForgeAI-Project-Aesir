@@ -68,7 +68,18 @@ when its lead is live on its assigned slice in its own worktree.
 
 ## State
 
-- Banked: **92 of 216** (A-001..A-092). A-092 banked at the
+- Banked: **93 of 216** (A-001..A-093). A-093 banked at the
+  seat 2026-11-13 (team-23 commit 035bc7ac cherry-picked
+  as c63c8425, +0 run_all cases, pin stays 610; NPU
+  memory sharing - type-2 BO exported via xrtBOExport,
+  CPU-consumed through dma-buf fd mmap byte-exact both
+  directions, re-import byte-exact; type-1 export
+  EOPNOTSUPP filed as driver-level; seat gate 607/1/2
+  of 610 exact on run 2 solo, sole failure J-022 (run
+  1: 606/2/2 with the named intermittent
+  resilience.state_vault_rejects_growth, log
+  preserved); full note in PROJECT_MEMORY_MAP).
+  A-092 banked at the
   seat 2026-11-13 (team-22 commit 71af26b0 cherry-picked
   as b3930f78, +0 run_all cases, pin stays 610; NPU
   hello-compute - first AIE kernel execution in this
@@ -375,12 +386,11 @@ when its lead is live on its assigned slice in its own worktree.
   resilience.state_vault_rejects_growth (bug B2) - neither
   appeared in the accepted gate run.
 - Queue: teams take slices in roadmap order as theirs
-  bank (keeper flow): A-093 - next to bank (team-23,
-  building; two leads stopped incomplete on the probe
-  transfer, third lead restarted with the on-device
-  authoring road); then A-094 (team-24, mustered);
-  then A-095 (team-25, mustered, preparatory work
-  until A-094 lands).
+  bank (keeper flow): A-094 - next to bank (team-24,
+  committed 01249ad8, verified); then A-095 (team-25,
+  implementation lead cancelled mid-build, WIP on disk,
+  restart this tick); then A-096/A-097 (teams 26/27,
+  muster this tick).
   A-066 closed the A-065 KV-append gap
   (kv_append kernel, bit-exact).
   Sole failure in every suite =
