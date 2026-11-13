@@ -11,6 +11,10 @@
 # it. Until an execution slice proves NPU execution, the policy's
 # npu_execution_proven flag stays False and every decision that skips
 # the NPU logs that reason -- the NPU is never silently pretended.
+# A-086: GPU placement is bake-off aware -- a first-class GPU
+# backend (A-085 winner, roles on the registry) is the only GPU
+# placed, and a probe-only loser is never placed; while the verdict
+# is pending the standing HIP -> Vulkan preference is unchanged.
 # The policy is pure and deterministic: same registry + same policy
 # in, same decision (and same reason text) out, so it is unit-testable
 # with fake registries.
@@ -188,17 +192,71 @@ struct PlacementPolicy(Copyable):
                 op_kind, DEVICE_NPU, String("XRT"), npu_reason
             )
         if device_class == DEVICE_GPU:
-            if registry.hip.is_available():
+            # A-086: a decided bake-off verdict governs placement.
+            # The winner (first-class) is the only GPU placed; the
+            # loser is probe-only and is never placed. Pending roles
+            # keep the standing HIP -> Vulkan preference below.
+            if registry.hip.is_first_class_gpu() or registry.vulkan.is_first_class_gpu():
+                if registry.hip.is_first_class_gpu():
+                    if registry.hip.is_available():
+                        var win_reason = String(
+                            "HIP GPU backend available (bake-off"
+                            " winner, first-class)"
+                        )
+                        if registry.hip.status == BACKEND_DEGRADED:
+                            win_reason = String(
+                                "HIP GPU backend degraded but"
+                                " available (bake-off winner,"
+                                " first-class)"
+                            )
+                        return PlacementDecision(
+                            op_kind, DEVICE_GPU, String("HIP"), win_reason
+                        )
+                else:
+                    if registry.vulkan.is_available():
+                        var win_reason = String(
+                            "Vulkan GPU backend available (bake-off"
+                            " winner, first-class)"
+                        )
+                        if registry.vulkan.status == BACKEND_DEGRADED:
+                            win_reason = String(
+                                "Vulkan GPU backend degraded but"
+                                " available (bake-off winner,"
+                                " first-class)"
+                            )
+                        return PlacementDecision(
+                            op_kind, DEVICE_GPU, String("Vulkan"), win_reason
+                        )
+                return PlacementDecision(
+                    op_kind,
+                    DEVICE_NONE,
+                    String(""),
+                    String("GPU unavailable: HIP ")
+                    + registry.hip.status_name()
+                    + " (gpu role: "
+                    + registry.hip.gpu_role_name()
+                    + "), Vulkan "
+                    + registry.vulkan.status_name()
+                    + " (gpu role: "
+                    + registry.vulkan.gpu_role_name()
+                    + "); the probe-only loser is not placed",
+                )
+            if registry.hip.is_available() and not registry.hip.is_probe_only_gpu():
                 var hip_reason = String("HIP GPU backend available")
                 if registry.hip.status == BACKEND_DEGRADED:
                     hip_reason = String("HIP GPU backend degraded but available")
                 return PlacementDecision(
                     op_kind, DEVICE_GPU, String("HIP"), hip_reason
                 )
-            if registry.vulkan.is_available():
+            if registry.vulkan.is_available() and not registry.vulkan.is_probe_only_gpu():
                 var vk_reason = String(
                     "HIP unavailable; Vulkan GPU backend available"
                 )
+                if registry.hip.is_probe_only_gpu():
+                    vk_reason = String(
+                        "HIP probe-only (not placed); Vulkan GPU"
+                        " backend available"
+                    )
                 if registry.vulkan.status == BACKEND_DEGRADED:
                     vk_reason = String(
                         "HIP unavailable; Vulkan GPU backend degraded"

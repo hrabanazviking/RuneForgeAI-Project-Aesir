@@ -20,6 +20,14 @@ comptime BACKEND_ABSENT = 0
 comptime BACKEND_PRESENT = 1
 comptime BACKEND_DEGRADED = 2
 
+# A-086: GPU bake-off roles (A-085 HIP vs Vulkan). A GPU record is
+# undecided until a banked A-085 verdict is applied; then exactly one
+# of HIP / Vulkan is first-class and the other is probe-only (parked,
+# never silently dropped, never placed or selected for execution).
+comptime GPU_ROLE_UNDECIDED = 0
+comptime GPU_ROLE_FIRST_CLASS = 1
+comptime GPU_ROLE_PROBE_ONLY = 2
+
 
 struct RawBackendProbe(Copyable, ImplicitlyCopyable):
     """One injectable probe result; tests build these directly."""
@@ -60,10 +68,12 @@ struct BackendCapability(Copyable, ImplicitlyCopyable):
     var version: String
     var device: String
     var detail: String
+    var gpu_role: Int
 
     def __init__(out self, runtime: String):
         self.runtime = runtime
         self.status = BACKEND_ABSENT
+        self.gpu_role = GPU_ROLE_UNDECIDED
         self.version = String("")
         self.device = String("")
         self.detail = String("not probed")
@@ -78,6 +88,19 @@ struct BackendCapability(Copyable, ImplicitlyCopyable):
     def is_available(self) -> Bool:
         return self.status != BACKEND_ABSENT
 
+    def gpu_role_name(self) -> String:
+        if self.gpu_role == GPU_ROLE_FIRST_CLASS:
+            return String("first-class")
+        if self.gpu_role == GPU_ROLE_PROBE_ONLY:
+            return String("probe-only")
+        return String("undecided")
+
+    def is_first_class_gpu(self) -> Bool:
+        return self.gpu_role == GPU_ROLE_FIRST_CLASS
+
+    def is_probe_only_gpu(self) -> Bool:
+        return self.gpu_role == GPU_ROLE_PROBE_ONLY
+
     def line(self) -> String:
         var text = self.runtime + " " + self.status_name()
         if self.version != "":
@@ -86,6 +109,10 @@ struct BackendCapability(Copyable, ImplicitlyCopyable):
             text += ", device " + self.device
         if self.detail != "":
             text += " (" + self.detail + ")"
+        if (self.runtime == "HIP" or self.runtime == "Vulkan") and (
+            self.gpu_role != GPU_ROLE_UNDECIDED
+        ):
+            text += " [gpu role: " + self.gpu_role_name() + "]"
         return text
 
 
@@ -184,6 +211,64 @@ def build_backend_registry(
         backend_capability_from_probe("XRT", xrt),
         backend_capability_from_probe("CPU", cpu),
     )
+
+
+def registry_with_gpu_winner(
+    registry: BackendRegistry, winner_runtime: String
+) raises -> BackendRegistry:
+    """Copy of the registry with the A-085 winner applied (A-086).
+
+    The winner (HIP or Vulkan) becomes first-class; the other GPU
+    backend becomes probe-only. XRT and CPU records are untouched
+    and stay undecided. Any other winner name raises VAL-003:
+    the bake-off is HIP vs Vulkan only.
+    """
+    if winner_runtime != "HIP" and winner_runtime != "Vulkan":
+        raise Error(
+            coded_error_text(
+                "VAL-003",
+                "bake-off winner must be HIP or Vulkan, got: "
+                + winner_runtime,
+            )
+        )
+    var hip = registry.hip
+    var vulkan = registry.vulkan
+    if winner_runtime == "HIP":
+        hip.gpu_role = GPU_ROLE_FIRST_CLASS
+        vulkan.gpu_role = GPU_ROLE_PROBE_ONLY
+    else:
+        vulkan.gpu_role = GPU_ROLE_FIRST_CLASS
+        hip.gpu_role = GPU_ROLE_PROBE_ONLY
+    return BackendRegistry(hip, vulkan, registry.xrt, registry.cpu)
+
+
+def registry_without_gpu_winner(
+    registry: BackendRegistry,
+) -> BackendRegistry:
+    """Copy with both GPU roles back to undecided (pending state)."""
+    var hip = registry.hip
+    var vulkan = registry.vulkan
+    hip.gpu_role = GPU_ROLE_UNDECIDED
+    vulkan.gpu_role = GPU_ROLE_UNDECIDED
+    return BackendRegistry(hip, vulkan, registry.xrt, registry.cpu)
+
+
+def gpu_first_class_runtime(registry: BackendRegistry) -> String:
+    """The first-class GPU runtime, or '' while the verdict is pending."""
+    if registry.hip.is_first_class_gpu():
+        return String("HIP")
+    if registry.vulkan.is_first_class_gpu():
+        return String("Vulkan")
+    return String("")
+
+
+def gpu_probe_only_runtime(registry: BackendRegistry) -> String:
+    """The probe-only GPU runtime, or '' while the verdict is pending."""
+    if registry.hip.is_probe_only_gpu():
+        return String("HIP")
+    if registry.vulkan.is_probe_only_gpu():
+        return String("Vulkan")
+    return String("")
 
 
 def _after(text: String, marker: String) -> String:
@@ -354,7 +439,20 @@ def probe_xrt() -> RawBackendProbe:
 
 
 def observe_backend_registry() -> BackendRegistry:
-    """Live registry: each probe fails closed to absent/degraded."""
-    return build_backend_registry(
+    """Live registry: each probe fails closed to absent/degraded.
+
+    A-086 seat application (banking 2026-11-13): the banked
+    A-085 verdict (closure 3822d595 -- Vulkan PRIMARY, HIP
+    PARKED probe-only) is applied to the live registry here,
+    the one place live surfaces (doctor) observe it:
+    Vulkan first-class, HIP probe-only. The injectable
+    build_backend_registry stays verdict-parametric so tests
+    prove pending + both decided states."""
+    var registry = build_backend_registry(
         probe_hip(), probe_vulkan(), probe_xrt(), probe_cpu()
     )
+    var hip = registry.hip
+    var vulkan = registry.vulkan
+    hip.gpu_role = GPU_ROLE_PROBE_ONLY
+    vulkan.gpu_role = GPU_ROLE_FIRST_CLASS
+    return BackendRegistry(hip, vulkan, registry.xrt, registry.cpu)

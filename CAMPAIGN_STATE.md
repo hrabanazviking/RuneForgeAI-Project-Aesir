@@ -1,37 +1,13 @@
-# CAMPAIGN_STATE - team-15 (Aesir Z13 forge)
+# CAMPAIGN_STATE - team-16 (Aesir Z13 forge)
 
-- Team: team-15 (1 lead + 6 Mythic Engineering sub-agents)
-- Worktree: /home/volmarr/aesir-team-15, branch yrsa/aesir-team-15
-- Base: 82591e7c (banked main, 82 of 216, A-082 closure)
-- Assigned slice: A-085 - The bake-off. HIP vs Vulkan on identical kernels and fixtures: speed, bandwidth, stability, code health. Acceptance: verdict doc with numbers; one road declared primary, the other parked with written re-open criteria (never silently dropped). Builds on banked A-082/A-083 HIP GEMV evidence once A-083 banks, plus the banked Vulkan GEMV line (A-056/A-057/A-058).
-- Status: MUSTERED 2026-11-13 by the keeper (expansion to 27 teams, third muster). Build and commit on the team branch only; the keeper banks at the seat in roadmap order after A-084. Never merge or push from this worktree. Never touch README.md. No Docker, ever.
-- Suite baseline on this base: 583 passed / 1 failed / 2 skipped / 586 total (seat gate A-082); sole failure pre-existing gguf.tensor_directory_interface (J-022 drift); skips the 2 pre-declared. Known intermittents (pre-existing, proven at base): resilience.state_vault_rejects_growth and gpu.amd_hip_stream_async_round_trip - a suite showing only those plus J-022 is green-to-baseline; re-run once before treating either as new.
-- Machine note: the MimirAlloc Z-100 soak resumed late 2026-11-13 morning; defer full-suite runs while heavy shared work is live, and never run a suite concurrently with a seat gate.
-
-## A-085 result (team-15 lead, 2026-11-13, continuation lead)
-
-- Status: COMPLETE, committed locally (not pushed; keeper banks
-  in roadmap order after A-084).
-- Continuation: first lead cancelled mid-work left a draft
-  verdict doc + fresh bench logs (08:06); this lead audited
-  every number, corrected 3 draft defects (cross-road parity
-  wording, the false load-0.19 idle claim, the filed Vulkan
-  1x256 outlier), re-ran both benches with full provenance
-  (08:29, seat tree de415271), and finished the slice.
-- Deliverable: docs/bench/A085_BAKEOFF.md (doc-only slice,
-  +0 suite cases). Verdict: Vulkan PRIMARY GPU road; HIP
-  PARKED probe-only with 4 written re-open criteria. Scoped
-  to the GPU-road choice; A-081 CPU-primary decode verdict
-  untouched.
-- Numbers (Q4_K GEMV per-call medians): fresh Vulkan
-  0.175-0.454 ms vs HIP 1.76-6.92 ms (5.6-26x across the two
-  paired runs); large-shape bandwidth ~20.8 vs ~0.34 GB/s.
-  Parity: each road reproduces its own filed errors
-  bit-identically; both in the filed band at every shape.
-- Suite (hidden_files/a085_run_all.log, solo run): 583
-  passed / 1 failed / 2 skipped / 586 total = exact base
-  baseline; sole failure pre-existing J-022; both known
-  intermittents PASSED.
-- Full detail: hidden_files/A085_LEDGER.md.
-- Next work: none blocking for A-085. HIP re-open criteria
-  are the standing next-work record for the HIP road.
+- Team: team-16 (1 lead + 6 Mythic Engineering sub-agents)
+- Worktree: /home/volmarr/aesir-team-16, branch yrsa/aesir-team-16
+- Base: de415271 (banked main, 83 of 216, A-083 closure)
+- Assigned slice: A-086 - Winner integration. The bake-off winner is the registry's first-class GPU backend; the loser remains probe-only. Acceptance: registry + doctor reflect the verdict; tests cover both states.
+- DEPENDENCY: the verdict comes from A-085 (team-15, the bake-off), which is still building. Do all preparatory work now (registry/doctor survey, integration scaffolding, tests for both states); declare NO winner and make NO primary-backend switch until the A-085 verdict is banked. If blocked on the verdict, record the block here and keep the preparatory work moving.
+- Status: MUSTERED 2026-11-13 by the keeper (expansion to 27 teams, fourth muster). Build and commit on the team branch only; the keeper banks at the seat in roadmap order after A-085. Never merge or push from this worktree. Never touch README.md. No Docker, ever.
+- A-086 PREP DONE (2026-11-13): verdict-parametric winner-integration scaffolding built and committed on this branch -- GPU roles on the A-009 registry (undecided / first-class / probe-only), core/gpu_winner.mojo (BakeoffVerdict + apply/validate/derive + doctor lines), verdict-aware placement (device_policy) and selection (backend_config: probe-only explicit selection fails closed, auto takes only the winner), doctor text + JSON gpu_winner surface, and 6 tests covering pending + HIP-wins + Vulkan-wins + invalid verdicts + probe-only-never-placed + determinism/clear (run_all pin 589 -> 595). See hidden_files/A086_LEDGER.md.
+- SUITE (team branch): 592 passed / 1 failed / 2 skipped / 595 total (hidden_files/a086_run_all.log) -- sole failure the pre-existing J-022 gguf.tensor_directory_interface; all 6 gpu_winner.* cases pass; green-to-baseline (586/1/2/589 + 6).
+- BLOCKED ON A-085 VERDICT (exact block): no winner is declared and no primary-backend switch is made, because the A-085 bake-off verdict (team-15) is not banked -- forge main is still at de415271 (A-083 closure) and no banked verdict doc exists. Unblock: keeper banks A-085, then applies its verdict through apply_bakeoff_verdict() at the seat gate and re-runs the suite; no further code changes are needed in this slice.
+- Suite baseline on this base: 586 passed / 1 failed / 2 skipped / 589 total (seat gate A-083); sole failure pre-existing gguf.tensor_directory_interface (J-022 drift); skips the 2 pre-declared. Known intermittents (pre-existing, proven at base): resilience.state_vault_rejects_growth and gpu.amd_hip_stream_async_round_trip - a suite showing only those plus J-022 is green-to-baseline; re-run once before treating either as new.
+- Machine note: defer full-suite runs while heavy shared work is live, and never run a suite concurrently with a seat gate.

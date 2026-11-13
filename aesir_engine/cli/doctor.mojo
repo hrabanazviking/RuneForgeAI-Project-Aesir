@@ -9,6 +9,12 @@ from cli.model_preferences import DurableModelPreferences, PreferenceFinding, st
 from cli.model_inspect import inspect_model_reference, model_inspection_json, print_model_inspection_text
 from core.model_registry import ModelCompatibility
 from core.backend_registry import observe_backend_registry
+from core.gpu_winner import (
+    bakeoff_verdict_from_registry,
+    bakeoff_verdict_pending,
+    gpu_winner_lines,
+    gpu_winner_summary,
+)
 from core.device_policy import default_placement_policy
 from server.api import json_escape_string
 from core.native_diagnostics import (
@@ -238,6 +244,15 @@ def dispatch_doctor(args: List[String]) raises:
         pass
 
     var backend_registry = observe_backend_registry()
+    # A-086: the bake-off verdict over the live registry. No A-085
+    # verdict is banked yet, so this derives pending; when a verdict
+    # is applied to the registry it derives decided, with no doctor
+    # code change. A derivation failure never breaks diagnosis.
+    var bakeoff_verdict = bakeoff_verdict_pending()
+    try:
+        bakeoff_verdict = bakeoff_verdict_from_registry(backend_registry)
+    except:
+        pass
     var ready = doctor_system_ready(
         cuda_ready, store_ok, installed_count, broken_models, disk_known, disk_available,
     )
@@ -367,6 +382,22 @@ def dispatch_doctor(args: List[String]) raises:
         thermal_json += ',"rapl_reason":' + _json_string(thermal.rapl_reason) + '}'
         output += thermal_json
         output += ',"backends":' + backends_json
+        var winner_json = String("null")
+        var loser_json = String("null")
+        if bakeoff_verdict.is_decided():
+            winner_json = _json_string(bakeoff_verdict.winner)
+            loser_json = _json_string(bakeoff_verdict.loser)
+        var gpu_winner_json = String('{"state":')
+        gpu_winner_json += _json_string(
+            "decided" if bakeoff_verdict.is_decided() else "pending"
+        )
+        gpu_winner_json += ',"winner":' + winner_json
+        gpu_winner_json += ',"loser":' + loser_json
+        gpu_winner_json += ',"summary":' + _json_string(
+            gpu_winner_summary(backend_registry, bakeoff_verdict)
+        )
+        gpu_winner_json += '}'
+        output += ',"gpu_winner":' + gpu_winner_json
         var placement_policy = default_placement_policy()
         var placement_json = String("{\"effective_order\":")
         placement_json += _json_string(placement_policy.effective_order_line(backend_registry))
@@ -412,6 +443,10 @@ def dispatch_doctor(args: List[String]) raises:
     print("\nBackend registry\n")
     for backend_line in backend_registry.lines():
         print("  " + backend_line)
+
+    print("\nGPU bake-off winner (A-085 / A-086)\n")
+    for winner_line in gpu_winner_lines(backend_registry, bakeoff_verdict):
+        print("  " + winner_line)
 
     print("\nDevice placement policy (accelerator-first)\n")
     var placement_policy = default_placement_policy()

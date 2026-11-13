@@ -166,6 +166,21 @@ def _unavailable_error(requested: String, cap: BackendCapability) -> String:
     )
 
 
+def _probe_only_error(requested: String, cap: BackendCapability) -> String:
+    return (
+        "backend '"
+        + requested
+        + "' unavailable: "
+        + cap.runtime
+        + " "
+        + cap.status_name()
+        + " but probe-only (bake-off loser, A-086) -- probe-only"
+        + " backends are probed, not selected for execution; no"
+        + " fallback applied -- the requested backend was not"
+        + " substituted"
+    )
+
+
 def resolve_backend_selection(
     selection: String,
     registry: BackendRegistry,
@@ -191,12 +206,16 @@ def resolve_backend_selection(
     if requested == BACKEND_SELECTION_VULKAN:
         if not registry.vulkan.is_available():
             raise Error(_unavailable_error(requested, registry.vulkan))
+        if registry.vulkan.is_probe_only_gpu():
+            raise Error(_probe_only_error(requested, registry.vulkan))
         return _resolved(
             requested, registry.vulkan, String("explicit vulkan selection")
         )
     if requested == BACKEND_SELECTION_HIP:
         if not registry.hip.is_available():
             raise Error(_unavailable_error(requested, registry.hip))
+        if registry.hip.is_probe_only_gpu():
+            raise Error(_probe_only_error(requested, registry.hip))
         return _resolved(requested, registry.hip, String("explicit hip selection"))
     if requested == BACKEND_SELECTION_NPU:
         if not registry.xrt.is_available():
@@ -233,16 +252,31 @@ def resolve_backend_selection(
         )
     else:
         notes += "skip NPU (XRT " + registry.xrt.status_name() + "). "
-    if registry.hip.is_available():
+    # A-086: a decided bake-off verdict governs the GPU class --
+    # auto resolves only to the first-class winner; the probe-only
+    # loser is skipped with its reason logged, never resolved.
+    if registry.hip.is_first_class_gpu() or registry.vulkan.is_first_class_gpu():
+        if registry.hip.is_first_class_gpu():
+            if registry.hip.is_available():
+                return _resolved(requested, registry.hip, notes + String("auto: HIP GPU backend available (bake-off winner, first-class)"))
+            notes += "skip HIP (" + registry.hip.status_name() + ", bake-off winner unavailable). "
+            notes += "skip Vulkan (probe-only, bake-off loser). "
+        else:
+            if registry.vulkan.is_available():
+                return _resolved(requested, registry.vulkan, notes + String("auto: Vulkan GPU backend available (bake-off winner, first-class)"))
+            notes += "skip Vulkan (" + registry.vulkan.status_name() + ", bake-off winner unavailable). "
+            notes += "skip HIP (probe-only, bake-off loser). "
+    elif registry.hip.is_available():
         return _resolved(requested, registry.hip, notes + String("auto: HIP GPU backend available"))
-    notes += "skip HIP (" + registry.hip.status_name() + "). "
-    if registry.vulkan.is_available():
-        return _resolved(
-            requested,
-            registry.vulkan,
-            notes + String("auto: Vulkan GPU backend available"),
-        )
-    notes += "skip Vulkan (" + registry.vulkan.status_name() + "). "
+    else:
+        notes += "skip HIP (" + registry.hip.status_name() + "). "
+        if registry.vulkan.is_available():
+            return _resolved(
+                requested,
+                registry.vulkan,
+                notes + String("auto: Vulkan GPU backend available"),
+            )
+        notes += "skip Vulkan (" + registry.vulkan.status_name() + "). "
     if registry.cpu.is_available():
         return _resolved(
             requested,

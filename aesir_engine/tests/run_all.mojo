@@ -678,6 +678,14 @@ from tests.test_backend_config import (
     test_backend_config_npu_honesty_gate,
     test_backend_config_auto_order,
 )
+from tests.test_gpu_winner_a086 import (
+    test_gpu_winner_pending_state,
+    test_gpu_winner_hip_wins,
+    test_gpu_winner_vulkan_wins,
+    test_gpu_winner_invalid_verdicts_fail_closed,
+    test_gpu_winner_probe_only_never_placed,
+    test_gpu_winner_determinism_and_clear,
+)
 from tests.test_phase_timing import (
     test_phase_timing_coverage_arithmetic,
     test_phase_timing_disjoint_pure,
@@ -1454,6 +1462,12 @@ def main() raises:
     run_case(ledger, "cli.backend_config_absent_fail_closed", test_backend_config_absent_fail_closed)
     run_case(ledger, "cli.backend_config_npu_honesty_gate", test_backend_config_npu_honesty_gate)
     run_case(ledger, "cli.backend_config_auto_order", test_backend_config_auto_order)
+    run_case(ledger, "gpu_winner.pending_state", test_gpu_winner_pending_state)
+    run_case(ledger, "gpu_winner.hip_wins", test_gpu_winner_hip_wins)
+    run_case(ledger, "gpu_winner.vulkan_wins", test_gpu_winner_vulkan_wins)
+    run_case(ledger, "gpu_winner.invalid_verdicts_fail_closed", test_gpu_winner_invalid_verdicts_fail_closed)
+    run_case(ledger, "gpu_winner.probe_only_never_placed", test_gpu_winner_probe_only_never_placed)
+    run_case(ledger, "gpu_winner.determinism_and_clear", test_gpu_winner_determinism_and_clear)
     run_case(ledger, "timing.phase_coverage_arithmetic", test_phase_timing_coverage_arithmetic)
     run_case(ledger, "timing.phase_disjoint_pure", test_phase_timing_disjoint_pure)
     run_case(ledger, "timing.phase_json_schema", test_phase_timing_json_schema)
@@ -2107,4 +2121,11 @@ def main() raises:
     # in tests/test_hip_attn_norms_a084.mojo) counted on top
     # of the A-083 seat pin; the A-084 team pin (591 on the
     # A-082 base) reconciles here at banking.
-    ledger.finish(594)
+    # A-086 union re-pin (banking 2026-11-13): 594 -> 600 --
+    # six winner-integration cases (gpu_winner.* in
+    # tests/test_gpu_winner_a086.mojo) counted on top of the
+    # A-085 seat pin; the A-086 team pin (595 on the A-083
+    # base) reconciles here at banking. The banked A-085
+    # verdict (Vulkan first-class, HIP probe-only) is applied
+    # to the live registry at the seat in this banking.
+    ledger.finish(600)
