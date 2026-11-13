@@ -323,6 +323,15 @@ from tests.test_accum_policy_a075 import (
     test_accum_policy_norm_mass_attention,
     test_accum_policy_emulation_invariants,
 )
+from tests.test_gpu_pressure_a076 import (
+    test_gpu_pressure_classification,
+    test_gpu_pressure_gpu_route_baseline,
+    test_gpu_pressure_squeeze_spill_refuse,
+    test_gpu_pressure_bounded_degradation,
+    test_gpu_pressure_recovery,
+    test_gpu_pressure_live_and_log_bound,
+    test_gpu_pressure_device_buffer,
+)
 from tests.test_vulkan_batch_a072 import (
     test_vulkan_continuous_batch_four_match_single,
     test_vulkan_continuous_batch_heterogeneous,
@@ -1184,6 +1193,13 @@ def main() raises:
     run_case(ledger, "gpu.vulkan_async_dispatch_queueing", test_vulkan_async_dispatch_queueing)
     run_case(ledger, "gpu.vulkan_async_rejection", test_vulkan_async_rejection)
     run_case(ledger, "gpu.vulkan_async_dispatch_evidence", test_vulkan_async_dispatch_evidence)
+    run_case(ledger, "gpu.gpu_pressure_classification", test_gpu_pressure_classification)
+    run_case(ledger, "gpu.gpu_pressure_gpu_route_baseline", test_gpu_pressure_gpu_route_baseline)
+    run_case(ledger, "gpu.gpu_pressure_squeeze_spill_refuse", test_gpu_pressure_squeeze_spill_refuse)
+    run_case(ledger, "gpu.gpu_pressure_bounded_degradation", test_gpu_pressure_bounded_degradation)
+    run_case(ledger, "gpu.gpu_pressure_recovery", test_gpu_pressure_recovery)
+    run_case(ledger, "gpu.gpu_pressure_live_and_log_bound", test_gpu_pressure_live_and_log_bound)
+    run_case(ledger, "gpu.gpu_pressure_device_buffer", test_gpu_pressure_device_buffer)
     run_case(ledger, "gpu.vulkan_q6k_q5k_oracle_parity", test_vulkan_q6k_q5k_oracle_parity)
     run_case(ledger, "gpu.vulkan_q6k_q5k_known_value", test_vulkan_q6k_q5k_known_value)
     run_case(ledger, "gpu.vulkan_q6k_q5k_engine_crosscheck", test_vulkan_q6k_q5k_engine_crosscheck)
@@ -1963,4 +1979,9 @@ def main() raises:
     # (accum_policy.* in tests/test_accum_policy_a075.mojo) counted
     # on top of the A-073 seat pin (A-075 team pin; the union total
     # reconciles at banking).
-    ledger.finish(549)
+    # A-076 union re-pin (banking 2026-11-12): 549 -> 556 -- seven
+    # GPU memory pressure cases (gpu.gpu_pressure_* in
+    # tests/test_gpu_pressure_a076.mojo) counted on top of the
+    # A-075 seat pin; the A-076 team pin (550 on the A-073 base)
+    # reconciles here at banking.
+    ledger.finish(556)
