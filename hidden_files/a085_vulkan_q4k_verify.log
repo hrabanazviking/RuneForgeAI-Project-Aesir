@@ -1,0 +1,43 @@
+2026-11-13T08:29:27-05:00
+purpleraider
+de415271a2fd07c1ad0f15aa6490dddda7eef592
+main
+ 08:29:27 up 1 day,  6:48,  1 user,  load average: 0.43, 0.27, 0.62
+staging=/tmp/tmp.DBTqsFlBCg
+hailo_cc=0
+par_cc=0
+hip_cc=0
+vulkan_cc=0
+zc_cc=0
+aff_cc=0
+/home/volmarr/aesir-forge/aesir_engine/tests/bench_vulkan_q4k_gemv_a057.mojo:83:18: warning: `alloc` without a `Layout` is deprecated, use the `Layout`-based `alloc` instead; as a temporary migration step, use `unsafe_alloc`
+    var oracle = alloc[Float32](n_rows)
+                 ^~~~~
+<unknown>:0: note: 'alloc' declared here
+/home/volmarr/aesir-forge/aesir_engine/tests/bench_vulkan_q4k_gemv_a057.mojo:84:18: warning: `alloc` without a `Layout` is deprecated, use the `Layout`-based `alloc` instead; as a temporary migration step, use `unsafe_alloc`
+    var w_host = alloc[UInt8](w_bytes)
+                 ^~~~~
+<unknown>:0: note: 'alloc' declared here
+/home/volmarr/aesir-forge/aesir_engine/tests/bench_vulkan_q4k_gemv_a057.mojo:89:15: warning: `alloc` without a `Layout` is deprecated, use the `Layout`-based `alloc` instead; as a temporary migration step, use `unsafe_alloc`
+    var deq = alloc[Scalar[f16]](k_elems)
+              ^~~~~
+<unknown>:0: note: 'alloc' declared here
+Imported from /home/volmarr/aesir-forge/aesir_engine/tests/bench_vulkan_q4k_gemv_a057.mojo:18:
+/home/volmarr/aesir-forge/aesir_engine/core/vulkan_buffers.mojo:267:24: warning: `alloc` without a `Layout` is deprecated, use the `Layout`-based `alloc` instead; as a temporary migration step, use `unsafe_alloc`
+        var name_buf = alloc[UInt8](256)
+                       ^~~~~
+<unknown>:0: note: 'alloc' declared here
+Imported from /home/volmarr/aesir-forge/aesir_engine/tests/bench_vulkan_q4k_gemv_a057.mojo:18:
+/home/volmarr/aesir-forge/aesir_engine/core/vulkan_buffers.mojo:295:24: warning: `alloc` without a `Layout` is deprecated, use the `Layout`-based `alloc` instead; as a temporary migration step, use `unsafe_alloc`
+        var name_buf = alloc[UInt8](256)
+                       ^~~~~
+<unknown>:0: note: 'alloc' declared here
+BUILD_EXIT=0
+A057_DEVICE vendor=4098 device=5510 type=1 api=4211042 RADV=1
+A057_SHAPE rows=1 k=256 max_abs_err=0.0014190674 max_rel_err=5.867199e-06 dispatches=3 gpu_median_ns=207578 cpu_median_ns=551
+A057_SHAPE rows=7 k=512 max_abs_err=0.104904175 max_rel_err=0.0006425287 dispatches=3 gpu_median_ns=172803 cpu_median_ns=11301
+A057_SHAPE rows=64 k=1024 max_abs_err=0.23120117 max_rel_err=0.0034202542 dispatches=3 gpu_median_ns=546813 cpu_median_ns=122279
+A057_SHAPE rows=33 k=2048 max_abs_err=0.35473633 max_rel_err=0.0008034447 dispatches=3 gpu_median_ns=448278 cpu_median_ns=126647
+A057_SHAPE rows=4096 k=4096 max_abs_err=0.82373047 max_rel_err=0.21833426 dispatches=5 gpu_median_ns=507369 cpu_median_ns=31054187
+A057_VULKAN_Q4K_GEMV_BENCH: PASS
+RUN_EXIT=0

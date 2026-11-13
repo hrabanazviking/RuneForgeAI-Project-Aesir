@@ -1,0 +1,40 @@
+2026-11-13T08:29:51-05:00
+purpleraider
+de415271a2fd07c1ad0f15aa6490dddda7eef592
+main
+ 08:29:51 up 1 day,  6:48,  1 user,  load average: 2.94, 0.84, 0.80
+staging=/tmp/tmp.B9fCssLA8W
+hailo_cc=0
+par_cc=0
+hip_cc=0
+vulkan_cc=0
+zc_cc=0
+aff_cc=0
+/home/volmarr/aesir-forge/aesir_engine/tests/bench_hip_q4k_gemv_a083.mojo:75:18: warning: `alloc` without a `Layout` is deprecated, use the `Layout`-based `alloc` instead; as a temporary migration step, use `unsafe_alloc`
+    var oracle = alloc[Float32](n_rows)
+                 ^~~~~
+<unknown>:0: note: 'alloc' declared here
+/home/volmarr/aesir-forge/aesir_engine/tests/bench_hip_q4k_gemv_a083.mojo:76:18: warning: `alloc` without a `Layout` is deprecated, use the `Layout`-based `alloc` instead; as a temporary migration step, use `unsafe_alloc`
+    var w_host = alloc[UInt8](w_bytes)
+                 ^~~~~
+<unknown>:0: note: 'alloc' declared here
+/home/volmarr/aesir-forge/aesir_engine/tests/bench_hip_q4k_gemv_a083.mojo:79:15: warning: `alloc` without a `Layout` is deprecated, use the `Layout`-based `alloc` instead; as a temporary migration step, use `unsafe_alloc`
+    var deq = alloc[Scalar[f16]](k_elems)
+              ^~~~~
+<unknown>:0: note: 'alloc' declared here
+Included from /home/volmarr/aesir-forge/aesir_engine/tests/bench_hip_q4k_gemv_a083.mojo:18:
+Included from /home/volmarr/aesir-forge/aesir_engine/core/hip_q4k_gemv.mojo:50:
+/home/volmarr/aesir-forge/aesir_engine/core/mojo_gpu_target.mojo:96:20: warning: 'except' logic is unreachable, try doesn't raise an exception
+            return -1
+                   ^
+BUILD_EXIT=0
+Secondary CUID not available: AMDCUID support not enabled.
+A083_DEVICE name=AMD Radeon 8060S Graphics
+A083_SHAPE rows=1 k=256 max_abs_err=0.07287598 max_rel_err=0.00026983334 dispatches=3 gpu_median_ns=5398577 cpu_median_ns=500
+A083_SHAPE rows=7 k=512 max_abs_err=0.09698486 max_rel_err=0.0026164849 dispatches=3 gpu_median_ns=1841093 cpu_median_ns=6522
+A083_SHAPE rows=64 k=1024 max_abs_err=0.32977295 max_rel_err=0.041257054 dispatches=3 gpu_median_ns=3078628 cpu_median_ns=118942
+A083_SHAPE rows=33 k=2048 max_abs_err=0.3864746 max_rel_err=0.0025252993 dispatches=3 gpu_median_ns=3616804 cpu_median_ns=123931
+A083_SHAPE rows=1024 k=4096 max_abs_err=0.8351822 max_rel_err=0.15571703 dispatches=3 gpu_median_ns=7699480 cpu_median_ns=7705663
+A083_HIP_Q4K_GEMV_BENCH: PASS
+Warning: Resource leak detected by SharedSignalPool, 1335 Signals leaked.
+RUN_EXIT=0

@@ -1,0 +1,8 @@
+A057_DEVICE vendor=4098 device=5510 type=1 api=4211042 RADV=1
+A057_SHAPE rows=1 k=256 max_abs_err=0.0014190674 max_rel_err=5.867199e-06 dispatches=3 gpu_median_ns=236873 cpu_median_ns=992
+A057_SHAPE rows=7 k=512 max_abs_err=0.104904175 max_rel_err=0.0006425287 dispatches=3 gpu_median_ns=175358 cpu_median_ns=6643
+A057_SHAPE rows=64 k=1024 max_abs_err=0.23120117 max_rel_err=0.0034202542 dispatches=3 gpu_median_ns=381703 cpu_median_ns=121116
+A057_SHAPE rows=33 k=2048 max_abs_err=0.35473633 max_rel_err=0.0008034447 dispatches=3 gpu_median_ns=429242 cpu_median_ns=127318
+A057_SHAPE rows=4096 k=4096 max_abs_err=0.82373047 max_rel_err=0.21833426 dispatches=5 gpu_median_ns=454339 cpu_median_ns=30395061
+A057_VULKAN_Q4K_GEMV_BENCH: PASS
+ 08:06:31 up 1 day,  6:25,  1 user,  load average: 0.28, 1.42, 1.59

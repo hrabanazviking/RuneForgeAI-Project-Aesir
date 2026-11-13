@@ -1,0 +1,8 @@
+A083_DEVICE name=AMD Radeon 8060S Graphics
+A083_SHAPE rows=1 k=256 max_abs_err=0.07287598 max_rel_err=0.00026983334 dispatches=3 gpu_median_ns=5196502 cpu_median_ns=501
+A083_SHAPE rows=7 k=512 max_abs_err=0.09698486 max_rel_err=0.0026164849 dispatches=3 gpu_median_ns=1756072 cpu_median_ns=6562
+A083_SHAPE rows=64 k=1024 max_abs_err=0.32977295 max_rel_err=0.041257054 dispatches=3 gpu_median_ns=2893197 cpu_median_ns=119874
+A083_SHAPE rows=33 k=2048 max_abs_err=0.3864746 max_rel_err=0.0025252993 dispatches=3 gpu_median_ns=3694494 cpu_median_ns=123721
+A083_SHAPE rows=1024 k=4096 max_abs_err=0.8351822 max_rel_err=0.15571703 dispatches=3 gpu_median_ns=6919621 cpu_median_ns=7705410
+A083_HIP_Q4K_GEMV_BENCH: PASS
+ 08:06:55 up 1 day,  6:25,  1 user,  load average: 0.35, 1.36, 1.56
