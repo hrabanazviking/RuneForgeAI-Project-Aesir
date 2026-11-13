@@ -1,23 +1,51 @@
-# Team-13 CAMPAIGN_STATE — Aesir Z13 Forge
+# CAMPAIGN_STATE - team-14 (Aesir Z13 forge)
 
-- Team: team-13 (NEW seat, expansion to 27 teams, Volmarr order 2026-11-13 ~05:59 EST)
-- Mustered: 2026-11-13 ~06:47 EST by keeper tick aesir-z13-forge-keeper (scheduled 06:47)
-- Worktree: /home/volmarr/aesir-team-13, branch yrsa/aesir-team-13
-- Base: 3cfc43702ef1c3d96758d1f799a5946515ffadef = Banking closure: A-078 banked (78 of 216) — banked main, verified by git ls-remote at muster
-- Assigned slice: A-083 — HIP Q4_K GEMV. Acceptance: same discipline as A-082 (CPU-oracle parity + device-execution evidence, via the A-010–A-012 gate).
-- Rules: work ONE slice only in this worktree; never share a checkout; never merge or push from this worktree (keeper banks in roadmap order at the seat); never touch README.md; NO Docker.
-- Banking order note: A-079, A-080, A-081, A-082 are ahead in roadmap order and are NOT yet banked. A-083 builds in parallel; it banks only after them, in roadmap order. Expect a run_all pin union at banking.
-- Correctness law: raw-oracle discipline (teacher-forcing rank + logit gap on RAW prompts, CPU vs CPU comparator only, near-tie rank <=2 sub-logit = faithful, IQ graded on coherence); comparator artifacts are a verdict class; accelerator-visible != accelerator-run — device-execution evidence required.
-- Never leave a discovered bug unfixed: fix in-slice or record as immediate next work here.
-- Coordination: defer full run_all suites while team-03's probe + budget-reorder work uses the shared machine solo; coordinate via keeper notes. Check /home/volmarr/aesir-forge/hidden_files/keeper_note_a079.md before heavy runs.
-- Status at muster: worktree created clean from banked main at 06:51 EST, verified by git worktree list; lead spawn requested by keeper this tick.
+- Team: team-14 (1 lead + 6 Mythic Engineering sub-agents)
+- Worktree: /home/volmarr/aesir-team-14, branch yrsa/aesir-team-14
+- Base: 82591e7c (banked main, 82 of 216, A-082 closure)
+- Assigned slice: A-084 - HIP attention + norms. Minimal set matching A-060/A-062 scope. Acceptance: parity per op, with device-execution evidence for every accelerator claim.
+- Status: MUSTERED 2026-11-13 by the keeper (expansion to 27 teams, third muster). Build and commit on the team branch only; the keeper banks at the seat in roadmap order after A-083. Never merge or push from this worktree. Never touch README.md. No Docker, ever.
+- Suite baseline on this base: 583 passed / 1 failed / 2 skipped / 586 total (seat gate A-082); sole failure pre-existing gguf.tensor_directory_interface (J-022 drift); skips the 2 pre-declared. Known intermittents (pre-existing, proven at base): resilience.state_vault_rejects_growth and gpu.amd_hip_stream_async_round_trip - a suite showing only those plus J-022 is green-to-baseline; re-run once before treating either as new.
+- Machine note: the MimirAlloc Z-100 soak resumed late 2026-11-13 morning; defer full-suite runs while heavy shared work is live, and never run a suite concurrently with a seat gate.
 
-## A-083 result - HIP Q4_K GEMV (counts READ FROM LOGS)
-- Status: A-083 BUILT + TESTED + COMMITTED 2026-11-13 on yrsa/aesir-team-13, base 3cfc4370 (78 of 216 banked). Awaiting banking by the keeper after A-079..A-082 in roadmap order. Do NOT merge or push from this worktree.
-- Deliverables: core/hip_q4k_gemv.mojo (HipQ4kGemv: Mojo-native Q4_K dequant+GEMV kernel via DeviceContext api="hip", in-kernel decode mirroring q4k_gemv.comp / CPU kind-12 oracle, f32 accumulation) + hip_memory_shim.c dispatch counter (increments only after synchronized device dispatch) + tests/test_hip_q4k_gemv_a083.mojo (3 cases) + tests/bench_hip_q4k_gemv_a083.mojo + a083_driver. run_all pin 568 -> 571.
-- Device evidence: bench PASS on AMD Radeon 8060S Graphics (HIP device 0), counter +1/+3/+50 exact in every check; A-029 triangulation covers the launch path (no CPU fallback).
-- Parity vs CPU oracle (dequantize kind 12 -> f16 -> f32 dot) at the A-057 f16-rounding band: max_abs_err 0.0729 (K=256), 0.0970 (512), 0.3298 (1024), 0.3865 (2048), 0.8352 (1024x4096) - all inside band floors 0.32/0.45/0.64/0.91/1.28.
-- Timing (honest, end-to-end launcher incl. fresh context per call): small shapes context-bound ~2-7 ms; 1024x4096 HIP 6.99 ms vs CPU 7.65 ms. Kernel is one-thread-per-row; tuning + HIP-vs-Vulkan verdict = A-085.
-- Suite (SOLO, ps-verified; hidden_files/a083_run_all.log sha256 c7435ce2...): 568 passed / 1 failed / 2 skipped / 571 total = baseline 565/1/2/568 + 3 new all PASS. Sole failure = pre-existing gguf.tensor_directory_interface J-022 drift. memory.budget_live_meminfo_pressure PASSED.
-- DISCOVERED (probed + filed in A083_LEDGER.md): every buffer-bearing MAX DeviceContext retains exactly 8,388,608 B GTT until process exit on this toolchain (exact multiples over 120 calls + attribution probe incl. MojoNative.vec_add and bare buffer+copy contexts) - MAX runtime pool behaviour, pre-existing (A-029/A-079 family), NOT an A-083 operand leak. No-leak case asserts retention == exactly 50 x 8 MiB over 50 calls.
-- IMMEDIATE NEXT WORK: (platform) persistent-context launcher or MAX pool-cap investigation to remove the per-call 8 MiB retention + context setup cost - joins team-03 fix road item 3; re-file the no-leak constant if the toolchain changes it.
+## A-084 result (team-14, second lead continuing, 2026-11-13)
+- Status: COMPLETE, committed locally on yrsa/aesir-team-14
+  (not pushed; keeper banks in roadmap order after A-083,
+  which has since banked at the seat, main de415271,
+  83 of 216, pin 589 - expect a run_all pin union at
+  banking: this branch 586 -> 591, seat union 594).
+- First lead was cancelled mid-work; its uncommitted
+  gateway, test, and shim counters were reviewed, kept,
+  and finished by the second lead, who added the run_all
+  registration + pin and one in-slice hardening (the
+  rejection case now asserts no dispatch counter advances
+  on a rejected call).
+- Deliverables: core/hip_attention_norms.mojo (HipAttnNorms
+  gateway + RMSNorm / RoPE rotate-half / GQA decode
+  attention HIP kernels via the A-010-A-012 gate),
+  hip_memory_shim.c (3 per-op dispatch-evidence counters,
+  noted only after launch + readback + synchronize),
+  tests/test_hip_attn_norms_a084.mojo (5 cases),
+  tests/run_all.mojo pin 586 -> 591,
+  hidden_files/A084_LEDGER.md.
+- Parity (a084_run_all.log): RMSNorm BIT-EXACT max_abs 0.0
+  (rows/n 1/64, 3/128, 8/37); RoPE worst 1.1920929e-06
+  (dim 32/64/128, pos 0/1/17); attention worst
+  1.7881393e-07 (MHA + GQA x2 + GQA x4); bound 1e-4.
+- Device evidence: dispatch-evidence case PASS on
+  " AMD Radeon 8060S Graphics " (gfx1151); each op
+  counter +1 for exactly 1 dispatch per op.
+- Suite (a084_run_all.log): 588 passed / 1 failed /
+  2 skipped / 591 total; sole failure the pre-existing
+  J-022 gguf.tensor_directory_interface; neither known
+  intermittent fired. Run solo, machine idle, no seat
+  gate live.
+- Next work: none blocking for A-084. Filed in the
+  ledger for later slices: honest-absent hardening for
+  RoPE/attention/evidence cases if HIP-less CI ever
+  becomes real; A-085 bake-off judges HIP vs Vulkan
+  speed (no speed claimed here).
+- Post-review fix (same session): attention sentinel
+  -3.4028235e38, NaN/Inf eps+base rejection matching
+  compute.mojo, header claim softened; re-run
+  a084_run_all_fix.log identical 588/1/2 of 591.

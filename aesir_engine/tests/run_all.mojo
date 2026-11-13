@@ -456,6 +456,13 @@ from tests.test_hip_q4k_gemv_a083 import (
     test_hip_q4k_gemv_rejection,
     test_hip_q4k_gemv_no_leak,
 )
+from tests.test_hip_attn_norms_a084 import (
+    test_hip_attn_norms_rmsnorm_oracle,
+    test_hip_attn_norms_rope_oracle,
+    test_hip_attn_norms_attention_oracle,
+    test_hip_attn_norms_rejection,
+    test_hip_attn_norms_dispatch_evidence,
+)
 from tests.test_kv_unified import (
     test_kv_unified_layout,
     test_kv_unified_bounds,
@@ -1322,6 +1329,11 @@ def main() raises:
     run_case(ledger, "gpu.hip_q4k_gemv_oracle", test_hip_q4k_gemv_oracle)
     run_case(ledger, "gpu.hip_q4k_gemv_rejection", test_hip_q4k_gemv_rejection)
     run_case(ledger, "gpu.hip_q4k_gemv_no_leak", test_hip_q4k_gemv_no_leak)
+    run_case(ledger, "gpu.hip_attn_norms_rmsnorm_oracle", test_hip_attn_norms_rmsnorm_oracle)
+    run_case(ledger, "gpu.hip_attn_norms_rope_oracle", test_hip_attn_norms_rope_oracle)
+    run_case(ledger, "gpu.hip_attn_norms_attention_oracle", test_hip_attn_norms_attention_oracle)
+    run_case(ledger, "gpu.hip_attn_norms_rejection", test_hip_attn_norms_rejection)
+    run_case(ledger, "gpu.hip_attn_norms_dispatch_evidence", test_hip_attn_norms_dispatch_evidence)
     run_case(ledger, "gpu.kv_unified_layout", test_kv_unified_layout)
     run_case(ledger, "gpu.kv_unified_bounds", test_kv_unified_bounds)
     run_case(ledger, "gpu.kv_unified_gpu_write_cpu_read", test_kv_unified_gpu_write_cpu_read)
@@ -2090,4 +2102,9 @@ def main() raises:
     # tests/test_hip_q4k_gemv_a083.mojo) counted on top
     # of the A-082 seat pin; the A-083 team pin (571 on
     # the A-078 base) reconciles here at banking.
-    ledger.finish(589)
+    # A-084 union re-pin (banking 2026-11-13): 589 -> 594 --
+    # five HIP attention + norms cases (gpu.hip_attn_norms_*
+    # in tests/test_hip_attn_norms_a084.mojo) counted on top
+    # of the A-083 seat pin; the A-084 team pin (591 on the
+    # A-082 base) reconciles here at banking.
+    ledger.finish(594)

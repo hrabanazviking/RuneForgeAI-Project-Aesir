@@ -928,3 +928,17 @@ uint64_t aesir_hip_q4k_dispatch_count(void) {
 void aesir_hip_q4k_note_dispatch(void) {
     aesir_hip_q4k_dispatches++;
 }
+
+/* --- A-084: HIP attention + norms dispatch evidence counters --
+ * Same contract as the A-082 counter above: the Mojo gateways in
+ * core/hip_attention_norms.mojo call the note functions only after
+ * launch + readback + synchronize completed without error. */
+static uint64_t g_rmsnorm_dispatches = 0;
+static uint64_t g_rope_dispatches = 0;
+static uint64_t g_attn_dispatches = 0;
+void aesir_hip_note_rmsnorm_dispatch(void) { g_rmsnorm_dispatches += 1; }
+uint64_t aesir_hip_rmsnorm_dispatch_count(void) { return g_rmsnorm_dispatches; }
+void aesir_hip_note_rope_dispatch(void) { g_rope_dispatches += 1; }
+uint64_t aesir_hip_rope_dispatch_count(void) { return g_rope_dispatches; }
+void aesir_hip_note_attn_dispatch(void) { g_attn_dispatches += 1; }
+uint64_t aesir_hip_attn_dispatch_count(void) { return g_attn_dispatches; }
