@@ -1,0 +1,14 @@
+Secondary CUID not available: AMDCUID support not enabled.
+FALLBACK op=prefill_projection shape=128x1024x1024 failure=DEVICE_ABSENT selected=CPU reason=FALLBACK_DEVICE_ABSENT macs=134217728
+FALLBACK op=prefill_projection shape=128x1024x1024 failure=XCLBIN_LOAD_FAILED selected=CPU reason=FALLBACK_XCLBIN_LOAD_FAILED macs=134217728
+FALLBACK op=prefill_projection shape=128x1024x1024 failure=INSTR_LOAD_FAILED selected=CPU reason=FALLBACK_INSTR_LOAD_FAILED macs=134217728
+FALLBACK op=prefill_projection shape=128x1024x1024 failure=KERNEL_RUN_FAILED selected=CPU reason=FALLBACK_KERNEL_RUN_FAILED macs=134217728
+FALLBACK op=prefill_projection shape=128x1024x1024 failure=KERNEL_TIMEOUT selected=CPU reason=FALLBACK_KERNEL_TIMEOUT macs=134217728
+FALLBACK op=prefill_projection shape=128x1024x1024 failure=OUTPUT_MISMATCH selected=CPU reason=FALLBACK_OUTPUT_MISMATCH macs=134217728
+FALLBACK op=prefill_projection shape=128x1024x1024 failure=UNKNOWN selected=CPU reason=FALLBACK_UNKNOWN macs=134217728
+FALLBACK op=prefill_projection shape=128x1024x1024 failure=UNKNOWN selected=CPU reason=FALLBACK_UNKNOWN macs=134217728
+DISPATCH op=prefill_projection shape=128x1024x1024 selected=CPU reason=FLAG_DISABLED flag=off macs=134217728
+DISPATCH op=prefill_projection shape=128x1024x1024 selected=CPU reason=BACKEND_NOT_XDNA flag=on macs=134217728
+DISPATCH op=prefill_projection shape=32x1024x1024 selected=CPU reason=BELOW_M_BAND flag=on macs=33554432
+DISPATCH op=prefill_projection shape=64x32x32 selected=CPU reason=BELOW_MAC_FLOOR flag=on macs=65536
+FALLBACK_CHECK PASS 8/8 failures degrade + 4/4 dispatch fallbacks

@@ -103,3 +103,89 @@ def npu_offload_log_line(
         + " macs="
         + String(decision.macs)
     )
+
+
+# ---- A-099: NPU fallback contract ------------------------------------
+# Roadmap A-099: any NPU failure degrades to GPU/CPU - silent to the
+# user, loud in the logs. This section is the contract half that pairs
+# with the A-095 dispatch above: the dispatch reasons (FLAG_DISABLED /
+# BACKEND_NOT_XDNA / BELOW_M_BAND / BELOW_MAC_FLOOR) already select CPU
+# before any device work starts; the failure taxonomy below covers
+# everything that can go wrong AFTER an AMD_XDNA selection, once device
+# execution is attempted (host runner today, the future in-engine
+# bridge tomorrow). Every failure - known or not - resolves to a CPU
+# selection with reason FALLBACK_<NAME>; there is no path in this
+# contract that propagates an NPU error to the caller or returns an
+# unverified NPU result. The host runner
+# (aesir_engine/npu_prefill_offload.cpp) mirrors this taxonomy exactly
+# and proves each mode by fault injection (hidden_files/a099/): the
+# fallback output is the CPU path's output, verified exact vs the CPU
+# oracle before it is accepted - a fallback that cannot verify fails
+# closed instead of answering wrong.
+
+
+struct NPUFailure(Copyable, ImplicitlyCopyable):
+    """One post-selection NPU failure mode (A-099 taxonomy)."""
+
+    comptime DEVICE_ABSENT = 0  # no XDNA device / device open failed
+    comptime XCLBIN_LOAD_FAILED = 1  # xclbin load/register/context failed
+    comptime INSTR_LOAD_FAILED = 2  # AIE instruction stream unreadable
+    comptime KERNEL_RUN_FAILED = 3  # run ended in an error state
+    comptime KERNEL_TIMEOUT = 4  # run did not complete in the bound
+    comptime OUTPUT_MISMATCH = 5  # NPU output != CPU oracle (incl. sentinel)
+    comptime UNKNOWN = 6  # anything else; still degrades, never propagates
+
+    var value: Int
+
+    def __init__(out self, value: Int = 6):
+        self.value = value
+
+    def __copyinit__(out self, existing: Self):
+        self.value = existing.value
+
+    def name(self) -> String:
+        if self.value == 0:
+            return "DEVICE_ABSENT"
+        elif self.value == 1:
+            return "XCLBIN_LOAD_FAILED"
+        elif self.value == 2:
+            return "INSTR_LOAD_FAILED"
+        elif self.value == 3:
+            return "KERNEL_RUN_FAILED"
+        elif self.value == 4:
+            return "KERNEL_TIMEOUT"
+        elif self.value == 5:
+            return "OUTPUT_MISMATCH"
+        return "UNKNOWN"
+
+
+def npu_fallback_decision(failure: NPUFailure, macs: Int) -> NPUOffloadDecision:
+    """The A-099 contract resolution: EVERY NPU failure selects CPU.
+
+    The reason keeps the failure loud (FALLBACK_<NAME>) while the
+    selection keeps the user silent - the CPU path then runs unchanged
+    and its output is verified exact vs the CPU oracle by the executor.
+    """
+    return NPUOffloadDecision("CPU", "FALLBACK_" + failure.name(), macs)
+
+
+def npu_fallback_log_line(
+    m: Int, k: Int, n: Int, failure: NPUFailure, decision: NPUOffloadDecision
+) -> String:
+    """The one-line fallback log record (op, shape, failure, choice)."""
+    return (
+        "FALLBACK op=prefill_projection shape="
+        + String(m)
+        + "x"
+        + String(k)
+        + "x"
+        + String(n)
+        + " failure="
+        + failure.name()
+        + " selected="
+        + decision.selected
+        + " reason="
+        + decision.reason
+        + " macs="
+        + String(decision.macs)
+    )

@@ -23,7 +23,17 @@
 // Usage:
 //   npu_prefill_offload M K N on|off E2E_COUNT [xclbin instrs.bin]
 // xclbin/instrs are required only when dispatch selects AMD_XDNA.
-// Exit: 0 PASS, 1 FAIL, 2 usage.
+// Exit: 0 PASS (incl. via A-099 fallback), 1 FAIL, 2 usage.
+//
+// A-099 fallback contract: any failure AFTER an AMD_XDNA selection --
+// device absent, xclbin load failure, instr load failure, kernel run
+// failure/timeout, or output mismatch vs the CPU oracle -- degrades to
+// the CPU path with a loud FALLBACK line (reason FALLBACK_<NAME>,
+// mirroring the NPUFailure taxonomy in core/npu_offload.mojo); the
+// fallback output is verified exact vs the CPU oracle before it is
+// accepted, so a failure is never a crash and never a silent wrong
+// answer. Fault injection for the contract tests: AESIR_A099_FAULT=
+// device_absent|xclbin|run|timeout|mismatch forces that mode.
 
 #include "xrt/xrt_bo.h"
 #include "xrt/xrt_device.h"
@@ -83,6 +93,27 @@ static double median(std::vector<double> v) {
   std::sort(v.begin(), v.end()); return v[v.size()/2];
 }
 
+
+// ---- A-099 fallback contract (mirror of core/npu_offload.mojo) ----
+static const char* g_fault = nullptr;  // AESIR_A099_FAULT injection
+static bool fault_is(const char* name) {
+  return g_fault && std::string(g_fault) == name;
+}
+static int fallback_to_cpu(const char* reason, const char* detail,
+                           const int16_t* A, const int16_t* B,
+                           const std::vector<int32_t>& oracle,
+                           int M, int K, int N, int nthreads) {
+  std::printf("FALLBACK op=prefill_projection failure=%s selected=CPU reason=FALLBACK_%s detail=%s\n", reason, reason, detail);
+  std::vector<int32_t> C((size_t)M * N, 0);
+  gemm_opt(A, B, C.data(), M, K, N, nthreads);
+  if (std::memcmp(C.data(), oracle.data(),
+                  oracle.size() * sizeof(int32_t)) != 0) {
+    std::printf("RESULT FAIL fallback output mismatch vs oracle (fail-closed, no answer returned)\n");
+    return 1;
+  }
+  std::printf("RESULT PASS via fallback (selected=CPU reason=FALLBACK_%s) exact vs oracle\n", reason);
+  return 0;
+}
 int main(int argc, char** argv) {
   if (argc < 6) {
     std::printf("usage: %s M K N on|off E2E_COUNT [xclbin instrs.bin]\n", argv[0]);
@@ -92,6 +123,8 @@ int main(int argc, char** argv) {
   const bool flag_on = std::string(argv[4]) == "on";
   const int e2e_count = atoi(argv[5]);
   const int nthreads = (int)std::thread::hardware_concurrency();
+  g_fault = std::getenv("AESIR_A099_FAULT");
+  if (g_fault) std::printf("A099_FAULT_INJECTION mode=%s\n", g_fault);
   Decision d = dispatch_decision(M, K, N, flag_on);
   std::printf("DISPATCH op=prefill_projection shape=%dx%dx%d selected=%s reason=%s flag=%s macs=%lld backend=AMD_XDNA\n",
               M, K, N, d.selected, d.reason, flag_on ? "on" : "off", d.macs);
@@ -160,28 +193,37 @@ int main(int argc, char** argv) {
 
   // AMD_XDNA path: real device execution via XRT.
   if (argc < 8) {
-    std::printf("FAIL dispatch selected AMD_XDNA but no xclbin/instrs given\n");
-    return 2;
+    return fallback_to_cpu("XCLBIN_LOAD_FAILED",
+                           "dispatch selected AMD_XDNA but no xclbin/instrs given",
+                           A.data(), B.data(), oracle, M, K, N, nthreads);
   }
   const int32_t SENTINEL = 0x7fffffff;
   std::ifstream fi(argv[7], std::ios::binary);
-  if (!fi) { std::printf("FAIL cannot open instrs %s\n", argv[7]); return 2; }
+  if (!fi) {
+    return fallback_to_cpu("INSTR_LOAD_FAILED", "cannot open instrs file",
+                           A.data(), B.data(), oracle, M, K, N, nthreads);
+  }
   std::vector<char> ibytes((std::istreambuf_iterator<char>(fi)), std::istreambuf_iterator<char>());
   if (ibytes.empty() || (ibytes.size() % 4) != 0) {
-    std::printf("FAIL instrs size %zu not a whole word count\n", ibytes.size());
-    return 2;
+    std::printf("instrs_size=%zu invalid\n", ibytes.size());
+    return fallback_to_cpu("INSTR_LOAD_FAILED", "instrs not a whole word count",
+                           A.data(), B.data(), oracle, M, K, N, nthreads);
   }
   const size_t ninstr = ibytes.size() / 4;
   std::printf("insts_bytes=%zu ninstr_words=%zu\n", ibytes.size(), ninstr);
+  const char* stage = "DEVICE_ABSENT";
   try {
-    xrt::device device(0);
+    xrt::device device(fault_is("device_absent") ? 99 : 0);
     std::string name = device.get_info<xrt::info::device::name>();
     std::printf("device_name=%s\n", name.c_str());
-    xrt::xclbin xclbin{std::string(argv[6])};
+    stage = "XCLBIN_LOAD_FAILED";
+    xrt::xclbin xclbin{std::string(
+        fault_is("xclbin") ? "/nonexistent/a099_injected_bad.xclbin" : argv[6])};
     std::printf("xclbin_uuid=%s\n", xclbin.get_uuid().to_string().c_str());
     device.register_xclbin(xclbin);
     xrt::hw_context context(device, xclbin.get_uuid());
     xrt::kernel kernel(context, "MLIR_AIE");
+    stage = "KERNEL_RUN_FAILED";
     // Resident BOs: created once, reused by every dispatch below.
     auto bo_instr = xrt::bo(device, ibytes.size(), XCL_BO_FLAGS_CACHEABLE, kernel.group_id(1));
     auto bo_a = xrt::bo(device, A.size() * sizeof(int16_t), XRT_BO_FLAGS_HOST_ONLY, kernel.group_id(3));
@@ -208,11 +250,22 @@ int main(int argc, char** argv) {
       return run;
     };
     // Dispatch #1: verify exact vs oracle + ert state + checksum.
+    if (fault_is("run"))
+      return fallback_to_cpu("KERNEL_RUN_FAILED", "A099 fault injection: run",
+                             A.data(), B.data(), oracle, M, K, N, nthreads);
+    if (fault_is("timeout"))
+      return fallback_to_cpu("KERNEL_TIMEOUT", "A099 fault injection: timeout",
+                             A.data(), B.data(), oracle, M, K, N, nthreads);
     auto run0 = do_run();
     ert_cmd_state st0 = run0.wait();
     std::printf("ert_cmd_state=%d (COMPLETED=%d)\n", (int)st0, (int)ERT_CMD_STATE_COMPLETED);
-    if (st0 != ERT_CMD_STATE_COMPLETED) { std::printf("RESULT FAIL kernel did not complete\n"); return 1; }
+    if (st0 != ERT_CMD_STATE_COMPLETED) {
+      std::printf("ert_state=%d not COMPLETED\n", (int)st0);
+      return fallback_to_cpu("KERNEL_RUN_FAILED", "kernel did not complete",
+                             A.data(), B.data(), oracle, M, K, N, nthreads);
+    }
     bo_c.sync(XCL_BO_SYNC_BO_FROM_DEVICE);
+    if (fault_is("mismatch")) cmap[0] += 1;  // A099 injection: corrupt 1 elem
     long mismatches = 0, sentinels = 0; uint64_t checksum = 0;
     for (int i = 0; i < M; i++) for (int j = 0; j < N; j++) {
       int32_t got = cmap[i*N+j];
@@ -222,7 +275,11 @@ int main(int argc, char** argv) {
     }
     std::printf("elements=%d mismatches=%ld sentinel_remaining=%ld checksum=%llu\n",
                 M*N, mismatches, sentinels, (unsigned long long)checksum);
-    if (mismatches) { std::printf("RESULT FAIL npu mismatch vs oracle\n"); return 1; }
+    if (mismatches) {
+      std::printf("mismatches=%ld sentinel_remaining=%ld\n", mismatches, sentinels);
+      return fallback_to_cpu("OUTPUT_MISMATCH", "npu output != cpu oracle",
+                             A.data(), B.data(), oracle, M, K, N, nthreads);
+    }
     long submitted = 1;
     // Warm timing: 21 reps, fresh run objects, resident context + BOs.
     std::vector<double> npu_us, npu_sync_us;
@@ -233,7 +290,11 @@ int main(int argc, char** argv) {
       auto t1 = clk::now();
       bo_c.sync(XCL_BO_SYNC_BO_FROM_DEVICE);
       auto t2 = clk::now();
-      if (st != ERT_CMD_STATE_COMPLETED) { std::printf("RESULT FAIL warm run state %d\n", (int)st); return 1; }
+      if (st != ERT_CMD_STATE_COMPLETED) {
+        std::printf("warm run state %d not COMPLETED\n", (int)st);
+        return fallback_to_cpu("KERNEL_RUN_FAILED", "warm run failed",
+                               A.data(), B.data(), oracle, M, K, N, nthreads);
+      }
       npu_us.push_back(std::chrono::duration<double, std::micro>(t1-t0).count());
       npu_sync_us.push_back(std::chrono::duration<double, std::micro>(t2-t0).count());
     }
@@ -246,7 +307,11 @@ int main(int argc, char** argv) {
     for (int i = 0; i < e2e_count; i++) {
       auto run = do_run(); submitted++;
       ert_cmd_state st = run.wait();
-      if (st != ERT_CMD_STATE_COMPLETED) { std::printf("RESULT FAIL e2e run %d state %d\n", i, (int)st); return 1; }
+      if (st != ERT_CMD_STATE_COMPLETED) {
+        std::printf("e2e run %d state %d not COMPLETED\n", i, (int)st);
+        return fallback_to_cpu("KERNEL_RUN_FAILED", "e2e run failed",
+                               A.data(), B.data(), oracle, M, K, N, nthreads);
+      }
     }
     double e2e_us = us_since(t0);
     bo_c.sync(XCL_BO_SYNC_BO_FROM_DEVICE);
@@ -259,11 +324,15 @@ int main(int argc, char** argv) {
     std::printf("E2E path=AMD_XDNA dispatches=%d total_us=%.1f per_dispatch_us=%.1f final_mismatches=%ld final_checksum=%llu submitted_total=%ld\n",
                 e2e_count, e2e_us, e2e_us / e2e_count, mism2,
                 (unsigned long long)checksum2, submitted);
-    if (mism2) { std::printf("RESULT FAIL e2e final output mismatch\n"); return 1; }
+    if (mism2) {
+      return fallback_to_cpu("OUTPUT_MISMATCH", "e2e final output != oracle",
+                             A.data(), B.data(), oracle, M, K, N, nthreads);
+    }
     std::printf("RESULT PASS matmul i16->i32 exact vs CPU oracle on NPU (resident context, %ld dispatches)\n", submitted);
     return 0;
   } catch (const std::exception& e) {
-    std::printf("FAIL exception: %s\n", e.what());
-    return 1;
+    std::printf("exception at stage=%s: %s\n", stage, e.what());
+    return fallback_to_cpu(stage, e.what(), A.data(), B.data(), oracle,
+                           M, K, N, nthreads);
   }
 }

@@ -1,0 +1,8 @@
+A099_FAULT_INJECTION mode=xclbin
+DISPATCH op=prefill_projection shape=64x64x64 selected=AMD_XDNA reason=OK_XDNA flag=on macs=262144 backend=AMD_XDNA
+CONV q4_to_i16 elems=4096 median_us=2.7 sink=0 (weights-side, once per layer load)
+insts_bytes=660 ninstr_words=165
+device_name=NPU Strix Halo
+exception at stage=XCLBIN_LOAD_FAILED: No such file '/nonexistent/a099_injected_bad.xclbin'
+FALLBACK op=prefill_projection failure=XCLBIN_LOAD_FAILED selected=CPU reason=FALLBACK_XCLBIN_LOAD_FAILED detail=No such file '/nonexistent/a099_injected_bad.xclbin'
+RESULT PASS via fallback (selected=CPU reason=FALLBACK_XCLBIN_LOAD_FAILED) exact vs oracle
