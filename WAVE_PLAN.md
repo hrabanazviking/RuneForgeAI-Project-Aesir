@@ -68,7 +68,17 @@ when its lead is live on its assigned slice in its own worktree.
 
 ## State
 
-- Banked: **99 of 216** (A-001..A-099). A-099 banked at the
+- Banked: **100 of 216** (A-001..A-100). A-100 banked at the
+  seat 2026-11-13 (team-27 commit 7dd122f5 cherry-picked
+  as 46fab692, +6 run_all cases, pin 610 -> 616;
+  placement planner - per-op device assignment from the
+  measured A-094/A-097/A-098 cost tables encoded verbatim,
+  12/12 standard fixtures at their measured optima, NPU
+  decisions carry the A-099 CPU fallback, unproven paths
+  never placed; seat gate 613/1/2 of 616 exact on run 1
+  solo, sole failure J-022, no intermittent fired;
+  full note in PROJECT_MEMORY_MAP).
+  A-099 banked at the
   seat 2026-11-13 (team-26 commit baede81a cherry-picked
   as 7faf2120, +0 run_all cases, pin stays 610; NPU
   fallback contract - every NPU failure degrades to
@@ -458,10 +468,9 @@ when its lead is live on its assigned slice in its own worktree.
   resilience.state_vault_rejects_growth (bug B2) - neither
   appeared in the accepted gate run.
 - Queue: teams take slices in roadmap order as theirs
-  bank (keeper flow): A-100 - next to bank (Wave 12
-  opener, placement planner; no team build yet -
-  teams mustered on the next slices in order).
-  Wave 11 stands 9 of 9 - COMPLETE.
+  bank (keeper flow): A-101 - next to bank (team-25,
+  DONE, committed 6e177bf4; pipeline overlap).
+  Wave 12 stands 1 of 9.
   A-066 closed the A-065 KV-append gap
   (kv_append kernel, bit-exact).
   Sole failure in every suite =
