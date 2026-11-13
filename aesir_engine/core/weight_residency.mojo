@@ -40,6 +40,7 @@ from std.ffi import external_call
 from std.memory import Pointer
 
 from loader.gguf import GGMLType, GGUFSeer
+from core.hip_errors import raise_hip_error
 
 comptime _RESIDENCY_ABSENT = -1
 
@@ -121,10 +122,7 @@ struct WeightResidency:
                 "WeightResidency." + what + ": HIP runtime is not"
                 " loadable on this host (honest-absent)"
             )
-        raise Error(
-            "WeightResidency." + what + ": HIP call failed, code "
-            + String(Int(rc))
-        )
+        raise_hip_error("WeightResidency." + what, rc)
 
     @staticmethod
     def account(seer: GGUFSeer) raises -> ResidencyAccounting:

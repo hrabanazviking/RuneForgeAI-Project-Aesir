@@ -38,6 +38,7 @@ from std.memory import Pointer
 from core.checked_span import checked_span, CheckedSpan
 from core.vulkan_buffers import VulkanBuffers, VulkanAllocation
 from core.buffer_ownership import ownership_taxonomy_name
+from core.hip_errors import raise_hip_error
 
 comptime BACKEND_HIP_MANAGED = 1
 comptime BACKEND_VULKAN_CACHED = 2
@@ -119,9 +120,7 @@ struct ZeroCopy:
                 " the operation: " + ownership_taxonomy_name(Int(rc))
                 + " (A-022)"
             )
-        raise Error(
-            "ZeroCopy." + what + ": HIP call failed, code " + String(Int(rc))
-        )
+        raise_hip_error("ZeroCopy." + what, rc)
 
     @staticmethod
     def allocate(size_bytes: Int, backend: Int) raises -> ZeroCopyBuffer:

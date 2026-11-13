@@ -507,6 +507,13 @@ from tests.test_structured_errors import (
     test_structured_errors_translation,
     test_structured_errors_vulkan_cpu_consistency,
 )
+from tests.test_hip_errors_a089 import (
+    test_hip_errors_mapping_table,
+    test_hip_errors_fault_injection,
+    test_hip_errors_fallback_and_success,
+    test_hip_errors_gateway_consistency,
+    test_hip_errors_real_paths,
+)
 from tests.test_npu_realm import (
     test_npu_probe_absence,
     test_npu_gemm_dispatch_bounds,
@@ -1381,6 +1388,11 @@ def main() raises:
     run_case(ledger, "errors.structured_real_paths", test_structured_errors_real_paths)
     run_case(ledger, "errors.structured_translation", test_structured_errors_translation)
     run_case(ledger, "errors.structured_vulkan_cpu_consistency", test_structured_errors_vulkan_cpu_consistency)
+    run_case(ledger, "errors.hip_mapping_table", test_hip_errors_mapping_table)
+    run_case(ledger, "errors.hip_fault_injection", test_hip_errors_fault_injection)
+    run_case(ledger, "errors.hip_fallback_and_success", test_hip_errors_fallback_and_success)
+    run_case(ledger, "errors.hip_gateway_consistency", test_hip_errors_gateway_consistency)
+    run_case(ledger, "errors.hip_real_paths", test_hip_errors_real_paths)
     run_case(
         ledger,
         "gpu.resilience_allocation_rejection",
@@ -2145,4 +2157,9 @@ def main() raises:
     # tests/test_rocm_repro_a087.mojo) counted on top of the
     # A-086 seat pin; the A-087 team pin (594 on the A-083
     # base) reconciles here at banking.
-    ledger.finish(605)
+    # A-089 union re-pin (banking 2026-11-13): 605 -> 610 --
+    # five HIP error semantics cases (errors.hip_* in
+    # tests/test_hip_errors_a089.mojo) counted on top of the
+    # A-088 seat pin; the A-089 team pin (599 on the A-085
+    # base) reconciles here at banking.
+    ledger.finish(610)

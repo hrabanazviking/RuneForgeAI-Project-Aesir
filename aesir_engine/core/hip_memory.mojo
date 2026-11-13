@@ -35,6 +35,7 @@ from std.ffi import external_call
 from std.memory import Pointer
 from core.checked_span import checked_span
 from core.buffer_ownership import ownership_taxonomy_name
+from core.hip_errors import raise_hip_error
 
 comptime _HIP_MEMCPY_HOST_TO_DEVICE = 1
 comptime _HIP_MEMCPY_DEVICE_TO_HOST = 2
@@ -75,9 +76,7 @@ struct HipMemory:
                 " the operation: " + ownership_taxonomy_name(Int(rc))
                 + " (A-022)"
             )
-        raise Error(
-            "GPU-001 CUDA_INIT_FAILED: HipMemory." + what + ": HIP call failed, code " + String(Int(rc))
-        )
+        raise_hip_error("HipMemory." + what, rc)
 
     @staticmethod
     def device_count() raises -> Int:

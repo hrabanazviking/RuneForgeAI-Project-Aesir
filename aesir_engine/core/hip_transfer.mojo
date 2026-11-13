@@ -36,6 +36,7 @@ from std.ffi import external_call
 from std.memory import Pointer
 from core.checked_span import checked_span
 from core.buffer_ownership import ownership_taxonomy_name
+from core.hip_errors import raise_hip_error
 
 comptime _HIP_MEMCPY_HOST_TO_DEVICE = 1
 comptime _HIP_MEMCPY_DEVICE_TO_HOST = 2
@@ -56,9 +57,7 @@ def _raise_for_rc(what: String, rc: Int32) raises:
             " the operation: " + ownership_taxonomy_name(Int(rc))
             + " (A-022)"
         )
-    raise Error(
-        "GPU-004 DEVICE_SYNCHRONIZE_TIMEOUT: HipTransfer." + what + ": HIP call failed, code " + String(Int(rc))
-    )
+    raise_hip_error("HipTransfer." + what, rc)
 
 
 struct HipTransfer:

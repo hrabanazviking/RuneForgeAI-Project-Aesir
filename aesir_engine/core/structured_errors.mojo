@@ -47,6 +47,8 @@ def taxonomy_name_for_structured_code(code: String) -> String:
         return String("KERNEL_LAUNCH_FAILED")
     if code == "GPU-004":
         return String("DEVICE_SYNCHRONIZE_TIMEOUT")
+    if code == "GPU-005":
+        return String("ILLEGAL_MEMORY_ACCESS")
     if code == "GPU-006":
         return String("DRIVER_VERSION_MISMATCH")
     if code == "GPU-012":
@@ -154,7 +156,7 @@ def inject_backend_failure(backend: String, kind: Int) raises:
 
 
 def structured_code_of(text: String) -> String:
-    var codes = ["GPU-012", "GPU-001", "GPU-002", "GPU-003", "GPU-004", "GPU-006", "MEM-001", "MEM-002", "MEM-003", "VAL-003", "INF-001", "INF-008", "MDL-010", "INT-001", "INT-002", "INT-004"]
+    var codes = ["GPU-012", "GPU-001", "GPU-002", "GPU-003", "GPU-004", "GPU-005", "GPU-006", "MEM-001", "MEM-002", "MEM-003", "VAL-003", "INF-001", "INF-008", "MDL-010", "INT-001", "INT-002", "INT-004"]
     for i in range(len(codes)):
         if codes[i] in text:
             return codes[i]
