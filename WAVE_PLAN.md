@@ -68,7 +68,15 @@ when its lead is live on its assigned slice in its own worktree.
 
 ## State
 
-- Banked: **75 of 216** (A-001..A-075). A-075 banked at the
+- Banked: **76 of 216** (A-001..A-076). A-076 banked at the
+  seat 2026-11-12 (team-03 commit 0000b175 cherry-picked
+  as b99b702b with the run_all union composed at banking,
+  pin 549 -> 556; GPU memory pressure - GpuPressureGovernor
+  pre-dispatch routing contract: spillable overflow spills
+  to CPU, non-spillable refuses MEM-003 before any GPU
+  allocation, degradation logged and bounded; real 25.8 GB
+  balloon squeeze flipped routing and recovered clean).
+  A-075 banked at the
   seat 2026-11-12 (team-02 commit fa0078ef cherry-picked
   as b96c9c14, run_all pin 543 -> 549; accumulation
   policy - every reduction accumulates in FP32, FP16/
@@ -187,10 +195,13 @@ when its lead is live on its assigned slice in its own worktree.
   is COMPLETE. Wave 6 (A-046..A-054) is COMPLETE.
   Wave 7 (A-055..A-063) is COMPLETE. Wave 8
   (A-064..A-072) is COMPLETE. Wave 9
-  (A-073..A-081) is IN PROGRESS (3 of 9).**
-- Seat gate after this banking: A-075 (seat_gate_a075.log)
-  546 passed / 1 failed / 2 skipped / 549 total,
-  exact on the first run. Sole failure the pre-existing
+  (A-073..A-081) is IN PROGRESS (4 of 9).**
+- Seat gate after this banking: A-076 (seat_gate_a076.log)
+  553 passed / 1 failed / 2 skipped / 556 total,
+  exact on the re-run (run 1 failed at parse time: a stray
+  closing paren left by the banking union resolver in
+  run_all.mojo - fixed in the slice commit at banking,
+  log preserved as seat_gate_a076_run1_parsefail.log). Sole failure the pre-existing
   gguf.tensor_directory_interface (J-022 drift), skips the
   2 pre-declared. Known intermittents (proven pre-existing
   at base b62b1481 by the A-055 base bisect, NOT caused by
@@ -199,8 +210,8 @@ when its lead is live on its assigned slice in its own worktree.
   resilience.state_vault_rejects_growth (bug B2) - neither
   appeared in the accepted gate run.
 - Queue: teams take slices in roadmap order as theirs
-  bank (keeper flow): A-076 - next to bank; teams then
-  flow onto A-077 onward in roadmap order.
+  bank (keeper flow): A-077 - next to build; teams flow
+  onto A-077 onward in roadmap order.
   A-066 closed the A-065 KV-append gap
   (kv_append kernel, bit-exact).
   Sole failure in every suite =
