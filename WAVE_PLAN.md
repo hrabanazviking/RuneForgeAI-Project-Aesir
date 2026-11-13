@@ -68,7 +68,18 @@ when its lead is live on its assigned slice in its own worktree.
 
 ## State
 
-- Banked: **93 of 216** (A-001..A-093). A-093 banked at the
+- Banked: **94 of 216** (A-001..A-094). A-094 banked at the
+  seat 2026-11-13 (team-24 commit 01249ad8 cherry-picked
+  as 42f8296e, +0 run_all cases, pin stays 610; NPU-shaped
+  ops analysis - candidate table from real XDNA 2 runs:
+  dispatch floor ~93 us warm, GEMM crossover 32^3 (0.29x)
+  to 64^3 (1.88x), 512^3 37.7x; A-095 takes prefill
+  projection GEMM M >= 64, the only FIT candidate; seat
+  gate 607/1/2 of 610 exact on run 2 solo, sole failure
+  J-022 (run 1: 606/2/2 with the named intermittent
+  gpu.amd_hip_stream_async_round_trip, log preserved);
+  full note in PROJECT_MEMORY_MAP).
+  A-093 banked at the
   seat 2026-11-13 (team-23 commit 035bc7ac cherry-picked
   as c63c8425, +0 run_all cases, pin stays 610; NPU
   memory sharing - type-2 BO exported via xrtBOExport,
@@ -386,11 +397,10 @@ when its lead is live on its assigned slice in its own worktree.
   resilience.state_vault_rejects_growth (bug B2) - neither
   appeared in the accepted gate run.
 - Queue: teams take slices in roadmap order as theirs
-  bank (keeper flow): A-094 - next to bank (team-24,
-  committed 01249ad8, verified); then A-095 (team-25,
-  implementation lead cancelled mid-build, WIP on disk,
-  restart this tick); then A-096/A-097 (teams 26/27,
-  muster this tick).
+  bank (keeper flow): A-095 - next to bank (team-25,
+  implementation restarted this tick from on-disk WIP);
+  then A-096 (team-26) and A-097 (team-27), mustered
+  this tick. Wave 11 stands 4 of 9.
   A-066 closed the A-065 KV-append gap
   (kv_append kernel, bit-exact).
   Sole failure in every suite =
