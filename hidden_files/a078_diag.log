@@ -1,0 +1,180 @@
+staging=/tmp/tmp.t7qmF0aRwW
+hailo_cc_exit=0
+par_cc_exit=0
+hip_cc_exit=0
+vulkan_cc_exit=0
+zc_cc_exit=0
+aff_cc_exit=0
+Imported from /home/volmarr/aesir-team-02/aesir_engine/a078_diag_tmp.mojo:5:
+Imported from /home/volmarr/aesir-team-02/aesir_engine/aesir.mojo:6:
+/home/volmarr/aesir-team-02/aesir_engine/core/inference.mojo:2162:9: warning: '__del__' is deprecated; use '__deinit__'
+    def __del__(deinit self):
+        ^~~~~~~
+        __deinit__
+Imported from /home/volmarr/aesir-team-02/aesir_engine/a078_diag_tmp.mojo:5:
+Imported from /home/volmarr/aesir-team-02/aesir_engine/aesir.mojo:6:
+/home/volmarr/aesir-team-02/aesir_engine/core/inference.mojo:2163:20: warning: 'free' is deprecated, use 'unsafe_free' instead
+        self.s_data.free()
+        ~~~~~~~~~~~^~~~~
+                    unsafe_free
+<unknown>:0: note: 'free' declared here
+Imported from /home/volmarr/aesir-team-02/aesir_engine/a078_diag_tmp.mojo:5:
+Imported from /home/volmarr/aesir-team-02/aesir_engine/aesir.mojo:6:
+/home/volmarr/aesir-team-02/aesir_engine/core/inference.mojo:2164:23: warning: 'free' is deprecated, use 'unsafe_free' instead
+        self.conv_data.free()
+        ~~~~~~~~~~~~~~^~~~~
+                       unsafe_free
+<unknown>:0: note: 'free' declared here
+Imported from /home/volmarr/aesir-team-02/aesir_engine/a078_diag_tmp.mojo:5:
+Imported from /home/volmarr/aesir-team-02/aesir_engine/aesir.mojo:6:
+/home/volmarr/aesir-team-02/aesir_engine/core/inference.mojo:2165:21: warning: 'free' is deprecated, use 'unsafe_free' instead
+        self.scratch.free()
+        ~~~~~~~~~~~~^~~~~
+                     unsafe_free
+<unknown>:0: note: 'free' declared here
+Imported from /home/volmarr/aesir-team-02/aesir_engine/a078_diag_tmp.mojo:4:
+/home/volmarr/aesir-team-02/aesir_engine/core/vulkan_real_model.mojo:764:23: warning: `alloc` without a `Layout` is deprecated, use the `Layout`-based `alloc` instead; as a temporary migration step, use `unsafe_alloc`
+            var buf = alloc[Scalar[DType.float16]](self.dim)
+                      ^~~~~
+<unknown>:0: note: 'alloc' declared here
+Imported from /home/volmarr/aesir-team-02/aesir_engine/a078_diag_tmp.mojo:4:
+/home/volmarr/aesir-team-02/aesir_engine/core/vulkan_real_model.mojo:767:31: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+                out.append(buf[i].cast[DType.float32]())
+                           ~~~^~~
+<unknown>:0: note: '__getitem__' declared here
+Imported from /home/volmarr/aesir-team-02/aesir_engine/a078_diag_tmp.mojo:4:
+/home/volmarr/aesir-team-02/aesir_engine/core/vulkan_real_model.mojo:768:16: warning: 'free' is deprecated, use 'unsafe_free' instead
+            buf.free()
+            ~~~^~~~~
+                unsafe_free
+<unknown>:0: note: 'free' declared here
+Imported from /home/volmarr/aesir-team-02/aesir_engine/a078_diag_tmp.mojo:5:
+Imported from /home/volmarr/aesir-team-02/aesir_engine/aesir.mojo:6:
+/home/volmarr/aesir-team-02/aesir_engine/core/inference.mojo:949:27: warning: `alloc` without a `Layout` is deprecated, use the `Layout`-based `alloc` instead; as a temporary migration step, use `unsafe_alloc`
+            var scratch = alloc[Float32](256)
+                          ^~~~~
+<unknown>:0: note: 'alloc' declared here
+Imported from /home/volmarr/aesir-team-02/aesir_engine/a078_diag_tmp.mojo:5:
+Imported from /home/volmarr/aesir-team-02/aesir_engine/aesir.mojo:6:
+/home/volmarr/aesir-team-02/aesir_engine/core/inference.mojo:970:30: warning: `alloc` without a `Layout` is deprecated, use the `Layout`-based `alloc` instead; as a temporary migration step, use `unsafe_alloc`
+            var nl_scratch = alloc[Float32](32)
+                             ^~~~~
+<unknown>:0: note: 'alloc' declared here
+Imported from /home/volmarr/aesir-team-02/aesir_engine/a078_diag_tmp.mojo:5:
+Imported from /home/volmarr/aesir-team-02/aesir_engine/aesir.mojo:6:
+Imported from /home/volmarr/aesir-team-02/aesir_engine/core/inference.mojo:11:
+/home/volmarr/aesir-team-02/aesir_engine/core/compute.mojo:1970:15: warning: `alloc` without a `Layout` is deprecated, use the `Layout`-based `alloc` instead; as a temporary migration step, use `unsafe_alloc`
+    var dst = alloc[UInt16](2048)
+              ^~~~~
+<unknown>:0: note: 'alloc' declared here
+Imported from /home/volmarr/aesir-team-02/aesir_engine/a078_diag_tmp.mojo:5:
+Imported from /home/volmarr/aesir-team-02/aesir_engine/aesir.mojo:6:
+Imported from /home/volmarr/aesir-team-02/aesir_engine/core/inference.mojo:11:
+/home/volmarr/aesir-team-02/aesir_engine/core/compute.mojo:1262:14: warning: `alloc` without a `Layout` is deprecated, use the `Layout`-based `alloc` instead; as a temporary migration step, use `unsafe_alloc`
+    var cp = alloc[Int64](6)
+             ^~~~~
+<unknown>:0: note: 'alloc' declared here
+Imported from /home/volmarr/aesir-team-02/aesir_engine/a078_diag_tmp.mojo:5:
+Imported from /home/volmarr/aesir-team-02/aesir_engine/aesir.mojo:6:
+Imported from /home/volmarr/aesir-team-02/aesir_engine/core/inference.mojo:11:
+Imported from /home/volmarr/aesir-team-02/aesir_engine/core/compute.mojo:9:
+/home/volmarr/aesir-team-02/aesir_engine/core/parallel.mojo:39:1: warning: 'alias' is deprecated; use 'comptime'
+alias RangeFn = def(Int64, Int64, Int64) thin -> None
+^~~~~
+comptime
+Imported from /home/volmarr/aesir-team-02/aesir_engine/a078_diag_tmp.mojo:5:
+Imported from /home/volmarr/aesir-team-02/aesir_engine/aesir.mojo:6:
+Imported from /home/volmarr/aesir-team-02/aesir_engine/core/inference.mojo:11:
+/home/volmarr/aesir-team-02/aesir_engine/core/compute.mojo:2632:14: warning: `alloc` without a `Layout` is deprecated, use the `Layout`-based `alloc` instead; as a temporary migration step, use `unsafe_alloc`
+    var cp = alloc[Int64](6)
+             ^~~~~
+<unknown>:0: note: 'alloc' declared here
+Imported from /home/volmarr/aesir-team-02/aesir_engine/a078_diag_tmp.mojo:5:
+Imported from /home/volmarr/aesir-team-02/aesir_engine/aesir.mojo:6:
+Imported from /home/volmarr/aesir-team-02/aesir_engine/core/inference.mojo:11:
+/home/volmarr/aesir-team-02/aesir_engine/core/compute.mojo:2175:14: warning: `alloc` without a `Layout` is deprecated, use the `Layout`-based `alloc` instead; as a temporary migration step, use `unsafe_alloc`
+    var cp = alloc[Int64](7)
+             ^~~~~
+<unknown>:0: note: 'alloc' declared here
+Imported from /home/volmarr/aesir-team-02/aesir_engine/a078_diag_tmp.mojo:5:
+Imported from /home/volmarr/aesir-team-02/aesir_engine/aesir.mojo:6:
+Imported from /home/volmarr/aesir-team-02/aesir_engine/core/inference.mojo:11:
+/home/volmarr/aesir-team-02/aesir_engine/core/compute.mojo:1089:19: warning: `alloc` without a `Layout` is deprecated, use the `Layout`-based `alloc` instead; as a temporary migration step, use `unsafe_alloc`
+    var scratch = alloc[Float32](a_cols)
+                  ^~~~~
+<unknown>:0: note: 'alloc' declared here
+Imported from /home/volmarr/aesir-team-02/aesir_engine/a078_diag_tmp.mojo:5:
+Imported from /home/volmarr/aesir-team-02/aesir_engine/aesir.mojo:6:
+Imported from /home/volmarr/aesir-team-02/aesir_engine/core/inference.mojo:11:
+/home/volmarr/aesir-team-02/aesir_engine/core/compute.mojo:1935:14: warning: `alloc` without a `Layout` is deprecated, use the `Layout`-based `alloc` instead; as a temporary migration step, use `unsafe_alloc`
+    var cp = alloc[Int64](9)
+             ^~~~~
+<unknown>:0: note: 'alloc' declared here
+Imported from /home/volmarr/aesir-team-02/aesir_engine/a078_diag_tmp.mojo:5:
+Imported from /home/volmarr/aesir-team-02/aesir_engine/aesir.mojo:6:
+Imported from /home/volmarr/aesir-team-02/aesir_engine/core/inference.mojo:11:
+/home/volmarr/aesir-team-02/aesir_engine/core/compute.mojo:2087:14: warning: `alloc` without a `Layout` is deprecated, use the `Layout`-based `alloc` instead; as a temporary migration step, use `unsafe_alloc`
+    var cp = alloc[Int64](8)
+             ^~~~~
+<unknown>:0: note: 'alloc' declared here
+Imported from /home/volmarr/aesir-team-02/aesir_engine/a078_diag_tmp.mojo:5:
+Imported from /home/volmarr/aesir-team-02/aesir_engine/aesir.mojo:6:
+Imported from /home/volmarr/aesir-team-02/aesir_engine/core/inference.mojo:11:
+/home/volmarr/aesir-team-02/aesir_engine/core/compute.mojo:2552:14: warning: `alloc` without a `Layout` is deprecated, use the `Layout`-based `alloc` instead; as a temporary migration step, use `unsafe_alloc`
+    var cp = alloc[Int64](8)
+             ^~~~~
+<unknown>:0: note: 'alloc' declared here
+Imported from /home/volmarr/aesir-team-02/aesir_engine/a078_diag_tmp.mojo:5:
+Imported from /home/volmarr/aesir-team-02/aesir_engine/aesir.mojo:6:
+Imported from /home/volmarr/aesir-team-02/aesir_engine/core/inference.mojo:11:
+/home/volmarr/aesir-team-02/aesir_engine/core/compute.mojo:1632:28: warning: unreachable code on right side of 'False and ...'
+    return VNNI_DEFAULT_ON and cpu_has_vnni()
+                           ^
+Imported from /home/volmarr/aesir-team-02/aesir_engine/a078_diag_tmp.mojo:5:
+Imported from /home/volmarr/aesir-team-02/aesir_engine/aesir.mojo:6:
+Imported from /home/volmarr/aesir-team-02/aesir_engine/core/inference.mojo:11:
+/home/volmarr/aesir-team-02/aesir_engine/core/compute.mojo:1743:18: warning: `alloc` without a `Layout` is deprecated, use the `Layout`-based `alloc` instead; as a temporary migration step, use `unsafe_alloc`
+        var xq = alloc[Int8](rows_here * a_cols)
+                 ^~~~~
+<unknown>:0: note: 'alloc' declared here
+Imported from /home/volmarr/aesir-team-02/aesir_engine/a078_diag_tmp.mojo:5:
+Imported from /home/volmarr/aesir-team-02/aesir_engine/aesir.mojo:6:
+Imported from /home/volmarr/aesir-team-02/aesir_engine/core/inference.mojo:11:
+/home/volmarr/aesir-team-02/aesir_engine/core/compute.mojo:1744:22: warning: `alloc` without a `Layout` is deprecated, use the `Layout`-based `alloc` instead; as a temporary migration step, use `unsafe_alloc`
+        var xscale = alloc[Float32](rows_here * blocks_per_row * nsub)
+                     ^~~~~
+<unknown>:0: note: 'alloc' declared here
+Imported from /home/volmarr/aesir-team-02/aesir_engine/a078_diag_tmp.mojo:5:
+Imported from /home/volmarr/aesir-team-02/aesir_engine/aesir.mojo:6:
+Imported from /home/volmarr/aesir-team-02/aesir_engine/core/inference.mojo:11:
+/home/volmarr/aesir-team-02/aesir_engine/core/compute.mojo:1745:21: warning: `alloc` without a `Layout` is deprecated, use the `Layout`-based `alloc` instead; as a temporary migration step, use `unsafe_alloc`
+        var xsums = alloc[Float32](rows_here * blocks_per_row * nsub)
+                    ^~~~~
+<unknown>:0: note: 'alloc' declared here
+Included from /home/volmarr/aesir-team-02/aesir_engine/a078_diag_tmp.mojo:5:
+Included from /home/volmarr/aesir-team-02/aesir_engine/aesir.mojo:16:
+/home/volmarr/aesir-team-02/aesir_engine/loader/gguf.mojo:566:29: warning: assignment to 'width' was never used; assign to '_' instead?
+                var width = 0
+                            ^
+MimirWell initialized with 2133881856 derived bytes.
+GGUF validated: 292 tensors, 33 metadata entries, architecture llama
+GGUF validated: 292 tensors, 33 metadata entries, architecture llama
+case pos rank gap cpu_gap delta top_agree margin rel
+2   0   43697   9.195199   9.310791   0.115592   True   0.09375   0.012414842
+4   0   107084   14.640684   14.394531   0.24615288   True   0.390625   0.017100444
+5   0   120845   22.885332   22.394531   0.49080086   True   2.859375   0.021916103
+7   0   1547   9.762364   9.644531   0.11783314   True   0.390625   0.012217612
+9   0   124192   22.378834   21.990234   0.3885994   True   1.28125   0.017671453
+10   0   126399   21.71481   21.519531   0.19527817   True   0.40625   0.009074462
+11   0   99575   13.526209   13.40625   0.11995888   True   0.1875   0.0089479815
+12   0   118597   15.084984   14.902344   0.18264008   True   1.390625   0.012255795
+13   0   116412   14.010462   13.9453125   0.06514931   True   0.4140625   0.004671771
+14   0   101105   16.681826   16.511719   0.17010689   True   0.5859375   0.010302192
+15   0   47597   14.339233   14.037109   0.30212402   True   2.65625   0.021523237
+17   0   82626   16.031666   15.740234   0.29143143   True   1.625   0.018515063
+18   0   97081   17.424183   17.163086   0.26109695   True   0.265625   0.015212704
+19   0   72434   15.179182   15.04126   0.13792229   True   1.234375   0.009169597
+20   0   116671   23.75308   23.091797   0.6612835   True   2.9375   0.02863716
+21   0   8652   10.603802   10.330078   0.2737236   True   0.0234375   0.026497727
+DIAG_DONE
+MOJO_EXIT=0

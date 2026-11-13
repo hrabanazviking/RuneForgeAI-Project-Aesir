@@ -330,6 +330,15 @@ from tests.test_gpu_soak_a077 import (
     test_gpu_soak_live_rss_reader,
     test_gpu_soak_device_burst,
 )
+from tests.test_gpu_fuzz_a078 import (
+    test_gpu_fuzz_seed_replay,
+    test_gpu_fuzz_case_coverage,
+    test_gpu_fuzz_verdict_classifier,
+    test_gpu_fuzz_synthetic_row_battery,
+    test_gpu_fuzz_sampling_greedy,
+    test_gpu_fuzz_sampling_temperature,
+    test_gpu_fuzz_real_model_random_prompts,
+)
 from tests.test_gpu_pressure_a076 import (
     test_gpu_pressure_classification,
     test_gpu_pressure_gpu_route_baseline,
@@ -1200,6 +1209,13 @@ def main() raises:
     run_case(ledger, "gpu.vulkan_async_dispatch_queueing", test_vulkan_async_dispatch_queueing)
     run_case(ledger, "gpu.vulkan_async_rejection", test_vulkan_async_rejection)
     run_case(ledger, "gpu.vulkan_async_dispatch_evidence", test_vulkan_async_dispatch_evidence)
+    run_case(ledger, "gpu_fuzz.seed_replay", test_gpu_fuzz_seed_replay)
+    run_case(ledger, "gpu_fuzz.case_coverage", test_gpu_fuzz_case_coverage)
+    run_case(ledger, "gpu_fuzz.verdict_classifier", test_gpu_fuzz_verdict_classifier)
+    run_case(ledger, "gpu_fuzz.synthetic_row_battery", test_gpu_fuzz_synthetic_row_battery)
+    run_case(ledger, "gpu_fuzz.sampling_greedy", test_gpu_fuzz_sampling_greedy)
+    run_case(ledger, "gpu_fuzz.sampling_temperature", test_gpu_fuzz_sampling_temperature)
+    run_case(ledger, "gpu_fuzz.real_model_random_prompts", test_gpu_fuzz_real_model_random_prompts)
     run_case(ledger, "gpu.gpu_pressure_classification", test_gpu_pressure_classification)
     run_case(ledger, "gpu.gpu_pressure_gpu_route_baseline", test_gpu_pressure_gpu_route_baseline)
     run_case(ledger, "gpu.gpu_pressure_squeeze_spill_refuse", test_gpu_pressure_squeeze_spill_refuse)
@@ -1999,4 +2015,9 @@ def main() raises:
     # A-077 re-pin: 556 -> 561 -- five GPU soak cases
     # (gpu.gpu_soak_* in tests/test_gpu_soak_a077.mojo)
     # counted on top of the A-076 seat pin.
-    ledger.finish(561)
+    # A-078 union re-pin (banking 2026-11-12): 561 -> 568 --
+    # seven GPU fuzz cases (gpu_fuzz.* in
+    # tests/test_gpu_fuzz_a078.mojo) counted on top of the
+    # A-077 seat pin; the A-078 team pin (563 on the A-076
+    # base) reconciles here at banking.
+    ledger.finish(568)

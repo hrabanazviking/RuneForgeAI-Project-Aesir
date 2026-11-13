@@ -1,0 +1,203 @@
+staging=/tmp/tmp.nkNTc62GSQ
+hailo_cc_exit=0
+par_cc_exit=0
+hip_cc_exit=0
+vulkan_cc_exit=0
+zc_cc_exit=0
+aff_cc_exit=0
+Imported from /home/volmarr/aesir-team-02/aesir_engine/tests/bench_gpu_fuzz_a078.mojo:50:
+/home/volmarr/aesir-team-02/aesir_engine/core/vulkan_buffers.mojo:267:24: warning: `alloc` without a `Layout` is deprecated, use the `Layout`-based `alloc` instead; as a temporary migration step, use `unsafe_alloc`
+        var name_buf = alloc[UInt8](256)
+                       ^~~~~
+<unknown>:0: note: 'alloc' declared here
+Imported from /home/volmarr/aesir-team-02/aesir_engine/tests/bench_gpu_fuzz_a078.mojo:50:
+/home/volmarr/aesir-team-02/aesir_engine/core/vulkan_buffers.mojo:295:24: warning: `alloc` without a `Layout` is deprecated, use the `Layout`-based `alloc` instead; as a temporary migration step, use `unsafe_alloc`
+        var name_buf = alloc[UInt8](256)
+                       ^~~~~
+<unknown>:0: note: 'alloc' declared here
+Imported from /home/volmarr/aesir-team-02/aesir_engine/tests/bench_gpu_fuzz_a078.mojo:53:
+Imported from /home/volmarr/aesir-team-02/aesir_engine/aesir.mojo:6:
+/home/volmarr/aesir-team-02/aesir_engine/core/inference.mojo:2162:9: warning: '__del__' is deprecated; use '__deinit__'
+    def __del__(deinit self):
+        ^~~~~~~
+        __deinit__
+Imported from /home/volmarr/aesir-team-02/aesir_engine/tests/bench_gpu_fuzz_a078.mojo:53:
+Imported from /home/volmarr/aesir-team-02/aesir_engine/aesir.mojo:6:
+/home/volmarr/aesir-team-02/aesir_engine/core/inference.mojo:2163:20: warning: 'free' is deprecated, use 'unsafe_free' instead
+        self.s_data.free()
+        ~~~~~~~~~~~^~~~~
+                    unsafe_free
+<unknown>:0: note: 'free' declared here
+Imported from /home/volmarr/aesir-team-02/aesir_engine/tests/bench_gpu_fuzz_a078.mojo:53:
+Imported from /home/volmarr/aesir-team-02/aesir_engine/aesir.mojo:6:
+/home/volmarr/aesir-team-02/aesir_engine/core/inference.mojo:2164:23: warning: 'free' is deprecated, use 'unsafe_free' instead
+        self.conv_data.free()
+        ~~~~~~~~~~~~~~^~~~~
+                       unsafe_free
+<unknown>:0: note: 'free' declared here
+Imported from /home/volmarr/aesir-team-02/aesir_engine/tests/bench_gpu_fuzz_a078.mojo:53:
+Imported from /home/volmarr/aesir-team-02/aesir_engine/aesir.mojo:6:
+/home/volmarr/aesir-team-02/aesir_engine/core/inference.mojo:2165:21: warning: 'free' is deprecated, use 'unsafe_free' instead
+        self.scratch.free()
+        ~~~~~~~~~~~~^~~~~
+                     unsafe_free
+<unknown>:0: note: 'free' declared here
+Imported from /home/volmarr/aesir-team-02/aesir_engine/tests/bench_gpu_fuzz_a078.mojo:52:
+/home/volmarr/aesir-team-02/aesir_engine/core/vulkan_real_model.mojo:764:23: warning: `alloc` without a `Layout` is deprecated, use the `Layout`-based `alloc` instead; as a temporary migration step, use `unsafe_alloc`
+            var buf = alloc[Scalar[DType.float16]](self.dim)
+                      ^~~~~
+<unknown>:0: note: 'alloc' declared here
+Imported from /home/volmarr/aesir-team-02/aesir_engine/tests/bench_gpu_fuzz_a078.mojo:52:
+/home/volmarr/aesir-team-02/aesir_engine/core/vulkan_real_model.mojo:767:31: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+                out.append(buf[i].cast[DType.float32]())
+                           ~~~^~~
+<unknown>:0: note: '__getitem__' declared here
+Imported from /home/volmarr/aesir-team-02/aesir_engine/tests/bench_gpu_fuzz_a078.mojo:52:
+/home/volmarr/aesir-team-02/aesir_engine/core/vulkan_real_model.mojo:768:16: warning: 'free' is deprecated, use 'unsafe_free' instead
+            buf.free()
+            ~~~^~~~~
+                unsafe_free
+<unknown>:0: note: 'free' declared here
+Imported from /home/volmarr/aesir-team-02/aesir_engine/tests/bench_gpu_fuzz_a078.mojo:53:
+Imported from /home/volmarr/aesir-team-02/aesir_engine/aesir.mojo:6:
+/home/volmarr/aesir-team-02/aesir_engine/core/inference.mojo:949:27: warning: `alloc` without a `Layout` is deprecated, use the `Layout`-based `alloc` instead; as a temporary migration step, use `unsafe_alloc`
+            var scratch = alloc[Float32](256)
+                          ^~~~~
+<unknown>:0: note: 'alloc' declared here
+Imported from /home/volmarr/aesir-team-02/aesir_engine/tests/bench_gpu_fuzz_a078.mojo:53:
+Imported from /home/volmarr/aesir-team-02/aesir_engine/aesir.mojo:6:
+/home/volmarr/aesir-team-02/aesir_engine/core/inference.mojo:970:30: warning: `alloc` without a `Layout` is deprecated, use the `Layout`-based `alloc` instead; as a temporary migration step, use `unsafe_alloc`
+            var nl_scratch = alloc[Float32](32)
+                             ^~~~~
+<unknown>:0: note: 'alloc' declared here
+Imported from /home/volmarr/aesir-team-02/aesir_engine/tests/bench_gpu_fuzz_a078.mojo:53:
+Imported from /home/volmarr/aesir-team-02/aesir_engine/aesir.mojo:6:
+Imported from /home/volmarr/aesir-team-02/aesir_engine/core/inference.mojo:11:
+/home/volmarr/aesir-team-02/aesir_engine/core/compute.mojo:1970:15: warning: `alloc` without a `Layout` is deprecated, use the `Layout`-based `alloc` instead; as a temporary migration step, use `unsafe_alloc`
+    var dst = alloc[UInt16](2048)
+              ^~~~~
+<unknown>:0: note: 'alloc' declared here
+Imported from /home/volmarr/aesir-team-02/aesir_engine/tests/bench_gpu_fuzz_a078.mojo:53:
+Imported from /home/volmarr/aesir-team-02/aesir_engine/aesir.mojo:6:
+Imported from /home/volmarr/aesir-team-02/aesir_engine/core/inference.mojo:11:
+/home/volmarr/aesir-team-02/aesir_engine/core/compute.mojo:1262:14: warning: `alloc` without a `Layout` is deprecated, use the `Layout`-based `alloc` instead; as a temporary migration step, use `unsafe_alloc`
+    var cp = alloc[Int64](6)
+             ^~~~~
+<unknown>:0: note: 'alloc' declared here
+Imported from /home/volmarr/aesir-team-02/aesir_engine/tests/bench_gpu_fuzz_a078.mojo:53:
+Imported from /home/volmarr/aesir-team-02/aesir_engine/aesir.mojo:6:
+Imported from /home/volmarr/aesir-team-02/aesir_engine/core/inference.mojo:11:
+Imported from /home/volmarr/aesir-team-02/aesir_engine/core/compute.mojo:9:
+/home/volmarr/aesir-team-02/aesir_engine/core/parallel.mojo:39:1: warning: 'alias' is deprecated; use 'comptime'
+alias RangeFn = def(Int64, Int64, Int64) thin -> None
+^~~~~
+comptime
+Imported from /home/volmarr/aesir-team-02/aesir_engine/tests/bench_gpu_fuzz_a078.mojo:53:
+Imported from /home/volmarr/aesir-team-02/aesir_engine/aesir.mojo:6:
+Imported from /home/volmarr/aesir-team-02/aesir_engine/core/inference.mojo:11:
+/home/volmarr/aesir-team-02/aesir_engine/core/compute.mojo:2632:14: warning: `alloc` without a `Layout` is deprecated, use the `Layout`-based `alloc` instead; as a temporary migration step, use `unsafe_alloc`
+    var cp = alloc[Int64](6)
+             ^~~~~
+<unknown>:0: note: 'alloc' declared here
+Imported from /home/volmarr/aesir-team-02/aesir_engine/tests/bench_gpu_fuzz_a078.mojo:53:
+Imported from /home/volmarr/aesir-team-02/aesir_engine/aesir.mojo:6:
+Imported from /home/volmarr/aesir-team-02/aesir_engine/core/inference.mojo:11:
+/home/volmarr/aesir-team-02/aesir_engine/core/compute.mojo:2175:14: warning: `alloc` without a `Layout` is deprecated, use the `Layout`-based `alloc` instead; as a temporary migration step, use `unsafe_alloc`
+    var cp = alloc[Int64](7)
+             ^~~~~
+<unknown>:0: note: 'alloc' declared here
+Imported from /home/volmarr/aesir-team-02/aesir_engine/tests/bench_gpu_fuzz_a078.mojo:53:
+Imported from /home/volmarr/aesir-team-02/aesir_engine/aesir.mojo:6:
+Imported from /home/volmarr/aesir-team-02/aesir_engine/core/inference.mojo:11:
+/home/volmarr/aesir-team-02/aesir_engine/core/compute.mojo:1089:19: warning: `alloc` without a `Layout` is deprecated, use the `Layout`-based `alloc` instead; as a temporary migration step, use `unsafe_alloc`
+    var scratch = alloc[Float32](a_cols)
+                  ^~~~~
+<unknown>:0: note: 'alloc' declared here
+Imported from /home/volmarr/aesir-team-02/aesir_engine/tests/bench_gpu_fuzz_a078.mojo:53:
+Imported from /home/volmarr/aesir-team-02/aesir_engine/aesir.mojo:6:
+Imported from /home/volmarr/aesir-team-02/aesir_engine/core/inference.mojo:11:
+/home/volmarr/aesir-team-02/aesir_engine/core/compute.mojo:1935:14: warning: `alloc` without a `Layout` is deprecated, use the `Layout`-based `alloc` instead; as a temporary migration step, use `unsafe_alloc`
+    var cp = alloc[Int64](9)
+             ^~~~~
+<unknown>:0: note: 'alloc' declared here
+Imported from /home/volmarr/aesir-team-02/aesir_engine/tests/bench_gpu_fuzz_a078.mojo:53:
+Imported from /home/volmarr/aesir-team-02/aesir_engine/aesir.mojo:6:
+Imported from /home/volmarr/aesir-team-02/aesir_engine/core/inference.mojo:11:
+/home/volmarr/aesir-team-02/aesir_engine/core/compute.mojo:2087:14: warning: `alloc` without a `Layout` is deprecated, use the `Layout`-based `alloc` instead; as a temporary migration step, use `unsafe_alloc`
+    var cp = alloc[Int64](8)
+             ^~~~~
+<unknown>:0: note: 'alloc' declared here
+Imported from /home/volmarr/aesir-team-02/aesir_engine/tests/bench_gpu_fuzz_a078.mojo:53:
+Imported from /home/volmarr/aesir-team-02/aesir_engine/aesir.mojo:6:
+Imported from /home/volmarr/aesir-team-02/aesir_engine/core/inference.mojo:11:
+/home/volmarr/aesir-team-02/aesir_engine/core/compute.mojo:2552:14: warning: `alloc` without a `Layout` is deprecated, use the `Layout`-based `alloc` instead; as a temporary migration step, use `unsafe_alloc`
+    var cp = alloc[Int64](8)
+             ^~~~~
+<unknown>:0: note: 'alloc' declared here
+Imported from /home/volmarr/aesir-team-02/aesir_engine/tests/bench_gpu_fuzz_a078.mojo:53:
+Imported from /home/volmarr/aesir-team-02/aesir_engine/aesir.mojo:6:
+Imported from /home/volmarr/aesir-team-02/aesir_engine/core/inference.mojo:11:
+/home/volmarr/aesir-team-02/aesir_engine/core/compute.mojo:1632:28: warning: unreachable code on right side of 'False and ...'
+    return VNNI_DEFAULT_ON and cpu_has_vnni()
+                           ^
+Imported from /home/volmarr/aesir-team-02/aesir_engine/tests/bench_gpu_fuzz_a078.mojo:53:
+Imported from /home/volmarr/aesir-team-02/aesir_engine/aesir.mojo:6:
+Imported from /home/volmarr/aesir-team-02/aesir_engine/core/inference.mojo:11:
+/home/volmarr/aesir-team-02/aesir_engine/core/compute.mojo:1743:18: warning: `alloc` without a `Layout` is deprecated, use the `Layout`-based `alloc` instead; as a temporary migration step, use `unsafe_alloc`
+        var xq = alloc[Int8](rows_here * a_cols)
+                 ^~~~~
+<unknown>:0: note: 'alloc' declared here
+Imported from /home/volmarr/aesir-team-02/aesir_engine/tests/bench_gpu_fuzz_a078.mojo:53:
+Imported from /home/volmarr/aesir-team-02/aesir_engine/aesir.mojo:6:
+Imported from /home/volmarr/aesir-team-02/aesir_engine/core/inference.mojo:11:
+/home/volmarr/aesir-team-02/aesir_engine/core/compute.mojo:1744:22: warning: `alloc` without a `Layout` is deprecated, use the `Layout`-based `alloc` instead; as a temporary migration step, use `unsafe_alloc`
+        var xscale = alloc[Float32](rows_here * blocks_per_row * nsub)
+                     ^~~~~
+<unknown>:0: note: 'alloc' declared here
+Imported from /home/volmarr/aesir-team-02/aesir_engine/tests/bench_gpu_fuzz_a078.mojo:53:
+Imported from /home/volmarr/aesir-team-02/aesir_engine/aesir.mojo:6:
+Imported from /home/volmarr/aesir-team-02/aesir_engine/core/inference.mojo:11:
+/home/volmarr/aesir-team-02/aesir_engine/core/compute.mojo:1745:21: warning: `alloc` without a `Layout` is deprecated, use the `Layout`-based `alloc` instead; as a temporary migration step, use `unsafe_alloc`
+        var xsums = alloc[Float32](rows_here * blocks_per_row * nsub)
+                    ^~~~~
+<unknown>:0: note: 'alloc' declared here
+Included from /home/volmarr/aesir-team-02/aesir_engine/tests/bench_gpu_fuzz_a078.mojo:53:
+Included from /home/volmarr/aesir-team-02/aesir_engine/aesir.mojo:16:
+/home/volmarr/aesir-team-02/aesir_engine/loader/gguf.mojo:566:29: warning: assignment to 'width' was never used; assign to '_' instead?
+                var width = 0
+                            ^
+A078_BENCH base_seed= 2692218881
+SYNTH total=256 faithful= 219  near_tie= 19  noise= 18  comparator= 0  real= 0
+SAMPLE greedy_ok= 96 /96 sample_ok= 96 /96
+MimirWell initialized with 2133881856 derived bytes.
+GGUF validated: 292 tensors, 33 metadata entries, architecture llama
+GGUF validated: 292 tensors, 33 metadata entries, architecture llama
+case seed len pos faithful near_tie noise comparator real worst_delta top1_agree
+0   5951501601782625806   1   0   0   0   0   0   0   0.0   0 / 0
+1   8952892663176851965   2   1   0   0   0   1   0   0.029512405   1 / 1
+2   8586198868612101704   3   2   0   0   0   2   0   0.115592   2 / 2
+3   18360564317493637687   4   3   0   0   0   3   0   0.0035276413   3 / 3
+4   9500109091463001730   5   4   0   0   0   4   0   0.24615288   4 / 4
+5   827730466634986097   8   7   0   0   0   7   0   0.49080086   7 / 7
+6   461036672070235836   13   12   0   0   0   12   0   0.016318321   12 / 12
+7   3462427733464461995   21   20   0   0   0   20   0   0.11783314   20 / 20
+8   1374946894921135862   1   0   0   0   0   0   0   0.0   0 / 0
+9   12870099387781247717   2   1   0   0   0   1   0   0.3885994   1 / 1
+10   10782618549237921584   3   2   0   0   0   2   0   0.19527817   2 / 2
+11   13784009610632147743   4   3   0   0   0   3   0   0.11995888   3 / 3
+12   1743546129845155690   5   4   0   0   0   4   0   0.18264008   4 / 4
+13   4744937191239381849   8   7   0   0   0   7   0   0.06514931   7 / 7
+14   14331226038918297508   13   12   0   0   0   12   0   0.17010689   12 / 12
+15   14152608845556167571   21   20   0   0   0   20   0   0.30212402   20 / 20
+16   5292153619525531614   1   0   0   0   0   0   0   0.0   0 / 0
+17   15066519068407067597   2   1   0   0   0   1   0   0.29143143   1 / 1
+18   14699825273842317336   3   2   0   0   0   2   0   0.26109695   2 / 2
+19   17701216335236543495   4   3   0   0   0   3   0   0.13792229   3 / 3
+20   15613735496693217362   5   4   0   0   0   4   0   0.6612835   4 / 4
+21   168382484377891905   8   7   0   0   0   7   0   0.2737236   7 / 7
+22   6574663077300451468   13   12   0   0   0   12   0   0.016190529   12 / 12
+23   9576054138694677627   21   20   0   0   0   20   0   0.01763153   20 / 20
+REAL total_pos= 147  faithful= 0  near_tie= 0  noise= 0  comparator= 147  real= 0
+GEN exact= 32 / 32
+A078_BENCH: PASS
+MOJO_EXIT=0

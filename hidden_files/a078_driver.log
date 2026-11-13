@@ -1,0 +1,215 @@
+staging=/tmp/tmp.n07eU4NxeO
+hailo_cc_exit=0
+par_cc_exit=0
+hip_cc_exit=0
+vulkan_cc_exit=0
+zc_cc_exit=0
+aff_cc_exit=0
+Imported from /home/volmarr/aesir-team-02/aesir_engine/a078_driver.mojo:2:
+Imported from /home/volmarr/aesir-team-02/aesir_engine/tests/test_gpu_fuzz_a078.mojo:69:
+Imported from /home/volmarr/aesir-team-02/aesir_engine/aesir.mojo:6:
+/home/volmarr/aesir-team-02/aesir_engine/core/inference.mojo:2162:9: warning: '__del__' is deprecated; use '__deinit__'
+    def __del__(deinit self):
+        ^~~~~~~
+        __deinit__
+Imported from /home/volmarr/aesir-team-02/aesir_engine/a078_driver.mojo:2:
+Imported from /home/volmarr/aesir-team-02/aesir_engine/tests/test_gpu_fuzz_a078.mojo:69:
+Imported from /home/volmarr/aesir-team-02/aesir_engine/aesir.mojo:6:
+/home/volmarr/aesir-team-02/aesir_engine/core/inference.mojo:2163:20: warning: 'free' is deprecated, use 'unsafe_free' instead
+        self.s_data.free()
+        ~~~~~~~~~~~^~~~~
+                    unsafe_free
+<unknown>:0: note: 'free' declared here
+Imported from /home/volmarr/aesir-team-02/aesir_engine/a078_driver.mojo:2:
+Imported from /home/volmarr/aesir-team-02/aesir_engine/tests/test_gpu_fuzz_a078.mojo:69:
+Imported from /home/volmarr/aesir-team-02/aesir_engine/aesir.mojo:6:
+/home/volmarr/aesir-team-02/aesir_engine/core/inference.mojo:2164:23: warning: 'free' is deprecated, use 'unsafe_free' instead
+        self.conv_data.free()
+        ~~~~~~~~~~~~~~^~~~~
+                       unsafe_free
+<unknown>:0: note: 'free' declared here
+Imported from /home/volmarr/aesir-team-02/aesir_engine/a078_driver.mojo:2:
+Imported from /home/volmarr/aesir-team-02/aesir_engine/tests/test_gpu_fuzz_a078.mojo:69:
+Imported from /home/volmarr/aesir-team-02/aesir_engine/aesir.mojo:6:
+/home/volmarr/aesir-team-02/aesir_engine/core/inference.mojo:2165:21: warning: 'free' is deprecated, use 'unsafe_free' instead
+        self.scratch.free()
+        ~~~~~~~~~~~~^~~~~
+                     unsafe_free
+<unknown>:0: note: 'free' declared here
+Imported from /home/volmarr/aesir-team-02/aesir_engine/a078_driver.mojo:2:
+Imported from /home/volmarr/aesir-team-02/aesir_engine/tests/test_gpu_fuzz_a078.mojo:68:
+/home/volmarr/aesir-team-02/aesir_engine/core/vulkan_real_model.mojo:764:23: warning: `alloc` without a `Layout` is deprecated, use the `Layout`-based `alloc` instead; as a temporary migration step, use `unsafe_alloc`
+            var buf = alloc[Scalar[DType.float16]](self.dim)
+                      ^~~~~
+<unknown>:0: note: 'alloc' declared here
+Imported from /home/volmarr/aesir-team-02/aesir_engine/a078_driver.mojo:2:
+Imported from /home/volmarr/aesir-team-02/aesir_engine/tests/test_gpu_fuzz_a078.mojo:68:
+/home/volmarr/aesir-team-02/aesir_engine/core/vulkan_real_model.mojo:767:31: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+                out.append(buf[i].cast[DType.float32]())
+                           ~~~^~~
+<unknown>:0: note: '__getitem__' declared here
+Imported from /home/volmarr/aesir-team-02/aesir_engine/a078_driver.mojo:2:
+Imported from /home/volmarr/aesir-team-02/aesir_engine/tests/test_gpu_fuzz_a078.mojo:68:
+/home/volmarr/aesir-team-02/aesir_engine/core/vulkan_real_model.mojo:768:16: warning: 'free' is deprecated, use 'unsafe_free' instead
+            buf.free()
+            ~~~^~~~~
+                unsafe_free
+<unknown>:0: note: 'free' declared here
+Imported from /home/volmarr/aesir-team-02/aesir_engine/a078_driver.mojo:2:
+Imported from /home/volmarr/aesir-team-02/aesir_engine/tests/test_gpu_fuzz_a078.mojo:68:
+Imported from /home/volmarr/aesir-team-02/aesir_engine/core/vulkan_real_model.mojo:93:
+/home/volmarr/aesir-team-02/aesir_engine/core/vulkan_buffers.mojo:267:24: warning: `alloc` without a `Layout` is deprecated, use the `Layout`-based `alloc` instead; as a temporary migration step, use `unsafe_alloc`
+        var name_buf = alloc[UInt8](256)
+                       ^~~~~
+<unknown>:0: note: 'alloc' declared here
+Imported from /home/volmarr/aesir-team-02/aesir_engine/a078_driver.mojo:2:
+Imported from /home/volmarr/aesir-team-02/aesir_engine/tests/test_gpu_fuzz_a078.mojo:68:
+Imported from /home/volmarr/aesir-team-02/aesir_engine/core/vulkan_real_model.mojo:93:
+/home/volmarr/aesir-team-02/aesir_engine/core/vulkan_buffers.mojo:295:24: warning: `alloc` without a `Layout` is deprecated, use the `Layout`-based `alloc` instead; as a temporary migration step, use `unsafe_alloc`
+        var name_buf = alloc[UInt8](256)
+                       ^~~~~
+<unknown>:0: note: 'alloc' declared here
+Imported from /home/volmarr/aesir-team-02/aesir_engine/a078_driver.mojo:2:
+Imported from /home/volmarr/aesir-team-02/aesir_engine/tests/test_gpu_fuzz_a078.mojo:69:
+Imported from /home/volmarr/aesir-team-02/aesir_engine/aesir.mojo:6:
+/home/volmarr/aesir-team-02/aesir_engine/core/inference.mojo:949:27: warning: `alloc` without a `Layout` is deprecated, use the `Layout`-based `alloc` instead; as a temporary migration step, use `unsafe_alloc`
+            var scratch = alloc[Float32](256)
+                          ^~~~~
+<unknown>:0: note: 'alloc' declared here
+Imported from /home/volmarr/aesir-team-02/aesir_engine/a078_driver.mojo:2:
+Imported from /home/volmarr/aesir-team-02/aesir_engine/tests/test_gpu_fuzz_a078.mojo:69:
+Imported from /home/volmarr/aesir-team-02/aesir_engine/aesir.mojo:6:
+/home/volmarr/aesir-team-02/aesir_engine/core/inference.mojo:970:30: warning: `alloc` without a `Layout` is deprecated, use the `Layout`-based `alloc` instead; as a temporary migration step, use `unsafe_alloc`
+            var nl_scratch = alloc[Float32](32)
+                             ^~~~~
+<unknown>:0: note: 'alloc' declared here
+Imported from /home/volmarr/aesir-team-02/aesir_engine/a078_driver.mojo:2:
+Imported from /home/volmarr/aesir-team-02/aesir_engine/tests/test_gpu_fuzz_a078.mojo:69:
+Imported from /home/volmarr/aesir-team-02/aesir_engine/aesir.mojo:6:
+Imported from /home/volmarr/aesir-team-02/aesir_engine/core/inference.mojo:11:
+/home/volmarr/aesir-team-02/aesir_engine/core/compute.mojo:1970:15: warning: `alloc` without a `Layout` is deprecated, use the `Layout`-based `alloc` instead; as a temporary migration step, use `unsafe_alloc`
+    var dst = alloc[UInt16](2048)
+              ^~~~~
+<unknown>:0: note: 'alloc' declared here
+Imported from /home/volmarr/aesir-team-02/aesir_engine/a078_driver.mojo:2:
+Imported from /home/volmarr/aesir-team-02/aesir_engine/tests/test_gpu_fuzz_a078.mojo:69:
+Imported from /home/volmarr/aesir-team-02/aesir_engine/aesir.mojo:6:
+Imported from /home/volmarr/aesir-team-02/aesir_engine/core/inference.mojo:11:
+/home/volmarr/aesir-team-02/aesir_engine/core/compute.mojo:1262:14: warning: `alloc` without a `Layout` is deprecated, use the `Layout`-based `alloc` instead; as a temporary migration step, use `unsafe_alloc`
+    var cp = alloc[Int64](6)
+             ^~~~~
+<unknown>:0: note: 'alloc' declared here
+Imported from /home/volmarr/aesir-team-02/aesir_engine/a078_driver.mojo:2:
+Imported from /home/volmarr/aesir-team-02/aesir_engine/tests/test_gpu_fuzz_a078.mojo:69:
+Imported from /home/volmarr/aesir-team-02/aesir_engine/aesir.mojo:6:
+Imported from /home/volmarr/aesir-team-02/aesir_engine/core/inference.mojo:11:
+Imported from /home/volmarr/aesir-team-02/aesir_engine/core/compute.mojo:9:
+/home/volmarr/aesir-team-02/aesir_engine/core/parallel.mojo:39:1: warning: 'alias' is deprecated; use 'comptime'
+alias RangeFn = def(Int64, Int64, Int64) thin -> None
+^~~~~
+comptime
+Imported from /home/volmarr/aesir-team-02/aesir_engine/a078_driver.mojo:2:
+Imported from /home/volmarr/aesir-team-02/aesir_engine/tests/test_gpu_fuzz_a078.mojo:69:
+Imported from /home/volmarr/aesir-team-02/aesir_engine/aesir.mojo:6:
+Imported from /home/volmarr/aesir-team-02/aesir_engine/core/inference.mojo:11:
+/home/volmarr/aesir-team-02/aesir_engine/core/compute.mojo:2632:14: warning: `alloc` without a `Layout` is deprecated, use the `Layout`-based `alloc` instead; as a temporary migration step, use `unsafe_alloc`
+    var cp = alloc[Int64](6)
+             ^~~~~
+<unknown>:0: note: 'alloc' declared here
+Imported from /home/volmarr/aesir-team-02/aesir_engine/a078_driver.mojo:2:
+Imported from /home/volmarr/aesir-team-02/aesir_engine/tests/test_gpu_fuzz_a078.mojo:69:
+Imported from /home/volmarr/aesir-team-02/aesir_engine/aesir.mojo:6:
+Imported from /home/volmarr/aesir-team-02/aesir_engine/core/inference.mojo:11:
+/home/volmarr/aesir-team-02/aesir_engine/core/compute.mojo:2175:14: warning: `alloc` without a `Layout` is deprecated, use the `Layout`-based `alloc` instead; as a temporary migration step, use `unsafe_alloc`
+    var cp = alloc[Int64](7)
+             ^~~~~
+<unknown>:0: note: 'alloc' declared here
+Imported from /home/volmarr/aesir-team-02/aesir_engine/a078_driver.mojo:2:
+Imported from /home/volmarr/aesir-team-02/aesir_engine/tests/test_gpu_fuzz_a078.mojo:69:
+Imported from /home/volmarr/aesir-team-02/aesir_engine/aesir.mojo:6:
+Imported from /home/volmarr/aesir-team-02/aesir_engine/core/inference.mojo:11:
+/home/volmarr/aesir-team-02/aesir_engine/core/compute.mojo:1089:19: warning: `alloc` without a `Layout` is deprecated, use the `Layout`-based `alloc` instead; as a temporary migration step, use `unsafe_alloc`
+    var scratch = alloc[Float32](a_cols)
+                  ^~~~~
+<unknown>:0: note: 'alloc' declared here
+Imported from /home/volmarr/aesir-team-02/aesir_engine/a078_driver.mojo:2:
+Imported from /home/volmarr/aesir-team-02/aesir_engine/tests/test_gpu_fuzz_a078.mojo:69:
+Imported from /home/volmarr/aesir-team-02/aesir_engine/aesir.mojo:6:
+Imported from /home/volmarr/aesir-team-02/aesir_engine/core/inference.mojo:11:
+/home/volmarr/aesir-team-02/aesir_engine/core/compute.mojo:1935:14: warning: `alloc` without a `Layout` is deprecated, use the `Layout`-based `alloc` instead; as a temporary migration step, use `unsafe_alloc`
+    var cp = alloc[Int64](9)
+             ^~~~~
+<unknown>:0: note: 'alloc' declared here
+Imported from /home/volmarr/aesir-team-02/aesir_engine/a078_driver.mojo:2:
+Imported from /home/volmarr/aesir-team-02/aesir_engine/tests/test_gpu_fuzz_a078.mojo:69:
+Imported from /home/volmarr/aesir-team-02/aesir_engine/aesir.mojo:6:
+Imported from /home/volmarr/aesir-team-02/aesir_engine/core/inference.mojo:11:
+/home/volmarr/aesir-team-02/aesir_engine/core/compute.mojo:2087:14: warning: `alloc` without a `Layout` is deprecated, use the `Layout`-based `alloc` instead; as a temporary migration step, use `unsafe_alloc`
+    var cp = alloc[Int64](8)
+             ^~~~~
+<unknown>:0: note: 'alloc' declared here
+Imported from /home/volmarr/aesir-team-02/aesir_engine/a078_driver.mojo:2:
+Imported from /home/volmarr/aesir-team-02/aesir_engine/tests/test_gpu_fuzz_a078.mojo:69:
+Imported from /home/volmarr/aesir-team-02/aesir_engine/aesir.mojo:6:
+Imported from /home/volmarr/aesir-team-02/aesir_engine/core/inference.mojo:11:
+/home/volmarr/aesir-team-02/aesir_engine/core/compute.mojo:2552:14: warning: `alloc` without a `Layout` is deprecated, use the `Layout`-based `alloc` instead; as a temporary migration step, use `unsafe_alloc`
+    var cp = alloc[Int64](8)
+             ^~~~~
+<unknown>:0: note: 'alloc' declared here
+Imported from /home/volmarr/aesir-team-02/aesir_engine/a078_driver.mojo:2:
+Imported from /home/volmarr/aesir-team-02/aesir_engine/tests/test_gpu_fuzz_a078.mojo:69:
+Imported from /home/volmarr/aesir-team-02/aesir_engine/aesir.mojo:6:
+Imported from /home/volmarr/aesir-team-02/aesir_engine/core/inference.mojo:11:
+/home/volmarr/aesir-team-02/aesir_engine/core/compute.mojo:1632:28: warning: unreachable code on right side of 'False and ...'
+    return VNNI_DEFAULT_ON and cpu_has_vnni()
+                           ^
+Imported from /home/volmarr/aesir-team-02/aesir_engine/a078_driver.mojo:2:
+Imported from /home/volmarr/aesir-team-02/aesir_engine/tests/test_gpu_fuzz_a078.mojo:69:
+Imported from /home/volmarr/aesir-team-02/aesir_engine/aesir.mojo:6:
+Imported from /home/volmarr/aesir-team-02/aesir_engine/core/inference.mojo:11:
+/home/volmarr/aesir-team-02/aesir_engine/core/compute.mojo:1743:18: warning: `alloc` without a `Layout` is deprecated, use the `Layout`-based `alloc` instead; as a temporary migration step, use `unsafe_alloc`
+        var xq = alloc[Int8](rows_here * a_cols)
+                 ^~~~~
+<unknown>:0: note: 'alloc' declared here
+Imported from /home/volmarr/aesir-team-02/aesir_engine/a078_driver.mojo:2:
+Imported from /home/volmarr/aesir-team-02/aesir_engine/tests/test_gpu_fuzz_a078.mojo:69:
+Imported from /home/volmarr/aesir-team-02/aesir_engine/aesir.mojo:6:
+Imported from /home/volmarr/aesir-team-02/aesir_engine/core/inference.mojo:11:
+/home/volmarr/aesir-team-02/aesir_engine/core/compute.mojo:1744:22: warning: `alloc` without a `Layout` is deprecated, use the `Layout`-based `alloc` instead; as a temporary migration step, use `unsafe_alloc`
+        var xscale = alloc[Float32](rows_here * blocks_per_row * nsub)
+                     ^~~~~
+<unknown>:0: note: 'alloc' declared here
+Imported from /home/volmarr/aesir-team-02/aesir_engine/a078_driver.mojo:2:
+Imported from /home/volmarr/aesir-team-02/aesir_engine/tests/test_gpu_fuzz_a078.mojo:69:
+Imported from /home/volmarr/aesir-team-02/aesir_engine/aesir.mojo:6:
+Imported from /home/volmarr/aesir-team-02/aesir_engine/core/inference.mojo:11:
+/home/volmarr/aesir-team-02/aesir_engine/core/compute.mojo:1745:21: warning: `alloc` without a `Layout` is deprecated, use the `Layout`-based `alloc` instead; as a temporary migration step, use `unsafe_alloc`
+        var xsums = alloc[Float32](rows_here * blocks_per_row * nsub)
+                    ^~~~~
+<unknown>:0: note: 'alloc' declared here
+Included from /home/volmarr/aesir-team-02/aesir_engine/a078_driver.mojo:2:
+Included from /home/volmarr/aesir-team-02/aesir_engine/tests/test_gpu_fuzz_a078.mojo:69:
+Included from /home/volmarr/aesir-team-02/aesir_engine/aesir.mojo:16:
+/home/volmarr/aesir-team-02/aesir_engine/loader/gguf.mojo:566:29: warning: assignment to 'width' was never used; assign to '_' instead?
+                var width = 0
+                            ^
+--- Testing GPU fuzz seed replay (A-078) ---
+seed replay: 16 cases regenerate identical ids + rows; seeds distinct
+--- Testing GPU fuzz case coverage (A-078) ---
+coverage: prompt lens span  1 .. 32  over 64 cases; shapes incl. odd 37/251; gen lens 1..8
+--- Testing GPU fuzz verdict classifier (A-078) ---
+classifier: faithful/near-tie/comparator/IQ-noise/margin-noise/real/invalid all pinned
+--- Testing GPU fuzz synthetic row battery (A-078) ---
+synthetic battery: 64/64 verdicted, 0 real; faithful  56  near-tie  5  noise  3
+--- Testing GPU fuzz sampling greedy (A-078) ---
+greedy fuzz: 24 seeded rows, shapes 16..4096, token-exact vs CPU; dispatches  24
+--- Testing GPU fuzz sampling temperature (A-078) ---
+temperature fuzz:  18  seeded draws exact vs the CPU sampling oracle
+--- Testing GPU fuzz real-model random prompts (A-078) ---
+GGUF validated: 292 tensors, 33 metadata entries, architecture llama
+MimirWell initialized with 2133881856 derived bytes.
+GGUF validated: 292 tensors, 33 metadata entries, architecture llama
+GGUF validated: 292 tensors, 33 metadata entries, architecture llama
+real-model fuzz: 6 random prompts,  26  positions verdicted, 0 real; comparator  26  faithful  0  near-tie  0  noise  0
+A078_DRIVER_ALL_PASS
+MOJO_EXIT=0
