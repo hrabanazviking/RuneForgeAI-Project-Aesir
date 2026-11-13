@@ -68,7 +68,22 @@ when its lead is live on its assigned slice in its own worktree.
 
 ## State
 
-- Banked: **94 of 216** (A-001..A-094). A-094 banked at the
+- Banked: **95 of 216** (A-001..A-095). A-095 banked at the
+  seat 2026-11-13 (team-25 commit fb3d17f1 cherry-picked
+  as a109532e, +0 run_all cases, pin stays 610; NPU
+  offload #1 - the A-094 winner (prefill projection GEMM
+  M >= 64) implemented behind the registry, facade flag
+  default OFF, parity exact on the real XDNA 2
+  (ert_cmd_state 4 COMPLETED, 150 consecutive exact
+  dispatches); verdict NEUTRAL-WITH-VALUE: single-tile
+  NPU ~3.6x slower than optimized CPU end-to-end at
+  128x1024x1024, filed plainly; seat gate 607/1/2 of
+  610 exact on run 2 solo, sole failure J-022 (run 1:
+  606/2/2 with one extra one-off failure
+  gpu.hip_q4k_gemv_no_leak, not in the named-
+  intermittent list, not reproduced, log preserved);
+  full note in PROJECT_MEMORY_MAP).
+  A-094 banked at the
   seat 2026-11-13 (team-24 commit 01249ad8 cherry-picked
   as 42f8296e, +0 run_all cases, pin stays 610; NPU-shaped
   ops analysis - candidate table from real XDNA 2 runs:
@@ -397,10 +412,9 @@ when its lead is live on its assigned slice in its own worktree.
   resilience.state_vault_rejects_growth (bug B2) - neither
   appeared in the accepted gate run.
 - Queue: teams take slices in roadmap order as theirs
-  bank (keeper flow): A-095 - next to bank (team-25,
-  implementation restarted this tick from on-disk WIP);
-  then A-096 (team-26) and A-097 (team-27), mustered
-  this tick. Wave 11 stands 4 of 9.
+  bank (keeper flow): A-096 - next to bank (team-26,
+  committed 1d99fdac, verified); then A-097 (team-27,
+  finishing). Wave 11 stands 5 of 9.
   A-066 closed the A-065 KV-append gap
   (kv_append kernel, bit-exact).
   Sole failure in every suite =
@@ -437,3 +451,5 @@ when its lead is live on its assigned slice in its own worktree.
 - 2026-11-13 ~12:35 EST (keeper tick): A-092 BANKED (92 of 216, closure below) - seat gate exact on run 2 solo: 607/1/2 of 610, sole failure J-022 (run 1: 605/3/2, both named intermittents, log preserved). Wave 11 stands 2 of 9. Team-23 / A-093: second lead also stopped incomplete (timeout, no commit, nothing new on disk); third lead restarted this tick with on-device source authoring (no whole-file transfer through tool calls). Seats team-24 and team-25 CREATED from banked main (92 of 216) this tick: team-24 A-094 (NPU-shaped ops analysis), team-25 A-095 (NPU offload #1, preparatory only until A-094's candidate table lands).
 - Teams 26-27: not yet created; muster 2-3 per tick in order on later ticks.
 - Note: the 9-team layout text above is the original Wave 1 layout and is superseded by this expansion for team count; slice order and banking rules are unchanged.
+
+- 2026-11-13 ~14:00 EST (keeper tick): A-093 BANKED (93 of 216) + A-094 BANKED (94 of 216, closures at the seat) - seat gates exact on run 2 solo each: 607/1/2 of 610, sole failure J-022 (A-093 run 1 state_vault intermittent; A-094 run 1 stream_async intermittent; logs preserved). EXPANSION TO 27 TEAMS COMPLETE: seats team-26 (A-096) and team-27 (A-097) CREATED from banked main ee1aa0a3 this tick, leads spawned. Team-25 A-095 implementation lead (spawned ~13:15) was CANCELLED mid-build; fresh lead restarted this tick from on-disk WIP. Wave 11 stands 4 of 9.
