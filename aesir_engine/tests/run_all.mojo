@@ -531,6 +531,15 @@ from tests.test_pipeline_overlap_a101 import (
     test_pipeline_overlap_plan_gating,
     test_pipeline_overlap_filed_trace,
 )
+from tests.test_failure_replan_a103 import (
+    test_replan_gpu_loss_onto_survivors,
+    test_replan_npu_loss_uses_survivors,
+    test_replan_drill_gpu_loss_completes_exact,
+    test_replan_drill_npu_loss_completes_exact,
+    test_replan_cpu_loss_fails_closed,
+    test_replan_second_failure_fails_closed,
+    test_replan_edges_and_summary,
+)
 from tests.test_npu_realm import (
     test_npu_probe_absence,
     test_npu_gemm_dispatch_bounds,
@@ -1431,6 +1440,13 @@ def main() raises:
     run_case(ledger, "pipeline.overlap_acceptance", test_pipeline_overlap_acceptance)
     run_case(ledger, "pipeline.overlap_plan_gating", test_pipeline_overlap_plan_gating)
     run_case(ledger, "pipeline.overlap_filed_trace", test_pipeline_overlap_filed_trace)
+    run_case(ledger, "replan.gpu_loss_onto_survivors", test_replan_gpu_loss_onto_survivors)
+    run_case(ledger, "replan.npu_loss_uses_survivors", test_replan_npu_loss_uses_survivors)
+    run_case(ledger, "replan.drill_gpu_loss_completes_exact", test_replan_drill_gpu_loss_completes_exact)
+    run_case(ledger, "replan.drill_npu_loss_completes_exact", test_replan_drill_npu_loss_completes_exact)
+    run_case(ledger, "replan.cpu_loss_fails_closed", test_replan_cpu_loss_fails_closed)
+    run_case(ledger, "replan.second_failure_fails_closed", test_replan_second_failure_fails_closed)
+    run_case(ledger, "replan.edges_and_summary", test_replan_edges_and_summary)
     run_case(
         ledger,
         "gpu.resilience_allocation_rejection",
@@ -2218,4 +2234,9 @@ def main() raises:
     # tests/test_spillover_policy_a102.mojo) counted on top of
     # the A-101 seat pin (team branch pin was 617 on the
     # A-099 base; union reconciled here per the A-102 note).
-    ledger.finish(629)
+    # A-103 union re-pin at banking: 629 -> 636 -- seven
+    # mid-run failure re-planning cases (replan.* in
+    # tests/test_failure_replan_a103.mojo) counted on top of
+    # the A-102 seat pin (team branch pin was 629 on the
+    # A-101 base; union reconciled here at banking).
+    ledger.finish(636)

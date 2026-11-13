@@ -1,23 +1,73 @@
-# CAMPAIGN_STATE - team-26 (Aesir Z13 forge)
+# CAMPAIGN_STATE - team-27 (Aesir Z13 forge)
 
-- Team: team-26 (1 lead + 6 Mythic Engineering sub-agents)
-- Worktree: /home/volmarr/aesir-team-26, branch yrsa/aesir-team-26
-- Base: 1a611172 (banked main, 99 of 216, A-099 closure; seat == ls-remote verified by the lead this session). Branch reset --hard onto 1a611172 before building; untracked spikes/ left in place.
-- Prior slices: A-096 DONE (positive overlap verdict, banked), A-099 DONE (NPU fallback contract, banked as 7faf2120 + closure 1a611172; verified by subject in the seat git log).
-- Assigned slice: A-102 - Spillover policy (Wave 12, Heterogeneous scheduling). Capacity pressure spills accelerator -> CPU per the accelerator-first law, in the open. Acceptance: oversized-model run (A-049 fixture class) places layers per policy with the placement logged and reproducible.
-- Builds on banked: A-076 GpuPressureGovernor (core/gpu_pressure.mojo - pre-dispatch routing, spillable overflow -> CPU, non-spillable -> MEM-003 refusal before any GPU allocation, bounded logged degradation), A-064 GPU weight residency, A-049 oversized fixture class, A-017 device selection policy (core/device_policy.mojo), A-086 winner registry (Vulkan first-class).
-- A-100 DEPENDENCY (honest): A-100 Placement planner (team-27) is building in parallel and has NOT landed on banked main. A-102 implements the spillover POLICY against the banked A-076/A-017/A-086 surfaces only; it does not duplicate the planner. When A-100 banks, the planner consumes this policy's plan/log format unchanged (named integration point in core/spillover_policy.mojo header).
-- Fixture: Meta-Llama-3.1-8B-Instruct-Q4_K_M.gguf (A-049 fixture class: largest obtainable real model, sha-pinned), sha256 7b064f5842bf9532c91456deda288a1b672397a54fa729aa665952863033557c verified by the lead on device this session (== A-067/A-081 pin), 4,920,739,232 bytes, 292 tensors, 32 layers. Read from the seat fixture path /home/volmarr/aesir-forge/hidden_files/fixtures/ (read-only; sha re-verified before/after the bench run).
-- Status: BUILDING 2026-11-13. Commit on the team branch only, subject exactly "A-102: Spillover policy"; keeper banks after A-100 and A-101 in roadmap order. Never merge or push from this worktree. Never touch README.md. No Docker, ever. Never run a full suite concurrently with another team or a seat gate (check ps first).
-- Suite baseline on this base: 607 passed / 1 failed / 2 skipped / 610 total; sole failure pre-existing gguf.tensor_directory_interface (J-022 drift, roads A-165/A-121); skips the 2 pre-declared. Known pre-existing intermittents: resilience.state_vault_rejects_growth, gpu.amd_hip_stream_async_round_trip, gguf.weight_residency_gpu_visibility, memory.budget_live_meminfo_pressure - a suite showing only J-022 (+ at most one named intermittent that clears on a solo re-run) is green-to-baseline.
-- Raw-oracle discipline for all correctness work; accelerator-visible is not accelerator-run - every accelerator claim needs device-execution evidence on the real gfx1151 (RADV STRIX_HALO, llvmpipe refused by identity).
+- Team: team-27 (1 lead + 6 Mythic Engineering sub-agents)
+- Worktree: /home/volmarr/aesir-team-27, branch yrsa/aesir-team-27
+- Base: 2bddc175 (banked main, 101 of 216, A-101 closure;
+  ls-remote verified by the keeper). Branch reset --hard onto
+  the base before building; A-102 (seat-only) not based on.
+- Assigned slice: A-103 - Mid-run device failure re-planning
+  (Wave 12, Heterogeneous scheduling). Acceptance: a device
+  error during generation re-plans remaining work onto
+  survivors; injected failure drill passes (extends A-079
+  to the planner level).
+- Status: A-103 DONE 2026-11-13 (see outcome below).
+  Committed on the team branch only; the keeper banks at the
+  seat in roadmap order after A-102. Never merge or push
+  from this worktree. Never touch README.md. No Docker, ever.
+- Suite baseline on this base: 619 passed / 1 failed /
+  2 skipped / 622 total; sole failure pre-existing
+  gguf.tensor_directory_interface (J-022); known
+  intermittents: resilience.state_vault_rejects_growth,
+  gpu.amd_hip_stream_async_round_trip,
+  gguf.weight_residency_gpu_visibility,
+  memory.budget_live_meminfo_pressure.
+- Raw-oracle discipline for all correctness work;
+  accelerator-visible is not accelerator-run - every
+  accelerator claim needs device-execution evidence on the
+  real XDNA 2 / gfx1151. This slice makes NO new device-
+  execution claim (see outcome).
 
-## Team-26 outcome 2026-11-13 - A-102 DONE (PASS)
-- Slice: A-102 - Spillover policy (Wave 12). Base 1a611172 (99 of 216). 6 Mythic Engineering sub-agents mustered, no rate limit.
-- Policy: core/spillover_policy.mojo - whole-stack pre-dispatch placement on the banked A-076 governor: accelerator-first in stack order, spillable overflow -> CPU (CAPACITY_SPILL, bounded ledger), non-spillable overflow / spill past cap -> atomic whole-plan MEM-003 refusal (scratch-governor simulation, no ledger moves), evidence-gated CPU assist (ASSIST_MEASURED), deterministic placement log + FNV-1a digest (pure function of inputs).
-- Oversized run (bench_spillover_a102, RUN_EXIT=0): fixture Meta-Llama-3.1-8B-Instruct-Q4_K_M.gguf sha256 7b064f58..557c verified before/after (== A-067/A-081 pin), 292 tensors / 32 layers / payload 4,912,898,304 B. Under gpu_cap 1 GiB + live pool figures: GPU 973,963,264 B / 6 layers (embed + blk.0..4), CPU spill 3,938,935,040 B / 28 layers, strict prefix split; log reproducible byte-identical, digest 3486865965604444507. Execution: embed span 295,501,824 B copied into a real RADV Vulkan buffer (vendor 0x1002, type 1), readback checksum exact, freed to baseline; roomy 16 GiB control all-GPU. Doc docs/bench/A102_SPILLOVER_POLICY.md; ledger hidden_files/A102_LEDGER.md; logs hidden_files/a102_bench.log + a102_run_all.log.
-- A-100 dependency filed honestly: NOT landed at build time (team-27 in flight); no planner duplication - integration point named in the module header (planner consumes PlacementPlan unchanged).
-- Suite E-MASTER: 614 passed / 1 failed / 2 skipped / 617 total = baseline 607/1/2/610 + 7 new sched.spillover_* cases, all PASS; run_all finish re-pinned 610 -> 617 (union reconciles at banking). Sole failure pre-existing J-022 gguf.tensor_directory_interface; no intermittent fired.
-- Bugs: none in banked code; one in-slice design fix pre-compile (refusal path reset to header + refusal line for true atomicity, case-proven).
-- Committed on team branch only; keeper banks after A-100 and A-101 in roadmap order. Never merged or pushed.
-- Commit: b3e32e5496e6370fcb0d3189b5f4f0cc244cadfc "A-102: Spillover policy" on yrsa/aesir-team-26 (parent 1a611172). Suite counts above read from hidden_files/a102_run_all.log; bench evidence hidden_files/a102_bench.log.
+## Team-27 outcome 2026-11-13 - A-103 DONE (PASS, filed)
+- 6 Mythic Engineering sub-agents mustered, no rate limit
+  (planner analyst, fault-injection designer, raw-oracle
+  reviewer, API designer, bench/evidence designer,
+  regression hunter; their checklists shaped the build).
+- Built on banked surfaces only: A-100 placement planner
+  (plan_op), A-079 device-lost laws restated at planner
+  level, A-099 NPU fallback contract, A-017 policy delegate
+  (unchanged, inside plan_op), A-086 winner registry (via
+  the planner's GPU backend rule), A-076 governor context
+  carried in request flags. A-102 spillover NOT depended on.
+- Deliverable: aesir_engine/core/failure_replan.mojo -
+  GenerationPlan + survivor_registry + replan_remaining +
+  run_failure_drill. Laws: committed prefix untouched;
+  in-flight step discarded and re-planned; failed device
+  gets no further work (survivor registry + refusal guard);
+  one re-plan per run (second failure fails closed);
+  DEVICE_NONE fails closed naming the step; bounded audit.
+- Drill evidence: standalone A103_CHECK 7/7 (exit 0).
+  GPU loss (VK_ERROR_DEVICE_LOST @ step 2/6) completes with
+  tokens == control exactly, 0 steps on the failed GPU
+  after the loss; NPU loss (KERNEL_TIMEOUT @ 0/3) completes
+  exactly, prefill re-plans NPU -> GPU/Vulkan; GPU re-plan
+  moved == 2 exactly (attention + GEMV spill to CPU, capped
+  prefill stays on the NPU survivor with its A-099 fallback
+  named); CPU-loss / second-failure / mis-targeted drills
+  all fail closed with the prefix intact.
+- Suite (solo, after the A-102 seat gate finished):
+  626 passed / 1 failed / 2 skipped / 629 total, read from
+  hidden_files/a103/team_suite.log (sha256 9126ed7a...);
+  sole failure J-022, no intermittent fired; all 7 new
+  replan.* cases PASS; finish pin 622 -> 629.
+  GREEN-TO-BASELINE.
+- Bugs found/fixed in-slice: (1) my test asserted moved>=3;
+  the correct count is exactly 2 (sampling/small GEMM were
+  already CPU, capped prefill already NPU) - assertion
+  fixed to moved == 2 with reasoning in the test. (2) List
+  fields are not ImplicitlyCopyable - the three List-bearing
+  structs are Copyable-only with .copy() constructors
+  (A-079 pattern). No engine bug found.
+- Evidence: hidden_files/A103_LEDGER.md +
+  docs/bench/A103_FAILURE_REPLAN.md +
+  hidden_files/a103/standalone_check.log +
+  hidden_files/a103/team_suite.log.
