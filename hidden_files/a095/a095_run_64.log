@@ -1,0 +1,8 @@
+insts_bytes=660 ninstr_words=165
+device_name=NPU Strix Halo
+xclbin_uuid=4cbcd846-4818-a373-e0e7-3c8048631b1c
+ert_cmd_state=4 (COMPLETED=4)
+elements=4096 mismatches=0 sentinel_remaining=0 checksum=16383547698108786409
+TIMING cpu_oracle_us min=124.9 median=191.9 sink=-3727
+TIMING npu_run_us min=69.4 median=104.3 npu_run_sync_us min=69.8 median=104.6 reps=21 shape=64x64x64
+RESULT PASS matmul i16->i32 exact vs CPU oracle on NPU

@@ -1,0 +1,10 @@
+DISPATCH op=prefill_projection shape=128x1024x1024 selected=AMD_XDNA reason=OK_XDNA flag=on macs=134217728 backend=AMD_XDNA
+CONV q4_to_i16 elems=1048576 median_us=665.2 sink=0 (weights-side, once per layer load)
+insts_bytes=1304 ninstr_words=326
+device_name=NPU Strix Halo
+xclbin_uuid=184c0a55-97ee-d107-bad0-060c59a9a278
+ert_cmd_state=4 (COMPLETED=4)
+elements=131072 mismatches=0 sentinel_remaining=0 checksum=2848816214485251074
+TIMING npu_run_us min=2213.3 median=2262.7 npu_run_sync_us min=2219.3 median=2268.7 reps=21 shape=128x1024x1024 oracle_naive_us=262785.1
+E2E path=AMD_XDNA dispatches=128 total_us=287400.1 per_dispatch_us=2245.3 final_mismatches=0 final_checksum=2848816214485251074 submitted_total=150
+RESULT PASS matmul i16->i32 exact vs CPU oracle on NPU (resident context, 150 dispatches)

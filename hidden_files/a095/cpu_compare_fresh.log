@@ -1,0 +1,6 @@
+threads=32
+crosscheck_32 mismatches=0
+GEMM 64x64x64 naive_ms=0.112 opt_ms=0.341 opt_speedup_vs_naive=0.33x sink=12
+GEMM 128x1024x1024 naive_ms=258.779 opt_ms=0.548 opt_speedup_vs_naive=471.92x sink=160
+CONV elems=1048576 q8_to_i16_ms=0.025 (0.024 ns/elem) q4_to_i16_ms=0.733 (0.699 ns/elem) f16bits_to_i16_ms=0.033 sink=15360
+RESULT PASS cpu_compare

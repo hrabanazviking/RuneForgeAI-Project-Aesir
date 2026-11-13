@@ -59,6 +59,7 @@ struct NPUBackendType(Copyable, ImplicitlyCopyable):
     comptime APPLE_NEURAL_ENGINE = 4
     comptime GENERIC_NPU = 5
     comptime INTEL_NPU = 6
+    comptime AMD_XDNA = 7
 
     var value: Int
 
@@ -101,6 +102,8 @@ struct NPUBackendType(Copyable, ImplicitlyCopyable):
             return "APPLE_NEURAL_ENGINE"
         elif self.value == 6:
             return "INTEL_NPU"
+        elif self.value == 7:
+            return "AMD_XDNA"
         else:
             return "GENERIC_NPU"
 

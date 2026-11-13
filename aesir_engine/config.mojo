@@ -47,7 +47,7 @@ struct AesirConfig:
     """
 
     var acceleration_backend: String  # includes explicit "hailo10h" direct GenAI backend
-    var target_npu: String  # "auto", "hailo10", "hailo8", "hexagon", "ane", "intel_npu", "arm_neon"
+    var target_npu: String  # "auto", "hailo10", "hailo8", "hexagon", "ane", "intel_npu", "arm_neon", "xdna"
     var skaldbrodir_enabled: Bool  # Doom Loop Annihilation Protocol
     var thinking_enabled: Bool  # Thought token generation & suppression toggle
     var cia_enabled: Bool  # Cognitive Inference Architecture (Episodic Computation Memory)
@@ -410,7 +410,7 @@ struct ConfigJSONParser:
             if (
                 value != "auto" and value != "hailo10" and value != "hailo8"
                 and value != "hexagon" and value != "ane"
-                and value != "intel_npu" and value != "arm_neon"
+                and value != "intel_npu" and value != "arm_neon" and value != "xdna"
             ):
                 raise Error("invalid target_npu: " + value)
             self.config.target_npu = value

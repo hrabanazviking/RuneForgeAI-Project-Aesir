@@ -1,0 +1,9 @@
+Secondary CUID not available: AMDCUID support not enabled.
+AMD_XDNA value = 7  name = AMD_XDNA
+DISPATCH op=prefill_projection shape=128x1024x1024 selected=CPU reason=FLAG_DISABLED flag=off macs=134217728
+DISPATCH op=prefill_projection shape=128x1024x1024 selected=AMD_XDNA reason=OK_XDNA flag=on macs=134217728
+DISPATCH op=prefill_projection shape=64x64x64 selected=AMD_XDNA reason=OK_XDNA flag=on macs=262144
+DISPATCH op=prefill_projection shape=32x1024x1024 selected=CPU reason=BELOW_M_BAND flag=on macs=33554432
+DISPATCH op=prefill_projection shape=64x32x32 selected=CPU reason=BELOW_MAC_FLOOR flag=on macs=65536
+DISPATCH op=prefill_projection shape=128x1024x1024 selected=CPU reason=BACKEND_NOT_XDNA flag=on macs=134217728
+DISPATCH_CHECK PASS 6/6 decisions + discriminant
