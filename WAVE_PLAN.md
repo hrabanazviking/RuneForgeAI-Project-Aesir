@@ -68,7 +68,17 @@ when its lead is live on its assigned slice in its own worktree.
 
 ## State
 
-- Banked: **102 of 216** (A-001..A-102). A-102 banked at the
+- Banked: **103 of 216** (A-001..A-103). A-103 banked at the
+  seat 2026-11-13 (team-27 commit 64db4526 cherry-picked
+  as 28e76993 with the run_all union composed at banking,
+  +7 run_all cases, seat pin 629 -> 636; mid-run device
+  failure re-planning - a device error during generation
+  re-plans remaining work onto survivors over the banked
+  A-100 planner, injected-failure drills complete with
+  tokens exact vs the uninterrupted control, fail-closed
+  paths case-proven; seat gate 633/1/2 of 636 exact on
+  run 1 solo, sole failure J-022, no intermittent fired;
+  full note in PROJECT_MEMORY_MAP). A-102 banked at the
   seat 2026-11-13 (team-26 commit b3e32e54 cherry-picked
   as f6450a07 + state commit de0027ea as c873ddc5, +7
   run_all cases, seat pin 622 -> 629 (union over the
