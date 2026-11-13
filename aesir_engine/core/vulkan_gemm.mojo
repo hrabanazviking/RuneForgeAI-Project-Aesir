@@ -20,8 +20,11 @@
 #   scale decode run in-shader; the dequant itself is GPU work.
 # - f32_gemm (aesir_engine/shaders/gemm_f32.comp): dense Float32
 #   W, the batched generalisation of the A-055 gemv_f32 kernel.
-# Both dispatch one workgroup of 256 invocations per (row, token)
-# pair as (rows, tokens, 1), strided partial sums reduced through
+# Both dispatch one workgroup per (row, token) - 256 invocations
+# for f32_gemm, 64 for q8_0_gemm (A-073 wavefront-32 tuning:
+# 2 x 32-wide wavefronts, matching the A-056 GEMV geometry so
+# the bitwise GEMV==GEMM reduction invariant holds) - as
+# (rows, tokens, 1), strided partial sums reduced through
 # shared memory (the A-056 reduction), so a tokens == 1 dispatch
 # computes the same per-row sums as the matching GEMV kernel.
 #

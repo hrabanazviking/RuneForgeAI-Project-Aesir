@@ -1,4 +1,9 @@
 #version 450
+// A-073 wavefront-32 tuning: workgroup is 64 = 2 wavefronts of 32
+// (gfx1151 wavefront is 32 - A-027 gate evidence). Interleaved A/B
+// on RADV: Q8_0 GEMM -4.4..-8.4%, Q8_0 GEMV neutral; the pair
+// shares this geometry so the A-068 GEMV==GEMM bitwise reduction
+// invariant holds. See hidden_files/A073_LEDGER.md.
 // A-068 Q8_0 GEMM kernel (prefill): Y[t, row] = sum_k dequant(W[row,k])
 // * X[t, k] for t in [0, tokens), row in [0, rows). The batched
 // generalisation of the A-056 GEMV kernel: W keeps the raw GGUF
@@ -9,19 +14,19 @@
 // row-major [tokens][cols] activation batch, Y the row-major
 // [tokens][rows] output batch. Byte extraction and the fp16 scale
 // decode run in-shader, so the full dequant is GPU work; nothing
-// is dequantized on the host. One workgroup of 256 invocations per
+// is dequantized on the host. One workgroup of 64 invocations per
 // (row, token) pair, dispatched as (rows, tokens, 1); strided
 // partial sums are reduced through shared memory, exactly the
 // A-056 reduction, so a tokens == 1 dispatch computes the same
 // per-row sums as the GEMV kernel. cols (K) must be a multiple of
 // 32 (Q8_0 block size); the Mojo gateway enforces this, and the
 // token/row bounds are enforced before dispatch.
-layout(local_size_x = 256, local_size_y = 1, local_size_z = 1) in;
+layout(local_size_x = 64, local_size_y = 1, local_size_z = 1) in;
 layout(std430, set = 0, binding = 0) readonly buffer WBuf { uint w[]; };
 layout(std430, set = 0, binding = 1) readonly buffer XBuf { float x[]; };
 layout(std430, set = 0, binding = 2) buffer YBuf { float y[]; };
 layout(push_constant) uniform Push { uint cols; uint rows; uint tokens; } pc;
-shared float sdata[256];
+shared float sdata[64];
 uint get_byte(uint idx) {
     uint word = w[idx >> 2u];
     return (word >> ((idx & 3u) * 8u)) & 0xFFu;
@@ -47,7 +52,7 @@ void main() {
     uint row_byte0 = row * blocks_per_row * 34u;
     uint x0 = tok * pc.cols;
     float partial = 0.0;
-    for (uint k = tid; k < pc.cols; k += 256u) {
+    for (uint k = tid; k < pc.cols; k += 64u) {
         uint blk = k / 32u;
         uint lane = k - blk * 32u;
         uint block_byte0 = row_byte0 + blk * 34u;
@@ -59,7 +64,7 @@ void main() {
     }
     sdata[tid] = partial;
     barrier();
-    for (uint stride = 128u; stride > 0u; stride >>= 1u) {
+    for (uint stride = 32u; stride > 0u; stride >>= 1u) {
         if (tid < stride) { sdata[tid] += sdata[tid + stride]; }
         barrier();
     }

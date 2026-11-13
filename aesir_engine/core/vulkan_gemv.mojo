@@ -10,7 +10,8 @@
 # Float32 activation vector, and writes one Float32 per row.
 # Byte extraction and the fp16 scale decode run in-shader, so
 # the dequant itself is GPU work; nothing is dequantized on the
-# host. One workgroup of 256 invocations per output row, strided
+# host. One workgroup of 64 invocations per output row (A-073
+# wavefront-32 tuning: 2 x 32-wide wavefronts), strided
 # partial sums reduced through shared memory.
 #
 # A-055 note: the SPIR-V build pipeline (team-04, in flight in

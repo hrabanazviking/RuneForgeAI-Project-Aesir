@@ -154,8 +154,8 @@
     {
       "name": "q8_0_gemm",
       "source": "aesir_engine/shaders/q8_0_gemm.comp",
-      "source_sha256": "5bbda3a368be7e08680ed24b6b824b20eca4e779192d5e1efed76eb98cd34fc6",
-      "spv_sha256": "3c162d588a33b8e0b9f9caa59555947a6ae0e76c9d61e8b7a3e3ea39de4df210",
+      "source_sha256": "f2098ad534059158f0203925cda3ab032daf52eed91cbe275ae010d851ba98e4",
+      "spv_sha256": "4aaadd1f772bb83bb3746d8c2c57e74bc93e605f2502772e3fb7d6f288df6d97",
       "spv_bytes": 6620,
       "spv_words": 1655,
       "spirv_version_word": 65536
@@ -163,8 +163,8 @@
     {
       "name": "q8_0_gemv",
       "source": "aesir_engine/shaders/q8_0_gemv.comp",
-      "source_sha256": "1919c081ed0e833b92556120b814d11259a73ea25d9fbe7905fd2bc67a45b0a0",
-      "spv_sha256": "af3a2f037eff04e192cb9477debbcab14bcebb9354874dcec8e8b337b47ce302",
+      "source_sha256": "6a373408b0ac9a8d9e4025393ebbd2c29dbaec5f5905dc7c14f2bdb5a216c377",
+      "spv_sha256": "26157f71a63a0841a920e51ad6e4e7a8f8b0d399d1d50b65f38f7c991e12bd58",
       "spv_bytes": 6076,
       "spv_words": 1519,
       "spirv_version_word": 65536
