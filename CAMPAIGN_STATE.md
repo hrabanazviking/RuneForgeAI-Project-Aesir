@@ -1,18 +1,18 @@
-# CAMPAIGN_STATE - team-20 (Aesir Z13 forge)
+# CAMPAIGN_STATE - team-21 (Aesir Z13 forge)
 
-- Team: team-20 (1 lead + 6 Mythic Engineering sub-agents)
-- Worktree: /home/volmarr/aesir-team-20, branch yrsa/aesir-team-20
+- Team: team-21 (1 lead + 6 Mythic Engineering sub-agents)
+- Worktree: /home/volmarr/aesir-team-21, branch yrsa/aesir-team-21
 - Base: 6396cd62 (banked main, 86 of 216, A-086 closure)
-- Assigned slice: A-090 - HIP soak or instability verdict. One-hour decode soak on the HIP path if integrated; else the instability evidence is filed as the verdict. Acceptance: soak log or verdict doc - one of the two, honestly.
-- Context: A-085 verdict is BANKED - Vulkan is the PRIMARY GPU road; HIP is PARKED probe-only, and A-086 banked that verdict into the live registry (Vulkan first-class, HIP probe-only). A-090 is the Wave 10 closer: HIP is NOT integrated as a primary path, so the honest deliverable is expected to be the instability/verdict doc unless a genuine one-hour HIP decode soak is actually run and logged. Never claim a soak that did not run; never claim HIP is integrated.
-- Status: MUSTERED 2026-11-13 by the keeper (expansion to 27 teams). Build and commit on the team branch only; the keeper banks at the seat in roadmap order after A-086, A-087, A-088 and A-089. Never merge or push from this worktree. Never touch README.md. No Docker, ever.
+- Assigned slice: A-091 - XDNA 2 capability census. AIE tile count, supported data types and ops, memory model - from XRT tooling + AMD documentation, distinguished as observed vs documented. Acceptance: census doc with the source of every claim marked.
+- Context: Wave 11 opener (NPU first light). The NPU earns its place by measurement or not at all. A-007 caveat stands: unprivileged xrt-smi is blocked by RLIMIT_MEMLOCK (8192 kB vs the 64 MiB locked map XRT wants) - NPU tools run via sudo until Volmarr rules on raising the user memlock limit; mark every claim OBSERVED (tooling on this Z13) or DOCUMENTED (AMD docs) - never merge the two.
+- Status: MUSTERED 2026-11-13 by the keeper (expansion to 27 teams). Build and commit on the team branch only; the keeper banks at the seat in roadmap order after A-090. Never merge or push from this worktree. Never touch README.md. No Docker, ever.
 - Suite baseline on this base: 597 passed / 1 failed / 2 skipped / 600 total (seat gate A-086); sole failure pre-existing gguf.tensor_directory_interface (J-022 drift); skips the 2 pre-declared. Known intermittents (pre-existing, proven at base): resilience.state_vault_rejects_growth, gpu.amd_hip_stream_async_round_trip and gguf.weight_residency_gpu_visibility - a suite showing only those plus J-022 is green-to-baseline; re-run once before treating any as new.
-- Machine note: defer full-suite runs while heavy shared work is live, and never run a suite concurrently with a seat gate. A one-hour soak is heavy shared work - coordinate via this state file and do not start it while a seat gate or another team suite is live.
-- Raw-oracle discipline for all correctness work; accelerator-visible is not accelerator-run - every accelerator claim needs device-execution evidence (dispatch counters / device identity on the real gfx1151).
+- Machine note: defer full-suite runs while heavy shared work is live, and never run a suite concurrently with a seat gate.
+- Raw-oracle discipline for all correctness work; accelerator-visible is not accelerator-run - every accelerator claim needs device-execution evidence (dispatch counters / device identity on the real XDNA 2).
 
-## A-090 result (team-20, 2026-11-13)
-- Verdict: HIP is NOT integrated (A-085/A-086 stand); no soak was run or claimed; the instability evidence is filed as the verdict.
-- Deliverables: docs/bench/A090_HIP_INSTABILITY_VERDICT.md (8,190 B, sha256 474ac312...94b1c4) and hidden_files/A090_LEDGER.md (sha256 252d566d...ffada).
-- Suite: 597 passed / 1 failed / 2 skipped / 600 total (hidden_files/a090_run_all.log) = base baseline; sole failure pre-existing gguf.tensor_directory_interface (J-022); no known intermittent appeared; +0 cases, pin stays 600.
-- Bugs: none in engine code in scope. Next work: persistent-context HIP launcher or MAX pool cap (A-085 re-open criteria 1-2); HIP stays probe-only until all four criteria are met and a fresh bake-off is run.
-- Status: DONE on team branch, awaiting keeper banking in roadmap order after A-087/A-088/A-089.
+## Outcome - A-091 DONE (2026-11-13, team-21 lead)
+- Census filed: docs/bench/A091_XDNA2_CENSUS.md. Headline: OBSERVED aie2p topology 6x8, Total Columns 8 (sudo xrt-smi, fresh); DOCUMENTED 32 compute tiles (8x4, AMD); 48 total tiles DERIVED only. No NPU compute run or claimed.
+- Fresh re-verifications: memlock wall (8192 kB vs 64 MiB map, unprivileged xrt-smi fails EAGAIN); validate blocked (VTD archive absent = A-092 first step); stacks absent (MLIR-AIE/IRON, pyxrt, Python onnxruntime, Vitis AI EP); FastFlowLM xclbins now present under /opt (third-party; corrects A-016 record).
+- Suite: hidden_files/a091_run_all.log = 597/1/2 of 600, baseline-exact, sole failure pre-existing J-022. Evidence: hidden_files/A091_LEDGER.md + a091_probe1-4.log + a091_xrtsmi.log.
+- Next work (for A-092, not this team): VTD archive fetch, kernel toolchain stand-up, memlock ruling is Volmarr's.
+- Status: committed on yrsa/aesir-team-21, ready for keeper banking after A-090. Never merged/pushed from this worktree.
