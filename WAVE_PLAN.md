@@ -68,7 +68,19 @@ when its lead is live on its assigned slice in its own worktree.
 
 ## State
 
-- Banked: **104 of 216** (A-001..A-104). A-104 banked at the
+- Banked: **105 of 216** (A-001..A-105). A-105 banked at the
+  seat 2026-11-13 (team-26 commit d356d606 cherry-picked
+  as db514a1b with the run_all union composed at banking,
+  +8 run_all cases, seat pin 642 -> 650; two-model
+  fairness - two models served concurrently on the real
+  gfx1151 share devices without starvation, per-model
+  latency bounds held, fairness digests reproduced
+  exactly; keeper-closed slice: the lead went silent
+  after its green suite and the keeper committed the
+  slice from the on-disk logs, ledger filed; seat gate
+  647/1/2 of 650 exact on run 1 solo, sole failure
+  J-022, no intermittent fired; full note in
+  PROJECT_MEMORY_MAP). A-104 banked at the
   seat 2026-11-13 (team-25 commit d94c2d05 cherry-picked
   as 12f05449 with the run_all union composed at banking,
   +6 run_all cases, seat pin 636 -> 642; big-model
