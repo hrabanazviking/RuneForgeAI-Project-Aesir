@@ -339,6 +339,15 @@ from tests.test_gpu_fuzz_a078 import (
     test_gpu_fuzz_sampling_temperature,
     test_gpu_fuzz_real_model_random_prompts,
 )
+from tests.test_device_lost_a079 import (
+    test_device_lost_taxonomy,
+    test_device_lost_control_parity,
+    test_device_lost_failover_midrun,
+    test_device_lost_fail_closed_state_intact,
+    test_device_lost_edges_and_repeat,
+    test_device_lost_watchdog_bound,
+    test_device_lost_live_shim_fail_closed,
+)
 from tests.test_gpu_pressure_a076 import (
     test_gpu_pressure_classification,
     test_gpu_pressure_gpu_route_baseline,
@@ -1228,6 +1237,13 @@ def main() raises:
     run_case(ledger, "gpu.gpu_soak_tally_accounting", test_gpu_soak_tally_accounting)
     run_case(ledger, "gpu.gpu_soak_live_rss_reader", test_gpu_soak_live_rss_reader)
     run_case(ledger, "gpu.gpu_soak_device_burst", test_gpu_soak_device_burst)
+    run_case(ledger, "gpu.device_lost_taxonomy", test_device_lost_taxonomy)
+    run_case(ledger, "gpu.device_lost_control_parity", test_device_lost_control_parity)
+    run_case(ledger, "gpu.device_lost_failover_midrun", test_device_lost_failover_midrun)
+    run_case(ledger, "gpu.device_lost_fail_closed_state_intact", test_device_lost_fail_closed_state_intact)
+    run_case(ledger, "gpu.device_lost_edges_and_repeat", test_device_lost_edges_and_repeat)
+    run_case(ledger, "gpu.device_lost_watchdog_bound", test_device_lost_watchdog_bound)
+    run_case(ledger, "gpu.device_lost_live_shim_fail_closed", test_device_lost_live_shim_fail_closed)
     run_case(ledger, "gpu.vulkan_q6k_q5k_oracle_parity", test_vulkan_q6k_q5k_oracle_parity)
     run_case(ledger, "gpu.vulkan_q6k_q5k_known_value", test_vulkan_q6k_q5k_known_value)
     run_case(ledger, "gpu.vulkan_q6k_q5k_engine_crosscheck", test_vulkan_q6k_q5k_engine_crosscheck)
@@ -2020,4 +2036,9 @@ def main() raises:
     # tests/test_gpu_fuzz_a078.mojo) counted on top of the
     # A-077 seat pin; the A-078 team pin (563 on the A-076
     # base) reconciles here at banking.
-    ledger.finish(568)
+    # A-079 union re-pin (banking 2026-11-12): 568 -> 575 --
+    # seven device-lost recovery cases (gpu.device_lost_*
+    # in tests/test_device_lost_a079.mojo) counted on top of
+    # the A-078 seat pin; the A-079 team pin (563 on the
+    # A-076 base) reconciles here at banking.
+    ledger.finish(575)
