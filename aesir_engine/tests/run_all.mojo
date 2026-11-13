@@ -323,6 +323,13 @@ from tests.test_accum_policy_a075 import (
     test_accum_policy_norm_mass_attention,
     test_accum_policy_emulation_invariants,
 )
+from tests.test_gpu_soak_a077 import (
+    test_gpu_soak_slope_flat_and_leak,
+    test_gpu_soak_verdict_precedence,
+    test_gpu_soak_tally_accounting,
+    test_gpu_soak_live_rss_reader,
+    test_gpu_soak_device_burst,
+)
 from tests.test_gpu_pressure_a076 import (
     test_gpu_pressure_classification,
     test_gpu_pressure_gpu_route_baseline,
@@ -1200,6 +1207,11 @@ def main() raises:
     run_case(ledger, "gpu.gpu_pressure_recovery", test_gpu_pressure_recovery)
     run_case(ledger, "gpu.gpu_pressure_live_and_log_bound", test_gpu_pressure_live_and_log_bound)
     run_case(ledger, "gpu.gpu_pressure_device_buffer", test_gpu_pressure_device_buffer)
+    run_case(ledger, "gpu.gpu_soak_slope_flat_and_leak", test_gpu_soak_slope_flat_and_leak)
+    run_case(ledger, "gpu.gpu_soak_verdict_precedence", test_gpu_soak_verdict_precedence)
+    run_case(ledger, "gpu.gpu_soak_tally_accounting", test_gpu_soak_tally_accounting)
+    run_case(ledger, "gpu.gpu_soak_live_rss_reader", test_gpu_soak_live_rss_reader)
+    run_case(ledger, "gpu.gpu_soak_device_burst", test_gpu_soak_device_burst)
     run_case(ledger, "gpu.vulkan_q6k_q5k_oracle_parity", test_vulkan_q6k_q5k_oracle_parity)
     run_case(ledger, "gpu.vulkan_q6k_q5k_known_value", test_vulkan_q6k_q5k_known_value)
     run_case(ledger, "gpu.vulkan_q6k_q5k_engine_crosscheck", test_vulkan_q6k_q5k_engine_crosscheck)
@@ -1984,4 +1996,7 @@ def main() raises:
     # tests/test_gpu_pressure_a076.mojo) counted on top of the
     # A-075 seat pin; the A-076 team pin (550 on the A-073 base)
     # reconciles here at banking.
-    ledger.finish(556)
+    # A-077 re-pin: 556 -> 561 -- five GPU soak cases
+    # (gpu.gpu_soak_* in tests/test_gpu_soak_a077.mojo)
+    # counted on top of the A-076 seat pin.
+    ledger.finish(561)
