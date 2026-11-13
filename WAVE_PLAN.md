@@ -68,7 +68,18 @@ when its lead is live on its assigned slice in its own worktree.
 
 ## State
 
-- Banked: **96 of 216** (A-001..A-096). A-096 banked at the
+- Banked: **97 of 216** (A-001..A-097). A-097 banked at the
+  seat 2026-11-13 (team-27 commit bd0173f3 cherry-picked
+  as 164c7aab, +0 run_all cases, pin stays 610; NPU
+  sampler experiment - verdict NOT FIT for decode
+  sampling, measured: NPU argmax warm medians 104.8 us
+  (V=32768) / 165.2 us (V=131072) vs CPU bf16 19.9 /
+  76.7 us; the ~93 us dispatch floor dominates, no
+  single-row crossover on one tile; exact vs CPU
+  oracle incl. planted tie; seat gate 607/1/2 of 610
+  exact on run 1 solo, sole failure J-022, no
+  intermittent fired; full note in PROJECT_MEMORY_MAP).
+  A-096 banked at the
   seat 2026-11-13 (team-26 commit 1d99fdac cherry-picked
   as b0fcccda, +0 run_all cases, pin stays 610; NPU
   prefill-assist experiment - verdict POSITIVE: NPU
@@ -425,8 +436,9 @@ when its lead is live on its assigned slice in its own worktree.
   resilience.state_vault_rejects_growth (bug B2) - neither
   appeared in the accepted gate run.
 - Queue: teams take slices in roadmap order as theirs
-  bank (keeper flow): A-097 - next to bank (team-27,
-  finishing). Wave 11 stands 6 of 9.
+  bank (keeper flow): A-098 - next to bank (team-25,
+  building); then A-099 (team-26, building).
+  Wave 11 stands 7 of 9.
   A-066 closed the A-065 KV-append gap
   (kv_append kernel, bit-exact).
   Sole failure in every suite =
