@@ -121,3 +121,13 @@ throughput on HIP (Q35-6 measures) · U5 Seer pool sizing for a
 27B file · 3. first coherent CPU generation · 4. recurrent session
 proven across two turns · 5. HIP execution live · 6. serve bench
 numbers · 7. any genuine blocker, the moment it is proven.
+
+## 40B line (opened 2026-11-14, Volmarr's word)
+
+Primary objective, parallel to the 27B road: the 40B heretic
+(Qwen3.8-40B Q8_0, sha256 ccf16c28…26ac426) working on Aesir. It is
+qwen35 like the 27B — 96 blocks (72 SSM + 24 attention), identical
+per-layer geometry — so this line rides the same adapter: worktree
+/home/volmarr/aesir-q35-40b, branch yrsa/qwen35-40b, merging banked
+yrsa/hip-serve slices as they land. Full record: LEDGER.md, top
+entry of 2026-11-14 (40B line opened).
