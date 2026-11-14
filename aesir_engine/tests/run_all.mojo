@@ -785,6 +785,16 @@ from tests.test_comparator_checklist_a112 import (
     test_comparator_template_caught,
     test_comparator_template_precedence_exact,
 )
+from tests.test_golden_corpus_a113 import (
+    test_corpus_count_and_unique_ids,
+    test_corpus_coverage,
+    test_corpus_file_mirrors,
+    test_corpus_harness_consumes_unchanged,
+    test_corpus_length_classes,
+    test_corpus_pinned_expectations,
+    test_corpus_pins_complete,
+    test_corpus_raw_not_template,
+)
 from tests.test_near_tie_gate_a111 import (
     test_near_tie_band_constants,
     test_near_tie_band_interior,
@@ -1670,6 +1680,14 @@ def main() raises:
     run_case(ledger, "oracle.pin_mark_judged_success", test_pin_mark_judged_success)
     run_case(ledger, "oracle.pin_build_hash_forms", test_pin_build_hash_forms)
     run_case(ledger, "oracle.pin_registry_file_in_repo", test_pin_registry_file_in_repo)
+    run_case(ledger, "corpus.count_unique_ids", test_corpus_count_and_unique_ids)
+    run_case(ledger, "corpus.coverage", test_corpus_coverage)
+    run_case(ledger, "corpus.pins_complete", test_corpus_pins_complete)
+    run_case(ledger, "corpus.raw_not_template", test_corpus_raw_not_template)
+    run_case(ledger, "corpus.pinned_expectations", test_corpus_pinned_expectations)
+    run_case(ledger, "corpus.length_classes", test_corpus_length_classes)
+    run_case(ledger, "corpus.file_mirrors", test_corpus_file_mirrors)
+    run_case(ledger, "corpus.harness_consumes_unchanged", test_corpus_harness_consumes_unchanged)
     run_case(ledger, "gate.near_tie_band_constants", test_near_tie_band_constants)
     run_case(ledger, "gate.near_tie_exact_step", test_near_tie_exact_step)
     run_case(ledger, "gate.near_tie_band_interior", test_near_tie_band_interior)
@@ -2450,4 +2468,12 @@ def main() raises:
     # checklist cases (oracle.comparator_* in
     # tests/test_comparator_checklist_a112.mojo) counted on
     # top of the A-111 seat pin.
-    ledger.finish(707)
+    # A-113 re-pin (team-26): 695 -> 703 -- eight golden
+    # corpus cases (corpus.* in
+    # tests/test_golden_corpus_a113.mojo) counted on top of
+    # the A-111 seat pin; the union reconciles at banking.
+    # A-113 union re-pin at banking: 707 -> 715 -- the
+    # eight corpus.* cases counted on top of the A-112 seat
+    # pin (team branch pin was 703 on the A-111 base; union
+    # reconciled here at banking).
+    ledger.finish(715)

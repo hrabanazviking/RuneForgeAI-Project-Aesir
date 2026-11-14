@@ -1,0 +1,35 @@
+=== A-113 SOLO state_vault_rejects_growth re-run (team-26) ===
+2026-11-13T21:59:01-05:00
+purpleraider
+7e4f6402d718753537ba0ae2047be038386011f1
+yrsa/aesir-team-26
+Mojo 1.2.0 (2016d0cd)
+staging=/tmp/tmp.7tiTIBpoXu
+--- Testing StateVault rejects files that grew during read (F012) ---
+StateVault growth rejection: PASS
+SOLO_RESULT: resilience.state_vault_rejects_growth PASS
+	Command being timed: "pixi run --frozen mojo run -I . --target-accelerator gfx1151 -Xlinker -L/tmp/tmp.7tiTIBpoXu -Xlinker -laesir_hailo10h -Xlinker -laesir_par -Xlinker -laesir_hip -Xlinker -laesir_vulkan -Xlinker -laesir_zc -Xlinker -laesir_aff aesir_engine/tests/solo_a113_vault.mojo"
+	User time (seconds): 3.87
+	System time (seconds): 0.29
+	Percent of CPU this job got: 244%
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 0:01.71
+	Average shared text size (kbytes): 0
+	Average unshared data size (kbytes): 0
+	Average stack size (kbytes): 0
+	Average total size (kbytes): 0
+	Maximum resident set size (kbytes): 298208
+	Average resident set size (kbytes): 0
+	Major (requiring I/O) page faults: 39
+	Minor (reclaiming a frame) page faults: 110307
+	Voluntary context switches: 28796
+	Involuntary context switches: 3523
+	Swaps: 0
+	File system inputs: 35424
+	File system outputs: 720
+	Socket messages sent: 0
+	Socket messages received: 0
+	Signals delivered: 0
+	Page size (bytes): 4096
+	Exit status: 0
+MOJO_EXIT=0
+=== end 2026-11-13T21:59:04-05:00 ===
