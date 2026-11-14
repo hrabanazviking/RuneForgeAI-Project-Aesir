@@ -1,0 +1,38 @@
+MimirWell initialized with 4232837120 derived bytes.
+GGUF validated: 851 tensors, 48 metadata entries, architecture qwen35
+Qwen35 resident load: mode=q8_0_resident large_tensors=498 q8_0_bytes=28574187520 f16_materialized_bytes_avoided=53786705920
+WEIGHT_LOAD_MODE=q8_0_resident
+R1=Assistant:<NL><NL>The capital of France is **Paris**. One of the most famous museums located there is the **Louvre**, which is renowned for housing masterpieces
+T1 prompt_tokens=23 reused=0 generated=32
+POS1=55
+R2=<NL>Assistant:<NL><NL>The primary language spoken in Paris is **French**. It is the official language of France and is used in daily life, business, and government
+T2 prompt_tokens=10 reused=0 generated=32
+POS2=97
+STATELESS prompt_tokens=65 reused=55 position=65
+R2S=<NL>Assistant:<NL><NL>The primary language spoken in Paris is **French**. It is the official language of France and is used in daily life, business, and government
+PASS (stateless): snapshot resend reuses turn-1 boundary, reply == resident R2
+Q35-4b in-process turns reference: ALL PASS
+	Command being timed: "hidden_files/qwen35-adapter/ref_qwen35_realfile_q35_4b /mnt/vault/models/gguf/Qwen3.8-27B-Ultimate-Heretic-Uncn-Turbo-Brilli-50x-AGI-NEO-Q8_0.gguf turns"
+	User time (seconds): 596.53
+	System time (seconds): 25.23
+	Percent of CPU this job got: 1067%
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 0:58.22
+	Average shared text size (kbytes): 0
+	Average unshared data size (kbytes): 0
+	Average stack size (kbytes): 0
+	Average total size (kbytes): 0
+	Maximum resident set size (kbytes): 31621040
+	Average resident set size (kbytes): 0
+	Major (requiring I/O) page faults: 0
+	Minor (reclaiming a frame) page faults: 3059547
+	Voluntary context switches: 145028
+	Involuntary context switches: 203173
+	Swaps: 0
+	File system inputs: 0
+	File system outputs: 16
+	Socket messages sent: 0
+	Socket messages received: 0
+	Signals delivered: 0
+	Page size (bytes): 4096
+	Exit status: 0
+TURNS_EXIT=0
