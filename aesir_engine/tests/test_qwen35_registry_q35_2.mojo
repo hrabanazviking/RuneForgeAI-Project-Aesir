@@ -64,8 +64,15 @@ def expect_refusal(model: PackedGGUF, profile: Qwen35Profile,
 def test_classify_policy() raises:
     if not qwen35_quantization_supported("Q8_0"):
         raise Error("Q8_0 must be admitted for qwen35")
-    if qwen35_quantization_supported("Q4_K_M"):
-        raise Error("K-quants have no qwen35 evidence and must stay unadmitted")
+    # QC-6 expectation update (deliberate, cited): Q4_K_M gained
+    # qwen35 evidence in QC-6 (27B census under the dim0 tiling
+    # rule + the converted product's load proofs and grade), so it
+    # is admitted for this profile from QC-6 on; other K-quants
+    # still have no qwen35 evidence and stay unadmitted.
+    if not qwen35_quantization_supported("Q4_K_M"):
+        raise Error("Q4_K_M must be admitted for qwen35 (QC-6 evidence)")
+    if qwen35_quantization_supported("Q5_K_M"):
+        raise Error("Q5_K_M has no qwen35 evidence and must stay unadmitted")
     var real = ModelArchitectureRegistry.classify(
         "qwen35", "27B", 64, 5120, 262144, 7, ""
     )
@@ -73,11 +80,17 @@ def test_classify_policy() raises:
         raise Error("real qwen35 geometry did not classify to the native profile")
     if real.compatibility != "COMPATIBLE" or real.architecture != "qwen35":
         raise Error("real qwen35 compatibility verdict drifted")
-    if real.tensor_naming != "qwen35/blk.*" or real.supported_quantizations != "Q8_0":
+    if real.tensor_naming != "qwen35/blk.*" or real.supported_quantizations != "Q8_0, Q4_K_M":
         raise Error("real qwen35 naming/quantization policy drifted")
     if real.tensor_validation != "not_run" or real.recommended_context != 8192:
         raise Error("classify fabricated inspection evidence or context drifted")
     print("PASS (a): real geometry 64L/5120 Q8_0 -> native_profile qwen35, READY/COMPATIBLE")
+    var k_quant = ModelArchitectureRegistry.classify(
+        "qwen35", "27B", 64, 5120, 262144, 15, ""
+    )
+    if k_quant.native_profile != "qwen35" or k_quant.status != "READY":
+        raise Error("qwen35 Q4_K_M geometry was not admitted (QC-6)")
+    print("PASS (a2): real geometry 64L/5120 Q4_K_M -> native_profile qwen35, READY (QC-6)")
     var wrong_quant = ModelArchitectureRegistry.classify(
         "qwen35", "27B", 64, 5120, 262144, 2, ""
     )
