@@ -68,7 +68,19 @@ when its lead is live on its assigned slice in its own worktree.
 
 ## State
 
-- Banked: **112 of 216** (A-001..A-112). A-112 banked at the
+- Banked: **113 of 216** (A-001..A-113). A-113 banked at the
+  seat 2026-11-13 (team-26 commit ad311a1b cherry-picked
+  as 47f2cc58 with the run_all union composed at banking,
+  +8 run_all cases, seat pin 707 -> 715; golden corpus -
+  24 fixtures in-repo with hashes, pinned expectations
+  per fixture, harness consumes it unchanged; the
+  Capability Ledger Z13-P5-113 entry owed by the team
+  commit filed at the seat and the E-MASTER phrase
+  advanced to the checker form for 715; team-suite vault
+  intermittent cleared solo; seat gate 712/1/2 of 715
+  exact on run 1 solo, sole failure J-022, no
+  intermittent fired; full note in PROJECT_MEMORY_MAP).
+  Wave 13 stands at 5 of 9 (A-109..A-113). A-112 banked at the
   seat 2026-11-13 (team-25 commit c66c29a7 cherry-picked
   as 8b31bcf9 clean, no conflicts, +12 run_all cases, seat pin
   695 -> 707; comparator-artifact checklist automated -
