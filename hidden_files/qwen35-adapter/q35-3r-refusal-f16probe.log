@@ -1,0 +1,4 @@
+MimirWell initialized with 37896704 derived bytes.
+GGUF validated: 56 tensors, 23 metadata entries, architecture qwen35
+stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`
+Unhandled exception caught during execution: Qwen35Block: resident Q8_0 load refused tensor 'blk.0.ffn_gate.weight': stored GGML type 1 is not Q8_0 (8); the resident path never materializes F16 weights

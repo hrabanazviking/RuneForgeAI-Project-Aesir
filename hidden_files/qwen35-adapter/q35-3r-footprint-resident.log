@@ -1,0 +1,27 @@
+MimirWell initialized with 67343360 derived bytes.
+GGUF validated: 109 tensors, 23 metadata entries, architecture qwen35
+Qwen35 resident load: mode=q8_0_resident large_tensors=64 q8_0_bytes=32918528 f16_materialized_bytes_avoided=61964288
+ENGINE MODE DONE resident= True  generated: 6174 2051 490 5019 519 6964 2819 2165 
+	Command being timed: "hidden_files/qwen35-adapter/bench_qwen35_resident_footprint_q35_3r aesir_engine/tests/fixtures/qwen35_large.gguf resident"
+	User time (seconds): 0.02
+	System time (seconds): 0.03
+	Percent of CPU this job got: 122%
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 0:00.04
+	Average shared text size (kbytes): 0
+	Average unshared data size (kbytes): 0
+	Average stack size (kbytes): 0
+	Average total size (kbytes): 0
+	Maximum resident set size (kbytes): 113376
+	Average resident set size (kbytes): 0
+	Major (requiring I/O) page faults: 0
+	Minor (reclaiming a frame) page faults: 20119
+	Voluntary context switches: 204
+	Involuntary context switches: 20
+	Swaps: 0
+	File system inputs: 0
+	File system outputs: 8
+	Socket messages sent: 0
+	Socket messages received: 0
+	Signals delivered: 0
+	Page size (bytes): 4096
+	Exit status: 0

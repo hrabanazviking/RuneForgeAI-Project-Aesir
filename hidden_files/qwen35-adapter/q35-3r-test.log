@@ -1,0 +1,30 @@
+MimirWell initialized with 37896704 derived bytes.
+GGUF validated: 56 tensors, 23 metadata entries, architecture qwen35
+RESIDENT CENSUS: large_tensors= 33  large_elements= 822272  q8_0_bytes= 873664  f16_bytes= 1644544  mode= q8_0_resident
+PASS (r1): resident census 33 large tensors, priced both ways
+MimirWell initialized with 37896704 derived bytes.
+GGUF validated: 56 tensors, 23 metadata entries, architecture qwen35
+MimirWell initialized with 37896704 derived bytes.
+GGUF validated: 56 tensors, 23 metadata entries, architecture qwen35
+Qwen35 resident load: mode=q8_0_resident large_tensors=33 q8_0_bytes=873664 f16_materialized_bytes_avoided=1644544
+RESIDENT VS DEFAULT: greedy identical: 1019 675 143 452 111 251 827 386 423 176 368 1018 910 490 742 849 
+RESIDENT VS DEFAULT: logits max_abs_diff = 0.0
+PASS (r2): resident == default, greedy identical, logits diff 0.0
+RESIDENT (c): s max_abs_diff = 0.0008479953  conv max_abs_diff = 0.0078125  logits max_abs_diff = 0.013671875
+PASS (r3): resident batched == per-token within Q35-3a bounds, next token identical
+MimirWell initialized with 37896704 derived bytes.
+GGUF validated: 56 tensors, 23 metadata entries, architecture qwen35
+RESIDENT REFUSAL: Qwen35Block: resident Q8_0 load refused tensor 'blk.0.ffn_gate.weight': stored GGML type 1 is not Q8_0 (8); the resident path never materializes F16 weights
+PASS (r4): F16 large weight refused by name on the resident path
+MimirWell initialized with 37896704 derived bytes.
+GGUF validated: 56 tensors, 23 metadata entries, architecture qwen35
+PASS (r5): F16-probe fixture loads on the default path (refusal is resident-specific)
+MimirWell initialized with 37896704 derived bytes.
+GGUF validated: 56 tensors, 23 metadata entries, architecture qwen35
+MimirWell initialized with 37896704 derived bytes.
+GGUF validated: 56 tensors, 23 metadata entries, architecture qwen35
+Qwen35 resident load: mode=q8_0_resident large_tensors=33 q8_0_bytes=873664 f16_materialized_bytes_avoided=1644544
+PASS (r6): resident session replies == default session; load mode reported only under the opt-in
+RESIDENT STATELESS_BEGIN prompt_tokens= 90  reused= 72
+PASS (r7): Q35-5 snapshot restore + stateless reuse work over the resident-loaded engine
+Q35-3r qwen35 Q8_0-resident load path: ALL PASS

@@ -17,8 +17,10 @@ struct NativeModelPlan(Copyable):
     var context_length: Int
     var memory: InferenceMemoryPlan
     var experimental: Bool
+    # Q35-3r: Q8_0-resident load opt-in for qwen35 (default off).
+    var resident_q8: Bool
 
-    def __init__(out self, path: String, requested_profile: String = "auto", context_length: Int = 0, experimental_qwen35: Bool = False) raises:
+    def __init__(out self, path: String, requested_profile: String = "auto", context_length: Int = 0, experimental_qwen35: Bool = False, qwen35_resident: Bool = False) raises:
         if requested_profile != "auto" and requested_profile != "gemma4" and requested_profile != "llama3" and requested_profile != "qwen3" and requested_profile != "qwen35":
             raise Error("Unsupported native model profile")
         var model = PackedGGUF(path)
@@ -26,6 +28,7 @@ struct NativeModelPlan(Copyable):
         self.profile = requested_profile
         self.variant = ""
         self.experimental = False
+        self.resident_q8 = False
         if self.profile == "auto":
             if compatibility.status != "READY" or compatibility.native_profile == "":
                 raise Error(compatibility.friendly_error())
@@ -70,6 +73,7 @@ struct NativeModelPlan(Copyable):
             if self.context_length == 0:
                 self.context_length = compatibility.recommended_context
             validate_qwen35(model, q35_profile, self.context_length)
+            self.resident_q8 = qwen35_resident
             self.memory = qwen35_memory_plan(
                 Int(model.source.file_size), self.context_length, q35_profile
             )
@@ -82,6 +86,8 @@ struct NativeModelPlan(Copyable):
             self.memory = gemma4_profile_memory_plan(Int(model.source.file_size), self.context_length, gemma_profile)
         else:
             raise Error("Unsupported native model profile '" + self.profile + "'")
+        if qwen35_resident and self.profile != "qwen35":
+            raise Error("NativeModelPlan: qwen35 resident Q8_0 load applies only to the qwen35 profile")
 
 
 struct NativeDeviceSelection(Copyable):

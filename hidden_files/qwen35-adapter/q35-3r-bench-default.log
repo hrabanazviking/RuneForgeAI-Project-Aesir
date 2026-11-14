@@ -1,0 +1,5 @@
+HEALTH status=200 body={"status": "ready", "backend": "cpu", "cpu_offload": 0, "profile": "qwen35", "context": 512, "model": "aesir_engine/tests/fixtures/qwen35_forward.gguf", "model_digest": "", "max_tokens": 16, "generation_timeout_ms": 30000, "capabilities": {"text_generation": true, "embeddings": false, "exact_prefix_reuse": true, "exact_prefix_reuse_detail": "snapshot-based at committed turn boundaries only", "post_history_configured": false, "session_residency": true, "memory_injection": true, "experimental_admission": true}, "prefill_batch": 1, "queue_limit": 4}
+T1 status=200 usage={"prompt_tokens": 56, "completion_tokens": 16, "total_tokens": 72, "reused_prompt_tokens": 0} reply='tok0731tok0839tok0344tok0745tok0250tok0428tok0689tok0885tok0392}tok0723tok0658&tok0635tok0379tok0415'
+T2 status=200 usage={"prompt_tokens": 90, "completion_tokens": 16, "total_tokens": 106, "reused_prompt_tokens": 72} reply='tok0964tok0644tok0698tok0896tok0400tok0102tok0486tok0719tok0446tok0822tok0148tok0346Etok0958tok0375tok0120'
+HEALTH MODE PASS: no weight_load_mode key on the default load (payload unchanged)
+Q35-3r HTTP default bench: ALL PASS

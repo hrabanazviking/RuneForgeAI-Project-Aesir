@@ -121,15 +121,23 @@ def build(path, bad_qkv=False, type_probe=False):
 # recurrence is stable by construction; norms sit near 1.0.
 import random as _random
 
-def build_forward(path):
-    H2, FFN2, V2, NB2, CTX2 = 128, 256, 1024, 4, 512
-    NHEAD2, NKV2, HD2 = 2, 1, 64
-    GROUPS2, STATE2, DT2, KERNEL2 = 2, 16, 4, 4
+def build_forward(path, f16_name="", geom=None, seed=20261114):
+    # Q35-3r: optional overrides, used ONLY by the new fixture profiles
+    # below. With defaults this is the banked Q35-3/Q35-4 generator,
+    # byte-identical output (same RNG seed and call order). f16_name
+    # stores that one matrix as F16 (the resident-path refusal probe);
+    # geom overrides the geometry tuple for the large profile.
+    if geom is None:
+        H2, FFN2, V2, NB2, CTX2 = 128, 256, 1024, 4, 512
+        NHEAD2, NKV2, HD2 = 2, 1, 64
+        GROUPS2, STATE2, DT2, KERNEL2 = 2, 16, 4, 4
+    else:
+        (H2, FFN2, V2, NB2, CTX2, NHEAD2, NKV2, HD2, GROUPS2, STATE2, DT2, KERNEL2) = geom
     INNER2 = DT2 * STATE2
     QKV2 = 2 * GROUPS2 * STATE2 + INNER2
     INTERVAL2 = 4
     QW2, KVD2 = NHEAD2 * HD2, NKV2 * HD2
-    rng = _random.Random(20261114)
+    rng = _random.Random(seed)
     def q80rand(n, scale, amp):
         assert n % 32 == 0, n
         out = bytearray()
@@ -177,6 +185,10 @@ def build_forward(path):
     tensors = []
     def add(name, dims, gt, payload): tensors.append((name, dims, gt, payload))
     def mat(name, cols, rows, scale=0.03, amp=24):
+        if name == f16_name:
+            vals = [rng.uniform(-0.5, 0.5) for _ in range(cols * rows)]
+            add(name, [cols, rows], F16, struct.pack("<" + "e" * len(vals), *vals))
+            return
         add(name, [cols, rows], Q8_0, q80rand(cols * rows, scale, amp))
     def vec(name, n, lo, hi):
         add(name, [n], F32, f32rand(n, lo, hi))
@@ -212,8 +224,28 @@ def build_forward(path):
     path.parent.mkdir(parents=True, exist_ok=True); path.write_bytes(bytes(buf))
     print("wrote", path, len(buf), "bytes,", len(tensors), "tensors, qkv_width", QKV2)
 
+def build_forward_f16probe(path):
+    # Q35-3r refusal probe: the forward fixture's geometry with ONE
+    # large matrix (blk.0.ffn_gate.weight) stored F16 instead of Q8_0.
+    # The default load accepts it (types are recorded, not enforced);
+    # the Q8_0-resident load must refuse it BY NAME.
+    build_forward(path, f16_name="blk.0.ffn_gate.weight")
+
+
+def build_large(path):
+    # Q35-3r footprint profile: hidden 512, ffn 1408, vocab 8192,
+    # blocks 8 (6 SSM + 2 full-attention), heads 4 / kv 2, head_dim
+    # 128, groups 4, state 32, dt_rank 8, inner 256, qkv_width 512,
+    # conv_kernel 4, context 1024. ~31M large-weight elements:
+    # ~33 MB stored as Q8_0 vs ~62 MB materialized as F16 -- large
+    # enough for the two load peaks to separate under /usr/bin/time.
+    build_forward(path, geom=(512, 1408, 8192, 8, 1024, 4, 2, 128, 4, 32, 8, 4), seed=20261115)
+
+
 if __name__ == "__main__":
     build(OUT / "qwen35_tiny.gguf")
     build(OUT / "qwen35_tiny_bad_qkv.gguf", bad_qkv=True)
     build(OUT / "qwen35_tiny_type_probe.gguf", type_probe=True)
     build_forward(OUT / "qwen35_forward.gguf")
+    build_forward_f16probe(OUT / "qwen35_forward_f16probe.gguf")
+    build_large(OUT / "qwen35_large.gguf")

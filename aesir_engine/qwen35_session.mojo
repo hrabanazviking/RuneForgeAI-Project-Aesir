@@ -151,11 +151,15 @@ struct Qwen35CPUSession(ControlledTextSession):
     var conv_text: String
     var last_generated_text: String
     var turn_generated_text: String
+    # Q35-3r: Q8_0-resident load opt-in (default off).
+    var resident_q8: Bool
 
     def __init__(out self, path: String, context_length: Int,
-                 sampling: NativeSamplingConfig = NativeSamplingConfig()) raises:
+                 sampling: NativeSamplingConfig = NativeSamplingConfig(),
+                 resident_q8: Bool = False) raises:
         sampling.validate()
-        self.engine = AesirEngine(path, knowledge_capacity=1)
+        self.resident_q8 = resident_q8
+        self.engine = AesirEngine(path, knowledge_capacity=1, qwen35_resident=resident_q8)
         if self.engine.parser.config.architecture != "qwen35":
             raise Error("Qwen35 CPU session requires a qwen35 model")
         if context_length < 2 or context_length > self.engine.parser.config.context_length:
@@ -185,6 +189,15 @@ struct Qwen35CPUSession(ControlledTextSession):
         self.conv_text = String("")
         self.last_generated_text = String("")
         self.turn_generated_text = String("")
+
+    def weight_load_mode(self) -> String:
+        """Q35-3r load-mode surface: "q8_0_resident" under the
+        resident opt-in, "" (unreported) on the default load -- the
+        serve health payload gains the key only when a mode is
+        reported, so other profiles stay byte-identical."""
+        if self.resident_q8:
+            return String("q8_0_resident")
+        return String("")
 
     def _gen_config(self) -> GenerationConfig:
         return GenerationConfig(

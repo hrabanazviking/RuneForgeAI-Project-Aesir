@@ -1,5 +1,45 @@
 # Qwen35 Adapter Campaign — Ledger
 
+## 2026-11-14 — Q35-3r: Q8_0-resident load path, fixture-grade proof (worker slice; coordinator verifies + banks)
+
+- Recon verdict (code read, this slice): the engine-core CPU path
+  already consumes Q8_0 packed -- GGUFSeer maps Q8_0 as zero-copy
+  mmap views and gemm_f16 dispatches them to gemm_q8_0 (fused GEMV
+  / one-row bounded scratch); the ~57 GB gate figure was an F16-
+  materialization PRICING, never a loader behavior. The missing
+  piece was the contract, now built: opt-in resident mode
+  (--qwen35-resident -> NativeModelPlan.resident_q8 -> session ->
+  AesirEngine -> Qwen35Block) enforcing at load that EVERY large
+  weight is stored Q8_0, refused BY NAME otherwise, no F16
+  fallback; /health reports weight_load_mode=q8_0_resident only
+  under the opt-in (other profiles byte-identical). One forward
+  implementation; default path untouched. Full notes:
+  Q35-3r-NOTES.md.
+- Proof ALL PASS (logs q35-3r-*): (a) resident vs default on the
+  forward fixture: greedy IDENTICAL to the banked sequence, logits
+  max_abs_diff = 0.0 exactly (same packed views, same kernels --
+  no second conversion exists); (b) resident per-token vs batched
+  diffs bit-equal to Q35-3a (c) (0.0008479953 / 0.0078125 /
+  0.013671875), next token identical; (c) large fixture (30.98M
+  large elements): peak RSS default 113,248 KB vs resident
+  113,612 KB vs deliberate-F16-materialize 174,460 KB -- avoided
+  cost measured and closing against the formula; (d) session +
+  snapshot over the resident engine (r6/r7), Q35-4a/Q35-5 tests,
+  serve benches resident (health mode key) + default (no key),
+  Q35-1/Q35-2/Q35-3a ALL PASS, ripple ALL PASS, engine compile 0.
+- Real-file censuses via the no-materialization probe (peaks
+  ~174 MiB, no forward): 27B 498 large / 26,893,352,960 elements /
+  Q8_0 28,574,187,520 B / F16 53,786,705,920 B; 40B 746 large /
+  39,068,631,040 / 41,510,420,480 B / 78,137,262,080 B. Both files
+  PASS resident validation. FIT for Q35-3b, stated plainly:
+  residency removes the 53.8 GB anonymous term, but ~28.6 GB of
+  touched file pages + ~4.2 GB pool remain -- beside the live set
+  at ~27 GB MemAvailable a real-file serve still needs the
+  parent's quiet-window call.
+- Fixtures: generator parameterized; the four banked fixtures
+  regenerate byte-identical; new qwen35_forward_f16probe.gguf
+  (refusal probe) + qwen35_large.gguf (footprint profile).
+
 ## 2026-11-14 — Q35-5: residency + prefix snapshots for hybrid state, fixture-grade proof (verified + banked by coordinator)
 
 - Snapshot/restore for Qwen35State at committed turn boundaries:

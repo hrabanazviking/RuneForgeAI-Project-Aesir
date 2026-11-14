@@ -64,6 +64,15 @@ that kind" — the adapter for the `qwen35` hybrid architecture, so the
   against a CPU comparator (llama.cpp, same file) by teacher-forcing
   rank + logit gap on RAW prompts; near-tie band rank ≤2, sub-logit
   gap = faithful.
+- **Q35-3r — Q8_0-resident load path.** Opt-in resident mode
+  enforcing at load that every large qwen35 weight is stored
+  Q8_0 (refused by name otherwise; no F16 materialization),
+  reported as weight_load_mode in serve health. Unlocks the
+  memory gate's terms for Q35-3b/Q35-4b: exact censuses price the
+  27B large weights at 28,574,187,520 B stored vs 53,786,705,920 B
+  materialized (40B: 41,510,420,480 vs 78,137,262,080). Fixture-
+  grade proof banked with Q35-3a numerics bit-equal (logits diff
+  vs the default path exactly 0.0).
 - **Q35-4 — Serve session (CPU first).** Qwen35 session over the
   engine-core path; runtime_plan admission (api=cpu), native_serve
   dispatch. Proof: serve fixture then real 27B on a side port;

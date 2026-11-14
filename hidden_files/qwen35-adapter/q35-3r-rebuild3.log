@@ -1,0 +1,199 @@
++ cd /home/volmarr/aesir-q35-3r
++ export PATH=/home/volmarr/.pixi/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/snap/bin
++ PATH=/home/volmarr/.pixi/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/snap/bin
++ SH=hidden_files/hip-serve/shims
++ LK='-Xlinker -Lhidden_files/hip-serve/shims -Xlinker -laesir_hailo10h -Xlinker -laesir_par -Xlinker -laesir_hip -Xlinker -laesir_vulkan -Xlinker -laesir_zc -Xlinker -laesir_aff'
++ pixi run --frozen mojo build -I . --target-accelerator gfx1151 -Xlinker -Lhidden_files/hip-serve/shims -Xlinker -laesir_hailo10h -Xlinker -laesir_par -Xlinker -laesir_hip -Xlinker -laesir_vulkan -Xlinker -laesir_zc -Xlinker -laesir_aff aesir_engine/main.mojo -o .aesir/aesir
+Imported from /home/volmarr/aesir-q35-3r/aesir_engine/main.mojo:12:
+Imported from /home/volmarr/aesir-q35-3r/aesir_engine/cli/commands.mojo:15:
+/home/volmarr/aesir-q35-3r/aesir_engine/cli/native_serve.mojo:585:556: error: encountered unexpected '\'; use line continuation at the end of lines
+                        body += ",\"generation_timeout_ms\":" + String(timeout_ms) + ",\"capabilities\":{\"text_generation\":true,\"embeddings\":false,\"exact_prefix_reuse\":" + ("true" if prefix_cache else "false") + (",\"exact_prefix_reuse_detail\":\"" + prefix_reuse_detail + "\"" if prefix_reuse_detail != "" else "") + ",\"post_history_configured\":" + ("true" if post_history != "" else "false") + ",\"session_residency\":true,\"memory_injection\":true,\"experimental_admission\":" + ("true" if experimental else "false") + (",\"weight_load_mode\":"\"" + weight_load_mode + "\"" if weight_load_mode != "" else "") + "},\"prefill_batch\":" + String(prefill_batch) + ",\"queue_limit\":" + String(queue_limit) + "}"
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           ^
+Imported from /home/volmarr/aesir-q35-3r/aesir_engine/main.mojo:12:
+Imported from /home/volmarr/aesir-q35-3r/aesir_engine/cli/commands.mojo:24:
+Imported from /home/volmarr/aesir-q35-3r/aesir_engine/cli/doctor.mojo:3:
+Imported from /home/volmarr/aesir-q35-3r/aesir_engine/aesir.mojo:6:
+/home/volmarr/aesir-q35-3r/aesir_engine/core/inference.mojo:2181:9: warning: '__del__' is deprecated; use '__deinit__'
+    def __del__(deinit self):
+        ^~~~~~~
+        __deinit__
+Imported from /home/volmarr/aesir-q35-3r/aesir_engine/main.mojo:12:
+Imported from /home/volmarr/aesir-q35-3r/aesir_engine/cli/commands.mojo:24:
+Imported from /home/volmarr/aesir-q35-3r/aesir_engine/cli/doctor.mojo:3:
+Imported from /home/volmarr/aesir-q35-3r/aesir_engine/aesir.mojo:6:
+/home/volmarr/aesir-q35-3r/aesir_engine/core/inference.mojo:2182:20: warning: 'free' is deprecated, use 'unsafe_free' instead
+        self.s_data.free()
+        ~~~~~~~~~~~^~~~~
+                    unsafe_free
+<unknown>:0: note: 'free' declared here
+Imported from /home/volmarr/aesir-q35-3r/aesir_engine/main.mojo:12:
+Imported from /home/volmarr/aesir-q35-3r/aesir_engine/cli/commands.mojo:24:
+Imported from /home/volmarr/aesir-q35-3r/aesir_engine/cli/doctor.mojo:3:
+Imported from /home/volmarr/aesir-q35-3r/aesir_engine/aesir.mojo:6:
+/home/volmarr/aesir-q35-3r/aesir_engine/core/inference.mojo:2183:23: warning: 'free' is deprecated, use 'unsafe_free' instead
+        self.conv_data.free()
+        ~~~~~~~~~~~~~~^~~~~
+                       unsafe_free
+<unknown>:0: note: 'free' declared here
+Imported from /home/volmarr/aesir-q35-3r/aesir_engine/main.mojo:12:
+Imported from /home/volmarr/aesir-q35-3r/aesir_engine/cli/commands.mojo:24:
+Imported from /home/volmarr/aesir-q35-3r/aesir_engine/cli/doctor.mojo:3:
+Imported from /home/volmarr/aesir-q35-3r/aesir_engine/aesir.mojo:6:
+/home/volmarr/aesir-q35-3r/aesir_engine/core/inference.mojo:2184:21: warning: 'free' is deprecated, use 'unsafe_free' instead
+        self.scratch.free()
+        ~~~~~~~~~~~~^~~~~
+                     unsafe_free
+<unknown>:0: note: 'free' declared here
+Imported from /home/volmarr/aesir-q35-3r/aesir_engine/main.mojo:12:
+Imported from /home/volmarr/aesir-q35-3r/aesir_engine/cli/commands.mojo:15:
+/home/volmarr/aesir-q35-3r/aesir_engine/cli/native_serve.mojo:585:556: error: encountered unexpected '\'; use line continuation at the end of lines
+                        body += ",\"generation_timeout_ms\":" + String(timeout_ms) + ",\"capabilities\":{\"text_generation\":true,\"embeddings\":false,\"exact_prefix_reuse\":" + ("true" if prefix_cache else "false") + (",\"exact_prefix_reuse_detail\":\"" + prefix_reuse_detail + "\"" if prefix_reuse_detail != "" else "") + ",\"post_history_configured\":" + ("true" if post_history != "" else "false") + ",\"session_residency\":true,\"memory_injection\":true,\"experimental_admission\":" + ("true" if experimental else "false") + (",\"weight_load_mode\":"\"" + weight_load_mode + "\"" if weight_load_mode != "" else "") + "},\"prefill_batch\":" + String(prefill_batch) + ",\"queue_limit\":" + String(queue_limit) + "}"
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           ^
+Imported from /home/volmarr/aesir-q35-3r/aesir_engine/main.mojo:12:
+Imported from /home/volmarr/aesir-q35-3r/aesir_engine/cli/commands.mojo:21:
+Imported from /home/volmarr/aesir-q35-3r/aesir_engine/cli/bench.mojo:41:
+Imported from /home/volmarr/aesir-q35-3r/aesir_engine/core/thread_topology.mojo:101:
+/home/volmarr/aesir-q35-3r/aesir_engine/core/parallel.mojo:39:1: warning: 'alias' is deprecated; use 'comptime'
+alias RangeFn = def(Int64, Int64, Int64) thin -> None
+^~~~~
+comptime
+Imported from /home/volmarr/aesir-q35-3r/aesir_engine/main.mojo:12:
+Imported from /home/volmarr/aesir-q35-3r/aesir_engine/cli/commands.mojo:21:
+Imported from /home/volmarr/aesir-q35-3r/aesir_engine/cli/bench.mojo:41:
+/home/volmarr/aesir-q35-3r/aesir_engine/core/thread_topology.mojo:424:18: warning: `alloc` without a `Layout` is deprecated, use the `Layout`-based `alloc` instead; as a temporary migration step, use `unsafe_alloc`
+    var output = alloc[Float32](out_len)
+                 ^~~~~
+<unknown>:0: note: 'alloc' declared here
+Imported from /home/volmarr/aesir-q35-3r/aesir_engine/main.mojo:12:
+Imported from /home/volmarr/aesir-q35-3r/aesir_engine/cli/commands.mojo:21:
+Imported from /home/volmarr/aesir-q35-3r/aesir_engine/cli/bench.mojo:41:
+/home/volmarr/aesir-q35-3r/aesir_engine/core/thread_topology.mojo:425:15: warning: `alloc` without a `Layout` is deprecated, use the `Layout`-based `alloc` instead; as a temporary migration step, use `unsafe_alloc`
+    var ctx = alloc[Int64](6)
+              ^~~~~
+<unknown>:0: note: 'alloc' declared here
+Imported from /home/volmarr/aesir-q35-3r/aesir_engine/main.mojo:12:
+Imported from /home/volmarr/aesir-q35-3r/aesir_engine/cli/commands.mojo:24:
+Imported from /home/volmarr/aesir-q35-3r/aesir_engine/cli/doctor.mojo:3:
+Imported from /home/volmarr/aesir-q35-3r/aesir_engine/aesir.mojo:6:
+/home/volmarr/aesir-q35-3r/aesir_engine/core/inference.mojo:965:27: warning: `alloc` without a `Layout` is deprecated, use the `Layout`-based `alloc` instead; as a temporary migration step, use `unsafe_alloc`
+            var scratch = alloc[Float32](256)
+                          ^~~~~
+<unknown>:0: note: 'alloc' declared here
+Imported from /home/volmarr/aesir-q35-3r/aesir_engine/main.mojo:12:
+Imported from /home/volmarr/aesir-q35-3r/aesir_engine/cli/commands.mojo:24:
+Imported from /home/volmarr/aesir-q35-3r/aesir_engine/cli/doctor.mojo:3:
+Imported from /home/volmarr/aesir-q35-3r/aesir_engine/aesir.mojo:6:
+/home/volmarr/aesir-q35-3r/aesir_engine/core/inference.mojo:986:30: warning: `alloc` without a `Layout` is deprecated, use the `Layout`-based `alloc` instead; as a temporary migration step, use `unsafe_alloc`
+            var nl_scratch = alloc[Float32](32)
+                             ^~~~~
+<unknown>:0: note: 'alloc' declared here
+Imported from /home/volmarr/aesir-q35-3r/aesir_engine/main.mojo:12:
+Imported from /home/volmarr/aesir-q35-3r/aesir_engine/cli/commands.mojo:24:
+Imported from /home/volmarr/aesir-q35-3r/aesir_engine/cli/doctor.mojo:3:
+Imported from /home/volmarr/aesir-q35-3r/aesir_engine/aesir.mojo:6:
+Imported from /home/volmarr/aesir-q35-3r/aesir_engine/core/inference.mojo:11:
+/home/volmarr/aesir-q35-3r/aesir_engine/core/compute.mojo:1970:15: warning: `alloc` without a `Layout` is deprecated, use the `Layout`-based `alloc` instead; as a temporary migration step, use `unsafe_alloc`
+    var dst = alloc[UInt16](2048)
+              ^~~~~
+<unknown>:0: note: 'alloc' declared here
+Imported from /home/volmarr/aesir-q35-3r/aesir_engine/main.mojo:12:
+Imported from /home/volmarr/aesir-q35-3r/aesir_engine/cli/commands.mojo:24:
+Imported from /home/volmarr/aesir-q35-3r/aesir_engine/cli/doctor.mojo:3:
+Imported from /home/volmarr/aesir-q35-3r/aesir_engine/aesir.mojo:6:
+Imported from /home/volmarr/aesir-q35-3r/aesir_engine/core/inference.mojo:11:
+/home/volmarr/aesir-q35-3r/aesir_engine/core/compute.mojo:1262:14: warning: `alloc` without a `Layout` is deprecated, use the `Layout`-based `alloc` instead; as a temporary migration step, use `unsafe_alloc`
+    var cp = alloc[Int64](6)
+             ^~~~~
+<unknown>:0: note: 'alloc' declared here
+Imported from /home/volmarr/aesir-q35-3r/aesir_engine/main.mojo:12:
+Imported from /home/volmarr/aesir-q35-3r/aesir_engine/cli/commands.mojo:24:
+Imported from /home/volmarr/aesir-q35-3r/aesir_engine/cli/doctor.mojo:3:
+Imported from /home/volmarr/aesir-q35-3r/aesir_engine/aesir.mojo:6:
+Imported from /home/volmarr/aesir-q35-3r/aesir_engine/core/inference.mojo:11:
+/home/volmarr/aesir-q35-3r/aesir_engine/core/compute.mojo:2632:14: warning: `alloc` without a `Layout` is deprecated, use the `Layout`-based `alloc` instead; as a temporary migration step, use `unsafe_alloc`
+    var cp = alloc[Int64](6)
+             ^~~~~
+<unknown>:0: note: 'alloc' declared here
+Imported from /home/volmarr/aesir-q35-3r/aesir_engine/main.mojo:12:
+Imported from /home/volmarr/aesir-q35-3r/aesir_engine/cli/commands.mojo:24:
+Imported from /home/volmarr/aesir-q35-3r/aesir_engine/cli/doctor.mojo:3:
+Imported from /home/volmarr/aesir-q35-3r/aesir_engine/aesir.mojo:6:
+Imported from /home/volmarr/aesir-q35-3r/aesir_engine/core/inference.mojo:11:
+/home/volmarr/aesir-q35-3r/aesir_engine/core/compute.mojo:2175:14: warning: `alloc` without a `Layout` is deprecated, use the `Layout`-based `alloc` instead; as a temporary migration step, use `unsafe_alloc`
+    var cp = alloc[Int64](7)
+             ^~~~~
+<unknown>:0: note: 'alloc' declared here
+Imported from /home/volmarr/aesir-q35-3r/aesir_engine/main.mojo:12:
+Imported from /home/volmarr/aesir-q35-3r/aesir_engine/cli/commands.mojo:24:
+Imported from /home/volmarr/aesir-q35-3r/aesir_engine/cli/doctor.mojo:3:
+Imported from /home/volmarr/aesir-q35-3r/aesir_engine/aesir.mojo:6:
+Imported from /home/volmarr/aesir-q35-3r/aesir_engine/core/inference.mojo:11:
+/home/volmarr/aesir-q35-3r/aesir_engine/core/compute.mojo:1089:19: warning: `alloc` without a `Layout` is deprecated, use the `Layout`-based `alloc` instead; as a temporary migration step, use `unsafe_alloc`
+    var scratch = alloc[Float32](a_cols)
+                  ^~~~~
+<unknown>:0: note: 'alloc' declared here
+Imported from /home/volmarr/aesir-q35-3r/aesir_engine/main.mojo:12:
+Imported from /home/volmarr/aesir-q35-3r/aesir_engine/cli/commands.mojo:24:
+Imported from /home/volmarr/aesir-q35-3r/aesir_engine/cli/doctor.mojo:3:
+Imported from /home/volmarr/aesir-q35-3r/aesir_engine/aesir.mojo:6:
+Imported from /home/volmarr/aesir-q35-3r/aesir_engine/core/inference.mojo:11:
+/home/volmarr/aesir-q35-3r/aesir_engine/core/compute.mojo:1935:14: warning: `alloc` without a `Layout` is deprecated, use the `Layout`-based `alloc` instead; as a temporary migration step, use `unsafe_alloc`
+    var cp = alloc[Int64](9)
+             ^~~~~
+<unknown>:0: note: 'alloc' declared here
+Imported from /home/volmarr/aesir-q35-3r/aesir_engine/main.mojo:12:
+Imported from /home/volmarr/aesir-q35-3r/aesir_engine/cli/commands.mojo:24:
+Imported from /home/volmarr/aesir-q35-3r/aesir_engine/cli/doctor.mojo:3:
+Imported from /home/volmarr/aesir-q35-3r/aesir_engine/aesir.mojo:6:
+Imported from /home/volmarr/aesir-q35-3r/aesir_engine/core/inference.mojo:11:
+/home/volmarr/aesir-q35-3r/aesir_engine/core/compute.mojo:2087:14: warning: `alloc` without a `Layout` is deprecated, use the `Layout`-based `alloc` instead; as a temporary migration step, use `unsafe_alloc`
+    var cp = alloc[Int64](8)
+             ^~~~~
+<unknown>:0: note: 'alloc' declared here
+Imported from /home/volmarr/aesir-q35-3r/aesir_engine/main.mojo:12:
+Imported from /home/volmarr/aesir-q35-3r/aesir_engine/cli/commands.mojo:24:
+Imported from /home/volmarr/aesir-q35-3r/aesir_engine/cli/doctor.mojo:3:
+Imported from /home/volmarr/aesir-q35-3r/aesir_engine/aesir.mojo:6:
+Imported from /home/volmarr/aesir-q35-3r/aesir_engine/core/inference.mojo:11:
+/home/volmarr/aesir-q35-3r/aesir_engine/core/compute.mojo:2552:14: warning: `alloc` without a `Layout` is deprecated, use the `Layout`-based `alloc` instead; as a temporary migration step, use `unsafe_alloc`
+    var cp = alloc[Int64](8)
+             ^~~~~
+<unknown>:0: note: 'alloc' declared here
+Imported from /home/volmarr/aesir-q35-3r/aesir_engine/main.mojo:12:
+Imported from /home/volmarr/aesir-q35-3r/aesir_engine/cli/commands.mojo:24:
+Imported from /home/volmarr/aesir-q35-3r/aesir_engine/cli/doctor.mojo:3:
+Imported from /home/volmarr/aesir-q35-3r/aesir_engine/aesir.mojo:6:
+Imported from /home/volmarr/aesir-q35-3r/aesir_engine/core/inference.mojo:11:
+/home/volmarr/aesir-q35-3r/aesir_engine/core/compute.mojo:1632:28: warning: unreachable code on right side of 'False and ...'
+    return VNNI_DEFAULT_ON and cpu_has_vnni()
+                           ^
+Imported from /home/volmarr/aesir-q35-3r/aesir_engine/main.mojo:12:
+Imported from /home/volmarr/aesir-q35-3r/aesir_engine/cli/commands.mojo:24:
+Imported from /home/volmarr/aesir-q35-3r/aesir_engine/cli/doctor.mojo:3:
+Imported from /home/volmarr/aesir-q35-3r/aesir_engine/aesir.mojo:6:
+Imported from /home/volmarr/aesir-q35-3r/aesir_engine/core/inference.mojo:11:
+/home/volmarr/aesir-q35-3r/aesir_engine/core/compute.mojo:1743:18: warning: `alloc` without a `Layout` is deprecated, use the `Layout`-based `alloc` instead; as a temporary migration step, use `unsafe_alloc`
+        var xq = alloc[Int8](rows_here * a_cols)
+                 ^~~~~
+<unknown>:0: note: 'alloc' declared here
+Imported from /home/volmarr/aesir-q35-3r/aesir_engine/main.mojo:12:
+Imported from /home/volmarr/aesir-q35-3r/aesir_engine/cli/commands.mojo:24:
+Imported from /home/volmarr/aesir-q35-3r/aesir_engine/cli/doctor.mojo:3:
+Imported from /home/volmarr/aesir-q35-3r/aesir_engine/aesir.mojo:6:
+Imported from /home/volmarr/aesir-q35-3r/aesir_engine/core/inference.mojo:11:
+/home/volmarr/aesir-q35-3r/aesir_engine/core/compute.mojo:1744:22: warning: `alloc` without a `Layout` is deprecated, use the `Layout`-based `alloc` instead; as a temporary migration step, use `unsafe_alloc`
+        var xscale = alloc[Float32](rows_here * blocks_per_row * nsub)
+                     ^~~~~
+<unknown>:0: note: 'alloc' declared here
+Imported from /home/volmarr/aesir-q35-3r/aesir_engine/main.mojo:12:
+Imported from /home/volmarr/aesir-q35-3r/aesir_engine/cli/commands.mojo:24:
+Imported from /home/volmarr/aesir-q35-3r/aesir_engine/cli/doctor.mojo:3:
+Imported from /home/volmarr/aesir-q35-3r/aesir_engine/aesir.mojo:6:
+Imported from /home/volmarr/aesir-q35-3r/aesir_engine/core/inference.mojo:11:
+/home/volmarr/aesir-q35-3r/aesir_engine/core/compute.mojo:1745:21: warning: `alloc` without a `Layout` is deprecated, use the `Layout`-based `alloc` instead; as a temporary migration step, use `unsafe_alloc`
+        var xsums = alloc[Float32](rows_here * blocks_per_row * nsub)
+                    ^~~~~
+<unknown>:0: note: 'alloc' declared here
+/home/volmarr/aesir-q35-3r/.pixi/envs/default/bin/mojo: error: failed to parse the provided Mojo source module
++ echo ENGINE_BUILD_EXIT=1
+ENGINE_BUILD_EXIT=1

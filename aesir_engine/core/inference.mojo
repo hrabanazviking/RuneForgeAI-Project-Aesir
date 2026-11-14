@@ -10,7 +10,7 @@ from std.memory.alloc import alloc, Layout
 from .mimir_well import RuneTensor, MimirWell, KVCache, DeviceTopology, NPUBackendType, GPURealmType, CompressedFormatType, shard_split_cols, shard_split_rows, f16, f32
 from .compute import gemm_f16, gemm_q4_k_m, gemm_q5_0, gemm_q8_0, gemm_f16_arm_neon, rmsnorm_arm_neon, gemm_f16_npu, gemm_f16_gpu, rmsnorm_gpu, gemm_f16_sharded, all_reduce_sum, flash_attention_2, flash_attention_gqa, silu, gelu_tanh, geglu, rmsnorm, apply_rope, apply_rope_partial_neox, dequantize_q4_0, BlockQ4_0, iq_grid_alloc, dequantize_q4_1, BlockQ4_1, dequantize_q5_0, BlockQ5_0, dequantize_q5_1, BlockQ5_1
 from .extreme_quantization import dequantize_iq_block, iq_block_bytes, dequantize_iq4_nl_block32, tq1_0_value, tq2_0_value
-from loader.gguf import GGUFSeer
+from loader.gguf import GGUFSeer, GGMLType
 from loader.quantization import dequantize_q4_0_block, dequantize_q8_0_block
 from .packed_quantization import packed_value, ggml_kind_of_format
 from core.sampler import sample_token_from_logits, RuneRNG
@@ -29,6 +29,22 @@ def _required_block_weight(seer: GGUFSeer, key: String) raises -> RuneTensor[f16
     if address == 0 or address == 1:
         raise Error("TransformerBlock: required tensor '" + key + "' has an invalid pointer")
     return weight^
+
+
+def _require_q8_resident_weight(seer: GGUFSeer, key: String) raises:
+    """Q35-3r resident contract, per-tensor: a large qwen35 weight
+    admitted under the resident opt-in must be the loader's packed
+    Q8_0 view of a Q8_0-stored tensor with a 32-aligned input width.
+    Refusal names the tensor; there is no F16 fallback on this path."""
+    if key not in seer.tensors:
+        raise Error("Qwen35Block: missing required tensor '" + key + "'")
+    var stored = seer.tensor_types.get(key, UInt32(99))
+    if stored != UInt32(GGMLType.Q8_0):
+        raise Error("Qwen35Block: resident Q8_0 load refused tensor '" + key + "': stored GGML type " + String(stored) + " is not Q8_0 (8); the resident path never materializes F16 weights")
+    if not seer.tensors[key].is_quantized:
+        raise Error("Qwen35Block: resident Q8_0 load refused tensor '" + key + "': view is not a packed quantized view")
+    if seer.tensors[key].cols % 32 != 0:
+        raise Error("Qwen35Block: resident Q8_0 load refused tensor '" + key + "': input width is not a multiple of 32")
 
 
 def _optional_block_weight(seer: GGUFSeer, key: String) raises -> RuneTensor[f16]:
@@ -2209,6 +2225,7 @@ struct Qwen35Block(Copyable):
         head_dim: Int,
         num_heads: Int,
         mut seer: GGUFSeer,
+        resident_q8: Bool = False,
     ) raises:
         self.layer_idx = layer_idx
         self.head_dim = head_dim
@@ -2265,6 +2282,24 @@ struct Qwen35Block(Copyable):
             self.conv1d_weight = _required_block_weight(seer, prefix + "ssm_conv1d.weight")
             self.ssm_norm_weight = _required_block_weight(seer, prefix + "ssm_norm.weight")
             self.ssm_out_weight = _required_block_weight(seer, prefix + "ssm_out.weight")
+        # Q35-3r: under the resident opt-in, this layer's large
+        # weights must all be native Q8_0 (refused by name above);
+        # the small F32 tensors keep the loader's pool conversion.
+        if resident_q8:
+            _require_q8_resident_weight(seer, prefix + "ffn_gate.weight")
+            _require_q8_resident_weight(seer, prefix + "ffn_up.weight")
+            _require_q8_resident_weight(seer, prefix + "ffn_down.weight")
+            if self.is_full_attn:
+                _require_q8_resident_weight(seer, prefix + "attn_q.weight")
+                _require_q8_resident_weight(seer, prefix + "attn_k.weight")
+                _require_q8_resident_weight(seer, prefix + "attn_v.weight")
+                _require_q8_resident_weight(seer, prefix + "attn_output.weight")
+            else:
+                _require_q8_resident_weight(seer, prefix + "attn_qkv.weight")
+                _require_q8_resident_weight(seer, prefix + "attn_gate.weight")
+                _require_q8_resident_weight(seer, prefix + "ssm_alpha.weight")
+                _require_q8_resident_weight(seer, prefix + "ssm_beta.weight")
+                _require_q8_resident_weight(seer, prefix + "ssm_out.weight")
 
     def __copyinit__(out self, existing: Self):
         self.layer_idx = existing.layer_idx

@@ -1,0 +1,18 @@
+PASS (r1): NativeModelPlan(auto) admits the real file natively: profile= qwen35  variant= qwen35-27B  experimental= False
+PASS (r2): NativeModelPlan(qwen35) admits the real file natively, variant= qwen35-27B
+PASS (r3): fixture refused without the experimental opt-in: Aesir cannot run this model yet.
+
+Architecture: qwen35
+Variant: 4L/128d
+Quantization: unknown(999)
+
+Reason:
+Qwen 3.5 hybrid is recognized, but this geometry has no matching native profile yet.
+
+Try:
+aesir inspect <model.gguf>
+
+Compatibility: COMPATIBLE
+PASS (r4): fixture admitted under the opt-in as experimental: variant= qwen35-4L/128d  context= 512
+PASS (r5): unknown profile still refused: Unsupported native model profile
+Q35-4a runtime admission probe: ALL PASS (supersedes the Q35-2 refusal guard)

@@ -24,6 +24,7 @@ from core.gemma4_cuda import Gemma4CUDASession
 from core.llama3_cuda import Llama3CUDASession
 from core.runtime_plan import NativeModelPlan, NativeDeviceSelection, choose_native_cuda, choose_native_cuda_plan, choose_native_hip_plan, explain_host_fit
 from core.inference_memory import MemoryFitExplanation, llama3_memory_plan
+from qwen35_resident import validate_qwen35_resident
 from core.native_hardware import observe_host_memory, observe_cpu_name, bounded_decimal
 from core.cuda_gate import CUDAGate
 from core.sampling_config import NativeSamplingConfig
@@ -278,6 +279,8 @@ struct AesirEngine:
     var qwen35_blocks: List[Qwen35Block]
     var gemma4_blocks: List[Gemma4Block]
     var qwen35_state: Qwen35State
+    # Q35-3r: opt-in Q8_0-resident load mode for qwen35 (default off).
+    var qwen35_resident: Bool
     var enable_npu: Bool
     var target_backend: NPUBackendType
     var enable_gpu_realm: Bool
@@ -303,6 +306,7 @@ struct AesirEngine:
         enable_gpu_realm: Bool = False,
         target_gpu_realm: GPURealmType = GPURealmType(GPURealmType.NVIDIA_CUDA),
         knowledge_capacity: Int = 100,
+        qwen35_resident: Bool = False,
     ) raises:
         var _construct_t0 = phase_now_ns()
         validate_runtime_backend_config(
@@ -340,6 +344,9 @@ struct AesirEngine:
         self.parser = GGUFSeer(model_path)
         self.tokenizer = RuneWeaver()
         self.parser.mmap_and_load(self.pool, self.tokenizer)
+        self.qwen35_resident = qwen35_resident
+        if self.qwen35_resident and self.parser.config.architecture != "qwen35":
+            raise Error("AesirEngine: qwen35_resident Q8_0 load mode requires a qwen35 model")
         self.knowledge_base = MimirStore(
             max(1, knowledge_capacity),
             self.parser.config.embedding_length,
@@ -373,6 +380,7 @@ struct AesirEngine:
                         self.parser.config.head_dim(),
                         self.parser.config.head_count,
                         self.parser,
+                        self.qwen35_resident,
                     )
                 )
             var fai = self.parser.config.full_attention_interval
@@ -401,6 +409,13 @@ struct AesirEngine:
             qwen35_qkv_width,
             self.parser.config.ssm_conv_kernel,
         )
+        if self.qwen35_resident:
+            # Q35-3r: the block constructors already refused any
+            # non-Q8_0 large layer weight by name; this whole-model
+            # pass covers the globals (token_embd / output) and
+            # prices the admitted set both ways for the record.
+            var resident_report = validate_qwen35_resident(self.parser)
+            print("Qwen35 resident load: mode=" + resident_report.load_mode() + " large_tensors=" + String(resident_report.large_count) + " q8_0_bytes=" + String(resident_report.q8_bytes) + " f16_materialized_bytes_avoided=" + String(resident_report.f16_bytes))
         self.load_ns = phase_now_ns() - _construct_t0
 
     def _forward_position(
