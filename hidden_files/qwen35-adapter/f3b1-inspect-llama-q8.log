@@ -1,0 +1,28 @@
+Inspection scope:        GGUF metadata and native tensor layout
+Execution tested:        no
+Model:                   llama
+Architecture:            llama
+Family / variant:        Llama 3.x / 5L/64d
+Quantization:            Q8_0
+Tokenizer family:        Llama 3 BPE
+Chat template:           llama3
+Attention:               grouped-query causal
+RoPE:                    Llama RoPE
+Activation:              SwiGLU
+Normalization:           RMSNorm
+Density:                 dense
+Tensor naming:           llama/blk.*
+Supported quantizations: Q4_K_S, Q4_K_M, Q5_K_S, Q5_K_M, Q6_K
+Metadata context:        128
+Recommended context:     0
+Requested context:       0
+Evaluated context:       0
+Tensor validation:       not_run
+Estimated VRAM bytes:    0
+CUDA support:            no
+CPU support:             no
+Capabilities:            inspection
+Compatibility:           UNSUPPORTED
+Status:                  NOT READY
+Reason:                  Tokenizer/chat-template metadata mismatch: Llama 3 requires gpt2/llama-bpe tokenizer metadata
+EXIT=0

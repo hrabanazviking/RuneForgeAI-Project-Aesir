@@ -1,0 +1,5 @@
+Included from /home/volmarr/aesir-f3b1/aesir_engine/tests/test_gguf_metadata_types.mojo:4:
+/home/volmarr/aesir-f3b1/aesir_engine/loader/gguf.mojo:566:29: warning: assignment to 'width' was never used; assign to '_' instead?
+                var width = 0
+                            ^
+BEXIT=0

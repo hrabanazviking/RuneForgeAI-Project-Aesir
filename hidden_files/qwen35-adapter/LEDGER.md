@@ -1,5 +1,33 @@
 # Qwen35 Adapter Campaign — Ledger
 
+## 2026-11-14 — F-3b-1: gemma4 registry profile admits Q8_0 — FIXED (DRAFT entry; coordinator to cross-reference QC-3b)
+
+- Finding F-3b-1 from QC-3b is FIXED. Verdict on the exclusion:
+  OMISSION — the gemma4 branch admitted via the shared
+  native_quantization_supported list dating from the original
+  registry commit (5ec8a956), predating any gemma4 Q8_0 file;
+  no comment/test pinned a deliberate exclusion. Q35-2's
+  qwen35-scoped Q8_0 admission is the house pattern; QC-3b
+  supplied the first gemma4 Q8_0 evidence.
+- Change (model_registry.mojo only): new scoped
+  gemma4_quantization_supported() = shared native list + Q8_0;
+  gemma4 branch uses it; supported list now names Q8_0.
+  Shared lists NOT extended — llama Q8_0 still NOT READY
+  (inspect proof). Serve planning (runtime_plan/cuda_chat)
+  gates through the same registry inspect; memory pricing
+  (gemma4_profile_memory_plan) is file-size based and priced
+  the Q8_0 file at 5171679844 estimated VRAM bytes.
+- Proofs: inspect emitted gemma-4-E2B Q8_0 NOT READY ->
+  READY/COMPATIBLE (tensor validation passed); source Q4_K_M
+  READY/VERIFIED unchanged; qwen35 27B READY unchanged.
+  Engine compile exit 0; Q35-2 registry/profile tests ALL
+  PASS (incl. registry case with new F-3b-1 assertions);
+  gguf metadata suite: no new failures beyond the known
+  gguf.tensor_directory_interface. Full record:
+  F-3b-1-NOTES.md.
+- Remainder named, untouched: gemma4 CPU support still "no"
+  (forward gap from QC-3b), out of this slice's scope.
+
 ## 2026-11-14 — QC-3b: gemma-4-E2B Q4_K_M -> Q8_0 whole-model conversion + grade (worker slice; verified + banked by coordinator)
 
 - PREREQUISITE 1 (streaming writer): GGUFStreamWriter in

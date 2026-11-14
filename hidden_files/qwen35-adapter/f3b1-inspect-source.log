@@ -1,0 +1,28 @@
+Inspection scope:        GGUF metadata and native tensor layout
+Execution tested:        no
+Model:                   Gemma-4-E2B-It
+Architecture:            gemma4
+Family / variant:        Gemma 4 / E2B
+Quantization:            Q4_K_M
+Tokenizer family:        Gemma BPE
+Chat template:           gemma
+Attention:               hybrid sliding/full grouped-query
+RoPE:                    Gemma local/global RoPE
+Activation:              GELU gated
+Normalization:           RMSNorm
+Density:                 dense
+Tensor naming:           gemma4/blk.*
+Supported quantizations: Q4_K_S, Q4_K_M, Q5_K_S, Q5_K_M, Q6_K, Q8_0, F16, BF16, F32
+Metadata context:        131072
+Recommended context:     16384
+Requested context:       0
+Evaluated context:       16384
+Tensor validation:       passed
+Estimated VRAM bytes:    3323822692
+CUDA support:            yes
+CPU support:             no
+Capabilities:            text, chat, persistent-chat, cuda
+Compatibility:           VERIFIED
+Status:                  READY
+Reason:                  Matched a native Gemma 4 variant profile.
+EXIT=0
