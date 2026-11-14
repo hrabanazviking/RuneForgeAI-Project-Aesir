@@ -39,6 +39,43 @@
   order. Full-residency loads stay parent-gated: report MemAvailable
   + live set + expected peak + 100 GiB GTT fit before any attempt.
 
+## 2026-11-14 — Q35-2: registry + profile + inspect (worker slice; verified + banked by coordinator)
+
+- `core/qwen35_profile.mojo` NEW: formula-driven Qwen35Profile from
+  GGUF metadata (qwen35_profile_for + validate_qwen35 +
+  validate_relations with named refusals: interval not dividing
+  blocks, inner != dt_rank*state, rope/head inconsistency; exact
+  851-tensor contract mirroring the Q35-1 loader validator).
+- classify() qwen35 branch: real geometry 64L/5120 ->
+  native_profile "qwen35", READY / COMPATIBLE (qwen3 precedent:
+  no generation witness yet), tensor_naming "qwen35/blk.*";
+  Q8_0 admitted via a qwen35-scoped policy only (shared native
+  lists untouched); other geometries COMPATIBLE without
+  native_profile. cuda/cpu support stay false, capabilities stay
+  "inspection" — execution is Q35-3/Q35-4, stated in the reason.
+- inspect() dispatch + `qwen35_memory_plan`: KV priced for ONLY
+  the 16 full-attention layers; activations carry SSM state
+  (150,994,944 B) + conv rings (7,864,320 B), formula-driven.
+  Real-file inspect now: READY / COMPATIBLE, tensor_validation
+  "passed", estimated_vram_bytes 29295152100 at ctx 8192
+  (q35-2-inspect-27b.log; was UNSUPPORTED at the gate).
+- Policy test ALL PASS (q35-2-test.log): classify admit/refuse,
+  three named validate refusals, real-file validate + inspect,
+  exact memory numbers; existing native.model_registry +
+  native.gemma4_profiles cases run unchanged inside it — pass.
+  Full engine compile exit 0 (q35-2-build.log). Full 905 matrix
+  NOT re-run (slice order; baseline 901/905 stands).
+- Ripple guard PASS (q35-2-ripple.log): NativeModelPlan still
+  refuses qwen35 under both "auto" and explicit "qwen35" — no
+  serve admission leaked; Q35-4 owns runtime_plan. Named wart:
+  the auto refusal text names Gemma 4 (gemma else-branch) —
+  Q35-4 should add an explicit qwen35 branch. Also named:
+  PackedGGUF cannot open the Q35-1 tiny fixture (ssm_out Q8_0
+  columns 24, not 32-aligned), so the profile proof runs on the
+  real file via the inspect seam; fixture regeneration was NOT
+  done in-slice (would change banked Q35-1 expectations).
+- Full notes: Q35-2-NOTES.md. Next: Q35-3 (CPU forward).
+
 ## 2026-11-14 — Q35-1: loader truth (worker slice; verified + banked by coordinator)
 
 - `_validate_qwen35_tensors` fixed: qkv rows and ssm_conv1d rows now

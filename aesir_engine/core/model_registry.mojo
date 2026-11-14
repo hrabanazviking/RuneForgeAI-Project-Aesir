@@ -7,7 +7,8 @@ from loader.packed_gguf import PackedGGUF
 from loader.chat_template import RuneChatTemplate, NativeTokenizerSelection
 from core.gemma4_profile import gemma4_profile_for, validate_gemma4
 from core.dense_gqa_profile import dense_gqa_profile_for, validate_dense_gqa
-from core.inference_memory import InferenceMemoryPlan, gemma4_profile_memory_plan, llama3_memory_plan
+from core.qwen35_profile import qwen35_profile_for, validate_qwen35
+from core.inference_memory import InferenceMemoryPlan, gemma4_profile_memory_plan, llama3_memory_plan, qwen35_memory_plan
 
 
 comptime NATIVE_K_QUANTS = "Q4_K_S, Q4_K_M, Q5_K_S, Q5_K_M, Q6_K"
@@ -110,6 +111,14 @@ def native_k_quantization_supported(name: String) -> Bool:
         name == "Q4_K_S" or name == "Q4_K_M"
         or name == "Q5_K_S" or name == "Q5_K_M" or name == "Q6_K"
     )
+
+
+def qwen35_quantization_supported(name: String) -> Bool:
+    """Scoped to qwen35 only: Q8_0 is the census-proven quantization
+    of the real hybrid file (Q35-1: 498 Q8_0 + 353 F32 tensors). The
+    shared native lists (K-quants + F16/BF16/F32) are NOT extended;
+    no other qwen35 quantization has evidence yet."""
+    return name == "Q8_0"
 
 
 def qwen3_0_6b_quantization_verified(name: String) -> Bool:
@@ -305,6 +314,35 @@ struct ModelArchitectureRegistry:
             result.reason = "Qwen is recognized, but this variant has no matching native profile yet."
             return result^
 
+        if architecture == "qwen35":
+            result.family = "Qwen 3.5"
+            result.model_variant = size_label if size_label != "" else String(layers) + "L/" + String(hidden) + "d"
+            result.tokenizer_family = "Qwen BPE"
+            result.chat_template = "ChatML-compatible" if jinja_template == "" else result.chat_template
+            result.attention_type = "hybrid gated-deltanet/full grouped-query"
+            result.rope_type = "partial RoPE (full-attention layers)"
+            result.activation = "SwiGLU"
+            result.normalization = "RMSNorm"
+            result.density = "dense"
+            result.tensor_naming = "qwen35/blk.*"
+            result.supported_quantizations = "Q8_0"
+            result.recommended_context = min(metadata_context, 8192)
+            if layers == 64 and hidden == 5120:
+                result.model_variant = size_label if size_label != "" else "27B"
+                result.native_profile = "qwen35"
+                if not qwen35_quantization_supported(result.quantization):
+                    result.reason = "The Qwen 3.5 adapter supports only the census-proven Q8_0 quantization."
+                    result.status = "NOT READY"
+                    return result^
+                result.compatibility = "COMPATIBLE"
+                result.status = "READY"
+                result.reason = "Matched the native Qwen 3.5 hybrid 27B profile (inspection and memory planning; execution lands in Q35-3/Q35-4)."
+                return result^
+            result.compatibility = "COMPATIBLE"
+            result.status = "NOT READY"
+            result.reason = "Qwen 3.5 hybrid is recognized, but this geometry has no matching native profile yet."
+            return result^
+
         if architecture == "mistral":
             result.family = "Mistral"
             result.model_variant = size_label if size_label != "" else String(layers) + "L/" + String(hidden) + "d"
@@ -366,7 +404,14 @@ struct ModelArchitectureRegistry:
         var context = requested_context if requested_context != 0 else result.recommended_context
         result.evaluated_context = context
         try:
-            if result.native_profile == "gemma4":
+            if result.native_profile == "qwen35":
+                var q35_profile = qwen35_profile_for(model)
+                validate_qwen35(model, q35_profile, context)
+                var q35_memory = qwen35_memory_plan(
+                    Int(model.source.file_size), context, q35_profile
+                )
+                result.estimated_vram_bytes = q35_memory.device_bytes
+            elif result.native_profile == "gemma4":
                 var profile = gemma4_profile_for(model)
                 validate_gemma4(model, profile, context)
                 var gemma_memory = gemma4_profile_memory_plan(Int(model.source.file_size), context, profile)

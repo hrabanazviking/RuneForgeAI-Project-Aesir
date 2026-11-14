@@ -4,6 +4,7 @@ from core.sampling_config import sampling_device_bytes
 from core.cuda_upload import upload_staging_bytes
 from core.gemma4_profile import Gemma4Profile, gemma4_e4b_profile
 from core.dense_gqa_profile import DenseGQAProfile, llama3_8b_profile
+from core.qwen35_profile import Qwen35Profile
 from core.dense_buffers import DenseBufferLayout
 
 
@@ -158,3 +159,23 @@ def gemma4_profile_memory_plan(weights: Int, context: Int,
         kv_elements += 2 * capacity * profile.kv_heads * profile.head_dim(layer)
     var kv = kv_elements * 4
     return InferenceMemoryPlan(weights, kv, (326144 + 8 * context) * 4 + sampling_device_bytes(262144))
+
+
+def qwen35_memory_plan(weights: Int, context: Int,
+                       profile: Qwen35Profile) raises -> InferenceMemoryPlan:
+    """Hybrid plan: stored-file weights; KV priced ONLY for the
+    full-attention layers (layer_count / full_attention_interval) as
+    F16, following llama3_memory_plan's kv_elements * 2 convention;
+    activations carry the dense-style F32 scratch plus the honest SSM
+    footprint in F32: recurrence state (SSM layers x v-heads x state
+    x state) and conv1d rings (SSM layers x qkv width x kernel)."""
+    if context < 2 or context > profile.context_cap:
+        raise Error(
+            profile.label() + " memory context must be in 2.."
+            + String(profile.context_cap)
+        )
+    var kv = profile.kv_elements(context) * 2
+    var state_bytes = profile.ssm_state_elements() * 4
+    var conv_bytes = profile.conv_ring_elements() * 4
+    var scratch = profile.activation_elements(context) * 4 + sampling_device_bytes(profile.vocabulary_size)
+    return InferenceMemoryPlan(weights, kv, scratch + state_bytes + conv_bytes)
