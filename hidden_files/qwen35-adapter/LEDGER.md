@@ -1,5 +1,60 @@
 # Qwen35 Adapter Campaign — Ledger
 
+
+## 2026-11-14 — Q35-4b: real-file serve proof — 27B Q8_0 resident on :18435 (worker slice)
+
+- REAL-FILE SERVE PROVEN END TO END: the 27B (sha256
+  1fca6eef…186f08e, re-measured) served through the Qwen35 CPU
+  session in RESIDENT mode (--qwen35-resident) on side port
+  :18435 — the configuration Q35-7 inherits. Startup admission=
+  native: the file took the registry's own signature path
+  (variant qwen35-27B), NOT experimental. /health truth:
+  profile qwen35, backend cpu, session_residency true,
+  exact_prefix_reuse true WITH the detail "snapshot-based at
+  committed turn boundaries only", weight_load_mode
+  "q8_0_resident", experimental_admission false. (No variant
+  field exists in /health; variant truth is admission/plan-
+  level — named in the notes for Q35-7.)
+- Two-turn resident chat over HTTP == the in-process resident
+  reference exactly (driver ref_qwen35_realfile_q35_4b, same
+  call sequence + serve-default sampling): T1 prompt 23,
+  POS1=55, wall 20.82 s; T2 prompt 65, reused 55 (resident
+  path), evaluated 10, wall 18.27 s. Stateless full-history
+  resend after an intervening different-session request:
+  reused 55 via Q35-5 snapshot restore, evaluated 10, reply
+  == resident R2 exactly (wall 18.89 s).
+- R1 RE-WITNESSED AT SERVE LENGTH: 483-token prompt (8x the
+  grade's ~60) — served reply == in-process forward exactly;
+  in-process rerun from reset reproduces exactly; text is
+  coherent (structured extraction inside the think block, cut
+  only by the 48-token cap). No long-context collapse at 483.
+- R2 ANSWERED: serve defaults are NativeSamplingConfig() —
+  temperature 0, top_k 40, top_p 0.95, min_p 0 (unmapped),
+  repetition_penalty 1.0 via the session map, repeat_last_n
+  64 (unmapped), seed 42. forward_pass_qwen35's own default
+  rep-penalty 1.1 does NOT govern the serve path. Output
+  coherent under these defaults; nothing retuned.
+- FINDINGS (named, unfixed, Q35-7's): F-4b-1 replies carry the
+  raw "Assistant:" marker (no chat template on this path);
+  F-4b-2 special-token leakage after short answers ('hello
+  <|endoftext|><|im_start|>…' to the token cap) — the qwen35
+  CPU path does not stop on the model's end/control tokens.
+- Peaks: serve VmHWM 31.3 GB; reference processes 31.6 GB
+  (time -v). systemd MemoryPeak (5.35 GB) undercounts the
+  mmap'd weights and is NOT the peak. Fence 64G respected;
+  MemAvailable ~124 GB before the run; no contention observed.
+  Speeds: end-to-end completion ~1.5–1.8 tok/s (grade decode
+  ~2.2); long exchange wall 139.75 s (483 prefill + 48 gen).
+- Regressions on the slice tree: engine compile exit 0;
+  Q35-1, Q35-2, Q35-3a, Q35-3r, Q35-4a session ALL PASS;
+  Q35-5 snapshot binary REBUILT from this tree and run —
+  ALL PASS (closes the coordinator-owed standalone rerun
+  post-U1 in form); ripple ALL PASS. Full 905 matrix not
+  re-run (slice order).
+- Both serve units stopped; :18435 free; :18434 down and
+  untouched; aesir-gate/Ollama/Voxta stayed down throughout.
+  Details: Q35-4b-NOTES.md + q35-4b-*.log in this folder.
+
 ## 2026-11-14 — Q35-3b: real-file oracle grade FAITHFUL (worker slice; verified + banked by coordinator)
 
 - FIRST COHERENT GENERATION FROM THE REAL FILE: Aesir greedy
