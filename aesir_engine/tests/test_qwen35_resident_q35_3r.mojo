@@ -126,10 +126,17 @@ def main() raises:
     var gen_default = greedy_run(default_engine, cfg)
     var gen_resident = greedy_run(resident_engine, cfg)
     var banked = List[Int]()
-    banked.append(1019); banked.append(675); banked.append(143); banked.append(452)
-    banked.append(111); banked.append(251); banked.append(827); banked.append(386)
-    banked.append(423); banked.append(176); banked.append(368); banked.append(1018)
-    banked.append(910); banked.append(490); banked.append(742); banked.append(849)
+    # Q35-3b (2026-11-14): expected sequence RE-DERIVED after the
+    # oracle-arbitrated U1 fix (q/k broadcast vh % groups, tiled --
+    # the pre-fix sequence below encoded the contiguous-mapping
+    # defect the real-file oracle grade exposed; see
+    # hidden_files/qwen35-adapter/Q35-3b-NOTES.md). New sequence is
+    # the Q35-3a fixture run under the corrected semantics
+    # (q35-3b-regress-q35-3a.log, ALL PASS).
+    banked.append(679); banked.append(194); banked.append(893); banked.append(673)
+    banked.append(322); banked.append(687); banked.append(585); banked.append(758)
+    banked.append(136); banked.append(104); banked.append(316); banked.append(224)
+    banked.append(916); banked.append(54); banked.append(103); banked.append(47)
     var seq_text = String("")
     for i in range(16):
         if gen_resident[i] != gen_default[i]:

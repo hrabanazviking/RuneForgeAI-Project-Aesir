@@ -35,5 +35,5 @@ pixi run --frozen mojo build -I . --target-accelerator gfx1151 $LK aesir_engine/
 echo Q354_BUILD_EXIT=$?
 pixi run --frozen mojo build -I . --target-accelerator gfx1151 $LK aesir_engine/tests/probe_qwen35_runtime_ripple_q35_2.mojo -o hidden_files/qwen35-adapter/probe_qwen35_runtime_ripple_q35_2
 echo RIPPLE_BUILD_EXIT=$?
-pixi run --frozen mojo build -I . --target-accelerator gfx1151 $LK aesir_engine/tests/test_qwen_battery_a119.mojo -o hidden_files/qwen35-adapter/test_qwen_battery_a119
-echo A119_BUILD_EXIT=$?
+# A119 battery cases run via tests/run_all.mojo (no standalone main);
+# disposition handled in Q35-3b-NOTES.md (battery honesty section).

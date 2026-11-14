@@ -1,0 +1,14 @@
+arch: qwen35 vocab: 248320 bos: 248044 eos: 248046 add_bos_token: False
+PROMPT 0 chars: 24 tokens: 5
+ROUNDTRIP 0 match: True
+PROMPT 1 chars: 79 tokens: 19
+ROUNDTRIP 1 match: True
+PROMPT 2 chars: 91 tokens: 31
+ROUNDTRIP 2 match: True
+PROMPT 3 chars: 276 tokens: 60
+ROUNDTRIP 3 match: True
+PROMPT 4 chars: 150 tokens: 39
+ROUNDTRIP 4 match: True
+PROMPT 5 chars: 278 tokens: 50
+ROUNDTRIP 5 match: True
+TOKENS WRITTEN: q35-3b-tokens.txt

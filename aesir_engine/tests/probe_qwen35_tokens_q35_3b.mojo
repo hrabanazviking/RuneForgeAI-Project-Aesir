@@ -10,6 +10,7 @@
 
 from std.sys import argv
 
+from core.mimir_well import MimirWell
 from loader.gguf import GGUFSeer
 from loader.tokenizer import RuneWeaver, RuneStreamDecoder
 
@@ -21,6 +22,7 @@ def prompts() -> List[String]:
     p.append(String("def quicksort(arr):\n    if len(arr) <= 1:\n        return arr\n    pivot = arr[len(arr) // 2]"))
     p.append(String("The history of the Roman Empire is a story of roads, laws, and legions. From a small city on the banks of the Tiber, Rome grew to rule the Mediterranean world, and its language, Latin, became the foundation of many modern tongues spoken today across Europe and beyond the sea."))
     p.append(String("One, two, three, four, five, six, seven, eight, nine, ten, eleven, twelve, thirteen, fourteen, fifteen, sixteen, seventeen, eighteen, nineteen, twenty"))
+    p.append(String("Photosynthesis is the process by which green plants convert sunlight, water, and carbon dioxide into oxygen and glucose. This biochemical pathway sustains nearly all life on Earth, either directly or indirectly, and has shaped the atmosphere over billions of years of evolution."))
     return p^
 
 

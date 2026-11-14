@@ -71,7 +71,7 @@ def prompt_tokens(text: String, pidx: Int) raises -> List[Int]:
     var lines = text.split("\n")
     if pidx < 0 or pidx >= len(lines):
         raise Error("prompt index out of range")
-    return parse_ints(lines[pidx])
+    return parse_ints(String(lines[pidx]))
 
 
 def comp_argmax_for(text: String, pidx: Int) -> List[Int]:
@@ -79,7 +79,7 @@ def comp_argmax_for(text: String, pidx: Int) -> List[Int]:
     var out = List[Int]()
     var lines = text.split("\n")
     for li in range(len(lines)):
-        var nums = parse_ints(lines[li])
+        var nums = parse_ints(String(lines[li]))
         if len(nums) >= 4 and nums[0] == pidx:
             while len(out) <= nums[1]:
                 out.append(-1)

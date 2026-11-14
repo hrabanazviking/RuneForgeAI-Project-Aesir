@@ -2508,7 +2508,7 @@ struct Qwen35Block(Copyable):
                     self.ssm_slot * v_heads * d_state * d_state
                 )
                 for vh in range(v_heads):
-                    var g = vh // v_per_group
+                    var g = vh % groups  # Q35-3b oracle arbitration (U1 q/k repeat order): ggml gated-delta-net broadcasts q/k TILED (head = vh % groups) for qwen35 as converted; the contiguous vh//v_per_group mapping was the pre-oracle assumption and diverges on the real file (see Q35-3b-NOTES.md)
                     var q_off = g * d_state
                     var k_off = qk_band + g * d_state
                     var v_off = 2 * qk_band + vh * d_state
@@ -2774,7 +2774,7 @@ struct Qwen35Block(Copyable):
                     var row_base = r * inner
                     var ab_base = r * dt_rank
                     for vh in range(v_heads):
-                        var g = vh // v_per_group
+                        var g = vh % groups  # Q35-3b oracle arbitration (U1 q/k repeat order): ggml gated-delta-net broadcasts q/k TILED (head = vh % groups) for qwen35 as converted; the contiguous vh//v_per_group mapping was the pre-oracle assumption and diverges on the real file (see Q35-3b-NOTES.md)
                         var q_off = conv_base + g * d_state
                         var k_off = conv_base + qk_band + g * d_state
                         var v_off = conv_base + 2 * qk_band + vh * d_state
