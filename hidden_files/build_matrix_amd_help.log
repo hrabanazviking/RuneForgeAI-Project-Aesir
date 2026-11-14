@@ -1,0 +1,94 @@
+==========================================================================
+  Project Aesir CLI — verified local GGUF run + development surfaces
+==========================================================================
+Usage:
+  aesir [command] [flags]
+
+Implemented:
+  home [--model-store path] — interactive launcher; plain aesir opens it in a terminal
+  keygen <new-private-file> — create an OS-random service key without overwriting
+  hardware list — observed CPU/CUDA devices and backend availability
+  bench [--settle N] [--rounds N] [--pass prompt|reply|draft-check]
+      Sweep the configurations the placement engine may choose
+      (threads x devices x pass kinds) and print the machine report.
+  compute plan|explain <model> [--profile auto|gemma4|llama3|qwen3]
+      [--context N] [--device auto|N] [--reserve-mib N] [--model-store path]
+  pull <owner/repo> <filename.gguf> --revision <commit-sha>
+      --sha256 <digest> --size <bytes> [--output <path>] [--connections 1..8]
+      [--name <name[:tag]> [--config <path>]]
+      Download and verify a pinned GGUF; optionally register stored bytes.
+      Default single-connection pulls resume verified partial downloads.
+  get <name[:tag]> [--config <path>]
+      Fetch one model from the in-repo known-models catalogue by name;
+      downloaded and checksum-verified before use; a mismatch is refused.
+  inspect <model> [--format text|json] [--context N] [--model-store path]
+      Report architecture, adapter readiness, capabilities, and memory estimate.
+  vision inspect <model> [--model-store path]
+      Report the mmproj vision tower structure beside a multimodal model.
+  doctor [model] [--model-store path] [--format text|json]
+      Diagnose CUDA, model integrity, disk capacity, local API ports, and one model.
+  alias <short-name> <model> [--model-store path] | aliases
+  unalias <short-name> [--model-store path]
+  favorite <model-or-alias> [--model-store path] | favorites
+  unfavorite <model-or-alias> [--model-store path]
+  repair-preferences [--dry-run|--apply] [--model-store path | --config file]
+      Preview by default; --apply removes only shortcuts to missing catalog models.
+      Durable local shortcuts and favorite-first interactive selection.
+  run <model> [--max-tokens N] [--config path] [--accel auto|cpu|cuda] <prompt...>
+      CPU GGUF or auto-detected native CUDA Gemma4/Llama3/Qwen3 single-shot inference.
+  run --accel hailo10h --model-path <model.hef> <prompt...>
+      Hailo-10H direct in-process HailoRT GenAI single-shot inference.
+  chat [model] --accel cuda [--profile auto|gemma4|llama3|qwen3]
+      [--device auto|N] [--reserve-mib N] (default reserve: 256 MiB)
+      [--model-store path | --config file] [--tui] [--prompts file] [--log file] [--max-tokens N] [--context N] [--system text]
+      Omit model to choose an installed catalog model interactively.
+      --show-settings with an explicit model previews native config/recipe/CLI settings as JSON; no GPU load.
+      [--temperature 0] [--top-k 40] [--top-p 0.95] [--min-p 0]
+      [--timeout-ms 0] (per-turn deadline; 0 disables); Ctrl+C cancels generation
+      [--repeat-penalty 1] [--repeat-last-n 64] [--seed 42]
+      [--autosave-dir existing-private-directory] [--autosave-retain 1..64]
+      Optional crash recovery; restores the latest compatible committed generation.
+      Interactive: /help /show /clear /new /model <name-or-alias> /save <new-file> /load <file>
+      /export <new-markdown> /set <setting> <value> /bye
+      Multiline: /compose (line mode) or /edit (interactive TTY editor)
+      Defaults: context auto-fits observed CUDA memory; replies use at most half of it, capped by family.
+      Persistent CUDA text chat; one user turn per nonempty prompt-file line.
+  config [--config <path>] [--format json|text]
+      Validate and show the selected configuration file.
+  list|ls [--config path] [--format text|json]
+  show <name[:tag]> [--config path] [--format text|json]
+  create <name[:tag]> --modelfile <path> [--model <weights>] [--config path]
+  verify <name[:tag]> [--config path]
+  catalog migrate|backup|restore <path> [--model-store path | --config file]
+      One-way legacy import and immutable validate-before-replace snapshots.
+  gc [--config path]
+  cp <source[:tag]> <target[:tag]> [--config path]
+  rm|delete <name[:tag]> [--config path]
+      Restart-safe catalog operations; default store is .aesir/models.
+      Select a store with --model-store path OR --config file (not both).
+      --model imports immutable SHA-256-addressed bytes; verify rehashes them.
+  help, -h, --help
+      Show this capability-aware help.
+  -v, --version
+      Show the development version.
+
+  serve <model> --accel cuda --api-key-file <private-file>
+      [--port 18434] [--profile auto|gemma4|llama3|qwen3] [--context N] [--no-prefix-cache]
+      [--max-tokens 256] [--timeout-ms 30000] [--io-timeout-ms 5000]
+      [--device auto|N] [--reserve-mib 256]; authenticated IPv4 loopback only
+      Sampling defaults: --temperature, --top-k, --top-p, --min-p,
+      --repeat-penalty, --repeat-last-n, --seed; supplied request fields override defaults.
+      --system text overrides the stored recipe; --show-settings previews without a listener or key.
+      [--model-store path | --config file]; -c aliases --config; no implicit config loading.
+  serve <name[:tag]> --accel cuda --ollama [--context N] [--max-tokens N]
+      [--port 11434] [--model-store .aesir/models]; JSON and one-event NDJSON on loopback
+      Also serves OpenAI /v1/models, /v1/chat/completions, and /v1/completions.
+  ps [--model-store path] [--format json]
+      Report the one verified live foreground service owned by this store.
+  stop <exact-model> [--model-store path]
+      Request SIGTERM through a verified Linux pidfd; never signal a stale PID.
+Reserved but unsupported:
+  daemon; interactive run
+  push
+  llama-cli; llama-server; llama-bench; exl2; onnx; swarm
+See ../CAPABILITY_LEDGER.md for exact evidence and acceptance gates.

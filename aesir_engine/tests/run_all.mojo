@@ -762,6 +762,14 @@ from tests.test_placement_planner_a100 import (
     test_planner_honesty_and_fallback,
     test_planner_cost_tables_and_lines,
 )
+from tests.test_placement_regression_a107 import (
+    test_battery_planner_standard_fixtures,
+    test_battery_planner_context_variants,
+    test_battery_spillover_standard_plans,
+    test_battery_replan_standard_scenarios,
+    test_battery_big_model_standard_splits,
+    test_battery_fairness_standard_scripts,
+)
 from tests.test_phase_timing import (
     test_phase_timing_coverage_arithmetic,
     test_phase_timing_disjoint_pure,
@@ -1602,6 +1610,12 @@ def main() raises:
     run_case(ledger, "planner.decode_and_sampling", test_planner_decode_and_sampling)
     run_case(ledger, "planner.honesty_and_fallback", test_planner_honesty_and_fallback)
     run_case(ledger, "planner.cost_tables_and_lines", test_planner_cost_tables_and_lines)
+    run_case(ledger, "battery.planner_standard_fixtures", test_battery_planner_standard_fixtures)
+    run_case(ledger, "battery.planner_context_variants", test_battery_planner_context_variants)
+    run_case(ledger, "battery.spillover_standard_plans", test_battery_spillover_standard_plans)
+    run_case(ledger, "battery.replan_standard_scenarios", test_battery_replan_standard_scenarios)
+    run_case(ledger, "battery.big_model_standard_splits", test_battery_big_model_standard_splits)
+    run_case(ledger, "battery.fairness_standard_scripts", test_battery_fairness_standard_scripts)
     run_case(ledger, "timing.phase_coverage_arithmetic", test_phase_timing_coverage_arithmetic)
     run_case(ledger, "timing.phase_disjoint_pure", test_phase_timing_disjoint_pure)
     run_case(ledger, "timing.phase_json_schema", test_phase_timing_json_schema)
@@ -2303,4 +2317,9 @@ def main() raises:
     # telemetry cases (sched.telemetry_* in
     # tests/test_telemetry_a106.mojo) counted on top of the
     # A-105 seat pin; the union reconciles at banking.
-    ledger.finish(658)
+    # A-107 union re-pin at banking: 658 -> 664 -- six
+    # placement regression battery cases (battery.* in
+    # tests/test_placement_regression_a107.mojo) counted on
+    # top of the A-106 seat pin (team branch pin was 656 on
+    # the A-105 base; union reconciled here at banking).
+    ledger.finish(664)

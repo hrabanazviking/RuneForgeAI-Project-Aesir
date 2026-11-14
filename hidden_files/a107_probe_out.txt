@@ -1,0 +1,182 @@
+Secondary CUID not available: AMDCUID support not enabled.
+Imported from /home/volmarr/aesir-team-25/aesir_engine/tests/probe_a107.mojo:16:
+/home/volmarr/aesir-team-25/aesir_engine/core/big_model_placement.mojo:61:1: warning: 'alias' is deprecated; use 'comptime'
+alias POOL_128GB_BYTES = 128 * 1024 * 1024 * 1024
+^~~~~
+comptime
+Imported from /home/volmarr/aesir-team-25/aesir_engine/tests/probe_a107.mojo:16:
+/home/volmarr/aesir-team-25/aesir_engine/core/big_model_placement.mojo:265:1: warning: 'alias' is deprecated; use 'comptime'
+alias LLAMA31_8B_NON_LAYER_BYTES = 726458624
+^~~~~
+comptime
+Imported from /home/volmarr/aesir-team-25/aesir_engine/tests/probe_a107.mojo:16:
+/home/volmarr/aesir-team-25/aesir_engine/core/big_model_placement.mojo:266:1: warning: 'alias' is deprecated; use 'comptime'
+alias LLAMA31_8B_EMBED_BYTES = 295501824
+^~~~~
+comptime
+Imported from /home/volmarr/aesir-team-25/aesir_engine/tests/probe_a107.mojo:16:
+/home/volmarr/aesir-team-25/aesir_engine/core/big_model_placement.mojo:267:1: warning: 'alias' is deprecated; use 'comptime'
+alias LLAMA31_8B_OUTPUT_BYTES = 430956800
+^~~~~
+comptime
+Imported from /home/volmarr/aesir-team-25/aesir_engine/tests/probe_a107.mojo:16:
+/home/volmarr/aesir-team-25/aesir_engine/core/big_model_placement.mojo:268:1: warning: 'alias' is deprecated; use 'comptime'
+alias LLAMA31_8B_KV_HEADS = 8
+^~~~~
+comptime
+Imported from /home/volmarr/aesir-team-25/aesir_engine/tests/probe_a107.mojo:16:
+/home/volmarr/aesir-team-25/aesir_engine/core/big_model_placement.mojo:269:1: warning: 'alias' is deprecated; use 'comptime'
+alias LLAMA31_8B_HEAD_DIM = 128
+^~~~~
+comptime
+=== PLANNER STANDARD (count  12 )
+PIN[planner_std] prefill_default | prefill_projection -> GPU (Vulkan): MEASURED_OPTIMUM_A098: at 128x1024x1024 the GPU is fastest (67.5 us) and the perf-per-watt winner (51.20 GFLOP/s/W gross vs NPU 5.39, CPU 5.34); first-class GPU backend per A-086 [measured est 67.5 us]
+PIN[planner_std] prefill_power_capped | prefill_projection -> NPU (XRT): POWER_CAPPED_A098: NPU package draw is 22.1 W vs GPU 77.7 W at this shape class and its net-of-idle J/op beats CPU (0.0298 vs 0.0446); under a power cap that is the measured optimum [measured est 2258.2 us] [fallback: CPU (A-099 FALLBACK_<NAME>)]
+PIN[planner_std] prefill_overlap | prefill_projection -> NPU (XRT): OVERLAP_A096: NPU prefill computed inside the GPU decode shadow was fully hidden (median benefit 4,198 us over serial); overlapped, the NPU is the optimum [fallback: CPU (A-099 FALLBACK_<NAME>)]
+PIN[planner_std] gemm_small_32 | gemm -> CPU (CPU): BELOW_FLOOR_A094: under ~0.1M MACs the 93.0 us NPU dispatch floor dominates (32x32x32 measured NPU 93.0 us vs CPU oracle 27.2 us, 0.29x) [measured est 27.2 us]
+PIN[planner_std] decode_gemv | gemv -> GPU (Vulkan): NOT_FIT_A094: decode GEMV (M=1) is not expressible in the stood-up NPU design (tile M=32) and per-op dispatch would cost ~19 ms/token across 32 layers; the Vulkan decode road owns decode
+PIN[planner_std] sampling_vocab_131072 | sampling -> CPU (CPU): MEASURED_A097: NPU argmax loses to the CPU scan at both vocab sizes (104.8 vs 19.9 us at V=32768; 165.2 vs 76.7 us at V=131072) -- floor-bound, NOT FIT on NPU [measured est 76.7 us]
+PIN[planner_std] attention_prefill | attention -> GPU (Vulkan): A017_CLASS: attention is memory-bound over the KV cache and is not NPU-shaped in this engine; the Vulkan attention road owns it
+PIN[planner_std] embedding_lookup | embedding_lookup -> CPU (CPU): NOT_FIT_A094: embedding lookup is a gather with no arithmetic; no NPU crossover exists
+PIN[planner_std] elementwise_decode_row | elementwise -> CPU (CPU): FUSION_ONLY_A094: standalone elementwise can never repay the 93.0 us NPU dispatch floor at decode sizes; value only fused inside a resident GEMM design
+PIN[planner_std] embedding_projection_default | embedding_projection -> GPU (Vulkan): MEASURED_OPTIMUM_A098: at 128x1024x1024 the GPU is fastest (67.5 us) and the perf-per-watt winner (51.20 GFLOP/s/W gross vs NPU 5.39, CPU 5.34); first-class GPU backend per A-086 [measured est 67.5 us]
+PIN[planner_std] prefill_below_m_band | prefill_projection -> GPU (Vulkan): MEASURED_OPTIMUM_A098: at 128x1024x1024 the GPU is fastest (67.5 us) and the perf-per-watt winner (51.20 GFLOP/s/W gross vs NPU 5.39, CPU 5.34); first-class GPU backend per A-086
+PIN[planner_std] transfer_default | transfer -> GPU (Vulkan): A017_POLICY_DELEGATE (no A-100 measured row): skip NPU (NPU present (XRT) but no NPU execution is proven yet -- presence only, not placement). Vulkan GPU backend available (bake-off winner, first-class)
+=== PLANNER GPU-ABSENT
+PIN[planner_absent] prefill_default | prefill_projection -> NPU (XRT): FIT_A094: prefill projection GEMM with M >= 64 and >= ~0.1M MACs is the measured FIT candidate (99x vs the oracle CPU at 128x1024x1024); no GPU is placeable here [fallback: CPU (A-099 FALLBACK_<NAME>)]
+PIN[planner_absent] prefill_power_capped | prefill_projection -> NPU (XRT): POWER_CAPPED_A098: NPU package draw is 22.1 W vs GPU 77.7 W at this shape class and its net-of-idle J/op beats CPU (0.0298 vs 0.0446); under a power cap that is the measured optimum [measured est 2258.2 us] [fallback: CPU (A-099 FALLBACK_<NAME>)]
+PIN[planner_absent] prefill_overlap | prefill_projection -> NPU (XRT): OVERLAP_A096: NPU prefill computed inside the GPU decode shadow was fully hidden (median benefit 4,198 us over serial); overlapped, the NPU is the optimum [fallback: CPU (A-099 FALLBACK_<NAME>)]
+PIN[planner_absent] gemm_small_32 | gemm -> CPU (CPU): BELOW_FLOOR_A094: under ~0.1M MACs the 93.0 us NPU dispatch floor dominates (32x32x32 measured NPU 93.0 us vs CPU oracle 27.2 us, 0.29x) [measured est 27.2 us]
+PIN[planner_absent] decode_gemv | gemv -> CPU (CPU): CPU spillover: decode GEMV with no GPU; NPU stays NOT FIT per A-094
+PIN[planner_absent] sampling_vocab_131072 | sampling -> CPU (CPU): MEASURED_A097: NPU argmax loses to the CPU scan at both vocab sizes (104.8 vs 19.9 us at V=32768; 165.2 vs 76.7 us at V=131072) -- floor-bound, NOT FIT on NPU [measured est 76.7 us]
+PIN[planner_absent] attention_prefill | attention -> CPU (CPU): CPU spillover: no GPU can take attention
+PIN[planner_absent] embedding_lookup | embedding_lookup -> CPU (CPU): NOT_FIT_A094: embedding lookup is a gather with no arithmetic; no NPU crossover exists
+PIN[planner_absent] elementwise_decode_row | elementwise -> CPU (CPU): FUSION_ONLY_A094: standalone elementwise can never repay the 93.0 us NPU dispatch floor at decode sizes; value only fused inside a resident GEMM design
+PIN[planner_absent] embedding_projection_default | embedding_projection -> NPU (XRT): FIT_A094: prefill projection GEMM with M >= 64 and >= ~0.1M MACs is the measured FIT candidate (99x vs the oracle CPU at 128x1024x1024); no GPU is placeable here [fallback: CPU (A-099 FALLBACK_<NAME>)]
+PIN[planner_absent] prefill_below_m_band | prefill_projection -> NPU (XRT): CROSSOVER_A094: cubic GEMM crosses the CPU oracle between 32^3 and 64^3 and the projection proxy 32x1024x1024 measured 103x vs the oracle CPU; no GPU placeable [fallback: CPU (A-099 FALLBACK_<NAME>)]
+PIN[planner_absent] transfer_default | transfer -> CPU (CPU): A017_POLICY_DELEGATE (no A-100 measured row): skip NPU (NPU present (XRT) but no NPU execution is proven yet -- presence only, not placement). skip GPU (GPU unavailable: HIP absent (gpu role: probe-only), Vulkan absent (gpu role: first-class); the probe-only loser is not placed). CPU spillover: no accelerator could take this op; CPU backend available
+=== PLANNER UNPROVEN CONTEXT
+PIN[planner_unproven] prefill_default | prefill_projection -> GPU (Vulkan): MEASURED_OPTIMUM_A098: at 128x1024x1024 the GPU is fastest (67.5 us) and the perf-per-watt winner (51.20 GFLOP/s/W gross vs NPU 5.39, CPU 5.34); first-class GPU backend per A-086 [measured est 67.5 us]
+PIN[planner_unproven] prefill_power_capped | prefill_projection -> GPU (Vulkan): MEASURED_OPTIMUM_A098: at 128x1024x1024 the GPU is fastest (67.5 us) and the perf-per-watt winner (51.20 GFLOP/s/W gross vs NPU 5.39, CPU 5.34); first-class GPU backend per A-086 [measured est 67.5 us]
+PIN[planner_unproven] prefill_overlap | prefill_projection -> GPU (Vulkan): MEASURED_OPTIMUM_A098: at 128x1024x1024 the GPU is fastest (67.5 us) and the perf-per-watt winner (51.20 GFLOP/s/W gross vs NPU 5.39, CPU 5.34); first-class GPU backend per A-086 [measured est 67.5 us]
+PIN[planner_unproven] gemm_small_32 | gemm -> CPU (CPU): BELOW_FLOOR_A094: under ~0.1M MACs the 93.0 us NPU dispatch floor dominates (32x32x32 measured NPU 93.0 us vs CPU oracle 27.2 us, 0.29x) [measured est 27.2 us]
+PIN[planner_unproven] decode_gemv | gemv -> GPU (Vulkan): NOT_FIT_A094: decode GEMV (M=1) is not expressible in the stood-up NPU design (tile M=32) and per-op dispatch would cost ~19 ms/token across 32 layers; the Vulkan decode road owns decode
+PIN[planner_unproven] sampling_vocab_131072 | sampling -> CPU (CPU): MEASURED_A097: NPU argmax loses to the CPU scan at both vocab sizes (104.8 vs 19.9 us at V=32768; 165.2 vs 76.7 us at V=131072) -- floor-bound, NOT FIT on NPU [measured est 76.7 us]
+PIN[planner_unproven] attention_prefill | attention -> GPU (Vulkan): A017_CLASS: attention is memory-bound over the KV cache and is not NPU-shaped in this engine; the Vulkan attention road owns it
+PIN[planner_unproven] embedding_lookup | embedding_lookup -> CPU (CPU): NOT_FIT_A094: embedding lookup is a gather with no arithmetic; no NPU crossover exists
+PIN[planner_unproven] elementwise_decode_row | elementwise -> CPU (CPU): FUSION_ONLY_A094: standalone elementwise can never repay the 93.0 us NPU dispatch floor at decode sizes; value only fused inside a resident GEMM design
+PIN[planner_unproven] embedding_projection_default | embedding_projection -> GPU (Vulkan): MEASURED_OPTIMUM_A098: at 128x1024x1024 the GPU is fastest (67.5 us) and the perf-per-watt winner (51.20 GFLOP/s/W gross vs NPU 5.39, CPU 5.34); first-class GPU backend per A-086 [measured est 67.5 us]
+PIN[planner_unproven] prefill_below_m_band | prefill_projection -> GPU (Vulkan): MEASURED_OPTIMUM_A098: at 128x1024x1024 the GPU is fastest (67.5 us) and the perf-per-watt winner (51.20 GFLOP/s/W gross vs NPU 5.39, CPU 5.34); first-class GPU backend per A-086
+PIN[planner_unproven] transfer_default | transfer -> GPU (Vulkan): A017_POLICY_DELEGATE (no A-100 measured row): skip NPU (NPU present (XRT) but no NPU execution is proven yet -- presence only, not placement). Vulkan GPU backend available (bake-off winner, first-class)
+=== SPILLOVER
+PIN[ spill_all_fit ] ok= True
+PIN[ spill_all_fit ] refusal= 
+PIN[ spill_all_fit ] digest= 12279898162646586666
+PIN[ spill_all_fit ] log-begin
+spillover-plan v1 layers=3 avail=107374182400 total=137438953472 gpu_cap=1073741824 spill_cap=67108864 reserve=0
+layer 0 name=blk.0 bytes=16777216 place=GPU reason=ACCELERATOR_FIRST
+layer 1 name=blk.1 bytes=16777216 place=GPU reason=ACCELERATOR_FIRST
+layer 2 name=blk.2 bytes=16777216 place=GPU reason=ACCELERATOR_FIRST
+totals gpu_bytes=50331648 cpu_spill_bytes=0 cpu_assist_bytes=0 gpu_layers=3 cpu_layers=0
+PIN[ spill_all_fit ] log-end
+PIN[ spill_capacity ] ok= True
+PIN[ spill_capacity ] refusal= 
+PIN[ spill_capacity ] digest= 2824067804625747142
+PIN[ spill_capacity ] log-begin
+spillover-plan v1 layers=3 avail=107374182400 total=137438953472 gpu_cap=16777216 spill_cap=67108864 reserve=0
+layer 0 name=blk.0 bytes=16777216 place=GPU reason=ACCELERATOR_FIRST
+layer 1 name=blk.1 bytes=16777216 place=CPU_SPILL reason=CAPACITY_SPILL
+layer 2 name=blk.2 bytes=16777216 place=CPU_SPILL reason=CAPACITY_SPILL
+totals gpu_bytes=16777216 cpu_spill_bytes=33554432 cpu_assist_bytes=0 gpu_layers=1 cpu_layers=2
+PIN[ spill_capacity ] log-end
+PIN[ spill_refusal ] ok= False
+PIN[ spill_refusal ] refusal= MEM-003 layer does not fit accelerator room and may not spill: output
+PIN[ spill_refusal ] digest= 870272961530475967
+PIN[ spill_refusal ] log-begin
+spillover-plan v1 layers=2 avail=107374182400 total=137438953472 gpu_cap=16777216 spill_cap=67108864 reserve=0
+REFUSE layer=output bytes=16777216 spillable=false code=MEM-003 reason=NO_FIT_NO_SPILL
+PIN[ spill_refusal ] log-end
+PIN[ spill_cap ] ok= False
+PIN[ spill_cap ] refusal= MEM-003 layer does not fit accelerator room and may not spill: blk.2
+PIN[ spill_cap ] digest= 6561199892227140726
+PIN[ spill_cap ] log-begin
+spillover-plan v1 layers=3 avail=107374182400 total=137438953472 gpu_cap=16777216 spill_cap=16777216 reserve=0
+REFUSE layer=blk.2 bytes=16777216 spillable=true code=MEM-003 reason=NO_FIT_NO_SPILL
+PIN[ spill_cap ] log-end
+PIN[ spill_assist_unproven ] ok= True
+PIN[ spill_assist_unproven ] refusal= 
+PIN[ spill_assist_unproven ] digest= 4024728820035312839
+PIN[ spill_assist_unproven ] log-begin
+spillover-plan v1 layers=1 avail=107374182400 total=137438953472 gpu_cap=1073741824 spill_cap=67108864 reserve=0
+layer 0 name=blk.0 bytes=16777216 place=GPU reason=ACCELERATOR_FIRST
+totals gpu_bytes=16777216 cpu_spill_bytes=0 cpu_assist_bytes=0 gpu_layers=1 cpu_layers=0
+PIN[ spill_assist_unproven ] log-end
+PIN[ spill_assist_proven ] ok= True
+PIN[ spill_assist_proven ] refusal= 
+PIN[ spill_assist_proven ] digest= 17830574901560117475
+PIN[ spill_assist_proven ] log-begin
+spillover-plan v1 layers=1 avail=107374182400 total=137438953472 gpu_cap=1073741824 spill_cap=67108864 reserve=0
+layer 0 name=blk.0 bytes=16777216 place=CPU_ASSIST reason=ASSIST_MEASURED
+totals gpu_bytes=0 cpu_spill_bytes=0 cpu_assist_bytes=16777216 gpu_layers=0 cpu_layers=1
+PIN[ spill_assist_proven ] log-end
+=== REPLAN
+PIN[replan_orig] 0 | prefill_projection -> GPU (Vulkan): MEASURED_OPTIMUM_A098: at 128x1024x1024 the GPU is fastest (67.5 us) and the perf-per-watt winner (51.20 GFLOP/s/W gross vs NPU 5.39, CPU 5.34); first-class GPU backend per A-086 [measured est 67.5 us]
+PIN[replan_orig] 1 | attention -> GPU (Vulkan): A017_CLASS: attention is memory-bound over the KV cache and is not NPU-shaped in this engine; the Vulkan attention road owns it
+PIN[replan_orig] 2 | gemv -> GPU (Vulkan): NOT_FIT_A094: decode GEMV (M=1) is not expressible in the stood-up NPU design (tile M=32) and per-op dispatch would cost ~19 ms/token across 32 layers; the Vulkan decode road owns decode
+PIN[replan_orig] 3 | sampling -> CPU (CPU): MEASURED_A097: NPU argmax loses to the CPU scan at both vocab sizes (104.8 vs 19.9 us at V=32768; 165.2 vs 76.7 us at V=131072) -- floor-bound, NOT FIT on NPU [measured est 76.7 us]
+PIN[replan_orig] 4 | gemm -> CPU (CPU): BELOW_FLOOR_A094: under ~0.1M MACs the 93.0 us NPU dispatch floor dominates (32x32x32 measured NPU 93.0 us vs CPU oracle 27.2 us, 0.29x) [measured est 27.2 us]
+PIN[replan_orig] 5 | prefill_projection -> NPU (XRT): POWER_CAPPED_A098: NPU package draw is 22.1 W vs GPU 77.7 W at this shape class and its net-of-idle J/op beats CPU (0.0298 vs 0.0446); under a power cap that is the measured optimum [measured est 2258.2 us] [fallback: CPU (A-099 FALLBACK_<NAME>)]
+PIN[replan_gpu] outcome= REPLANNED  completed= 1  remaining= 5  moved= 2
+PIN[replan_gpu] reason= remaining work re-planned onto survivors of GPU after VK_ERROR_DEVICE_LOST
+PIN[replan_gpu_audit] step 1: GPU(Vulkan) -> CPU(CPU) [VK_ERROR_DEVICE_LOST; A-103 re-plan]
+PIN[replan_gpu_audit] step 2: GPU(Vulkan) -> CPU(CPU) [VK_ERROR_DEVICE_LOST; A-103 re-plan]
+PIN[replan_gpu_audit] step 3: CPU(CPU) -> CPU(CPU) [VK_ERROR_DEVICE_LOST; A-103 re-plan]
+PIN[replan_gpu_audit] step 4: CPU(CPU) -> CPU(CPU) [VK_ERROR_DEVICE_LOST; A-103 re-plan]
+PIN[replan_gpu_audit] step 5: NPU(XRT) -> NPU(XRT) [VK_ERROR_DEVICE_LOST; A-103 re-plan]
+PIN[replan_gpu_step] 1 | attention -> CPU (CPU): CPU spillover: no GPU can take attention
+PIN[replan_gpu_step] 2 | gemv -> CPU (CPU): CPU spillover: decode GEMV with no GPU; NPU stays NOT FIT per A-094
+PIN[replan_gpu_step] 3 | sampling -> CPU (CPU): MEASURED_A097: NPU argmax loses to the CPU scan at both vocab sizes (104.8 vs 19.9 us at V=32768; 165.2 vs 76.7 us at V=131072) -- floor-bound, NOT FIT on NPU [measured est 76.7 us]
+PIN[replan_gpu_step] 4 | gemm -> CPU (CPU): BELOW_FLOOR_A094: under ~0.1M MACs the 93.0 us NPU dispatch floor dominates (32x32x32 measured NPU 93.0 us vs CPU oracle 27.2 us, 0.29x) [measured est 27.2 us]
+PIN[replan_gpu_step] 5 | prefill_projection -> NPU (XRT): POWER_CAPPED_A098: NPU package draw is 22.1 W vs GPU 77.7 W at this shape class and its net-of-idle J/op beats CPU (0.0298 vs 0.0446); under a power cap that is the measured optimum [measured est 2258.2 us] [fallback: CPU (A-099 FALLBACK_<NAME>)]
+PIN[replan_npu] outcome= REPLANNED  completed= 0  remaining= 3  moved= 2
+PIN[replan_npu] reason= remaining work re-planned onto survivors of NPU after KERNEL_RUN_FAILED
+PIN[replan_npu_audit] step 0: NPU(XRT) -> GPU(Vulkan) [KERNEL_RUN_FAILED; A-103 re-plan]
+PIN[replan_npu_audit] step 1: NPU(XRT) -> GPU(Vulkan) [KERNEL_RUN_FAILED; A-103 re-plan]
+PIN[replan_npu_audit] step 2: GPU(Vulkan) -> GPU(Vulkan) [KERNEL_RUN_FAILED; A-103 re-plan]
+PIN[replan_npu_step] 0 | prefill_projection -> GPU (Vulkan): MEASURED_OPTIMUM_A098: at 128x1024x1024 the GPU is fastest (67.5 us) and the perf-per-watt winner (51.20 GFLOP/s/W gross vs NPU 5.39, CPU 5.34); first-class GPU backend per A-086 [measured est 67.5 us]
+PIN[replan_npu_step] 1 | prefill_projection -> GPU (Vulkan): MEASURED_OPTIMUM_A098: at 128x1024x1024 the GPU is fastest (67.5 us) and the perf-per-watt winner (51.20 GFLOP/s/W gross vs NPU 5.39, CPU 5.34); first-class GPU backend per A-086 [measured est 67.5 us]
+PIN[replan_npu_step] 2 | prefill_projection -> GPU (Vulkan): MEASURED_OPTIMUM_A098: at 128x1024x1024 the GPU is fastest (67.5 us) and the perf-per-watt winner (51.20 GFLOP/s/W gross vs NPU 5.39, CPU 5.34); first-class GPU backend per A-086 [measured est 67.5 us]
+PIN[replan_cpu] outcome= FAILED_CLOSED  steps= 0
+PIN[replan_cpu] reason= no survivor can take step 0 (embedding_lookup) after CPU_FAULT on CPU
+PIN[drill_gpu] outcome= REPLANNED  match= True  moved= 1  on_failed= 0
+PIN[drill_gpu] reason= drill completed on the re-planned survivors; final tokens match the uninterrupted control exactly
+PIN[drill_gpu] tokens= 4242,7768,24078,17482,29852,1215,
+PIN[drill_gpu_audit] step 2: GPU(Vulkan) -> CPU(CPU) [VK_ERROR_DEVICE_LOST; A-103 re-plan]
+PIN[drill_gpu_audit] step 3: CPU(CPU) -> CPU(CPU) [VK_ERROR_DEVICE_LOST; A-103 re-plan]
+PIN[drill_gpu_audit] step 4: CPU(CPU) -> CPU(CPU) [VK_ERROR_DEVICE_LOST; A-103 re-plan]
+PIN[drill_gpu_audit] step 5: NPU(XRT) -> NPU(XRT) [VK_ERROR_DEVICE_LOST; A-103 re-plan]
+=== BIG MODEL
+PIN[big_half] split gpu_layers=16 cpu_layers=16 gpu_weights=2404941824 cpu_weights=2507956480 kv_gpu=268435456 kv_cpu=268435456 total=5449769216 pool=137438953472 FITS_POOL
+PIN[big_zero] split gpu_layers=0 cpu_layers=32 gpu_weights=0 cpu_weights=4912898304 kv_gpu=0 kv_cpu=536870912 total=5449769216 pool=137438953472 FITS_POOL
+PIN[big_embed_only] split gpu_layers=0 cpu_layers=32 gpu_weights=0 cpu_weights=4912898304 kv_gpu=0 kv_cpu=536870912 total=5449769216 pool=137438953472 FITS_POOL
+PIN[big_full] split gpu_layers=32 cpu_layers=0 gpu_weights=4912898304 cpu_weights=0 kv_gpu=536870912 kv_cpu=0 total=5449769216 pool=137438953472 FITS_POOL
+PIN[big_small_pool] split gpu_layers=32 cpu_layers=0 gpu_weights=4912898304 cpu_weights=0 kv_gpu=536870912 kv_cpu=0 total=5449769216 pool=4000000000 EXCEEDS_POOL
+PIN[big_edge] split gpu_layers=0 cpu_layers=32 gpu_weights=0 cpu_weights=4912898304 kv_gpu=0 kv_cpu=536870912 total=5449769216 pool=5449769216 FITS_POOL
+PIN[big_budget_ 0 ] split gpu_layers=0 cpu_layers=32 gpu_weights=0 cpu_weights=4912898304 kv_gpu=0 kv_cpu=536870912 total=5449769216 pool=137438953472 FITS_POOL
+PIN[big_budget_ 1073741824 ] split gpu_layers=5 cpu_layers=27 gpu_weights=990183424 cpu_weights=3922714880 kv_gpu=83886080 kv_cpu=452984832 total=5449769216 pool=137438953472 FITS_POOL
+PIN[big_budget_ 2147483648 ] split gpu_layers=14 cpu_layers=18 gpu_weights=2143289344 cpu_weights=2769608960 kv_gpu=234881024 kv_cpu=301989888 total=5449769216 pool=137438953472 FITS_POOL
+PIN[big_budget_ 3221225472 ] split gpu_layers=22 cpu_layers=10 gpu_weights=3173679104 cpu_weights=1739219200 kv_gpu=369098752 kv_cpu=167772160 total=5449769216 pool=137438953472 FITS_POOL
+PIN[big_budget_ 4294967296 ] split gpu_layers=30 cpu_layers=2 gpu_weights=4204068864 cpu_weights=708829440 kv_gpu=503316480 kv_cpu=33554432 total=5449769216 pool=137438953472 FITS_POOL
+PIN[big_budget_ 8589934592 ] split gpu_layers=32 cpu_layers=0 gpu_weights=4912898304 cpu_weights=0 kv_gpu=536870912 kv_cpu=0 total=5449769216 pool=137438953472 FITS_POOL
+=== FAIRNESS
+PIN[fair_equal] summary= fairness-summary steps=400 served=100000,100000 max_wait=0,0 wait_bound=1 lag_cross=0 lag_bound_cross=768 jain_x1000=1000
+PIN[fair_equal] digest= 18141209263579509733
+PIN[fair_weighted] summary= fairness-summary steps=400 served=204800,102400 max_wait=0,0 wait_bound=1 lag_cross=0 lag_bound_cross=1536 jain_x1000=1000
+PIN[fair_weighted] digest= 4079691411540333915
+PIN[fair_adversarial] summary= fairness-summary steps=1600 served=101600,800 max_wait=0,1 wait_bound=1 lag_cross=100800 lag_bound_cross=768 jain_x1000=507
+PIN[fair_adversarial] digest= 11754055333518584471
+PIN[fair_idle] summary= fairness-summary steps=200 served=12800,38400 max_wait=1,1 wait_bound=1 lag_cross=25600 lag_bound_cross=768 jain_x1000=800
+PIN[fair_idle] digest= 13971345022146137796
+PIN[fair_single] summary= fairness-summary steps=20 served=10000,0 max_wait=0,0 wait_bound=1 lag_cross=10000 lag_bound_cross=768 jain_x1000=500
+PIN[fair_single] digest= 13601686933801457156
+=== PROBE DONE

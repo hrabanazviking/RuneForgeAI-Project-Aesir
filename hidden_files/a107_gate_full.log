@@ -1,0 +1,16 @@
+GATE_FULL: full battery (build_matrix all: cpu suite + amd build/smoke/suite)
+MATRIX [cpu]: E-MASTER suite, no accelerator flag (zero NVIDIA flags)
+MATRIX: suite summary: 653 passed / 1 failed / 2 skipped / 656 total
+MATRIX: sole failure is the tolerated gguf.tensor_directory_interface (J-022 drift)
+MATRIX [amd]: engine build + help smoke + E-MASTER suite, --target-accelerator gfx1151 (AMD ROCm)
+MATRIX [amd]: engine build OK: /tmp/aesir-build-matrix-amd
+MATRIX [amd]: --help smoke OK
+MATRIX: suite summary: 653 passed / 1 failed / 2 skipped / 656 total
+MATRIX: sole failure is the tolerated gguf.tensor_directory_interface (J-022 drift)
+MATRIX RESULT: PASS (all)
+GATE_FULL: elapsed 440s, build_matrix rc=0
+GATE_FULL: hidden_files/build_matrix_cpu.log summary: 653 passed / 1 failed / 2 skipped / 656 total
+GATE_FULL: hidden_files/build_matrix_cpu.log sole failure is the tolerated gguf.tensor_directory_interface (J-022 drift)
+GATE_FULL: hidden_files/build_matrix_amd.log summary: 653 passed / 1 failed / 2 skipped / 656 total
+GATE_FULL: hidden_files/build_matrix_amd.log sole failure is the tolerated gguf.tensor_directory_interface (J-022 drift)
+GATE_FULL RESULT: PASS (440s)

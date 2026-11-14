@@ -1,0 +1,4 @@
+MATRIX [cpu]: E-MASTER suite, no accelerator flag (zero NVIDIA flags)
+MATRIX: suite summary: 652 passed / 2 failed / 2 skipped / 656 total
+MATRIX: unexplained failures present
+MATRIX RESULT: FAIL (cpu)
