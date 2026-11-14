@@ -18,6 +18,8 @@ python3 scripts/make_qwen35_fixtures.py
 echo FIXTURES_EXIT=$?
 pixi run --frozen mojo build -I . --target-accelerator gfx1151 $LK aesir_engine/tests/test_gguf_writer_qc_1.mojo -o hidden_files/qwen35-adapter/test_gguf_writer_qc_1
 echo QC1_TEST_BUILD_EXIT=$?
+pixi run --frozen mojo build -I . --target-accelerator gfx1151 $LK aesir_engine/tests/test_gguf_writer_qc_1_gemma_probe.mojo -o hidden_files/qwen35-adapter/test_gguf_writer_qc_1_gemma_probe
+echo QC1_GEMMA_BUILD_EXIT=$?
 pixi run --frozen mojo build -I . --target-accelerator gfx1151 $LK aesir_engine/tests/test_qwen35_loader_q35_1.mojo -o hidden_files/qwen35-adapter/test_qwen35_loader_q35_1
 echo Q351_BUILD_EXIT=$?
 pixi run --frozen mojo build -I . --target-accelerator gfx1151 $LK aesir_engine/tests/test_gguf_metadata_types.mojo -o hidden_files/qwen35-adapter/test_gguf_metadata_types

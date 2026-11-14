@@ -14,6 +14,12 @@
 
 from std.sys import argv
 
+# Import-order anchor (toolchain quirk, found in QC-1): the entry
+# file must name a core.* module before loader.gguf pulls core.* in
+# transitively, or this toolchain fails with "unable to locate
+# module core". MimirWell itself is unused by this probe.
+from core.mimir_well import MimirWell
+
 from loader.gguf import GGUFSeer
 from loader.gguf_writer import GGUFKV, read_gguf_header_copy
 from loader.packed_gguf import PackedGGUF
