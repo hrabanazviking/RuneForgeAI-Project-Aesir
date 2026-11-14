@@ -1,0 +1,56 @@
+KV general.architecture=llama
+KV llama.embedding_length=64
+KV llama.feed_forward_length=172
+KV llama.block_count=5
+KV general.quantization_version=2
+KV general.file_type=1
+TENSORS 48 KV 21 header_end=14229 data_offset=11424
+output.weight dims=[64, 512] type=1 elements=32768 flat256rem=0 row256rem=64
+output_norm.weight dims=[64] type=0 elements=64 flat256rem=64 row256rem=64
+token_embd.weight dims=[64, 512] type=1 elements=32768 flat256rem=0 row256rem=64
+blk.0.attn_k.weight dims=[64, 32] type=1 elements=2048 flat256rem=0 row256rem=64
+blk.0.attn_norm.weight dims=[64] type=0 elements=64 flat256rem=64 row256rem=64
+blk.0.attn_output.weight dims=[64, 64] type=1 elements=4096 flat256rem=0 row256rem=64
+blk.0.attn_q.weight dims=[64, 64] type=1 elements=4096 flat256rem=0 row256rem=64
+blk.0.attn_v.weight dims=[64, 32] type=1 elements=2048 flat256rem=0 row256rem=64
+blk.0.ffn_down.weight dims=[172, 64] type=1 elements=11008 flat256rem=0 row256rem=172
+blk.0.ffn_gate.weight dims=[64, 172] type=1 elements=11008 flat256rem=0 row256rem=64
+blk.0.ffn_norm.weight dims=[64] type=0 elements=64 flat256rem=64 row256rem=64
+blk.0.ffn_up.weight dims=[64, 172] type=1 elements=11008 flat256rem=0 row256rem=64
+blk.1.attn_k.weight dims=[64, 32] type=1 elements=2048 flat256rem=0 row256rem=64
+blk.1.attn_norm.weight dims=[64] type=0 elements=64 flat256rem=64 row256rem=64
+blk.1.attn_output.weight dims=[64, 64] type=1 elements=4096 flat256rem=0 row256rem=64
+blk.1.attn_q.weight dims=[64, 64] type=1 elements=4096 flat256rem=0 row256rem=64
+blk.1.attn_v.weight dims=[64, 32] type=1 elements=2048 flat256rem=0 row256rem=64
+blk.1.ffn_down.weight dims=[172, 64] type=1 elements=11008 flat256rem=0 row256rem=172
+blk.1.ffn_gate.weight dims=[64, 172] type=1 elements=11008 flat256rem=0 row256rem=64
+blk.1.ffn_norm.weight dims=[64] type=0 elements=64 flat256rem=64 row256rem=64
+blk.1.ffn_up.weight dims=[64, 172] type=1 elements=11008 flat256rem=0 row256rem=64
+blk.2.attn_k.weight dims=[64, 32] type=1 elements=2048 flat256rem=0 row256rem=64
+blk.2.attn_norm.weight dims=[64] type=0 elements=64 flat256rem=64 row256rem=64
+blk.2.attn_output.weight dims=[64, 64] type=1 elements=4096 flat256rem=0 row256rem=64
+blk.2.attn_q.weight dims=[64, 64] type=1 elements=4096 flat256rem=0 row256rem=64
+blk.2.attn_v.weight dims=[64, 32] type=1 elements=2048 flat256rem=0 row256rem=64
+blk.2.ffn_down.weight dims=[172, 64] type=1 elements=11008 flat256rem=0 row256rem=172
+blk.2.ffn_gate.weight dims=[64, 172] type=1 elements=11008 flat256rem=0 row256rem=64
+blk.2.ffn_norm.weight dims=[64] type=0 elements=64 flat256rem=64 row256rem=64
+blk.2.ffn_up.weight dims=[64, 172] type=1 elements=11008 flat256rem=0 row256rem=64
+blk.3.attn_k.weight dims=[64, 32] type=1 elements=2048 flat256rem=0 row256rem=64
+blk.3.attn_norm.weight dims=[64] type=0 elements=64 flat256rem=64 row256rem=64
+blk.3.attn_output.weight dims=[64, 64] type=1 elements=4096 flat256rem=0 row256rem=64
+blk.3.attn_q.weight dims=[64, 64] type=1 elements=4096 flat256rem=0 row256rem=64
+blk.3.attn_v.weight dims=[64, 32] type=1 elements=2048 flat256rem=0 row256rem=64
+blk.3.ffn_down.weight dims=[172, 64] type=1 elements=11008 flat256rem=0 row256rem=172
+blk.3.ffn_gate.weight dims=[64, 172] type=1 elements=11008 flat256rem=0 row256rem=64
+blk.3.ffn_norm.weight dims=[64] type=0 elements=64 flat256rem=64 row256rem=64
+blk.3.ffn_up.weight dims=[64, 172] type=1 elements=11008 flat256rem=0 row256rem=64
+blk.4.attn_k.weight dims=[64, 32] type=1 elements=2048 flat256rem=0 row256rem=64
+blk.4.attn_norm.weight dims=[64] type=0 elements=64 flat256rem=64 row256rem=64
+blk.4.attn_output.weight dims=[64, 64] type=1 elements=4096 flat256rem=0 row256rem=64
+blk.4.attn_q.weight dims=[64, 64] type=1 elements=4096 flat256rem=0 row256rem=64
+blk.4.attn_v.weight dims=[64, 32] type=1 elements=2048 flat256rem=0 row256rem=64
+blk.4.ffn_down.weight dims=[172, 64] type=1 elements=11008 flat256rem=0 row256rem=172
+blk.4.ffn_gate.weight dims=[64, 172] type=1 elements=11008 flat256rem=0 row256rem=64
+blk.4.ffn_norm.weight dims=[64] type=0 elements=64 flat256rem=64 row256rem=64
+blk.4.ffn_up.weight dims=[64, 172] type=1 elements=11008 flat256rem=0 row256rem=64
+TYPE COUNTS {1: 37, 0: 11}

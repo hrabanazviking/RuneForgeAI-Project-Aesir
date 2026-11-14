@@ -596,7 +596,22 @@ def validate_gguf_desc(desc: GGUFModelDesc) raises:
         if len(tensor.dims) < 1 or len(tensor.dims) > 3:
             raise Error("GGUF writer: tensor must have one to three dimensions: " + tensor.name)
         var block = gguf_block_elements(tensor.tensor_type)
-        if Int(tensor.dims[0]) % block != 0:
+        if block == 256:
+            # QC-5: the 256-value K-family types are priced FLAT by
+            # the readers (GGUFSeer._tensor_byte_size is
+            # element_count // 256 times the block size, and
+            # packed_value indexes blocks flat over the tensor), so
+            # the writer's requirement is a whole number of blocks
+            # over the tensor, not a block-aligned dim0. llama.cpp's
+            # per-row dim0 rule would refuse tensors the readers
+            # read correctly.
+            if tensor.element_count() % 256 != 0:
+                raise Error(
+                    "GGUF writer: tensor element count is not a"
+                    + " multiple of the 256-value block: "
+                    + tensor.name
+                )
+        elif Int(tensor.dims[0]) % block != 0:
             raise Error("GGUF writer: tensor dim0 is not block aligned: " + tensor.name)
         var expected_size = tensor.byte_size()
         if len(tensor.payload) != expected_size:
@@ -836,7 +851,18 @@ def validate_gguf_metas(
         if len(meta.dims) < 1 or len(meta.dims) > 3:
             raise Error("GGUF writer: tensor must have one to three dimensions: " + meta.name)
         var block = gguf_block_elements(meta.tensor_type)
-        if Int(meta.dims[0]) % block != 0:
+        if block == 256:
+            # QC-5: see validate_gguf_desc -- K-family types are
+            # priced flat by the readers; require a whole number of
+            # 256-value blocks over the tensor, not a block-aligned
+            # dim0.
+            if meta.element_count() % 256 != 0:
+                raise Error(
+                    "GGUF writer: tensor element count is not a"
+                    + " multiple of the 256-value block: "
+                    + meta.name
+                )
+        elif Int(meta.dims[0]) % block != 0:
             raise Error("GGUF writer: tensor dim0 is not block aligned: " + meta.name)
         _ = meta.byte_size()
 

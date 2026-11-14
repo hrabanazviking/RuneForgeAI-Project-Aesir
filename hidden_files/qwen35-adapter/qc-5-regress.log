@@ -1,0 +1,175 @@
+Running as unit: run-p3786418-i10716432.scope; invocation ID: a36a6d8c0c144a74a4060b77aac3a300
+=== QC-1 writer test ===
+PASS: synthetic header/KV/directory exact, offsets 0/128/640 all 32-aligned, size == data_offset + 1184, payloads byte-identical
+PASS: GGUFSeer inspect_metadata parses the synthetic header/KV exactly
+PASS: GGUFSeer maps all 3 synthetic tensors at the written offsets/types/shapes (load stops only at required-tensor validation)
+PASS: PackedGGUF loads the synthetic file in full (offsets/kinds/byte counts + typed KV reads)
+PASS: writer refusal — duplicate KV key -> GGUF writer: duplicate metadata key refused: general.name
+PASS: writer refusal — duplicate tensor name -> GGUF writer: duplicate tensor name refused: probe.weight
+PASS: writer refusal — typed-key contract (context_length as string) -> GGUF writer: metadata key has unexpected value type: llama.context_length
+PASS: writer refusal — tokenizer tokens must be a string array -> GGUF writer: tokenizer.ggml.tokens must be an array of strings
+PASS: writer refusal — payload length != reader-priced size -> GGUF writer: tensor payload size mismatch for probe.weight: payload 100 bytes, reader-priced size 128
+PASS: writer refusal — Q8_0 dim0 not a multiple of 32 -> GGUF writer: tensor dim0 is not block aligned: probe.weight
+PASS: writer refusal — rank-4 tensor -> GGUF writer: tensor must have one to three dimensions: probe.weight
+PASS: writer refusal — general.alignment != emission alignment -> GGUF writer: general.alignment does not match the emission alignment
+PASS: writer refusal — Q8_K (type 15) has no explicit reader price -> GGUF writer: unsupported tensor type 15
+PASS: writer refusal — nested array (elem type 9) -> GGUF writer: array element type refused for key extension.bad
+PASS: all writer refusals fire before emission
+PASS: stories260K header copy == GGUFSeer parse (21 KV, 48 tensors, data_offset 14240, typed values == config)
+GGUF validated: 48 tensors, 21 metadata entries, architecture llama
+PASS: stories260K directory == GGUFSeer full-load parse for all 48 tensors (type/offset/shape)
+PASS: stories260K directory == PackedGGUF parse for all 48 tensors (offset/byte_count/kind)
+PASS: stories260K metadata+payload copy re-emits a BYTE-IDENTICAL file (601248 bytes, 0 mismatches)
+GGUF validated: 48 tensors, 21 metadata entries, architecture llama
+PASS: re-emitted stories260K parses identically and reaches GGUFSeer VALIDATED
+QC-1 GGUF writer proof: ALL PASS
+QC1_EXIT=0
+=== QC-2 Q8_0 test ===
+PASS: layout + tie rule — d = 1.0 block bytes exact (round half away from zero, incl. 2.5 -> 3, -2.5 -> -3, 0.25 -> 0)
+PASS: layout — d = 0.5 block bytes exact (31.75 -> 64 and 0.25 -> 1 are half-step ties, rounded away from zero)
+PASS: roundtrip of tie block A (d = 1.0) — n = 32  blocks = 1  max_err = 0.5  mean_err = 0.359375  worst err/bound = 0.79869205
+PASS: roundtrip of tie block B (d = 0.5) — n = 32  blocks = 1  max_err = 0.25  mean_err = 0.03125  worst err/bound = 0.7986919
+PASS: all-zero (10 blocks, d = 0) — n = 320  blocks = 10  max_err = 0.0  mean_err = 0.0  worst err/bound = 0.0
+PASS: all-equal 3.25 (every lane is the amax, q = 127) — n = 64  blocks = 2  max_err = 0.0  mean_err = 0.0  worst err/bound = 0.0
+PASS: all-equal -7.5 — n = 64  blocks = 2  max_err = 0.0  mean_err = 0.0  worst err/bound = 0.0
+PASS: zero block emits 34 zero bytes (d = 0, qs = 0)
+PASS: single outlier 100.0 among 0.001 (small lanes quantize to 0) — n = 32  blocks = 1  max_err = 0.001  mean_err = 0.00096875004  worst err/bound = 0.0019307444
+PASS: large dynamic range in-block (1e4 beside 1e-6) — n = 64  blocks = 2  max_err = 1.0  mean_err = 0.03125003  worst err/bound = 0.019783156
+PASS: negative-only random (4 blocks, scale 50) — n = 128  blocks = 4  max_err = 0.20913505  mean_err = 0.0828246  worst err/bound = 0.81440425
+PASS: positive-only random (4 blocks, scale 1/32) — n = 128  blocks = 4  max_err = 0.0001232773  mean_err = 5.7030222e-05  worst err/bound = 0.79696155
+PASS: tiny values amax = 1e-7 (f16 scale underflows to 0) — n = 32  blocks = 1  max_err = 1e-07  mean_err = 6.25e-08  worst err/bound = 0.49975598
+PASS: small values amax = 1e-4 (f16 subnormal scale) — n = 96  blocks = 3  max_err = 1.7435523e-06  mean_err = 6.006157e-07  worst err/bound = 0.8000266
+PASS: exact lattice (d = 0.25 and d = 2.0 blocks, incl. +/-127) — n = 64  blocks = 2  max_err = 0.0  mean_err = 0.0  worst err/bound = 0.0
+PASS: random multi-scale (288 blocks, scales 1e-4..1e4) — n = 9216  blocks = 288  max_err = 42.08008  mean_err = 2.3806543  worst err/bound = 0.8951223
+PASS: quantizer refusal — empty input -> quantize_q8_0: element count must be positive (got 0)
+PASS: quantizer refusal — 31 values (not block-aligned) -> quantize_q8_0: element count 31 is not a multiple of the 32-value Q8_0 block; refusing to pad (GGUF has no padding semantics -- a tensor's dim0 must be block-aligned, and non-aligned tensors stay at their source type per QC-0 section 3)
+PASS: quantizer refusal — 33 values (not block-aligned) -> quantize_q8_0: element count 33 is not a multiple of the 32-value Q8_0 block; refusing to pad (GGUF has no padding semantics -- a tensor's dim0 must be block-aligned, and non-aligned tensors stay at their source type per QC-0 section 3)
+PASS: quantizer refusal — 100 values (not block-aligned) -> quantize_q8_0: element count 100 is not a multiple of the 32-value Q8_0 block; refusing to pad (GGUF has no padding semantics -- a tensor's dim0 must be block-aligned, and non-aligned tensors stay at their source type per QC-0 section 3)
+PASS: quantizer refusal — NaN element -> quantize_q8_0: non-finite value at index 7 has no Q8_0 encoding
+PASS: quantizer refusal — +Inf element -> quantize_q8_0: non-finite value at index 31 has no Q8_0 encoding
+PASS: quantizer refusal — amax 1e10 (scale overflows f16) -> quantize_q8_0: block 0 scale 78740160.0 overflows the f16 range (amax 10000000000.0); refusing to emit a corrupt block
+PASS: quantizer refusal — amax -1e10 (scale overflows f16) -> quantize_q8_0: block 0 scale 78740160.0 overflows the f16 range (amax 10000000000.0); refusing to emit a corrupt block
+PASS: all quantizer refusals fire with named errors
+PASS: whole-file emission carries general.file_type = 7 (Q8_0)
+PASS: emitted file payload bytes == quantizer payload bytes exactly (incl. 1114112-byte big tensor)
+PASS: GGUFSeer maps both Q8_0 tensors at the written offsets/types/shapes
+PASS: file round-trip quant.weight via GGUFSeer offsets + engine dequant — n = 16384  blocks = 512  max_err = 0.016937256  mean_err = 0.0046753995  worst err/bound = 0.8570334
+PASS: file round-trip big.weight (1048576 elements) via GGUFSeer offsets + engine dequant — n = 1048576  blocks = 32768  max_err = 0.19629216  mean_err = 0.0037531897  worst err/bound = 0.8529329
+PASS: PackedGGUF loads the emitted file in full (kinds/byte counts agree)
+QC-2 Q8_0 quantizer proof: ALL PASS
+QC2_EXIT=0
+=== QC-3a conversion test ===
+PASS: conversion policy as applied -- 32 quantized to Q8_0; 16 kept (5x ffn_down F16, dim0 172 not a multiple of 32; 11x norms F32, one-dimensional), every kept tensor named with its reason
+PASS: emitted metadata == source metadata except general.file_type = 7; all 21 KVs accounted for
+PASS: emitted directory preserves names/shapes/order; quantized tensors are Q8_0, kept tensors keep source type and size; all offsets 32-aligned
+PASS: every kept tensor's payload is byte-identical to the source payload
+PASS: emitted Q8_0 blocks for token_embd.weight dequantize inside the QC-2 proven bound (worst err/bound 0.799858 )
+PASS: emitted Q8_0 blocks for blk.0.attn_q.weight dequantize inside the QC-2 proven bound (worst err/bound 0.798652 )
+GGUF validated: 48 tensors, 21 metadata entries, architecture llama
+PASS: GGUFSeer loads the emitted file to VALIDATED (llama config + tokenizer agree; tensor types as emitted)
+PASS: PackedGGUF loads the emitted file in full (offsets/kinds/byte counts for all 48 tensors; file_type reads 7)
+MimirWell initialized with 36314848 derived bytes.
+GGUF validated: 48 tensors, 21 metadata entries, architecture llama
+Starting deterministic generation loop (The Weaving of Fate)...
+Prompt tokens: 8 context_length: 128
+ Token generated: 265 ' the'
+ Token generated: 282 ' p'
+ Token generated: 295 'ar'
+ Token generated: 433 'k'
+ Token generated: 335 ' with'
+ Token generated: 345 ' his'
+ Token generated: 357 ' mom'
+ Token generated: 426 '.'
+AESIR_TIMING_JSON: {"timing_version":1,"load_ms":7.300,"prefill_ms":0.347,"decode_ms":0.386,"sample_ms":0.002,"accounted_ms":8.036,"wall_ms":8.042,"residual_ms":0.005,"coverage_pct":99.93,"prompt_tokens":8,"generated_tokens":8,"clock":"CLOCK_MONOTONIC","sample_scope":"sample_token_from_logits calls in the forward paths"}
+Generated 8 token(s); stop reason: length
+Inference complete. Fate is sealed.
+PASS: engine runs the emitted Q8_0 file (greedy 8 from the reference prompt: 265 282 295 433 335 345 357 426  ) text:  the park with his mom.
+QC-3a conversion + load proof: ALL PASS
+QC3A_EXIT=0
+=== QC-3b dequantize_input test ===
+PASS: Q4_K hand-built block -- all 256 lanes exact (incl. g>=4 packed scale/min reconstruction), hand lanes 14.25 / 96.75 / 87.25
+PASS: Q5_K hand-built block -- all 256 lanes exact (high-bit lanes included), hand lanes 94.25 / 124.25
+PASS: Q6_K hand-built block -- all 256 lanes exact (signed scales incl. negatives), hand lanes 50.0 / -18.0
+PASS: dense passthroughs F32 / F16 / BF16 exact
+PASS: unwired types refused by name (2,3,6,7,8,9,10,11,15,20,23); keep-reason string present
+QC-3b dequantizing input path proof: ALL PASS
+QC3B_DEQ_EXIT=0
+=== QC-3b streaming writer test (synth) ===
+PASS: synthetic streaming emission byte-identical to in-memory emission ( 896  bytes, 7-byte chunks)
+PASS: stream refusals fire (chunk overrun / short tensor / out-of-order)
+QC-3b streaming writer proof (synth): DONE
+QC3B_STREAM_SYNTH_EXIT=0
+=== QC-3b streaming writer test (stories) ===
+PASS: stories260K streaming copy byte-identical to in-memory emission AND to the source file ( 601248  bytes)
+QC-3b streaming writer proof (stories): DONE
+QC3B_STREAM_STORIES_EXIT=0
+=== Q35-1 loader test ===
+GGUF validated: 56 tensors, 23 metadata entries, architecture qwen35
+PASS (a): good qwen35 fixture validates via loader path, attn_qkv 56x32 Q8_0, ssm_conv1d 56x4
+PASS (b): mutated qkv fixture rejected: GGUF required tensor has an invalid shape: blk.0.attn_qkv.weight actual: 88x32 expected: 56x32
+GGUF validated: 56 tensors, 23 metadata entries, architecture qwen35
+PASS (c) U2: attn_gate stored F16 (validator records Q8_0) still validates; types recorded, not enforced
+Q35-1 qwen35 loader validation: ALL PASS
+Q351_EXIT=0
+=== QC-3a grade rerun (CSV must be byte-identical) ===
+MimirWell initialized with 36314848 derived bytes.
+GGUF validated: 48 tensors, 21 metadata entries, architecture llama
+LOADED source: llama blocks: 5 vocab: 512
+PROMPT 0 tokens: 1 385 328 432 405 263 377 267
+PROMPT 1 tokens: 1 403 407 261 378 432 383 286 261 376 298 315 421
+PROMPT 2 tokens: 1 291 400 428 352 303 267 265
+PROMPT 3 tokens: 1 392 287 336 432 280 287 411 281 276 269
+PROMPT 4 tokens: 1 385 328 432 261 376 268 414 422 395 274 287
+PROMPT 5 tokens: 1 291 262 379 286 262 415 271 299 269 265 268 315 418 419
+MimirWell initialized with 36314848 derived bytes.
+GGUF validated: 48 tensors, 21 metadata entries, architecture llama
+LOADED quantized: llama blocks: 5 vocab: 512
+TOKENIZER PARITY: quantized model reproduces the identical token-ID streams on all prompts
+PROMPT 0 verdict FAITHFUL steps 23 exact 23 near_tie 0 divergent 0 worst_rank 0 worst_gap_milli 0 argmax_agree 23 / 23
+PROMPT 1 verdict FAITHFUL steps 28 exact 28 near_tie 0 divergent 0 worst_rank 0 worst_gap_milli 0 argmax_agree 28 / 28
+PROMPT 2 verdict FAITHFUL_NEAR_TIE steps 23 exact 22 near_tie 1 divergent 0 worst_rank 1 worst_gap_milli 7 argmax_agree 22 / 23
+PROMPT 3 verdict FAITHFUL steps 26 exact 26 near_tie 0 divergent 0 worst_rank 0 worst_gap_milli 0 argmax_agree 26 / 26
+PROMPT 4 verdict FAITHFUL steps 27 exact 27 near_tie 0 divergent 0 worst_rank 0 worst_gap_milli 0 argmax_agree 27 / 27
+PROMPT 5 verdict FAITHFUL steps 30 exact 30 near_tie 0 divergent 0 worst_rank 0 worst_gap_milli 0 argmax_agree 30 / 30
+GRADE CSV WRITTEN: hidden_files/qwen35-adapter/qc-5-grade-q8-rerun.csv
+AGGREGATE verdict FAITHFUL_NEAR_TIE steps 157 exact 156 near_tie 1 divergent 0 first_divergent_step -1 worst_rank 1 worst_gap_milli 7
+BAND_COUNT 157 OF 157
+ARGMAX_AGREEMENT 156 OF 157
+PROMPT_SEGMENT verdict FAITHFUL steps 61 exact 61 near_tie 0 divergent 0 worst_rank 0 worst_gap_milli 0
+CONTINUATION_SEGMENT verdict FAITHFUL_NEAR_TIE steps 96 exact 95 near_tie 1 divergent 0 first_divergent_step -1 worst_rank 1 worst_gap_milli 7
+GREEDY prompt 0 first_divergence -1
+GREEDY prompt 0 source ids: 265 282 295 433 335 345 357 426 342 394 261 370 268 414 444 335 
+GREEDY prompt 0 quant  ids: 265 282 295 433 335 345 357 426 342 394 261 370 268 414 444 335 
+GREEDY prompt 0 source text:  the park with his mom. They saw a big box with
+GREEDY prompt 0 quant  text:  the park with his mom. They saw a big box with
+GREEDY prompt 1 first_divergence -1
+GREEDY prompt 1 source ids: 395 317 426 338 401 396 267 337 410 408 419 292 411 322 265 282 
+GREEDY prompt 1 quant  ids: 395 317 426 338 401 396 267 337 410 408 419 292 411 322 265 282 
+GREEDY prompt 1 source text:  named Lily. She loved to play outside in the p
+GREEDY prompt 1 quant  text:  named Lily. She loved to play outside in the p
+GREEDY prompt 2 first_divergence 3
+GREEDY prompt 2 source ids: 282 295 433 335 345 357 426 342 397 355 267 337 335 265 315 267 
+GREEDY prompt 2 quant  ids: 282 295 433 426 346 394 261 370 268 414 444 426 346 391 266 267 
+GREEDY prompt 2 source text:  park with his mom. They liked to play with their to
+GREEDY prompt 2 quant  text:  park. He saw a big box. He wanted to
+GREEDY prompt 3 first_divergence -1
+GREEDY prompt 3 source ids: 261 262 423 388 268 414 422 395 326 426 326 401 396 267 337 335 
+GREEDY prompt 3 quant  ids: 261 262 423 388 268 414 422 395 326 426 326 401 396 267 337 335 
+GREEDY prompt 3 source text:  a small boy named Tim. Tim loved to play with
+GREEDY prompt 3 quant  text:  a small boy named Tim. Tim loved to play with
+GREEDY prompt 4 first_divergence -1
+GREEDY prompt 4 source ids: 263 377 267 265 282 295 433 335 345 357 426 342 394 261 370 268 
+GREEDY prompt 4 quant  ids: 263 377 267 265 282 295 433 335 345 357 426 342 394 261 370 268 
+GREEDY prompt 4 source text:  went to the park with his mom. They saw a big b
+GREEDY prompt 4 quant  text:  went to the park with his mom. They saw a big b
+GREEDY prompt 5 first_divergence -1
+GREEDY prompt 5 source ids: 382 276 399 393 426 346 381 261 370 268 315 418 269 261 262 423 
+GREEDY prompt 5 quant  ids: 382 276 399 393 426 346 381 261 370 268 315 418 269 261 262 423 
+GREEDY prompt 5 source text:  were very happy. He had a big bird and a sm
+GREEDY prompt 5 quant  text:  were very happy. He had a big bird and a sm
+QC-3a grade driver: DONE
+GRADE_RERUN_EXIT=0
+GRADE_CSV_IDENTICAL
+5d4df894e4ed0d16f84d94c0a2a7524a4915123fe96148dc0e41b7bc1a6d77b7  hidden_files/qwen35-adapter/stories260K.Q8_0.gguf
+5d4df894e4ed0d16f84d94c0a2a7524a4915123fe96148dc0e41b7bc1a6d77b7  /home/volmarr/aesir-qc-4/hidden_files/qwen35-adapter/stories260K.Q8_0.gguf
+REGRESSION_DONE

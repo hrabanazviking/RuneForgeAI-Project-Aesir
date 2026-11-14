@@ -1,0 +1,57 @@
+Running as unit: run-p3785135-i10716373.scope; invocation ID: 15274915695b4809a55afb7c06ef711f
+MimirWell initialized with 36314848 derived bytes.
+GGUF validated: 48 tensors, 21 metadata entries, architecture llama
+LOADED source: llama blocks: 5 vocab: 512
+PROMPT 0 tokens: 1 385 328 432 405 263 377 267
+PROMPT 1 tokens: 1 403 407 261 378 432 383 286 261 376 298 315 421
+PROMPT 2 tokens: 1 291 400 428 352 303 267 265
+PROMPT 3 tokens: 1 392 287 336 432 280 287 411 281 276 269
+PROMPT 4 tokens: 1 385 328 432 261 376 268 414 422 395 274 287
+PROMPT 5 tokens: 1 291 262 379 286 262 415 271 299 269 265 268 315 418 419
+MimirWell initialized with 36314848 derived bytes.
+GGUF validated: 48 tensors, 21 metadata entries, architecture llama
+LOADED quantized: llama blocks: 5 vocab: 512
+TOKENIZER PARITY: quantized model reproduces the identical token-ID streams on all prompts
+PROMPT 0 verdict DIVERGENT steps 23 exact 21 near_tie 1 divergent 1 worst_rank 3 worst_gap_milli 914 argmax_agree 21 / 23
+PROMPT 1 verdict FAITHFUL_NEAR_TIE steps 28 exact 27 near_tie 1 divergent 0 worst_rank 1 worst_gap_milli 757 argmax_agree 27 / 28
+PROMPT 2 verdict DIVERGENT steps 23 exact 18 near_tie 4 divergent 1 worst_rank 2 worst_gap_milli 1062 argmax_agree 18 / 23
+PROMPT 3 verdict DIVERGENT steps 26 exact 22 near_tie 3 divergent 1 worst_rank 2 worst_gap_milli 2054 argmax_agree 22 / 26
+PROMPT 4 verdict FAITHFUL_NEAR_TIE steps 27 exact 26 near_tie 1 divergent 0 worst_rank 1 worst_gap_milli 46 argmax_agree 26 / 27
+PROMPT 5 verdict FAITHFUL_NEAR_TIE steps 30 exact 27 near_tie 3 divergent 0 worst_rank 2 worst_gap_milli 656 argmax_agree 27 / 30
+GRADE CSV WRITTEN: hidden_files/qwen35-adapter/qc-5-grade-ours.csv
+AGGREGATE verdict DIVERGENT steps 157 exact 141 near_tie 13 divergent 3 first_divergent_step 22 worst_rank 3 worst_gap_milli 2054
+BAND_COUNT 154 OF 157
+ARGMAX_AGREEMENT 141 OF 157
+PROMPT_SEGMENT verdict DIVERGENT steps 61 exact 53 near_tie 7 divergent 1 worst_rank 2 worst_gap_milli 2054
+CONTINUATION_SEGMENT verdict DIVERGENT steps 96 exact 88 near_tie 6 divergent 2 first_divergent_step 15 worst_rank 3 worst_gap_milli 1062
+GREEDY prompt 0 first_divergence 15
+GREEDY prompt 0 source ids: 265 282 295 433 335 345 357 426 342 394 261 370 268 414 444 335 
+GREEDY prompt 0 quant  ids: 265 282 295 433 335 345 357 426 342 394 261 370 268 414 444 373 
+GREEDY prompt 0 source text:  the park with his mom. They saw a big box with
+GREEDY prompt 0 quant  text:  the park with his mom. They saw a big box of
+GREEDY prompt 1 first_divergence 8
+GREEDY prompt 1 source ids: 395 317 426 338 401 396 267 337 410 408 419 292 411 322 265 282 
+GREEDY prompt 1 quant  ids: 395 317 426 338 401 396 267 337 335 311 267 422 419 269 311 374 
+GREEDY prompt 1 source text:  named Lily. She loved to play outside in the p
+GREEDY prompt 1 quant  text:  named Lily. She loved to play with her toys and her friend
+GREEDY prompt 2 first_divergence 3
+GREEDY prompt 2 source ids: 282 295 433 335 345 357 426 342 397 355 267 337 335 265 315 267 
+GREEDY prompt 2 quant  ids: 282 295 433 426 346 397 355 267 337 335 345 267 422 419 426 346 
+GREEDY prompt 2 source text:  park with his mom. They liked to play with their to
+GREEDY prompt 2 quant  text:  park. He liked to play with his toys. He
+GREEDY prompt 3 first_divergence 0
+GREEDY prompt 3 source ids: 261 262 423 388 268 414 422 395 326 426 326 401 396 267 337 335 
+GREEDY prompt 3 quant  ids: 317 286 399 344 444 429 275 266 426 338 391 266 267 262 411 411 
+GREEDY prompt 3 source text:  a small boy named Tim. Tim loved to play with
+GREEDY prompt 3 quant  text:  Lily was very excited. She wanted to see
+GREEDY prompt 4 first_divergence -1
+GREEDY prompt 4 source ids: 263 377 267 265 282 295 433 335 345 357 426 342 394 261 370 268 
+GREEDY prompt 4 quant  ids: 263 377 267 265 282 295 433 335 345 357 426 342 394 261 370 268 
+GREEDY prompt 4 source text:  went to the park with his mom. They saw a big b
+GREEDY prompt 4 quant  text:  went to the park with his mom. They saw a big b
+GREEDY prompt 5 first_divergence -1
+GREEDY prompt 5 source ids: 382 276 399 393 426 346 381 261 370 268 315 418 269 261 262 423 
+GREEDY prompt 5 quant  ids: 382 276 399 393 426 346 381 261 370 268 315 418 269 261 262 423 
+GREEDY prompt 5 source text:  were very happy. He had a big bird and a sm
+GREEDY prompt 5 quant  text:  were very happy. He had a big bird and a sm
+QC-3a grade driver: DONE
