@@ -36,7 +36,7 @@ def raw_i32_array(kv: GGUFKV) raises -> List[Int]:
     var header = kv.value.array_header()
     check(header[0] == 5, "expected an i32 array for " + kv.key)
     var values = List[Int]()
-    var raw = kv.value.raw
+    var raw = kv.value.raw.copy()
     for i in range(header[1]):
         var bits = UInt32(0)
         for b in range(4):
