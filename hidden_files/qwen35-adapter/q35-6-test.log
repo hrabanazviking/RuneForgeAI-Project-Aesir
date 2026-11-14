@@ -1,0 +1,17 @@
+Secondary CUID not available: AMDCUID support not enabled.
+Q35-6 HIP gate ok: device= AMD Radeon 8060S Graphics
+MimirWell initialized with 37896704 derived bytes.
+GGUF validated: 56 tensors, 23 metadata entries, architecture qwen35
+Q35-6 (a) executor constructed: layers= 4  ssm_layers= 3  attn_layers= 1
+Q35-6 (b) pos= 0  s_diff= 1.1175871e-08  conv_diff= 11.7109375  logits_diff= 0.015625  dev_argmax_rank_in_cpu= 1  gap= 0.0
+Q35-6 (b) pos= 1  s_diff= 1.1316518  conv_diff= 11.7109375  logits_diff= 0.71484375  dev_argmax_rank_in_cpu= 1  gap= 0.0
+Q35-6 (b) pos= 2  s_diff= 1.453681  conv_diff= 0.0078125  logits_diff= 1.203125  dev_argmax_rank_in_cpu= 1  gap= 0.0
+Q35-6 (b) pos= 3  s_diff= 1.2598553  conv_diff= 0.0078125  logits_diff= 0.5562134  dev_argmax_rank_in_cpu= 1  gap= 0.0
+Q35-6 (b) WORST s= 1.453681  conv= 11.7109375  logits= 1.203125  rank= 1  gap= 0.0
+Q35-6 (b) BAND q35-3a(c): s 0.0008479953 / conv 0.0078125 / logits 0.013671875
+Q35-6 (c) cpu_greedy= 1019 675 143 251 365 969 215 393 967 341 68 132 314 120 361 24 
+Q35-6 (c) dev_greedy= 1019 675 143 452 111 251 827 386 423 176 368 1018 910 490 742 849 
+Q35-6 (c) greedy_identical= False
+stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`
+Unhandled exception caught during execution: Q35-6 (c): device greedy sequence diverged from the CPU greedy sequence
+Warning: Resource leak detected by SharedSignalPool, 104 Signals leaked.
