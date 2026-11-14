@@ -1,0 +1,40 @@
+=== A-109 bench: teacher-forcing harness v2 vs A-045 CPU matrix ===
+2026-11-13T20:46:01-05:00
+purpleraider
+24d9f13c2aac2b95f2e35b7ee0d281cc111c198d
+57a81ed1c8b032ba29319eae80c3e568dbb5a16ce665a09da1a0efe2e4eb69e3  /home/volmarr/aesir-team-03/hidden_files/fixtures/stories260K.F16.gguf
+TF109_REJECTED label= F16  mode= template  verdict= TEMPLATE_RENDERED
+TF109_BENCH_DONE label= F16
+TF109_SUMMARY label=F16 backend=cpu oracle_backend=cpu faithful=32 near_tie=0 divergent=0 worst_rank=1 max_gap=0.0 mean_gap=0.0  digest= 13489300323619257158
+TF109_BENCH_DONE label= F16
+RUN_EXIT=0 label=F16
+TF109_SUMMARY label=BF16 backend=cpu oracle_backend=cpu faithful=32 near_tie=0 divergent=0 worst_rank=1 max_gap=0.0 mean_gap=0.0  digest= 2035083805590949030
+TF109_BENCH_DONE label= BF16
+RUN_EXIT=0 label=BF16
+TF109_SUMMARY label=Q8_0 backend=cpu oracle_backend=cpu faithful=32 near_tie=0 divergent=0 worst_rank=1 max_gap=0.0 mean_gap=0.0  digest= 1535653876575107891
+TF109_BENCH_DONE label= Q8_0
+RUN_EXIT=0 label=Q8_0
+TF109_SUMMARY label=Q4_0 backend=cpu oracle_backend=cpu faithful=27 near_tie=3 divergent=2 worst_rank=3 max_gap=1.5703125 mean_gap=0.096191406  digest= 5929158619758335444
+TF109_BENCH_DONE label= Q4_0
+RUN_EXIT=0 label=Q4_0
+TF109_SUMMARY label=Q5_0 backend=cpu oracle_backend=cpu faithful=31 near_tie=1 divergent=0 worst_rank=2 max_gap=0.015625 mean_gap=0.00048828125  digest= 13054971583166560776
+TF109_BENCH_DONE label= Q5_0
+RUN_EXIT=0 label=Q5_0
+TF109_SUMMARY label=Q2_K backend=cpu oracle_backend=cpu faithful=27 near_tie=3 divergent=2 worst_rank=3 max_gap=1.5703125 mean_gap=0.096191406  digest= 4703027254456029887
+TF109_BENCH_DONE label= Q2_K
+RUN_EXIT=0 label=Q2_K
+TF109_SUMMARY label=Q3_K_M backend=cpu oracle_backend=cpu faithful=29 near_tie=1 divergent=2 worst_rank=5 max_gap=1.3828125 mean_gap=0.06567383  digest= 11156536602368570046
+TF109_BENCH_DONE label= Q3_K_M
+RUN_EXIT=0 label=Q3_K_M
+TF109_SUMMARY label=Q4_K_M backend=cpu oracle_backend=cpu faithful=31 near_tie=1 divergent=0 worst_rank=2 max_gap=0.09375 mean_gap=0.0029296875  digest= 4143075616775662285
+TF109_BENCH_DONE label= Q4_K_M
+RUN_EXIT=0 label=Q4_K_M
+TF109_SUMMARY label=Q5_K_M backend=cpu oracle_backend=cpu faithful=32 near_tie=0 divergent=0 worst_rank=1 max_gap=0.0 mean_gap=0.0  digest= 7413917305694445817
+TF109_BENCH_DONE label= Q5_K_M
+RUN_EXIT=0 label=Q5_K_M
+TF109_SUMMARY label=Q6_K backend=cpu oracle_backend=cpu faithful=32 near_tie=0 divergent=0 worst_rank=1 max_gap=0.0 mean_gap=0.0  digest= 2819420977553690068
+TF109_BENCH_DONE label= Q6_K
+RUN_EXIT=0 label=Q6_K
+57a81ed1c8b032ba29319eae80c3e568dbb5a16ce665a09da1a0efe2e4eb69e3  /home/volmarr/aesir-team-03/hidden_files/fixtures/stories260K.F16.gguf
+=== bench end ===
+2026-11-13T20:46:01-05:00

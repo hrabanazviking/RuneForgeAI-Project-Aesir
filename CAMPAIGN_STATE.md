@@ -38,3 +38,11 @@
 - Suite: 653 passed / 1 failed / 2 skipped / 656 total (baseline 647/1/2/650 + 6 gate.part_iv_* cases, all PASS); sole failure pre-existing J-022 gguf.tensor_directory_interface; no intermittent fired. Evidence: hidden_files/A108_LEDGER.md, hidden_files/a108_run_all.log, docs/bench/A108_PART_IV_GATE.md.
 - Bugs: none in banked code; two defects in the new gate test itself fixed in-slice (byte_length; zero-padding).
 - Next for team-26: none assigned until the keeper musters the next slice in roadmap order (Part V opens at A-109). Never merge or push from this worktree.
+
+## Team-25 outcome 2026-11-13 - A-109 DONE (PASS)
+- Slice: A-109 - Teacher-forcing harness v2 (Wave 13 opener). Base 24d9f13c (banked main, 108 of 216). Restarted lead continued the cancelled lead WIP (verified, not reset); 6 Mythic Engineering sub-agents mustered, no rate limit.
+- Built: core/teacher_forcing_harness.mojo (one grading entry point tf_grade_rows for every backend on banked A-045 arithmetic; template detection + run gate inside the harness; A-045 matrix as data with exact reproduction check), 7 oracle.tf_* suite cases (all PASS), bench driver tests/bench_teacher_forcing_a109.mojo, docs/bench/A109_TEACHER_FORCING_HARNESS_V2.md, run_all pin 670 -> 677.
+- Acceptance PROVEN measured (hidden_files/a109_bench.log): template mode rejected by the harness itself (TF109_REJECTED TEMPLATE_RENDERED); raw mode reproduces all ten measured A-045 CPU rows exactly (oracle sha 57a81ed1..69e3 verified before/after). IQ rows stay fixture-limited as in A-045; coherence grading only.
+- Suite E-MASTER solo: run 1 673/2/2/677 (J-022 + named intermittent resilience.state_vault_rejects_growth); solo re-run 674 passed / 1 failed / 2 skipped / 677 total, intermittent cleared, sole failure pre-existing J-022. GREEN-TO-BASELINE. Evidence: hidden_files/A109_LEDGER.md, hidden_files/a109_run_all.log, hidden_files/a109_run_all_run1.log.
+- Bugs: one WIP compile defect fixed in-slice (len(String) -> byte_length(), harness line 101; the WIP had never compiled) + stale header ref fixed. No banked-code bugs.
+- Commit: on team branch yrsa/aesir-team-25 only, subject "A-109: Teacher-forcing harness v2"; keeper banks in roadmap order. Never merged or pushed.

@@ -791,6 +791,15 @@ from tests.test_parity_battery_a045 import (
     test_parity_verdict_bands,
     test_parity_logit_sink_defaults,
 )
+from tests.test_teacher_forcing_harness_a109 import (
+    test_tf_raw_prompt_accepted,
+    test_tf_template_rejected,
+    test_tf_backend_and_oracle_gate,
+    test_tf_grade_all_backends_one_harness,
+    test_tf_grade_near_tie_and_divergence,
+    test_tf_a045_reproduction,
+    test_tf_summary_digest_reproducible,
+)
 from tests.test_sampling_cost_a044 import (
     test_sampling_cost_simd_max_parity,
     test_sampling_cost_greedy_argmax_parity,
@@ -1639,6 +1648,13 @@ def main() raises:
     run_case(ledger, "parity.gap_arithmetic", test_parity_gap_arithmetic)
     run_case(ledger, "parity.verdict_bands", test_parity_verdict_bands)
     run_case(ledger, "parity.logit_sink_defaults", test_parity_logit_sink_defaults)
+    run_case(ledger, "oracle.tf_raw_prompt_accepted", test_tf_raw_prompt_accepted)
+    run_case(ledger, "oracle.tf_template_rejected", test_tf_template_rejected)
+    run_case(ledger, "oracle.tf_backend_oracle_gate", test_tf_backend_and_oracle_gate)
+    run_case(ledger, "oracle.tf_grade_all_backends", test_tf_grade_all_backends_one_harness)
+    run_case(ledger, "oracle.tf_grade_bands", test_tf_grade_near_tie_and_divergence)
+    run_case(ledger, "oracle.tf_a045_reproduction", test_tf_a045_reproduction)
+    run_case(ledger, "oracle.tf_digest_reproducible", test_tf_summary_digest_reproducible)
     run_case(ledger, "sampling_cost.simd_max_parity", test_sampling_cost_simd_max_parity)
     run_case(ledger, "sampling_cost.greedy_argmax_parity", test_sampling_cost_greedy_argmax_parity)
     run_case(ledger, "sampling_cost.sort_stable_reference", test_sampling_cost_sort_stable_reference)
@@ -2336,9 +2352,14 @@ def main() raises:
     # tests/test_placement_regression_a107.mojo) counted on
     # top of the A-106 seat pin (team branch pin was 656 on
     # the A-105 base; union reconciled here at banking).
+    # A-109 (team-25): 670 -> 677 -- seven teacher-forcing
+    # harness v2 cases (oracle.tf_* in
+    # tests/test_teacher_forcing_harness_a109.mojo) counted
+    # on top of the A-108 seat pin; the union reconciles at
+    # banking.
     # A-108 union re-pin at banking: 664 -> 670 -- six
     # Part IV gate cases (gate.part_iv_* in
     # tests/test_part_iv_gate_a108.mojo) counted on top of
     # the A-107 seat pin (team branch pin was 656 on the
     # A-105 base; union reconciled here at banking).
-    ledger.finish(670)
+    ledger.finish(677)
