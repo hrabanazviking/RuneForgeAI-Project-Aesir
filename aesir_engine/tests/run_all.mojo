@@ -863,6 +863,21 @@ from tests.test_divergence_localiser_a116 import (
     test_localise_near_tie_probes_faithful,
     test_localise_seeded_exact,
 )
+from tests.test_qwen_battery_a119 import (
+    test_qbattery_agrees_with_matrix,
+    test_qbattery_arch_strings_and_smoke,
+    test_qbattery_axes_product,
+    test_qbattery_backend_not_graded,
+    test_qbattery_cpu_no_filed_records,
+    test_qbattery_digest_deterministic,
+    test_qbattery_enumeration_unique,
+    test_qbattery_invalid_axes_refused,
+    test_qbattery_iq_cpu_not_fixture_limited,
+    test_qbattery_policy_agrees_with_a115,
+    test_qbattery_policy_split,
+    test_qbattery_summary_sums,
+    test_qbattery_unknown_quant_refused,
+)
 from tests.test_llama_battery_a118 import (
     test_battery_agrees_with_matrix,
     test_battery_axes_product,
@@ -1828,6 +1843,19 @@ def main() raises:
     run_case(ledger, "gate.local_verdict_pass", test_local_gate_verdict_pass)
     run_case(ledger, "gate.local_verdict_fail", test_local_gate_verdict_fail)
     run_case(ledger, "gate.local_verdict_not_run", test_local_gate_verdict_not_run)
+    run_case(ledger, "qwen.battery_axes_product", test_qbattery_axes_product)
+    run_case(ledger, "qwen.battery_enumeration_unique", test_qbattery_enumeration_unique)
+    run_case(ledger, "qwen.battery_policy_split", test_qbattery_policy_split)
+    run_case(ledger, "qwen.battery_policy_agrees_with_a115", test_qbattery_policy_agrees_with_a115)
+    run_case(ledger, "qwen.battery_cpu_no_filed_records", test_qbattery_cpu_no_filed_records)
+    run_case(ledger, "qwen.battery_iq_cpu_not_fixture_limited", test_qbattery_iq_cpu_not_fixture_limited)
+    run_case(ledger, "qwen.battery_backend_not_graded", test_qbattery_backend_not_graded)
+    run_case(ledger, "qwen.battery_summary_sums", test_qbattery_summary_sums)
+    run_case(ledger, "qwen.battery_invalid_axes_refused", test_qbattery_invalid_axes_refused)
+    run_case(ledger, "qwen.battery_unknown_quant_refused", test_qbattery_unknown_quant_refused)
+    run_case(ledger, "qwen.battery_arch_strings_and_smoke", test_qbattery_arch_strings_and_smoke)
+    run_case(ledger, "qwen.battery_agrees_with_matrix", test_qbattery_agrees_with_matrix)
+    run_case(ledger, "qwen.battery_digest_deterministic", test_qbattery_digest_deterministic)
     run_case(ledger, "llama.battery_axes_product", test_battery_axes_product)
     run_case(ledger, "llama.battery_enumeration_unique", test_battery_enumeration_unique)
     run_case(ledger, "llama.battery_policy_split", test_battery_policy_split)
@@ -2635,4 +2663,8 @@ def main() raises:
     # of the A-114 seat pin (A-115/A-116/A-117 build in
     # parallel on the same seat; union reconciles at
     # banking).
-    ledger.finish(775)
+    # A-119 re-pin: 775 -> 788 -- thirteen qwen battery
+    # cases (qwen.battery_* in
+    # tests/test_qwen_battery_a119.mojo) counted on top of
+    # the A-118 seat pin.
+    ledger.finish(788)
