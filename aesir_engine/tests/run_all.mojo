@@ -45,6 +45,7 @@ from tests.test_cuda_chat_admission import (
     test_cuda_model_switch_syntax,
 )
 from tests.test_native_planning import test_host_memory_observations, test_native_memory_counts, test_native_memory_rejection, test_native_device_selection, test_automatic_context_sequence, test_native_planning_cli_rejection
+from tests.test_hip_serve_admission import test_hip_device_selection, test_hip_selection_refusal_names_hip, test_hip_config_gate, test_amd_discovery_classification
 from tests.test_text_admission import test_persisted_text_admission
 from tests.test_gemma4_profile import test_gemma4_profiles
 from tests.test_model_registry import test_model_architecture_registry
@@ -1161,6 +1162,10 @@ def main() raises:
     run_case(ledger, "hardware.inference_memory_rejection", test_native_memory_rejection)
     run_case(ledger, "hardware.native_device_selection", test_native_device_selection)
     run_case(ledger, "hardware.automatic_context_sequence", test_automatic_context_sequence)
+    run_case(ledger, "hardware.hip_device_selection", test_hip_device_selection)
+    run_case(ledger, "hardware.hip_selection_refusal", test_hip_selection_refusal_names_hip)
+    run_case(ledger, "hardware.hip_config_gate", test_hip_config_gate)
+    run_case(ledger, "hardware.amd_discovery_classification", test_amd_discovery_classification)
     run_case(ledger, "hardware.planning_cli_rejection", test_native_planning_cli_rejection)
     run_case(ledger, "storage.persisted_text_admission", test_persisted_text_admission)
 

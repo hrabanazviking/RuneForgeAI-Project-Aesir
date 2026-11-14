@@ -36,8 +36,8 @@ def upload_cuda_bytes_at(context: DeviceContext, destination: DeviceBuffer[DType
     var capacity = upload_staging_bytes(source_bytes, chunk_bytes)
     if destination_offset < 0 or destination_offset + source_bytes > len(destination):
         raise Error("CUDA upload range exceeds destination extent")
-    if context.api() != "cuda" or not context.is_compatible():
-        raise Error("Native upload requires a compatible CUDA context")
+    if (context.api() != "cuda" and context.api() != "hip") or not context.is_compatible():
+        raise Error("Native upload requires a compatible CUDA or HIP context")
     var staging = context.enqueue_create_host_buffer[DType.uint8](capacity)
     var offset = 0
     while offset < source_bytes:

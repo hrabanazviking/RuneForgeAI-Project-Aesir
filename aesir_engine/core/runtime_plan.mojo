@@ -6,6 +6,7 @@ from core.dense_gqa_profile import dense_gqa_profile_for, validate_dense_gqa
 from core.model_registry import ModelArchitectureRegistry
 from core.inference_memory import MemoryFitExplanation, InferenceMemoryPlan, gemma4_profile_memory_plan, llama3_memory_plan
 from core.cuda_gate import CUDAGate
+from core.amd_gate import AMDGate
 from core.mimir_well import HardwareDiscoveryResult
 
 
@@ -53,8 +54,8 @@ struct NativeModelPlan(Copyable):
             self.memory = gemma4_profile_memory_plan(Int(model.source.file_size), self.context_length, gemma_profile)
 
 
-struct NativeCUDASelection(Copyable):
-    """A model/context plan paired with the CUDA device that can admit it."""
+struct NativeDeviceSelection(Copyable):
+    """A model/context plan paired with the device that can admit it."""
 
     var plan: NativeModelPlan
     var device_index: Int
@@ -97,10 +98,17 @@ def next_automatic_context(context: Int) raises -> Int:
     return max(2048, context // 2)
 
 
-def select_planned_cuda_with_fit(
+def select_planned_device_with_fit(
     memory: InferenceMemoryPlan, discovered: HardwareDiscoveryResult,
-    requested_index: Int, reserve_bytes: Int
+    requested_index: Int, reserve_bytes: Int, api: String
 ) raises -> PlannedCUDADevice:
+    """Fit selection over discovered devices of one runtime api.
+
+    The CUDA road is this function with api="cuda"; the HIP road is
+    api="hip". Candidate labels and the refusal name the requested
+    realm honestly; nothing about the fit arithmetic is realm-specific.
+    """
+    var realm = "CUDA" if api == "cuda" else "HIP"
     discovered.validate()
     if requested_index < -1 or reserve_bytes < 0:
         raise Error("Invalid device selection or memory reserve")
@@ -116,9 +124,9 @@ def select_planned_cuda_with_fit(
         if requested_index >= 0 and device.backend_index != requested_index:
             continue
         requested_seen = True
-        var label = "cuda:" + String(device.backend_index) + "="
-        if device.api != "cuda":
-            candidates += label + "device_api_not_cuda(api=" + device.api + ");"
+        var label = api + ":" + String(device.backend_index) + "="
+        if device.api != api:
+            candidates += label + "device_api_not_" + api + "(api=" + device.api + ");"
             continue
         if not device.capabilities.is_compatible:
             candidates += label + "device_incompatible;"
@@ -136,14 +144,23 @@ def select_planned_cuda_with_fit(
             selected_fit = fit.copy()
     if selected < 0:
         if requested_index >= 0 and not requested_seen:
-            candidates += "cuda:" + String(requested_index) + "=requested_device_not_found;"
+            candidates += api + ":" + String(requested_index) + "=requested_device_not_found;"
         raise Error(
-            "No compatible CUDA device fits the requested model/context/reserve (device="
+            "No compatible " + realm + " device fits the requested model/context/reserve (device="
             + String(requested_index) + "); candidates=" + candidates
             + " discovery=" + discovered.status.name() + ": " + discovered.message
             + "; no CPU fallback"
         )
     return PlannedCUDADevice(selected, selected_fit)
+
+
+def select_planned_cuda_with_fit(
+    memory: InferenceMemoryPlan, discovered: HardwareDiscoveryResult,
+    requested_index: Int, reserve_bytes: Int
+) raises -> PlannedCUDADevice:
+    return select_planned_device_with_fit(
+        memory, discovered, requested_index, reserve_bytes, "cuda"
+    )
 
 
 def select_planned_cuda(memory: InferenceMemoryPlan, discovered: HardwareDiscoveryResult,
@@ -162,7 +179,7 @@ def choose_native_cuda(memory: InferenceMemoryPlan, requested_index: Int = -1,
 def choose_native_cuda_plan(path: String, requested_profile: String = "auto",
                             requested_context: Int = 0,
                             requested_index: Int = -1,
-                            reserve_bytes: Int = 268435456) raises -> NativeCUDASelection:
+                            reserve_bytes: Int = 268435456) raises -> NativeDeviceSelection:
     """Selects the largest recommended context that observed CUDA memory fits.
 
     An explicit context is never changed. Automatic contexts step down by powers
@@ -177,7 +194,7 @@ def choose_native_cuda_plan(path: String, requested_profile: String = "auto",
         var selected = select_planned_cuda_with_fit(
             plan.memory, discovered, requested_index, reserve_bytes
         )
-        return NativeCUDASelection(
+        return NativeDeviceSelection(
             plan, selected.device_index, False, selected.fit
         )
     var original_context = plan.context_length
@@ -186,7 +203,7 @@ def choose_native_cuda_plan(path: String, requested_profile: String = "auto",
             var selected = select_planned_cuda_with_fit(
                 plan.memory, discovered, requested_index, reserve_bytes
             )
-            return NativeCUDASelection(
+            return NativeDeviceSelection(
                 plan, selected.device_index,
                 plan.context_length != original_context, selected.fit
             )
@@ -196,6 +213,65 @@ def choose_native_cuda_plan(path: String, requested_profile: String = "auto",
             if next_context == 0:
                 raise Error(
                     "No compatible CUDA device fits this model with the "
+                    + String(reserve_bytes)
+                    + "-byte reserve, even at the automatic 2048-token context; "
+                    + "choose another device/model or lower --reserve-mib; final_fit="
+                    + final_fit_error
+                )
+            plan = NativeModelPlan(path, plan.profile, next_context)
+
+
+def select_planned_hip(memory: InferenceMemoryPlan, discovered: HardwareDiscoveryResult,
+                       requested_index: Int, reserve_bytes: Int) raises -> Int:
+    return select_planned_device_with_fit(
+        memory, discovered, requested_index, reserve_bytes, "hip"
+    ).device_index
+
+
+def choose_native_hip(memory: InferenceMemoryPlan, requested_index: Int = -1,
+                      reserve_bytes: Int = 268435456) raises -> Int:
+    return select_planned_hip(memory, AMDGate.discover_physical_devices(),
+                              requested_index, reserve_bytes)
+
+
+def choose_native_hip_plan(path: String, requested_profile: String = "auto",
+                           requested_context: Int = 0,
+                           requested_index: Int = -1,
+                           reserve_bytes: Int = 268435456) raises -> NativeDeviceSelection:
+    """Selects the largest recommended context that observed HIP memory fits.
+
+    Mirrors choose_native_cuda_plan over AMDGate discovery: an explicit
+    context is never changed; automatic contexts step down by powers of
+    two to a practical 2K floor, preserving device and reserve.
+    """
+    if requested_index < -1 or reserve_bytes < 0:
+        raise Error("Invalid device selection or memory reserve")
+    var discovered = AMDGate.discover_physical_devices()
+    discovered.validate()
+    var plan = NativeModelPlan(path, requested_profile, requested_context)
+    if requested_context != 0:
+        var selected = select_planned_device_with_fit(
+            plan.memory, discovered, requested_index, reserve_bytes, "hip"
+        )
+        return NativeDeviceSelection(
+            plan, selected.device_index, False, selected.fit
+        )
+    var original_context = plan.context_length
+    while True:
+        try:
+            var selected = select_planned_device_with_fit(
+                plan.memory, discovered, requested_index, reserve_bytes, "hip"
+            )
+            return NativeDeviceSelection(
+                plan, selected.device_index,
+                plan.context_length != original_context, selected.fit
+            )
+        except error:
+            var final_fit_error = String(error)
+            var next_context = next_automatic_context(plan.context_length)
+            if next_context == 0:
+                raise Error(
+                    "No compatible HIP device fits this model with the "
                     + String(reserve_bytes)
                     + "-byte reserve, even at the automatic 2048-token context; "
                     + "choose another device/model or lower --reserve-mib; final_fit="

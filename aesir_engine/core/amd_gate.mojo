@@ -49,7 +49,16 @@ from std.ffi import external_call
 from std.memory import Pointer
 from std.collections import Optional
 from max.gpu.host import DeviceAttribute, DeviceContext
-from core.mimir_well import Scalar, f16, RuneTensor
+from core.mimir_well import (
+    Scalar,
+    f16,
+    RuneTensor,
+    GPURealmType,
+    DiscoveryStatus,
+    DeviceCapabilities,
+    PhysicalDevice,
+    HardwareDiscoveryResult,
+)
 from core.hardware_census import (
     format_gfx_target,
     parse_kfd_gfx_target_version,
@@ -230,6 +239,111 @@ struct AMDGate:
         if q[1] > 0:
             return HIP_GATE_PRESENT
         return HIP_GATE_ABSENT
+
+    @staticmethod
+    def classify_discovery_error(message: String) -> DiscoveryStatus:
+        """Classify a runtime error without converting it into device success."""
+        if (
+            "permission" in message
+            or "Permission" in message
+            or "not permitted" in message
+        ):
+            return DiscoveryStatus(DiscoveryStatus.PERMISSION_DENIED)
+        if "architecture" in message or "compute capability" in message:
+            return DiscoveryStatus(DiscoveryStatus.UNSUPPORTED_ARCHITECTURE)
+        if "driver" in message or "Driver" in message:
+            return DiscoveryStatus(DiscoveryStatus.INCOMPATIBLE_DRIVER)
+        if (
+            "libamdhip64" in message
+            or "HIP runtime" in message
+            or "unsupported runtime" in message
+        ):
+            return DiscoveryStatus(DiscoveryStatus.UNSUPPORTED_RUNTIME)
+        return DiscoveryStatus(DiscoveryStatus.PROBE_FAILED)
+
+    @staticmethod
+    def discover_physical_devices() -> HardwareDiscoveryResult:
+        """Enumerate and inspect every HIP device exposed by MAX.
+
+        Mirrors CUDAGate.discover_physical_devices for the AMD realm:
+        MAX DeviceContext(api="hip") supplies identity, compatibility,
+        and memory; the fit selector downstream consumes the same
+        HardwareDiscoveryResult shape as the CUDA road.
+        """
+        var devices = List[PhysicalDevice]()
+        if not AMDGate.is_available():
+            return HardwareDiscoveryResult(
+                DiscoveryStatus(DiscoveryStatus.UNSUPPORTED_RUNTIME),
+                "HIP runtime library is not loadable",
+                devices,
+            )
+        var counted = AMDGate._max_device_count()
+        if not counted[0]:
+            return HardwareDiscoveryResult(
+                DiscoveryStatus(DiscoveryStatus.PROBE_FAILED),
+                "MAX HIP device enumeration failed",
+                devices,
+            )
+        var device_count = counted[1]
+        if device_count <= 0:
+            return HardwareDiscoveryResult(
+                DiscoveryStatus(DiscoveryStatus.NO_DEVICE),
+                "MAX reported no HIP devices",
+                devices,
+            )
+        for backend_index in range(device_count):
+            try:
+                with DeviceContext(backend_index, api="hip") as context:
+                    var memory = context.get_memory_info()
+                    var runtime_id = context.id()
+                    var capabilities = DeviceCapabilities(
+                        context.is_compatible(),
+                        context.get_api_version(),
+                        memory[0],
+                        memory[1],
+                        context.get_attribute(
+                            DeviceAttribute.COMPUTE_CAPABILITY_MAJOR
+                        ),
+                        context.get_attribute(
+                            DeviceAttribute.COMPUTE_CAPABILITY_MINOR
+                        ),
+                        context.get_attribute(
+                            DeviceAttribute.MULTIPROCESSOR_COUNT
+                        ),
+                        context.get_attribute(
+                            DeviceAttribute.MAX_THREADS_PER_BLOCK
+                        ),
+                    )
+                    var device = PhysicalDevice(
+                        GPURealmType(GPURealmType.AMD_ROCM_HIP),
+                        backend_index,
+                        runtime_id,
+                        "hip:max-id:" + String(runtime_id),
+                        context.name(),
+                        context.api(),
+                        capabilities,
+                    )
+                    device.validate()
+                    devices.append(device^)
+            except error:
+                var message = String(error)
+                if len(devices) > 0:
+                    return HardwareDiscoveryResult(
+                        DiscoveryStatus(DiscoveryStatus.PARTIAL),
+                        "HIP discovery stopped after backend index "
+                        + String(backend_index)
+                        + ": "
+                        + message,
+                        devices,
+                    )
+                return HardwareDiscoveryResult(
+                    AMDGate.classify_discovery_error(message), message, devices
+                )
+        return HardwareDiscoveryResult(
+            DiscoveryStatus(DiscoveryStatus.SUCCESS),
+            "MAX HIP discovery completed",
+            devices,
+        )
 
     @staticmethod
     def runtime_version() -> Int:

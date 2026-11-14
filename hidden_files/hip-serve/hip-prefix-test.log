@@ -1,0 +1,24 @@
+Secondary CUID not available: AMDCUID support not enabled.
+[HIP] native Mojo Llama 3.2 3B; device=0 api=hip layers=28/28 weights_bytes=2019377600 kv_bytes=58720256 context=512 host_staging_bytes=67108864 cpu_offload=0
+prefix case 0 enabled False
+prefix case 1 enabled False
+prefix case 2 enabled False
+prefix case 3 enabled False
+prefix case 4 enabled False
+prefix case 5 enabled False
+prefix case 0 enabled True
+prefix case 1 enabled True
+prefix case 2 enabled True
+prefix case 3 enabled True
+prefix case 4 enabled True
+prefix case 5 enabled True
+hip reply 0 :: Four.|eos|2
+hip reply 1 :: Four.|eos|2
+hip reply 2 :: Five.|eos|2
+hip reply 3 :: The silvery vessel cut through the calm waters with effortless precision.|eos|13
+hip reply 4 :: The silvery vessel cut through the calm waters with effortless precision.|eos|13
+hip reply 5 :: Four.|eos|2
+hip reply 6 :: Four.|eos|2
+PASS: seven cached/fresh HIP replies, divergence/system isolation, sampled replay and timeout/reset recovery
+Warning: Resource leak detected by SharedSignalPool, 146 Signals leaked.
+RUN_EXIT=0

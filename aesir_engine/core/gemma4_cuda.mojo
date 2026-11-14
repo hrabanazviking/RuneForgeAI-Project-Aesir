@@ -70,7 +70,8 @@ struct Gemma4CUDASession(ControlledTextSession):
 
     def __init__(out self, path: String, context_length: Int = 0,
                  device_index: Int = 0, reserve_bytes: Int = 268435456,
-                 sampling: NativeSamplingConfig = NativeSamplingConfig()) raises:
+                 sampling: NativeSamplingConfig = NativeSamplingConfig(),
+                 api: String = "cuda") raises:
         sampling.validate()
         if device_index < 0 or reserve_bytes < 0:
             raise Error("Invalid CUDA device index or memory reserve")
@@ -104,8 +105,10 @@ struct Gemma4CUDASession(ControlledTextSession):
             var width = self.profile.head_dim(layer)
             var capacity = 512 if self.profile.is_local(layer) else admitted_context
             cache_elements += 2 * capacity * self.profile.kv_heads * width
-        self.context = DeviceContext(device_index, api="cuda")
-        if self.context.api() != "cuda" or not self.context.is_compatible():
+        self.context = DeviceContext(device_index, api=api)
+        if self.context.api() != api or not self.context.is_compatible():
+            if api == "hip":
+                raise Error("A compatible AMD HIP device is required; no CPU fallback")
             raise Error("A compatible NVIDIA CUDA device is required; no CPU fallback")
         var memory = gemma4_profile_memory_plan(Int(self.model.source.file_size), admitted_context, self.profile)
         memory.admit_observed(Int(self.context.get_memory_info()[0]), reserve_bytes)
@@ -123,7 +126,7 @@ struct Gemma4CUDASession(ControlledTextSession):
         # during prefill or decoding. The staging allocation dies after sync.
         var staging_bytes = upload_cuda_bytes(self.context, self.weights,
             self.model.source.mmap_ptr.unsafe_bitcast[UInt8](), Int(self.model.source.file_size))
-        print("[CUDA] native Mojo " + self.profile.label() + "; device=" + String(device_index) + " api=cuda layers=" + String(self.profile.layer_count) + "/" + String(self.profile.layer_count) + " weights_bytes=" + String(self.model.source.file_size) + " kv_bytes=" + String(memory.kv_bytes) + " context=" + String(admitted_context) + " host_staging_bytes=" + String(staging_bytes) + " cpu_offload=0")
+        print(("[HIP] native Mojo " if api == "hip" else "[CUDA] native Mojo ") + self.profile.label() + "; device=" + String(device_index) + " api=" + api + " layers=" + String(self.profile.layer_count) + "/" + String(self.profile.layer_count) + " weights_bytes=" + String(self.model.source.file_size) + " kv_bytes=" + String(memory.kv_bytes) + " context=" + String(admitted_context) + " host_staging_bytes=" + String(staging_bytes) + " cpu_offload=0")
 
     def w(self) -> Bytes:
         return Bytes(unsafe_from_address=Int(self.weights.unsafe_ptr()))
@@ -493,4 +496,5 @@ struct Gemma4CUDASession(ControlledTextSession):
 
     def status(self) -> NativeGenerationStatus:
         return NativeGenerationStatus(self.healthy, self.generating, self.prompt_tokens,
-                                      self.generated_tokens, self.position, self.finish_reason)
+                                      self.generated_tokens, self.position, self.finish_reason,
+                                      0)

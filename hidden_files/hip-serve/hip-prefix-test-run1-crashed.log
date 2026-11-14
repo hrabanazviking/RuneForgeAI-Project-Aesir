@@ -1,0 +1,5 @@
+Secondary CUID not available: AMDCUID support not enabled.
+HSA exception: MemoryRegion::BlockAllocator::alloc failed.
+HSA exception: MemoryRegion::BlockAllocator::alloc failed.
+HSA exception: MemoryRegion::BlockAllocator::alloc failed.
+HSA exception: MemoryRegion::BlockAllocator::alloc failed.

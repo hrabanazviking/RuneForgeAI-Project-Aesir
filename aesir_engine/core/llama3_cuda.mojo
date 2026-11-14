@@ -167,7 +167,7 @@ struct Llama3CUDASession(ControlledTextSession):
                  device_index: Int = 0, reserve_bytes: Int = 268435456,
                  sampling: NativeSamplingConfig = NativeSamplingConfig(),
                  prefix_cache: Bool = True, prefill_batch: Int = 0,
-                 exec_layers: Int = 0) raises:
+                 exec_layers: Int = 0, api: String = "cuda") raises:
         sampling.validate()
         if device_index < 0 or reserve_bytes < 0:
             raise Error("Invalid CUDA device index or memory reserve")
@@ -216,8 +216,10 @@ struct Llama3CUDASession(ControlledTextSession):
         self.prefix_cache = prefix_cache
         self.reused_prompt_tokens = 0
         self.decoder = RuneStreamDecoder()
-        self.context = DeviceContext(device_index, api="cuda")
-        if self.context.api() != "cuda" or not self.context.is_compatible():
+        self.context = DeviceContext(device_index, api=api)
+        if self.context.api() != api or not self.context.is_compatible():
+            if api == "hip":
+                raise Error("A compatible AMD HIP device is required; no CPU fallback")
             raise Error("A compatible NVIDIA CUDA device is required; no CPU fallback")
         var device_weights = Int(self.model.source.file_size)
         var kv_elems = self.profile.kv_elements(context_length)
@@ -257,7 +259,7 @@ struct Llama3CUDASession(ControlledTextSession):
         else:
             staging_bytes = upload_cuda_bytes(self.context, self.weights,
                 self.model.source.mmap_ptr.unsafe_bitcast[UInt8](), device_weights)
-        print("[CUDA] native Mojo " + self.profile.label() + "; device=" + String(device_index) + " api=cuda layers=" + String(self.exec_layers) + "/" + String(self.profile.layer_count) + " weights_bytes=" + String(device_weights) + " kv_bytes=" + String(memory.kv_bytes) + " context=" + String(context_length) + " host_staging_bytes=" + String(staging_bytes) + " cpu_offload=" + String(self.profile.layer_count - self.exec_layers))
+        print(("[HIP] native Mojo " if api == "hip" else "[CUDA] native Mojo ") + self.profile.label() + "; device=" + String(device_index) + " api=" + api + " layers=" + String(self.exec_layers) + "/" + String(self.profile.layer_count) + " weights_bytes=" + String(device_weights) + " kv_bytes=" + String(memory.kv_bytes) + " context=" + String(context_length) + " host_staging_bytes=" + String(staging_bytes) + " cpu_offload=" + String(self.profile.layer_count - self.exec_layers))
 
     def w(self) -> Bytes:
         return Bytes(unsafe_from_address=Int(self.weights.unsafe_ptr()))
@@ -719,4 +721,5 @@ struct Llama3CUDASession(ControlledTextSession):
 
     def status(self) -> NativeGenerationStatus:
         return NativeGenerationStatus(self.healthy, self.generating, self.prompt_tokens,
-                                      self.generated_tokens, self.position, self.finish_reason)
+                                      self.generated_tokens, self.position, self.finish_reason,
+                                      self.reused_prompt_tokens)
