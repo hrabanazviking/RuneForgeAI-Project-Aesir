@@ -1,0 +1,29 @@
+Imported from /home/volmarr/aesir-hipserve/aesir_engine/a083_driver.mojo:3:
+/home/volmarr/aesir-hipserve/aesir_engine/tests/test_hip_q4k_gemv_a083.mojo:83:18: warning: `alloc` without a `Layout` is deprecated, use the `Layout`-based `alloc` instead; as a temporary migration step, use `unsafe_alloc`
+    var w_host = alloc[UInt8](w_bytes)
+                 ^~~~~
+<unknown>:0: note: 'alloc' declared here
+Imported from /home/volmarr/aesir-hipserve/aesir_engine/a083_driver.mojo:3:
+/home/volmarr/aesir-hipserve/aesir_engine/tests/test_hip_q4k_gemv_a083.mojo:86:15: warning: `alloc` without a `Layout` is deprecated, use the `Layout`-based `alloc` instead; as a temporary migration step, use `unsafe_alloc`
+    var deq = alloc[Scalar[f16]](k_elems)
+              ^~~~~
+<unknown>:0: note: 'alloc' declared here
+Included from /home/volmarr/aesir-hipserve/aesir_engine/a083_driver.mojo:3:
+Included from /home/volmarr/aesir-hipserve/aesir_engine/tests/test_hip_q4k_gemv_a083.mojo:31:
+Included from /home/volmarr/aesir-hipserve/aesir_engine/core/hip_q4k_gemv.mojo:50:
+/home/volmarr/aesir-hipserve/aesir_engine/core/mojo_gpu_target.mojo:96:20: warning: 'except' logic is unreachable, try doesn't raise an exception
+            return -1
+                   ^
+--- Testing HIP Q4_K GEMV oracle (A-083) ---
+Secondary CUID not available: AMDCUID support not enabled.
+A083_DEVICE name=AMD Radeon 8060S Graphics
+HIP Q4_K GEMV (rows/k = 1/256, 7/512, 64/1024, 33/2048; HIP dequant+GEMV vs Z13 CPU oracle within filed f16-rounding tolerance, dispatch counter +1 per call, HIP device): PASS
+A083_CASE oracle: PASS
+--- Testing HIP Q4_K GEMV rejection (A-083) ---
+HIP Q4_K GEMV rejection (zero rows, zero k, ragged k, oversize shape, undersized activation): PASS
+A083_CASE rejection: PASS
+--- Testing HIP Q4_K GEMV no-leak (A-083) ---
+stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`
+Unhandled exception caught during execution: HIP Q4_K GEMV loop retention 0 != 50 x 8388608 (filed MAX per-context constant): slice-attributable leak or runtime behaviour change
+Warning: Resource leak detected by SharedSignalPool, 4895 Signals leaked.
+RUN_EXIT=1

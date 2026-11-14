@@ -1,358 +1,358 @@
-Imported from /home/volmarr/aesir-hipserve/aesir_engine/tests/run_all.mojo:565:
+Imported from /home/volmarr/aesir-hipserve/aesir_engine/tests/run_all.mojo:568:
 /home/volmarr/aesir-hipserve/aesir_engine/tests/test_big_model_placement_a104.mojo:23:1: warning: 'alias' is deprecated; use 'comptime'
 alias CTX = 4096
 ^~~~~
 comptime
-Imported from /home/volmarr/aesir-hipserve/aesir_engine/tests/run_all.mojo:565:
+Imported from /home/volmarr/aesir-hipserve/aesir_engine/tests/run_all.mojo:568:
 /home/volmarr/aesir-hipserve/aesir_engine/tests/test_big_model_placement_a104.mojo:25:1: warning: 'alias' is deprecated; use 'comptime'
 alias LAST16 = 2109440000
 ^~~~~
 comptime
-Imported from /home/volmarr/aesir-hipserve/aesir_engine/tests/run_all.mojo:198:
+Imported from /home/volmarr/aesir-hipserve/aesir_engine/tests/run_all.mojo:201:
 /home/volmarr/aesir-hipserve/aesir_engine/tests/test_amd_realm.mojo:262:20: warning: `alloc` without a `Layout` is deprecated, use the `Layout`-based `alloc` instead; as a temporary migration step, use `unsafe_alloc`
         var host = alloc[UInt8](n)
                    ^~~~~
 <unknown>:0: note: 'alloc' declared here
-Imported from /home/volmarr/aesir-hipserve/aesir_engine/tests/run_all.mojo:198:
+Imported from /home/volmarr/aesir-hipserve/aesir_engine/tests/run_all.mojo:201:
 /home/volmarr/aesir-hipserve/aesir_engine/tests/test_amd_realm.mojo:410:16: warning: `alloc` without a `Layout` is deprecated, use the `Layout`-based `alloc` instead; as a temporary migration step, use `unsafe_alloc`
     var host = alloc[UInt8](n)
                ^~~~~
 <unknown>:0: note: 'alloc' declared here
-Imported from /home/volmarr/aesir-hipserve/aesir_engine/tests/run_all.mojo:198:
+Imported from /home/volmarr/aesir-hipserve/aesir_engine/tests/run_all.mojo:201:
 /home/volmarr/aesir-hipserve/aesir_engine/tests/test_amd_realm.mojo:518:22: warning: `alloc` without a `Layout` is deprecated, use the `Layout`-based `alloc` instead; as a temporary migration step, use `unsafe_alloc`
         var oracle = alloc[UInt8](n)
                      ^~~~~
 <unknown>:0: note: 'alloc' declared here
-Imported from /home/volmarr/aesir-hipserve/aesir_engine/tests/run_all.mojo:198:
+Imported from /home/volmarr/aesir-hipserve/aesir_engine/tests/run_all.mojo:201:
 /home/volmarr/aesir-hipserve/aesir_engine/tests/test_amd_realm.mojo:519:20: warning: `alloc` without a `Layout` is deprecated, use the `Layout`-based `alloc` instead; as a temporary migration step, use `unsafe_alloc`
         var back = alloc[UInt8](n)
                    ^~~~~
 <unknown>:0: note: 'alloc' declared here
-Imported from /home/volmarr/aesir-hipserve/aesir_engine/tests/run_all.mojo:198:
+Imported from /home/volmarr/aesir-hipserve/aesir_engine/tests/run_all.mojo:201:
 /home/volmarr/aesir-hipserve/aesir_engine/tests/test_amd_realm.mojo:542:17: warning: `alloc` without a `Layout` is deprecated, use the `Layout`-based `alloc` instead; as a temporary migration step, use `unsafe_alloc`
     var thost = alloc[UInt8](tn)
                 ^~~~~
 <unknown>:0: note: 'alloc' declared here
-Imported from /home/volmarr/aesir-hipserve/aesir_engine/tests/run_all.mojo:198:
+Imported from /home/volmarr/aesir-hipserve/aesir_engine/tests/run_all.mojo:201:
 /home/volmarr/aesir-hipserve/aesir_engine/tests/test_amd_realm.mojo:730:17: warning: `alloc` without a `Layout` is deprecated, use the `Layout`-based `alloc` instead; as a temporary migration step, use `unsafe_alloc`
     var dummy = alloc[UInt8](64)
                 ^~~~~
 <unknown>:0: note: 'alloc' declared here
-Imported from /home/volmarr/aesir-hipserve/aesir_engine/tests/run_all.mojo:228:
+Imported from /home/volmarr/aesir-hipserve/aesir_engine/tests/run_all.mojo:231:
 /home/volmarr/aesir-hipserve/aesir_engine/tests/test_weight_residency.mojo:175:21: warning: `alloc` without a `Layout` is deprecated, use the `Layout`-based `alloc` instead; as a temporary migration step, use `unsafe_alloc`
     var host_copy = alloc[UInt8](size)
                     ^~~~~
 <unknown>:0: note: 'alloc' declared here
-Imported from /home/volmarr/aesir-hipserve/aesir_engine/tests/run_all.mojo:320:
+Imported from /home/volmarr/aesir-hipserve/aesir_engine/tests/run_all.mojo:323:
 /home/volmarr/aesir-hipserve/aesir_engine/tests/test_accum_policy_a075.mojo:91:21: warning: 'if' condition always evaluates to 'False'; 'if' branch is unreachable
     if KERNEL_COUNT != 25:
                     ^
-Imported from /home/volmarr/aesir-hipserve/aesir_engine/tests/run_all.mojo:320:
+Imported from /home/volmarr/aesir-hipserve/aesir_engine/tests/run_all.mojo:323:
 /home/volmarr/aesir-hipserve/aesir_engine/tests/test_accum_policy_a075.mojo:93:25: warning: 'if' condition always evaluates to 'False'; 'if' branch is unreachable
     if POLICY_ROW_COUNT != KERNEL_COUNT + CPU_SITE_COUNT:
                         ^
-Imported from /home/volmarr/aesir-hipserve/aesir_engine/tests/run_all.mojo:320:
+Imported from /home/volmarr/aesir-hipserve/aesir_engine/tests/run_all.mojo:323:
 /home/volmarr/aesir-hipserve/aesir_engine/tests/test_accum_policy_a075.mojo:95:23: warning: 'if' condition always evaluates to 'False'; 'if' branch is unreachable
     if CPU_SITE_COUNT != 5:
                       ^
-Imported from /home/volmarr/aesir-hipserve/aesir_engine/tests/run_all.mojo:344:
+Imported from /home/volmarr/aesir-hipserve/aesir_engine/tests/run_all.mojo:347:
 /home/volmarr/aesir-hipserve/aesir_engine/tests/test_device_lost_a079.mojo:88:29: warning: 'if' condition always evaluates to 'False'; 'if' branch is unreachable
     if VK_ERROR_DEVICE_LOST != -4:
                             ^
-Imported from /home/volmarr/aesir-hipserve/aesir_engine/tests/run_all.mojo:370:
+Imported from /home/volmarr/aesir-hipserve/aesir_engine/tests/run_all.mojo:373:
 /home/volmarr/aesir-hipserve/aesir_engine/tests/test_spillover_policy_a102.mojo:205:12: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
         ptr[i] = UInt8((i * 31 + 7) % 251)
         ~~~^~~
 <unknown>:0: note: '__getitem__' declared here
-Imported from /home/volmarr/aesir-hipserve/aesir_engine/tests/run_all.mojo:370:
+Imported from /home/volmarr/aesir-hipserve/aesir_engine/tests/run_all.mojo:373:
 /home/volmarr/aesir-hipserve/aesir_engine/tests/test_spillover_policy_a102.mojo:210:32: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
         checksum += UInt64(back[i])
                            ~~~~^~~
 <unknown>:0: note: '__getitem__' declared here
-Imported from /home/volmarr/aesir-hipserve/aesir_engine/tests/run_all.mojo:379:
+Imported from /home/volmarr/aesir-hipserve/aesir_engine/tests/run_all.mojo:382:
 /home/volmarr/aesir-hipserve/aesir_engine/tests/test_fairness_a105.mojo:287:20: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
                 ptr[filled_a * _CHUNK + i] = UInt8((i * 31 + 7) % 251)
                 ~~~^~~~~~~~~~~~~~~~~~~~~~~
 <unknown>:0: note: '__getitem__' declared here
-Imported from /home/volmarr/aesir-hipserve/aesir_engine/tests/run_all.mojo:379:
+Imported from /home/volmarr/aesir-hipserve/aesir_engine/tests/run_all.mojo:382:
 /home/volmarr/aesir-hipserve/aesir_engine/tests/test_fairness_a105.mojo:293:20: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
                 ptr[filled_b * _CHUNK + i] = UInt8((i * 17 + 3) % 241)
                 ~~~^~~~~~~~~~~~~~~~~~~~~~~
 <unknown>:0: note: '__getitem__' declared here
-Imported from /home/volmarr/aesir-hipserve/aesir_engine/tests/run_all.mojo:379:
+Imported from /home/volmarr/aesir-hipserve/aesir_engine/tests/run_all.mojo:382:
 /home/volmarr/aesir-hipserve/aesir_engine/tests/test_fairness_a105.mojo:305:31: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
         sum_a += UInt64(back_a[i])
                         ~~~~~~^~~
 <unknown>:0: note: '__getitem__' declared here
-Imported from /home/volmarr/aesir-hipserve/aesir_engine/tests/run_all.mojo:379:
+Imported from /home/volmarr/aesir-hipserve/aesir_engine/tests/run_all.mojo:382:
 /home/volmarr/aesir-hipserve/aesir_engine/tests/test_fairness_a105.mojo:310:31: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
         sum_b += UInt64(back_b[i])
                         ~~~~~~^~~
 <unknown>:0: note: '__getitem__' declared here
-Imported from /home/volmarr/aesir-hipserve/aesir_engine/tests/run_all.mojo:389:
+Imported from /home/volmarr/aesir-hipserve/aesir_engine/tests/run_all.mojo:392:
 /home/volmarr/aesir-hipserve/aesir_engine/tests/test_telemetry_a106.mojo:242:12: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
         ptr[i] = UInt8((i * 31 + 7) % 251)
         ~~~^~~
 <unknown>:0: note: '__getitem__' declared here
-Imported from /home/volmarr/aesir-hipserve/aesir_engine/tests/run_all.mojo:389:
+Imported from /home/volmarr/aesir-hipserve/aesir_engine/tests/run_all.mojo:392:
 /home/volmarr/aesir-hipserve/aesir_engine/tests/test_telemetry_a106.mojo:247:32: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
         checksum += UInt64(back[i])
                            ~~~~^~~
 <unknown>:0: note: '__getitem__' declared here
-Imported from /home/volmarr/aesir-hipserve/aesir_engine/tests/run_all.mojo:415:
+Imported from /home/volmarr/aesir-hipserve/aesir_engine/tests/run_all.mojo:418:
 /home/volmarr/aesir-hipserve/aesir_engine/tests/test_cpu_assist_a070.mojo:179:21: warning: 'if' condition always evaluates to 'False'; 'if' branch is unreachable
     if ASSIST_COUNT != 10:
                     ^
-Imported from /home/volmarr/aesir-hipserve/aesir_engine/tests/run_all.mojo:497:
+Imported from /home/volmarr/aesir-hipserve/aesir_engine/tests/run_all.mojo:500:
 /home/volmarr/aesir-hipserve/aesir_engine/tests/test_rocm_repro_a087.mojo:70:23: warning: 'if' condition always evaluates to 'False'; 'if' branch is unreachable
     if ROCM_PIN_COUNT != 9:
                       ^
-Imported from /home/volmarr/aesir-hipserve/aesir_engine/tests/run_all.mojo:512:
+Imported from /home/volmarr/aesir-hipserve/aesir_engine/tests/run_all.mojo:515:
 /home/volmarr/aesir-hipserve/aesir_engine/tests/test_buffer_ownership.mojo:89:16: warning: `alloc` without a `Layout` is deprecated, use the `Layout`-based `alloc` instead; as a temporary migration step, use `unsafe_alloc`
     var host = alloc[UInt8](4096)
                ^~~~~
 <unknown>:0: note: 'alloc' declared here
-Imported from /home/volmarr/aesir-hipserve/aesir_engine/tests/run_all.mojo:526:
+Imported from /home/volmarr/aesir-hipserve/aesir_engine/tests/run_all.mojo:529:
 Imported from /home/volmarr/aesir-hipserve/aesir_engine/tests/test_thread_scaling.mojo:22:
 /home/volmarr/aesir-hipserve/aesir_engine/core/parallel.mojo:39:1: warning: 'alias' is deprecated; use 'comptime'
 alias RangeFn = def(Int64, Int64, Int64) thin -> None
 ^~~~~
 comptime
-Imported from /home/volmarr/aesir-hipserve/aesir_engine/tests/run_all.mojo:526:
+Imported from /home/volmarr/aesir-hipserve/aesir_engine/tests/run_all.mojo:529:
 /home/volmarr/aesir-hipserve/aesir_engine/tests/test_thread_scaling.mojo:194:17: warning: `alloc` without a `Layout` is deprecated, use the `Layout`-based `alloc` instead; as a temporary migration step, use `unsafe_alloc`
     var input = alloc[Float32](K)
                 ^~~~~
 <unknown>:0: note: 'alloc' declared here
-Imported from /home/volmarr/aesir-hipserve/aesir_engine/tests/run_all.mojo:526:
+Imported from /home/volmarr/aesir-hipserve/aesir_engine/tests/run_all.mojo:529:
 /home/volmarr/aesir-hipserve/aesir_engine/tests/test_thread_scaling.mojo:195:18: warning: `alloc` without a `Layout` is deprecated, use the `Layout`-based `alloc` instead; as a temporary migration step, use `unsafe_alloc`
     var matrix = alloc[Float32](K * N)
                  ^~~~~
 <unknown>:0: note: 'alloc' declared here
-Imported from /home/volmarr/aesir-hipserve/aesir_engine/tests/run_all.mojo:526:
+Imported from /home/volmarr/aesir-hipserve/aesir_engine/tests/run_all.mojo:529:
 /home/volmarr/aesir-hipserve/aesir_engine/tests/test_thread_scaling.mojo:196:22: warning: `alloc` without a `Layout` is deprecated, use the `Layout`-based `alloc` instead; as a temporary migration step, use `unsafe_alloc`
     var out_serial = alloc[Float32](N)
                      ^~~~~
 <unknown>:0: note: 'alloc' declared here
-Imported from /home/volmarr/aesir-hipserve/aesir_engine/tests/run_all.mojo:526:
+Imported from /home/volmarr/aesir-hipserve/aesir_engine/tests/run_all.mojo:529:
 /home/volmarr/aesir-hipserve/aesir_engine/tests/test_thread_scaling.mojo:197:24: warning: `alloc` without a `Layout` is deprecated, use the `Layout`-based `alloc` instead; as a temporary migration step, use `unsafe_alloc`
     var out_threaded = alloc[Float32](N)
                        ^~~~~
 <unknown>:0: note: 'alloc' declared here
-Imported from /home/volmarr/aesir-hipserve/aesir_engine/tests/run_all.mojo:526:
+Imported from /home/volmarr/aesir-hipserve/aesir_engine/tests/run_all.mojo:529:
 /home/volmarr/aesir-hipserve/aesir_engine/tests/test_thread_scaling.mojo:209:15: warning: `alloc` without a `Layout` is deprecated, use the `Layout`-based `alloc` instead; as a temporary migration step, use `unsafe_alloc`
     var ctx = alloc[Int64](5)
               ^~~~~
 <unknown>:0: note: 'alloc' declared here
-Imported from /home/volmarr/aesir-hipserve/aesir_engine/tests/run_all.mojo:565:
+Imported from /home/volmarr/aesir-hipserve/aesir_engine/tests/run_all.mojo:568:
 Imported from /home/volmarr/aesir-hipserve/aesir_engine/tests/test_big_model_placement_a104.mojo:18:
 /home/volmarr/aesir-hipserve/aesir_engine/core/big_model_placement.mojo:61:1: warning: 'alias' is deprecated; use 'comptime'
 alias POOL_128GB_BYTES = 128 * 1024 * 1024 * 1024
 ^~~~~
 comptime
-Imported from /home/volmarr/aesir-hipserve/aesir_engine/tests/run_all.mojo:565:
+Imported from /home/volmarr/aesir-hipserve/aesir_engine/tests/run_all.mojo:568:
 Imported from /home/volmarr/aesir-hipserve/aesir_engine/tests/test_big_model_placement_a104.mojo:18:
 /home/volmarr/aesir-hipserve/aesir_engine/core/big_model_placement.mojo:265:1: warning: 'alias' is deprecated; use 'comptime'
 alias LLAMA31_8B_NON_LAYER_BYTES = 726458624
 ^~~~~
 comptime
-Imported from /home/volmarr/aesir-hipserve/aesir_engine/tests/run_all.mojo:565:
+Imported from /home/volmarr/aesir-hipserve/aesir_engine/tests/run_all.mojo:568:
 Imported from /home/volmarr/aesir-hipserve/aesir_engine/tests/test_big_model_placement_a104.mojo:18:
 /home/volmarr/aesir-hipserve/aesir_engine/core/big_model_placement.mojo:266:1: warning: 'alias' is deprecated; use 'comptime'
 alias LLAMA31_8B_EMBED_BYTES = 295501824
 ^~~~~
 comptime
-Imported from /home/volmarr/aesir-hipserve/aesir_engine/tests/run_all.mojo:565:
+Imported from /home/volmarr/aesir-hipserve/aesir_engine/tests/run_all.mojo:568:
 Imported from /home/volmarr/aesir-hipserve/aesir_engine/tests/test_big_model_placement_a104.mojo:18:
 /home/volmarr/aesir-hipserve/aesir_engine/core/big_model_placement.mojo:267:1: warning: 'alias' is deprecated; use 'comptime'
 alias LLAMA31_8B_OUTPUT_BYTES = 430956800
 ^~~~~
 comptime
-Imported from /home/volmarr/aesir-hipserve/aesir_engine/tests/run_all.mojo:565:
+Imported from /home/volmarr/aesir-hipserve/aesir_engine/tests/run_all.mojo:568:
 Imported from /home/volmarr/aesir-hipserve/aesir_engine/tests/test_big_model_placement_a104.mojo:18:
 /home/volmarr/aesir-hipserve/aesir_engine/core/big_model_placement.mojo:268:1: warning: 'alias' is deprecated; use 'comptime'
 alias LLAMA31_8B_KV_HEADS = 8
 ^~~~~
 comptime
-Imported from /home/volmarr/aesir-hipserve/aesir_engine/tests/run_all.mojo:565:
+Imported from /home/volmarr/aesir-hipserve/aesir_engine/tests/run_all.mojo:568:
 Imported from /home/volmarr/aesir-hipserve/aesir_engine/tests/test_big_model_placement_a104.mojo:18:
 /home/volmarr/aesir-hipserve/aesir_engine/core/big_model_placement.mojo:269:1: warning: 'alias' is deprecated; use 'comptime'
 alias LLAMA31_8B_HEAD_DIM = 128
 ^~~~~
 comptime
-Imported from /home/volmarr/aesir-hipserve/aesir_engine/tests/run_all.mojo:565:
+Imported from /home/volmarr/aesir-hipserve/aesir_engine/tests/run_all.mojo:568:
 /home/volmarr/aesir-hipserve/aesir_engine/tests/test_big_model_placement_a104.mojo:38:35: warning: 'if' condition always evaluates to 'False'; 'if' branch is unreachable
     if LLAMA31_8B_NON_LAYER_BYTES != 726458624:
                                   ^
-Imported from /home/volmarr/aesir-hipserve/aesir_engine/tests/run_all.mojo:565:
+Imported from /home/volmarr/aesir-hipserve/aesir_engine/tests/run_all.mojo:568:
 /home/volmarr/aesir-hipserve/aesir_engine/tests/test_big_model_placement_a104.mojo:47:57: warning: 'if' condition always evaluates to 'False'; 'if' branch is unreachable
     if LLAMA31_8B_EMBED_BYTES + LLAMA31_8B_OUTPUT_BYTES != LLAMA31_8B_NON_LAYER_BYTES:
                                                         ^
-Imported from /home/volmarr/aesir-hipserve/aesir_engine/tests/run_all.mojo:776:
+Imported from /home/volmarr/aesir-hipserve/aesir_engine/tests/run_all.mojo:779:
 /home/volmarr/aesir-hipserve/aesir_engine/tests/test_comparator_checklist_a112.mojo:64:29: warning: 'if' condition always evaluates to 'False'; 'if' branch is unreachable
     if CHECKLIST_CHECKS_RUN != 4:
                             ^
-Imported from /home/volmarr/aesir-hipserve/aesir_engine/tests/run_all.mojo:800:
+Imported from /home/volmarr/aesir-hipserve/aesir_engine/tests/run_all.mojo:803:
 /home/volmarr/aesir-hipserve/aesir_engine/tests/test_near_tie_gate_a111.mojo:48:22: warning: 'if' condition always evaluates to 'False'; 'if' branch is unreachable
     if BAND_MAX_RANK != 2:
                      ^
-Imported from /home/volmarr/aesir-hipserve/aesir_engine/tests/run_all.mojo:800:
+Imported from /home/volmarr/aesir-hipserve/aesir_engine/tests/run_all.mojo:803:
 /home/volmarr/aesir-hipserve/aesir_engine/tests/test_near_tie_gate_a111.mojo:50:27: warning: 'if' condition always evaluates to 'False'; 'if' branch is unreachable
     if BAND_MAX_GAP_MILLI != 1000:
                           ^
-Imported from /home/volmarr/aesir-hipserve/aesir_engine/tests/run_all.mojo:800:
+Imported from /home/volmarr/aesir-hipserve/aesir_engine/tests/run_all.mojo:803:
 /home/volmarr/aesir-hipserve/aesir_engine/tests/test_near_tie_gate_a111.mojo:52:22: warning: 'if' condition always evaluates to 'False'; 'if' branch is unreachable
     if BAND_MAX_RANK != NEAR_TIE_MAX_RANK:
                      ^
-Imported from /home/volmarr/aesir-hipserve/aesir_engine/tests/run_all.mojo:800:
+Imported from /home/volmarr/aesir-hipserve/aesir_engine/tests/run_all.mojo:803:
 /home/volmarr/aesir-hipserve/aesir_engine/tests/test_near_tie_gate_a111.mojo:54:27: warning: 'if' condition always evaluates to 'False'; 'if' branch is unreachable
     if BAND_MAX_GAP_MILLI != NEAR_TIE_MAX_GAP_MILLI:
                           ^
-Imported from /home/volmarr/aesir-hipserve/aesir_engine/tests/run_all.mojo:813:
+Imported from /home/volmarr/aesir-hipserve/aesir_engine/tests/run_all.mojo:816:
 /home/volmarr/aesir-hipserve/aesir_engine/tests/test_local_gate_a117.mojo:36:21: warning: constant value on left side of 'False or ...'
     if LG_PASS != 0 or LG_FAIL != 1 or LG_NOT_RUN != 2:
                     ^
-Imported from /home/volmarr/aesir-hipserve/aesir_engine/tests/run_all.mojo:825:
+Imported from /home/volmarr/aesir-hipserve/aesir_engine/tests/run_all.mojo:828:
 /home/volmarr/aesir-hipserve/aesir_engine/tests/test_matrix_runner_a114.mojo:39:5: warning: 'read' is deprecated; use 'imm'
     read report: MatrixReport, quant: String, arch: String, backend: String
     ^~~~
     imm
-Imported from /home/volmarr/aesir-hipserve/aesir_engine/tests/run_all.mojo:825:
+Imported from /home/volmarr/aesir-hipserve/aesir_engine/tests/run_all.mojo:828:
 Imported from /home/volmarr/aesir-hipserve/aesir_engine/tests/test_matrix_runner_a114.mojo:31:
 /home/volmarr/aesir-hipserve/aesir_engine/core/matrix_runner.mojo:444:19: warning: 'read' is deprecated; use 'imm'
 def matrix_render(read report: MatrixReport) -> String:
                   ^~~~
                   imm
-Imported from /home/volmarr/aesir-hipserve/aesir_engine/tests/run_all.mojo:854:
+Imported from /home/volmarr/aesir-hipserve/aesir_engine/tests/run_all.mojo:857:
 /home/volmarr/aesir-hipserve/aesir_engine/tests/test_divergence_localiser_a116.mojo:82:20: warning: 'if' condition always evaluates to 'False'; 'if' branch is unreachable
     if DEMO_LAYERS != 12:
                    ^
-Imported from /home/volmarr/aesir-hipserve/aesir_engine/tests/run_all.mojo:854:
+Imported from /home/volmarr/aesir-hipserve/aesir_engine/tests/run_all.mojo:857:
 /home/volmarr/aesir-hipserve/aesir_engine/tests/test_divergence_localiser_a116.mojo:84:26: warning: constant value on left side of 'False or ...'
     if SEEDED_LAYER != 7 or SEEDED_OP != String("mlp.down_proj"):
                          ^
-Imported from /home/volmarr/aesir-hipserve/aesir_engine/tests/run_all.mojo:854:
+Imported from /home/volmarr/aesir-hipserve/aesir_engine/tests/run_all.mojo:857:
 /home/volmarr/aesir-hipserve/aesir_engine/tests/test_divergence_localiser_a116.mojo:86:21: warning: 'if' condition always evaluates to 'False'; 'if' branch is unreachable
     if SEEDED_INDEX != 31:
                     ^
-Imported from /home/volmarr/aesir-hipserve/aesir_engine/tests/run_all.mojo:854:
+Imported from /home/volmarr/aesir-hipserve/aesir_engine/tests/run_all.mojo:857:
 Imported from /home/volmarr/aesir-hipserve/aesir_engine/tests/test_divergence_localiser_a116.mojo:24:
 /home/volmarr/aesir-hipserve/aesir_engine/core/divergence_localiser.mojo:521:5: warning: 'read' is deprecated; use 'imm'
     read loc: Localisation, probes: List[Probe]
     ^~~~
     imm
-Imported from /home/volmarr/aesir-hipserve/aesir_engine/tests/run_all.mojo:868:
+Imported from /home/volmarr/aesir-hipserve/aesir_engine/tests/run_all.mojo:871:
 /home/volmarr/aesir-hipserve/aesir_engine/tests/test_qwen_battery_a119.mojo:47:5: warning: 'read' is deprecated; use 'imm'
     read report: QwenBatteryReport, quant: String, backend: String
     ^~~~
     imm
-Imported from /home/volmarr/aesir-hipserve/aesir_engine/tests/run_all.mojo:868:
+Imported from /home/volmarr/aesir-hipserve/aesir_engine/tests/run_all.mojo:871:
 Imported from /home/volmarr/aesir-hipserve/aesir_engine/tests/test_qwen_battery_a119.mojo:34:
 /home/volmarr/aesir-hipserve/aesir_engine/core/qwen_battery_a119.mojo:389:25: warning: 'read' is deprecated; use 'imm'
 def qwen_battery_render(read report: QwenBatteryReport) -> String:
                         ^~~~
                         imm
-Imported from /home/volmarr/aesir-hipserve/aesir_engine/tests/run_all.mojo:883:
+Imported from /home/volmarr/aesir-hipserve/aesir_engine/tests/run_all.mojo:886:
 /home/volmarr/aesir-hipserve/aesir_engine/tests/test_gemma_battery_a120.mojo:136:32: warning: 'if' condition always evaluates to 'False'; 'if' branch is unreachable
     if GB_TOKEN_EXACTNESS_OWED != POLICY_TOKEN_EXACTNESS_OWED:
                                ^
-Imported from /home/volmarr/aesir-hipserve/aesir_engine/tests/run_all.mojo:883:
+Imported from /home/volmarr/aesir-hipserve/aesir_engine/tests/run_all.mojo:886:
 /home/volmarr/aesir-hipserve/aesir_engine/tests/test_gemma_battery_a120.mojo:138:26: warning: 'if' condition always evaluates to 'False'; 'if' branch is unreachable
     if GB_COHERENCE_ONLY != POLICY_COHERENCE_ONLY:
                          ^
-Imported from /home/volmarr/aesir-hipserve/aesir_engine/tests/run_all.mojo:883:
+Imported from /home/volmarr/aesir-hipserve/aesir_engine/tests/run_all.mojo:886:
 /home/volmarr/aesir-hipserve/aesir_engine/tests/test_gemma_battery_a120.mojo:53:5: warning: 'read' is deprecated; use 'imm'
     read report: GemmaBatteryReport, quant: String, backend: String
     ^~~~
     imm
-Imported from /home/volmarr/aesir-hipserve/aesir_engine/tests/run_all.mojo:883:
+Imported from /home/volmarr/aesir-hipserve/aesir_engine/tests/run_all.mojo:886:
 Imported from /home/volmarr/aesir-hipserve/aesir_engine/tests/test_gemma_battery_a120.mojo:36:
 /home/volmarr/aesir-hipserve/aesir_engine/core/gemma_battery_a120.mojo:354:26: warning: 'read' is deprecated; use 'imm'
 def gemma_battery_render(read report: GemmaBatteryReport) -> String:
                          ^~~~
                          imm
-Imported from /home/volmarr/aesir-hipserve/aesir_engine/tests/run_all.mojo:898:
+Imported from /home/volmarr/aesir-hipserve/aesir_engine/tests/run_all.mojo:901:
 /home/volmarr/aesir-hipserve/aesir_engine/tests/test_llama_battery_a118.mojo:43:5: warning: 'read' is deprecated; use 'imm'
     read report: BatteryReport, quant: String, backend: String
     ^~~~
     imm
-Imported from /home/volmarr/aesir-hipserve/aesir_engine/tests/run_all.mojo:898:
+Imported from /home/volmarr/aesir-hipserve/aesir_engine/tests/run_all.mojo:901:
 Imported from /home/volmarr/aesir-hipserve/aesir_engine/tests/test_llama_battery_a118.mojo:22:
 /home/volmarr/aesir-hipserve/aesir_engine/core/llama_battery_a118.mojo:288:20: warning: 'read' is deprecated; use 'imm'
 def battery_render(read report: BatteryReport) -> String:
                    ^~~~
                    imm
-Imported from /home/volmarr/aesir-hipserve/aesir_engine/tests/run_all.mojo:913:
+Imported from /home/volmarr/aesir-hipserve/aesir_engine/tests/run_all.mojo:916:
 /home/volmarr/aesir-hipserve/aesir_engine/tests/test_moe_battery_a121.mojo:51:5: warning: 'read' is deprecated; use 'imm'
     read report: BatteryReport, layer: Int, backend: String
     ^~~~
     imm
-Imported from /home/volmarr/aesir-hipserve/aesir_engine/tests/run_all.mojo:913:
+Imported from /home/volmarr/aesir-hipserve/aesir_engine/tests/run_all.mojo:916:
 Imported from /home/volmarr/aesir-hipserve/aesir_engine/tests/test_moe_battery_a121.mojo:39:
 /home/volmarr/aesir-hipserve/aesir_engine/core/moe_battery_a121.mojo:659:20: warning: 'read' is deprecated; use 'imm'
 def battery_render(read report: BatteryReport) -> String:
                    ^~~~
                    imm
-Imported from /home/volmarr/aesir-hipserve/aesir_engine/tests/run_all.mojo:928:
+Imported from /home/volmarr/aesir-hipserve/aesir_engine/tests/run_all.mojo:931:
 /home/volmarr/aesir-hipserve/aesir_engine/tests/test_wrong_tokenizer_a125.mojo:36:5: warning: 'read' is deprecated; use 'imm'
     read report: WrongTokReport, case_name: String
     ^~~~
     imm
-Imported from /home/volmarr/aesir-hipserve/aesir_engine/tests/run_all.mojo:928:
+Imported from /home/volmarr/aesir-hipserve/aesir_engine/tests/run_all.mojo:931:
 Imported from /home/volmarr/aesir-hipserve/aesir_engine/tests/test_wrong_tokenizer_a125.mojo:28:
 /home/volmarr/aesir-hipserve/aesir_engine/core/wrong_tokenizer_a125.mojo:493:28: warning: 'read' is deprecated; use 'imm'
 def wrong_tokenizer_render(read report: WrongTokReport) -> String:
                            ^~~~
                            imm
-Imported from /home/volmarr/aesir-hipserve/aesir_engine/tests/run_all.mojo:945:
+Imported from /home/volmarr/aesir-hipserve/aesir_engine/tests/run_all.mojo:948:
 /home/volmarr/aesir-hipserve/aesir_engine/tests/test_attention_battery_a122.mojo:49:5: warning: 'read' is deprecated; use 'imm'
     read report: AttentionBatteryReport,
     ^~~~
     imm
-Imported from /home/volmarr/aesir-hipserve/aesir_engine/tests/run_all.mojo:945:
+Imported from /home/volmarr/aesir-hipserve/aesir_engine/tests/run_all.mojo:948:
 Imported from /home/volmarr/aesir-hipserve/aesir_engine/tests/test_attention_battery_a122.mojo:26:
 /home/volmarr/aesir-hipserve/aesir_engine/core/attention_battery_a122.mojo:429:30: warning: 'read' is deprecated; use 'imm'
 def attention_battery_render(read report: AttentionBatteryReport) -> String:
                              ^~~~
                              imm
-Imported from /home/volmarr/aesir-hipserve/aesir_engine/tests/run_all.mojo:960:
+Imported from /home/volmarr/aesir-hipserve/aesir_engine/tests/run_all.mojo:963:
 /home/volmarr/aesir-hipserve/aesir_engine/tests/test_sliding_window_battery_a123.mojo:52:5: warning: 'read' is deprecated; use 'imm'
     read report: BatteryReport,
     ^~~~
     imm
-Imported from /home/volmarr/aesir-hipserve/aesir_engine/tests/run_all.mojo:960:
+Imported from /home/volmarr/aesir-hipserve/aesir_engine/tests/run_all.mojo:963:
 Imported from /home/volmarr/aesir-hipserve/aesir_engine/tests/test_sliding_window_battery_a123.mojo:46:
 /home/volmarr/aesir-hipserve/aesir_engine/core/sliding_window_battery_a123.mojo:783:20: warning: 'read' is deprecated; use 'imm'
 def battery_render(read report: BatteryReport) -> String:
                    ^~~~
                    imm
-Imported from /home/volmarr/aesir-hipserve/aesir_engine/tests/run_all.mojo:975:
+Imported from /home/volmarr/aesir-hipserve/aesir_engine/tests/run_all.mojo:978:
 /home/volmarr/aesir-hipserve/aesir_engine/tests/test_rope_scaling_battery_a124.mojo:56:5: warning: 'read' is deprecated; use 'imm'
     read report: BatteryReport,
     ^~~~
     imm
-Imported from /home/volmarr/aesir-hipserve/aesir_engine/tests/run_all.mojo:975:
+Imported from /home/volmarr/aesir-hipserve/aesir_engine/tests/run_all.mojo:978:
 Imported from /home/volmarr/aesir-hipserve/aesir_engine/tests/test_rope_scaling_battery_a124.mojo:37:
 /home/volmarr/aesir-hipserve/aesir_engine/core/rope_scaling_battery_a124.mojo:975:20: warning: 'read' is deprecated; use 'imm'
 def battery_render(read report: BatteryReport) -> String:
                    ^~~~
                    imm
-Imported from /home/volmarr/aesir-hipserve/aesir_engine/tests/run_all.mojo:990:
+Imported from /home/volmarr/aesir-hipserve/aesir_engine/tests/run_all.mojo:993:
 /home/volmarr/aesir-hipserve/aesir_engine/tests/test_special_token_battery_a126.mojo:70:5: warning: 'read' is deprecated; use 'imm'
     read report: BatteryReport, family: Int, backend: String
     ^~~~
     imm
-Imported from /home/volmarr/aesir-hipserve/aesir_engine/tests/run_all.mojo:990:
+Imported from /home/volmarr/aesir-hipserve/aesir_engine/tests/run_all.mojo:993:
 Imported from /home/volmarr/aesir-hipserve/aesir_engine/tests/test_special_token_battery_a126.mojo:57:
 /home/volmarr/aesir-hipserve/aesir_engine/core/special_token_battery_a126.mojo:970:20: warning: 'read' is deprecated; use 'imm'
 def battery_render(read report: BatteryReport) -> String:
                    ^~~~
                    imm
-Imported from /home/volmarr/aesir-hipserve/aesir_engine/tests/run_all.mojo:1005:
+Imported from /home/volmarr/aesir-hipserve/aesir_engine/tests/run_all.mojo:1008:
 /home/volmarr/aesir-hipserve/aesir_engine/tests/test_coherence_harness_a127.mojo:49:5: warning: 'read' is deprecated; use 'imm'
     read report: HarnessReport, quant: String, arch: String, backend: String
     ^~~~
     imm
-Imported from /home/volmarr/aesir-hipserve/aesir_engine/tests/run_all.mojo:1005:
+Imported from /home/volmarr/aesir-hipserve/aesir_engine/tests/run_all.mojo:1008:
 Imported from /home/volmarr/aesir-hipserve/aesir_engine/tests/test_coherence_harness_a127.mojo:31:
 /home/volmarr/aesir-hipserve/aesir_engine/core/coherence_harness_a127.mojo:922:20: warning: 'read' is deprecated; use 'imm'
 def harness_render(read report: HarnessReport) -> String:
@@ -382,25 +382,25 @@ Imported from /home/volmarr/aesir-hipserve/aesir_engine/tests/test_compute.mojo:
     var cp = alloc[Int64](6)
              ^~~~~
 <unknown>:0: note: 'alloc' declared here
-Imported from /home/volmarr/aesir-hipserve/aesir_engine/tests/run_all.mojo:53:
+Imported from /home/volmarr/aesir-hipserve/aesir_engine/tests/run_all.mojo:56:
 Imported from /home/volmarr/aesir-hipserve/aesir_engine/tests/test_inference.mojo:4:
 /home/volmarr/aesir-hipserve/aesir_engine/core/inference.mojo:949:27: warning: `alloc` without a `Layout` is deprecated, use the `Layout`-based `alloc` instead; as a temporary migration step, use `unsafe_alloc`
             var scratch = alloc[Float32](256)
                           ^~~~~
 <unknown>:0: note: 'alloc' declared here
-Imported from /home/volmarr/aesir-hipserve/aesir_engine/tests/run_all.mojo:53:
+Imported from /home/volmarr/aesir-hipserve/aesir_engine/tests/run_all.mojo:56:
 Imported from /home/volmarr/aesir-hipserve/aesir_engine/tests/test_inference.mojo:4:
 /home/volmarr/aesir-hipserve/aesir_engine/core/inference.mojo:970:30: warning: `alloc` without a `Layout` is deprecated, use the `Layout`-based `alloc` instead; as a temporary migration step, use `unsafe_alloc`
             var nl_scratch = alloc[Float32](32)
                              ^~~~~
 <unknown>:0: note: 'alloc' declared here
-Imported from /home/volmarr/aesir-hipserve/aesir_engine/tests/run_all.mojo:53:
+Imported from /home/volmarr/aesir-hipserve/aesir_engine/tests/run_all.mojo:56:
 Imported from /home/volmarr/aesir-hipserve/aesir_engine/tests/test_inference.mojo:4:
 /home/volmarr/aesir-hipserve/aesir_engine/core/inference.mojo:2162:9: warning: '__del__' is deprecated; use '__deinit__'
     def __del__(deinit self):
         ^~~~~~~
         __deinit__
-Imported from /home/volmarr/aesir-hipserve/aesir_engine/tests/run_all.mojo:221:
+Imported from /home/volmarr/aesir-hipserve/aesir_engine/tests/run_all.mojo:224:
 Imported from /home/volmarr/aesir-hipserve/aesir_engine/tests/test_arena_allocator.mojo:14:
 Imported from /home/volmarr/aesir-hipserve/aesir_engine/core/arena_allocator.mojo:48:
 Imported from /home/volmarr/aesir-hipserve/aesir_engine/core/zero_copy.mojo:39:
@@ -408,7 +408,7 @@ Imported from /home/volmarr/aesir-hipserve/aesir_engine/core/zero_copy.mojo:39:
         var name_buf = alloc[UInt8](256)
                        ^~~~~
 <unknown>:0: note: 'alloc' declared here
-Imported from /home/volmarr/aesir-hipserve/aesir_engine/tests/run_all.mojo:221:
+Imported from /home/volmarr/aesir-hipserve/aesir_engine/tests/run_all.mojo:224:
 Imported from /home/volmarr/aesir-hipserve/aesir_engine/tests/test_arena_allocator.mojo:14:
 Imported from /home/volmarr/aesir-hipserve/aesir_engine/core/arena_allocator.mojo:48:
 Imported from /home/volmarr/aesir-hipserve/aesir_engine/core/zero_copy.mojo:39:
@@ -416,125 +416,125 @@ Imported from /home/volmarr/aesir-hipserve/aesir_engine/core/zero_copy.mojo:39:
         var raw = alloc[UInt64](_LIM_COUNT)
                   ^~~~~
 <unknown>:0: note: 'alloc' declared here
-Imported from /home/volmarr/aesir-hipserve/aesir_engine/tests/run_all.mojo:312:
+Imported from /home/volmarr/aesir-hipserve/aesir_engine/tests/run_all.mojo:315:
 Imported from /home/volmarr/aesir-hipserve/aesir_engine/tests/test_vulkan_async_a071.mojo:33:
 /home/volmarr/aesir-hipserve/aesir_engine/core/vulkan_async.mojo:133:19: warning: `alloc` without a `Layout` is deprecated, use the `Layout`-based `alloc` instead; as a temporary migration step, use `unsafe_alloc`
         var buf = alloc[UInt64](12)
                   ^~~~~
 <unknown>:0: note: 'alloc' declared here
-Imported from /home/volmarr/aesir-hipserve/aesir_engine/tests/run_all.mojo:628:
+Imported from /home/volmarr/aesir-hipserve/aesir_engine/tests/run_all.mojo:631:
 Imported from /home/volmarr/aesir-hipserve/aesir_engine/tests/test_extreme_quants.mojo:6:
 /home/volmarr/aesir-hipserve/aesir_engine/core/extreme_quantization.mojo:363:19: warning: `alloc` without a `Layout` is deprecated, use the `Layout`-based `alloc` instead; as a temporary migration step, use `unsafe_alloc`
     var scratch = alloc[Float32](256)
                   ^~~~~
 <unknown>:0: note: 'alloc' declared here
-Imported from /home/volmarr/aesir-hipserve/aesir_engine/tests/run_all.mojo:628:
+Imported from /home/volmarr/aesir-hipserve/aesir_engine/tests/run_all.mojo:631:
 Imported from /home/volmarr/aesir-hipserve/aesir_engine/tests/test_extreme_quants.mojo:6:
 /home/volmarr/aesir-hipserve/aesir_engine/core/extreme_quantization.mojo:459:19: warning: `alloc` without a `Layout` is deprecated, use the `Layout`-based `alloc` instead; as a temporary migration step, use `unsafe_alloc`
     var scratch = alloc[Float32](256)
                   ^~~~~
 <unknown>:0: note: 'alloc' declared here
-Imported from /home/volmarr/aesir-hipserve/aesir_engine/tests/run_all.mojo:628:
+Imported from /home/volmarr/aesir-hipserve/aesir_engine/tests/run_all.mojo:631:
 Imported from /home/volmarr/aesir-hipserve/aesir_engine/tests/test_extreme_quants.mojo:6:
 /home/volmarr/aesir-hipserve/aesir_engine/core/extreme_quantization.mojo:847:19: warning: `alloc` without a `Layout` is deprecated, use the `Layout`-based `alloc` instead; as a temporary migration step, use `unsafe_alloc`
     var scratch = alloc[Float32](256)
                   ^~~~~
 <unknown>:0: note: 'alloc' declared here
-Imported from /home/volmarr/aesir-hipserve/aesir_engine/tests/run_all.mojo:628:
+Imported from /home/volmarr/aesir-hipserve/aesir_engine/tests/run_all.mojo:631:
 Imported from /home/volmarr/aesir-hipserve/aesir_engine/tests/test_extreme_quants.mojo:6:
 /home/volmarr/aesir-hipserve/aesir_engine/core/extreme_quantization.mojo:951:19: warning: `alloc` without a `Layout` is deprecated, use the `Layout`-based `alloc` instead; as a temporary migration step, use `unsafe_alloc`
     var scratch = alloc[Float32](256)
                   ^~~~~
 <unknown>:0: note: 'alloc' declared here
-Imported from /home/volmarr/aesir-hipserve/aesir_engine/tests/run_all.mojo:628:
+Imported from /home/volmarr/aesir-hipserve/aesir_engine/tests/run_all.mojo:631:
 Imported from /home/volmarr/aesir-hipserve/aesir_engine/tests/test_extreme_quants.mojo:6:
 /home/volmarr/aesir-hipserve/aesir_engine/core/extreme_quantization.mojo:1047:19: warning: `alloc` without a `Layout` is deprecated, use the `Layout`-based `alloc` instead; as a temporary migration step, use `unsafe_alloc`
     var scratch = alloc[Float32](256)
                   ^~~~~
 <unknown>:0: note: 'alloc' declared here
-Imported from /home/volmarr/aesir-hipserve/aesir_engine/tests/run_all.mojo:628:
+Imported from /home/volmarr/aesir-hipserve/aesir_engine/tests/run_all.mojo:631:
 Imported from /home/volmarr/aesir-hipserve/aesir_engine/tests/test_extreme_quants.mojo:6:
 /home/volmarr/aesir-hipserve/aesir_engine/core/extreme_quantization.mojo:1139:19: warning: `alloc` without a `Layout` is deprecated, use the `Layout`-based `alloc` instead; as a temporary migration step, use `unsafe_alloc`
     var scratch = alloc[Float32](256)
                   ^~~~~
 <unknown>:0: note: 'alloc' declared here
-Imported from /home/volmarr/aesir-hipserve/aesir_engine/tests/run_all.mojo:839:
+Imported from /home/volmarr/aesir-hipserve/aesir_engine/tests/run_all.mojo:842:
 Imported from /home/volmarr/aesir-hipserve/aesir_engine/tests/test_exactness_policy_a115.mojo:39:
 /home/volmarr/aesir-hipserve/aesir_engine/core/exactness_policy.mojo:388:9: warning: constant value on left side of 'True and ...'
         and POL_FAITHFUL_NEAR_TIE == BAND_FAITHFUL_NEAR_TIE
         ^
-Imported from /home/volmarr/aesir-hipserve/aesir_engine/tests/run_all.mojo:868:
+Imported from /home/volmarr/aesir-hipserve/aesir_engine/tests/run_all.mojo:871:
 Imported from /home/volmarr/aesir-hipserve/aesir_engine/tests/test_qwen_battery_a119.mojo:34:
 /home/volmarr/aesir-hipserve/aesir_engine/core/qwen_battery_a119.mojo:208:9: warning: constant value on left side of 'True and ...'
         and QB_COHERENCE_ONLY == POLICY_COHERENCE_ONLY
         ^
-Imported from /home/volmarr/aesir-hipserve/aesir_engine/tests/run_all.mojo:53:
+Imported from /home/volmarr/aesir-hipserve/aesir_engine/tests/run_all.mojo:56:
 Imported from /home/volmarr/aesir-hipserve/aesir_engine/tests/test_inference.mojo:4:
 /home/volmarr/aesir-hipserve/aesir_engine/core/inference.mojo:2163:20: warning: 'free' is deprecated, use 'unsafe_free' instead
         self.s_data.free()
         ~~~~~~~~~~~^~~~~
                     unsafe_free
 <unknown>:0: note: 'free' declared here
-Imported from /home/volmarr/aesir-hipserve/aesir_engine/tests/run_all.mojo:53:
+Imported from /home/volmarr/aesir-hipserve/aesir_engine/tests/run_all.mojo:56:
 Imported from /home/volmarr/aesir-hipserve/aesir_engine/tests/test_inference.mojo:4:
 /home/volmarr/aesir-hipserve/aesir_engine/core/inference.mojo:2164:23: warning: 'free' is deprecated, use 'unsafe_free' instead
         self.conv_data.free()
         ~~~~~~~~~~~~~~^~~~~
                        unsafe_free
 <unknown>:0: note: 'free' declared here
-Imported from /home/volmarr/aesir-hipserve/aesir_engine/tests/run_all.mojo:53:
+Imported from /home/volmarr/aesir-hipserve/aesir_engine/tests/run_all.mojo:56:
 Imported from /home/volmarr/aesir-hipserve/aesir_engine/tests/test_inference.mojo:4:
 /home/volmarr/aesir-hipserve/aesir_engine/core/inference.mojo:2165:21: warning: 'free' is deprecated, use 'unsafe_free' instead
         self.scratch.free()
         ~~~~~~~~~~~~^~~~~
                      unsafe_free
 <unknown>:0: note: 'free' declared here
-Imported from /home/volmarr/aesir-hipserve/aesir_engine/tests/run_all.mojo:430:
+Imported from /home/volmarr/aesir-hipserve/aesir_engine/tests/run_all.mojo:433:
 /home/volmarr/aesir-hipserve/aesir_engine/tests/test_vulkan_iq_gemv.mojo:111:16: warning: `alloc` without a `Layout` is deprecated, use the `Layout`-based `alloc` instead; as a temporary migration step, use `unsafe_alloc`
     var host = alloc[UInt16](2048)
                ^~~~~
 <unknown>:0: note: 'alloc' declared here
-Imported from /home/volmarr/aesir-hipserve/aesir_engine/tests/run_all.mojo:445:
+Imported from /home/volmarr/aesir-hipserve/aesir_engine/tests/run_all.mojo:448:
 /home/volmarr/aesir-hipserve/aesir_engine/tests/test_vulkan_q4k_gemv_a057.mojo:86:18: warning: `alloc` without a `Layout` is deprecated, use the `Layout`-based `alloc` instead; as a temporary migration step, use `unsafe_alloc`
     var w_host = alloc[UInt8](w_bytes)
                  ^~~~~
 <unknown>:0: note: 'alloc' declared here
-Imported from /home/volmarr/aesir-hipserve/aesir_engine/tests/run_all.mojo:445:
+Imported from /home/volmarr/aesir-hipserve/aesir_engine/tests/run_all.mojo:448:
 /home/volmarr/aesir-hipserve/aesir_engine/tests/test_vulkan_q4k_gemv_a057.mojo:105:15: warning: `alloc` without a `Layout` is deprecated, use the `Layout`-based `alloc` instead; as a temporary migration step, use `unsafe_alloc`
     var deq = alloc[Scalar[f16]](k_elems)
               ^~~~~
 <unknown>:0: note: 'alloc' declared here
-Imported from /home/volmarr/aesir-hipserve/aesir_engine/tests/run_all.mojo:485:
+Imported from /home/volmarr/aesir-hipserve/aesir_engine/tests/run_all.mojo:488:
 /home/volmarr/aesir-hipserve/aesir_engine/tests/test_hip_q4k_gemv_a083.mojo:83:18: warning: `alloc` without a `Layout` is deprecated, use the `Layout`-based `alloc` instead; as a temporary migration step, use `unsafe_alloc`
     var w_host = alloc[UInt8](w_bytes)
                  ^~~~~
 <unknown>:0: note: 'alloc' declared here
-Imported from /home/volmarr/aesir-hipserve/aesir_engine/tests/run_all.mojo:485:
+Imported from /home/volmarr/aesir-hipserve/aesir_engine/tests/run_all.mojo:488:
 /home/volmarr/aesir-hipserve/aesir_engine/tests/test_hip_q4k_gemv_a083.mojo:86:15: warning: `alloc` without a `Layout` is deprecated, use the `Layout`-based `alloc` instead; as a temporary migration step, use `unsafe_alloc`
     var deq = alloc[Scalar[f16]](k_elems)
               ^~~~~
 <unknown>:0: note: 'alloc' declared here
-Imported from /home/volmarr/aesir-hipserve/aesir_engine/tests/run_all.mojo:611:
+Imported from /home/volmarr/aesir-hipserve/aesir_engine/tests/run_all.mojo:614:
 /home/volmarr/aesir-hipserve/aesir_engine/tests/test_k_dequant_simd_a040.mojo:22:13: warning: `alloc` without a `Layout` is deprecated, use the `Layout`-based `alloc` instead; as a temporary migration step, use `unsafe_alloc`
     var w = alloc[UInt8](NB * bb)
             ^~~~~
 <unknown>:0: note: 'alloc' declared here
-Imported from /home/volmarr/aesir-hipserve/aesir_engine/tests/run_all.mojo:611:
+Imported from /home/volmarr/aesir-hipserve/aesir_engine/tests/run_all.mojo:614:
 /home/volmarr/aesir-hipserve/aesir_engine/tests/test_k_dequant_simd_a040.mojo:36:15: warning: `alloc` without a `Layout` is deprecated, use the `Layout`-based `alloc` instead; as a temporary migration step, use `unsafe_alloc`
     var out = alloc[Scalar[f16]](NE)
               ^~~~~
 <unknown>:0: note: 'alloc' declared here
-Imported from /home/volmarr/aesir-hipserve/aesir_engine/tests/run_all.mojo:637:
+Imported from /home/volmarr/aesir-hipserve/aesir_engine/tests/run_all.mojo:640:
 /home/volmarr/aesir-hipserve/aesir_engine/tests/test_iq_simd_parity.mojo:52:16: warning: `alloc` without a `Layout` is deprecated, use the `Layout`-based `alloc` instead; as a temporary migration step, use `unsafe_alloc`
     var data = alloc[UInt8](nbytes)
                ^~~~~
 <unknown>:0: note: 'alloc' declared here
-Imported from /home/volmarr/aesir-hipserve/aesir_engine/tests/run_all.mojo:637:
+Imported from /home/volmarr/aesir-hipserve/aesir_engine/tests/run_all.mojo:640:
 /home/volmarr/aesir-hipserve/aesir_engine/tests/test_iq_simd_parity.mojo:53:16: warning: `alloc` without a `Layout` is deprecated, use the `Layout`-based `alloc` instead; as a temporary migration step, use `unsafe_alloc`
     var outp = alloc[Float16](elements)
                ^~~~~
 <unknown>:0: note: 'alloc' declared here
-Imported from /home/volmarr/aesir-hipserve/aesir_engine/tests/run_all.mojo:637:
+Imported from /home/volmarr/aesir-hipserve/aesir_engine/tests/run_all.mojo:640:
 /home/volmarr/aesir-hipserve/aesir_engine/tests/test_iq_simd_parity.mojo:54:16: warning: `alloc` without a `Layout` is deprecated, use the `Layout`-based `alloc` instead; as a temporary migration step, use `unsafe_alloc`
     var grid = alloc[UInt16](2048)
                ^~~~~
@@ -551,7 +551,7 @@ Imported from /home/volmarr/aesir-hipserve/aesir_engine/tests/test_compute.mojo:
     var cp = alloc[Int64](7)
              ^~~~~
 <unknown>:0: note: 'alloc' declared here
-Imported from /home/volmarr/aesir-hipserve/aesir_engine/tests/run_all.mojo:221:
+Imported from /home/volmarr/aesir-hipserve/aesir_engine/tests/run_all.mojo:224:
 Imported from /home/volmarr/aesir-hipserve/aesir_engine/tests/test_arena_allocator.mojo:14:
 Imported from /home/volmarr/aesir-hipserve/aesir_engine/core/arena_allocator.mojo:48:
 Imported from /home/volmarr/aesir-hipserve/aesir_engine/core/zero_copy.mojo:39:
@@ -559,50 +559,50 @@ Imported from /home/volmarr/aesir-hipserve/aesir_engine/core/zero_copy.mojo:39:
         var name_buf = alloc[UInt8](256)
                        ^~~~~
 <unknown>:0: note: 'alloc' declared here
-Imported from /home/volmarr/aesir-hipserve/aesir_engine/tests/run_all.mojo:294:
+Imported from /home/volmarr/aesir-hipserve/aesir_engine/tests/run_all.mojo:297:
 Imported from /home/volmarr/aesir-hipserve/aesir_engine/tests/test_vulkan_real_model_a067.mojo:60:
 /home/volmarr/aesir-hipserve/aesir_engine/core/vulkan_real_model.mojo:764:23: warning: `alloc` without a `Layout` is deprecated, use the `Layout`-based `alloc` instead; as a temporary migration step, use `unsafe_alloc`
             var buf = alloc[Scalar[DType.float16]](self.dim)
                       ^~~~~
 <unknown>:0: note: 'alloc' declared here
-Imported from /home/volmarr/aesir-hipserve/aesir_engine/tests/run_all.mojo:294:
+Imported from /home/volmarr/aesir-hipserve/aesir_engine/tests/run_all.mojo:297:
 Imported from /home/volmarr/aesir-hipserve/aesir_engine/tests/test_vulkan_real_model_a067.mojo:60:
 /home/volmarr/aesir-hipserve/aesir_engine/core/vulkan_real_model.mojo:767:31: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
                 out.append(buf[i].cast[DType.float32]())
                            ~~~^~~
 <unknown>:0: note: '__getitem__' declared here
-Imported from /home/volmarr/aesir-hipserve/aesir_engine/tests/run_all.mojo:294:
+Imported from /home/volmarr/aesir-hipserve/aesir_engine/tests/run_all.mojo:297:
 Imported from /home/volmarr/aesir-hipserve/aesir_engine/tests/test_vulkan_real_model_a067.mojo:60:
 /home/volmarr/aesir-hipserve/aesir_engine/core/vulkan_real_model.mojo:768:16: warning: 'free' is deprecated, use 'unsafe_free' instead
             buf.free()
             ~~~^~~~~
                 unsafe_free
 <unknown>:0: note: 'free' declared here
-Imported from /home/volmarr/aesir-hipserve/aesir_engine/tests/run_all.mojo:628:
+Imported from /home/volmarr/aesir-hipserve/aesir_engine/tests/run_all.mojo:631:
 Imported from /home/volmarr/aesir-hipserve/aesir_engine/tests/test_extreme_quants.mojo:6:
 /home/volmarr/aesir-hipserve/aesir_engine/core/extreme_quantization.mojo:167:19: warning: `alloc` without a `Layout` is deprecated, use the `Layout`-based `alloc` instead; as a temporary migration step, use `unsafe_alloc`
     var scratch = alloc[Float32](256)
                   ^~~~~
 <unknown>:0: note: 'alloc' declared here
-Imported from /home/volmarr/aesir-hipserve/aesir_engine/tests/run_all.mojo:628:
+Imported from /home/volmarr/aesir-hipserve/aesir_engine/tests/run_all.mojo:631:
 Imported from /home/volmarr/aesir-hipserve/aesir_engine/tests/test_extreme_quants.mojo:6:
 /home/volmarr/aesir-hipserve/aesir_engine/core/extreme_quantization.mojo:192:19: warning: `alloc` without a `Layout` is deprecated, use the `Layout`-based `alloc` instead; as a temporary migration step, use `unsafe_alloc`
     var scratch = alloc[Float32](256)
                   ^~~~~
 <unknown>:0: note: 'alloc' declared here
-Imported from /home/volmarr/aesir-hipserve/aesir_engine/tests/run_all.mojo:628:
+Imported from /home/volmarr/aesir-hipserve/aesir_engine/tests/run_all.mojo:631:
 Imported from /home/volmarr/aesir-hipserve/aesir_engine/tests/test_extreme_quants.mojo:6:
 /home/volmarr/aesir-hipserve/aesir_engine/core/extreme_quantization.mojo:245:15: warning: `alloc` without a `Layout` is deprecated, use the `Layout`-based `alloc` instead; as a temporary migration step, use `unsafe_alloc`
     var dst = alloc[UInt16](2048)
               ^~~~~
 <unknown>:0: note: 'alloc' declared here
-Imported from /home/volmarr/aesir-hipserve/aesir_engine/tests/run_all.mojo:628:
+Imported from /home/volmarr/aesir-hipserve/aesir_engine/tests/run_all.mojo:631:
 Imported from /home/volmarr/aesir-hipserve/aesir_engine/tests/test_extreme_quants.mojo:6:
 /home/volmarr/aesir-hipserve/aesir_engine/core/extreme_quantization.mojo:544:19: warning: `alloc` without a `Layout` is deprecated, use the `Layout`-based `alloc` instead; as a temporary migration step, use `unsafe_alloc`
     var scratch = alloc[Float32](256)
                   ^~~~~
 <unknown>:0: note: 'alloc' declared here
-Imported from /home/volmarr/aesir-hipserve/aesir_engine/tests/run_all.mojo:430:
+Imported from /home/volmarr/aesir-hipserve/aesir_engine/tests/run_all.mojo:433:
 /home/volmarr/aesir-hipserve/aesir_engine/tests/test_vulkan_iq_gemv.mojo:126:16: warning: `alloc` without a `Layout` is deprecated, use the `Layout`-based `alloc` instead; as a temporary migration step, use `unsafe_alloc`
     var host = alloc[UInt16](2048)
                ^~~~~
@@ -625,13 +625,13 @@ Imported from /home/volmarr/aesir-hipserve/aesir_engine/tests/test_compute.mojo:
     var scratch = alloc[Float32](shared_dim)
                   ^~~~~
 <unknown>:0: note: 'alloc' declared here
-Imported from /home/volmarr/aesir-hipserve/aesir_engine/tests/run_all.mojo:526:
+Imported from /home/volmarr/aesir-hipserve/aesir_engine/tests/run_all.mojo:529:
 Imported from /home/volmarr/aesir-hipserve/aesir_engine/tests/test_thread_scaling.mojo:31:
 /home/volmarr/aesir-hipserve/aesir_engine/core/thread_topology.mojo:424:18: warning: `alloc` without a `Layout` is deprecated, use the `Layout`-based `alloc` instead; as a temporary migration step, use `unsafe_alloc`
     var output = alloc[Float32](out_len)
                  ^~~~~
 <unknown>:0: note: 'alloc' declared here
-Imported from /home/volmarr/aesir-hipserve/aesir_engine/tests/run_all.mojo:526:
+Imported from /home/volmarr/aesir-hipserve/aesir_engine/tests/run_all.mojo:529:
 Imported from /home/volmarr/aesir-hipserve/aesir_engine/tests/test_thread_scaling.mojo:31:
 /home/volmarr/aesir-hipserve/aesir_engine/core/thread_topology.mojo:425:15: warning: `alloc` without a `Layout` is deprecated, use the `Layout`-based `alloc` instead; as a temporary migration step, use `unsafe_alloc`
     var ctx = alloc[Int64](6)
@@ -666,11 +666,11 @@ Imported from /home/volmarr/aesir-hipserve/aesir_engine/tests/test_compute.mojo:
         var xsums = alloc[Float32](rows_here * blocks_per_row * nsub)
                     ^~~~~
 <unknown>:0: note: 'alloc' declared here
-Included from /home/volmarr/aesir-hipserve/aesir_engine/tests/run_all.mojo:854:
+Included from /home/volmarr/aesir-hipserve/aesir_engine/tests/run_all.mojo:857:
 /home/volmarr/aesir-hipserve/aesir_engine/tests/test_divergence_localiser_a116.mojo:84:39: warning: unreachable code after 'if False'
     if SEEDED_LAYER != 7 or SEEDED_OP != String("mlp.down_proj"):
                                       ^
-Included from /home/volmarr/aesir-hipserve/aesir_engine/tests/run_all.mojo:813:
+Included from /home/volmarr/aesir-hipserve/aesir_engine/tests/run_all.mojo:816:
 /home/volmarr/aesir-hipserve/aesir_engine/tests/test_local_gate_a117.mojo:36:32: warning: unreachable code after 'if False'
     if LG_PASS != 0 or LG_FAIL != 1 or LG_NOT_RUN != 2:
                                ^
@@ -679,54 +679,54 @@ Included from /home/volmarr/aesir-hipserve/aesir_engine/tests/test_hip_serve_adm
 /home/volmarr/aesir-hipserve/aesir_engine/core/amd_gate.mojo:221:21: warning: 'except' logic is unreachable, try doesn't raise an exception
             return (False, Int(0))
                     ^
-Included from /home/volmarr/aesir-hipserve/aesir_engine/tests/run_all.mojo:839:
+Included from /home/volmarr/aesir-hipserve/aesir_engine/tests/run_all.mojo:842:
 Included from /home/volmarr/aesir-hipserve/aesir_engine/tests/test_exactness_policy_a115.mojo:39:
 /home/volmarr/aesir-hipserve/aesir_engine/core/exactness_policy.mojo:388:35: warning: unreachable code after 'if True'
         and POL_FAITHFUL_NEAR_TIE == BAND_FAITHFUL_NEAR_TIE
                                   ^
-Included from /home/volmarr/aesir-hipserve/aesir_engine/tests/run_all.mojo:473:
+Included from /home/volmarr/aesir-hipserve/aesir_engine/tests/run_all.mojo:476:
 Included from /home/volmarr/aesir-hipserve/aesir_engine/tests/test_mojo_gpu_target.mojo:19:
 /home/volmarr/aesir-hipserve/aesir_engine/core/mojo_gpu_target.mojo:96:20: warning: 'except' logic is unreachable, try doesn't raise an exception
             return -1
                    ^
-Included from /home/volmarr/aesir-hipserve/aesir_engine/tests/run_all.mojo:868:
+Included from /home/volmarr/aesir-hipserve/aesir_engine/tests/run_all.mojo:871:
 Included from /home/volmarr/aesir-hipserve/aesir_engine/tests/test_qwen_battery_a119.mojo:34:
 /home/volmarr/aesir-hipserve/aesir_engine/core/qwen_battery_a119.mojo:208:31: warning: unreachable code after 'if True'
         and QB_COHERENCE_ONLY == POLICY_COHERENCE_ONLY
                               ^
-Included from /home/volmarr/aesir-hipserve/aesir_engine/tests/run_all.mojo:320:
+Included from /home/volmarr/aesir-hipserve/aesir_engine/tests/run_all.mojo:323:
 /home/volmarr/aesir-hipserve/aesir_engine/tests/test_accum_policy_a075.mojo:97:26: warning: assignment to 'manifest' was never used; assign to '_' instead?
     var manifest = String("")
                          ^
-Included from /home/volmarr/aesir-hipserve/aesir_engine/tests/run_all.mojo:344:
+Included from /home/volmarr/aesir-hipserve/aesir_engine/tests/run_all.mojo:347:
 /home/volmarr/aesir-hipserve/aesir_engine/tests/test_device_lost_a079.mojo:280:24: warning: assignment to 'raised' was never used; assign to '_' instead?
     var raised = String("")
                        ^
-Included from /home/volmarr/aesir-hipserve/aesir_engine/tests/run_all.mojo:1051:
+Included from /home/volmarr/aesir-hipserve/aesir_engine/tests/run_all.mojo:1054:
 /home/volmarr/aesir-hipserve/aesir_engine/tests/test_teacher_forcing_harness_a109.mojo:38:13: warning: ref 'v' was never used, remove it?
         for v in range(20):
             ^
-Included from /home/volmarr/aesir-hipserve/aesir_engine/tests/run_all.mojo:1051:
+Included from /home/volmarr/aesir-hipserve/aesir_engine/tests/run_all.mojo:1054:
 /home/volmarr/aesir-hipserve/aesir_engine/tests/test_teacher_forcing_harness_a109.mojo:85:9: warning: ref 'i' was never used, remove it?
     for i in range(len(backends)):
         ^
-Included from /home/volmarr/aesir-hipserve/aesir_engine/tests/run_all.mojo:1051:
+Included from /home/volmarr/aesir-hipserve/aesir_engine/tests/run_all.mojo:1054:
 /home/volmarr/aesir-hipserve/aesir_engine/tests/test_teacher_forcing_harness_a109.mojo:110:9: warning: ref 'v' was never used, remove it?
     for v in range(20):
         ^
-Included from /home/volmarr/aesir-hipserve/aesir_engine/tests/run_all.mojo:1051:
+Included from /home/volmarr/aesir-hipserve/aesir_engine/tests/run_all.mojo:1054:
 /home/volmarr/aesir-hipserve/aesir_engine/tests/test_teacher_forcing_harness_a109.mojo:105:9: warning: ref 'v' was never used, remove it?
     for v in range(20):
         ^
-Included from /home/volmarr/aesir-hipserve/aesir_engine/tests/run_all.mojo:1051:
+Included from /home/volmarr/aesir-hipserve/aesir_engine/tests/run_all.mojo:1054:
 /home/volmarr/aesir-hipserve/aesir_engine/tests/test_teacher_forcing_harness_a109.mojo:100:9: warning: ref 'v' was never used, remove it?
     for v in range(20):
         ^
-Included from /home/volmarr/aesir-hipserve/aesir_engine/tests/run_all.mojo:266:
+Included from /home/volmarr/aesir-hipserve/aesir_engine/tests/run_all.mojo:269:
 /home/volmarr/aesir-hipserve/aesir_engine/tests/test_vulkan_sampling_a063.mojo:253:9: warning: ref 'i' was never used, remove it?
     for i in range(5000):
         ^
-Included from /home/volmarr/aesir-hipserve/aesir_engine/tests/run_all.mojo:458:
+Included from /home/volmarr/aesir-hipserve/aesir_engine/tests/run_all.mojo:461:
 /home/volmarr/aesir-hipserve/aesir_engine/tests/test_zero_copy.mojo:134:31: warning: assignment to 'c0' was never used; assign to '_' instead?
     var c0 = ZeroCopy.counters()
                               ^
@@ -735,67 +735,67 @@ Included from /home/volmarr/aesir-hipserve/aesir_engine/tests/test_hip_serve_adm
 /home/volmarr/aesir-hipserve/aesir_engine/core/amd_gate.mojo:380:31: warning: assignment to 'version' was never used; assign to '_' instead?
                 var version = -1
                               ^
-Included from /home/volmarr/aesir-hipserve/aesir_engine/tests/run_all.mojo:344:
+Included from /home/volmarr/aesir-hipserve/aesir_engine/tests/run_all.mojo:347:
 Included from /home/volmarr/aesir-hipserve/aesir_engine/tests/test_device_lost_a079.mojo:33:
 /home/volmarr/aesir-hipserve/aesir_engine/core/device_lost.mojo:428:24: warning: assignment to 'finished' was never used; assign to '_' instead?
             finished = True
                        ^
-Included from /home/volmarr/aesir-hipserve/aesir_engine/tests/run_all.mojo:344:
+Included from /home/volmarr/aesir-hipserve/aesir_engine/tests/run_all.mojo:347:
 Included from /home/volmarr/aesir-hipserve/aesir_engine/tests/test_device_lost_a079.mojo:33:
 /home/volmarr/aesir-hipserve/aesir_engine/core/device_lost.mojo:412:28: warning: assignment to 'finished' was never used; assign to '_' instead?
                 finished = True
                            ^
-Included from /home/volmarr/aesir-hipserve/aesir_engine/tests/run_all.mojo:344:
+Included from /home/volmarr/aesir-hipserve/aesir_engine/tests/run_all.mojo:347:
 Included from /home/volmarr/aesir-hipserve/aesir_engine/tests/test_device_lost_a079.mojo:33:
 /home/volmarr/aesir-hipserve/aesir_engine/core/device_lost.mojo:371:37: warning: assignment to 'pending_loss' was never used; assign to '_' instead?
             pending_loss = remaining^
                                     ^
-Included from /home/volmarr/aesir-hipserve/aesir_engine/tests/run_all.mojo:344:
+Included from /home/volmarr/aesir-hipserve/aesir_engine/tests/run_all.mojo:347:
 Included from /home/volmarr/aesir-hipserve/aesir_engine/tests/test_device_lost_a079.mojo:33:
 /home/volmarr/aesir-hipserve/aesir_engine/core/device_lost.mojo:348:28: warning: assignment to 'finished' was never used; assign to '_' instead?
                 finished = True
                            ^
-Included from /home/volmarr/aesir-hipserve/aesir_engine/tests/run_all.mojo:198:
+Included from /home/volmarr/aesir-hipserve/aesir_engine/tests/run_all.mojo:201:
 Included from /home/volmarr/aesir-hipserve/aesir_engine/tests/test_amd_realm.mojo:10:
 /home/volmarr/aesir-hipserve/aesir_engine/core/hardware_census.mojo:512:27: warning: assignment to 'version' was never used; assign to '_' instead?
             var version = -1
                           ^
-Included from /home/volmarr/aesir-hipserve/aesir_engine/tests/run_all.mojo:198:
+Included from /home/volmarr/aesir-hipserve/aesir_engine/tests/run_all.mojo:201:
 Included from /home/volmarr/aesir-hipserve/aesir_engine/tests/test_amd_realm.mojo:10:
 /home/volmarr/aesir-hipserve/aesir_engine/core/hardware_census.mojo:462:22: warning: assignment to 'card' was never used; assign to '_' instead?
     var card = String("")
                      ^
-Included from /home/volmarr/aesir-hipserve/aesir_engine/tests/run_all.mojo:198:
+Included from /home/volmarr/aesir-hipserve/aesir_engine/tests/run_all.mojo:201:
 Included from /home/volmarr/aesir-hipserve/aesir_engine/tests/test_amd_realm.mojo:10:
 /home/volmarr/aesir-hipserve/aesir_engine/core/hardware_census.mojo:542:23: warning: assignment to 'accel' was never used; assign to '_' instead?
     var accel = String("")
                       ^
-Included from /home/volmarr/aesir-hipserve/aesir_engine/tests/run_all.mojo:389:
+Included from /home/volmarr/aesir-hipserve/aesir_engine/tests/run_all.mojo:392:
 Included from /home/volmarr/aesir-hipserve/aesir_engine/tests/test_telemetry_a106.mojo:51:
 /home/volmarr/aesir-hipserve/aesir_engine/core/scheduler_telemetry.mojo:418:20: warning: assignment to 'util' was never used; assign to '_' instead?
         var util = -1
                    ^
-Included from /home/volmarr/aesir-hipserve/aesir_engine/tests/run_all.mojo:389:
+Included from /home/volmarr/aesir-hipserve/aesir_engine/tests/run_all.mojo:392:
 Included from /home/volmarr/aesir-hipserve/aesir_engine/tests/test_telemetry_a106.mojo:51:
 /home/volmarr/aesir-hipserve/aesir_engine/core/scheduler_telemetry.mojo:426:20: warning: assignment to 'used' was never used; assign to '_' instead?
         var used = -1
                    ^
-Included from /home/volmarr/aesir-hipserve/aesir_engine/tests/run_all.mojo:389:
+Included from /home/volmarr/aesir-hipserve/aesir_engine/tests/run_all.mojo:392:
 Included from /home/volmarr/aesir-hipserve/aesir_engine/tests/test_telemetry_a106.mojo:51:
 /home/volmarr/aesir-hipserve/aesir_engine/core/scheduler_telemetry.mojo:427:23: warning: assignment to 'total_b' was never used; assign to '_' instead?
         var total_b = -1
                       ^
-Included from /home/volmarr/aesir-hipserve/aesir_engine/tests/run_all.mojo:960:
+Included from /home/volmarr/aesir-hipserve/aesir_engine/tests/run_all.mojo:963:
 Included from /home/volmarr/aesir-hipserve/aesir_engine/tests/test_sliding_window_battery_a123.mojo:46:
 /home/volmarr/aesir-hipserve/aesir_engine/core/sliding_window_battery_a123.mojo:361:22: warning: assignment to 'ok' was never used; assign to '_' instead?
             var ok = False
                      ^
-Included from /home/volmarr/aesir-hipserve/aesir_engine/tests/run_all.mojo:715:
+Included from /home/volmarr/aesir-hipserve/aesir_engine/tests/run_all.mojo:718:
 Included from /home/volmarr/aesir-hipserve/aesir_engine/tests/test_thermal_power.mojo:20:
 /home/volmarr/aesir-hipserve/aesir_engine/core/thermal_power.mojo:195:25: warning: assignment to 'listing' was never used; assign to '_' instead?
     var listing = String("")
                         ^
-Included from /home/volmarr/aesir-hipserve/aesir_engine/tests/run_all.mojo:715:
+Included from /home/volmarr/aesir-hipserve/aesir_engine/tests/run_all.mojo:718:
 Included from /home/volmarr/aesir-hipserve/aesir_engine/tests/test_thermal_power.mojo:20:
 /home/volmarr/aesir-hipserve/aesir_engine/core/thermal_power.mojo:240:25: warning: assignment to 'domains' was never used; assign to '_' instead?
     var domains = String("")
@@ -819,6 +819,11 @@ Included from /home/volmarr/aesir-hipserve/aesir_engine/server/ollama.mojo:6:
 [CASE PASS] hardware.hip_device_selection
 [CASE PASS] hardware.hip_selection_refusal
 [CASE PASS] hardware.hip_config_gate
+[CASE PASS] serve.post_history_resolution
+[CASE PASS] serve.post_history_application
+[CASE PASS] serve.session_residency_delta
+[CASE PASS] serve.memory_injection_render
+[CASE PASS] serve.memory_injection_append_stability
 [CASE PASS] hardware.amd_discovery_classification
 [CASE PASS] hardware.planning_cli_rejection
 [CASE PASS] storage.persisted_text_admission
@@ -1219,7 +1224,7 @@ gemm_f16_gpu AMD shape mismatch handling: PASS
 AMD ROCm HIP realm error gateways: PASS
 [CASE PASS] gpu.amd_realm_unsupported_gateways
 --- Testing AMDGate HIP device gate (A-010) ---
-AMD HIP device 0: AMD Radeon 8060S Graphics | arch gfx1151 | total_memory_bytes 114109448192 | wavefront 32 | multi_processors 20 | runtime_version 71500000
+AMD HIP device 0: AMD Radeon 8060S Graphics | arch gfx1151 | total_memory_bytes 96633094144 | wavefront 32 | multi_processors 20 | runtime_version 71500000
 AMDGate HIP device gate: PASS
 [CASE PASS] gpu.amd_hip_device_gate
 --- Testing AMDGate HIP properties parser (A-010) ---
@@ -1238,9 +1243,10 @@ HIP hipMallocManaged round trip (64KiB host-written/host-read, synced): PASS
 HIP hipMemGetInfo accounting (total stable, free returns to baseline): PASS
 [CASE PASS] gpu.amd_hip_mem_get_info_accounting
 --- Testing HIP zero-leak accounting, 1000 iterations (A-011) ---
-[CASE FAIL] gpu.amd_hip_no_leak_1000 :: HIP leak battery: leaked_bytes = 1056768 across 1000+1000 iterations
+HIP zero-leak battery: 1000 hipMalloc + 1000 hipMallocManaged iterations, leaked = 0 bytes: PASS
+[CASE PASS] gpu.amd_hip_no_leak_1000
 --- Testing HIP sync memcpy vs CPU oracle (A-012) ---
-HIP sync timing: 10 x (4 MiB H2D + 4 MiB D2H) = 80 MiB in 2 ms (wall, monotonic)
+HIP sync timing: 10 x (4 MiB H2D + 4 MiB D2H) = 80 MiB in 3 ms (wall, monotonic)
 HIP sync oracle round trips (1B/7B/4KiB/1MiB+1, H2D+D2D+D2H, byte-exact vs CPU oracle): PASS
 [CASE PASS] gpu.amd_hip_sync_oracle_round_trip
 --- Testing HIP stream async round trip (A-012) ---
@@ -1251,7 +1257,7 @@ HIP overlap smoke timing: 4 streams x (2 MiB H2D + 2 MiB D2H) enqueued-then-sync
 HIP multi-stream overlap smoke (4 streams, enqueue-all then sync-all, byte-exact on every stream): PASS
 [CASE PASS] gpu.amd_hip_stream_overlap_smoke
 --- Testing HIP event timing of async transfers (A-012) ---
-HIP event timing: 4 MiB H2D + 4 MiB D2H async on one stream measured 0.219852 ms on-device (hipEventElapsedTime); round trip byte-exact: PASS
+HIP event timing: 4 MiB H2D + 4 MiB D2H async on one stream measured 0.524542 ms on-device (hipEventElapsedTime); round trip byte-exact: PASS
 [CASE PASS] gpu.amd_hip_event_timing
 --- Testing HIP stream/event rejection (A-012) ---
 HIP stream/event rejection (zero handle local, double-destroy, use-after-destroy, non-positive pinned size): PASS
@@ -1274,11 +1280,11 @@ Vulkan local rejection (negative queue family): PASS
 Vulkan alignment rules (align_up checked; device limits powers of two; requirements size % alignment == 0): PASS
 [CASE PASS] gpu.vulkan_buffer_alignment_rules
 --- Testing Vulkan mapped buffer round trip (A-014) ---
-Vulkan mapped round trip Vulkan mapped round trip (1B/7B/64B/4KiB/64KiB/1MiB, two patterns, unmap/remap persistence, byte-exact): PASS
+Vulkan mapped round trip (1B/7B/64B/4KiB/64KiB/1MiB, two patterns, unmap/remap persistence, byte-exact): PASS
 [CASE PASS] gpu.vulkan_buffer_round_trip
 --- Testing Vulkan buffer allocation rejection (A-014) ---
 radv/amdgpu: Failed to allocate a buffer:
-radv/amdgpu:    size      : 359330725888 bytes
+radv/amdgpu:    size      : 297784410112 bytes
 radv/amdgpu:    alignment : 262144 bytes
 radv/amdgpu:    domains   : 4
 Vulkan allocation rejection (non-positive local, double-free, oversize fail-closed): PASS
@@ -1286,23 +1292,28 @@ Vulkan allocation rejection (non-positive local, double-free, oversize fail-clos
 --- Testing Vulkan buffer leak accounting (A-014) ---
 Vulkan zero-leak battery: 200 alloc/map/touch/free iterations, live accounting returned to baseline exactly: PASS
 [CASE PASS] gpu.vulkan_buffer_no_leak
---- Testing weight residency accoWeight residency rejectioWeight residency rejection + RSS accounting: PASS, VmRSS bytes: 5420883968
+--- Testing weight residency accounting rules (A-020) ---
+Weight residency rejection + RSS accounting: PASS, VmRSS bytes: 5967884288
 [CASE PASS] gguf.weight_residency_accounting_rules
---- Testing weight residency mappinmapping resident: 16384 fmapping resident: 16384 file_clean: 16384 anon_dirty: 0
+--- Testing weight residency mapping accounting (A-020) ---
+mapping resident: 16384 file_clean: 16384 anon_dirty: 0
 Weight residency mapping accounting: PASS
 [CASE PASS] gguf.weight_residency_mapping_accounting
 --- Testing weight residency GPU visibility (A-020) ---
 Weight residency GPU visibility (device ptr == mmap ptr): PASS
 [CASE PASS] gguf.weight_residency_gpu_visibility
---- Testing weight residency nohip free before: 12622850hip free before: 126228475904 during registration: 126228459520 rss before: 5420916736 during: 5420933120
+--- Testing weight residency no device copy (A-020) ---
+hip free before: 107220934656 during registration: 107220934656 rss before: 5967917056 during: 5967933440
 Weight residency no-device-copy accounting: PASS
 [CASE PASS] gguf.weight_residency_no_device_copy
---- Testing Vulkan vec_add disVulkan vec_add dispatch (Vulkan vec_add dispatch (n=1/7/255/256/257/1000/4097/65537, incl. non-multiples of workgroup 256, RADV device, oracle exact at every element): PASS
+--- Testing Vulkan vec_add dispatch oracle (A-015) ---
+Vulkan vec_add dispatch (n=1/7/255/256/257/1000/4097/65537, incl. non-multiples of workgroup 256, RADV device, oracle exact at every element): PASS
 [CASE PASS] gpu.vulkan_dispatch_vec_add_oracle
 --- Testing Vulkan dispatch rejection (A-015) ---
 Vulkan dispatch rejection (zero n, oversize n, bogus id): PASS
 [CASE PASS] gpu.vulkan_dispatch_rejection
---- Testing Vulkan dispVulkan dispatch no-leak (Vulkan dispatch no-leak (50 dispatches at n=257, accounting exact): PASS
+--- Testing Vulkan dispatch no-leak (A-015) ---
+Vulkan dispatch no-leak (50 dispatches at n=257, accounting exact): PASS
 [CASE PASS] gpu.vulkan_dispatch_no_leak
 --- Testing SPIR-V pipeline manifest (A-055) ---
 SPIR-V manifest (25 kernels: 22 prior + rope_batched + kv_append_chunk + attention_prefill registered A-069, deterministic): PASS
@@ -1323,7 +1334,9 @@ SPIR-V toolchain record (glslang 16.4.0, SPIR-V 1.0): PASS
 A056_SHAPE rows= 1  cols= 32  cpu_oracle_max_abs= 4.7683716e-07
 A056_SHAPE rows= 4  cols= 64  cpu_oracle_max_abs= 3.8146973e-06
 A056_SHAPE rows= 16  cols= 288  cpu_oracle_max_abs= 1.335144e-05
-A056_SHAPE rows= 37  cols= 320  cpu_oracA056_SHAPE rows= 64  colsA056_SHAPE rows= 64  cols= 1024  cpu_oracA056_SHAPE rows= 13  colsA056_SHAPE rows= 13  cols= 4096  cpu_oracle_max_abs= 0.00010120869
+A056_SHAPE rows= 37  cols= 320  cpu_oracle_max_abs= 2.670288e-05
+A056_SHAPE rows= 64  cols= 1024  cpu_oracle_max_abs= 7.247925e-05
+A056_SHAPE rows= 13  cols= 4096  cpu_oracle_max_abs= 0.00010120869
 Vulkan Q8_0 GEMV oracle parity (6 shapes incl. K=288 stories scale and K=4096, RADV device, worst max_abs= 0.00010120869 ): PASS
 [CASE PASS] gpu.vulkan_q8_gemv_oracle_parity
 --- Testing Vulkan Q8_0 GEMV known value (A-056) ---
@@ -1344,7 +1357,8 @@ Vulkan Q8_0 GEMV dispatch evidence (counter +2 for 2 dispatches, accounting exac
 attn shape heads=4 ratio=1 dim=32 kv=5 max_abs=8.940697e-08
 attn shape heads=8 ratio=2 dim=64 kv=17 max_abs=7.4505806e-08
 attn shape heads=16 ratio=4 dim=128 kv=129 max_abs=7.4505806e-08
-attn shape heads=8 ratio=8 dim=64 kv=attn shape heads=8 ratio=attn shape heads=8 ratio=2 dim=64 kv=1024 max_abs=2.9802322e-08
+attn shape heads=8 ratio=8 dim=64 kv=64 max_abs=7.4505806e-08
+attn shape heads=8 ratio=2 dim=64 kv=1024 max_abs=2.9802322e-08
 attn shape heads=4 ratio=1 dim=128 kv=1 max_abs=0.0
 Vulkan decode attention oracle parity (6 shapes, MHA/GQA/MQA): PASS
 [CASE PASS] gpu.vulkan_attn_decode_oracle_parity
@@ -1371,9 +1385,11 @@ Vulkan sampling greedy oracle parity (8 sizes, token-exact): PASS
 --- Testing Vulkan sampling greedy tie policy (A-063) ---
 Vulkan sampling greedy tie policy (5 crafted cases, lowest index): PASS
 [CASE PASS] gpu.vulkan_sampling_greedy_tie_policy
---- Testing Vulkan sampling temperature/top-k exVulkan sampling temperatuVulkan sampling temperature/top-k exact-u oracle (7 fixtures x u grid, token-exact): PASS
+--- Testing Vulkan sampling temperature/top-k exact-u oracle (A-063) ---
+Vulkan sampling temperature/top-k exact-u oracle (7 fixtures x u grid, token-exact): PASS
 [CASE PASS] gpu.vulkan_sampling_sample_oracle_exact
---- Testing Vulkan sampling temperature Vulkan sampling temperatuVulkan sampling temperature distribution (800 deterministic-u draws, oracle probs): PASS
+--- Testing Vulkan sampling temperature distribution (A-063) ---
+Vulkan sampling temperature distribution (800 deterministic-u draws, oracle probs): PASS
 [CASE PASS] gpu.vulkan_sampling_temperature_distribution
 --- Testing Vulkan sampling rejection (A-063) ---
 Vulkan sampling rejection (9 invalid calls raise, no dispatch): PASS
@@ -1399,19 +1415,25 @@ GPU weight residency multi-tensor exact-sum accounting: PASS
 --- Testing GPU weight residency rejection (A-064) ---
 GPU weight residency rejection (zero, negative, undersized): PASS
 [CASE PASS] gpu.gpu_weight_residency_rejection
---- Testing Vulkan full layer oracle parity perA065_LAYER idx=0 chained A065_LAYER idx=0 chaiA065_LAYER idx=1 chained A065_LAYER idx=1 chA065_LAYER idx=2 chained A065_LAYER idx=2 chained max_abs=0.005493164
+--- Testing Vulkan full layer oracle parity per layer index (A-065) ---
+A065_LAYER idx=0 chained max_abs=0.0015869141
+A065_LAYER idx=1 chained max_abs=0.00390625
+A065_LAYER idx=2 chained max_abs=0.005493164
 Vulkan full layer oracle parity (layers 0,1,2 chained): PASS
 [CASE PASS] gpu.vulkan_layer_oracle_parity
---- Testing Vulkan full layerA065_KNOWN zero-weight reA065_KNOWN zero-weight residual identity max_abs=0.0
+--- Testing Vulkan full layer known value (A-065) ---
+A065_KNOWN zero-weight residual identity max_abs=0.0
 Vulkan full layer known value (residual identity): PASS
 [CASE PASS] gpu.vulkan_layer_known_value
---- Testing Vulkan full layer standaloneA065_LAYER idx=2 standaloA065_LAYER idx=2 standalone max_abs=0.0014648438
+--- Testing Vulkan full layer standalone layer index (A-065) ---
+A065_LAYER idx=2 standalone max_abs=0.0014648438
 Vulkan full layer standalone layer index 2: PASS
 [CASE PASS] gpu.vulkan_layer_standalone_index
 --- Testing Vulkan full layer rejection (A-065) ---
 Vulkan full layer rejection (6 invalid calls): PASS
 [CASE PASS] gpu.vulkan_layer_rejection
---- Testing Vulkan full layer dispaA065_DISPATCH rmsnorm=2 rA065_DISPATCH rmsnorm=2 rope=2 q8_gemv=7 attn=1 elementwise=3
+--- Testing Vulkan full layer dispatch evidence (A-065) ---
+A065_DISPATCH rmsnorm=2 rope=2 q8_gemv=7 attn=1 elementwise=3
 Vulkan full layer dispatch evidence (2/2/7/1/3, accounting exact): PASS
 [CASE PASS] gpu.vulkan_layer_dispatch_evidence
 --- Testing Vulkan KV-append parity (A-066) ---
@@ -1421,14 +1443,16 @@ Vulkan KV-append parity (4 positions, bit-exact, slots isolated): PASS
   strided attention max_abs 5.9604645e-08
 Vulkan strided attention parity (kv_len 3 of max_len 16): PASS
 [CASE PASS] gpu.vulkan_decode_strided_attention_parity
---- Testing Vulkan full decode  oracle step 2 token 12   oracle step 2 token 12 logit gap 1.4627514
+--- Testing Vulkan full decode token-exact (A-066) ---
+  oracle step 2 token 12 logit gap 1.4627514
   oracle step 3 token 72 logit gap 6.245077
   oracle step 4 token 74 logit gap 1.2121506
   oracle step 5 token 66 logit gap 3.631874
   oracle step 6 token 66 logit gap 0.6080437
   oracle step 7 token 23 logit gap 3.5085793
   oracle step 8 token 26 logit gap 1.3139744
-  oracle step 9 token  step 0 gpu token 12 ora  step 0 gpu token 12 oracle token 12
+  oracle step 9 token 86 logit gap 0.28340912
+  step 0 gpu token 12 oracle token 12
   step 1 gpu token 72 oracle token 72
   step 2 gpu token 74 oracle token 74
   step 3 gpu token 66 oracle token 66
@@ -1438,7 +1462,8 @@ Vulkan strided attention parity (kv_len 3 of max_len 16): PASS
   step 7 gpu token 86 oracle token 86
 Vulkan full decode token-exact (8 greedy tokens, RADV dispatches counted): PASS
 [CASE PASS] gpu.vulkan_decode_token_exact
---- Testing Vulkan decoVulkan decode rejection (Vulkan decode rejection (6 of 6 raise before dispatch): PASS
+--- Testing Vulkan decode rejection (A-066) ---
+Vulkan decode rejection (6 of 6 raise before dispatch): PASS
 [CASE PASS] gpu.vulkan_decode_rejection
 --- Testing Vulkan real-model logit sanitization (A-067) ---
 sanitize policy: NaN/+Inf/-Inf -> -1e9, counts exact, CPU-policy identical
@@ -1446,7 +1471,9 @@ sanitize policy: NaN/+Inf/-Inf -> -1e9, counts exact, CPU-policy identical
 --- Testing Vulkan real-model RoPE layout permutation (A-067) ---
 rope permutation: interleaved -> rotate-half reindex exact
 [CASE PASS] gpu.vulkan_real_model_rope_permutation
---- Testing Vulkan real-model fiGGUF validated: 292 tensoGGUF validated: 292 tensors, 33 metadata entGGUF validated: 292 tensors, 33 metadata entries, architecture llama
+--- Testing Vulkan real-model fixture config (A-067) ---
+GGUF validated: 292 tensors, 33 metadata entries, architecture llama
+GGUF validated: 292 tensors, 33 metadata entries, architecture llama
 fixture config: llama 32L dim 4096 ffn 14336 vocab 128256, 32 live buffers, close releases all
 [CASE PASS] gpu.vulkan_real_model_fixture_config
 --- Testing Vulkan real-model teacher-forcing battery (A-067) ---
@@ -1455,18 +1482,19 @@ MimirWell initialized with 2133881856 derived bytes.
 GGUF validated: 292 tensors, 33 metadata entries, architecture llama
 Starting deterministic generation loop (The Weaving of Fate)...
 Prompt tokens: 6 context_length: 131072
- Token generated: 264 ' a T Token generated: 3363 ' city'
+ Token generated: 264 ' a'
+ Token generated: 3363 ' city'
  Token generated: 315 ' of'
  Token generated: 6800 ' grand'
  Token generated: 12844 'eur'
  Token generated: 323 ' and'
  Token generated: 13444 ' beauty'
  Token generated: 11 ','
-AESIR_TIMING_JSON: {"timing_version":1,"load_ms":1294.288,"prefill_ms":1480.077,"decode_ms":2928.689,"sample_ms":0.301,"accounted_ms":5703.357,"wall_ms":5704.102,"residual_ms":0.744,"coverage_pct":99.98,"prompt_tokens":6,"generated_tokens":8,"clock":"CLOCK_MONOTONIC","sample_scope":"sample_token_from_logits calls in the forward paths"}
+AESIR_TIMING_JSON: {"timing_version":1,"load_ms":491.082,"prefill_ms":1097.569,"decode_ms":1090.555,"sample_ms":0.179,"accounted_ms":2679.387,"wall_ms":2679.584,"residual_ms":0.196,"coverage_pct":99.99,"prompt_tokens":6,"generated_tokens":8,"clock":"CLOCK_MONOTONIC","sample_scope":"sample_token_from_logits calls in the forward paths"}
 Generated 8 token(s); stop reason: length
 Inference complete. Fate is sealed.
 GGUF validated: 292 tensors, 33 metadata entries, architecture llama
-battery: continuation faibattery: continuation faithful-band  8 / 8 , top-1 agreement  13 / 13
+battery: continuation faithful-band  8 / 8 , top-1 agreement  13 / 13
 [CASE PASS] gpu.vulkan_real_model_teacher_forcing
 --- Testing Vulkan real-model GPU greedy generation (A-067) ---
 GGUF validated: 292 tensors, 33 metadata entries, architecture llama
@@ -1490,10 +1518,11 @@ Prompt tokens: 6 context_length: 131072
  Token generated: 7829 ' culture'
  Token generated: 430 ' that'
  Token generated: 374 ' is'
-AESIR_TIMING_JSON: {"timing_version":1,"load_ms":1340.500,"prefill_ms":603.382,"decode_ms":6033.880,"sample_ms":0.624,"accounted_ms":7978.387,"wall_ms":7978.999,"residual_ms":0.611,"coverage_pct":99.99,"prompt_tokens":6,"generated_tokens":16,"clock":"CLOCK_MONOTONIC","sample_scope":"sample_token_from_logits calls in the forward paths"}
+AESIR_TIMING_JSON: {"timing_version":1,"load_ms":485.109,"prefill_ms":264.169,"decode_ms":2383.596,"sample_ms":0.346,"accounted_ms":3133.222,"wall_ms":3133.438,"residual_ms":0.216,"coverage_pct":99.99,"prompt_tokens":6,"generated_tokens":16,"clock":"CLOCK_MONOTONIC","sample_scope":"sample_token_from_logits calls in the forward paths"}
 Generated 16 token(s); stop reason: length
 Inference complete. Fate is sealed.
-GGUF validated: 292 tensors, 33 metadata entgeneration: GPU greedy == CPU greedy 16/16, first token 264
+GGUF validated: 292 tensors, 33 metadata entries, architecture llama
+generation: GPU greedy == CPU greedy 16/16, first token 264
 [CASE PASS] gpu.vulkan_real_model_generation
 --- Testing Vulkan real-model dispatch evidence (A-067) ---
 GGUF validated: 292 tensors, 33 metadata entries, architecture llama
@@ -1635,7 +1664,7 @@ Vulkan async decode token identity (sync == async == oracle): PASS
 Vulkan async no-wait-idle (queued, fence-drained per token): PASS
 [CASE PASS] gpu.vulkan_async_no_wait_idle
 --- Testing Vulkan async timeline trace sane (A-071) ---
-  ts_ok True busy_ns 945365 span_ns 14956614 busy_fraction 0.06320715370470883 host_wait_ns 198992 period_ps 10019
+  ts_ok True busy_ns 1136403 span_ns 12146935 busy_fraction 0.0935547115383428 host_wait_ns 203301 period_ps 10019
 Vulkan async timeline sane (busy fraction in (0,1], span >= busy): PASS
 [CASE PASS] gpu.vulkan_async_timeline_sane
 --- Testing Vulkan async dispatch queueing (A-071) ---
@@ -1646,7 +1675,7 @@ Vulkan async dispatch queueing (16 queued GEMV, results exact): PASS
 Vulkan async rejection (validation before mode-on, no residue): PASS
 [CASE PASS] gpu.vulkan_async_rejection
 --- Testing Vulkan async dispatch evidence (A-071) ---
-  submits 374 per step 37 host_wait_ns/token 25112
+  submits 374 per step 37 host_wait_ns/token 25595
 Vulkan async dispatch evidence (RADV counters + per-token host wait): PASS
 [CASE PASS] gpu.vulkan_async_dispatch_evidence
 --- Testing GPU fuzz seed replay (A-078) ---
@@ -1712,7 +1741,7 @@ PASS: spill cap bounds degradation; bad sizes and over-release refused
 PASS: degradation is a state, not a ratchet - GPU route reopens
 [CASE PASS] gpu.gpu_pressure_recovery
 --- Testing live meminfo reading + bounded log storm (A-076) ---
-MEASURED live pool: total 130454052864 available 58009821184 level MODERATE
+MEASURED live pool: total 130454052864 available 109955239936 level NONE
 PASS: live reading is real; the log itself cannot become a leak
 [CASE PASS] gpu.gpu_pressure_live_and_log_bound
 --- Testing governor over a real RADV buffer (A-076) ---
@@ -1737,7 +1766,7 @@ PASS: assist without evidence ignored; with evidence placed + logged
 PASS: same inputs, byte-identical log + digest; new capacity, new digest
 [CASE PASS] sched.spillover_log_reproducible
 --- Testing spillover: GPU placement executed on RADV (A-102) ---
-live pool avail= 58009821184  total= 130454052864
+live pool avail= 109955239936  total= 130454052864
 PASS: placed bytes resident on RADV STRIX_HALO, readback exact, freed
 [CASE PASS] sched.spillover_device_execution
 --- Testing fairness: equal share, lag bound every step (A-105) ---
@@ -1770,7 +1799,7 @@ Secondary CUID not available: AMDCUID support not enabled.
 error: XDG_RUNTIME_DIR is invalid or not set in the environment.
 WARNING: [Loader Message] Code 0 : ICD for selected physical device does not export vkGetPhysicalDeviceDisplayPlanePropertiesKHR!
 WARNING: [Loader Message] Code 0 : ICD for selected physical device does not export vkGetPhysicalDeviceDisplayPropertiesKHR!
-PASS: gpu util= 86.0%  placements total= 12  gpu/npu/cpu= 6 / 2 / 4
+PASS: gpu util= 2.0%  placements total= 12  gpu/npu/cpu= 6 / 2 / 4
 [CASE PASS] sched.telemetry_live_bounds
 --- Testing telemetry: /proc/stat two-sample delta is exact (A-106) ---
 PASS: synthetic delta exactly 50.0%, zero interval unknown, live samples monotonic
@@ -1781,7 +1810,8 @@ Secondary CUID not available: AMDCUID support not enabled.
 error: XDG_RUNTIME_DIR is invalid or not set in the environment.
 WARNING: [Loader Message] Code 0 : ICD for selected physical device does not export vkGetPhysicalDeviceDisplayPlanePropertiesKHR!
 WARNING: [Loader Message] Code 0 : ICD for selected physical device does not export vkGetPhysicalDeviceDisplayPropertiesKHR!
-[CASE FAIL] sched.telemetry_external_match :: GPU utilisation telemetry disagrees with external cat beyond 15 pp
+PASS: internal mem= 233242624  external mem= 233242624 ; internal util= 2.0%  external util= 2.0%
+[CASE PASS] sched.telemetry_external_match
 --- Testing telemetry: placement decisions exposed + reproducible (A-106) ---
 Secondary CUID not available: AMDCUID support not enabled.
 'DISPLAY' environment variable not set... skipping surface info
@@ -1817,7 +1847,7 @@ Secondary CUID not available: AMDCUID support not enabled.
 error: XDG_RUNTIME_DIR is invalid or not set in the environment.
 WARNING: [Loader Message] Code 0 : ICD for selected physical device does not export vkGetPhysicalDeviceDisplayPlanePropertiesKHR!
 WARNING: [Loader Message] Code 0 : ICD for selected physical device does not export vkGetPhysicalDeviceDisplayPropertiesKHR!
-  gtt used before/during/after: 28644773888 / 28644773888 / 28644773888
+  gtt used before/during/after: 233242624 / 233242624 / 233242624
 PASS: pool observed live around a real RADV allocation, readback exact, pool returned
 [CASE PASS] sched.telemetry_gpu_memory_reacts
 --- Testing telemetry: live CPU window utilisation is sane (A-106) ---
@@ -2032,7 +2062,8 @@ Zero-copy Vulkan CPU-write -> GPU kernel read on HOST_CACHED coherent buffers (n
 Zero-copy rejection (zero size both backends, unknown backend, OOB span, OOB launch, cross-backend): PASS
 [CASE PASS] gpu.zero_copy_rejection
 --- Testing zero-copy no-leak accounting (A-019) ---
-[CASE FAIL] gpu.zero_copy_no_leak :: zero-copy loop leaked HIP bytes: free 126215389184 -> 126217273344
+Zero-copy no-leak (200 HIP transform rounds + 50 Vulkan rounds, HIP free bytes / Vulkan accounting / shim counters all back to baseline exactly): PASS
+[CASE PASS] gpu.zero_copy_no_leak
 --- Testing arena reset semantics (A-026) ---
 ARENA_RESET_OK baseline-exact after reset
 [CASE PASS] gpu.arena_reset_semantics
@@ -2066,287 +2097,62 @@ PASS: caps are configurable; invalid configs fail closed
 PASS: accounting exact, checked, and back at baseline
 [CASE PASS] memory.budget_accounting_baseline
 --- Testing budget live MemAvailable pressure (A-023) ---
-MEASURED live MemAvailable bytes: 53302505472 ; effective cap honoured at that figure
+MEASURED live MemAvailable bytes: 112249794560 ; effective cap honoured at that figure
 PASS: live pressure reading is real and the cap honours it
 [CASE PASS] memory.budget_live_meminfo_pressure
 --- Testing Mojo-native vec_add oracle (A-029) ---
-HSA exception: MemoryRegion::BlockAllocator::alloc failed.
-HSA exception: MemoryRegion::BlockAllocator::alloHSA exception: MemoryRegion::BlockAllocator::alloc failed.
-HSA exception: MemoryRegion::BlockAllocator::alloc failed.
-HSA exception: MemoryRegion::BlockAllocator::alloc failed.
 [CASE PASS] gpu.mojo_native_vec_add_oracle
 --- Testing Mojo-native GEMM oracle (A-029) ---
-HSA exception: MemoryRegion::BlockAllocator::alloc failed.
-HSA exception: MemoryRegion::BlockAllocator::alloc failed.
-ng Mojo-native rejection (A-029) ---
+[CASE PASS] gpu.mojo_native_gemm_oracle
+--- Testing Mojo-native rejection (A-029) ---
 [CASE PASS] gpu.mojo_native_rejection
 --- Testing HIP Q8_0 GEMV oracle parity (A-082) ---
-HSA exception: MemoryRegion::BlockAllocator::alloc failed.
-HSA exception: MemoryRegion::BlockAllocator::alloc failed.
-HSA exception: MemoryRegion::BlockAllocator::alloc failed.
 A082_SHAPE rows= 1  cols= 32  cpu_oracle_max_abs= 0.0
-HSA exception: MemoryRegion::BlockAllocator::alloc failed.
-HSA exception: MemoryRegion::BlockAllocator::alloc failed.
-HSA exception: MemoryRegion::BlockAllocator::alloc failed.
 A082_SHAPE rows= 4  cols= 64  cpu_oracle_max_abs= 0.0
-HSA exception: MemoryRegion::BlockAllocator::alloc failed.
-HSA exception: MemoryRegion::BlockAllocator::alloc failed.
-HSA exception: MemoryRegion::BlockAllocator::alloc failed.
 A082_SHAPE rows= 16  cols= 288  cpu_oracle_max_abs= 0.0
-HSA exception: MemoryRegion::BlockAllocator::alloc failed.
-HSA exception: MemoryRegion::BlockAllocator::alloc failed.
-HSA exception: MemoryRegion::BlockAllocator::alloc failed.
 A082_SHAPE rows= 37  cols= 320  cpu_oracle_max_abs= 0.0
-HSA exception: MemoryRegion::BlockAllocator::alloc failed.
-HSA exception: MemoryRegion::BlockAllocator::alloc failed.
-HSA exception: MemoryRegion::BlockAllocator::alloc failed.
 A082_SHAPE rows= 64  cols= 1024  cpu_oracle_max_abs= 0.0
-HSA exception: MemoryRegion::BlockAllocator::alloc failed.
-HSA exception: MemoryRegion::BlockAllocator::alloc failed.
-HSA exception: MemoryRegion::BlockAllocator::alloc failed.
 A082_SHAPE rows= 13  cols= 4096  cpu_oracle_max_abs= 0.0
 HIP Q8_0 GEMV oracle parity (6 shapes incl. K=288 stories scale and K=4096, gfx1151 device, worst max_abs= 0.0 ): PASS
 [CASE PASS] gpu.hip_q8_gemv_oracle_parity
 --- Testing HIP Q8_0 GEMV known value (A-082) ---
-HSA exception: MemoryRegion::BlockAllocator::alloc failed.
-HSA exception: MemoryRegion::BlockAllocator::alloc failed.
-HSA exception: MemoryRegion::BlockAllocator::alloc failed.
 HIP Q8_0 GEMV known value (scale 0.25, q=i-16, x=1 -> -4 exact): PASS
 [CASE PASS] gpu.hip_q8_gemv_known_value
 --- Testing HIP Q8_0 GEMV vs engine CPU GEMV (A-082) ---
-HSA exception: MemoryRegion::BlockAllocator::alloc failed.
-HSA exception: MemoryRegion::BlockAllocator::alloc failed.
-HSA exception: MemoryRegion::BlockAllocator::alloc failed.
 HIP Q8_0 GEMV vs engine CPU GEMV (dyadic K=1024 N=96, within half F16 ULP of engine output at every output): PASS
 [CASE PASS] gpu.hip_q8_gemv_engine_crosscheck
 --- Testing HIP Q8_0 GEMV rejection (A-082) ---
 HIP Q8_0 GEMV rejection (zero rows, cols=48, oversize, short x): PASS
 [CASE PASS] gpu.hip_q8_gemv_rejection
 --- Testing HIP Q8_0 GEMV dispatch evidence (A-082) ---
-HSA exception: MemoryRegion::BlockAllocator::alloc failed.
-HSA exception: MemoryRegion::BlockAllocator::alloc failed.
-HSA exception: MemoryRegion::BlockAllocator::alloc failed.
 A082_SHAPE rows= 8  cols= 256  cpu_oracle_max_abs= 0.0
-HSA exception: MemoryRegion::BlockAllocator::alloc failed.
-HSA exception: MemoryRegion::BlockAllocator::alloc failed.
-HSA exception: MemoryRegion::BlockAllocator::alloc failed.
 A082_SHAPE rows= 8  cols= 256  cpu_oracle_max_abs= 0.0
 HIP Q8_0 GEMV dispatch evidence (device " AMD Radeon 8060S Graphics ", counter +2 for 2 dispatches): PASS
 [CASE PASS] gpu.hip_q8_gemv_dispatch_evidence
 --- Testing HIP Q4_K GEMV oracle (A-083) ---
 A083_DEVICE name=AMD Radeon 8060S Graphics
-HSA exception: MemoryRegion::BlockAllocator::alloc failed.
-HSA exception: MemoryRegion::BlockAllocator::alloc failed.
-HSA exception: MemoryRegion::BlockAllocator::alloc failed.
-HSA exception: MemoryRegion::BlockAllocator::alloc failed.
-HSA exception: MemoryRegion::BlockAllocator::alloc failed.
-HSA exception: MemoryRegion::BlockAllocator::alloc failed.
-HSA exception: MemoryRegion::BlockAllocator::alloc failed.
-HSA exception: MemoryRegion::BlockAllocator::alloc failed.
-HSA exception: MemoryRegion::BlockAllocator::alloc failed.
-HSA exception: MemoryRegion::BlockAllocator::alloc failed.
-HSA exception: MemoryRegion::BlockAllocator::alloc failed.
-HSA exception: MemoryRegion::BlockAllocator::alloc failed.
 HIP Q4_K GEMV (rows/k = 1/256, 7/512, 64/1024, 33/2048; HIP dequant+GEMV vs Z13 CPU oracle within filed f16-rounding tolerance, dispatch counter +1 per call, HIP device): PASS
 [CASE PASS] gpu.hip_q4k_gemv_oracle
 --- Testing HIP Q4_K GEMV rejection (A-083) ---
 HIP Q4_K GEMV rejection (zero rows, zero k, ragged k, oversize shape, undersized activation): PASS
 [CASE PASS] gpu.hip_q4k_gemv_rejection
 --- Testing HIP Q4_K GEMV no-leak (A-083) ---
-HSA exception: MemoryRegion::BlockAllocator::alloc failed.
-HSA exception: MemoryRegion::BlockAllocator::alloc failed.
-HSA exception: MemoryRegion::BlockAllocator::alloc failed.
-HSA exception: MemoryRegion::BlockAllocator::alloc failed.
-HSA exception: MemoryRegion::BlockAllocator::alloc failed.
-HSA exception: MemoryRegion::BlockAllocator::alloc failed.
-HSA exception: MemoryRegion::BlockAllocator::alloc failed.
-HSA exception: MemoryRegion::BlockAllocator::alloc failed.
-HSA exception: MemoryRegion::BlockAllocator::alloc failed.
-HSA exception: MemoryRegion::BlockAllocator::alloc failed.
-HSA exception: MemoryRegion::BlockAllocator::alloc failed.
-HSA exception: MemoryRegion::BlockAllocator::alloc failed.
-HSA exception: MemoryRegion::BlockAllocator::alloc failed.
-HSA exception: MemoryRegion::BlockAllocator::alloc failed.
-HSA exception: MemoryRegion::BlockAllocator::alloc failed.
-HSA exception: MemoryRegion::BlockAllocator::alloc failed.
-HSA exception: MemoryRegion::BlockAllocator::alloc failed.
-HSA exception: MemoryRegion::BlockAllocator::alloc failed.
-HSA exception: MemoryRegion::BlockAllocator::alloc failed.
-HSA exception: MemoryRegion::BlockAllocator::alloc failed.
-HSA exception: MemoryRegion::BlockAllocator::alloc failed.
-HSA exception: MemoryRegion::BlockAllocator::alloc failed.
-HSA exception: MemoryRegion::BlockAllocator::alloc failed.
-HSA exception: MemoryRegion::BlockAllocator::alloc failed.
-HSA exception: MemoryRegion::BlockAllocator::alloc failed.
-HSA exception: MemoryRegion::BlockAllocator::alloc failed.
-HSA exception: MemoryRegion::BlockAllocator::alloc failed.
-HSA exception: MemoryRegion::BlockAllocator::alloc failed.
-HSA exception: MemoryRegion::BlockAllocator::alloc failed.
-HSA exception: MemoryRegion::BlockAllocator::alloc failed.
-HSA exception: MemoryRegion::BlockAllocator::alloc failed.
-HSA exception: MemoryRegion::BlockAllocator::alloc failed.
-HSA exception: MemoryRegion::BlockAllocator::alloc failed.
-HSA exception: MemoryRegion::BlockAllocator::alloc failed.
-HSA exception: MemoryRegion::BlockAllocator::alloc failed.
-HSA exception: MemoryRegion::BlockAllocator::alloc failed.
-HSA exception: MemoryRegion::BlockAllocator::alloc failed.
-HSA exception: MemoryRegion::BlockAllocator::alloc failed.
-HSA exception: MemoryRegion::BlockAllocator::alloc failed.
-HSA exception: MemoryRegion::BlockAllocator::alloc failed.
-HSA exception: MemoryRegion::BlockAllocator::alloc failed.
-HSA exception: MemoryRegion::BlockAllocator::alloc failed.
-HSA exception: MemoryRegion::BlockAllocator::alloc failed.
-HSA exception: MemoryRegion::BlockAllocator::alloc failed.
-HSA exception: MemoryRegion::BlockAllocator::alloc failed.
-HSA exception: MemoryRegion::BlockAllocator::alloc failed.
-HSA exception: MemoryRegion::BlockAllocator::alloc failed.
-HSA exception: MemoryRegion::BlockAllocator::alloc failed.
-HSA exception: MemoryRegion::BlockAllocator::alloc failed.
-HSA exception: MemoryRegion::BlockAllocator::alloc failed.
-HSA exception: MemoryRegion::BlockAllocator::alloc failed.
-HSA exception: MemoryRegion::BlockAllocator::alloc failed.
-HSA exception: MemoryRegion::BlockAllocator::alloc failed.
-HSA exception: MemoryRegion::BlockAllocator::alloc failed.
-HSA exception: MemoryRegion::BlockAllocator::alloc failed.
-HSA exception: MemoryRegion::BlockAllocator::alloc failed.
-HSA exception: MemoryRegion::BlockAllocator::alloc failed.
-HSA exception: MemoryRegion::BlockAllocator::alloc failed.
-HSA exception: MemoryRegion::BlockAllocator::alloc failed.
-HSA exception: MemoryRegion::BlockAllocator::alloc failed.
-HSA exception: MemoryRegion::BlockAllocator::alloc failed.
-HSA exception: MemoryRegion::BlockAllocator::alloc failed.
-HSA exception: MemoryRegion::BlockAllocator::alloc failed.
-HSA exception: MemoryRegion::BlockAllocator::alloc failed.
-HSA exception: MemoryRegion::BlockAllocator::alloc failed.
-HSA exception: MemoryRegion::BlockAllocator::alloc failed.
-HSA exception: MemoryRegion::BlockAllocator::alloc failed.
-HSA exception: MemoryRegion::BlockAllocator::alloc failed.
-HSA exception: MemoryRegion::BlockAllocator::alloc failed.
-HSA exception: MemoryRegion::BlockAllocator::alloc failed.
-HSA exception: MemoryRegion::BlockAllocator::alloc failed.
-HSA exception: MemoryRegion::BlockAllocator::alloc failed.
-HSA exception: MemoryRegion::BlockAllocator::alloc failed.
-HSA exception: MemoryRegion::BlockAllocator::alloc failed.
-HSA exception: MemoryRegion::BlockAllocator::alloc failed.
-HSA exception: MemoryRegion::BlockAllocator::alloc failed.
-HSA exception: MemoryRegion::BlockAllocator::alloc failed.
-HSA exception: MemoryRegion::BlockAllocator::alloc failed.
-HSA exception: MemoryRegion::BlockAllocator::alloc failed.
-HSA exception: MemoryRegion::BlockAllocator::alloc failed.
-HSA exception: MemoryRegion::BlockAllocator::alloc failed.
-HSA exception: MemoryRegion::BlockAllocator::alloc failed.
-HSA exception: MemoryRegion::BlockAllocator::alloc failed.
-HSA exception: MemoryRegion::BlockAllocator::alloc failed.
-HSA exception: MemoryRegion::BlockAllocator::alloc failed.
-HSA exception: MemoryRegion::BlockAllocator::alloc failed.
-HSA exception: MemoryRegion::BlockAllocator::alloc failed.
-HSA exception: MemoryRegion::BlockAllocator::alloc failed.
-HSA exception: MemoryRegion::BlockAllocator::alloc failed.
-HSA exception: MemoryRegion::BlockAllocator::alloc failed.
-HSA exception: MemoryRegion::BlockAllocator::alloc failed.
-HSA exception: MemoryRegion::BlockAllocator::alloc failed.
-HSA exception: MemoryRegion::BlockAllocator::alloc failed.
-HSA exception: MemoryRegion::BlockAllocator::alloc failed.
-HSA exception: MemoryRegion::BlockAllocator::alloc failed.
-HSA exception: MemoryRegion::BlockAllocator::alloc failed.
-HSA exception: MemoryRegion::BlockAllocator::alloc failed.
-HSA exception: MemoryRegion::BlockAllocator::alloc failed.
-HSA exception: MemoryRegion::BlockAllocator::alloc failed.
-HSA exception: MemoryRegion::BlockAllocator::alloc failed.
-HSA exception: MemoryRegion::BlockAllocator::alloc failed.
-HSA exception: MemoryRegion::BlockAllocator::alloc failed.
-HSA exception: MemoryRegion::BlockAllocator::alloc failed.
-HSA exception: MemoryRegion::BlockAllocator::alloc failed.
-HSA exception: MemoryRegion::BlockAllocator::alloc failed.
-HSA exception: MemoryRegion::BlockAllocator::alloc failed.
-HSA exception: MemoryRegion::BlockAllocator::alloc failed.
-HSA exception: MemoryRegion::BlockAllocator::alloc failed.
-HSA exception: MemoryRegion::BlockAllocator::alloc failed.
-HSA exception: MemoryRegion::BlockAllocator::alloc failed.
-HSA exception: MemoryRegion::BlockAllocator::alloc failed.
-HSA exception: MemoryRegion::BlockAllocator::alloc failed.
-HSA exception: MemoryRegion::BlockAllocator::alloc failed.
-HSA exception: MemoryRegion::BlockAllocator::alloc failed.
-HSA exception: MemoryRegion::BlockAllocator::alloc failed.
-HSA exception: MemoryRegion::BlockAllocator::alloc failed.
-HSA exception: MemoryRegion::BlockAllocator::alloc failed.
-HSA exception: MemoryRegion::BlockAllocator::alloc failed.
-HSA exception: MemoryRegion::BlockAllocator::alloc failed.
-HSA exception: MemoryRegion::BlockAllocator::alloc failed.
-HSA exception: MemoryRegion::BlockAllocator::alloc failed.
-HSA exception: MemoryRegion::BlockAllocator::alloc failed.
-HSA exception: MemoryRegion::BlockAllocator::alloc failed.
-HSA exception: MemoryRegion::BlockAllocator::alloc failed.
-HSA exception: MemoryRegion::BlockAllocator::alloc failed.
-HSA exception: MemoryRegion::BlockAllocator::alloc failed.
-HSA exception: MemoryRegion::BlockAllocator::alloc failed.
-HSA exception: MemoryRegion::BlockAllocator::alloc failed.
-HSA exception: MemoryRegion::BlockAllocator::alloc failed.
-HSA exception: MemoryRegion::BlockAllocator::alloc failed.
-HSA exception: MemoryRegion::BlockAllocator::alloc failed.
-HSA exception: MemoryRegion::BlockAllocator::alloc failed.
-HSA exception: MemoryRegion::BlockAllocator::alloc failed.
-HSA exception: MemoryRegion::BlockAllocator::alloc failed.
-HSA exception: MemoryRegion::BlockAllocator::alloc failed.
-HSA exception: MemoryRegion::BlockAllocator::alloc failed.
-HSA exception: MemoryRegion::BlockAllocator::alloc failed.
-HSA exception: MemoryRegion::BlockAllocator::alloc failed.
-HSA exception: MemoryRegion::BlockAllocator::alloc failed.
-HSA exception: MemoryRegion::BlockAllocator::alloc failed.
-HSA exception: MemoryRegion::BlockAllocator::alloc failed.
-HSA exception: MemoryRegion::BlockAllocator::alloc failed.
-HSA exception: MemoryRegion::BlockAllocator::alloc failed.
-HSA exception: MemoryRegion::BlockAllocator::alloc failed.
-HSA exception: MemoryRegion::BlockAllocator::alloc failed.
-HSA exception: MemoryRegion::BlockAllocator::alloc failed.
-HSA exception: MemoryRegion::BlockAllocator::alloc failed.
-HSA exception: MemoryRegion::BlockAllocator::alloc failed.
-HSA exception: MemoryRegion::BlockAllocator::alloc failed.
-HSA exception: MemoryRegion::BlockAllocator::alloc failed.
-HSA exception: MemoryRegion::BlockAllocator::alloc failed.
-HSA exception: MemoryRegion::BlockAllocator::alloc failed.
-HSA exception: MemoryRegion::BlockAllocator::alloc failed.
-HIP Q4_K GEMV no-leak (50 dispatches at rows=4 k=256, outputs bit-identical across repeats, hipMemGetInfo retention exactly 50 x 8 MiB filed MAX per-context constant - zero slice-attributable bytes, counter +50): PASS
-[CASE PASS] gpu.hip_q4k_gemv_no_leak
+[CASE FAIL] gpu.hip_q4k_gemv_no_leak :: HIP Q4_K GEMV loop retention 0 != 50 x 8388608 (filed MAX per-context constant): slice-attributable leak or runtime behaviour change
 --- Testing HIP RMSNorm oracle parity (A-084) ---
-HSA exception: MemoryRegion::BlockAllocator::alloc failed.
-HSA exception: MemoryRegion::BlockAllocator::alloc failed.
-HSA exception: MemoryRegion::BlockAllocator::alloc failed.
 A084_RMS rows= 1  n= 64  max_abs_so_far= 0.0
-HSA exception: MemoryRegion::BlockAllocator::alloc failed.
-HSA exception: MemoryRegion::BlockAllocator::alloc failed.
-HSA exception: MemoryRegion::BlockAllocator::alloc failed.
 A084_RMS rows= 3  n= 128  max_abs_so_far= 0.0
-HSA exception: MemoryRegion::BlockAllocator::alloc failed.
-HSA exception: MemoryRegion::BlockAllocator::alloc failed.
-HSA exception: MemoryRegion::BlockAllocator::alloc failed.
 A084_RMS rows= 8  n= 37  max_abs_so_far= 0.0
 HIP RMSNorm oracle parity (worst max_abs= 0.0 ): PASS
 [CASE PASS] gpu.hip_attn_norms_rmsnorm_oracle
 --- Testing HIP RoPE oracle parity (A-084) ---
-HSA exception: MemoryRegion::BlockAllocator::alloc failed.
 A084_ROPE head_dim= 32  pos= 0  max_abs_so_far= 0.0
-HSA exception: MemoryRegion::BlockAllocator::alloc failed.
 A084_ROPE head_dim= 64  pos= 1  max_abs_so_far= 1.7881393e-07
-HSA exception: MemoryRegion::BlockAllocator::alloc failed.
 A084_ROPE head_dim= 128  pos= 17  max_abs_so_far= 1.1920929e-06
 HIP RoPE oracle parity (worst max_abs= 1.1920929e-06 ): PASS
 [CASE PASS] gpu.hip_attn_norms_rope_oracle
 --- Testing HIP decode attention oracle parity (A-084) ---
-HSA exception: MemoryRegion::BlockAllocator::alloc failed.
-HSA exception: MemoryRegion::BlockAllocator::alloc failed.
-HSA exception: MemoryRegion::BlockAllocator::alloc failed.
-HSA exception: MemoryRegion::BlockAllocator::alloc failed.
 A084_ATTN hd= 32  kv_len= 16  heads= 4  gqa= 1  max_abs_so_far= 1.1920929e-07
-HSA exception: MemoryRegion::BlockAllocator::alloc failed.
-HSA exception: MemoryRegion::BlockAllocator::alloc failed.
-HSA exception: MemoryRegion::BlockAllocator::alloc failed.
-HSA exception: MemoryRegion::BlockAllocator::alloc failed.
 A084_ATTN hd= 64  kv_len= 33  heads= 8  gqa= 2  max_abs_so_far= 1.1920929e-07
-HSA exception: MemoryRegion::BlockAllocator::alloc failed.
-HSA exception: MemoryRegion::BlockAllocator::alloc failed.
-HSA exception: MemoryRegion::BlockAllocator::alloc failed.
-HSA exception: MemoryRegion::BlockAllocator::alloc failed.
 A084_ATTN hd= 32  kv_len= 8  heads= 8  gqa= 4  max_abs_so_far= 1.7881393e-07
 HIP decode attention oracle parity (worst max_abs= 1.7881393e-07 ): PASS
 [CASE PASS] gpu.hip_attn_norms_attention_oracle
@@ -2354,14 +2160,6 @@ HIP decode attention oracle parity (worst max_abs= 1.7881393e-07 ): PASS
 HIP attention+norms rejection (9 bad shapes, counters unmoved): PASS
 [CASE PASS] gpu.hip_attn_norms_rejection
 --- Testing HIP attention+norms dispatch evidence (A-084) ---
-HSA exception: MemoryRegion::BlockAllocator::alloc failed.
-HSA exception: MemoryRegion::BlockAllocator::alloc failed.
-HSA exception: MemoryRegion::BlockAllocator::alloc failed.
-HSA exception: MemoryRegion::BlockAllocator::alloc failed.
-HSA exception: MemoryRegion::BlockAllocator::alloc failed.
-HSA exception: MemoryRegion::BlockAllocator::alloc failed.
-HSA exception: MemoryRegion::BlockAllocator::alloc failed.
-HSA exception: MemoryRegion::BlockAllocator::alloc failed.
 HIP attention+norms dispatch evidence (device " AMD Radeon 8060S Graphics ", each counter +1): PASS
 [CASE PASS] gpu.hip_attn_norms_dispatch_evidence
 --- Testing ROCm pin table exactness (A-087) ---
@@ -2811,9 +2609,9 @@ PASS: sysfs number parsers (ints, nvme capacity, mem bank, refusals)
 PASS: census lines (present quantified, absent with reason, none omitted)
 [CASE PASS] hardware.census_lines
 CENSUS: cpu: AMD RYZEN AI MAX+ 395 w/ Radeon 8060S — 32 logical, 16 physical cores in 1 package, 2 thread(s) per core
-CENSUS: gpu: present — gfx1151, driver amdgpu, PCI 1002:1586, VRAM aperture 4.0 GiB, unified pool (GTT) 121.4 GiB; memory = unified pool shared with CPU
+CENSUS: gpu: present — gfx1151, driver amdgpu, PCI 1002:1586, VRAM aperture 4.0 GiB, unified pool (GTT) 100.0 GiB; memory = unified pool shared with CPU
 CENSUS: npu: present — node /dev/accel/accel0, driver amdxdna, PCI 1022:17F0, firmware 1.1.2.65
-CENSUS: memory: 121.4 GiB total, 671.4 MiB available; memory clock 1000 MHz (KFD memory bank), bank width 256
+CENSUS: memory: 121.4 GiB total, 12.7 GiB available; memory clock 1000 MHz (KFD memory bank), bank width 256
 CENSUS: storage: NVMe Sandisk Optimus GX 7100M 2TB — 1.8 TiB, firmware 7620M0WD
 CENSUS: system: ROG Flow Z13 GZ302EA_GZ302EA, kernel 7.3.0-10-generic, OS Ubuntu 26.10
 CENSUS: rocm: absent — install root /opt/rocm absent (ROCm userland not installed)
@@ -2828,9 +2626,9 @@ PASS: thermal tolerance (temp +/-3 C; power 5 W or 30%)
 [CASE PASS] thermal.tolerance_tracking
 PASS: thermal lines (present quantified, RAPL unreadable honest, absent with reason)
 [CASE PASS] thermal.lines_fixture
-THERMAL: gpu thermal: edge 61.0°C, power PPT 71.5 W (amdgpu hwmon hwmon12)
-THERMAL: cpu thermal: Tctl 77.6°C (hwmon hwmon8 (k10temp))
-THERMAL: fan: fan1 5119 RPM (hwmon hwmon1 (acpi_fan))
+THERMAL: gpu thermal: edge 42.0°C, power PPT 26.3 W (amdgpu hwmon hwmon14)
+THERMAL: cpu thermal: Tctl 60.1°C (hwmon hwmon9 (k10temp))
+THERMAL: fan: fan1 3807 RPM (hwmon hwmon1 (acpi_fan))
 THERMAL: cpu power (RAPL): domain package-0 present — energy_uj unreadable: energy_uj could not be read or parsed: Failed to open file '/sys/class/powercap/intel-rapl:0/energy_uj': Permission denied
 PASS: live thermal on this machine (hwmon + RAPL, tracked within tolerance)
 [CASE PASS] thermal.live_sensors
@@ -3399,7 +3197,8 @@ StateVault in-memory & disk durable checkpoint: PASS
 StateVault exact-bytes read: PASS
 [CASE PASS] resilience.state_vault_read_exact_bytes
 --- Testing StateVault rejects files that grew during read (F012) ---
-[CASE FAIL] resilience.state_vault_rejects_growth :: StateVault accepted a checkpoint that grew during read
+StateVault growth rejection: PASS
+[CASE PASS] resilience.state_vault_rejects_growth
 --- Testing StateVault Marker Checkpoints & Corruption Detection ---
 StateVault marker checkpoints & corruption detection: PASS
 [CASE PASS] resilience.durable_state_vault
@@ -3570,14 +3369,11 @@ PASS: RoPE rejects invalid theta before mutating Q or K
 ==============================================
 Failure details:
  - gguf.tensor_directory_interface :: tensor directory admission differs for rank 3: GGUF is missing required tensor: token_embd.weight
- - gpu.amd_hip_no_leak_1000 :: HIP leak battery: leaked_bytes = 1056768 across 1000+1000 iterations
- - sched.telemetry_external_match :: GPU utilisation telemetry disagrees with external cat beyond 15 pp
- - gpu.zero_copy_no_leak :: zero-copy loop leaked HIP bytes: free 126215389184 -> 126217273344
- - resilience.state_vault_rejects_growth :: StateVault accepted a checkpoint that grew during read
-[SUMMARY] Passed: 893
-[SUMMARY] Failed: 5
+ - gpu.hip_q4k_gemv_no_leak :: HIP Q4_K GEMV loop retention 0 != 50 x 8388608 (filed MAX per-context constant): slice-attributable leak or runtime behaviour change
+[SUMMARY] Passed: 901
+[SUMMARY] Failed: 2
 [SUMMARY] Skipped: 2
-[SUMMARY] Total: 900
+[SUMMARY] Total: 905
 [SUMMARY] Status: FAIL
 stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`
 Unhandled exception caught during execution: Grand Proving counted an unexpected number of cases

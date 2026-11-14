@@ -1,0 +1,7 @@
+MATRIX [amd]: engine build + help smoke + E-MASTER suite, --target-accelerator gfx1151 (AMD ROCm)
+MATRIX [amd]: engine build OK: /tmp/aesir-build-matrix-amd
+MATRIX [amd]: --help smoke OK
+MATRIX: suite summary: 901 passed / 2 failed / 2 skipped / 905 total
+MATRIX: unexplained failures present
+MATRIX RESULT: FAIL (amd)
+MATRIX_EXIT=1
