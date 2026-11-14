@@ -130,3 +130,23 @@ throughput on HIP (Q35-6 measures) · U5 Seer pool sizing for a
 27B file · 3. first coherent CPU generation · 4. recurrent session
 proven across two turns · 5. HIP execution live · 6. serve bench
 numbers · 7. any genuine blocker, the moment it is proven.
+
+## Status override — 2026-11-14 (coordinator; supersedes the service lines in the safety section above)
+
+- Services: aesir-gate, Ollama, Voxta all STOPPED by Volmarr's
+  orders (Voxta/Ollama ~13:15 EST; the gate ~13:22 EST under his
+  blanket go-ahead). MemAvailable ~124.4 GB, load ~0. The campaign
+  may stop/start aesir-gate as proofs require and relaunch Ollama
+  for comparator runs; Voxta stays OFF unless a proof targets
+  Voxta interop (report any relaunch). A service found up that
+  the campaign did not start is assumed to be Volmarr's hand —
+  work around it.
+- Gate: the measured-fit rule PASSES for the 27B and 40B real-file
+  proofs. Q35-3b and Q35-4b are UNBLOCKED and run first; fences,
+  one-heavy-run-at-a-time, and re-measure rules are unchanged.
+  Q35-3r stays required before Q35-7's final serve configuration.
+- Q35-6a partial results sit uncommitted in
+  /home/volmarr/aesir-q35-6 (device admitted beside the then-live
+  gate; device greedy == banked CPU greedy; state-diff A/B owed).
+  It resumes after Q35-3b/Q35-4b.
+- NEW: compression workstream QC — QC-0 recon + plan first.

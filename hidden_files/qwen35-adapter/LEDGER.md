@@ -1,5 +1,47 @@
 # Qwen35 Adapter Campaign — Ledger
 
+## 2026-11-14 — Coordinator note: services stopped by Volmarr's orders; gate key TURNED; QC workstream commissioned
+
+- ~13:15 EST voxta.service + ollama.service stopped by Volmarr's
+  order (parent-executed); MemAvailable unchanged (~27.9 GB) — the
+  pool holder was the gate's live HIP session all along.
+  ~13:22 EST, his blanket go-ahead in chat ("do what is needed my
+  witchie to progress with the tests and develop for Project
+  Aesir, and work on teaching it how to compress the models too"):
+  aesir-gate stopped by his word (parent-executed). All three
+  services inactive; MemAvailable measured 124,382,660 kB; load ~0.
+- Q35-6a worker saw the gate vanish mid-slice (healthy 13:19,
+  refused at its 13:20:48 pre-check) and stopped per protocol,
+  touching nothing — the disappearance was the ordered stop, not
+  a failure. Its wrapper printed but did not assert the pre-check;
+  lesson is the worker's to record in Q35-6 notes. Partial 6a
+  results stand uncommitted in /home/volmarr/aesir-q35-6: second
+  HIP context admitted beside the then-live gate; device greedy
+  16 tokens == banked Q35-3a CPU greedy exactly, per-token rank 1
+  gap 0.0 at prompt positions; state diffs off-band vs its own
+  in-test CPU reference, whose usage is suspect — CPU-only A/B
+  owed before any equality claim. 6a resumes after 3b/4b.
+- Service license (parent, under his go-ahead): the campaign may
+  stop/start aesir-gate as proofs require and relaunch Ollama
+  when a comparator run needs it; Voxta stays OFF unless a proof
+  targets Voxta interop (report any relaunch). A service found up
+  that the campaign did not start is Volmarr's hand — work
+  around it.
+- Gate application: measured fit now PASSES for the 27B F16 path
+  (~57 GB) and the 40B F16 estimate (~83 GB) against ~124 GB with
+  >8 GB margin. Q35-3b + Q35-4b UNBLOCKED, sequenced first, still
+  fenced (MemoryMax from measured headroom), one heavy run at a
+  time, re-measure before each attempt. Q35-3r remains required
+  before Q35-7's final serve configuration (the serve must
+  coexist with a machine in normal use).
+- NEW WORKSTREAM QC — teach Aesir to WRITE compression: emit
+  quantized GGUF that Aesir and llama.cpp can load and run.
+  QC-0 recon + slice plan first (own MAP/ledger section);
+  grading is teacher-forcing rank + logit gap vs the model's own
+  uncompressed source, CPU-vs-CPU, near-tie band = faithful;
+  first proof on a small registered model, then the heretics —
+  the strategic prize is a Q4_K_M 27B (~15-16 GB).
+
 ## 2026-11-14 — Q35-3r: Q8_0-resident load path, fixture-grade proof (worker slice; verified + banked by coordinator)
 
 - Recon verdict (code read, this slice): the engine-core CPU path
