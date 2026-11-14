@@ -1,0 +1,23 @@
+RECORDS 198
+IN_BAND 197/198 = 99.49%
+ARGMAX_AGREEMENT 190/198 = 95.96%
+RANK_DIST {1: 190, 2: 7, 3: 1}
+PER_PROMPT prompt records in_band agree
+  p0 4 4 4
+  p1 18 18 18
+  p2 30 30 29
+  p3 59 59 59
+  p4 38 38 37
+  p5 49 48 43
+WORST_RECORDS gap_milli rank prompt pos true src_argmax prod_argmax in_band
+  421 3 p5 pos22 true=89240 src=1817 prod=17454 False
+  109 2 p5 pos32 true=2892 src=430 prod=7984 True
+  93 2 p2 pos0 true=3841 src=1822 prod=6093 True
+  46 2 p5 pos11 true=2919 src=2919 prod=12141 True
+  46 2 p5 pos8 true=5335 src=5335 prod=11 True
+  46 2 p5 pos2 true=279 src=279 prod=264 True
+  15 2 p5 pos36 true=11 src=13 prod=11 True
+  7 2 p4 pos1 true=1330 src=279 prod=1330 True
+  0 1 p5 pos48 true=13 src=13 prod=13 True
+  0 1 p5 pos47 true=14931 src=14931 prod=14931 True
+VERDICT DIVERGENT (not FAITHFUL) -- 1 of 198 records out of band

@@ -126,10 +126,16 @@ def gemma4_quantization_supported(name: String) -> Bool:
 
 def qwen35_quantization_supported(name: String) -> Bool:
     """Scoped to qwen35 only: Q8_0 is the census-proven quantization
-    of the real hybrid file (Q35-1: 498 Q8_0 + 353 F32 tensors). The
-    shared native lists (K-quants + F16/BF16/F32) are NOT extended;
-    no other qwen35 quantization has evidence yet."""
-    return name == "Q8_0"
+    of the real hybrid file (Q35-1: 498 Q8_0 + 353 F32 tensors).
+    Q4_K_M is admitted by QC-6 for this file class: the 27B census
+    shows every large weight at dim0 % 256 == 0 (the tiling rule
+    under which flat and per-row K consumption coincide), the
+    QC-6 streaming converter's product of this file loads through
+    GGUFSeer/PackedGGUF/llama.cpp and is teacher-forcing graded
+    against the Q8_0 source in QC-6-NOTES. The shared native lists
+    (K-quants + F16/BF16/F32) are NOT extended; no other qwen35
+    quantization has evidence."""
+    return name == "Q8_0" or name == "Q4_K_M"
 
 
 def qwen3_0_6b_quantization_verified(name: String) -> Bool:
@@ -336,13 +342,13 @@ struct ModelArchitectureRegistry:
             result.normalization = "RMSNorm"
             result.density = "dense"
             result.tensor_naming = "qwen35/blk.*"
-            result.supported_quantizations = "Q8_0"
+            result.supported_quantizations = "Q8_0, Q4_K_M"
             result.recommended_context = min(metadata_context, 8192)
             if layers == 64 and hidden == 5120:
                 result.model_variant = size_label if size_label != "" else "27B"
                 result.native_profile = "qwen35"
                 if not qwen35_quantization_supported(result.quantization):
-                    result.reason = "The Qwen 3.5 adapter supports only the census-proven Q8_0 quantization."
+                    result.reason = "The Qwen 3.5 adapter supports only the evidence-backed Q8_0 and Q4_K_M (QC-6) quantizations."
                     result.status = "NOT READY"
                     return result^
                 result.compatibility = "COMPATIBLE"

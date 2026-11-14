@@ -1,0 +1,11 @@
+MimirWell initialized with 4232837120 derived bytes.
+GGUF validated: 851 tensors, 48 metadata entries, architecture qwen35
+LOAD MODE: default_packed
+LOADED: qwen35 blocks: 64 vocab: 248320
+PROMPT TOKENS: 5
+GEN IDS: 11751 13 271 4639 579 4252 0 11751 369 279 6511 321 7526 3177 314 9338 13 1049 369 3750 364 1141 8807 3712 11 7431 11 1880 11 321 25438 57902 1680 430 279 242476 300 21262 11 279 
+GEN TEXT BEGIN
+ Paris.
+
+That's correct! Paris is the capital and largest city of France. It is known for its rich history, culture, art, and iconic landmarks such as the Eiffel Tower, the
+GEN TEXT END

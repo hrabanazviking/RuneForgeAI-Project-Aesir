@@ -1,0 +1,6 @@
+MimirWell initialized with 4232837120 derived bytes.
+GGUF validated: 851 tensors, 48 metadata entries, architecture qwen35
+LOAD MODE: default_packed
+LOADED: qwen35 blocks: 64 vocab: 248320
+PROMPT TOKENS: 60
+GRADE WRITTEN: hidden_files/qwen35-adapter/qc-6-grade-prod-p3.csv

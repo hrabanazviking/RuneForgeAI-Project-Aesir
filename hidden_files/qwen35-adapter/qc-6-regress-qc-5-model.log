@@ -1,0 +1,15 @@
+PASS: conversion policy as applied -- 32x Q4_K + 5x Q6_K (output, blk.2/4 attn_v, blk.2/4 ffn_down); 11x F32 norms kept with reasons
+PASS: emitted metadata == source metadata except general.file_type = 15; all 21 KVs accounted for
+PASS: emitted directory preserves names/shapes/order; kinds as planned; all offsets 32-aligned
+PASS: every kept tensor's payload is byte-identical to the source payload
+PASS: whole-model bound sweep -- worst err/bound q4_k=0.99672973 q6_k=0.7372395
+GGUF validated: 48 tensors, 21 metadata entries, architecture llama
+PASS: GGUFSeer loads the emitted Q4_K_M file to VALIDATED (llama config + tokenizer agree; tensor kinds as emitted)
+FINDING: PackedGGUF refuses the flat-tiled Q4_K_M file -- Packed GGUF: K-quant row is not block aligned
+MimirWell initialized with 36314848 derived bytes.
+GGUF validated: 48 tensors, 21 metadata entries, architecture llama
+Starting deterministic generation loop (The Weaving of Fate)...
+Prompt tokens: 8 context_length: 128
+FINDING: AesirEngine forward refuses the Q4_K_M file -- gemm_q4_k_m: invalid shape or incomplete quantization block
+SIZE source=601248 ours=196816 q8_0_product=379152
+QC-5 conversion + load proof: ALL PASS

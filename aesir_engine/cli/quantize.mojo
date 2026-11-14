@@ -40,6 +40,8 @@ from core.quantize import (
     Q4_K_GGML_TYPE,
     Q6_K_GGML_TYPE,
     Q8_0_GGML_TYPE,
+    q4_k_payload_bytes,
+    q6_k_payload_bytes,
     q8_0_payload_bytes,
     quantize_q4_k,
     quantize_q6_k,
@@ -332,12 +334,9 @@ def dispatch_quantize(args: List[String]) raises:
     var report = QuantizeReport()
     if tier == QUANTIZE_TIER_Q4_K_M:
         if streaming:
-            raise Error(
-                "quantize: --streaming is not wired for q4_k_m; the"
-                " streaming K-quant converter is QC-6 scale work --"
-                " use the in-memory converter (no --streaming)"
-            )
-        report = quantize_gguf_q4_k_m(source, output)
+            report = quantize_gguf_q4_k_m_streaming_qc6(source, output)
+        else:
+            report = quantize_gguf_q4_k_m(source, output)
     elif streaming:
         report = quantize_gguf_q8_0_streaming(source, output)
     else:
@@ -709,4 +708,196 @@ def quantize_gguf_q4_k_m(
                 )
             )
     report.output_bytes = write_gguf_file(output_path, desc)
+    return report^
+
+
+# ---------------------------------------------------------------------------
+# QC-6: the streaming Q4_K_M converter -- the 27B tier.
+#
+# QC-5's in-memory converter tiles K-quants FLAT (total element count
+# % 256 == 0) and refuses --streaming by name. QC-6 changes the gate
+# to the QC-5 risk-1 rule and streams:
+#
+# TILING RULE (per tensor): a tensor is K-packed ONLY where
+# dim0 % 256 == 0. There flat tiling == per-row tiling byte for
+# byte, so the flat consumers (GGUFSeer pricing, packed_value,
+# dequantize_range_f32) and the per-row consumers (PackedGGUF
+# pricing, the fused K GEMM, ggml) read identical bytes.
+#
+# FALLBACKS (llama-quantize's tensor_type_fallback, llama-quant.cpp
+# at a956a85, adapted to the writers this workstream owns):
+# - a K designee with dim0 % 256 != 0 but dim0 % 32 == 0 falls back
+#   to Q8_0 (llama's exact Q6_K fallback; for Q4_K llama falls to
+#   Q5_0, a writer this workstream does not own -- Q8_0 is the
+#   named substitute, per-row valid in every reader).
+# - a K designee with dim0 % 32 != 0 stays at source type (llama
+#   falls to F16; keeping the source never invents data).
+# - rank-1 / norm / bias tensors stay at source type (QC-0 s.3).
+# - ssm_conv1d.weight stays at source type: QC-0 s.3 verbatim,
+#   the SSM conv kernel rows (dim0 = conv_kernel, 4 on the 27B)
+#   stay F32, full stop.
+#
+# INPUT: values come row by row through the engine's own readers --
+# dense widening for F16/F32/BF16 sources, the dequantizing input
+# path (core/dequantize_input, QC-6 wires its Q8_0 kind) for
+# quantized sources. The 27B source is Q8_0 throughout its large
+# weights, so the real conversion is dequantize_q8_0 -> F32 row ->
+# QC-5 packer -> streamed payload, peak heap O(largest row).
+#
+# POLICY: file_type 15 exactly as QC-5 (output -> Q6_K; attn_v and
+# ffn_down -> Q6_K on use_more_bits layers; everything else Q4_K),
+# with the tiling gate and fallbacks above applied per tensor.
+
+
+def q4_k_m_plan_qc6(
+    name: String, entry: GGUFDirectoryEntry, n_layers: Int
+) -> Tuple[Int, String]:
+    """The QC-6 per-tensor decision: (target ggml type, "") to
+    quantize (K tier or the Q8_0 fallback), or (-1, reason) to keep
+    the tensor at its source type."""
+    if len(entry.dims) < 2:
+        return (
+            -1,
+            String(
+                "one-dimensional tensor (norm/scale/bias class) stays at"
+                " source type"
+            ),
+        )
+    if "norm" in name:
+        return (-1, String("norm tensor stays at source type"))
+    if name.endswith(".bias"):
+        return (-1, String("bias tensor stays at source type"))
+    if name.endswith("ssm_conv1d.weight"):
+        return (
+            -1,
+            String(
+                "ssm_conv1d tensor stays at source type (QC-0 section 3:"
+                " SSM conv rows are not K-tileable and stay F32)"
+            ),
+        )
+    if not dequant_input_supported(Int(entry.tensor_type)):
+        return (-1, dequant_input_keep_reason(Int(entry.tensor_type)))
+    var target = Int(Q4_K_GGML_TYPE)
+    if name == "output.weight":
+        target = Int(Q6_K_GGML_TYPE)
+    else:
+        var layer = _layer_index(name)
+        if layer >= 0 and _use_more_bits(layer, n_layers):
+            if name.endswith(".attn_v.weight"):
+                target = Int(Q6_K_GGML_TYPE)
+            elif name.endswith(".ffn_down.weight"):
+                target = Int(Q6_K_GGML_TYPE)
+    var dim0 = Int(entry.dims[0])
+    if dim0 % 256 == 0:
+        return (target, String(""))
+    if dim0 % 32 == 0:
+        return (Int(Q8_0_GGML_TYPE), String(""))
+    return (
+        -1,
+        String("dim0 ")
+        + String(dim0)
+        + " is not a multiple of 32; no quant tier tiles it -- stays"
+        + " at source type (no padding -- GGUF has no padding semantics)",
+    )
+
+
+def quantize_gguf_q4_k_m_streaming_qc6(
+    source_path: String, output_path: String
+) raises -> QuantizeReport:
+    """Streaming whole-model Q4_K_M conversion under the QC-6 tiling
+    rule. Same report contract as the QC-3b streaming converter:
+    every tensor named exactly once, quantized (with its emitted
+    type) or kept-with-a-reason; metadata copied raw except
+    general.file_type = 15."""
+    var head = read_gguf_header_copy(source_path)
+    var seer = GGUFSeer(source_path)
+    seer._open_and_map()
+    seer._parse_header()
+    var n_layers = 0
+    for entry in head.directory:
+        var layer = _layer_index(entry.name)
+        if layer + 1 > n_layers:
+            n_layers = layer + 1
+    var kvs = List[GGUFKV]()
+    var saw_file_type = False
+    for kv in head.kvs:
+        if kv.key == "general.file_type":
+            kvs.append(
+                gguf_kv_u32("general.file_type", UInt32(Q4_K_M_FILE_TYPE))
+            )
+            saw_file_type = True
+        else:
+            kvs.append(kv.copy())
+    if not saw_file_type:
+        raise Error(
+            "quantize: source carries no general.file_type key to set;"
+            + " refusing to invent metadata layout"
+        )
+    var metas = List[GGUFWriterTensorMeta]()
+    var plans = List[Tuple[Int, String]]()
+    for entry in head.directory:
+        var plan = q4_k_m_plan_qc6(entry.name, entry.copy(), n_layers)
+        plans.append(plan)
+        if plan[0] >= 0:
+            metas.append(
+                GGUFWriterTensorMeta(entry.name, entry.dims, UInt32(plan[0]))
+            )
+        else:
+            metas.append(
+                GGUFWriterTensorMeta(entry.name, entry.dims, entry.tensor_type)
+            )
+    var writer = open_gguf_stream(output_path, kvs, metas, head.alignment)
+    var report = QuantizeReport()
+    for i in range(len(head.directory)):
+        ref entry = head.directory[i]
+        var base = head.data_offset + entry.relative_offset
+        seer._require_range(base, entry.byte_size)
+        writer.begin_tensor(i)
+        var plan = plans[i]
+        if plan[0] >= 0:
+            var count = _element_count(entry.copy())
+            var dim0 = Int(entry.dims[0])
+            var rows = count // dim0
+            for row in range(rows):
+                var values = _read_row_f32(seer, base, entry.copy(), row)
+                var payload = List[UInt8]()
+                if plan[0] == Int(Q6_K_GGML_TYPE):
+                    payload = quantize_q6_k(values)
+                elif plan[0] == Int(Q8_0_GGML_TYPE):
+                    payload = quantize_q8_0(values)
+                else:
+                    payload = quantize_q4_k(values)
+                writer.write_chunk(payload)
+            var out_bytes = 0
+            if plan[0] == Int(Q6_K_GGML_TYPE):
+                out_bytes = q6_k_payload_bytes(count)
+            elif plan[0] == Int(Q8_0_GGML_TYPE):
+                out_bytes = q8_0_payload_bytes(count)
+            else:
+                out_bytes = q4_k_payload_bytes(count)
+            report.quantized_names.append(String(entry.name))
+            report.quantized_source_bytes.append(entry.byte_size)
+            report.quantized_output_bytes.append(out_bytes)
+            report.quantized_types.append(UInt32(plan[0]))
+        else:
+            var done = 0
+            while done < entry.byte_size:
+                var n = entry.byte_size - done
+                if n > 65536:
+                    n = 65536
+                var chunk = List[UInt8]()
+                chunk.resize(n, UInt8(0))
+                for k in range(n):
+                    chunk[k] = UInt8(
+                        seer.mmap_ptr.unsafe_offset(base + done + k).unsafe_load()
+                    )
+                writer.write_chunk(chunk)
+                done += n
+            report.kept_names.append(String(entry.name))
+            report.kept_types.append(entry.tensor_type)
+            report.kept_bytes.append(entry.byte_size)
+            report.kept_reasons.append(plan[1])
+        writer.end_tensor()
+    report.file_type = Q4_K_M_FILE_TYPE
+    report.output_bytes = writer.finish()
     return report^

@@ -1,0 +1,27 @@
+Inspection scope:        GGUF metadata and native tensor layout
+Execution tested:        no
+Model:                   Qwen3.8 27b Untuned FF711 1.4 0.6 Nuslerp Ablit
+Architecture:            qwen35
+Family / variant:        Qwen 3.5 / 27B
+Quantization:            Q4_K_M
+Tokenizer family:        gpt2
+Chat template:           ChatML-compatible
+Attention:               hybrid gated-deltanet/full grouped-query
+RoPE:                    partial RoPE (full-attention layers)
+Activation:              SwiGLU
+Normalization:           RMSNorm
+Density:                 dense
+Tensor naming:           qwen35/blk.*
+Supported quantizations: Q8_0, Q4_K_M
+Metadata context:        262144
+Recommended context:     8192
+Requested context:       0
+Evaluated context:       8192
+Tensor validation:       passed
+Estimated VRAM bytes:    16922385380
+CUDA support:            no
+CPU support:             no
+Capabilities:            inspection
+Compatibility:           COMPATIBLE
+Status:                  READY
+Reason:                  Matched the native Qwen 3.5 hybrid 27B profile (inspection and memory planning; execution lands in Q35-3/Q35-4).
