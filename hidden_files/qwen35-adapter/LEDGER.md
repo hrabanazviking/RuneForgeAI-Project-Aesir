@@ -1,5 +1,54 @@
 # Qwen35 Adapter Campaign — Ledger
 
+## 2026-11-14 — Q35-5: residency + prefix snapshots for hybrid state, fixture-grade proof (verified + banked by coordinator)
+
+- Snapshot/restore for Qwen35State at committed turn boundaries:
+  Qwen35Snapshot deep-copies s_data + conv_data, the committed
+  token stream, and — per the KV finding — the full-attention
+  layers' KV prefix rows [0, boundary). KVCache is append-only
+  and positionally stable WITHIN one live cache, but reset()
+  redraws it over the same pool and intervening conversations
+  overwrite prefix rows, so surviving snapshots COPY the KV
+  prefix (only the 16-of-64 real / 1-of-4 fixture attn layers
+  carry rows). Zero-state kept as a virtual snapshot at 0.
+- Reuse = longest snapshot whose stream is an exact prefix of
+  the new request's stream, or no reuse. Two exact checks in
+  begin_turn (position 0 only): text-extension (resent text is
+  byte-exactly snapshot conversation + "Assistant: " + its reply
+  + one new user message; the stream is then snapshot.stream +
+  tokenize(delta) BY CONSTRUCTION — re-tokenized reply text can
+  never reproduce generated IDs, the seam HS-6 names) and
+  token-prefix via reusable_prompt_prefix (final-token rule
+  included). Resident Q35-4a path untouched.
+- Store bound: snapshot_limit = 4 turn-boundary snapshots per
+  session (configurable field), FIFO eviction, zero-state
+  excluded. Real cost per snapshot: 27B SSM+conv 158,859,264 B
+  + KV boundary x 65,536 B (4096 -> 268,435,456 B); 40B SSM
+  alone ~235 MB — the bound is an informed choice (notes).
+- Capability honesty: /health for qwen35 now reports
+  exact_prefix_reuse=true ONLY with the new qualifier key
+  exact_prefix_reuse_detail="snapshot-based at committed turn
+  boundaries only" (serve_loaded gains the optional detail
+  param; other profiles' payloads byte-identical).
+- Proof ALL PASS (logs q35-5-*): session (a1) restore diffs
+  s/conv/KV = 0.0/0.0/0.0 bit-exact; (a2) B re-run after restore
+  s/conv/logits diffs 0.0, reply == resident; (a3) stateless
+  begin prompt=90 reused=72, state/logits diffs 0.0; (c)
+  diverged reused=0 prompt=191, reply == fresh cold reference;
+  (d) 6 turns -> exactly 4 snapshots, oldest (60) evicted and
+  unrestorable. Serve bench: resident reused=72/18 reply==R2;
+  stateless (intervening session destroys residency) reused=72
+  evaluated=18 reply==R2; diverged reused=0; bound resend-oldest
+  reused=0 prompt=193 cold. F1: bit-exactness claimed only for
+  same-path copy+continuation, never cross-path (notes).
+- Regression: full engine compile exit 0; Q35-1 ALL PASS;
+  Q35-2 ALL PASS; Q35-3a ALL PASS (greedy identical); Q35-4a
+  session reference ALL PASS; Q35-4a resident + fresh HTTP
+  benches ALL PASS (q35_4_bench.py caps assertion updated to
+  the Q35-5 truth — deliberate extension); ripple probe ALL
+  PASS unchanged. Proof units stopped; :18435 free; gate
+  untouched. Full notes: Q35-5-NOTES.md. Banked by coordinator after disk verification of all proof logs. Next: Q35-6 (HIP) / Q35-3b (parent-gated).
+
 ## 2026-11-14 — Q35-4a: Qwen35 CPU serve session, fixture-grade proof (worker slice; verified + banked by coordinator)
 
 - runtime_plan admits qwen35 explicitly: qwen35_profile_for +

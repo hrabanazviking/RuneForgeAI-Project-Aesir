@@ -1,0 +1,7 @@
+MimirWell initialized with 37896704 derived bytes.
+GGUF validated: 56 tensors, 23 metadata entries, architecture qwen35
+Native inference ready at http://127.0.0.1:18435; authentication=required; backend=cpu; profile=qwen35; concurrency=1; queue_limit=4; queue_timeout_ms=30000; context=512; max_tokens=16; admission=experimental
+[request=1 status=401 elapsed_ms=0]
+[request=2 phase=generation]
+[request=2 status=200 elapsed_ms=15]
+Native inference service stopped

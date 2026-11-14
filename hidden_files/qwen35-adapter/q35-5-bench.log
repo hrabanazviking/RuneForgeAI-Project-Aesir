@@ -1,0 +1,15 @@
+HEALTH status=200 body={"status": "ready", "backend": "cpu", "cpu_offload": 0, "profile": "qwen35", "context": 512, "model": "aesir_engine/tests/fixtures/qwen35_forward.gguf", "model_digest": "", "max_tokens": 16, "generation_timeout_ms": 60000, "capabilities": {"text_generation": true, "embeddings": false, "exact_prefix_reuse": true, "exact_prefix_reuse_detail": "snapshot-based at committed turn boundaries only", "post_history_configured": false, "session_residency": true, "memory_injection": true, "experimental_admission": true}, "prefill_batch": 1, "queue_limit": 4}
+HEALTH CAPS PASS: exact_prefix_reuse=true WITH detail 'snapshot-based at committed turn boundaries only'
+RESIDENT T1 status=200 usage={"prompt_tokens": 56, "completion_tokens": 16, "total_tokens": 72, "reused_prompt_tokens": 0} reply='tok0731tok0839tok0344tok0745tok0250tok0428tok0689tok0885tok0392}tok0723tok0658&tok0635tok0379tok0415'
+RESIDENT T2 status=200 usage={"prompt_tokens": 90, "completion_tokens": 16, "total_tokens": 106, "reused_prompt_tokens": 72} reply='tok0964tok0644tok0698tok0896tok0400tok0102tok0486tok0719tok0446tok0822tok0148tok0346Etok0958tok0375tok0120'
+RESIDENT PASS: reused=72 evaluated=18 reply==R2 (Q35-4a path unchanged)
+INTERVENING status=200 usage={"prompt_tokens": 56, "completion_tokens": 16, "total_tokens": 72, "reused_prompt_tokens": 0} reply='tok0689tok0459tok0919tok0169tok0926,tok0999tok0761tok0609tok0210tok0359tok0677tok0136tok0118tok0127tok0445'
+STATELESS T2 status=200 usage={"prompt_tokens": 90, "completion_tokens": 16, "total_tokens": 106, "reused_prompt_tokens": 72} reply='tok0964tok0644tok0698tok0896tok0400tok0102tok0486tok0719tok0446tok0822tok0148tok0346Etok0958tok0375tok0120'
+STATELESS PASS: reused=72 evaluated=18 reply==resident R2 (snapshot restore, not residency)
+DIVERGED status=200 usage={"prompt_tokens": 191, "completion_tokens": 16, "total_tokens": 207, "reused_prompt_tokens": 0} reply='tok0406tok0543tok0555tok0662tok0594tok0340tok0673tok0676tok0614tok0106tok0779tok0695tok0871tok0415tok0305tok0444'
+DIVERGED PASS: reused=0 prompt=191 reply==in-process diverged reference
+BOUND T3 status=200 usage={"prompt_tokens": 122, "completion_tokens": 16, "total_tokens": 138, "reused_prompt_tokens": 106} reply='tok0573tok0639tok0572tok0706tok0725tok0970Ktok1019tok0872tok0804tok0733tok0631tok0298tok0905tok0563='
+BOUND T4 status=200 usage={"prompt_tokens": 154, "completion_tokens": 16, "total_tokens": 170, "reused_prompt_tokens": 138} reply='tok0230tok0661tok0289tok0120tok0510tok0591<s>~tok0293tok0182tok0723tok0600tok0766tok06352tok0105'
+BOUND RESEND-OLDEST status=200 usage={"prompt_tokens": 193, "completion_tokens": 16, "total_tokens": 209, "reused_prompt_tokens": 0} reply='tok0406tok0543tok0555tok0662tok0594tok0340tok0673tok0676tok0614tok0106tok0779tok0695tok0871tok0415tok0305tok0444'
+BOUND PASS: after >4 snapshots the turn-1 snapshot is evicted; oldest history resend is cold (reused=0)
+Q35-5 HTTP snapshot bench: ALL PASS

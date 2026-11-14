@@ -47,9 +47,9 @@ if mode == "resident":
     print("HEALTH status=%d body=%s" % (status, json.dumps(health)))
     caps = health["capabilities"]
     assert health["profile"] == "qwen35" and health["backend"] == "cpu"
-    assert caps["session_residency"] is True and caps["exact_prefix_reuse"] is False
+    assert caps["session_residency"] is True and caps["exact_prefix_reuse"] is True and caps.get("exact_prefix_reuse_detail") == "snapshot-based at committed turn boundaries only"
     assert caps["experimental_admission"] is True
-    print("HEALTH CAPS PASS: profile=qwen35 backend=cpu residency=true exact_prefix_reuse=false experimental=true")
+    print("HEALTH CAPS PASS: profile=qwen35 backend=cpu residency=true exact_prefix_reuse=true(snapshot-based, Q35-5) experimental=true")
     r1ref, r2ref = reference()
     st1, r1, u1u = chat([S, A1], "q35-4a-proof")
     print("T1 status=%d usage=%s reply=%r" % (st1, json.dumps(u1u), r1))

@@ -1,0 +1,30 @@
+MimirWell initialized with 37896704 derived bytes.
+GGUF validated: 56 tensors, 23 metadata entries, architecture qwen35
+R1=tok0731tok0839tok0344tok0745tok0250tok0428tok0689tok0885tok0392}tok0723tok0658&tok0635tok0379tok0415
+B1=72
+BOUNDARIES_AFTER_T1=0 72 
+R2=tok0964tok0644tok0698tok0896tok0400tok0102tok0486tok0719tok0446tok0822tok0148tok0346Etok0958tok0375tok0120
+POS2=106
+RESTORE_DIFF s=0.0 conv=0.0 kv=0.0
+PASS (a1): restore reproduces boundary s/conv/KV bit-exact (diffs 0.0)
+RERUN_B DIFF s=0.0 conv=0.0 logits=0.0
+PASS (a2): B after restore == resident B bit-exact (state + logits), reply equal
+STATELESS_BEGIN prompt_tokens=90 reused=72 position=90
+STATELESS_RERUN DIFF s=0.0 logits=0.0
+PASS (a3): stateless resent history reuses snapshot at 72, evaluates only the delta, reply == resident R2
+DIVERGED_BEGIN prompt_tokens=191 reused=0
+R_DIV=tok0406tok0543tok0555tok0662tok0594tok0340tok0673tok0676tok0614tok0106tok0779tok0695tok0871tok0415tok0305tok0444
+MimirWell initialized with 37896704 derived bytes.
+GGUF validated: 56 tensors, 23 metadata entries, architecture qwen35
+PASS (c): diverged history reuses 0 and matches the fresh cold reference exactly
+MimirWell initialized with 37896704 derived bytes.
+GGUF validated: 56 tensors, 23 metadata entries, architecture qwen35
+D_FIRST_BOUNDARY=60
+D_BOUNDARIES=0 60 80 
+D_BOUNDARIES=0 60 80 100 
+D_BOUNDARIES=0 60 80 100 123 
+D_BOUNDARIES=0 80 100 123 144 
+D_BOUNDARIES=0 100 123 144 168 
+PASS (d): store holds exactly 4 snapshots; oldest boundary 60 evicted and unrestorable
+Q35-5 qwen35 snapshot session test: ALL PASS
+SNAPSHOT_EXIT=0
