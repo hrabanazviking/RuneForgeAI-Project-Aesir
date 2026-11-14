@@ -327,8 +327,18 @@ struct ModelArchitectureRegistry:
             result.tensor_naming = "qwen35/blk.*"
             result.supported_quantizations = "Q8_0"
             result.recommended_context = min(metadata_context, 8192)
-            if layers == 64 and hidden == 5120:
-                result.model_variant = size_label if size_label != "" else "27B"
+            # Q40-1: depth-free family admission. classify() sees only
+            # layers/hidden, so it admits the proven per-layer width
+            # (hidden 5120) at any positive depth that is a multiple
+            # of the family full_attention_interval (4) -- 64L (27B)
+            # and 96L (40B) alike, never a pinned total depth. The
+            # full per-layer family signature (FFN, heads, SSM
+            # geometry, rope) is enforced in the profile layer by
+            # validate_qwen35_family_signature on the inspect path,
+            # so an off-signature file admitted here is still refused
+            # there with a named error and no READY verdict.
+            if hidden == 5120 and layers > 0 and layers % 4 == 0:
+                result.model_variant = size_label if size_label != "" else String(layers) + "L/" + String(hidden) + "d"
                 result.native_profile = "qwen35"
                 if not qwen35_quantization_supported(result.quantization):
                     result.reason = "The Qwen 3.5 adapter supports only the census-proven Q8_0 quantization."
@@ -336,7 +346,7 @@ struct ModelArchitectureRegistry:
                     return result^
                 result.compatibility = "COMPATIBLE"
                 result.status = "READY"
-                result.reason = "Matched the native Qwen 3.5 hybrid 27B profile (inspection and memory planning; execution lands in Q35-3/Q35-4)."
+                result.reason = "Matched the native Qwen 3.5 hybrid family profile (inspection and memory planning; execution lands in Q35-3/Q35-4)."
                 return result^
             result.compatibility = "COMPATIBLE"
             result.status = "NOT READY"

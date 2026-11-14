@@ -1,0 +1,27 @@
+Inspection scope:        GGUF metadata and native tensor layout
+Execution tested:        no
+Model:                   40B Qwen3.8 R16 It Vl X2 Deckard HERE ClaudeOpus250x
+Architecture:            qwen35
+Family / variant:        Qwen 3.5 / 39B
+Quantization:            Q8_0
+Tokenizer family:        gpt2
+Chat template:           ChatML-compatible
+Attention:               hybrid gated-deltanet/full grouped-query
+RoPE:                    partial RoPE (full-attention layers)
+Activation:              SwiGLU
+Normalization:           RMSNorm
+Density:                 dense
+Tensor naming:           qwen35/blk.*
+Supported quantizations: Q8_0
+Metadata context:        262144
+Recommended context:     8192
+Requested context:       0
+Evaluated context:       0
+Tensor validation:       not_run
+Estimated VRAM bytes:    0
+CUDA support:            no
+CPU support:             no
+Capabilities:            inspection
+Compatibility:           COMPATIBLE
+Status:                  NOT READY
+Reason:                  Qwen 3.5 hybrid is recognized, but this geometry has no matching native profile yet.

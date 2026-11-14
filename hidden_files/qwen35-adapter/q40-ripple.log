@@ -1,0 +1,4 @@
+PASS (r1): NativeModelPlan(auto) refuses qwen35 today: Native CUDA session requires dense Gemma 4
+PASS (r2): NativeModelPlan(qwen35) refuses explicitly: Unsupported native model profile
+Q35-2 runtime ripple guard: PASS - no serve admission leaked
+RIPPLE_RUN_EXIT=0

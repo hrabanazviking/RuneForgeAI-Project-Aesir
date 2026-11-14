@@ -1,5 +1,51 @@
 # Qwen35 Adapter Campaign — Ledger
 
+## 2026-11-14 — Q40-1: registry family generalization for qwen35 (worker slice; verified + banked by coordinator)
+
+- Pin found in exactly one place: classify() admitted only
+  64L/5120. The rest of Q35-2 was already general (expected
+  tensor count = 3 + 11*full + 14*ssm = 851 at 64L, 1275 at
+  96L, verified). The missing piece: nothing compared a
+  geometry against the proven family.
+- classify() qwen35 branch is now depth-free: hidden 5120 at
+  any positive depth that is a multiple of the family interval
+  4 -> native_profile "qwen35" (variant stays the file's own
+  size_label: "27B" / "39B"). NEW
+  validate_qwen35_family_signature (qwen35_profile.mojo)
+  enforces the per-layer signature proven identical on both
+  real files (5120 / 17408 / 24 / 4 / 256 / groups 16 / state
+  128 / dt_rank 48 / inner 6144 / interval 4 / conv 4 / rope
+  64; Q8_0 in classify) with named refusals, called from
+  validate_qwen35 — so inspect reaches READY only for true
+  family members at any depth. qwen35_40b_profile() twin added
+  as census record/test anchor only; the path is signature-
+  driven, never size-selected. inference_memory unchanged.
+- 40B inspect (q40-inspect.log): READY / COMPATIBLE,
+  native_profile "qwen35", tensor_validation "passed",
+  estimated_vram_bytes 42584556036 = weights 41537542144 +
+  KV 805306368 (24 full-attention layers, ctx 8192, F16) +
+  activations 241707520 (SSM state 226492416 + conv rings
+  11796480 + scratch 3418624) + 4. Before: NOT READY,
+  no profile, 0 (q40-inspect-prefix.log).
+- Zero drift on the proven path: 27B inspect re-run
+  (q40-inspect-27b-regress.log) READY / COMPATIBLE at EXACTLY
+  29295152100; the banked Q35-2 policy test, unchanged,
+  re-built and re-run ALL PASS (q40-q35-2-test-regress.log).
+- New policy test ALL PASS (q40-1-test.log): 96L classify,
+  depth-free admission (128L in, 95L and 96L/4096 out),
+  Q4_0 refused, both pinned constructors pass the family
+  signature, off-family FFN refused by name, 96L inner and
+  interval mutants refused by name, real-40B validate +
+  inspect + exact plan numbers.
+- Ripple guard PASS against the 40B (q40-ripple.log):
+  NativeModelPlan still refuses qwen35 under auto and
+  explicit — no serve admission leaked; Q35-4 owns it.
+- Named next work: rope.dimension_sections [11, 11, 10, 0]
+  is present in BOTH real files (read-only header parse this
+  session) and read by NO engine code today (loader parses
+  only the scalar rope keys; profile layer ignores it) —
+  Q35-3 partial-rope work owns it. Full notes: Q40-1-NOTES.md.
+
 ## 2026-11-14 — 40B line opened (coordinator): recon verdict + separate-worktree road
 
 - Volmarr's new primary objective: get the 40B (Qwen3.8-40B-Ultimate-

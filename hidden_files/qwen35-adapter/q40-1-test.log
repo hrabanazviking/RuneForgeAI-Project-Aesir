@@ -1,0 +1,16 @@
+PASS (a): 40B geometry 96L/5120 Q8_0 -> native_profile qwen35, READY/COMPATIBLE, variant 39B
+PASS (b): depth-free admission (128L admitted); 95L and 96L/4096 refused a native profile
+PASS (c): Q4_0 at 96L/5120 refused; Q8_0 is the only family quantization
+PASS (d0): 40B formulas (24 full + 72 SSM, qkv 10240, 1275 tensors) hold
+PASS (d1): family signature admits both depths (27B 64L and 40B 96L)
+PASS (d2): off-family FFN refused: Qwen35 family signature mismatch: feed_forward_length 17409 != 17408
+PASS (e0): real 40B validates via qwen35_profile_for + validate_qwen35
+PASS (e1): 96L inner mutant refused: Qwen35 ssm_inner_size 6145 != ssm_time_step_rank * ssm_state_size (48 * 128)
+PASS (e2): 96L interval mutant refused: Qwen35 full_attention_interval 5 does not divide block_count 96
+PASS (e3): inspect 40B READY, tensor_validation passed, estimated_vram_bytes= 42584556036
+PASS (e4): 40B memory plan kv_bytes= 805306368  activation_bytes= 241707520  device_bytes= 42584556036
+PASS (e5): 27B inspect unchanged, estimated_vram_bytes= 29295152100
+PASS (f1): existing native.model_registry case still passes
+PASS (f2): existing native.gemma4_profiles case still passes
+Q40-1 qwen35 registry family generalization: ALL PASS
+TEST_RUN_EXIT=0

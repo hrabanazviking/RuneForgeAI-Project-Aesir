@@ -12,7 +12,13 @@ The profile is formula-driven from the model's own GGUF metadata
 reads the geometry out of the file, `validate_qwen35` checks the
 hybrid relations and the exact tensor contract the Q35-1 loader
 validator proved against the real 27B file (851 tensors: 498 Q8_0 +
-353 F32). Tensor *shapes* are enforced here through PackedGGUF;
+353 F32). Q40-1 generalized the registry pin to a family signature:
+the per-layer geometry proven identical on the real 27B (64L) and
+40B (96L) files, with depth free (see
+`validate_qwen35_family_signature`); the tensor contract stays
+formula-driven (3 globals + 11 per full-attention layer + 14 per
+SSM layer = 851 at 64L, 1275 at 96L). Tensor *shapes* are enforced
+here through PackedGGUF;
 tensor *types* stay recorded-not-enforced, per the Q35-1 U2 verdict.
 """
 from loader.packed_gguf import PackedGGUF
@@ -156,6 +162,51 @@ def qwen35_27b_profile() -> Qwen35Profile:
     )
 
 
+def qwen35_40b_profile() -> Qwen35Profile:
+    """The census-proven 40B geometry (Q40 recon of the real file):
+    the 27B per-layer geometry at 96 blocks (72 SSM + 24 full)."""
+    return Qwen35Profile(
+        "40B", 96, 5120, 17408, 24, 4, 256, 248320, 262144,
+        4, 16, 128, 48, 6144, 4, 64, Float32(10000000), Float32(1e-6),
+    )
+
+
+def validate_qwen35_family_signature(profile: Qwen35Profile) raises:
+    """Q40-1 family signature: the per-layer facts proven identical
+    across BOTH real files (27B 64L and 40B 96L) -- hidden 5120, FFN
+    17408, 24/4 heads, head_dim 256, SSM groups 16 / state 128 /
+    dt_rank 48 / inner 6144, full_attention_interval 4, conv kernel
+    4, partial-rope dimension 64. Depth is deliberately NOT part of
+    the signature: layer_count stays free, bound only by
+    validate_relations (a positive multiple of the interval). Q8_0
+    is the family's quantization, enforced in classify(). Every
+    refusal names the field that left the family."""
+    if profile.hidden_size != 5120:
+        raise Error("Qwen35 family signature mismatch: embedding_length " + String(profile.hidden_size) + " != 5120")
+    if profile.feed_forward_size != 17408:
+        raise Error("Qwen35 family signature mismatch: feed_forward_length " + String(profile.feed_forward_size) + " != 17408")
+    if profile.attention_heads != 24:
+        raise Error("Qwen35 family signature mismatch: attention.head_count " + String(profile.attention_heads) + " != 24")
+    if profile.kv_heads != 4:
+        raise Error("Qwen35 family signature mismatch: attention.head_count_kv " + String(profile.kv_heads) + " != 4")
+    if profile.head_dim != 256:
+        raise Error("Qwen35 family signature mismatch: attention.key_length " + String(profile.head_dim) + " != 256")
+    if profile.full_attention_interval != 4:
+        raise Error("Qwen35 family signature mismatch: full_attention_interval " + String(profile.full_attention_interval) + " != 4")
+    if profile.ssm_group_count != 16:
+        raise Error("Qwen35 family signature mismatch: ssm.group_count " + String(profile.ssm_group_count) + " != 16")
+    if profile.ssm_state_size != 128:
+        raise Error("Qwen35 family signature mismatch: ssm.state_size " + String(profile.ssm_state_size) + " != 128")
+    if profile.ssm_time_step_rank != 48:
+        raise Error("Qwen35 family signature mismatch: ssm.time_step_rank " + String(profile.ssm_time_step_rank) + " != 48")
+    if profile.ssm_inner_size != 6144:
+        raise Error("Qwen35 family signature mismatch: ssm.inner_size " + String(profile.ssm_inner_size) + " != 6144")
+    if profile.ssm_conv_kernel != 4:
+        raise Error("Qwen35 family signature mismatch: ssm.conv_kernel " + String(profile.ssm_conv_kernel) + " != 4")
+    if profile.rope_dimension_count != 64:
+        raise Error("Qwen35 family signature mismatch: rope.dimension_count " + String(profile.rope_dimension_count) + " != 64")
+
+
 def qwen35_profile_for(model: PackedGGUF) raises -> Qwen35Profile:
     if model.text("general.architecture") != "qwen35":
         raise Error("Qwen35 profile requires qwen35 architecture")
@@ -220,6 +271,7 @@ def validate_qwen35(model: PackedGGUF, profile: Qwen35Profile,
             or model.floating(prefix + "attention.layer_norm_rms_epsilon")
                 != profile.normalization_epsilon):
         raise Error("Unsupported " + profile.label() + " RoPE or normalization")
+    validate_qwen35_family_signature(profile)
     if context_length < 2 or context_length > min(
         profile.context_cap, model.integer(prefix + "context_length")
     ):
