@@ -771,6 +771,20 @@ from tests.test_oracle_pins_a110 import (
     test_pin_registry_judged_rows_pinned,
     test_pin_registry_unpinned_example_unjudged,
 )
+from tests.test_comparator_checklist_a112 import (
+    test_comparator_backend_mismatch_caught,
+    test_comparator_bos_flags_caught,
+    test_comparator_bos_rendered_caught,
+    test_comparator_clean_exact,
+    test_comparator_clean_genuine_divergence,
+    test_comparator_combined_precedence,
+    test_comparator_constants_and_names,
+    test_comparator_invalid_records_refused,
+    test_comparator_step0_caught,
+    test_comparator_step0_plus_later_genuine,
+    test_comparator_template_caught,
+    test_comparator_template_precedence_exact,
+)
 from tests.test_near_tie_gate_a111 import (
     test_near_tie_band_constants,
     test_near_tie_band_interior,
@@ -1667,6 +1681,18 @@ def main() raises:
     run_case(ledger, "gate.near_tie_sequence_verdicts", test_near_tie_sequence_verdicts)
     run_case(ledger, "gate.near_tie_matches_prefill", test_near_tie_matches_prefill_grade)
     run_case(ledger, "gate.near_tie_band_line", test_near_tie_band_line)
+    run_case(ledger, "oracle.comparator_constants_names", test_comparator_constants_and_names)
+    run_case(ledger, "oracle.comparator_clean_exact", test_comparator_clean_exact)
+    run_case(ledger, "oracle.comparator_clean_genuine", test_comparator_clean_genuine_divergence)
+    run_case(ledger, "oracle.comparator_template_caught", test_comparator_template_caught)
+    run_case(ledger, "oracle.comparator_template_precedence", test_comparator_template_precedence_exact)
+    run_case(ledger, "oracle.comparator_bos_flags", test_comparator_bos_flags_caught)
+    run_case(ledger, "oracle.comparator_bos_rendered", test_comparator_bos_rendered_caught)
+    run_case(ledger, "oracle.comparator_backend_mismatch", test_comparator_backend_mismatch_caught)
+    run_case(ledger, "oracle.comparator_step0_caught", test_comparator_step0_caught)
+    run_case(ledger, "oracle.comparator_step0_plus_later", test_comparator_step0_plus_later_genuine)
+    run_case(ledger, "oracle.comparator_combined_precedence", test_comparator_combined_precedence)
+    run_case(ledger, "oracle.comparator_invalid_refused", test_comparator_invalid_records_refused)
     run_case(ledger, "planner.standard_fixtures", test_planner_standard_fixtures)
     run_case(ledger, "planner.prefill_variants", test_planner_prefill_variants)
     run_case(ledger, "planner.gemm_thresholds", test_planner_gemm_thresholds)
@@ -2420,4 +2446,8 @@ def main() raises:
     # eleven gate.near_tie_* cases counted on top of the
     # A-110 seat pin (team branch pin was 681 on the A-108
     # base; union reconciled here at banking).
-    ledger.finish(695)
+    # A-112 re-pin: 695 -> 707 -- twelve comparator-artifact
+    # checklist cases (oracle.comparator_* in
+    # tests/test_comparator_checklist_a112.mojo) counted on
+    # top of the A-111 seat pin.
+    ledger.finish(707)
