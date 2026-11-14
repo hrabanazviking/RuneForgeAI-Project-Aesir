@@ -1,0 +1,87 @@
+=== A-121 MoE battery run (team-27) ===
+2026-11-14T00:06:55-05:00
+purpleraider
+2d2375bc7382c3ba659331d57572ed566f71e22d
+yrsa/aesir-team-27
+Mojo 1.2.0 (2016d0cd)
+Imported from /home/volmarr/aesir-team-27/aesir_engine/tests/bench_moe_battery_a121.mojo:15:
+/home/volmarr/aesir-team-27/aesir_engine/core/moe_battery_a121.mojo:659:20: warning: 'read' is deprecated; use 'imm'
+def battery_render(read report: BatteryReport) -> String:
+                   ^~~~
+                   imm
+A-121 MoE battery: 16 OLMoE layers x 4 Z13 backends judged from the banked J-016 measured routing trace over the real sha-pinned tensors (J-015); synthetic fixture (8 experts, top-2, built from the real hit counts) labelled SYNTHETIC in every line; non-cpu rows NOT_GRADED with a named reason, zero unexplained
+A121_BATTERY layers=16 backends=4 total=64 fixture_status=SYNTHETIC model_sha256=8c310f1435a1222338fd2d3d974975be9cd908180b644bab0c2a94da1ac32f3f
+MB_ROW layer=0 arch=olmoe backend=cpu verdict=FAITHFUL reason=J016_ROUTING_CHECKS_PASS policy=TOKEN_EXACTNESS_OWED accesses=4616 distinct=64 dead=0 entropy_x10000=56772 top_expert=6 top_hits=382
+MB_ROW layer=0 arch=olmoe backend=vulkan verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=TOKEN_EXACTNESS_OWED accesses=-1 distinct=-1 dead=-1 entropy_x10000=-1 top_expert=-1 top_hits=-1
+MB_ROW layer=0 arch=olmoe backend=hip verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=TOKEN_EXACTNESS_OWED accesses=-1 distinct=-1 dead=-1 entropy_x10000=-1 top_expert=-1 top_hits=-1
+MB_ROW layer=0 arch=olmoe backend=npu verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=TOKEN_EXACTNESS_OWED accesses=-1 distinct=-1 dead=-1 entropy_x10000=-1 top_expert=-1 top_hits=-1
+MB_ROW layer=1 arch=olmoe backend=cpu verdict=FAITHFUL reason=J016_ROUTING_CHECKS_PASS policy=TOKEN_EXACTNESS_OWED accesses=4616 distinct=64 dead=0 entropy_x10000=58353 top_expert=18 top_hits=188
+MB_ROW layer=1 arch=olmoe backend=vulkan verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=TOKEN_EXACTNESS_OWED accesses=-1 distinct=-1 dead=-1 entropy_x10000=-1 top_expert=-1 top_hits=-1
+MB_ROW layer=1 arch=olmoe backend=hip verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=TOKEN_EXACTNESS_OWED accesses=-1 distinct=-1 dead=-1 entropy_x10000=-1 top_expert=-1 top_hits=-1
+MB_ROW layer=1 arch=olmoe backend=npu verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=TOKEN_EXACTNESS_OWED accesses=-1 distinct=-1 dead=-1 entropy_x10000=-1 top_expert=-1 top_hits=-1
+MB_ROW layer=2 arch=olmoe backend=cpu verdict=FAITHFUL reason=J016_ROUTING_CHECKS_PASS policy=TOKEN_EXACTNESS_OWED accesses=4616 distinct=64 dead=0 entropy_x10000=58502 top_expert=10 top_hits=180
+MB_ROW layer=2 arch=olmoe backend=vulkan verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=TOKEN_EXACTNESS_OWED accesses=-1 distinct=-1 dead=-1 entropy_x10000=-1 top_expert=-1 top_hits=-1
+MB_ROW layer=2 arch=olmoe backend=hip verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=TOKEN_EXACTNESS_OWED accesses=-1 distinct=-1 dead=-1 entropy_x10000=-1 top_expert=-1 top_hits=-1
+MB_ROW layer=2 arch=olmoe backend=npu verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=TOKEN_EXACTNESS_OWED accesses=-1 distinct=-1 dead=-1 entropy_x10000=-1 top_expert=-1 top_hits=-1
+MB_ROW layer=3 arch=olmoe backend=cpu verdict=FAITHFUL reason=J016_ROUTING_CHECKS_PASS policy=TOKEN_EXACTNESS_OWED accesses=4616 distinct=64 dead=0 entropy_x10000=57343 top_expert=23 top_hits=241
+MB_ROW layer=3 arch=olmoe backend=vulkan verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=TOKEN_EXACTNESS_OWED accesses=-1 distinct=-1 dead=-1 entropy_x10000=-1 top_expert=-1 top_hits=-1
+MB_ROW layer=3 arch=olmoe backend=hip verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=TOKEN_EXACTNESS_OWED accesses=-1 distinct=-1 dead=-1 entropy_x10000=-1 top_expert=-1 top_hits=-1
+MB_ROW layer=3 arch=olmoe backend=npu verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=TOKEN_EXACTNESS_OWED accesses=-1 distinct=-1 dead=-1 entropy_x10000=-1 top_expert=-1 top_hits=-1
+MB_ROW layer=4 arch=olmoe backend=cpu verdict=FAITHFUL reason=J016_ROUTING_CHECKS_PASS policy=TOKEN_EXACTNESS_OWED accesses=4616 distinct=64 dead=0 entropy_x10000=57096 top_expert=47 top_hits=214
+MB_ROW layer=4 arch=olmoe backend=vulkan verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=TOKEN_EXACTNESS_OWED accesses=-1 distinct=-1 dead=-1 entropy_x10000=-1 top_expert=-1 top_hits=-1
+MB_ROW layer=4 arch=olmoe backend=hip verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=TOKEN_EXACTNESS_OWED accesses=-1 distinct=-1 dead=-1 entropy_x10000=-1 top_expert=-1 top_hits=-1
+MB_ROW layer=4 arch=olmoe backend=npu verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=TOKEN_EXACTNESS_OWED accesses=-1 distinct=-1 dead=-1 entropy_x10000=-1 top_expert=-1 top_hits=-1
+MB_ROW layer=5 arch=olmoe backend=cpu verdict=FAITHFUL reason=J016_ROUTING_CHECKS_PASS policy=TOKEN_EXACTNESS_OWED accesses=4616 distinct=64 dead=0 entropy_x10000=57111 top_expert=55 top_hits=226
+MB_ROW layer=5 arch=olmoe backend=vulkan verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=TOKEN_EXACTNESS_OWED accesses=-1 distinct=-1 dead=-1 entropy_x10000=-1 top_expert=-1 top_hits=-1
+MB_ROW layer=5 arch=olmoe backend=hip verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=TOKEN_EXACTNESS_OWED accesses=-1 distinct=-1 dead=-1 entropy_x10000=-1 top_expert=-1 top_hits=-1
+MB_ROW layer=5 arch=olmoe backend=npu verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=TOKEN_EXACTNESS_OWED accesses=-1 distinct=-1 dead=-1 entropy_x10000=-1 top_expert=-1 top_hits=-1
+MB_ROW layer=6 arch=olmoe backend=cpu verdict=FAITHFUL reason=J016_ROUTING_CHECKS_PASS policy=TOKEN_EXACTNESS_OWED accesses=4616 distinct=64 dead=0 entropy_x10000=55726 top_expert=18 top_hits=251
+MB_ROW layer=6 arch=olmoe backend=vulkan verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=TOKEN_EXACTNESS_OWED accesses=-1 distinct=-1 dead=-1 entropy_x10000=-1 top_expert=-1 top_hits=-1
+MB_ROW layer=6 arch=olmoe backend=hip verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=TOKEN_EXACTNESS_OWED accesses=-1 distinct=-1 dead=-1 entropy_x10000=-1 top_expert=-1 top_hits=-1
+MB_ROW layer=6 arch=olmoe backend=npu verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=TOKEN_EXACTNESS_OWED accesses=-1 distinct=-1 dead=-1 entropy_x10000=-1 top_expert=-1 top_hits=-1
+MB_ROW layer=7 arch=olmoe backend=cpu verdict=FAITHFUL reason=J016_ROUTING_CHECKS_PASS policy=TOKEN_EXACTNESS_OWED accesses=4616 distinct=64 dead=0 entropy_x10000=54349 top_expert=33 top_hits=324
+MB_ROW layer=7 arch=olmoe backend=vulkan verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=TOKEN_EXACTNESS_OWED accesses=-1 distinct=-1 dead=-1 entropy_x10000=-1 top_expert=-1 top_hits=-1
+MB_ROW layer=7 arch=olmoe backend=hip verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=TOKEN_EXACTNESS_OWED accesses=-1 distinct=-1 dead=-1 entropy_x10000=-1 top_expert=-1 top_hits=-1
+MB_ROW layer=7 arch=olmoe backend=npu verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=TOKEN_EXACTNESS_OWED accesses=-1 distinct=-1 dead=-1 entropy_x10000=-1 top_expert=-1 top_hits=-1
+MB_ROW layer=8 arch=olmoe backend=cpu verdict=FAITHFUL reason=J016_ROUTING_CHECKS_PASS policy=TOKEN_EXACTNESS_OWED accesses=4616 distinct=64 dead=0 entropy_x10000=54556 top_expert=62 top_hits=303
+MB_ROW layer=8 arch=olmoe backend=vulkan verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=TOKEN_EXACTNESS_OWED accesses=-1 distinct=-1 dead=-1 entropy_x10000=-1 top_expert=-1 top_hits=-1
+MB_ROW layer=8 arch=olmoe backend=hip verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=TOKEN_EXACTNESS_OWED accesses=-1 distinct=-1 dead=-1 entropy_x10000=-1 top_expert=-1 top_hits=-1
+MB_ROW layer=8 arch=olmoe backend=npu verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=TOKEN_EXACTNESS_OWED accesses=-1 distinct=-1 dead=-1 entropy_x10000=-1 top_expert=-1 top_hits=-1
+MB_ROW layer=9 arch=olmoe backend=cpu verdict=FAITHFUL reason=J016_ROUTING_CHECKS_PASS policy=TOKEN_EXACTNESS_OWED accesses=4616 distinct=64 dead=0 entropy_x10000=56015 top_expert=34 top_hits=240
+MB_ROW layer=9 arch=olmoe backend=vulkan verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=TOKEN_EXACTNESS_OWED accesses=-1 distinct=-1 dead=-1 entropy_x10000=-1 top_expert=-1 top_hits=-1
+MB_ROW layer=9 arch=olmoe backend=hip verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=TOKEN_EXACTNESS_OWED accesses=-1 distinct=-1 dead=-1 entropy_x10000=-1 top_expert=-1 top_hits=-1
+MB_ROW layer=9 arch=olmoe backend=npu verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=TOKEN_EXACTNESS_OWED accesses=-1 distinct=-1 dead=-1 entropy_x10000=-1 top_expert=-1 top_hits=-1
+MB_ROW layer=10 arch=olmoe backend=cpu verdict=FAITHFUL reason=J016_ROUTING_CHECKS_PASS policy=TOKEN_EXACTNESS_OWED accesses=4616 distinct=64 dead=0 entropy_x10000=55828 top_expert=44 top_hits=286
+MB_ROW layer=10 arch=olmoe backend=vulkan verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=TOKEN_EXACTNESS_OWED accesses=-1 distinct=-1 dead=-1 entropy_x10000=-1 top_expert=-1 top_hits=-1
+MB_ROW layer=10 arch=olmoe backend=hip verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=TOKEN_EXACTNESS_OWED accesses=-1 distinct=-1 dead=-1 entropy_x10000=-1 top_expert=-1 top_hits=-1
+MB_ROW layer=10 arch=olmoe backend=npu verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=TOKEN_EXACTNESS_OWED accesses=-1 distinct=-1 dead=-1 entropy_x10000=-1 top_expert=-1 top_hits=-1
+MB_ROW layer=11 arch=olmoe backend=cpu verdict=FAITHFUL reason=J016_ROUTING_CHECKS_PASS policy=TOKEN_EXACTNESS_OWED accesses=4616 distinct=64 dead=0 entropy_x10000=55901 top_expert=14 top_hits=368
+MB_ROW layer=11 arch=olmoe backend=vulkan verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=TOKEN_EXACTNESS_OWED accesses=-1 distinct=-1 dead=-1 entropy_x10000=-1 top_expert=-1 top_hits=-1
+MB_ROW layer=11 arch=olmoe backend=hip verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=TOKEN_EXACTNESS_OWED accesses=-1 distinct=-1 dead=-1 entropy_x10000=-1 top_expert=-1 top_hits=-1
+MB_ROW layer=11 arch=olmoe backend=npu verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=TOKEN_EXACTNESS_OWED accesses=-1 distinct=-1 dead=-1 entropy_x10000=-1 top_expert=-1 top_hits=-1
+MB_ROW layer=12 arch=olmoe backend=cpu verdict=FAITHFUL reason=J016_ROUTING_CHECKS_PASS policy=TOKEN_EXACTNESS_OWED accesses=4616 distinct=64 dead=0 entropy_x10000=56779 top_expert=8 top_hits=214
+MB_ROW layer=12 arch=olmoe backend=vulkan verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=TOKEN_EXACTNESS_OWED accesses=-1 distinct=-1 dead=-1 entropy_x10000=-1 top_expert=-1 top_hits=-1
+MB_ROW layer=12 arch=olmoe backend=hip verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=TOKEN_EXACTNESS_OWED accesses=-1 distinct=-1 dead=-1 entropy_x10000=-1 top_expert=-1 top_hits=-1
+MB_ROW layer=12 arch=olmoe backend=npu verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=TOKEN_EXACTNESS_OWED accesses=-1 distinct=-1 dead=-1 entropy_x10000=-1 top_expert=-1 top_hits=-1
+MB_ROW layer=13 arch=olmoe backend=cpu verdict=FAITHFUL reason=J016_ROUTING_CHECKS_PASS policy=TOKEN_EXACTNESS_OWED accesses=4616 distinct=64 dead=0 entropy_x10000=56886 top_expert=2 top_hits=184
+MB_ROW layer=13 arch=olmoe backend=vulkan verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=TOKEN_EXACTNESS_OWED accesses=-1 distinct=-1 dead=-1 entropy_x10000=-1 top_expert=-1 top_hits=-1
+MB_ROW layer=13 arch=olmoe backend=hip verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=TOKEN_EXACTNESS_OWED accesses=-1 distinct=-1 dead=-1 entropy_x10000=-1 top_expert=-1 top_hits=-1
+MB_ROW layer=13 arch=olmoe backend=npu verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=TOKEN_EXACTNESS_OWED accesses=-1 distinct=-1 dead=-1 entropy_x10000=-1 top_expert=-1 top_hits=-1
+MB_ROW layer=14 arch=olmoe backend=cpu verdict=FAITHFUL reason=J016_ROUTING_CHECKS_PASS policy=TOKEN_EXACTNESS_OWED accesses=4616 distinct=64 dead=0 entropy_x10000=56630 top_expert=58 top_hits=204
+MB_ROW layer=14 arch=olmoe backend=vulkan verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=TOKEN_EXACTNESS_OWED accesses=-1 distinct=-1 dead=-1 entropy_x10000=-1 top_expert=-1 top_hits=-1
+MB_ROW layer=14 arch=olmoe backend=hip verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=TOKEN_EXACTNESS_OWED accesses=-1 distinct=-1 dead=-1 entropy_x10000=-1 top_expert=-1 top_hits=-1
+MB_ROW layer=14 arch=olmoe backend=npu verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=TOKEN_EXACTNESS_OWED accesses=-1 distinct=-1 dead=-1 entropy_x10000=-1 top_expert=-1 top_hits=-1
+MB_ROW layer=15 arch=olmoe backend=cpu verdict=FAITHFUL reason=J016_ROUTING_CHECKS_PASS policy=TOKEN_EXACTNESS_OWED accesses=4616 distinct=64 dead=0 entropy_x10000=55604 top_expert=24 top_hits=247
+MB_ROW layer=15 arch=olmoe backend=vulkan verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=TOKEN_EXACTNESS_OWED accesses=-1 distinct=-1 dead=-1 entropy_x10000=-1 top_expert=-1 top_hits=-1
+MB_ROW layer=15 arch=olmoe backend=hip verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=TOKEN_EXACTNESS_OWED accesses=-1 distinct=-1 dead=-1 entropy_x10000=-1 top_expert=-1 top_hits=-1
+MB_ROW layer=15 arch=olmoe backend=npu verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=TOKEN_EXACTNESS_OWED accesses=-1 distinct=-1 dead=-1 entropy_x10000=-1 top_expert=-1 top_hits=-1
+MB_SYN case=SYN_RAW status=SYNTHETIC verdict=FAITHFUL reason=SYNTHETIC_RAW_WEIGHT_RULE
+MB_SYN case=SYN_RENORM status=SYNTHETIC verdict=DIVERGENT reason=J022_B1_RENORMALISATION
+MB_SYN case=SYN_COLLAPSE status=SYNTHETIC verdict=DIVERGENT reason=ROUTER_COLLAPSE_DEAD_EXPERTS
+MB_SYN case=SYN_MISMATCH status=SYNTHETIC verdict=COMPARATOR_ARTIFACT reason=BACKEND_MISMATCH
+A121_BATTERY_SUMMARY total=64 faithful=16 near_tie=0 divergent=0 artifact=0 fixture_limited=0 not_graded=48 owed=64 coherence=0
+A121_SYNTHETIC_SUMMARY status=SYNTHETIC total=4 faithful=1 divergent=2 artifact=1
+A121_BATTERY_DIGEST 1332251770941318666
+A121_BENCH_DONE rows= 64
+MOJO_EXIT=0
+=== end 2026-11-14T00:06:57-05:00 ===

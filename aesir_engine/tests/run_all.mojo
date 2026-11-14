@@ -908,6 +908,21 @@ from tests.test_llama_battery_a118 import (
     test_battery_policy_split,
     test_battery_summary_sums,
 )
+from tests.test_moe_battery_a121 import (
+    test_moe_axes_product,
+    test_moe_backend_not_graded,
+    test_moe_checks_discriminate,
+    test_moe_cpu_faithful,
+    test_moe_digest_deterministic,
+    test_moe_enumeration_unique,
+    test_moe_invalid_axes_refused,
+    test_moe_layer_witnesses,
+    test_moe_policy_obligation,
+    test_moe_summary_sums,
+    test_moe_synthetic_defects,
+    test_moe_synthetic_labelled,
+    test_moe_synthetic_raw_rule,
+)
 from tests.test_placement_planner_a100 import (
     test_planner_standard_fixtures,
     test_planner_prefill_variants,
@@ -1897,6 +1912,19 @@ def main() raises:
     run_case(ledger, "gemma.battery_agrees_with_matrix", test_gemma_battery_agrees_with_matrix)
     run_case(ledger, "gemma.battery_comparator_reference", test_gemma_battery_comparator_reference)
     run_case(ledger, "gemma.battery_digest_deterministic", test_gemma_battery_digest_deterministic)
+    run_case(ledger, "moe.battery_axes_product", test_moe_axes_product)
+    run_case(ledger, "moe.battery_enumeration_unique", test_moe_enumeration_unique)
+    run_case(ledger, "moe.battery_policy_obligation", test_moe_policy_obligation)
+    run_case(ledger, "moe.battery_cpu_faithful", test_moe_cpu_faithful)
+    run_case(ledger, "moe.battery_layer_witnesses", test_moe_layer_witnesses)
+    run_case(ledger, "moe.battery_backend_not_graded", test_moe_backend_not_graded)
+    run_case(ledger, "moe.battery_summary_sums", test_moe_summary_sums)
+    run_case(ledger, "moe.battery_checks_discriminate", test_moe_checks_discriminate)
+    run_case(ledger, "moe.battery_synthetic_labelled", test_moe_synthetic_labelled)
+    run_case(ledger, "moe.battery_synthetic_raw_rule", test_moe_synthetic_raw_rule)
+    run_case(ledger, "moe.battery_synthetic_defects", test_moe_synthetic_defects)
+    run_case(ledger, "moe.battery_invalid_axes_refused", test_moe_invalid_axes_refused)
+    run_case(ledger, "moe.battery_digest_deterministic", test_moe_digest_deterministic)
     run_case(ledger, "planner.standard_fixtures", test_planner_standard_fixtures)
     run_case(ledger, "planner.prefill_variants", test_planner_prefill_variants)
     run_case(ledger, "planner.gemm_thresholds", test_planner_gemm_thresholds)
@@ -2699,4 +2727,9 @@ def main() raises:
     # gemma battery cases (gemma.battery_* in
     # tests/test_gemma_battery_a120.mojo) counted on top of
     # the A-119 seat pin.
-    ledger.finish(801)
+    # A-121 union re-pin at banking: 801 -> 814 -- thirteen
+    # MoE battery cases (moe.battery_* in
+    # tests/test_moe_battery_a121.mojo) counted on top of
+    # the A-120 seat pin (A-119/A-120 built in parallel
+    # on the same seat; union reconciles at banking).
+    ledger.finish(814)
