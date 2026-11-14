@@ -1,6 +1,6 @@
 # Qwen35 Adapter Campaign — Ledger
 
-## 2026-11-14 — QC-3a: whole-model Q8_0 conversion of stories260K + grade (worker slice; coordinator verification pending)
+## 2026-11-14 — QC-3a: whole-model Q8_0 conversion of stories260K + grade (worker slice; verified + banked by coordinator)
 
 - DELIVERED: `aesir quantize` — aesir_engine/cli/quantize.mojo
   (new: quantize_gguf_q8_0 + q8_0_keep_reason policy +
@@ -57,6 +57,16 @@
   timings claimed). QC-3b named gaps: dequantizing input path
   for quantized sources + the streaming writer at 3.1 GB are
   prerequisites, not yet built. Full notes: QC-3a-NOTES.md.
+
+- Coordinator verification (2026-11-14): grade summary log
+  re-read from disk (157 records, in-band 157/157 = 100.00%,
+  agreement 156/157, worst rank 1 gap 7 milli-logits,
+  verdict FAITHFUL); emitted file sha256 re-measured on
+  disk = 5d4df894...6d77b7, 379,152 B vs source 601,248 B;
+  remote yrsa/qc-3 == eb1cd17d confirmed by ls-remote
+  before merge; fast-forwarded into yrsa/hip-serve and
+  banked. FIRST COMPRESSED MODEL THAT LOADS AND GRADES
+  FAITHFUL — the compression workstream's named moment.
 
 ## 2026-11-14 — QC-2: Q8_0 quantizer + round-trip property tests (worker slice; verified + banked by coordinator)
 
