@@ -1,5 +1,61 @@
 # Qwen35 Adapter Campaign — Ledger
 
+## 2026-11-14 — Q35-3b: real-file oracle grade FAITHFUL (worker slice; verified + banked by coordinator)
+
+- FIRST COHERENT GENERATION FROM THE REAL FILE: Aesir greedy
+  (40 tok, raw prompt P0) is TOKEN-IDENTICAL to llama.cpp's —
+  coherent text (q35-3b-v2-gen.log, this folder). The 27B
+  heretic loads, runs, and generates on Aesir. Milestone
+  reported to the parent the same day.
+- Grade (resident CPU vs llama.cpp CPU, same file, one token
+  stream, 198 positions / 6 raw prompts): comparator argmax
+  rank 1 at 197/198; 198/198 (100%) in the near-tie band;
+  argmax agreement 197/198; worst record P5 pos 32, rank 2,
+  gap 0.015; true-token rank-1 counts identical (142 in both
+  engines' rows).
+- U1 ARBITRATED — REAL BUG FOUND AND FIXED: pre-fix grade
+  failed (61/198 in band; greedy looped ' France' x40). ggml's
+  gated-delta-net broadcasts q/k TILED (head = vh % groups);
+  Aesir used contiguous (vh // v_per_group) — 32 of 48
+  v-heads read the wrong q/k head in every SSM layer. One-line
+  fix in each forward path (inference.mojo) with the
+  arbitration comment. Q35-3a's banked greedy changed (it had
+  encoded the defective mapping; its determinism/geometry
+  assertions pass untouched); Q35-3r's hard-coded sequence
+  re-derived from the corrected run with a Q35-3b citation,
+  then ALL PASS.
+- Comparator: llama.cpp built natively (no Docker) at
+  ~/llama.cpp-build @ a956a852 (knows qwen35); custom
+  teacher-forcing tool kept with the build tree. Load path:
+  resident for all Aesir runs. Peaks (time -v max RSS; systemd
+  MemoryPeak unpopulated for these units): Aesir ~31.0 GB
+  grade / 31.3 GB gen; comparator 28.2 GB; fences 96G/110G
+  respected; one heavy run at a time. Speeds: Aesir ~2.2
+  tok/s, llama.cpp ~2.7 tok/s (both CPU).
+- HONEST CONTEXT: the grade exercised 198 positions total
+  (prompts of 4-59 positions; positions 0..~60). Rope
+  dimension_sections [11,11,10,0] settled for text positions
+  in that range ONLY — R1: re-witness at serve lengths in
+  Q35-4b. Batched vs per-token on the real file: next token
+  identical, logits diff 0.0156 (f16 rounding class; R3:
+  same-path snapshot seeds). R2: serve sampling defaults
+  differ from grade config — Q35-4b grades its own. R4:
+  plan serve latency from ~2.2 tok/s CPU.
+- A-119 battery: deliberately NOT edited (it is A-048's filed
+  historical account); a successor attestation row is named
+  Q35-7 work.
+- Regressions: Q35-1, Q35-2, Q35-3a, Q35-3r (v2), Q35-4a,
+  ripple ALL PASS; full engine compile exit 0. Q35-5 snapshot
+  behaviour re-proven in substance post-fix via Q35-3r (r7)
+  (restore + stateless reuse over the resident engine, ALL
+  PASS); the standalone snapshot-test binary rerun on the
+  merged tree is folded into Q35-4b's regression set.
+- Coordinator verification: remote yrsa/q35-3b == f5d61159
+  confirmed by ls-remote; the fix diff, grade summary, and
+  generation log re-read from disk; merged into
+  yrsa/hip-serve and banked. Services stayed down
+  throughout; Ollama never relaunched.
+
 ## 2026-11-14 — QC-0: compression workstream recon + plan (worker slice; verified + banked by coordinator)
 
 - Plan banked as QC-0-PLAN.md (488 lines, this folder). Dequant

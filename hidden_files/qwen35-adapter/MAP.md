@@ -169,3 +169,13 @@ QC_RESULTS.md + residency note for Q35-7. First targets: Q8_0
 (the workhorse). Named bug from QC-0 recon (next work, owed
 before any Q8_1 reliance): Q8_1 block size — loader prices
 36 B/block, compute.mojo walks 40 B blocks.
+
+## Status update — 2026-11-14 (Q35-3b banked)
+
+- Q35-3b DONE: real-file oracle grade FAITHFUL (198/198
+  near-tie band vs llama.cpp CPU); the 27B generates
+  coherently on Aesir (greedy token-identical to the oracle).
+  U1 fix banked (tiled q/k broadcast). Grade context was
+  short (positions 0..~60) — serve-length re-witness is
+  Q35-4b's R1. Next: Q35-4b, then the Q8_1 fix (QC-0's named
+  bug), Q35-6a resume, QC-1; Q35-7 last.
