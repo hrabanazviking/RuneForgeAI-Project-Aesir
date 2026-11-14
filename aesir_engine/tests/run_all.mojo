@@ -878,6 +878,21 @@ from tests.test_qwen_battery_a119 import (
     test_qbattery_summary_sums,
     test_qbattery_unknown_quant_refused,
 )
+from tests.test_gemma_battery_a120 import (
+    test_gemma_battery_agrees_with_matrix,
+    test_gemma_battery_axes_product,
+    test_gemma_battery_backend_not_graded,
+    test_gemma_battery_comparator_reference,
+    test_gemma_battery_cpu_not_graded,
+    test_gemma_battery_digest_deterministic,
+    test_gemma_battery_enumeration_unique,
+    test_gemma_battery_invalid_axes_refused,
+    test_gemma_battery_iq_cpu_not_fixture,
+    test_gemma_battery_no_divergent,
+    test_gemma_battery_policy_canonical,
+    test_gemma_battery_policy_split,
+    test_gemma_battery_summary_sums,
+)
 from tests.test_llama_battery_a118 import (
     test_battery_agrees_with_matrix,
     test_battery_axes_product,
@@ -1869,6 +1884,19 @@ def main() raises:
     run_case(ledger, "llama.battery_invalid_axes_refused", test_battery_invalid_axes_refused)
     run_case(ledger, "llama.battery_agrees_with_matrix", test_battery_agrees_with_matrix)
     run_case(ledger, "llama.battery_digest_deterministic", test_battery_digest_deterministic)
+    run_case(ledger, "gemma.battery_axes_product", test_gemma_battery_axes_product)
+    run_case(ledger, "gemma.battery_enumeration_unique", test_gemma_battery_enumeration_unique)
+    run_case(ledger, "gemma.battery_policy_split", test_gemma_battery_policy_split)
+    run_case(ledger, "gemma.battery_policy_canonical", test_gemma_battery_policy_canonical)
+    run_case(ledger, "gemma.battery_cpu_not_graded", test_gemma_battery_cpu_not_graded)
+    run_case(ledger, "gemma.battery_iq_cpu_not_fixture", test_gemma_battery_iq_cpu_not_fixture)
+    run_case(ledger, "gemma.battery_backend_not_graded", test_gemma_battery_backend_not_graded)
+    run_case(ledger, "gemma.battery_summary_sums", test_gemma_battery_summary_sums)
+    run_case(ledger, "gemma.battery_no_divergent", test_gemma_battery_no_divergent)
+    run_case(ledger, "gemma.battery_invalid_axes_refused", test_gemma_battery_invalid_axes_refused)
+    run_case(ledger, "gemma.battery_agrees_with_matrix", test_gemma_battery_agrees_with_matrix)
+    run_case(ledger, "gemma.battery_comparator_reference", test_gemma_battery_comparator_reference)
+    run_case(ledger, "gemma.battery_digest_deterministic", test_gemma_battery_digest_deterministic)
     run_case(ledger, "planner.standard_fixtures", test_planner_standard_fixtures)
     run_case(ledger, "planner.prefill_variants", test_planner_prefill_variants)
     run_case(ledger, "planner.gemm_thresholds", test_planner_gemm_thresholds)
@@ -2667,4 +2695,8 @@ def main() raises:
     # cases (qwen.battery_* in
     # tests/test_qwen_battery_a119.mojo) counted on top of
     # the A-118 seat pin.
-    ledger.finish(788)
+    # A-120 union re-pin at banking: 788 -> 801 -- thirteen
+    # gemma battery cases (gemma.battery_* in
+    # tests/test_gemma_battery_a120.mojo) counted on top of
+    # the A-119 seat pin.
+    ledger.finish(801)

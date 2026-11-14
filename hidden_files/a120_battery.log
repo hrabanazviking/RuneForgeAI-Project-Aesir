@@ -1,0 +1,95 @@
+=== A-120 gemma battery run (team-26) ===
+2026-11-13T23:55:45-05:00
+purpleraider
+2d2375bc7382c3ba659331d57572ed566f71e22d
+yrsa/aesir-team-26
+Mojo 1.2.0 (2016d0cd)
+Imported from /home/volmarr/aesir-team-26/aesir_engine/tests/bench_gemma_battery_a120.mojo:17:
+/home/volmarr/aesir-team-26/aesir_engine/core/gemma_battery_a120.mojo:354:26: warning: 'read' is deprecated; use 'imm'
+def gemma_battery_render(read report: GemmaBatteryReport) -> String:
+                         ^~~~
+                         imm
+A-120 gemma-family battery: 19 quants x 4 Z13 backends on gemma4, rows judged per the banked A-115 policy (10 quants TOKEN_EXACTNESS_OWED under the A-111 near-tie gate, 9 IQ quants COHERENCE_ONLY); no filed gemma teacher-forcing records exist, so every row files NOT_GRADED with a named reason, zero unexplained
+A120_COMPARATOR_REFERENCE gemma4_cuda (CUDA Gemma 4 E4B Q4_K_M) -- reference only, not a CPU comparator, grades no row
+A120_BATTERY quants=19 backends=4 total=76
+GB_ROW quant=F16 arch=gemma4 backend=cpu verdict=NOT_GRADED reason=NO_FILED_RECORDS policy=TOKEN_EXACTNESS_OWED faithful=-1 near_tie=-1 divergent=-1 worst_rank=-1
+GB_ROW quant=F16 arch=gemma4 backend=vulkan verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=TOKEN_EXACTNESS_OWED faithful=-1 near_tie=-1 divergent=-1 worst_rank=-1
+GB_ROW quant=F16 arch=gemma4 backend=hip verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=TOKEN_EXACTNESS_OWED faithful=-1 near_tie=-1 divergent=-1 worst_rank=-1
+GB_ROW quant=F16 arch=gemma4 backend=npu verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=TOKEN_EXACTNESS_OWED faithful=-1 near_tie=-1 divergent=-1 worst_rank=-1
+GB_ROW quant=BF16 arch=gemma4 backend=cpu verdict=NOT_GRADED reason=NO_FILED_RECORDS policy=TOKEN_EXACTNESS_OWED faithful=-1 near_tie=-1 divergent=-1 worst_rank=-1
+GB_ROW quant=BF16 arch=gemma4 backend=vulkan verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=TOKEN_EXACTNESS_OWED faithful=-1 near_tie=-1 divergent=-1 worst_rank=-1
+GB_ROW quant=BF16 arch=gemma4 backend=hip verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=TOKEN_EXACTNESS_OWED faithful=-1 near_tie=-1 divergent=-1 worst_rank=-1
+GB_ROW quant=BF16 arch=gemma4 backend=npu verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=TOKEN_EXACTNESS_OWED faithful=-1 near_tie=-1 divergent=-1 worst_rank=-1
+GB_ROW quant=Q8_0 arch=gemma4 backend=cpu verdict=NOT_GRADED reason=NO_FILED_RECORDS policy=TOKEN_EXACTNESS_OWED faithful=-1 near_tie=-1 divergent=-1 worst_rank=-1
+GB_ROW quant=Q8_0 arch=gemma4 backend=vulkan verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=TOKEN_EXACTNESS_OWED faithful=-1 near_tie=-1 divergent=-1 worst_rank=-1
+GB_ROW quant=Q8_0 arch=gemma4 backend=hip verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=TOKEN_EXACTNESS_OWED faithful=-1 near_tie=-1 divergent=-1 worst_rank=-1
+GB_ROW quant=Q8_0 arch=gemma4 backend=npu verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=TOKEN_EXACTNESS_OWED faithful=-1 near_tie=-1 divergent=-1 worst_rank=-1
+GB_ROW quant=Q4_0 arch=gemma4 backend=cpu verdict=NOT_GRADED reason=NO_FILED_RECORDS policy=TOKEN_EXACTNESS_OWED faithful=-1 near_tie=-1 divergent=-1 worst_rank=-1
+GB_ROW quant=Q4_0 arch=gemma4 backend=vulkan verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=TOKEN_EXACTNESS_OWED faithful=-1 near_tie=-1 divergent=-1 worst_rank=-1
+GB_ROW quant=Q4_0 arch=gemma4 backend=hip verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=TOKEN_EXACTNESS_OWED faithful=-1 near_tie=-1 divergent=-1 worst_rank=-1
+GB_ROW quant=Q4_0 arch=gemma4 backend=npu verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=TOKEN_EXACTNESS_OWED faithful=-1 near_tie=-1 divergent=-1 worst_rank=-1
+GB_ROW quant=Q5_0 arch=gemma4 backend=cpu verdict=NOT_GRADED reason=NO_FILED_RECORDS policy=TOKEN_EXACTNESS_OWED faithful=-1 near_tie=-1 divergent=-1 worst_rank=-1
+GB_ROW quant=Q5_0 arch=gemma4 backend=vulkan verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=TOKEN_EXACTNESS_OWED faithful=-1 near_tie=-1 divergent=-1 worst_rank=-1
+GB_ROW quant=Q5_0 arch=gemma4 backend=hip verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=TOKEN_EXACTNESS_OWED faithful=-1 near_tie=-1 divergent=-1 worst_rank=-1
+GB_ROW quant=Q5_0 arch=gemma4 backend=npu verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=TOKEN_EXACTNESS_OWED faithful=-1 near_tie=-1 divergent=-1 worst_rank=-1
+GB_ROW quant=Q2_K arch=gemma4 backend=cpu verdict=NOT_GRADED reason=NO_FILED_RECORDS policy=TOKEN_EXACTNESS_OWED faithful=-1 near_tie=-1 divergent=-1 worst_rank=-1
+GB_ROW quant=Q2_K arch=gemma4 backend=vulkan verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=TOKEN_EXACTNESS_OWED faithful=-1 near_tie=-1 divergent=-1 worst_rank=-1
+GB_ROW quant=Q2_K arch=gemma4 backend=hip verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=TOKEN_EXACTNESS_OWED faithful=-1 near_tie=-1 divergent=-1 worst_rank=-1
+GB_ROW quant=Q2_K arch=gemma4 backend=npu verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=TOKEN_EXACTNESS_OWED faithful=-1 near_tie=-1 divergent=-1 worst_rank=-1
+GB_ROW quant=Q3_K_M arch=gemma4 backend=cpu verdict=NOT_GRADED reason=NO_FILED_RECORDS policy=TOKEN_EXACTNESS_OWED faithful=-1 near_tie=-1 divergent=-1 worst_rank=-1
+GB_ROW quant=Q3_K_M arch=gemma4 backend=vulkan verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=TOKEN_EXACTNESS_OWED faithful=-1 near_tie=-1 divergent=-1 worst_rank=-1
+GB_ROW quant=Q3_K_M arch=gemma4 backend=hip verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=TOKEN_EXACTNESS_OWED faithful=-1 near_tie=-1 divergent=-1 worst_rank=-1
+GB_ROW quant=Q3_K_M arch=gemma4 backend=npu verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=TOKEN_EXACTNESS_OWED faithful=-1 near_tie=-1 divergent=-1 worst_rank=-1
+GB_ROW quant=Q4_K_M arch=gemma4 backend=cpu verdict=NOT_GRADED reason=NO_FILED_RECORDS policy=TOKEN_EXACTNESS_OWED faithful=-1 near_tie=-1 divergent=-1 worst_rank=-1
+GB_ROW quant=Q4_K_M arch=gemma4 backend=vulkan verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=TOKEN_EXACTNESS_OWED faithful=-1 near_tie=-1 divergent=-1 worst_rank=-1
+GB_ROW quant=Q4_K_M arch=gemma4 backend=hip verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=TOKEN_EXACTNESS_OWED faithful=-1 near_tie=-1 divergent=-1 worst_rank=-1
+GB_ROW quant=Q4_K_M arch=gemma4 backend=npu verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=TOKEN_EXACTNESS_OWED faithful=-1 near_tie=-1 divergent=-1 worst_rank=-1
+GB_ROW quant=Q5_K_M arch=gemma4 backend=cpu verdict=NOT_GRADED reason=NO_FILED_RECORDS policy=TOKEN_EXACTNESS_OWED faithful=-1 near_tie=-1 divergent=-1 worst_rank=-1
+GB_ROW quant=Q5_K_M arch=gemma4 backend=vulkan verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=TOKEN_EXACTNESS_OWED faithful=-1 near_tie=-1 divergent=-1 worst_rank=-1
+GB_ROW quant=Q5_K_M arch=gemma4 backend=hip verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=TOKEN_EXACTNESS_OWED faithful=-1 near_tie=-1 divergent=-1 worst_rank=-1
+GB_ROW quant=Q5_K_M arch=gemma4 backend=npu verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=TOKEN_EXACTNESS_OWED faithful=-1 near_tie=-1 divergent=-1 worst_rank=-1
+GB_ROW quant=Q6_K arch=gemma4 backend=cpu verdict=NOT_GRADED reason=NO_FILED_RECORDS policy=TOKEN_EXACTNESS_OWED faithful=-1 near_tie=-1 divergent=-1 worst_rank=-1
+GB_ROW quant=Q6_K arch=gemma4 backend=vulkan verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=TOKEN_EXACTNESS_OWED faithful=-1 near_tie=-1 divergent=-1 worst_rank=-1
+GB_ROW quant=Q6_K arch=gemma4 backend=hip verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=TOKEN_EXACTNESS_OWED faithful=-1 near_tie=-1 divergent=-1 worst_rank=-1
+GB_ROW quant=Q6_K arch=gemma4 backend=npu verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=TOKEN_EXACTNESS_OWED faithful=-1 near_tie=-1 divergent=-1 worst_rank=-1
+GB_ROW quant=IQ1_S arch=gemma4 backend=cpu verdict=NOT_GRADED reason=NO_FILED_RECORDS policy=COHERENCE_ONLY faithful=-1 near_tie=-1 divergent=-1 worst_rank=-1
+GB_ROW quant=IQ1_S arch=gemma4 backend=vulkan verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=COHERENCE_ONLY faithful=-1 near_tie=-1 divergent=-1 worst_rank=-1
+GB_ROW quant=IQ1_S arch=gemma4 backend=hip verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=COHERENCE_ONLY faithful=-1 near_tie=-1 divergent=-1 worst_rank=-1
+GB_ROW quant=IQ1_S arch=gemma4 backend=npu verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=COHERENCE_ONLY faithful=-1 near_tie=-1 divergent=-1 worst_rank=-1
+GB_ROW quant=IQ1_M arch=gemma4 backend=cpu verdict=NOT_GRADED reason=NO_FILED_RECORDS policy=COHERENCE_ONLY faithful=-1 near_tie=-1 divergent=-1 worst_rank=-1
+GB_ROW quant=IQ1_M arch=gemma4 backend=vulkan verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=COHERENCE_ONLY faithful=-1 near_tie=-1 divergent=-1 worst_rank=-1
+GB_ROW quant=IQ1_M arch=gemma4 backend=hip verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=COHERENCE_ONLY faithful=-1 near_tie=-1 divergent=-1 worst_rank=-1
+GB_ROW quant=IQ1_M arch=gemma4 backend=npu verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=COHERENCE_ONLY faithful=-1 near_tie=-1 divergent=-1 worst_rank=-1
+GB_ROW quant=IQ2_XXS arch=gemma4 backend=cpu verdict=NOT_GRADED reason=NO_FILED_RECORDS policy=COHERENCE_ONLY faithful=-1 near_tie=-1 divergent=-1 worst_rank=-1
+GB_ROW quant=IQ2_XXS arch=gemma4 backend=vulkan verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=COHERENCE_ONLY faithful=-1 near_tie=-1 divergent=-1 worst_rank=-1
+GB_ROW quant=IQ2_XXS arch=gemma4 backend=hip verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=COHERENCE_ONLY faithful=-1 near_tie=-1 divergent=-1 worst_rank=-1
+GB_ROW quant=IQ2_XXS arch=gemma4 backend=npu verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=COHERENCE_ONLY faithful=-1 near_tie=-1 divergent=-1 worst_rank=-1
+GB_ROW quant=IQ2_XS arch=gemma4 backend=cpu verdict=NOT_GRADED reason=NO_FILED_RECORDS policy=COHERENCE_ONLY faithful=-1 near_tie=-1 divergent=-1 worst_rank=-1
+GB_ROW quant=IQ2_XS arch=gemma4 backend=vulkan verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=COHERENCE_ONLY faithful=-1 near_tie=-1 divergent=-1 worst_rank=-1
+GB_ROW quant=IQ2_XS arch=gemma4 backend=hip verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=COHERENCE_ONLY faithful=-1 near_tie=-1 divergent=-1 worst_rank=-1
+GB_ROW quant=IQ2_XS arch=gemma4 backend=npu verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=COHERENCE_ONLY faithful=-1 near_tie=-1 divergent=-1 worst_rank=-1
+GB_ROW quant=IQ2_S arch=gemma4 backend=cpu verdict=NOT_GRADED reason=NO_FILED_RECORDS policy=COHERENCE_ONLY faithful=-1 near_tie=-1 divergent=-1 worst_rank=-1
+GB_ROW quant=IQ2_S arch=gemma4 backend=vulkan verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=COHERENCE_ONLY faithful=-1 near_tie=-1 divergent=-1 worst_rank=-1
+GB_ROW quant=IQ2_S arch=gemma4 backend=hip verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=COHERENCE_ONLY faithful=-1 near_tie=-1 divergent=-1 worst_rank=-1
+GB_ROW quant=IQ2_S arch=gemma4 backend=npu verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=COHERENCE_ONLY faithful=-1 near_tie=-1 divergent=-1 worst_rank=-1
+GB_ROW quant=IQ3_XXS arch=gemma4 backend=cpu verdict=NOT_GRADED reason=NO_FILED_RECORDS policy=COHERENCE_ONLY faithful=-1 near_tie=-1 divergent=-1 worst_rank=-1
+GB_ROW quant=IQ3_XXS arch=gemma4 backend=vulkan verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=COHERENCE_ONLY faithful=-1 near_tie=-1 divergent=-1 worst_rank=-1
+GB_ROW quant=IQ3_XXS arch=gemma4 backend=hip verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=COHERENCE_ONLY faithful=-1 near_tie=-1 divergent=-1 worst_rank=-1
+GB_ROW quant=IQ3_XXS arch=gemma4 backend=npu verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=COHERENCE_ONLY faithful=-1 near_tie=-1 divergent=-1 worst_rank=-1
+GB_ROW quant=IQ3_S arch=gemma4 backend=cpu verdict=NOT_GRADED reason=NO_FILED_RECORDS policy=COHERENCE_ONLY faithful=-1 near_tie=-1 divergent=-1 worst_rank=-1
+GB_ROW quant=IQ3_S arch=gemma4 backend=vulkan verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=COHERENCE_ONLY faithful=-1 near_tie=-1 divergent=-1 worst_rank=-1
+GB_ROW quant=IQ3_S arch=gemma4 backend=hip verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=COHERENCE_ONLY faithful=-1 near_tie=-1 divergent=-1 worst_rank=-1
+GB_ROW quant=IQ3_S arch=gemma4 backend=npu verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=COHERENCE_ONLY faithful=-1 near_tie=-1 divergent=-1 worst_rank=-1
+GB_ROW quant=IQ4_NL arch=gemma4 backend=cpu verdict=NOT_GRADED reason=NO_FILED_RECORDS policy=COHERENCE_ONLY faithful=-1 near_tie=-1 divergent=-1 worst_rank=-1
+GB_ROW quant=IQ4_NL arch=gemma4 backend=vulkan verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=COHERENCE_ONLY faithful=-1 near_tie=-1 divergent=-1 worst_rank=-1
+GB_ROW quant=IQ4_NL arch=gemma4 backend=hip verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=COHERENCE_ONLY faithful=-1 near_tie=-1 divergent=-1 worst_rank=-1
+GB_ROW quant=IQ4_NL arch=gemma4 backend=npu verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=COHERENCE_ONLY faithful=-1 near_tie=-1 divergent=-1 worst_rank=-1
+GB_ROW quant=IQ4_XS arch=gemma4 backend=cpu verdict=NOT_GRADED reason=NO_FILED_RECORDS policy=COHERENCE_ONLY faithful=-1 near_tie=-1 divergent=-1 worst_rank=-1
+GB_ROW quant=IQ4_XS arch=gemma4 backend=vulkan verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=COHERENCE_ONLY faithful=-1 near_tie=-1 divergent=-1 worst_rank=-1
+GB_ROW quant=IQ4_XS arch=gemma4 backend=hip verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=COHERENCE_ONLY faithful=-1 near_tie=-1 divergent=-1 worst_rank=-1
+GB_ROW quant=IQ4_XS arch=gemma4 backend=npu verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=COHERENCE_ONLY faithful=-1 near_tie=-1 divergent=-1 worst_rank=-1
+A120_BATTERY_SUMMARY total=76 faithful=0 near_tie=0 divergent=0 artifact=0 fixture_limited=0 not_graded=76 cpu_not_graded=19 backend_not_graded=57 owed=40 coherence=36
+A120_BATTERY_DIGEST 1945040473473724965
+A120_BENCH_DONE rows= 76
+MOJO_EXIT=0
+=== end 2026-11-13T23:55:46-05:00 ===
