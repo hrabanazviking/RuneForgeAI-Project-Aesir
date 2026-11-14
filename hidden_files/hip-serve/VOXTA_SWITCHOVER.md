@@ -26,9 +26,14 @@ Aesir's native serve runs beside Ollama; nothing about Ollama changes.
 1. Configuration sets -> Default -> Text Generation role -> select the Ollama service
    (http://127.0.0.1:11434). Nothing else changes.
 
-## Start / stop the Aesir serve
+## Context note
+- The llama profile validates context within 2..8192 tokens (engine rule, found
+  2026-11-14 when 16384 was refused at admission). The serve therefore runs at
+  8192 - plenty for a first test chat; a long Voxta chat can exceed it.
+
+# Start / stop the Aesir serve
 - Stop:  sudo systemctl stop aesir-gate.service
-- Start: sudo systemd-run --unit=aesir-gate -p User=volmarr -p MemoryHigh=24G -p MemoryMax=32G -p WorkingDirectory=/home/volmarr/aesir-hipserve /bin/bash -c 'export LD_LIBRARY_PATH=.pixi/envs/default/lib:.aesir/shims; exec ./.aesir/aesir serve llama3-3b:latest --accel hip --api-key-file /home/volmarr/.config/aesir/service.key --context 16384 --max-tokens 512 --port 18434 > hidden_files/hip-serve/serve-bench.log 2>&1'
+- Start: sudo systemd-run --unit=aesir-gate -p User=volmarr -p MemoryHigh=24G -p MemoryMax=32G -p WorkingDirectory=/home/volmarr/aesir-hipserve /bin/bash -c 'export LD_LIBRARY_PATH=.pixi/envs/default/lib:.aesir/shims; exec ./.aesir/aesir serve llama3-3b:latest --accel hip --api-key-file /home/volmarr/.config/aesir/service.key --context 8192 --max-tokens 512 --port 18434 > hidden_files/hip-serve/serve-bench.log 2>&1'
 - Note: while the serve is alive it holds its graphics-pool arena (that is the HIP
   runtime's allocation style); stopping the unit frees it. Voxta and Ollama are
   separate services and are never touched by any of this.
