@@ -1,0 +1,17 @@
+PASS: metadata identical except general.file_type 15 -> 7 ( 56  KVs, arrays carried raw)
+CENSUS source:  F32 x 353  BF16 x 1  Q5_K x 1  Q4_K x 212  Q6_K x 34
+CENSUS emitted:  F32 x 283  Q8_0 x 318
+POLICY quantized= 318  kept= 283
+PASS: directory preserved; every emitted type matches the QC-3b policy; all offsets aligned
+PASS: PackedGGUF constructs in full on both files (601 tensors; offsets/kinds/byte counts agree)
+GGUF validated: 601 tensors, 56 metadata entries, architecture gemma4
+SRC_LOAD_STATE: VALIDATED arch=gemma4 tensors=601 kvs=56 vocab=262144
+GGUF validated: 601 tensors, 56 metadata entries, architecture gemma4
+OUT_LOAD_STATE: VALIDATED arch=gemma4 tensors=601 kvs=56 vocab=262144
+PASS: bound probe token_embd.weight (source Q4_K ) rows 0 and 131072 inside the QC-2 bound, worst err/bound 0.7923545
+PASS: bound probe per_layer_token_embd.weight (source Q5_K ) rows 0 and 131072 inside the QC-2 bound, worst err/bound 0.7960948
+PASS: bound probe blk.0.ffn_down.weight (source Q6_K ) rows 0 and 768 inside the QC-2 bound, worst err/bound 0.79808784
+PASS: bound probe blk.0.attn_q.weight (source Q4_K ) rows 0 and 1024 inside the QC-2 bound, worst err/bound 0.7969266
+PASS: bound probe per_layer_model_proj.weight (source BF16 ) rows 0 and 4480 inside the QC-2 bound, worst err/bound 0.7939137
+PASS: bound probe blk.0.inp_gate.weight (source F32 ) rows 0 and 128 inside the QC-2 bound, worst err/bound 0.8476932
+QC-3b gemma load proof: ALL PASS

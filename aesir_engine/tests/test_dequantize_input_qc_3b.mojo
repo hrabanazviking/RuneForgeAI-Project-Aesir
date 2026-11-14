@@ -241,7 +241,12 @@ def test_refusals() raises:
     check(dequant_input_supported(0), "F32 supported")
     check(dequant_input_supported(1), "F16 supported")
     check(dequant_input_supported(30), "BF16 supported")
-    for t in [2, 3, 6, 7, 8, 9, 10, 11, 15, 20, 23]:
+    # QC-6 expectation update (deliberate, cited): type 8 (Q8_0) was
+    # refused in QC-3b because the E2B census needed no Q8_0 reader;
+    # QC-6 wires it (the 27B source's own format) and proves it in
+    # test_quantize_streaming_qc_6 part A, so it leaves this list.
+    check(dequant_input_supported(8), "Q8_0 supported (QC-6)")
+    for t in [2, 3, 6, 7, 9, 10, 11, 15, 20, 23]:
         check(not dequant_input_supported(t), "type " + String(t) + " refused")
     var block = build_q4k_block()
     var well = MimirWell(65536)
@@ -253,7 +258,7 @@ def test_refusals() raises:
         refused = True
     check(refused, "dequantize_value_f32 raises for Q4_0 (type 2)")
     check(len(dequant_input_keep_reason(2).as_bytes()) > 0, "keep reason names the refusal")
-    print("PASS: unwired types refused by name (2,3,6,7,8,9,10,11,15,20,23); keep-reason string present")
+    print("PASS: unwired types refused by name (2,3,6,7,9,10,11,15,20,23); keep-reason string present")
 
 
 def main() raises:

@@ -1,0 +1,32 @@
+PASS: layout + tie rule — d = 1.0 block bytes exact (round half away from zero, incl. 2.5 -> 3, -2.5 -> -3, 0.25 -> 0)
+PASS: layout — d = 0.5 block bytes exact (31.75 -> 64 and 0.25 -> 1 are half-step ties, rounded away from zero)
+PASS: roundtrip of tie block A (d = 1.0) — n = 32  blocks = 1  max_err = 0.5  mean_err = 0.359375  worst err/bound = 0.79869205
+PASS: roundtrip of tie block B (d = 0.5) — n = 32  blocks = 1  max_err = 0.25  mean_err = 0.03125  worst err/bound = 0.7986919
+PASS: all-zero (10 blocks, d = 0) — n = 320  blocks = 10  max_err = 0.0  mean_err = 0.0  worst err/bound = 0.0
+PASS: all-equal 3.25 (every lane is the amax, q = 127) — n = 64  blocks = 2  max_err = 0.0  mean_err = 0.0  worst err/bound = 0.0
+PASS: all-equal -7.5 — n = 64  blocks = 2  max_err = 0.0  mean_err = 0.0  worst err/bound = 0.0
+PASS: zero block emits 34 zero bytes (d = 0, qs = 0)
+PASS: single outlier 100.0 among 0.001 (small lanes quantize to 0) — n = 32  blocks = 1  max_err = 0.001  mean_err = 0.00096875004  worst err/bound = 0.0019307444
+PASS: large dynamic range in-block (1e4 beside 1e-6) — n = 64  blocks = 2  max_err = 1.0  mean_err = 0.03125003  worst err/bound = 0.019783156
+PASS: negative-only random (4 blocks, scale 50) — n = 128  blocks = 4  max_err = 0.20913505  mean_err = 0.0828246  worst err/bound = 0.81440425
+PASS: positive-only random (4 blocks, scale 1/32) — n = 128  blocks = 4  max_err = 0.0001232773  mean_err = 5.7030222e-05  worst err/bound = 0.79696155
+PASS: tiny values amax = 1e-7 (f16 scale underflows to 0) — n = 32  blocks = 1  max_err = 1e-07  mean_err = 6.25e-08  worst err/bound = 0.49975598
+PASS: small values amax = 1e-4 (f16 subnormal scale) — n = 96  blocks = 3  max_err = 1.7435523e-06  mean_err = 6.006157e-07  worst err/bound = 0.8000266
+PASS: exact lattice (d = 0.25 and d = 2.0 blocks, incl. +/-127) — n = 64  blocks = 2  max_err = 0.0  mean_err = 0.0  worst err/bound = 0.0
+PASS: random multi-scale (288 blocks, scales 1e-4..1e4) — n = 9216  blocks = 288  max_err = 42.08008  mean_err = 2.3806543  worst err/bound = 0.8951223
+PASS: quantizer refusal — empty input -> quantize_q8_0: element count must be positive (got 0)
+PASS: quantizer refusal — 31 values (not block-aligned) -> quantize_q8_0: element count 31 is not a multiple of the 32-value Q8_0 block; refusing to pad (GGUF has no padding semantics -- a tensor's dim0 must be block-aligned, and non-aligned tensors stay at their source type per QC-0 section 3)
+PASS: quantizer refusal — 33 values (not block-aligned) -> quantize_q8_0: element count 33 is not a multiple of the 32-value Q8_0 block; refusing to pad (GGUF has no padding semantics -- a tensor's dim0 must be block-aligned, and non-aligned tensors stay at their source type per QC-0 section 3)
+PASS: quantizer refusal — 100 values (not block-aligned) -> quantize_q8_0: element count 100 is not a multiple of the 32-value Q8_0 block; refusing to pad (GGUF has no padding semantics -- a tensor's dim0 must be block-aligned, and non-aligned tensors stay at their source type per QC-0 section 3)
+PASS: quantizer refusal — NaN element -> quantize_q8_0: non-finite value at index 7 has no Q8_0 encoding
+PASS: quantizer refusal — +Inf element -> quantize_q8_0: non-finite value at index 31 has no Q8_0 encoding
+PASS: quantizer refusal — amax 1e10 (scale overflows f16) -> quantize_q8_0: block 0 scale 78740160.0 overflows the f16 range (amax 10000000000.0); refusing to emit a corrupt block
+PASS: quantizer refusal — amax -1e10 (scale overflows f16) -> quantize_q8_0: block 0 scale 78740160.0 overflows the f16 range (amax 10000000000.0); refusing to emit a corrupt block
+PASS: all quantizer refusals fire with named errors
+PASS: whole-file emission carries general.file_type = 7 (Q8_0)
+PASS: emitted file payload bytes == quantizer payload bytes exactly (incl. 1114112-byte big tensor)
+PASS: GGUFSeer maps both Q8_0 tensors at the written offsets/types/shapes
+PASS: file round-trip quant.weight via GGUFSeer offsets + engine dequant — n = 16384  blocks = 512  max_err = 0.016937256  mean_err = 0.0046753995  worst err/bound = 0.8570334
+PASS: file round-trip big.weight (1048576 elements) via GGUFSeer offsets + engine dequant — n = 1048576  blocks = 32768  max_err = 0.19629216  mean_err = 0.0037531897  worst err/bound = 0.8529329
+PASS: PackedGGUF loads the emitted file in full (kinds/byte counts agree)
+QC-2 Q8_0 quantizer proof: ALL PASS

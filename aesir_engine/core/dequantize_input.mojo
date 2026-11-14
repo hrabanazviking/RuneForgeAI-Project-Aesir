@@ -32,11 +32,16 @@ from core.packed_quantization import Bytes, packed_value
 
 
 def dequant_input_supported(ggml_type: Int) -> Bool:
-    # Dense F32 / F16 / BF16 plus the E2B census's K-quants.
+    # Dense F32 / F16 / BF16 plus the E2B census's K-quants, plus
+    # Q8_0 (QC-6: the 27B source's own storage format, wired below
+    # through the engine's Q8_0 layout -- core/compute.mojo
+    # dequantize_q8_0 walks exactly these bytes: f16 scale @0 of
+    # each 34-byte block, 32 int8 quants @2..34, value = q * d).
     return (
         ggml_type == 0
         or ggml_type == 1
         or ggml_type == 30
+        or ggml_type == 8
         or ggml_type == 12
         or ggml_type == 13
         or ggml_type == 14
@@ -50,6 +55,8 @@ def dequant_input_type_name(ggml_type: Int) -> String:
         return String("F16")
     if ggml_type == 30:
         return String("BF16")
+    if ggml_type == 8:
+        return String("Q8_0")
     if ggml_type == 12:
         return String("Q4_K")
     if ggml_type == 13:
@@ -65,9 +72,8 @@ def dequant_input_keep_reason(ggml_type: Int) -> String:
     return (
         String("source type ")
         + String(ggml_type)
-        + " has no F32 dequantizer wired in QC-3b (the E2B census"
-        + " contains only Q4_K/Q5_K/Q6_K quantized tensors); stays"
-        + " at source type"
+        + " has no F32 dequantizer wired (QC-3b wired Q4_K/Q5_K/Q6_K;"
+        + " QC-6 wired Q8_0); stays at source type"
     )
 
 
@@ -81,6 +87,23 @@ def dequantize_value_f32(
         raise Error(
             "dequantize_input: " + dequant_input_keep_reason(ggml_type)
         )
+    if ggml_type == 8:
+        # Q8_0 (QC-6): packed_value has no Q8_0 kind (its fallthrough
+        # is the Q4_K/Q5_K layout -- the exact silent-decode hazard
+        # this module exists to prevent), so Q8_0 is decoded here
+        # directly from the engine's own block layout, F32 out (no
+        # F16 intermediate, so the F-1 range limit does not apply).
+        var block = index // 32
+        var lane = index % 32
+        var p = base + block * 34
+        var d = (
+            w.unsafe_offset(p)
+            .unsafe_bitcast[Float16]()
+            .unsafe_load()
+            .cast[DType.float32]()
+        )
+        var q = w.unsafe_offset(p + 2).unsafe_bitcast[Int8]().unsafe_load(lane)
+        return d * Float32(q)
     return packed_value(w, base, ggml_type, index)
 
 

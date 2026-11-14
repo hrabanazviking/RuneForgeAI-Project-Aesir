@@ -1,0 +1,39 @@
+PASS A: Q8_0 dequant kind exact on hand-built blocks (d=0.5 signed lanes; d=-2.0 block; cross-block range)
+PASS B: QC-6 plan -- file_type-15 policy on 256-aligned shapes; Q8_0 fallback at dim0%32==0; keep-at-source named for dim0%32!=0, ssm_conv1d, rank-1, unwired types
+PASS C1: stories policy under the tiling rule -- 32x Q8_0 fallback, 5x ffn_down kept F16 (dim0 172), 11x norms kept
+PASS C2: QC-6 stories product is payload-identical to QC-3b's proven Q8_0 product, tensor by tensor (only general.file_type differs: 15 vs 7)
+GGUF validated: 48 tensors, 21 metadata entries, architecture llama
+PASS C3: GGUFSeer loads the QC-6 stories product to VALIDATED
+PASS C4: PackedGGUF constructs on the QC-6 stories product (per-row shapes valid under the fallbacks)
+MimirWell initialized with 36314848 derived bytes.
+GGUF validated: 48 tensors, 21 metadata entries, architecture llama
+Starting deterministic generation loop (The Weaving of Fate)...
+Prompt tokens: 8 context_length: 128
+ Token generated: 265 ' the'
+ Token generated: 282 ' p'
+ Token generated: 295 'ar'
+ Token generated: 433 'k'
+ Token generated: 335 ' with'
+ Token generated: 345 ' his'
+ Token generated: 357 ' mom'
+ Token generated: 426 '.'
+AESIR_TIMING_JSON: {"timing_version":1,"load_ms":8.392,"prefill_ms":0.340,"decode_ms":0.386,"sample_ms":0.002,"accounted_ms":9.121,"wall_ms":9.123,"residual_ms":0.002,"coverage_pct":99.97,"prompt_tokens":8,"generated_tokens":8,"clock":"CLOCK_MONOTONIC","sample_scope":"sample_token_from_logits calls in the forward paths"}
+Generated 8 token(s); stop reason: length
+Inference complete. Fate is sealed.
+MimirWell initialized with 36314848 derived bytes.
+GGUF validated: 48 tensors, 21 metadata entries, architecture llama
+Starting deterministic generation loop (The Weaving of Fate)...
+Prompt tokens: 8 context_length: 128
+ Token generated: 265 ' the'
+ Token generated: 282 ' p'
+ Token generated: 295 'ar'
+ Token generated: 433 'k'
+ Token generated: 335 ' with'
+ Token generated: 345 ' his'
+ Token generated: 357 ' mom'
+ Token generated: 426 '.'
+AESIR_TIMING_JSON: {"timing_version":1,"load_ms":8.040,"prefill_ms":0.301,"decode_ms":0.374,"sample_ms":0.001,"accounted_ms":8.718,"wall_ms":8.718,"residual_ms":0.000,"coverage_pct":99.98,"prompt_tokens":8,"generated_tokens":8,"clock":"CLOCK_MONOTONIC","sample_scope":"sample_token_from_logits calls in the forward paths"}
+Generated 8 token(s); stop reason: length
+Inference complete. Fate is sealed.
+PASS C5: engine generates token-identically from the QC-6 product and the QC-3b product (8 tokens)
+QC-6 streaming converter proof: ALL PASS

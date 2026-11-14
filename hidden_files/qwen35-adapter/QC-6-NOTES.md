@@ -92,3 +92,65 @@ PREDICTED TOTAL: 16,223,186,240 B (~16.22 GB; the QC-0 plan's
 15.13 GB figure priced every element at the flat Q4_K rate
 without the file_type-15 Q6_K upshifts; the vault's 16 G MTP
 Q4_K_M brackets the policy-exact prediction).
+
+## STAGE 2 — streaming K converter (built + fixture-proven)
+
+Code (this branch):
+- core/dequantize_input.mojo: Q8_0 (type 8) wired into the
+  dequantizing input path, decoded directly from the engine's own
+  block layout (f16 d @0 of each 34 B block, int8 qs @2..34,
+  value = q * d, F32 out). packed_value has no Q8_0 kind — its
+  fallthrough is the Q4_K/Q5_K layout — so the kind is decoded in
+  dequantize_value_f32 itself, never through that fallthrough.
+- cli/quantize.mojo: q4_k_m_plan_qc6 (file_type-15 policy gated
+  per tensor on dim0 % 256 == 0, with the stage-1 fallback table)
+  and quantize_gguf_q4_k_m_streaming_qc6 (QC-3b streaming writer +
+  per-row values via _read_row_f32 -> QC-5 packers / QC-2 Q8_0
+  fallback quantizer -> streamed payload). The CLI's --streaming
+  refusal for q4_k_m is removed; --to q4_k_m --streaming now runs
+  this converter. Peak heap is O(largest row + header): rows are
+  at most 17,408 F32 (70 KB) on the 27B.
+- Deliberate expectation update (Q35-3b precedent):
+  test_dequantize_input_qc_3b asserted type 8 refused (true in
+  QC-3b, whose census needed no Q8_0 reader). QC-6 wires it, so
+  the assertion now asserts support, with the citation in the
+  test source. Rerun: ALL PASS.
+
+Fixture proof (test_quantize_streaming_qc_6, ALL PASS,
+qc-6-test.log):
+- A: Q8_0 dequant kind exact on hand-built blocks (signed lanes
+  at d=0.5, a d=-2.0 block, a cross-block range).
+- B: the plan — Q6_K for output + use_more_bits attn_v/ffn_down
+  at n=64; Q4_K elsewhere; Q8_0 fallback for dim0=64 designees
+  (both Q4_K and Q6_K classes); keep-at-source named for
+  dim0=172 (not a multiple of 32), ssm_conv1d, rank-1, and
+  unwired source types.
+- C: stories260K through the streaming K path under the tiling
+  rule. NO stories matrix is 256-aligned, so the fallbacks carry
+  the whole model: 32 matrices -> Q8_0 fallback, 5 ffn_down
+  (dim0 172) kept F16, 11 norms kept F32. The product is
+  PAYLOAD-IDENTICAL to QC-3b's proven streaming Q8_0 product,
+  tensor by tensor (only general.file_type differs: 15 vs 7).
+  Admission, all three readers: GGUFSeer VALIDATED; PackedGGUF
+  CONSTRUCTS (the admission QC-5's flat-tiled product was
+  refused — the fallbacks make every row shape valid); the
+  engine generates TOKEN-IDENTICALLY to the QC-3b product.
+  llama.cpp also loads the product and generates (exit 0,
+  qc-6-stories-llama.log). CLI end-to-end product is
+  byte-identical to the test product (cmp exit 0).
+
+Regressions (run-qc-6-tests.sh, all rerun from this tree):
+engine compile exit 0; QC-1 writer ALL PASS; QC-2 ALL PASS;
+QC-3a conversion ALL PASS + CLI product sha256 5d4df894... (the
+banked value) + grade CSV byte-identical to banked qc-3-grade.csv
+(diff exit 0); QC-3b dequant ALL PASS (after the cited update),
+streaming writer stories exit 0, gemma conversion reproduces the
+banked product sha256 a63bde43... and its load proof ALL PASS;
+QC-5 K harness ALL PASS; QC-5 model conversion ALL PASS;
+Q35-1 loader ALL PASS.
+
+Contention note: stage-2 builds/tests ran while the Q35-6
+sibling serve was still active (1 core); no timings claimed
+from that window. The sibling serve exited before stage 3
+(MemAvailable 124.6 GB at stage-3 start); the QC-6 heavy runs
+waited for it, per the brief's serialize rule.
