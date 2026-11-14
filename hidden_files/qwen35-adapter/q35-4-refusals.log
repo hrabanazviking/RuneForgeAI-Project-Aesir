@@ -1,0 +1,23 @@
+== cpu+llama3 (must keep no-CPU-fallback refusal)
+Unhandled exception caught during execution: Native service requires a supported CUDA or HIP profile; no CPU fallback
+== hip+qwen35 (must refuse CPU-only slice)
+Unhandled exception caught during execution: Qwen 3.5 native serve is CPU-only in Q35-4a; HIP qwen35 execution lands in Q35-6
+== cpu+qwen35 fixture WITHOUT experimental flag (must refuse at plan)
+Compatibility: COMPATIBLE
+== cpu+qwen35 fixture WITHOUT experimental flag (full refusal)
+stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`
+Unhandled exception caught during execution: Aesir cannot run this model yet.
+
+Architecture: qwen35
+Variant: 4L/128d
+Quantization: unknown(999)
+
+Reason:
+Qwen 3.5 hybrid is recognized, but this geometry has no matching native profile yet.
+
+Try:
+aesir inspect <model.gguf>
+
+Compatibility: COMPATIBLE
+port check:
+port 18435 free - nothing served

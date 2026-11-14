@@ -1,5 +1,49 @@
 # Qwen35 Adapter Campaign — Ledger
 
+## 2026-11-14 — Q35-4a: Qwen35 CPU serve session, fixture-grade proof (worker slice; verified + banked by coordinator)
+
+- runtime_plan admits qwen35 explicitly: qwen35_profile_for +
+  validate_qwen35 + qwen35_memory_plan branch; final else is
+  gemma4-explicit (unknown profiles refuse by name). Fixture
+  admission is an explicit opt-in (NativeModelPlan 4th arg
+  experimental_qwen35 / serve flag --experimental-qwen35): the
+  registry signature pin (64L/5120) is the only check skipped —
+  validate_qwen35 runs in full — and the plan is marked
+  experimental, reported in /health as experimental_admission.
+  Without the opt-in the fixture still refuses with the registry's
+  own reason. Variant follows the file (qwen35-27B real /
+  qwen35-4L/128d fixture); serve family/parameter_size derive from it.
+- NEW Qwen35CPUSession (aesir_engine/qwen35_session.mojo) over
+  AesirEngine: batched prefill, per-token decode, persistent
+  qwen35_state. reset() snapshots the committed stream (no reuse
+  claimed), freshens KV, returns to position 0 WITHOUT wiping SSM
+  state — the engine's reset-on-position-0 rule wipes it on the
+  next conversation's first forward; resident turns skip reset and
+  keep state bit-exact. Capabilities: residency TRUE,
+  exact_prefix_reuse FALSE, suspend/restore not implemented,
+  structured output + tools refused.
+- Dispatch: cpu admitted ONLY for qwen35 (verbatim no-CPU-fallback
+  refusal kept for all other profiles); qwen35 + cuda/hip refused
+  as CPU-only in this slice; native_settings config whitelist
+  gains cpu. Fixture tokenizer made byte-level toy (chars as
+  tokens; weights untouched; Q35-1 fixtures byte-identical).
+- Proof ALL PASS (logs q35-4-*): serve on side port 18435,
+  /health profile=qwen35 backend=cpu residency=true
+  exact_prefix_reuse=false experimental_admission=true; turn 1
+  200 == in-process reference; resident turn 2 200 with
+  reused_prompt_tokens=72, evaluated=18, reply == in-process A+B
+  greedy reference EXACTLY (token streams in q35-4-session-test.log);
+  fresh-instance control reused=0, prompt=193, different
+  continuation. Proof units stopped; gate untouched on :18434.
+- Regression: full engine compile exit 0; Q35-1 ALL PASS; Q35-2
+  ALL PASS (sources unchanged); Q35-3a ALL PASS, greedy sequence
+  identical. Ripple probe UPDATED by slice purpose: it asserted
+  NativeModelPlan refuses qwen35 (Q35-2 truth); now asserts the
+  Q35-4a admission truth (native for the real file, experimental-
+  only for the fixture, unknown refused) — ALL PASS. Full notes:
+  Q35-4-NOTES.md. Next: coordinator verify + bank; then Q35-5
+  (SSM snapshots) / Q35-3b (parent-gated).
+
 ## 2026-11-14 — Q35-3a: CPU forward geometry repair, fixture-grade proof (worker slice; verified + banked by coordinator)
 
 - Delta-net geometry repaired in inference.mojo (both forwards,
