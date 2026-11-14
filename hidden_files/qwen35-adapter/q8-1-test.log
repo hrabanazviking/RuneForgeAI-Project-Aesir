@@ -1,0 +1,6 @@
+PASS: dequantize_q8_1 unit (36-byte block, f16 d/s, qs @4)
+PASS: Q8_1 byte-size units agree at 36 B/block (loader, mmproj, autotuner)
+PASS: Q8_1 tensor + downstream F32 tensor parse at correct offset with correct values
+PASS: PackedGGUF refuses Q8_1 outright -- honest support state, refusal: Packed GGUF: K-quant row is not block aligned
+Q8-1 fix proof: ALL PASS
+RUN=0
