@@ -31,10 +31,10 @@
 - Gap: no docs/bench/A105 doc exists; bench log + hidden_files/A105_LEDGER.md are the filed evidence.
 - Commit: see git log (subject A-105: Two-model fairness). Team branch only; keeper banks after A-103 and A-104 in roadmap order (both banked earlier this same keeper tick: 103 and 104 of 216).
 
-## Team-25 outcome 2026-11-13 - A-107 DONE (PASS) - keeper-closed
-- Slice: A-107 - Placement regression battery (Wave 12). Base 9f75ab0d (banked main, 105 of 216).
-- KEEPER NOTE: the lead built + suite-tested + gate-tested the slice to green, then was cancelled before committing. The keeper closed the slice from the on-disk logs (hidden_files/A107_LEDGER.md + suite/gate logs below). If the lead resumes, it must verify this commit before doing anything else.
-- Built: aesir_engine/tests/test_placement_regression_a107.mojo (six battery.* cases pinning the banked A-100/A-102/A-103/A-104/A-105 placement stack); run_all re-pin 650 -> 656; CAPABILITY_LEDGER E-MASTER count phrase synced to the 656-total form; doc docs/bench/A107_PLACEMENT_REGRESSION_BATTERY.md.
-- Suite run 3 (solo, hidden_files/a107_suite_run3_cpu.log): 653 passed / 1 failed / 2 skipped / 656 total; sole failure pre-existing J-022 gguf.tensor_directory_interface; run-2 intermittent gguf.weight_residency_gpu_visibility cleared. Full gate (hidden_files/a107_gate_full.log): PASS, cpu + amd both 653/1/2 of 656.
-- Bugs: none in banked code; one lead pin transcription error caught by the battery run 1 and fixed in-slice (see ledger).
-- Commit: see git log (subject A-107: Placement regression battery). Team branch only; keeper banks after A-106 in roadmap order.
+## Team-26 outcome 2026-11-13 - A-108 DONE (PASS, gate record)
+- Slice: A-108 - Part IV gate (Wave 12 closer). Base 9f75ab0d (banked main, 105 of 216; A-105 verified banked by subject in the seat log). 6 Mythic Engineering sub-agents mustered, no rate limit.
+- Verdict: planner HONESTLY SCOPED, not default-on (no generation dispatch calls plan_op; authority = doctor + A-103 replan + A-102/A-104/A-105 policies; numbers in docs/bench/A108_PART_IV_GATE.md). Capability Ledger section 25 (Z13-P4-*) added. 26 verdicts A-082..A-107 filed as data in core/part_iv_gate.mojo: POSITIVE 16, NEGATIVE 3, SCOPED 5, IN_FLIGHT 2.
+- HONEST IN-FLIGHT: A-106 (team-27) and A-107 (team-25) were building in parallel and NOT banked at gate time; filed IN_FLIGHT with no result claimed. Keeper: re-check this gate record when they bank; their verdicts are owed then.
+- Suite: 653 passed / 1 failed / 2 skipped / 656 total (baseline 647/1/2/650 + 6 gate.part_iv_* cases, all PASS); sole failure pre-existing J-022 gguf.tensor_directory_interface; no intermittent fired. Evidence: hidden_files/A108_LEDGER.md, hidden_files/a108_run_all.log, docs/bench/A108_PART_IV_GATE.md.
+- Bugs: none in banked code; two defects in the new gate test itself fixed in-slice (byte_length; zero-padding).
+- Next for team-26: none assigned until the keeper musters the next slice in roadmap order (Part V opens at A-109). Never merge or push from this worktree.

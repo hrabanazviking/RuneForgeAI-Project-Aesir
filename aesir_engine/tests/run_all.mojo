@@ -754,6 +754,14 @@ from tests.test_gpu_winner_a086 import (
     test_gpu_winner_probe_only_never_placed,
     test_gpu_winner_determinism_and_clear,
 )
+from tests.test_part_iv_gate_a108 import (
+    test_gate_in_flight_rows_honest,
+    test_gate_negative_verdicts_present,
+    test_gate_no_unexplained_rows,
+    test_gate_planner_scope_matches_planner,
+    test_gate_summary_names_scope,
+    test_gate_verdict_table_complete,
+)
 from tests.test_placement_planner_a100 import (
     test_planner_standard_fixtures,
     test_planner_prefill_variants,
@@ -1604,6 +1612,12 @@ def main() raises:
     run_case(ledger, "gpu_winner.invalid_verdicts_fail_closed", test_gpu_winner_invalid_verdicts_fail_closed)
     run_case(ledger, "gpu_winner.probe_only_never_placed", test_gpu_winner_probe_only_never_placed)
     run_case(ledger, "gpu_winner.determinism_and_clear", test_gpu_winner_determinism_and_clear)
+    run_case(ledger, "gate.part_iv_verdict_table", test_gate_verdict_table_complete)
+    run_case(ledger, "gate.part_iv_no_unexplained", test_gate_no_unexplained_rows)
+    run_case(ledger, "gate.part_iv_in_flight_honest", test_gate_in_flight_rows_honest)
+    run_case(ledger, "gate.part_iv_negatives", test_gate_negative_verdicts_present)
+    run_case(ledger, "gate.part_iv_planner_scope", test_gate_planner_scope_matches_planner)
+    run_case(ledger, "gate.part_iv_summary", test_gate_summary_names_scope)
     run_case(ledger, "planner.standard_fixtures", test_planner_standard_fixtures)
     run_case(ledger, "planner.prefill_variants", test_planner_prefill_variants)
     run_case(ledger, "planner.gemm_thresholds", test_planner_gemm_thresholds)
@@ -2322,4 +2336,9 @@ def main() raises:
     # tests/test_placement_regression_a107.mojo) counted on
     # top of the A-106 seat pin (team branch pin was 656 on
     # the A-105 base; union reconciled here at banking).
-    ledger.finish(664)
+    # A-108 union re-pin at banking: 664 -> 670 -- six
+    # Part IV gate cases (gate.part_iv_* in
+    # tests/test_part_iv_gate_a108.mojo) counted on top of
+    # the A-107 seat pin (team branch pin was 656 on the
+    # A-105 base; union reconciled here at banking).
+    ledger.finish(670)
