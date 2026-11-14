@@ -4,7 +4,8 @@ from loader.packed_gguf import PackedGGUF
 from core.gemma4_profile import gemma4_profile_for, validate_gemma4
 from core.dense_gqa_profile import dense_gqa_profile_for, validate_dense_gqa
 from core.model_registry import ModelArchitectureRegistry
-from core.inference_memory import MemoryFitExplanation, InferenceMemoryPlan, gemma4_profile_memory_plan, llama3_memory_plan
+from core.inference_memory import MemoryFitExplanation, InferenceMemoryPlan, gemma4_profile_memory_plan, llama3_memory_plan, qwen35_memory_plan
+from core.qwen35_profile import qwen35_profile_for, validate_qwen35
 from core.cuda_gate import CUDAGate
 from core.amd_gate import AMDGate
 from core.mimir_well import HardwareDiscoveryResult
@@ -15,18 +16,33 @@ struct NativeModelPlan(Copyable):
     var variant: String
     var context_length: Int
     var memory: InferenceMemoryPlan
+    var experimental: Bool
 
-    def __init__(out self, path: String, requested_profile: String = "auto", context_length: Int = 0) raises:
-        if requested_profile != "auto" and requested_profile != "gemma4" and requested_profile != "llama3" and requested_profile != "qwen3":
+    def __init__(out self, path: String, requested_profile: String = "auto", context_length: Int = 0, experimental_qwen35: Bool = False) raises:
+        if requested_profile != "auto" and requested_profile != "gemma4" and requested_profile != "llama3" and requested_profile != "qwen3" and requested_profile != "qwen35":
             raise Error("Unsupported native model profile")
         var model = PackedGGUF(path)
         var compatibility = ModelArchitectureRegistry.inspect(model, context_length)
         self.profile = requested_profile
         self.variant = ""
+        self.experimental = False
         if self.profile == "auto":
             if compatibility.status != "READY" or compatibility.native_profile == "":
                 raise Error(compatibility.friendly_error())
             self.profile = compatibility.native_profile
+        elif self.profile == "qwen35" and compatibility.native_profile != "qwen35":
+            # Q35-4a experimental admission: a qwen35 file whose geometry
+            # is NOT the registry's family signature (e.g. the forward
+            # fixture) carries no native_profile and is not READY. It is
+            # admitted ONLY under the caller's explicit experimental
+            # opt-in; the qwen35 branch below still runs
+            # validate_qwen35 in full (relations + tensor contract +
+            # tensor count) -- only the signature pin is skipped, and
+            # the plan is marked experimental so serve health reports
+            # it. Without the opt-in, the registry verdict refuses.
+            if not experimental_qwen35:
+                raise Error(compatibility.friendly_error())
+            self.experimental = True
         elif compatibility.status != "READY":
             raise Error(compatibility.friendly_error())
         elif compatibility.native_profile != self.profile:
@@ -45,13 +61,27 @@ struct NativeModelPlan(Copyable):
             self.memory = llama3_memory_plan(
                 Int(model.source.file_size), self.context_length, dense_profile
             )
-        else:
+        elif self.profile == "qwen35":
+            var q35_profile = qwen35_profile_for(model)
+            var q35_label = compatibility.model_variant
+            if q35_label == "":
+                q35_label = String(q35_profile.layer_count) + "L/" + String(q35_profile.hidden_size) + "d"
+            self.variant = "qwen35-" + q35_label
+            if self.context_length == 0:
+                self.context_length = compatibility.recommended_context
+            validate_qwen35(model, q35_profile, self.context_length)
+            self.memory = qwen35_memory_plan(
+                Int(model.source.file_size), self.context_length, q35_profile
+            )
+        elif self.profile == "gemma4":
             var gemma_profile = gemma4_profile_for(model)
             self.variant = "gemma4-" + gemma_profile.name
             if self.context_length == 0:
                 self.context_length = gemma_profile.context_cap
             validate_gemma4(model, gemma_profile, self.context_length)
             self.memory = gemma4_profile_memory_plan(Int(model.source.file_size), self.context_length, gemma_profile)
+        else:
+            raise Error("Unsupported native model profile '" + self.profile + "'")
 
 
 struct NativeDeviceSelection(Copyable):

@@ -152,7 +152,22 @@ def build_forward(path):
     ku32("qwen35.ssm.conv_kernel", KERNEL2); ku32("qwen35.ssm.state_size", STATE2)
     ku32("qwen35.ssm.group_count", GROUPS2); ku32("qwen35.ssm.time_step_rank", DT2)
     ku32("qwen35.ssm.inner_size", INNER2); ku32("qwen35.full_attention_interval", INTERVAL2)
-    toks = [("<unk>" if i == 0 else "<s>" if i == 1 else "</s>" if i == 2 else "tok%04d" % i).encode() for i in range(V2)]
+    # Q35-4a toy tokenizer (byte-level, no merges): id 0/1/2 are
+    # <unk>/<s>/</s>, id 3 is newline, ids 4..98 are the printable
+    # ASCII characters 0x20..0x7E in order, and ids 99..1023 keep
+    # the tok%04d spellings (reachable only as generated output).
+    # RuneWeaver's SentencePiece path splits text into per-codepoint
+    # pieces, so ordinary text encodes one token per character and
+    # every generated id decodes to its own spelling.
+    toks = []
+    for i in range(V2):
+        if i == 0: t = "<unk>"
+        elif i == 1: t = "<s>"
+        elif i == 2: t = "</s>"
+        elif i == 3: t = "\n"
+        elif 4 <= i <= 98: t = chr(0x20 + (i - 4))
+        else: t = "tok%04d" % i
+        toks.append(t.encode())
     arr = struct.pack("<I", 8) + struct.pack("<Q", V2)
     for tk in toks: arr += struct.pack("<Q", len(tk)) + tk
     kvs.append(("tokenizer.ggml.tokens", 9, arr))

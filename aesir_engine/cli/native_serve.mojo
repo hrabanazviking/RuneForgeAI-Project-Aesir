@@ -1,6 +1,6 @@
 """Native loopback HTTP orchestration over the serialized CUDA contract."""
 from std.ffi import external_call
-from aesir import (Gemma4CUDASession, Llama3CUDASession,
+from aesir import (Gemma4CUDASession, Llama3CUDASession, NativeModelPlan,
                    NativeSamplingConfig, ControlledTextSession, GenerationControl,
                    NativeDeviceSelection,
                    choose_native_cuda_plan, choose_native_hip_plan,
@@ -8,6 +8,7 @@ from aesir import (Gemma4CUDASession, Llama3CUDASession,
                    llama3_memory_plan)
 from cli.hardware import parse_device_index, parse_reserve_bytes
 from core.cuda_gate import CUDAGate
+from qwen35_session import Qwen35CPUSession
 from core.amd_gate import AMDGate
 from core.sampling_options import with_sampling_option
 from core.tool_use import parse_gemma_zero_arg_call
@@ -296,7 +297,7 @@ def serve_loaded[T: ControlledTextSession](mut session: T, port: Int, key: Strin
         system_defaults: String = "", has_system_defaults: Bool = False,
         queue_limit: Int = 4, queue_timeout_ms: Int = 30000,
         prefix_cache: Bool = False, prefill_batch: Int = 1, backend: String = "cuda",
-        post_history: String = "") raises:
+        post_history: String = "", experimental: Bool = False) raises:
     sampling_defaults.validate()
     var listener = listen_local(port)
     var owner = register_service(model_store, port, model.name, model.digest,
@@ -314,7 +315,7 @@ def serve_loaded[T: ControlledTextSession](mut session: T, port: Int, key: Strin
           "; authentication=" + ("none-loopback-only" if ollama else "required") + "; backend=" + backend + "; profile=" + profile +
           "; concurrency=1; queue_limit=" + String(queue_limit) +
           "; queue_timeout_ms=" + String(queue_timeout_ms) +
-          "; context=" + String(context) + "; max_tokens=" + String(token_limit))
+          "; context=" + String(context) + "; max_tokens=" + String(token_limit) + "; admission=" + ("experimental" if experimental else "native"))
     _ = external_call["fflush", Int32](Int(0))
     while stop.stop_reason() == "":
         try:
@@ -471,7 +472,7 @@ def serve_loaded[T: ControlledTextSession](mut session: T, port: Int, key: Strin
                             if (request.has_session and request.has_messages and resident_active
                                     and request.session_id == resident_id
                                     and eff_system == resident_system
-                                    and (profile == "llama3" or profile == "qwen3")):
+                                    and (profile == "llama3" or profile == "qwen3" or profile == "qwen35")):
                                 delta = resident_delta(resident_roles, resident_contents, resident_reply, request.msg_roles, request.msg_contents)
                                 if delta != "":
                                     resident_base = session.status().position
@@ -581,7 +582,7 @@ def serve_loaded[T: ControlledTextSession](mut session: T, port: Int, key: Strin
                     elif not ollama and head.method == "GET" and head.path == "/health":
                         body = "{\"status\":\"" + ("ready" if session.status().healthy else "failed") + "\",\"backend\":\"" + backend + "\",\"cpu_offload\":0,\"profile\":\"" + profile + "\",\"context\":" + String(context)
                         body += ",\"model\":\"" + json_escape_string(model.name) + "\",\"model_digest\":\"" + json_escape_string(model.digest) + "\",\"max_tokens\":" + String(token_limit)
-                        body += ",\"generation_timeout_ms\":" + String(timeout_ms) + ",\"capabilities\":{\"text_generation\":true,\"embeddings\":false,\"exact_prefix_reuse\":" + ("true" if prefix_cache else "false") + ",\"post_history_configured\":" + ("true" if post_history != "" else "false") + ",\"session_residency\":true,\"memory_injection\":true},\"prefill_batch\":" + String(prefill_batch) + ",\"queue_limit\":" + String(queue_limit) + "}"
+                        body += ",\"generation_timeout_ms\":" + String(timeout_ms) + ",\"capabilities\":{\"text_generation\":true,\"embeddings\":false,\"exact_prefix_reuse\":" + ("true" if prefix_cache else "false") + ",\"post_history_configured\":" + ("true" if post_history != "" else "false") + ",\"session_residency\":true,\"memory_injection\":true,\"experimental_admission\":" + ("true" if experimental else "false") + "},\"prefill_batch\":" + String(prefill_batch) + ",\"queue_limit\":" + String(queue_limit) + "}"
                     elif not ollama and head.method == "GET" and head.path == "/health/live":
                         body = service_liveness()
                     elif not ollama and head.method == "GET" and head.path == "/health/ready":
@@ -710,6 +711,7 @@ def dispatch_native_serve(args: List[String]) raises:
     var queue_limit = 4
     var queue_timeout_ms = 30000
     var ollama = False
+    var experimental_qwen35 = False
     var prefix_cache = True
     var prefill_batch = 0
     var model_store = String(".aesir/models")
@@ -737,6 +739,10 @@ def dispatch_native_serve(args: List[String]) raises:
             continue
         if flag == "--ollama":
             ollama = True
+            i += 1
+            continue
+        if flag == "--experimental-qwen35":
+            experimental_qwen35 = True
             i += 1
             continue
         if i + 1 >= len(args):
@@ -788,8 +794,16 @@ def dispatch_native_serve(args: List[String]) raises:
         else:
             raise Error("Unsupported service option")
         i += 2
-    if (acceleration != "cuda" and acceleration != "hip" and acceleration != "auto") or (profile != "auto" and profile != "llama3" and profile != "qwen3" and profile != "gemma4"):
+    if (acceleration != "cuda" and acceleration != "hip" and acceleration != "auto" and acceleration != "cpu") or (profile != "auto" and profile != "llama3" and profile != "qwen3" and profile != "gemma4" and profile != "qwen35"):
         raise Error("Native service requires a supported CUDA or HIP profile; no CPU fallback")
+    if acceleration == "cpu" and profile != "qwen35":
+        # Q35-4a: the ONLY CPU serve path is qwen35; every other
+        # profile keeps the no-CPU-fallback refusal verbatim.
+        raise Error("Native service requires a supported CUDA or HIP profile; no CPU fallback")
+    if profile == "qwen35" and acceleration != "cpu":
+        raise Error("Qwen 3.5 native serve is CPU-only in Q35-4a; HIP qwen35 execution lands in Q35-6")
+    if experimental_qwen35 and profile != "qwen35":
+        raise Error("--experimental-qwen35 applies only to --profile qwen35")
     if ollama and "--port" not in seen:
         port = 11434
     if (not show_settings and not ollama and key_path == "") or (ollama and key_path != "") or port < 1024 or port > 65535 or context < 0 or context > 32768:
@@ -826,28 +840,36 @@ def dispatch_native_serve(args: List[String]) raises:
     var interrupts = ChatInterrupts(True)
     if acceleration == "auto":
         acceleration = resolve_automatic_acceleration()
-    var selection: NativeDeviceSelection
-    if acceleration == "hip":
-        selection = choose_native_hip_plan(
-            model_path, profile, context, device, reserve
-        )
+    var plan: NativeModelPlan
+    if acceleration == "cpu":
+        plan = NativeModelPlan(model_path, profile, context, experimental_qwen35)
     else:
-        selection = choose_native_cuda_plan(
-            model_path, profile, context, device, reserve
-        )
-    var plan = selection.plan.copy()
+        var selection: NativeDeviceSelection
+        if acceleration == "hip":
+            selection = choose_native_hip_plan(
+                model_path, profile, context, device, reserve
+            )
+        else:
+            selection = choose_native_cuda_plan(
+                model_path, profile, context, device, reserve
+            )
+        plan = selection.plan.copy()
+        device = selection.device_index
     if prefill_batch == 4 and (plan.profile != "llama3" or plan.variant != "llama3-3B"):
         raise Error("Four-token prefill is admitted only for the exercised 3B profile")
     if token_limit >= plan.context_length:
         raise Error("Service token limit must leave context for the prompt")
-    device = selection.device_index
     if not ollama:
         model_size = Int64(plan.memory.weights_bytes)
-    var family = "llama" if plan.profile == "llama3" else ("qwen3" if plan.profile == "qwen3" else "gemma4")
-    var parameter_size = ("3B" if plan.variant == "llama3-3B" else "8B") if plan.profile == "llama3" else ("0.6B" if plan.profile == "qwen3" else ("2B" if plan.variant == "gemma4-E2B" else "4B"))
+    var family = "llama" if plan.profile == "llama3" else ("qwen3" if plan.profile == "qwen3" else ("qwen35" if plan.profile == "qwen35" else "gemma4"))
+    var q35_size = String(plan.variant[byte=7:]) if plan.variant.startswith("qwen35-") else plan.variant
+    var parameter_size = ("3B" if plan.variant == "llama3-3B" else "8B") if plan.profile == "llama3" else ("0.6B" if plan.profile == "qwen3" else (q35_size if plan.profile == "qwen35" else ("2B" if plan.variant == "gemma4-E2B" else "4B")))
     var quantization = "Q4_K_M" if ("Q4_K_M" in model_path or "Q4_K_M" in modelfile) else "unknown"
     var model_info = OllamaModelInfo(model_name, digest, model_size, quantization, modified_at, modelfile, family, parameter_size)
-    if plan.profile == "llama3" or plan.profile == "qwen3":
+    if plan.profile == "qwen35":
+        var session = Qwen35CPUSession(model_path, plan.context_length, sampling)
+        serve_loaded(session, port, key, plan.profile, plan.context_length, token_limit, timeout_ms, io_timeout_ms, interrupts.fd, ollama, model_info, model_store, resolved.from_catalog, plan.memory.device_bytes, sampling, effective.system, effective.has_system, queue_limit, queue_timeout_ms, False, 1, backend="cpu", post_history=effective.post_history, experimental=plan.experimental)
+    elif plan.profile == "llama3" or plan.profile == "qwen3":
         var session = Llama3CUDASession(model_path, plan.context_length, device, reserve, sampling, prefix_cache, prefill_batch, api=acceleration)
         serve_loaded(session, port, key, plan.profile, plan.context_length, token_limit, timeout_ms, io_timeout_ms, interrupts.fd, ollama, model_info, model_store, resolved.from_catalog, llama3_memory_plan(Int(model_size), plan.context_length, session.profile, session.prefill_batch).device_bytes, sampling, effective.system, effective.has_system, queue_limit, queue_timeout_ms, prefix_cache, session.prefill_batch, backend=acceleration, post_history=effective.post_history)
     else:

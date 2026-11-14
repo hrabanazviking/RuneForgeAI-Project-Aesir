@@ -1,0 +1,15 @@
+MimirWell initialized with 37896704 derived bytes.
+GGUF validated: 56 tensors, 23 metadata entries, architecture qwen35
+R1=tok0731tok0839tok0344tok0745tok0250tok0428tok0689tok0885tok0392}tok0723tok0658&tok0635tok0379tok0415
+STREAM1=61 83 89 4 69 86 73 4 69 4 88 83 93 4 88 73 87 88 4 69 87 87 77 87 88 69 82 88 18 3 57 87 73 86 30 4 69 80 84 76 69 4 70 86 69 90 83 4 71 76 69 86 80 77 73 3 731 839 344 745 250 428 689 885 392 97 723 658 10 635 379 415 
+POS1=72
+R2=tok0964tok0644tok0698tok0896tok0400tok0102tok0486tok0719tok0446tok0822tok0148tok0346Etok0958tok0375tok0120
+STREAM2=61 83 89 4 69 86 73 4 69 4 88 83 93 4 88 73 87 88 4 69 87 87 77 87 88 69 82 88 18 3 57 87 73 86 30 4 69 80 84 76 69 4 70 86 69 90 83 4 71 76 69 86 80 77 73 3 731 839 344 745 250 428 689 885 392 97 723 658 10 635 379 415 72 73 80 88 69 4 73 71 76 83 4 74 83 92 88 86 83 88 964 644 698 896 400 102 486 719 446 822 148 346 41 958 375 120 
+POS2=106
+R1_RESET=tok0731tok0839tok0344tok0745tok0250tok0428tok0689tok0885tok0392}tok0723tok0658&tok0635tok0379tok0415
+PASS (reset): turn 1 after reset reproduces exactly
+MimirWell initialized with 37896704 derived bytes.
+GGUF validated: 56 tensors, 23 metadata entries, architecture qwen35
+PASS (fresh): fresh session reproduces R1 and resident R2 exactly
+Q35-4 qwen35 CPU session reference: ALL PASS
+SESSION_EXIT=0

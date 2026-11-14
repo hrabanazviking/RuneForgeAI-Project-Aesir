@@ -1,0 +1,3 @@
+FRESH T2 status=200 usage={"prompt_tokens": 193, "completion_tokens": 16, "total_tokens": 209, "reused_prompt_tokens": 0} reply='tok0406tok0543tok0555tok0662tok0594tok0340tok0673tok0676tok0614tok0106tok0779tok0695tok0871tok0415tok0305tok0444'
+FRESH != RESIDENT: fresh-instance continuation differs from resident R2 as required
+Q35-4a HTTP fresh-control bench: ALL PASS
