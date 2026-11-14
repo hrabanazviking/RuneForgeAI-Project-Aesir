@@ -1,6 +1,6 @@
 # Qwen35 Adapter Campaign — Ledger
 
-## 2026-11-14 — QC-4: llama.cpp cross-check of the QC-3a compressed model (worker slice; DRAFT entry for coordinator verification)
+## 2026-11-14 — QC-4: llama.cpp cross-check of the QC-3a compressed model (worker slice; verified + banked by coordinator)
 
 - Determinism: `aesir quantize` from the merged tree reproduces
   the QC-3a file byte-identically — sha256
@@ -37,6 +37,17 @@
   QC-5's arbitration leg needs that binary built as a named
   first step. Full notes: QC-4-NOTES.md. Next: QC-3b / QC-5.
 
+
+- Coordinator verification (2026-11-14): QC-4-NOTES.md
+  re-read from disk (U-QC5 SETTLED — llama.cpp accepts
+  the mixed file as-is; both cross-grade pairings
+  FAITHFUL 157/157, agreement 157/157 in pairing (a));
+  remote yrsa/qc-4 == 76039dcc confirmed by ls-remote
+  before merge; fast-forwarded into yrsa/hip-serve and
+  banked. Named scope gap stands: the reverse leg
+  (Aesir loading a llama.cpp-quantized file) needs
+  llama-quantize built — named first step for the
+  QC-5 arbitration work.
 
 ## 2026-11-14 — QC-3a: whole-model Q8_0 conversion of stories260K + grade (worker slice; verified + banked by coordinator)
 
