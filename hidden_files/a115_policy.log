@@ -1,0 +1,32 @@
+=== A-115 policy bench (team-25) ===
+2026-11-13T22:40:03-05:00
+purpleraider
+57f2e2da73cb25183fe08dc5b288263fee0b62bf
+A115_POLICY rows=19
+POL_ROW quant=F16 family=FLOAT obligation=TOKEN_EXACTNESS_OWED gate=near_tie_gate
+POL_ROW quant=BF16 family=FLOAT obligation=TOKEN_EXACTNESS_OWED gate=near_tie_gate
+POL_ROW quant=Q8_0 family=GGML_QUANT obligation=TOKEN_EXACTNESS_OWED gate=near_tie_gate
+POL_ROW quant=Q4_0 family=GGML_QUANT obligation=TOKEN_EXACTNESS_OWED gate=near_tie_gate
+POL_ROW quant=Q5_0 family=GGML_QUANT obligation=TOKEN_EXACTNESS_OWED gate=near_tie_gate
+POL_ROW quant=Q2_K family=GGML_QUANT obligation=TOKEN_EXACTNESS_OWED gate=near_tie_gate
+POL_ROW quant=Q3_K_M family=GGML_QUANT obligation=TOKEN_EXACTNESS_OWED gate=near_tie_gate
+POL_ROW quant=Q4_K_M family=GGML_QUANT obligation=TOKEN_EXACTNESS_OWED gate=near_tie_gate
+POL_ROW quant=Q5_K_M family=GGML_QUANT obligation=TOKEN_EXACTNESS_OWED gate=near_tie_gate
+POL_ROW quant=Q6_K family=GGML_QUANT obligation=TOKEN_EXACTNESS_OWED gate=near_tie_gate
+POL_ROW quant=IQ1_S family=IQ obligation=COHERENCE_ONLY gate=coherence
+POL_ROW quant=IQ1_M family=IQ obligation=COHERENCE_ONLY gate=coherence
+POL_ROW quant=IQ2_XXS family=IQ obligation=COHERENCE_ONLY gate=coherence
+POL_ROW quant=IQ2_XS family=IQ obligation=COHERENCE_ONLY gate=coherence
+POL_ROW quant=IQ2_S family=IQ obligation=COHERENCE_ONLY gate=coherence
+POL_ROW quant=IQ3_XXS family=IQ obligation=COHERENCE_ONLY gate=coherence
+POL_ROW quant=IQ3_S family=IQ obligation=COHERENCE_ONLY gate=coherence
+POL_ROW quant=IQ4_NL family=IQ obligation=COHERENCE_ONLY gate=coherence
+POL_ROW quant=IQ4_XS family=IQ obligation=COHERENCE_ONLY gate=coherence
+A115_POLICY_SUMMARY total=19 exactness_owed=10 coherence_only=9
+A115_POLICY_DIGEST 12048845139128415230
+A-115 token-exactness policy: the ten measured GEMV quant families owe token-exactness under the A-111 near-tie gate; the nine IQ families owe coherence only and are never graded on token-exactness; unknown labels are refused
+A115_GATE quant=Q4_K_M verdict=FAITHFUL_NEAR_TIE
+A115_GATE quant=IQ2_XS verdict=COHERENCE_PASS
+A115_GATE quant=IQ2_XS_unstated verdict=NOT_GRADED
+A115_BENCH_DONE rows=19
+MOJO_EXIT=0

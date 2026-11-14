@@ -822,6 +822,21 @@ from tests.test_matrix_runner_a114 import (
     test_matrix_near_tie_cells,
     test_matrix_summary_sums,
 )
+from tests.test_exactness_policy_a115 import (
+    test_policy_coherence_cannot_rescue_exactness,
+    test_policy_comparator_precedence,
+    test_policy_divergent_fails_exactness,
+    test_policy_exact_pass,
+    test_policy_invalid_records_refused,
+    test_policy_iq_coherence_fail_and_unstated,
+    test_policy_iq_coherence_only,
+    test_policy_iq_divergent_never_fails,
+    test_policy_measured_exactness_owed,
+    test_policy_near_tie_band_edges,
+    test_policy_render_digest_deterministic,
+    test_policy_table_complete,
+    test_policy_unknown_refused,
+)
 from tests.test_placement_planner_a100 import (
     test_planner_standard_fixtures,
     test_planner_prefill_variants,
@@ -1737,6 +1752,19 @@ def main() raises:
     run_case(ledger, "matrix.runner_summary_sums", test_matrix_summary_sums)
     run_case(ledger, "matrix.runner_invalid_axes_refused", test_matrix_invalid_axes_refused)
     run_case(ledger, "matrix.runner_digest_deterministic", test_matrix_digest_deterministic)
+    run_case(ledger, "policy.exactness_table_complete", test_policy_table_complete)
+    run_case(ledger, "policy.exactness_measured_owed", test_policy_measured_exactness_owed)
+    run_case(ledger, "policy.exactness_iq_coherence_only", test_policy_iq_coherence_only)
+    run_case(ledger, "policy.exactness_unknown_refused", test_policy_unknown_refused)
+    run_case(ledger, "policy.exactness_exact_pass", test_policy_exact_pass)
+    run_case(ledger, "policy.exactness_near_tie_edges", test_policy_near_tie_band_edges)
+    run_case(ledger, "policy.exactness_divergent_fails", test_policy_divergent_fails_exactness)
+    run_case(ledger, "policy.exactness_iq_divergent_never_fails", test_policy_iq_divergent_never_fails)
+    run_case(ledger, "policy.exactness_iq_coherence_fail", test_policy_iq_coherence_fail_and_unstated)
+    run_case(ledger, "policy.exactness_comparator_precedence", test_policy_comparator_precedence)
+    run_case(ledger, "policy.exactness_coherence_no_rescue", test_policy_coherence_cannot_rescue_exactness)
+    run_case(ledger, "policy.exactness_invalid_refused", test_policy_invalid_records_refused)
+    run_case(ledger, "policy.exactness_render_digest", test_policy_render_digest_deterministic)
     run_case(ledger, "planner.standard_fixtures", test_planner_standard_fixtures)
     run_case(ledger, "planner.prefill_variants", test_planner_prefill_variants)
     run_case(ledger, "planner.gemm_thresholds", test_planner_gemm_thresholds)
@@ -2511,4 +2539,8 @@ def main() raises:
     # twelve matrix.runner_* cases counted on top of the
     # A-113 seat pin (team branch pin was 707 on the A-111
     # base; union reconciled here at banking).
-    ledger.finish(727)
+    # A-115 re-pin: 727 -> 740 -- thirteen
+    # token-exactness policy cases (policy.exactness_*
+    # in tests/test_exactness_policy_a115.mojo) counted
+    # on top of the A-114 seat pin.
+    ledger.finish(740)
