@@ -1,0 +1,97 @@
+=== A-116 seeded-divergence demonstration (team-26) ===
+2026-11-13T22:40:09-05:00
+purpleraider
+57f2e2da73cb25183fe08dc5b288263fee0b62bf
+yrsa/aesir-team-26
+Mojo 1.2.0 (2016d0cd)
+Linux purpleraider 7.3.0-10-generic #10-Ubuntu SMP PREEMPT_DYNAMIC Thu Oct 22 07:35:54 UTC 2026 x86_64 GNU/Linux
+staging=/tmp/tmp.JzJPs5hzaH
+stub_cc_exit=0
+par_cc_exit=0
+hip_cc_exit=0
+zc_cc_exit=0
+aff_cc_exit=0
+Imported from /home/volmarr/aesir-team-26/aesir_engine/tests/bench_localise_a116.mojo:19:
+/home/volmarr/aesir-team-26/aesir_engine/core/divergence_localiser.mojo:521:5: warning: 'read' is deprecated; use 'imm'
+    read loc: Localisation, probes: List[Probe]
+    ^~~~
+    imm
+A-116 first-divergence localisation: a failing row that passes A-112's checklist is walked in execution order and the first probe outside A-111's near-tie band files its layer/op; comparator artifacts file no location
+A116_LOCALISATION probes=49
+LOC_PROBE index=0 layer=0 op=attn.q_proj rank=0 gap_milli=0 class=EXACT
+LOC_PROBE index=1 layer=0 op=attn.out_proj rank=0 gap_milli=0 class=EXACT
+LOC_PROBE index=2 layer=0 op=mlp.up_proj rank=0 gap_milli=0 class=EXACT
+LOC_PROBE index=3 layer=0 op=mlp.down_proj rank=0 gap_milli=0 class=EXACT
+LOC_PROBE index=4 layer=1 op=attn.q_proj rank=1 gap_milli=240 class=NEAR_TIE
+LOC_PROBE index=5 layer=1 op=attn.out_proj rank=0 gap_milli=0 class=EXACT
+LOC_PROBE index=6 layer=1 op=mlp.up_proj rank=0 gap_milli=0 class=EXACT
+LOC_PROBE index=7 layer=1 op=mlp.down_proj rank=0 gap_milli=0 class=EXACT
+LOC_PROBE index=8 layer=2 op=attn.q_proj rank=0 gap_milli=0 class=EXACT
+LOC_PROBE index=9 layer=2 op=attn.out_proj rank=1 gap_milli=240 class=NEAR_TIE
+LOC_PROBE index=10 layer=2 op=mlp.up_proj rank=0 gap_milli=0 class=EXACT
+LOC_PROBE index=11 layer=2 op=mlp.down_proj rank=0 gap_milli=0 class=EXACT
+LOC_PROBE index=12 layer=3 op=attn.q_proj rank=0 gap_milli=0 class=EXACT
+LOC_PROBE index=13 layer=3 op=attn.out_proj rank=0 gap_milli=0 class=EXACT
+LOC_PROBE index=14 layer=3 op=mlp.up_proj rank=1 gap_milli=240 class=NEAR_TIE
+LOC_PROBE index=15 layer=3 op=mlp.down_proj rank=0 gap_milli=0 class=EXACT
+LOC_PROBE index=16 layer=4 op=attn.q_proj rank=0 gap_milli=0 class=EXACT
+LOC_PROBE index=17 layer=4 op=attn.out_proj rank=0 gap_milli=0 class=EXACT
+LOC_PROBE index=18 layer=4 op=mlp.up_proj rank=0 gap_milli=0 class=EXACT
+LOC_PROBE index=19 layer=4 op=mlp.down_proj rank=1 gap_milli=240 class=NEAR_TIE
+LOC_PROBE index=20 layer=5 op=attn.q_proj rank=0 gap_milli=0 class=EXACT
+LOC_PROBE index=21 layer=5 op=attn.out_proj rank=0 gap_milli=0 class=EXACT
+LOC_PROBE index=22 layer=5 op=mlp.up_proj rank=0 gap_milli=0 class=EXACT
+LOC_PROBE index=23 layer=5 op=mlp.down_proj rank=0 gap_milli=0 class=EXACT
+LOC_PROBE index=24 layer=6 op=attn.q_proj rank=1 gap_milli=240 class=NEAR_TIE
+LOC_PROBE index=25 layer=6 op=attn.out_proj rank=0 gap_milli=0 class=EXACT
+LOC_PROBE index=26 layer=6 op=mlp.up_proj rank=0 gap_milli=0 class=EXACT
+LOC_PROBE index=27 layer=6 op=mlp.down_proj rank=0 gap_milli=0 class=EXACT
+LOC_PROBE index=28 layer=7 op=attn.q_proj rank=0 gap_milli=0 class=EXACT
+LOC_PROBE index=29 layer=7 op=attn.out_proj rank=1 gap_milli=240 class=NEAR_TIE
+LOC_PROBE index=30 layer=7 op=mlp.up_proj rank=0 gap_milli=0 class=EXACT
+LOC_PROBE index=31 layer=7 op=mlp.down_proj rank=3 gap_milli=1450 class=DIVERGENT
+LOC_PROBE index=32 layer=8 op=attn.q_proj rank=4 gap_milli=1700 class=DIVERGENT
+LOC_PROBE index=33 layer=8 op=attn.out_proj rank=4 gap_milli=1700 class=DIVERGENT
+LOC_PROBE index=34 layer=8 op=mlp.up_proj rank=4 gap_milli=1700 class=DIVERGENT
+LOC_PROBE index=35 layer=8 op=mlp.down_proj rank=4 gap_milli=1700 class=DIVERGENT
+LOC_PROBE index=36 layer=9 op=attn.q_proj rank=4 gap_milli=1700 class=DIVERGENT
+LOC_PROBE index=37 layer=9 op=attn.out_proj rank=4 gap_milli=1700 class=DIVERGENT
+LOC_PROBE index=38 layer=9 op=mlp.up_proj rank=4 gap_milli=1700 class=DIVERGENT
+LOC_PROBE index=39 layer=9 op=mlp.down_proj rank=4 gap_milli=1700 class=DIVERGENT
+LOC_PROBE index=40 layer=10 op=attn.q_proj rank=4 gap_milli=1700 class=DIVERGENT
+LOC_PROBE index=41 layer=10 op=attn.out_proj rank=4 gap_milli=1700 class=DIVERGENT
+LOC_PROBE index=42 layer=10 op=mlp.up_proj rank=4 gap_milli=1700 class=DIVERGENT
+LOC_PROBE index=43 layer=10 op=mlp.down_proj rank=4 gap_milli=1700 class=DIVERGENT
+LOC_PROBE index=44 layer=11 op=attn.q_proj rank=4 gap_milli=1700 class=DIVERGENT
+LOC_PROBE index=45 layer=11 op=attn.out_proj rank=4 gap_milli=1700 class=DIVERGENT
+LOC_PROBE index=46 layer=11 op=mlp.up_proj rank=4 gap_milli=1700 class=DIVERGENT
+LOC_PROBE index=47 layer=11 op=mlp.down_proj rank=4 gap_milli=1700 class=DIVERGENT
+LOC_PROBE index=48 layer=12 op=lm_head rank=5 gap_milli=2100 class=DIVERGENT
+A116_VERDICT verdict=LOCALISED kind=NONE first_index=31 first_layer=7 first_op=mlp.down_proj exact=25 near_tie=6 divergent=18
+A116_SEEDED_DIGEST 5253384345653559561
+A116_BENCH_DONE localised layer= 7  op= mlp.down_proj  index= 31
+	Command being timed: "pixi run --frozen mojo run -I . --target-accelerator gfx1151 -Xlinker -L/tmp/tmp.JzJPs5hzaH -Xlinker -laesir_hailo10h -Xlinker -laesir_par -Xlinker -laesir_hip -Xlinker -laesir_vulkan -Xlinker -laesir_zc -Xlinker -laesir_aff aesir_engine/tests/bench_localise_a116.mojo"
+	User time (seconds): 3.72
+	System time (seconds): 0.45
+	Percent of CPU this job got: 265%
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 0:01.57
+	Average shared text size (kbytes): 0
+	Average unshared data size (kbytes): 0
+	Average stack size (kbytes): 0
+	Average total size (kbytes): 0
+	Maximum resident set size (kbytes): 293044
+	Average resident set size (kbytes): 0
+	Major (requiring I/O) page faults: 94
+	Minor (reclaiming a frame) page faults: 95604
+	Voluntary context switches: 42699
+	Involuntary context switches: 2824
+	Swaps: 0
+	File system inputs: 250104
+	File system outputs: 776
+	Socket messages sent: 0
+	Socket messages received: 0
+	Signals delivered: 0
+	Page size (bytes): 4096
+	Exit status: 0
+MOJO_EXIT=0
+=== end 2026-11-13T22:40:11-05:00 ===

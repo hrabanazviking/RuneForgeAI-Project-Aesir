@@ -837,6 +837,20 @@ from tests.test_exactness_policy_a115 import (
     test_policy_table_complete,
     test_policy_unknown_refused,
 )
+from tests.test_divergence_localiser_a116 import (
+    test_localise_artifact_backend_blocks,
+    test_localise_artifact_step0_blocks,
+    test_localise_artifact_template_blocks,
+    test_localise_band_edges,
+    test_localise_constants_and_names,
+    test_localise_digest_deterministic,
+    test_localise_first_at_layer0,
+    test_localise_identical_no_divergence,
+    test_localise_invalid_refused,
+    test_localise_mid_stack_first_exact,
+    test_localise_near_tie_probes_faithful,
+    test_localise_seeded_exact,
+)
 from tests.test_placement_planner_a100 import (
     test_planner_standard_fixtures,
     test_planner_prefill_variants,
@@ -1765,6 +1779,18 @@ def main() raises:
     run_case(ledger, "policy.exactness_coherence_no_rescue", test_policy_coherence_cannot_rescue_exactness)
     run_case(ledger, "policy.exactness_invalid_refused", test_policy_invalid_records_refused)
     run_case(ledger, "policy.exactness_render_digest", test_policy_render_digest_deterministic)
+    run_case(ledger, "oracle.localise_constants_and_names", test_localise_constants_and_names)
+    run_case(ledger, "oracle.localise_identical_no_divergence", test_localise_identical_no_divergence)
+    run_case(ledger, "oracle.localise_near_tie_probes_faithful", test_localise_near_tie_probes_faithful)
+    run_case(ledger, "oracle.localise_first_at_layer0", test_localise_first_at_layer0)
+    run_case(ledger, "oracle.localise_mid_stack_first_exact", test_localise_mid_stack_first_exact)
+    run_case(ledger, "oracle.localise_seeded_exact", test_localise_seeded_exact)
+    run_case(ledger, "oracle.localise_band_edges", test_localise_band_edges)
+    run_case(ledger, "oracle.localise_artifact_template_blocks", test_localise_artifact_template_blocks)
+    run_case(ledger, "oracle.localise_artifact_backend_blocks", test_localise_artifact_backend_blocks)
+    run_case(ledger, "oracle.localise_artifact_step0_blocks", test_localise_artifact_step0_blocks)
+    run_case(ledger, "oracle.localise_digest_deterministic", test_localise_digest_deterministic)
+    run_case(ledger, "oracle.localise_invalid_refused", test_localise_invalid_refused)
     run_case(ledger, "planner.standard_fixtures", test_planner_standard_fixtures)
     run_case(ledger, "planner.prefill_variants", test_planner_prefill_variants)
     run_case(ledger, "planner.gemm_thresholds", test_planner_gemm_thresholds)
@@ -2543,4 +2569,10 @@ def main() raises:
     # token-exactness policy cases (policy.exactness_*
     # in tests/test_exactness_policy_a115.mojo) counted
     # on top of the A-114 seat pin.
-    ledger.finish(740)
+    # A-116 union re-pin at banking: 740 -> 752 -- twelve first-divergence
+    # localisation cases (oracle.localise_* in
+    # tests/test_divergence_localiser_a116.mojo) counted
+    # on top of the A-114 seat pin (A-115 builds in
+    # parallel on team-25 and has not banked; the union
+    # reconciles at banking).
+    ledger.finish(752)
