@@ -68,7 +68,18 @@ when its lead is live on its assigned slice in its own worktree.
 
 ## State
 
-- Banked: **106 of 216** (A-001..A-106). A-106 banked at the
+- Banked: **107 of 216** (A-001..A-107). A-107 banked at the
+  seat 2026-11-13 (team-25 commit d468b5f7 cherry-picked
+  as 5211c5dc with the run_all union composed at banking,
+  +6 run_all cases, seat pin 658 -> 664; placement
+  regression battery - the banked placement stack pinned
+  end to end, 123 probed values; keeper-closed slice:
+  the lead was cancelled after its green suite and full
+  gate and the keeper committed the slice from the
+  on-disk logs, ledger filed; seat gate 661/1/2 of 664
+  exact on run 3 solo, sole failure J-022, named
+  intermittents fired on runs 1-2 and cleared, all
+  preserved; full note in PROJECT_MEMORY_MAP). A-106 banked at the
   seat 2026-11-13 (team-27 commit e94dbef8 cherry-picked
   as 6fa0daf0 clean, no conflicts, +8 run_all cases,
   seat pin 650 -> 658; scheduler telemetry - internal
