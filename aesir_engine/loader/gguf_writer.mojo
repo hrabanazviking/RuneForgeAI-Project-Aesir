@@ -739,7 +739,6 @@ def read_gguf_header_copy(path: String) raises -> GGUFHeaderCopy:
         if relative_offset < 0 or relative_offset % copy.alignment != 0:
             raise Error("GGUF writer copy: tensor offset is not correctly aligned: " + name)
         var byte_size = gguf_tensor_byte_size(elements, tensor_type)
-        seer._require_range(copy.data_offset + relative_offset, 0)
         copy.directory.append(
             GGUFDirectoryEntry(name, dims, tensor_type, relative_offset, byte_size).copy()
         )
