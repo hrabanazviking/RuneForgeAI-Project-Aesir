@@ -1,0 +1,48 @@
+Running as unit: run-p3775397-i11181784.scope; invocation ID: 1417898eb2dd4cc0b267b4708d0901fa
+CASE q4_k all-zero (2 blocks) n=512 max_err=0.0 mean_err=0.0 worst_ratio=0.0
+PASS: q4_k round-trip -- all-zero (2 blocks)
+CASE q4_k random signed scale 2 (36 blocks) n=9216 max_err=0.13243103 mean_err=0.058732886 worst_ratio=0.98942953
+PASS: q4_k round-trip -- random signed scale 2 (36 blocks)
+CASE q4_k negative-only random scale 50 n=2048 max_err=1.6560192 mean_err=0.74868655 worst_ratio=0.9947418
+PASS: q4_k round-trip -- negative-only random scale 50
+CASE q4_k positive-only random (min clamp branch) n=1024 max_err=0.0010359585 mean_err=0.0004996781 worst_ratio=0.9855772
+PASS: q4_k round-trip -- positive-only random (min clamp branch)
+CASE q4_k constant -3.25 blocks (scale 0, min only) n=768 max_err=0.00079345703 mean_err=0.00079345703 worst_ratio=0.99051356
+PASS: q4_k round-trip -- constant -3.25 blocks (scale 0, min only)
+CASE q4_k constant +2.0 blocks (min_eff 0) n=512 max_err=0.0007133484 mean_err=0.0007133484 worst_ratio=0.010582717
+PASS: q4_k round-trip -- constant +2.0 blocks (min_eff 0)
+CASE q4_k outlier sub-block 1000 in 0.001 field n=1024 max_err=64.276886 mean_err=0.78833264 worst_ratio=0.9989002
+PASS: q4_k round-trip -- outlier sub-block 1000 in 0.001 field
+CASE q4_k single negative spike -77.5 n=512 max_err=0.01953125 mean_err=3.8146973e-05 worst_ratio=0.007445552
+PASS: q4_k round-trip -- single negative spike -77.5
+CASE q4_k multi-scale blocks 1e-3..0.128 n=2048 max_err=0.008130003 mean_err=0.00094122085 worst_ratio=0.9745251
+PASS: q4_k round-trip -- multi-scale blocks 1e-3..0.128
+CASE q6_k all-zero (2 blocks) n=512 max_err=0.0 mean_err=0.0 worst_ratio=0.0
+PASS: q6_k round-trip -- all-zero (2 blocks)
+CASE q6_k random signed scale 2 (36 blocks) n=9216 max_err=0.06935859 mean_err=0.016069539 worst_ratio=0.6965984
+PASS: q6_k round-trip -- random signed scale 2 (36 blocks)
+CASE q6_k negative-only random scale 50 n=2048 max_err=0.7733226 mean_err=0.34557027 worst_ratio=0.33148462
+PASS: q6_k round-trip -- negative-only random scale 50
+CASE q6_k constant -3.25 blocks n=768 max_err=0.00019836426 mean_err=0.00019836426 worst_ratio=0.0013003786
+PASS: q6_k round-trip -- constant -3.25 blocks
+CASE q6_k constant +2.0 blocks (clamp-to-31 lane) n=512 max_err=0.062618256 mean_err=0.062618256 worst_ratio=0.6670506
+PASS: q6_k round-trip -- constant +2.0 blocks (clamp-to-31 lane)
+CASE q6_k outlier group 1000 in 0.001 field n=1024 max_err=30.816834 mean_err=0.14639017 worst_ratio=0.9686628
+PASS: q6_k round-trip -- outlier group 1000 in 0.001 field
+PASS: q4_k refusal -- q4 empty
+PASS: q4_k refusal -- q4 255
+PASS: q4_k refusal -- q4 257
+PASS: q4_k refusal -- q4 NaN at index 17
+PASS: q4_k refusal -- q4 scale overflow (amax 1e10)
+PASS: q6_k refusal -- q6 empty
+PASS: q6_k refusal -- q6 100
+PASS: q6_k refusal -- q6 NaN at index 200
+PASS: q6_k refusal -- q6 scale overflow (amax 1e10)
+PASS: file payload bytes == quantizer payload bytes (file_type 15)
+PASS: emitted metadata carries general.file_type = 15 (Q4_K_M)
+SEER_LOAD_STOP: Tokenizer vocabulary is empty
+PASS: PackedGGUF constructs over the Q4_K/Q6_K file
+PASS: file dequant via engine input path -- q4.weight max_err=0.09956956
+PASS: file dequant via engine input path -- q6.weight max_err=0.026319027
+WORST_RATIO q4_k=0.9989002 q6_k=0.9686628
+ALL PASS: QC-5 K-quant packing writers (Q4_K + Q6_K)
