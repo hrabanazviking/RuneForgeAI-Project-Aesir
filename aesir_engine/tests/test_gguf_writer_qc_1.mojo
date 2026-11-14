@@ -402,7 +402,15 @@ def test_real_file(stories_path: String) raises:
     check(Int(find_kv(head.kvs, "llama.embedding_length").value.as_u32()) == seer_meta.config.embedding_length, "stories: embedding_length copy != seer config")
     check(Int(find_kv(head.kvs, "llama.block_count").value.as_u32()) == seer_meta.config.block_count, "stories: block_count copy != seer config")
     check(Int(find_kv(head.kvs, "llama.attention.head_count").value.as_u32()) == seer_meta.config.head_count, "stories: head_count copy != seer config")
-    check(find_kv(head.kvs, "llama.rope.freq_base").value.as_f32() == seer_meta.config.rope_freq_base, "stories: rope.freq_base copy != seer config")
+    # stories260K carries no llama.rope.freq_base key (independent
+    # Python census of the file, QC-1): the reader defaults it to
+    # 10000.0, and the copy must faithfully show the key ABSENT.
+    var has_rope_key = False
+    for kv in head.kvs:
+        if kv.key == "llama.rope.freq_base":
+            has_rope_key = True
+    check(not has_rope_key, "stories: copy must show llama.rope.freq_base absent")
+    check(seer_meta.config.rope_freq_base == Float32(10000.0), "stories: seer rope_freq_base must be the 10000.0 default")
     check(find_kv(head.kvs, "llama.attention.layer_norm_rms_epsilon").value.as_f32() == seer_meta.config.rms_epsilon, "stories: rms_epsilon copy != seer config")
     print("PASS: stories260K header copy == GGUFSeer parse (21 KV, 48 tensors, data_offset 14240, typed values == config)")
     # Full loader parse per tensor: types, absolute offsets, shapes.
