@@ -1,0 +1,35 @@
+=== A-110 SOLO stream_async re-run (team-26) ===
+2026-11-13T20:42:54-05:00
+purpleraider
+24d9f13c2aac2b95f2e35b7ee0d281cc111c198d
+yrsa/aesir-team-26
+Mojo 1.2.0 (2016d0cd)
+staging=/tmp/tmp.VykQ6gzKVJ
+--- Testing HIP stream async round trip (A-012) ---
+Secondary CUID not available: AMDCUID support not enabled.
+HIP stream async round trip (1 MiB+13 pinned, H2D+D2H async, stream sync + query-complete, byte-exact): PASS
+	Command being timed: "pixi run --frozen mojo run -I . --target-accelerator gfx1151 -Xlinker -L/tmp/tmp.VykQ6gzKVJ -Xlinker -laesir_hailo10h -Xlinker -laesir_par -Xlinker -laesir_hip -Xlinker -laesir_vulkan -Xlinker -laesir_zc -Xlinker -laesir_aff aesir_engine/tests/solo_a110_stream.mojo"
+	User time (seconds): 3.39
+	System time (seconds): 0.54
+	Percent of CPU this job got: 242%
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 0:01.62
+	Average shared text size (kbytes): 0
+	Average unshared data size (kbytes): 0
+	Average stack size (kbytes): 0
+	Average total size (kbytes): 0
+	Maximum resident set size (kbytes): 410196
+	Average resident set size (kbytes): 0
+	Major (requiring I/O) page faults: 85
+	Minor (reclaiming a frame) page faults: 128287
+	Voluntary context switches: 36418
+	Involuntary context switches: 3253
+	Swaps: 0
+	File system inputs: 159504
+	File system outputs: 632
+	Socket messages sent: 0
+	Socket messages received: 0
+	Signals delivered: 0
+	Page size (bytes): 4096
+	Exit status: 0
+MOJO_EXIT=0
+=== end 2026-11-13T20:42:57-05:00 ===

@@ -762,6 +762,15 @@ from tests.test_part_iv_gate_a108 import (
     test_gate_summary_names_scope,
     test_gate_verdict_table_complete,
 )
+from tests.test_oracle_pins_a110 import (
+    test_pin_build_hash_forms,
+    test_pin_mark_judged_success,
+    test_pin_malformed_hash_blocks,
+    test_pin_missing_each_blocks,
+    test_pin_registry_file_in_repo,
+    test_pin_registry_judged_rows_pinned,
+    test_pin_registry_unpinned_example_unjudged,
+)
 from tests.test_placement_planner_a100 import (
     test_planner_standard_fixtures,
     test_planner_prefill_variants,
@@ -1627,6 +1636,13 @@ def main() raises:
     run_case(ledger, "gate.part_iv_negatives", test_gate_negative_verdicts_present)
     run_case(ledger, "gate.part_iv_planner_scope", test_gate_planner_scope_matches_planner)
     run_case(ledger, "gate.part_iv_summary", test_gate_summary_names_scope)
+    run_case(ledger, "oracle.pin_registry_judged_rows_pinned", test_pin_registry_judged_rows_pinned)
+    run_case(ledger, "oracle.pin_registry_unpinned_unjudged", test_pin_registry_unpinned_example_unjudged)
+    run_case(ledger, "oracle.pin_missing_each_blocks", test_pin_missing_each_blocks)
+    run_case(ledger, "oracle.pin_malformed_hash_blocks", test_pin_malformed_hash_blocks)
+    run_case(ledger, "oracle.pin_mark_judged_success", test_pin_mark_judged_success)
+    run_case(ledger, "oracle.pin_build_hash_forms", test_pin_build_hash_forms)
+    run_case(ledger, "oracle.pin_registry_file_in_repo", test_pin_registry_file_in_repo)
     run_case(ledger, "planner.standard_fixtures", test_planner_standard_fixtures)
     run_case(ledger, "planner.prefill_variants", test_planner_prefill_variants)
     run_case(ledger, "planner.gemm_thresholds", test_planner_gemm_thresholds)
@@ -2362,4 +2378,13 @@ def main() raises:
     # tests/test_part_iv_gate_a108.mojo) counted on top of
     # the A-107 seat pin (team branch pin was 656 on the
     # A-105 base; union reconciled here at banking).
-    ledger.finish(677)
+    # A-110 re-pin (team-26): 670 -> 677 -- seven oracle pin
+    # registry cases (oracle.pin_* in
+    # tests/test_oracle_pins_a110.mojo) counted on top of the
+    # A-108 seat pin (team branch pin reconciles at banking;
+    # A-109/A-111 build in parallel on the same base).
+    # A-110 union re-pin at banking: 677 -> 684 -- the seven
+    # oracle.pin_* cases counted on top of the A-109 seat pin
+    # (team branch pin was 677 on the A-108 base; union
+    # reconciled here at banking).
+    ledger.finish(684)
