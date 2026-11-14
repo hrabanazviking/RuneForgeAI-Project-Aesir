@@ -1,0 +1,8 @@
+GATE_LOCAL: start 2026-11-13T22:35:48-05:00 host=purpleraider head=57f2e2da73cb25183fe08dc5b288263fee0b62bf
+GATE_LOCAL: matrix rc=0 cells=228 summary_total=228 elapsed 1s log=hidden_files/a117_gate_matrix.log
+GATE_LOCAL: matrix COMPLETE (228 cells, filed counts)
+GATE_LOCAL: suite rc=1 summary: 734 passed / 1 failed / 2 skipped / 737 total elapsed 238s log=hidden_files/a117_gate_suite.log
+GATE_LOCAL: sole failure is the tolerated gguf.tensor_directory_interface (J-022 drift)
+GATE_LOCAL: suite GREEN-TO-BASELINE
+GATE_LOCAL: timing matrix=1s suite=238s total=239s
+GATE_LOCAL RESULT: PASS (239s)

@@ -808,6 +808,18 @@ from tests.test_near_tie_gate_a111 import (
     test_near_tie_row_verdicts,
     test_near_tie_sequence_verdicts,
 )
+from tests.test_local_gate_a117 import (
+    test_local_gate_constants,
+    test_local_gate_matrix_filed,
+    test_local_gate_matrix_incomplete,
+    test_local_gate_suite_baseline,
+    test_local_gate_suite_clean,
+    test_local_gate_suite_extra_failure,
+    test_local_gate_suite_shape_refused,
+    test_local_gate_verdict_fail,
+    test_local_gate_verdict_not_run,
+    test_local_gate_verdict_pass,
+)
 from tests.test_matrix_runner_a114 import (
     test_matrix_arch_not_graded,
     test_matrix_artifact_cells,
@@ -1791,6 +1803,16 @@ def main() raises:
     run_case(ledger, "oracle.localise_artifact_step0_blocks", test_localise_artifact_step0_blocks)
     run_case(ledger, "oracle.localise_digest_deterministic", test_localise_digest_deterministic)
     run_case(ledger, "oracle.localise_invalid_refused", test_localise_invalid_refused)
+    run_case(ledger, "gate.local_constants", test_local_gate_constants)
+    run_case(ledger, "gate.local_suite_baseline", test_local_gate_suite_baseline)
+    run_case(ledger, "gate.local_suite_clean", test_local_gate_suite_clean)
+    run_case(ledger, "gate.local_suite_extra_failure", test_local_gate_suite_extra_failure)
+    run_case(ledger, "gate.local_suite_shape_refused", test_local_gate_suite_shape_refused)
+    run_case(ledger, "gate.local_matrix_filed", test_local_gate_matrix_filed)
+    run_case(ledger, "gate.local_matrix_incomplete", test_local_gate_matrix_incomplete)
+    run_case(ledger, "gate.local_verdict_pass", test_local_gate_verdict_pass)
+    run_case(ledger, "gate.local_verdict_fail", test_local_gate_verdict_fail)
+    run_case(ledger, "gate.local_verdict_not_run", test_local_gate_verdict_not_run)
     run_case(ledger, "planner.standard_fixtures", test_planner_standard_fixtures)
     run_case(ledger, "planner.prefill_variants", test_planner_prefill_variants)
     run_case(ledger, "planner.gemm_thresholds", test_planner_gemm_thresholds)
@@ -2575,4 +2597,8 @@ def main() raises:
     # on top of the A-114 seat pin (A-115 builds in
     # parallel on team-25 and has not banked; the union
     # reconciles at banking).
-    ledger.finish(752)
+    # A-117 union re-pin at banking: 752 -> 762 -- ten local
+    # gate cases (gate.local_* in
+    # tests/test_local_gate_a117.mojo) counted on top of
+    # the A-114 seat pin.
+    ledger.finish(762)
