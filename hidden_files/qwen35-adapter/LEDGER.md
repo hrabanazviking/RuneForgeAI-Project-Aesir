@@ -1,5 +1,64 @@
 # Qwen35 Adapter Campaign — Ledger
 
+## 2026-11-14 — QC-2: Q8_0 quantizer + round-trip property tests (worker slice; WORKER DRAFT — coordinator integrates)
+
+- DELIVERED: aesir_engine/core/quantize.mojo (new, ONE module in
+  core/ beside the dequantizers it inverts, per QC-0 section 6) —
+  quantize_q8_0 (List[Float32] -> Q8_0 payload bytes) +
+  q8_0_payload_bytes + layout constants. The exact inverse of the
+  engine's Q8_0 dequantizers (34 B blocks: f16 d @0, 32 x int8 @2).
+- RULE (ggml quantize_row_q8_0_ref, re-read on-box from
+  ~/llama.cpp-build/ggml/src/ggml-quants.c:273-296): per 32-block
+  d = amax/127 (f32, stored f16), qs = roundf(w / d) clamped
+  [-127, 127], qs formed against the UNROUNDED d; zero block emits
+  all zeros. ERRATUM E-1 for QC-0 section 5: the plan said
+  round-to-nearest-even; ggml's reference uses roundf (half AWAY
+  from zero) — implemented ggml, pinned by byte-exact tie tests.
+- PROOF (test_quantize_q8_0_qc_2; log qc-2-test.log) ALL PASS:
+  byte-exact layout + tie blocks; both engine dequantizers agree
+  element-for-element on every round-trip; EVERY element satisfies
+  the proven per-block bound err <= d_hat/2 + 127*|d_hat - d| +
+  amax*2^-10 + d_hat*0.002 + 1e-7 (worst err/bound 0.8951 across
+  288 random multi-scale blocks, scales 1e-4..1e4: max err
+  42.08008, mean 2.3806543); lattice values (d = 0.25 / 2.0, incl.
+  +/-127) and zero blocks round-trip EXACTLY (err 0); tiny blocks
+  stay in bound even when the f16 scale underflows to 0 (amax
+  1e-7: max err 1e-07, ratio 0.4998).
+- FILE PROOF (QC-1 harness style): 3-tensor GGUF via the QC-1
+  writer with general.file_type = 7 (Q8_0 — the inherited
+  metadata duty, demonstrated for QC-3); emitted payload bytes ==
+  quantizer payload bytes exactly; GGUFSeer maps both Q8_0
+  tensors (stops only at required-tensor validation), PackedGGUF
+  constructs in full; engine-path dequant from the file at
+  GGUFSeer's parsed offsets in bound — quant.weight 256x64 max
+  err 0.016937 / mean 0.0046754; big.weight 32768x32 =
+  1,048,576 elements (32,768 blocks) max err 0.19629 / mean
+  0.0037532, no index overflow. Deterministic: the banked rerun
+  reproduces the numbers exactly.
+- REFUSALS (named errors, no payload): count 0 or not a multiple
+  of 32 (refuse, never pad — non-aligned tensors stay at source
+  type per QC-0 section 3); NaN/+Inf element (index named);
+  block scale overflowing f16 (amax 1e10 tested). Scale underflow
+  deliberately NOT refused (bound still proven, see notes).
+- FINDINGS (readers not edited): F-1 engine Q8_0 dequantizers
+  write F16, so blocks with amax > 65504 dequantize to Inf
+  through the engine path though ggml-valid (llama.cpp dequants
+  to f32) — engine-path proof stated for amax <= 65504; a fix
+  would be a named reader slice (f32-out dequant), not the
+  quantizer's. F-2 GGUFSeer mmap_and_load's except path munmaps
+  (_cleanup) — tensor data pointers dangle after any failed
+  load; the first file-test version segfaulted proving it, the
+  proof now follows QC-1's offsets + file-image pattern.
+- REGRESSIONS: engine compile exit 0; QC-1 writer test ALL PASS
+  rerun from this tree; Q35-1 loader test ALL PASS. Builds/tests
+  fenced MemoryHigh=24G / MemoryMax=32G (systemd user units).
+  Contention honestly noted: sibling Q35-6's HIP grade process
+  (RSS ~24.5 GB) was active throughout — correctness numbers
+  only in this slice, no timings claimed. CLI stub NOT built
+  (QC-3 owns cli/commands.mojo dispatch per QC-0 section 6);
+  streaming quantizer entry named as QC-6 road. Full notes:
+  QC-2-NOTES.md.
+
 ## 2026-11-14 — QC-1: GGUF writer core — spec-exact v3 emission + metadata-copy path (worker slice; verified + banked by coordinator)
 
 - DELIVERED: aesir_engine/loader/gguf_writer.mojo (new, ONE
