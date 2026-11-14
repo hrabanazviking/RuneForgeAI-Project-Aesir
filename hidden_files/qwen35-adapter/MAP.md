@@ -170,6 +170,18 @@ QC_RESULTS.md + residency note for Q35-7. First targets: Q8_0
 before any Q8_1 reliance): Q8_1 block size — loader prices
 36 B/block, compute.mojo walks 40 B blocks.
 
+## Compression workstream QC - completion states (QC-7, 2026-11-14)
+
+- QC-0 - recon + plan: DONE, banked (QC-0-PLAN.md).
+- QC-1 - GGUF writer core: DONE, banked (QC-1-NOTES.md).
+- QC-2 - Q8_0 quantizer + round-trip: DONE, banked (QC-2-NOTES.md).
+- QC-3a - stories260K F16 -> Q8_0 + grade: DONE, banked; verdict FAITHFUL (QC-3a-NOTES.md).
+- QC-3b - gemma-4-E2B Q4_K_M -> Q8_0 + grade: DONE, banked; verdict NOT FAITHFUL (one record), llama.cpp fallback grade (QC-3b-NOTES.md). Finding F-3b-1 FIXED by the F-3b-1 slice (gemma4 admits Q8_0).
+- QC-4 - llama.cpp cross-check: DONE, banked; verdict FAITHFUL, U-QC5 settled for file_type 7 (QC-4-NOTES.md).
+- QC-5 - Q4_K_M tier: DONE, banked; our stories product verdict DIVERGENT, llama.cpp product FAITHFUL in both engines, zero K tensors in the llama product (QC-5-NOTES.md).
+- QC-6 - 27B Q8_0 -> Q4_K_M: DONE, banked; verdict DIVERGENT by the strict gate (197/198 in band), product on the vault (QC-6-NOTES.md).
+- QC-7 - QC_RESULTS.md + RESIDENCY-NOTE.md: DONE with this slice; the workstream results record and the Q35-7 residency note are filed in this folder. Remaining named work is listed in QC_RESULTS.md section 5 (searched-fit packer, Q4_K_M resident-analogue contract, gemma4 CPU forward, file_type 15 reverse leg, F-2, _tensor_byte_size fall-through, imatrix absence).
+
 ## Status update — 2026-11-14 (Q35-3b banked)
 
 - Q35-3b DONE: real-file oracle grade FAITHFUL (198/198

@@ -1,5 +1,31 @@
 # Qwen35 Adapter Campaign — Ledger
 
+## 2026-11-14 - QC-7: QC_RESULTS.md + residency note - DONE (worker slice; DRAFT entry for the coordinator to integrate)
+
+QC-7 - the compression workstream results record, DONE on
+yrsa/qc-7 (records only; no engine code changed). Deliverables
+in this folder: QC_RESULTS.md (what Aesir learned to do with the
+module map; the per-tier per-model verdict table with verdict
+words exactly as banked - stories Q8_0 FAITHFUL, gemma E2B Q8_0
+NOT FAITHFUL, stories Q4_K_M ours DIVERGENT vs llama.cpp
+FAITHFUL with zero K tensors, 27B Q4_K_M DIVERGENT by the strict
+gate at 197/198 in band; size-vs-quality summary; the flat vs
+per-row tiling law with the dim0 % 256 gate and fallbacks; named
+remaining work) and RESIDENCY-NOTE.md (sibling file, chosen so
+Q35-7 can cite/update it without touching the closed results
+record: source resident ~31.0 GB vs product packed ~19.5 GB, KV
+~0.54 GB at ctx 8192, Q35-4b serve peak ~31.3-31.6 GB class,
+Q35-6b HIP serve VmHWM ~30.1 GB). Model store record: four
+products RE-VERIFIED by sha256 on-device in QC-7 (27B Q4_K_M
+4515cac6...fc04cc, gemma E2B Q8_0 a63bde43..., stories Q8_0
+5d4df894..., stories Q4_K_M ours 068a41c7..., plus sources
+banked-only as marked); two sha256 values absent from the notes
+(llama.cpp stories product, QC-6 stories fallback product) are
+recorded as NEW QC-7 measurements, not banked values. No number
+was excluded as untraceable. MAP.md QC completion states updated
+in the same slice. A sibling Q35-7 entry may land above this one
+at merge time - expected.
+
 ## 2026-11-14 — QC-6: the 27B Q8_0 heretic -> Q4_K_M — DONE (worker slice; verified + banked by coordinator)
 
 QC-6 — the 27B Q8_0 heretic -> Q4_K_M, DONE on yrsa/qc-6.
