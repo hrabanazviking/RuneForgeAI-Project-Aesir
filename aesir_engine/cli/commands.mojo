@@ -20,6 +20,7 @@ from cli.cuda_chat import dispatch_cuda_chat, cuda_single_shot
 from cli.hardware import dispatch_hardware, dispatch_compute
 from cli.bench import dispatch_bench
 from cli.model_inspect import dispatch_model_inspect
+from cli.quantize import dispatch_quantize
 from cli.vision import dispatch_vision
 from cli.doctor import dispatch_doctor
 from cli.model_preferences import DurableModelPreferences, stale_preference_count
@@ -71,6 +72,9 @@ def print_general_help():
     print("      Fetch one model from the in-repo known-models catalogue by name;")
     print("      downloaded and checksum-verified before use; a mismatch is refused.")
     print("  inspect <model> [--format text|json] [--context N] [--model-store path]")
+    print("  quantize <source.gguf> <output.gguf> [--to q8_0]")
+    print("      Convert a GGUF to Q8_0 (QC-3): weight matrices quantize;")
+    print("      norms and non-32-aligned tensors stay at source type, listed by name.")
     print("      Report architecture, adapter readiness, capabilities, and memory estimate.")
     print("  vision inspect <model> [--model-store path]")
     print("      Report the mmproj vision tower structure beside a multimodal model.")
@@ -1114,6 +1118,9 @@ def dispatch_command(args: List[String], mut store: RuneModelStore) raises:
 
     if cmd == "inspect":
         dispatch_model_inspect(args)
+        return
+    if cmd == "quantize":
+        dispatch_quantize(args)
         return
 
     if cmd == "vision":
