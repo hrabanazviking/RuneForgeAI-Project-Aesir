@@ -1,6 +1,6 @@
 # Qwen35 Adapter Campaign — Ledger
 
-## 2026-11-14 - QC-7: QC_RESULTS.md + residency note - DONE (worker slice; DRAFT entry for the coordinator to integrate)
+## 2026-11-14 - QC-7: QC_RESULTS.md + residency note - DONE (worker slice; verified + banked by coordinator)
 
 QC-7 - the compression workstream results record, DONE on
 yrsa/qc-7 (records only; no engine code changed). Deliverables
@@ -25,6 +25,17 @@ recorded as NEW QC-7 measurements, not banked values. No number
 was excluded as untraceable. MAP.md QC completion states updated
 in the same slice. A sibling Q35-7 entry may land above this one
 at merge time - expected.
+
+- Coordinator verification (2026-11-14): QC_RESULTS.md
+  re-read from disk (verdict table present, per-product
+  citations to their notes; the 27B Q4_K_M store row
+  carries the full sha256 marked RE-VERIFIED); remote
+  yrsa/qc-7 == 3024230a confirmed by ls-remote before
+  merge; fast-forwarded into yrsa/hip-serve and
+  banked. The QC compression workstream is COMPLETE:
+  QC-0 through QC-7 all banked. Remaining named work
+  (searched-fit packer, Q4_K_M resident analogue,
+  gemma4 CPU forward) stands recorded in QC_RESULTS.md.
 
 ## 2026-11-14 — QC-6: the 27B Q8_0 heretic -> Q4_K_M — DONE (worker slice; verified + banked by coordinator)
 
