@@ -1,0 +1,46 @@
++ cd /home/volmarr/aesir-q35-7
++ export PATH=/home/volmarr/.pixi/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/snap/bin
++ PATH=/home/volmarr/.pixi/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/snap/bin
++ SH=hidden_files/hip-serve/shims
++ export LD_LIBRARY_PATH=/home/volmarr/aesir-q35-7/hidden_files/hip-serve/shims
++ LD_LIBRARY_PATH=/home/volmarr/aesir-q35-7/hidden_files/hip-serve/shims
++ FX=aesir_engine/tests/fixtures
++ REAL=/mnt/vault/models/gguf/Qwen3.8-27B-Ultimate-Heretic-Uncn-Turbo-Brilli-50x-AGI-NEO-Q8_0.gguf
++ A=hidden_files/qwen35-adapter
++ grep MemAvailable /proc/meminfo
+MemAvailable:   124797996 kB
++ hidden_files/qwen35-adapter/test_qwen35_loader_q35_1 aesir_engine/tests/fixtures/qwen35_tiny.gguf aesir_engine/tests/fixtures/qwen35_tiny_bad_qkv.gguf aesir_engine/tests/fixtures/qwen35_tiny_type_probe.gguf
++ echo Q351_RUN=1
+Q351_RUN=1
++ hidden_files/qwen35-adapter/test_qwen35_registry_q35_2 /mnt/vault/models/gguf/Qwen3.8-27B-Ultimate-Heretic-Uncn-Turbo-Brilli-50x-AGI-NEO-Q8_0.gguf
++ echo Q352_RUN=0
+Q352_RUN=0
++ hidden_files/qwen35-adapter/test_qwen35_forward_q35_3 aesir_engine/tests/fixtures/qwen35_forward.gguf
++ echo Q353_RUN=1
+Q353_RUN=1
++ hidden_files/qwen35-adapter/test_qwen35_resident_q35_3r aesir_engine/tests/fixtures/qwen35_forward.gguf aesir_engine/tests/fixtures/qwen35_forward_f16probe.gguf
++ echo Q353R_RUN=1
+Q353R_RUN=1
++ hidden_files/qwen35-adapter/test_qwen35_session_q35_4 aesir_engine/tests/fixtures/qwen35_forward.gguf
++ echo Q354_RUN=1
+Q354_RUN=1
++ hidden_files/qwen35-adapter/test_qwen35_snapshot_q35_5 aesir_engine/tests/fixtures/qwen35_forward.gguf
++ echo Q355_RUN=1
+Q355_RUN=1
++ hidden_files/qwen35-adapter/probe_qwen35_runtime_ripple_q35_2 /mnt/vault/models/gguf/Qwen3.8-27B-Ultimate-Heretic-Uncn-Turbo-Brilli-50x-AGI-NEO-Q8_0.gguf aesir_engine/tests/fixtures/qwen35_forward.gguf
++ echo RIPPLE_RUN=1
+RIPPLE_RUN=1
++ grep MemAvailable /proc/meminfo
+MemAvailable:   124741560 kB
++ /usr/bin/time -v hidden_files/qwen35-adapter/ref_qwen35_realfile_q35_4b /mnt/vault/models/gguf/Qwen3.8-27B-Ultimate-Heretic-Uncn-Turbo-Brilli-50x-AGI-NEO-Q8_0.gguf turns
++ echo REF_TURNS_RUN=0
+REF_TURNS_RUN=0
++ grep MemAvailable /proc/meminfo
+MemAvailable:   124151716 kB
++ /usr/bin/time -v hidden_files/qwen35-adapter/ref_qwen35_realfile_q35_4b /mnt/vault/models/gguf/Qwen3.8-27B-Ultimate-Heretic-Uncn-Turbo-Brilli-50x-AGI-NEO-Q8_0.gguf long hidden_files/qwen35-adapter/q35-4b-long-prompt.txt
++ echo REF_LONG_RUN=0
+REF_LONG_RUN=0
++ grep MemAvailable /proc/meminfo
+MemAvailable:   124256580 kB
++ echo STAGE1_RUNS_DONE
+STAGE1_RUNS_DONE
