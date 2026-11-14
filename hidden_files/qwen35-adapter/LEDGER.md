@@ -1,5 +1,43 @@
 # Qwen35 Adapter Campaign — Ledger
 
+## 2026-11-14 — QC-6: the 27B Q8_0 heretic -> Q4_K_M — DONE (worker slice; verified + banked by coordinator)
+
+QC-6 — the 27B Q8_0 heretic -> Q4_K_M, DONE on yrsa/qc-6.
+Census: all 498 Q8_0 tensors dim0 % 256 == 0; only exceptions
+are the F32 kept class (353: 305 rank-1 + 48 ssm_conv1d [4,
+10240], kept F32 per QC-0 s.3). Streaming K converter built
+(QC-3b writer + dim0 tiling gate + llama-style fallbacks;
+Q8_0 dequant wired into the input path); stories fixture:
+fallbacks carry the whole model, product payload-identical to
+QC-3b's proven Q8_0 product, PackedGGUF constructs, engine
+generates token-identically. 27B conversion: 3:21 wall, peak
+RSS 28.0 GB (mmap pages; heap O(row)), product
+16,223,236,576 B (56.7% of source; policy prediction exact),
+sha256 4515cac6...fc04cc, on the vault (not committed).
+Registry: qwen35 admits Q4_K_M (scoped, evidence-cited);
+inspect READY/COMPATIBLE; GGUFSeer VALIDATED; llama.cpp
+loads. Grade vs Q8_0 source (Aesir CPU-vs-CPU, Q35-3b 198-
+record stream): in-band 197/198 = 99.49%, agreement 95.96%,
+worst gap 0.421, one out-of-band record (p5 pos22, rank 3) —
+verdict DIVERGENT by the strict gate, the strongest K-tier
+grade in the workstream. Generation witness coherent.
+Resident footprint 31.0 GB (source) -> 19.5 GB (product).
+U-QC3 settled: the qwen35 forward executes Q4_K_M. Remaining:
+Q4_K_M resident-analogue contract + serve smoke (Q35-7),
+searched-fit packer (named stretch, not taken). Full notes:
+QC-6-NOTES.md.
+- Coordinator verification (2026-11-14): product file
+  stat-verified on the vault (16,223,236,576 B); grade
+  numbers re-read from QC-6-NOTES.md on disk; remote
+  yrsa/qc-6 == be544bb6 confirmed by ls-remote before
+  merge; merged into yrsa/hip-serve (clean merge) and
+  banked. The strict-gate DIVERGENT verdict stands as
+  recorded: one record (p5 pos22, rank 3, gap 0.421)
+  outside the band at 99.49% in-band — the searched-fit
+  packer is the named lever, its measured target this
+  record.
+
+
 ## 2026-11-14 — Q35-6: HIP execution for qwen35 + Q35-6b real-file HIP serve — DONE (worker slice; verified + banked by coordinator)
 
 Q35-6 HIP execution for qwen35 — DONE. Fixture: corrected CPU
