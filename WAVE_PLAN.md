@@ -68,7 +68,17 @@ when its lead is live on its assigned slice in its own worktree.
 
 ## State
 
-- Banked: **107 of 216** (A-001..A-107). A-107 banked at the
+- Banked: **108 of 216** (A-001..A-108). A-108 banked at the
+  seat 2026-11-13 (team-26 commit bd529c8d cherry-picked
+  as 346c627e with the run_all union composed at banking,
+  +6 run_all cases, seat pin 664 -> 670; Part IV gate -
+  verdicts filed for all of A-082..A-107, planner
+  honestly scoped not default-on, Part V GO; the two
+  IN_FLIGHT verdicts owed by this gate are resolved in
+  this banking run: A-106 PASS and A-107 PASS, both
+  banked above; seat gate 667/1/2 of 670 exact on run 1
+  solo, sole failure J-022, no intermittent fired;
+  full note in PROJECT_MEMORY_MAP). A-107 banked at the
   seat 2026-11-13 (team-25 commit d468b5f7 cherry-picked
   as 5211c5dc with the run_all union composed at banking,
   +6 run_all cases, seat pin 658 -> 664; placement
