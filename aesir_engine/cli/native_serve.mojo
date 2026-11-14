@@ -11,6 +11,7 @@ from core.cuda_gate import CUDAGate
 from core.amd_gate import AMDGate
 from core.sampling_options import with_sampling_option
 from core.tool_use import parse_gemma_zero_arg_call
+from core.post_history import resolve_post_history, apply_post_history
 from cli.sampling import sampling_option_name
 from cli.native_settings import resolve_native_settings, native_settings_json, load_native_config, native_config_sampling
 from cli.interrupts import ChatInterrupts
@@ -36,6 +37,8 @@ from server.openai import OpenAIRequest, OpenAIGate, openai_created_unix
 struct GenerateRequest:
     var prompt: String
     var system: String
+    var post_history: String
+    var has_post_history: Bool
     var max_tokens: Int
     var timeout_ms: Int
     var stream: Bool
@@ -49,6 +52,8 @@ struct GenerateRequest:
             raise Error("Default system prompt exceeds 64 KiB")
         self.prompt = ""
         self.system = default_system
+        self.post_history = ""
+        self.has_post_history = False
         self.max_tokens = resolve_request_token_limit(0, token_limit)
         self.timeout_ms = timeout_limit
         self.stream = False
@@ -56,13 +61,16 @@ struct GenerateRequest:
         var parser = FlatJSON(body)
         var fields = parser.fields()
         for field in fields:
-            if field.name == "prompt" or field.name == "system":
+            if field.name == "prompt" or field.name == "system" or field.name == "post_history":
                 if field.kind != "string" or field.value.byte_length() > 65536:
                     raise Error("Prompt/system must be strings within 64 KiB")
                 if field.name == "prompt":
                     self.prompt = field.value
-                else:
+                elif field.name == "system":
                     self.system = field.value
+                else:
+                    self.post_history = field.value
+                    self.has_post_history = True
             elif field.name == "stream":
                 if field.kind != "boolean":
                     raise Error("Generation stream must be a JSON boolean")
@@ -285,7 +293,8 @@ def serve_loaded[T: ControlledTextSession](mut session: T, port: Int, key: Strin
         device_bytes: Int, sampling_defaults: NativeSamplingConfig = NativeSamplingConfig(),
         system_defaults: String = "", has_system_defaults: Bool = False,
         queue_limit: Int = 4, queue_timeout_ms: Int = 30000,
-        prefix_cache: Bool = False, prefill_batch: Int = 1, backend: String = "cuda") raises:
+        prefix_cache: Bool = False, prefill_batch: Int = 1, backend: String = "cuda",
+        post_history: String = "") raises:
     sampling_defaults.validate()
     var listener = listen_local(port)
     var owner = register_service(model_store, port, model.name, model.digest,
@@ -377,6 +386,7 @@ def serve_loaded[T: ControlledTextSession](mut session: T, port: Int, key: Strin
                             status = 422
                             generation_started = True
                             var prompt = request.prompt if head.path == "/api/generate" else request.chat_prompt
+                            prompt = apply_post_history(prompt, post_history)
                             session.begin_turn(prompt, request.system, request_tokens)
                             print("[request=" + String(sequence) + " phase=generation]")
                             _ = external_call["fflush", Int32](Int(0))
@@ -450,7 +460,8 @@ def serve_loaded[T: ControlledTextSession](mut session: T, port: Int, key: Strin
                                 if head.path == "/v1/chat/completions"
                                 else request.prompt
                             )
-                            session.begin_turn(prompt, request.system, request_tokens)
+                            var anchor = resolve_post_history(request.post_history, request.has_post_history, post_history)
+                            session.begin_turn(apply_post_history(prompt, anchor), request.system, request_tokens)
                             print("[request=" + String(sequence) + " phase=generation]")
                             _ = external_call["fflush", Int32](Int(0))
                             var answer = String("")
@@ -526,7 +537,7 @@ def serve_loaded[T: ControlledTextSession](mut session: T, port: Int, key: Strin
                     elif not ollama and head.method == "GET" and head.path == "/health":
                         body = "{\"status\":\"" + ("ready" if session.status().healthy else "failed") + "\",\"backend\":\"" + backend + "\",\"cpu_offload\":0,\"profile\":\"" + profile + "\",\"context\":" + String(context)
                         body += ",\"model\":\"" + json_escape_string(model.name) + "\",\"model_digest\":\"" + json_escape_string(model.digest) + "\",\"max_tokens\":" + String(token_limit)
-                        body += ",\"generation_timeout_ms\":" + String(timeout_ms) + ",\"capabilities\":{\"text_generation\":true,\"embeddings\":false,\"exact_prefix_reuse\":" + ("true" if prefix_cache else "false") + "},\"prefill_batch\":" + String(prefill_batch) + ",\"queue_limit\":" + String(queue_limit) + "}"
+                        body += ",\"generation_timeout_ms\":" + String(timeout_ms) + ",\"capabilities\":{\"text_generation\":true,\"embeddings\":false,\"exact_prefix_reuse\":" + ("true" if prefix_cache else "false") + ",\"post_history_configured\":" + ("true" if post_history != "" else "false") + "},\"prefill_batch\":" + String(prefill_batch) + ",\"queue_limit\":" + String(queue_limit) + "}"
                     elif not ollama and head.method == "GET" and head.path == "/health/live":
                         body = service_liveness()
                     elif not ollama and head.method == "GET" and head.path == "/health/ready":
@@ -546,7 +557,8 @@ def serve_loaded[T: ControlledTextSession](mut session: T, port: Int, key: Strin
                         status = 422
                         generation_started = True
                         var prefill_started_ms = monotonic_milliseconds()
-                        session.begin_turn(request.prompt, request.system, request.max_tokens)
+                        var anchor = resolve_post_history(request.post_history, request.has_post_history, post_history)
+                        session.begin_turn(apply_post_history(request.prompt, anchor), request.system, request.max_tokens)
                         var prefill_elapsed_ms = monotonic_milliseconds() - prefill_started_ms
                         print("[request=" + String(sequence) + " phase=generation]")
                         _ = external_call["fflush", Int32](Int(0))
@@ -658,6 +670,7 @@ def dispatch_native_serve(args: List[String]) raises:
     var model_store = String(".aesir/models")
     var sampling = NativeSamplingConfig()
     var system = String("")
+    var post_history = String("")
     var show_settings = False
     var config_path = String("")
     var seen = List[String]()
@@ -723,6 +736,8 @@ def dispatch_native_serve(args: List[String]) raises:
             config_path = value
         elif flag == "--system":
             system = value
+        elif flag == "--post-history":
+            post_history = value
         elif sampling_option_name(flag) != "":
             sampling = with_sampling_option(sampling, sampling_option_name(flag), value)
         else:
@@ -749,7 +764,7 @@ def dispatch_native_serve(args: List[String]) raises:
     if ollama and not resolved.from_catalog:
         raise Error("Ollama service requires a registered model name")
     var effective = resolve_native_settings(resolved.modelfile_content,
-        sampling, seen, context, token_limit, system, config_sampling)
+        sampling, seen, context, token_limit, system, config_sampling, post_history)
     if show_settings:
         print(native_settings_json(effective))
         return
@@ -789,9 +804,9 @@ def dispatch_native_serve(args: List[String]) raises:
     var model_info = OllamaModelInfo(model_name, digest, model_size, quantization, modified_at, modelfile, family, parameter_size)
     if plan.profile == "llama3" or plan.profile == "qwen3":
         var session = Llama3CUDASession(model_path, plan.context_length, device, reserve, sampling, prefix_cache, prefill_batch, api=acceleration)
-        serve_loaded(session, port, key, plan.profile, plan.context_length, token_limit, timeout_ms, io_timeout_ms, interrupts.fd, ollama, model_info, model_store, resolved.from_catalog, llama3_memory_plan(Int(model_size), plan.context_length, session.profile, session.prefill_batch).device_bytes, sampling, effective.system, effective.has_system, queue_limit, queue_timeout_ms, prefix_cache, session.prefill_batch, backend=acceleration)
+        serve_loaded(session, port, key, plan.profile, plan.context_length, token_limit, timeout_ms, io_timeout_ms, interrupts.fd, ollama, model_info, model_store, resolved.from_catalog, llama3_memory_plan(Int(model_size), plan.context_length, session.profile, session.prefill_batch).device_bytes, sampling, effective.system, effective.has_system, queue_limit, queue_timeout_ms, prefix_cache, session.prefill_batch, backend=acceleration, post_history=effective.post_history)
     else:
         var session = Gemma4CUDASession(model_path, plan.context_length, device, reserve, sampling, prefix_cache, api=acceleration)
-        serve_loaded(session, port, key, plan.profile, plan.context_length, token_limit, timeout_ms, io_timeout_ms, interrupts.fd, ollama, model_info, model_store, resolved.from_catalog, plan.memory.device_bytes, sampling, effective.system, effective.has_system, queue_limit, queue_timeout_ms, prefix_cache, 1, backend=acceleration)
+        serve_loaded(session, port, key, plan.profile, plan.context_length, token_limit, timeout_ms, io_timeout_ms, interrupts.fd, ollama, model_info, model_store, resolved.from_catalog, plan.memory.device_bytes, sampling, effective.system, effective.has_system, queue_limit, queue_timeout_ms, prefix_cache, 1, backend=acceleration, post_history=effective.post_history)
     _ = interrupts
     _ = blob_lease

@@ -1,0 +1,2 @@
+PASS post-history anchor resolution and composition
+RUN_EXIT=0

@@ -44,14 +44,19 @@ struct NativeSettings(Copyable, ImplicitlyCopyable):
     var max_tokens: Int
     var system: String
     var has_system: Bool
+    var post_history: String
+    var has_post_history: Bool
 
     def __init__(out self, sampling: NativeSamplingConfig, context: Int,
-                 max_tokens: Int, system: String, has_system: Bool):
+                 max_tokens: Int, system: String, has_system: Bool,
+                 post_history: String = "", has_post_history: Bool = False):
         self.sampling = sampling
         self.context = context
         self.max_tokens = max_tokens
         self.system = system
         self.has_system = has_system
+        self.post_history = post_history
+        self.has_post_history = has_post_history
 
 
 def native_recipe_count(value: String) raises -> Int:
@@ -63,10 +68,11 @@ def native_recipe_count(value: String) raises -> Int:
 
 def resolve_native_settings(content: String, cli: NativeSamplingConfig,
         seen: List[String], context: Int, max_tokens: Int, system: String,
-        config_sampling: NativeSamplingConfig = NativeSamplingConfig()) raises -> NativeSettings:
+        config_sampling: NativeSamplingConfig = NativeSamplingConfig(),
+        post_history: String = "") raises -> NativeSettings:
     cli.validate()
     config_sampling.validate()
-    var result = NativeSettings(config_sampling, context, max_tokens, system, "--system" in seen)
+    var result = NativeSettings(config_sampling, context, max_tokens, system, "--system" in seen, post_history, "--post-history" in seen)
     if content != "":
         var recipe = parse_modelfile(content, True)
         if recipe.system_prompt.byte_length() > 65536:
@@ -85,6 +91,12 @@ def resolve_native_settings(content: String, cli: NativeSamplingConfig,
                     result.max_tokens = count
             elif name == "temperature" or name == "seed" or name == "top_k" or name == "top_p" or name == "min_p" or name == "repeat_penalty" or name == "repeat_last_n":
                 result.sampling = with_sampling_option(result.sampling, name.replace("_", "-"), value)
+            elif name == "post_history":
+                if value.byte_length() > 65536:
+                    raise Error("Native recipe post-history anchor exceeds 64 KiB")
+                if "--post-history" not in seen:
+                    result.post_history = value
+                    result.has_post_history = True
             else:
                 raise Error("Unsupported native recipe parameter: " + name)
         if recipe.system_was_set and "--system" not in seen:
@@ -109,6 +121,8 @@ def resolve_native_settings(content: String, cli: NativeSamplingConfig,
     result.sampling.validate()
     if result.system.byte_length() > 65536:
         raise Error("Native system prompt exceeds 64 KiB")
+    if result.post_history.byte_length() > 65536:
+        raise Error("Native post-history anchor exceeds 64 KiB")
     if result.context != 0 and result.max_tokens >= result.context:
         raise Error("Effective context must leave room for input and reply")
     return result
@@ -120,7 +134,8 @@ def native_settings_json(settings: NativeSettings) -> String:
         + '"context_request":' + String(settings.context)
         + ',"max_tokens_request":' + String(settings.max_tokens)
         + ',"system_override":' + ("true" if settings.has_system else "false")
-        + ',"system":"' + json_escape_string(settings.system) + '","sampling":{'
+        + ',"system":"' + json_escape_string(settings.system) + '","post_history_override":' + ("true" if settings.has_post_history else "false")
+        + ',"post_history":"' + json_escape_string(settings.post_history) + '","sampling":{'
         + '"temperature":' + String(s.temperature) + ',"top_k":' + String(s.top_k)
         + ',"top_p":' + String(s.top_p) + ',"min_p":' + String(s.min_p)
         + ',"repeat_penalty":' + String(s.repetition_penalty)

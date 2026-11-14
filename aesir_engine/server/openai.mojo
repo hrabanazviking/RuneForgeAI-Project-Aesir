@@ -18,6 +18,8 @@ struct OpenAIRequest:
     var prompt: String
     var system: String
     var chat_prompt: String
+    var post_history: String
+    var has_post_history: Bool
     var stream: Bool
     var max_tokens: Int
     var sampling: NativeSamplingConfig
@@ -35,6 +37,8 @@ struct OpenAIRequest:
         self.prompt = ""
         self.system = ""
         self.chat_prompt = ""
+        self.post_history = ""
+        self.has_post_history = False
         self.stream = False
         self.max_tokens = 0
         self.sampling = defaults
@@ -73,6 +77,9 @@ struct OpenAIRequest:
                     if parser.string() != "auto":
                         raise Error("Only automatic Gemma tool choice is supported")
                     seen_tool_choice = True
+                elif name == "post_history":
+                    self.post_history = parser.string()
+                    self.has_post_history = True
                 elif name == "max_tokens":
                     self.max_tokens = bounded_decimal(parser.number())
                     if self.max_tokens == 0:
@@ -102,7 +109,8 @@ struct OpenAIRequest:
             raise Error("OpenAI request requires a bounded model name")
         if (self.prompt.byte_length() > 65536
                 or self.system.byte_length() > 65536
-                or self.chat_prompt.byte_length() > 65536):
+                or self.chat_prompt.byte_length() > 65536
+                or self.post_history.byte_length() > 65536):
             raise Error("OpenAI request text exceeds 64 KiB")
         if self.system == "":
             self.system = default_system
