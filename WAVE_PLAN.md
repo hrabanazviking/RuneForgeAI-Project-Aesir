@@ -68,7 +68,15 @@ when its lead is live on its assigned slice in its own worktree.
 
 ## State
 
-- Banked: **105 of 216** (A-001..A-105). A-105 banked at the
+- Banked: **106 of 216** (A-001..A-106). A-106 banked at the
+  seat 2026-11-13 (team-27 commit e94dbef8 cherry-picked
+  as 6fa0daf0 clean, no conflicts, +8 run_all cases,
+  seat pin 650 -> 658; scheduler telemetry - internal
+  and external GTT agree exactly during residency on
+  the real gfx1151, placement digest reproduced;
+  seat gate 655/1/2 of 658 exact on run 1 solo, sole
+  failure J-022, no intermittent fired; full note in
+  PROJECT_MEMORY_MAP). A-105 banked at the
   seat 2026-11-13 (team-26 commit d356d606 cherry-picked
   as db514a1b with the run_all union composed at banking,
   +8 run_all cases, seat pin 642 -> 650; two-model
