@@ -1,0 +1,26 @@
+PASS: conversion policy as applied -- 32 quantized to Q8_0; 16 kept (5x ffn_down F16, dim0 172 not a multiple of 32; 11x norms F32, one-dimensional), every kept tensor named with its reason
+PASS: emitted metadata == source metadata except general.file_type = 7; all 21 KVs accounted for
+PASS: emitted directory preserves names/shapes/order; quantized tensors are Q8_0, kept tensors keep source type and size; all offsets 32-aligned
+PASS: every kept tensor's payload is byte-identical to the source payload
+PASS: emitted Q8_0 blocks for token_embd.weight dequantize inside the QC-2 proven bound (worst err/bound 0.799858 )
+PASS: emitted Q8_0 blocks for blk.0.attn_q.weight dequantize inside the QC-2 proven bound (worst err/bound 0.798652 )
+GGUF validated: 48 tensors, 21 metadata entries, architecture llama
+PASS: GGUFSeer loads the emitted file to VALIDATED (llama config + tokenizer agree; tensor types as emitted)
+PASS: PackedGGUF loads the emitted file in full (offsets/kinds/byte counts for all 48 tensors; file_type reads 7)
+MimirWell initialized with 36314848 derived bytes.
+GGUF validated: 48 tensors, 21 metadata entries, architecture llama
+Starting deterministic generation loop (The Weaving of Fate)...
+Prompt tokens: 8 context_length: 128
+ Token generated: 265 ' the'
+ Token generated: 282 ' p'
+ Token generated: 295 'ar'
+ Token generated: 433 'k'
+ Token generated: 335 ' with'
+ Token generated: 345 ' his'
+ Token generated: 357 ' mom'
+ Token generated: 426 '.'
+AESIR_TIMING_JSON: {"timing_version":1,"load_ms":8.785,"prefill_ms":0.361,"decode_ms":0.416,"sample_ms":0.002,"accounted_ms":9.566,"wall_ms":9.568,"residual_ms":0.002,"coverage_pct":99.97,"prompt_tokens":8,"generated_tokens":8,"clock":"CLOCK_MONOTONIC","sample_scope":"sample_token_from_logits calls in the forward paths"}
+Generated 8 token(s); stop reason: length
+Inference complete. Fate is sealed.
+PASS: engine runs the emitted Q8_0 file (greedy 8 from the reference prompt: 265 282 295 433 335 345 357 426  ) text:  the park with his mom.
+QC-3a conversion + load proof: ALL PASS

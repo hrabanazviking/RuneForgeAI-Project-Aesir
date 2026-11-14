@@ -1,0 +1,35 @@
+
+
+Loading model... |-\ 
+
+▄▄ ▄▄
+██ ██
+██ ██  ▀▀█▄ ███▄███▄  ▀▀█▄    ▄████ ████▄ ████▄
+██ ██ ▄█▀██ ██ ██ ██ ▄█▀██    ██    ██ ██ ██ ██
+██ ██ ▀█▄██ ██ ██ ██ ▀█▄██ ██ ▀████ ████▀ ████▀
+                                    ██    ██
+                                    ▀▀    ▀▀
+
+build      : b1-a956a85
+model      : /home/volmarr/aesir-team-01/hidden_files/fixtures/stories260K.F16.gguf
+ftype      : F16
+modalities : text
+
+available commands:
+  /exit or Ctrl+C     stop or exit
+  /regen              regenerate the last response
+  /clear              clear the chat history
+  /read <file>        add a text file
+  /glob <pattern>     add text files using globbing pattern
+
+
+
+> One day, Timmy went to
+"He?" 
+Her meants sm
+
+[ Prompt: 33424.3 t/s | Generation: 7533.9 t/s ]
+
+> 
+
+Exiting...

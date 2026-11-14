@@ -1,5 +1,43 @@
 # Qwen35 Adapter Campaign — Ledger
 
+## 2026-11-14 — QC-4: llama.cpp cross-check of the QC-3a compressed model (worker slice; DRAFT entry for coordinator verification)
+
+- Determinism: `aesir quantize` from the merged tree reproduces
+  the QC-3a file byte-identically — sha256
+  5d4df894e4ed0d16f84d94c0a2a7524a4915123fe96148dc0e41b7bc1a6d77b7,
+  379,152 B (qc-4-emitted-sha.log). No determinism finding.
+- U-QC5 SETTLED (file_type 7 class): llama.cpp (upstream
+  a956a852, native build at ~/llama.cpp-build) loads the MIXED
+  file (32x Q8_0 + 5x F16 + 11x F32) with no warning or refusal;
+  its loader census reads the true per-tensor mix and dispatches
+  per tensor, the file_type label serving the ftype display
+  only. F16 source control loads identically.
+- Cross-grade (157 records, QC-3a streams, CPU-vs-CPU):
+  (a) llama.cpp-Q8_0 vs llama.cpp-F16: in-band 157/157,
+  agreement 157/157, FAITHFUL. (b) llama.cpp-Q8_0 vs
+  Aesir-F16 (QC-3a reference): in-band 157/157, agreement
+  157/157, FAITHFUL. Sanity llama-F16 vs Aesir-F16: 157/157
+  argmax agreement.
+- Greedy witness: llama.cpp Q8_0 == F16 token-identical on all
+  6 prompts. QC-3a's prompt-2 step-3 divergence is NOT seen by
+  llama.cpp: the same near-tie record (prompt 2 pos 10) has
+  margin +0.0068 for the source winner in llama-Q8_0 vs -0.007
+  in Aesir-Q8_0 — same coin-flip record, opposite side, both
+  FAITHFUL (qc-4-margin-probe.log).
+- Named artifact: llama-cli text front-end generates identical
+  gibberish from BOTH files (its prompt tokenization differs
+  from the fixture reference stream); raw-ID path coherent on
+  both. Not a file finding.
+- Regressions: engine compile exit 0; QC-3a grade rerun from
+  this tree reproduces every banked number and its CSV is
+  byte-identical to banked qc-3-grade.csv; QC-3a proof ALL PASS.
+- Named gap: the plan's reverse leg (Aesir loads a llama.cpp-
+  quantized stories Q8_0) is outside the commission's numbered
+  scope and the kept build tree has no llama-quantize binary;
+  QC-5's arbitration leg needs that binary built as a named
+  first step. Full notes: QC-4-NOTES.md. Next: QC-3b / QC-5.
+
+
 ## 2026-11-14 — QC-3a: whole-model Q8_0 conversion of stories260K + grade (worker slice; verified + banked by coordinator)
 
 - DELIVERED: `aesir quantize` — aesir_engine/cli/quantize.mojo

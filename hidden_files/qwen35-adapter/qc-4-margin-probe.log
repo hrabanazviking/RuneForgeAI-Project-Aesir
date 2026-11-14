@@ -1,0 +1,4 @@
+rows_differ_max_abs 0.4316110610961914
+llama-F16 p2pos10: logit335=14.429242 logit426=14.420240 margin335-426=0.009002 argmax=335
+llama-Q8 p2pos10: logit335=14.383673 logit426=14.376920 margin335-426=0.006753 argmax=335
+llama-Q8 smallest top-margins: [(0.0068, 2, 10), (0.0093, 5, 26), (0.0357, 3, 11), (0.0435, 3, 20), (0.0526, 3, 5)]
