@@ -1,5 +1,42 @@
 # Qwen35 Adapter Campaign — Ledger
 
+## 2026-11-14 — Q8-1 fix: Q8_1 block size arbitrated at 36 B, compute side repaired (worker slice; verified + banked by coordinator)
+
+- ARBITRATION (U-QC2 SETTLED): ggml block_q8_1 is 36 bytes — f16 d @0,
+  f16 s @2 (s = d*sum(qs)), int8 qs @4..36 (ggml-common.h:258-269 in
+  ~/llama.cpp-build; ggml.c traits type_size = sizeof = 36). QC-0's
+  40 B expectation is refuted. The LOADER priced 36 B and was CORRECT;
+  the COMPUTE readers (dequantize_q8_1, gemm_q8_1) walked a fictitious
+  40-byte f32/f32 layout and were the defect.
+- FIXED: compute.mojo both readers to 36 B/f16-d/qs@4 with citation
+  comments; quantization_autotuner (32, 40) -> (32, 36); mimir_well
+  format comment corrected; test_q8_fp8_quantization Q8_1 case
+  re-encoded to the true layout (deliberate banked-expectation
+  update, cited in the test; expected result -8 unchanged).
+- AUDITED, already correct: gguf _tensor_byte_size (36), mmproj
+  geometry (32, 36). AUDITED, honest refusals kept: PackedGGUF (no
+  kind-9 geometry), loader/quantization strict lookups, model
+  registry (no adapter admits Q8_1; qwen35 stays Q8_0-only).
+- PROOF: new test_q8_1_fix_q8_1 ALL PASS (dequant unit; byte-size
+  units agree 36 B across loader/mmproj/autotuner; synthetic GGUF
+  Q8_1-then-F32 fixture — downstream offset delta 64, values exact;
+  PackedGGUF refusal proven). Q8/FP8 parity runner ALL PASS.
+  Regressions: Q35-1 ALL PASS, Q35-2 ALL PASS, engine compile exit 0;
+  gguf metadata suite fails ONLY at the known pre-existing
+  gguf.tensor_directory_interface (unchanged, not chased).
+- Full notes: Q8-1-FIX-NOTES.md. Handoff to QC-1: its writer must
+  emit 36-byte blocks, f16 d @0, f16 s = d*sum(qs) @2, int8 qs @4.
+
+- Coordinator verification (2026-11-14): ggml header
+  re-read on the box (block_q8_1 static_assert == 36 B);
+  compute.mojo diff and proof/regression logs re-read from
+  disk (Q8-1 proof, Q8/FP8 parity, Q35-1, Q35-2 ALL PASS);
+  remote yrsa/q8-1-fix == 8fc2762b confirmed by ls-remote
+  before merge; merged into yrsa/hip-serve and banked.
+  The intermittent test-binary segfault observation stands
+  as recorded in Q8-1-FIX-NOTES.md — an unexplained harness
+  observation, not a proven production defect; named here
+  so it is not lost.
 
 ## 2026-11-14 — Q35-4b: real-file serve proof — 27B Q8_0 resident on :18435 (worker slice; verified + banked by coordinator)
 

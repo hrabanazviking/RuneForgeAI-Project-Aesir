@@ -142,7 +142,7 @@ def get_quantization_format_info(
     if value == CompressedFormatType.Q8_0:
         return _fixed_format("Q8_0", 32, 34)
     if value == CompressedFormatType.Q8_1:
-        return _fixed_format("Q8_1", 32, 40)
+        return _fixed_format("Q8_1", 32, 36)  # Q8-1 fix: ggml block_q8_1 is 36 B (f16 d + f16 s + 32 x i8)
     if value == CompressedFormatType.FP8_E4M3:
         return _fixed_format("FP8_E4M3", 1, 1)
     if value == CompressedFormatType.FP8_E5M2:

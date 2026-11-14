@@ -27,15 +27,23 @@ def test_fused_q8_0_parity() raises:
 
 
 def test_fused_q8_1_parity() raises:
-    """Canonical GGML Q8_1 is two F32 metadata values plus 32 signed bytes."""
+    """Canonical GGML Q8_1 is 36 bytes: F16 d + F16 s plus 32 signed bytes.
+
+    Q8-1 fix (deliberate banked-expectation update): this test previously
+    encoded the fictitious 40-byte f32/f32 layout the compute reader
+    walked. ggml block_q8_1 (ggml-common.h) is ggml_half d @0,
+    ggml_half s @2 (s = d * sum(qs)), int8 qs @4..36; sizeof == 36,
+    matching the loader's _tensor_byte_size. With d = 0.5 and
+    qs = -16..15 (sum -16), s = -8 and the matvec sum is -8, as before.
+    """
     var well = MimirWell(4096)
-    var raw = well.allocate(40).unsafe_bitcast[UInt8]()
-    for i in range(40):
+    var raw = well.allocate(36).unsafe_bitcast[UInt8]()
+    for i in range(36):
         raw.unsafe_store(i, UInt8(0))
-    raw.unsafe_bitcast[Float32]().unsafe_store(0, Float32(0.5))
-    raw.unsafe_bitcast[Float32]().unsafe_store(1, Float32(-8))  # d * sum(q)
+    raw.unsafe_bitcast[Float16]().unsafe_store(0, Float16(0.5))
+    raw.unsafe_offset(2).unsafe_bitcast[Float16]().unsafe_store(0, Float16(-8))  # s = d * sum(q)
     for i in range(32):
-        raw.unsafe_offset(8).unsafe_bitcast[Int8]().unsafe_store(i, Int8(i - 16))
+        raw.unsafe_offset(4).unsafe_bitcast[Int8]().unsafe_store(i, Int8(i - 16))
     var input = well.allocate(32)
     for i in range(32):
         input.unsafe_store(i, Float16(1))

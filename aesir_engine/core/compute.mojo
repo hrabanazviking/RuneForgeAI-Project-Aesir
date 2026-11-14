@@ -482,16 +482,21 @@ def dequantize_q8_1(
     out_ptr: Pointer[Scalar[f16], MutUntrackedOrigin],
     num_blocks: Int,
 ):
-    """Decode canonical 40-byte GGML Q8_1 blocks; the stored sum is auxiliary."""
+    """Decode canonical 36-byte GGML Q8_1 blocks (Q8-1 fix).
+
+    ggml block_q8_1 (ggml-common.h): ggml_half d @0, ggml_half s @2
+    (s = d * sum(qs), auxiliary), int8 qs @4..36; sizeof == 36.
+    The pre-fix reader walked a fictitious 40-byte f32/f32 layout.
+    """
     if num_blocks <= 0:
         return
     for b in range(num_blocks):
-        var p = b * 40
-        var scale = data.unsafe_offset(p).unsafe_bitcast[Float32]().unsafe_load()
+        var p = b * 36
+        var scale = data.unsafe_offset(p).unsafe_bitcast[Scalar[f16]]().unsafe_load()
         var out_offset = b * 32
         for i in range(32):
-            var q = data.unsafe_load(p + 8 + i).cast[DType.int8]()
-            out_ptr.unsafe_store(out_offset + i, (Float32(q) * scale).cast[f16]())
+            var q = data.unsafe_load(p + 4 + i).cast[DType.int8]()
+            out_ptr.unsafe_store(out_offset + i, Scalar[f16](q) * scale)
 
 
 @always_inline
@@ -1295,12 +1300,13 @@ def gemm_q8_1(
     for row in range(A.rows):
         for output in range(B.rows):
             var total: Float32 = 0
-            var row_base = output * blocks_per_row * 40
+            # Q8-1 fix: 36-byte ggml block_q8_1 (f16 d @0, f16 s @2, qs @4).
+            var row_base = output * blocks_per_row * 36
             for block in range(blocks_per_row):
-                var p = row_base + block * 40
-                var scale = weights.unsafe_offset(p).unsafe_bitcast[Float32]().unsafe_load()
+                var p = row_base + block * 36
+                var scale = weights.unsafe_offset(p).unsafe_bitcast[Scalar[f16]]().unsafe_load().cast[f32]()
                 for lane in range(32):
-                    var q = weights.unsafe_load(p + 8 + lane).cast[DType.int8]()
+                    var q = weights.unsafe_load(p + 4 + lane).cast[DType.int8]()
                     total += A.data.unsafe_load(row * A.cols + block * 32 + lane).cast[f32]() * Float32(q) * scale
             C.data.unsafe_store(row * C.cols + output, total.cast[f16]())
 

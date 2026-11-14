@@ -1,0 +1,5 @@
+raw Q8_0 matvec: PASS
+raw Q8_1 matvec: PASS
+raw FP8 E4M3 matvec: PASS
+raw FP8 E5M2 matvec: PASS
+Q8/FP8 parity runner: ALL PASS
