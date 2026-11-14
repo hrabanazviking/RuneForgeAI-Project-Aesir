@@ -938,6 +938,21 @@ from tests.test_attention_battery_a122 import (
     test_attn_summary_sums,
     test_attn_variant_cpu_not_graded,
 )
+from tests.test_sliding_window_battery_a123 import (
+    test_sliding_axes_product,
+    test_sliding_backend_not_graded,
+    test_sliding_boundary_probe,
+    test_sliding_boundary_witnesses,
+    test_sliding_checks_discriminate,
+    test_sliding_cpu_faithful,
+    test_sliding_digest_deterministic,
+    test_sliding_enumeration_unique,
+    test_sliding_invalid_axes_refused,
+    test_sliding_policy_obligation,
+    test_sliding_seeded_defects,
+    test_sliding_summary_sums,
+    test_sliding_synthetic_labelled,
+)
 from tests.test_placement_planner_a100 import (
     test_planner_standard_fixtures,
     test_planner_prefill_variants,
@@ -1953,6 +1968,19 @@ def main() raises:
     run_case(ledger, "attn.battery_invalid_axes_refused", test_attn_invalid_axes_refused)
     run_case(ledger, "attn.battery_row_line_render", test_attn_row_line_render)
     run_case(ledger, "attn.battery_digest_deterministic", test_attn_digest_deterministic)
+    run_case(ledger, "sliding.battery_axes_product", test_sliding_axes_product)
+    run_case(ledger, "sliding.battery_enumeration_unique", test_sliding_enumeration_unique)
+    run_case(ledger, "sliding.battery_policy_obligation", test_sliding_policy_obligation)
+    run_case(ledger, "sliding.battery_cpu_faithful", test_sliding_cpu_faithful)
+    run_case(ledger, "sliding.battery_boundary_witnesses", test_sliding_boundary_witnesses)
+    run_case(ledger, "sliding.battery_backend_not_graded", test_sliding_backend_not_graded)
+    run_case(ledger, "sliding.battery_summary_sums", test_sliding_summary_sums)
+    run_case(ledger, "sliding.battery_checks_discriminate", test_sliding_checks_discriminate)
+    run_case(ledger, "sliding.battery_synthetic_labelled", test_sliding_synthetic_labelled)
+    run_case(ledger, "sliding.battery_boundary_probe", test_sliding_boundary_probe)
+    run_case(ledger, "sliding.battery_seeded_defects", test_sliding_seeded_defects)
+    run_case(ledger, "sliding.battery_invalid_axes_refused", test_sliding_invalid_axes_refused)
+    run_case(ledger, "sliding.battery_digest_deterministic", test_sliding_digest_deterministic)
     run_case(ledger, "planner.standard_fixtures", test_planner_standard_fixtures)
     run_case(ledger, "planner.prefill_variants", test_planner_prefill_variants)
     run_case(ledger, "planner.gemm_thresholds", test_planner_gemm_thresholds)
@@ -2764,4 +2792,10 @@ def main() raises:
     # variants battery cases (attn.battery_* in
     # tests/test_attention_battery_a122.mojo) counted on
     # top of the A-121 seat pin.
-    ledger.finish(827)
+    # A-123 union re-pin at banking: 827 -> 840 -- thirteen
+    # sliding-window battery cases (sliding.battery_* in
+    # tests/test_sliding_window_battery_a123.mojo) counted
+    # on top of the A-122 seat pin (A-122/A-123 built in
+    # parallel on the same seat; union reconciles at
+    # banking).
+    ledger.finish(840)

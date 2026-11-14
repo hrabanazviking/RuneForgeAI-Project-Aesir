@@ -1,0 +1,99 @@
+=== A-123 Sliding-window battery run (team-26) ===
+2026-11-14T01:56:17-05:00
+purpleraider
+881f50252b7995a5169eaa2f21cab0d036da7659
+yrsa/aesir-team-26
+Mojo 1.2.0 (2016d0cd)
+Imported from /home/volmarr/aesir-team-26/aesir_engine/tests/bench_sliding_window_battery_a123.mojo:18:
+/home/volmarr/aesir-team-26/aesir_engine/core/sliding_window_battery_a123.mojo:783:20: warning: 'read' is deprecated; use 'imm'
+def battery_render(read report: BatteryReport) -> String:
+                   ^~~~
+                   imm
+Included from /home/volmarr/aesir-team-26/aesir_engine/tests/bench_sliding_window_battery_a123.mojo:18:
+/home/volmarr/aesir-team-26/aesir_engine/core/sliding_window_battery_a123.mojo:361:22: warning: assignment to 'ok' was never used; assign to '_' instead?
+            var ok = False
+                     ^
+A-123 Sliding-window attention parity: 3 windows x 6 window-boundary lengths x 4 Z13 backends judged by executing the banked CPU kernel (core/compute flash_attention_gqa) against an independent reference over a SYNTHETIC fixture with a sharp boundary probe; non-cpu rows NOT_GRADED with a named reason, zero unexplained
+A123_BATTERY windows=3 backends=4 total=72 fixture_status=SYNTHETIC
+SW_ROW window=16 length=15 qpos=14 backend=cpu verdict=FAITHFUL reason=WINDOW_BOUNDARY_PARITY policy=TOKEN_EXACTNESS_OWED attended=15 max_diff_x10000=0
+SW_ROW window=16 length=15 qpos=14 backend=vulkan verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=TOKEN_EXACTNESS_OWED attended=-1 max_diff_x10000=-1
+SW_ROW window=16 length=15 qpos=14 backend=hip verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=TOKEN_EXACTNESS_OWED attended=-1 max_diff_x10000=-1
+SW_ROW window=16 length=15 qpos=14 backend=npu verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=TOKEN_EXACTNESS_OWED attended=-1 max_diff_x10000=-1
+SW_ROW window=16 length=16 qpos=15 backend=cpu verdict=FAITHFUL reason=WINDOW_BOUNDARY_PARITY policy=TOKEN_EXACTNESS_OWED attended=16 max_diff_x10000=0
+SW_ROW window=16 length=16 qpos=15 backend=vulkan verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=TOKEN_EXACTNESS_OWED attended=-1 max_diff_x10000=-1
+SW_ROW window=16 length=16 qpos=15 backend=hip verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=TOKEN_EXACTNESS_OWED attended=-1 max_diff_x10000=-1
+SW_ROW window=16 length=16 qpos=15 backend=npu verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=TOKEN_EXACTNESS_OWED attended=-1 max_diff_x10000=-1
+SW_ROW window=16 length=17 qpos=16 backend=cpu verdict=FAITHFUL reason=WINDOW_BOUNDARY_PARITY policy=TOKEN_EXACTNESS_OWED attended=16 max_diff_x10000=0
+SW_ROW window=16 length=17 qpos=16 backend=vulkan verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=TOKEN_EXACTNESS_OWED attended=-1 max_diff_x10000=-1
+SW_ROW window=16 length=17 qpos=16 backend=hip verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=TOKEN_EXACTNESS_OWED attended=-1 max_diff_x10000=-1
+SW_ROW window=16 length=17 qpos=16 backend=npu verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=TOKEN_EXACTNESS_OWED attended=-1 max_diff_x10000=-1
+SW_ROW window=16 length=31 qpos=30 backend=cpu verdict=FAITHFUL reason=WINDOW_BOUNDARY_PARITY policy=TOKEN_EXACTNESS_OWED attended=16 max_diff_x10000=0
+SW_ROW window=16 length=31 qpos=30 backend=vulkan verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=TOKEN_EXACTNESS_OWED attended=-1 max_diff_x10000=-1
+SW_ROW window=16 length=31 qpos=30 backend=hip verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=TOKEN_EXACTNESS_OWED attended=-1 max_diff_x10000=-1
+SW_ROW window=16 length=31 qpos=30 backend=npu verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=TOKEN_EXACTNESS_OWED attended=-1 max_diff_x10000=-1
+SW_ROW window=16 length=32 qpos=31 backend=cpu verdict=FAITHFUL reason=WINDOW_BOUNDARY_PARITY policy=TOKEN_EXACTNESS_OWED attended=16 max_diff_x10000=0
+SW_ROW window=16 length=32 qpos=31 backend=vulkan verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=TOKEN_EXACTNESS_OWED attended=-1 max_diff_x10000=-1
+SW_ROW window=16 length=32 qpos=31 backend=hip verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=TOKEN_EXACTNESS_OWED attended=-1 max_diff_x10000=-1
+SW_ROW window=16 length=32 qpos=31 backend=npu verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=TOKEN_EXACTNESS_OWED attended=-1 max_diff_x10000=-1
+SW_ROW window=16 length=33 qpos=32 backend=cpu verdict=FAITHFUL reason=WINDOW_BOUNDARY_PARITY policy=TOKEN_EXACTNESS_OWED attended=16 max_diff_x10000=0
+SW_ROW window=16 length=33 qpos=32 backend=vulkan verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=TOKEN_EXACTNESS_OWED attended=-1 max_diff_x10000=-1
+SW_ROW window=16 length=33 qpos=32 backend=hip verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=TOKEN_EXACTNESS_OWED attended=-1 max_diff_x10000=-1
+SW_ROW window=16 length=33 qpos=32 backend=npu verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=TOKEN_EXACTNESS_OWED attended=-1 max_diff_x10000=-1
+SW_ROW window=512 length=511 qpos=510 backend=cpu verdict=FAITHFUL reason=WINDOW_BOUNDARY_PARITY policy=TOKEN_EXACTNESS_OWED attended=511 max_diff_x10000=0
+SW_ROW window=512 length=511 qpos=510 backend=vulkan verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=TOKEN_EXACTNESS_OWED attended=-1 max_diff_x10000=-1
+SW_ROW window=512 length=511 qpos=510 backend=hip verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=TOKEN_EXACTNESS_OWED attended=-1 max_diff_x10000=-1
+SW_ROW window=512 length=511 qpos=510 backend=npu verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=TOKEN_EXACTNESS_OWED attended=-1 max_diff_x10000=-1
+SW_ROW window=512 length=512 qpos=511 backend=cpu verdict=FAITHFUL reason=WINDOW_BOUNDARY_PARITY policy=TOKEN_EXACTNESS_OWED attended=512 max_diff_x10000=0
+SW_ROW window=512 length=512 qpos=511 backend=vulkan verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=TOKEN_EXACTNESS_OWED attended=-1 max_diff_x10000=-1
+SW_ROW window=512 length=512 qpos=511 backend=hip verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=TOKEN_EXACTNESS_OWED attended=-1 max_diff_x10000=-1
+SW_ROW window=512 length=512 qpos=511 backend=npu verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=TOKEN_EXACTNESS_OWED attended=-1 max_diff_x10000=-1
+SW_ROW window=512 length=513 qpos=512 backend=cpu verdict=FAITHFUL reason=WINDOW_BOUNDARY_PARITY policy=TOKEN_EXACTNESS_OWED attended=512 max_diff_x10000=0
+SW_ROW window=512 length=513 qpos=512 backend=vulkan verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=TOKEN_EXACTNESS_OWED attended=-1 max_diff_x10000=-1
+SW_ROW window=512 length=513 qpos=512 backend=hip verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=TOKEN_EXACTNESS_OWED attended=-1 max_diff_x10000=-1
+SW_ROW window=512 length=513 qpos=512 backend=npu verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=TOKEN_EXACTNESS_OWED attended=-1 max_diff_x10000=-1
+SW_ROW window=512 length=1023 qpos=1022 backend=cpu verdict=FAITHFUL reason=WINDOW_BOUNDARY_PARITY policy=TOKEN_EXACTNESS_OWED attended=512 max_diff_x10000=0
+SW_ROW window=512 length=1023 qpos=1022 backend=vulkan verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=TOKEN_EXACTNESS_OWED attended=-1 max_diff_x10000=-1
+SW_ROW window=512 length=1023 qpos=1022 backend=hip verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=TOKEN_EXACTNESS_OWED attended=-1 max_diff_x10000=-1
+SW_ROW window=512 length=1023 qpos=1022 backend=npu verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=TOKEN_EXACTNESS_OWED attended=-1 max_diff_x10000=-1
+SW_ROW window=512 length=1024 qpos=1023 backend=cpu verdict=FAITHFUL reason=WINDOW_BOUNDARY_PARITY policy=TOKEN_EXACTNESS_OWED attended=512 max_diff_x10000=0
+SW_ROW window=512 length=1024 qpos=1023 backend=vulkan verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=TOKEN_EXACTNESS_OWED attended=-1 max_diff_x10000=-1
+SW_ROW window=512 length=1024 qpos=1023 backend=hip verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=TOKEN_EXACTNESS_OWED attended=-1 max_diff_x10000=-1
+SW_ROW window=512 length=1024 qpos=1023 backend=npu verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=TOKEN_EXACTNESS_OWED attended=-1 max_diff_x10000=-1
+SW_ROW window=512 length=1025 qpos=1024 backend=cpu verdict=FAITHFUL reason=WINDOW_BOUNDARY_PARITY policy=TOKEN_EXACTNESS_OWED attended=512 max_diff_x10000=0
+SW_ROW window=512 length=1025 qpos=1024 backend=vulkan verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=TOKEN_EXACTNESS_OWED attended=-1 max_diff_x10000=-1
+SW_ROW window=512 length=1025 qpos=1024 backend=hip verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=TOKEN_EXACTNESS_OWED attended=-1 max_diff_x10000=-1
+SW_ROW window=512 length=1025 qpos=1024 backend=npu verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=TOKEN_EXACTNESS_OWED attended=-1 max_diff_x10000=-1
+SW_ROW window=4096 length=4095 qpos=4094 backend=cpu verdict=FAITHFUL reason=WINDOW_BOUNDARY_PARITY policy=TOKEN_EXACTNESS_OWED attended=4095 max_diff_x10000=0
+SW_ROW window=4096 length=4095 qpos=4094 backend=vulkan verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=TOKEN_EXACTNESS_OWED attended=-1 max_diff_x10000=-1
+SW_ROW window=4096 length=4095 qpos=4094 backend=hip verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=TOKEN_EXACTNESS_OWED attended=-1 max_diff_x10000=-1
+SW_ROW window=4096 length=4095 qpos=4094 backend=npu verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=TOKEN_EXACTNESS_OWED attended=-1 max_diff_x10000=-1
+SW_ROW window=4096 length=4096 qpos=4095 backend=cpu verdict=FAITHFUL reason=WINDOW_BOUNDARY_PARITY policy=TOKEN_EXACTNESS_OWED attended=4096 max_diff_x10000=0
+SW_ROW window=4096 length=4096 qpos=4095 backend=vulkan verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=TOKEN_EXACTNESS_OWED attended=-1 max_diff_x10000=-1
+SW_ROW window=4096 length=4096 qpos=4095 backend=hip verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=TOKEN_EXACTNESS_OWED attended=-1 max_diff_x10000=-1
+SW_ROW window=4096 length=4096 qpos=4095 backend=npu verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=TOKEN_EXACTNESS_OWED attended=-1 max_diff_x10000=-1
+SW_ROW window=4096 length=4097 qpos=4096 backend=cpu verdict=FAITHFUL reason=WINDOW_BOUNDARY_PARITY policy=TOKEN_EXACTNESS_OWED attended=4096 max_diff_x10000=0
+SW_ROW window=4096 length=4097 qpos=4096 backend=vulkan verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=TOKEN_EXACTNESS_OWED attended=-1 max_diff_x10000=-1
+SW_ROW window=4096 length=4097 qpos=4096 backend=hip verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=TOKEN_EXACTNESS_OWED attended=-1 max_diff_x10000=-1
+SW_ROW window=4096 length=4097 qpos=4096 backend=npu verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=TOKEN_EXACTNESS_OWED attended=-1 max_diff_x10000=-1
+SW_ROW window=4096 length=8191 qpos=8190 backend=cpu verdict=FAITHFUL reason=WINDOW_BOUNDARY_PARITY policy=TOKEN_EXACTNESS_OWED attended=4096 max_diff_x10000=0
+SW_ROW window=4096 length=8191 qpos=8190 backend=vulkan verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=TOKEN_EXACTNESS_OWED attended=-1 max_diff_x10000=-1
+SW_ROW window=4096 length=8191 qpos=8190 backend=hip verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=TOKEN_EXACTNESS_OWED attended=-1 max_diff_x10000=-1
+SW_ROW window=4096 length=8191 qpos=8190 backend=npu verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=TOKEN_EXACTNESS_OWED attended=-1 max_diff_x10000=-1
+SW_ROW window=4096 length=8192 qpos=8191 backend=cpu verdict=FAITHFUL reason=WINDOW_BOUNDARY_PARITY policy=TOKEN_EXACTNESS_OWED attended=4096 max_diff_x10000=0
+SW_ROW window=4096 length=8192 qpos=8191 backend=vulkan verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=TOKEN_EXACTNESS_OWED attended=-1 max_diff_x10000=-1
+SW_ROW window=4096 length=8192 qpos=8191 backend=hip verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=TOKEN_EXACTNESS_OWED attended=-1 max_diff_x10000=-1
+SW_ROW window=4096 length=8192 qpos=8191 backend=npu verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=TOKEN_EXACTNESS_OWED attended=-1 max_diff_x10000=-1
+SW_ROW window=4096 length=8193 qpos=8192 backend=cpu verdict=FAITHFUL reason=WINDOW_BOUNDARY_PARITY policy=TOKEN_EXACTNESS_OWED attended=4096 max_diff_x10000=0
+SW_ROW window=4096 length=8193 qpos=8192 backend=vulkan verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=TOKEN_EXACTNESS_OWED attended=-1 max_diff_x10000=-1
+SW_ROW window=4096 length=8193 qpos=8192 backend=hip verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=TOKEN_EXACTNESS_OWED attended=-1 max_diff_x10000=-1
+SW_ROW window=4096 length=8193 qpos=8192 backend=npu verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=TOKEN_EXACTNESS_OWED attended=-1 max_diff_x10000=-1
+SW_SYN case=SYN_OFF_BY_ONE status=SYNTHETIC verdict=DIVERGENT reason=WINDOW_BOUNDARY_OFF_BY_ONE max_diff_x10000=34849
+SW_SYN case=SYN_WINDOW_IGNORED status=SYNTHETIC verdict=DIVERGENT reason=WINDOW_NOT_APPLIED max_diff_x10000=37456
+SW_SYN case=SYN_WINDOW_FREE status=SYNTHETIC verdict=FAITHFUL reason=WINDOW_CANNOT_BIND_AT_OR_BELOW max_diff_x10000=0
+SW_SYN case=SYN_MISMATCH status=SYNTHETIC verdict=COMPARATOR_ARTIFACT reason=BACKEND_MISMATCH max_diff_x10000=-1
+A123_BATTERY_SUMMARY total=72 faithful=18 near_tie=0 divergent=0 artifact=0 fixture_limited=0 not_graded=54 owed=72 coherence=0
+A123_SYNTHETIC_SUMMARY status=SYNTHETIC total=4 faithful=1 divergent=2 artifact=1
+A123_BATTERY_DIGEST 14784864525343607696
+A123_BENCH_DONE rows= 72
+MOJO_EXIT=0
+=== end 2026-11-14T01:56:19-05:00 ===

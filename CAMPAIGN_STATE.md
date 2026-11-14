@@ -1,18 +1,62 @@
-# CAMPAIGN_STATE - team-25 (Aesir Z13 forge)
+# CAMPAIGN_STATE — team-26 (purpleraider)
 
-- Team: team-25 (1 lead + 6 Mythic Engineering sub-agents)
-- Worktree: /home/volmarr/aesir-team-25, branch yrsa/aesir-team-25
-- Base: 881f50252b7995a5169eaa2f21cab0d036da7659 (banked main, 121 of 216, A-121 closure; seat HEAD verified by the lead this session). Worktree reset --hard onto banked main by the lead; pre-existing untracked scratch (aesir-residency-*, hidden_files/a095/, spikes/) left in place.
-- Prior slices (team-25): A-115 DONE (banked as 0e97855f "A-115: Token-exactness policy, encoded" + closure cc4f7d3a), A-119 DONE (banked as 39c287e3 "A-119: Qwen-family battery" + closure 0a90bf0f; both verified by subject in the seat log this session).
-- Assigned slice: A-122 - Attention variants (Wave 14, Architecture breadth). Acceptance: GQA and MLA-style variants parity; per-variant rows judged.
-- Builds on banked: A-109 teacher-forcing harness v2 (tf_harness_backends called), A-111 near-tie band gate, A-114 full matrix runner (cell_verdict + MX_* codes + mx_fnv1a64 called -- GQA cpu rows delegate to its llama cells), A-115 exactness policy (policy_for_quant called canonically for every row's obligation; unknown quants refused), A-118..A-121 battery pattern.
-- Status: DONE 2026-11-14 (see outcome below). Commit on the team branch only, subject exactly "A-122: Attention variants"; keeper banks after A-121 in roadmap order. Never merge or push from this worktree. Never touch README.md. No Docker, ever. Never run a full suite concurrently with another team or a seat gate (check ps first -- every launch this session was ps-checked solo).
-- Suite baseline on this base: 811 passed / 1 failed / 2 skipped / 814 total; sole tolerated failure pre-existing gguf.tensor_directory_interface (J-022 drift); named intermittents (resilience.state_vault_rejects_growth, gpu.amd_hip_stream_async_round_trip, gguf.weight_residency_gpu_visibility, memory.budget_live_meminfo_pressure) clear on a solo re-run -- only J-022 (+ at most one named intermittent that clears solo) is GREEN-TO-BASELINE.
-- Raw-oracle discipline: teacher-forcing rank + logit gap on RAW prompts only, CPU engine vs CPU comparator only, near-tie band rank <= 2 with sub-logit gap = faithful, IQ graded on coherence never token-exactness, comparator artifacts are a verdict class; accelerator-visible is not accelerator-run. Honest NOT_GRADED rows are correct where no filed records exist; records are never extrapolated across architectures (here: across attention variants).
+- Team: team-26, branch yrsa/aesir-team-26,
+  worktree /home/volmarr/aesir-team-26.
+- Base: 881f5025 (banked main = A-121 closure,
+  121 of 216). Prior slice A-120 banked as 28efda7b
+  + closure 130bddd0 (verified in seat log).
+- Assignment: A-123 — Sliding-window attention
+  parity (Wave 14). Acceptance: rows judged at
+  window-boundary lengths specifically.
 
-## Team-25 outcome 2026-11-14 - A-122 DONE (PASS)
-- Battery: aesir_engine/core/attention_battery_a122.mojo -- 4 variants (MHA, GQA, MQA, MLA) x 19 quants x 4 backends = 304 rows, under pre-registered V1-V3 (non-cpu -> NOT_GRADED/BACKEND_NO_CPU_COMPARATOR; cpu + variant != GQA -> NOT_GRADED/NO_FILED_RECORDS, variant check before the IQ family as A-114 R2 precedes R3; GQA cpu -> the A-114 cell verdict for (quant, llama, cpu) verbatim). GQA is graded because the A-045/A-109 records run through the pinned inference's flash_attention_gqa (AES-CPU-004 8Q/4KV E-REAL parity; inference.mojo routes all attention through it). MHA files geometry only (OLMoE 16/16, J-015; its evidence is routing, A-121), MQA nothing filed, MLA no implementation or record anywhere in the tree (grep-verified). Run (hidden_files/a122_battery.log, MOJO_EXIT=0): total=304 faithful=4 near_tie=2 divergent=2 artifact=2 fixture_limited=9 not_graded=285 (228 backend + 57 variant) owed=160 coherence=144; digest 17757104162478147241. The 2 divergent + 2 artifact rows are the banked A-045 verdicts carried by delegation (divergence-quant-noise / filed fixture-artifacts, as A-114/A-118 file them), not new divergences; A-116's in-anger condition is not claimed met by inherited rows. Zero unexplained; no model executed, no accelerator claim.
-- Suite E-MASTER (solo, ps-checked before every launch): run 1 (hidden_files/a122_run_all.log) 823 passed / 2 failed / 2 skipped / 827 total -- J-022 + named intermittent gpu.amd_hip_stream_async_round_trip; re-run 1 (a122_run_all_rerun.log) 822/3/2/827 -- J-022 + hip + resilience.state_vault_rejects_growth (intermittents rotated); re-run 2 (a122_run_all_rerun2.log) 824 passed / 1 failed / 2 skipped / 827 total, sole failure pre-existing J-022 -- both named intermittents cleared solo. GREEN-TO-BASELINE. All 13 new attn.battery_* cases PASS in all three runs. run_all finish pin 814 -> 827.
-- Docs: docs/bench/A122_ATTENTION_VARIANTS.md; hidden_files/A122_LEDGER.md; CAPABILITY_LEDGER.md section 26 (Z13-P5-122) + E-MASTER checker phrase 812 named / 814 total -> 825 named / 827 total.
-- Bugs: none found in banked code and none in new code after first compile (battery and all 13 cases passed on first run). One transport incident, honestly recorded: a base64 chunk of the docs tarball lost one character in re-emission; the sha256 guard caught it (no bad bytes were used), the chunk was re-sent in 650-char pieces, and the reassembled tarball verified sha256-identical before extraction.
-- Next: keeper banks A-122 after A-121 in roadmap order. NO_FILED_RECORDS for MHA/MQA/MLA retires only with filed teacher-forcing records on a real sha-pinned fixture of that variant (A-110 pins, A-113 corpus, A-109 harness); A-135 re-verdicts.
+## Outcome
+
+- Built core/sliding_window_battery_a123.mojo +
+  tests (13 E-MASTER cases sliding.battery_*) +
+  bench driver, following the banked A-121 slice
+  pattern.
+- Battery: 72 rows (windows 16/512/4096 x boundary
+  lengths W-1, W, W+1, 2W-1, 2W, 2W+1 x 4 backends).
+  CPU rows execute the banked flash_attention_gqa
+  kernel vs an independent in-module scalar
+  reference: FAITHFUL 18, all at max_diff 0;
+  NOT_GRADED 54 (no CPU comparator for non-cpu
+  backends); policy owed 72 (Q4_K_M, A-115 by call).
+  Seeded defects discriminated: off-by-one and
+  window-ignored both DIVERGENT on the fixture.
+  Digest 14784864525343607696, MOJO_EXIT=0
+  (hidden_files/a123_battery.log).
+- Suite: four solo E-MASTER runs, pin 814 -> 827:
+  a123_run_all.log 823/2/2, a123_run_all_rerun.log
+  822/3/2, a123_run_all_rerun2.log 823/2/2,
+  a123_run_all_rerun3.log 823/2/2 (passed/failed/
+  skipped of 827). Sole non-intermittent failure in
+  every run: the pre-existing J-022
+  gguf.tensor_directory_interface. Named intermittents:
+  gpu.amd_hip_stream_async_round_trip failed run 2
+  only and cleared; resilience.state_vault_rejects_
+  growth failed in-suite in all four runs but passes
+  3/3 in isolation (hidden_files/a123_vault_solo.log,
+  the A-113 solo-driver pattern; a timing-race TOCTOU
+  test, pre-existing, in code this slice does not
+  touch -- recorded here as the standing intermittent
+  it is, not cleared in-suite this tick). All 13
+  sliding.battery_* cases PASS in every run. Two
+  discarded attempts kept: a123_run_all_concurrent_
+  discarded.log (first launch killed within a minute
+  when a team-27 suite appeared; re-run solo) and
+  a123_run_all_parsefail_discarded.log (see defect 2).
+- Defect 2 fixed in-slice (found by the first solo
+  suite run): the new test file imported
+  battery_backends, but the core module exports
+  sw_backends -- the whole suite failed to parse.
+  Fixed by aligning the test import and its two call
+  sites to sw_backends (core and bench untouched,
+  battery digest unchanged; test sha256 updated in
+  hidden_files/A123_LEDGER.md).
+- Defect fixed in-slice: float-literal cast compile
+  error in the new fixture code (Float32(...)
+  .cast[f16]()). No engine bug discovered; no
+  DIVERGENT engine row, A-116 not required.
+- Not merged or pushed to main: keeper banks A-123
+  after A-122 in roadmap order. README untouched.
