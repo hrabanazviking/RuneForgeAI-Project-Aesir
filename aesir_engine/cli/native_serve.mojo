@@ -13,6 +13,7 @@ from core.sampling_options import with_sampling_option
 from core.tool_use import parse_gemma_zero_arg_call
 from core.post_history import resolve_post_history, apply_post_history
 from core.session_residency import resident_delta
+from core.memory_injection import MemoryBlock, render_memory
 from cli.sampling import sampling_option_name
 from cli.native_settings import resolve_native_settings, native_settings_json, load_native_config, native_config_sampling
 from cli.interrupts import ChatInterrupts
@@ -456,12 +457,20 @@ def serve_loaded[T: ControlledTextSession](mut session: T, port: Int, key: Strin
                             status = 400
                         else:
                             var request_tokens = resolve_request_token_limit(request.max_tokens, token_limit)
+                            var eff_system = request.system
+                            if request.has_memory:
+                                var blocks = List[MemoryBlock]()
+                                for i in range(len(request.mem_keys)):
+                                    blocks.append(MemoryBlock(request.mem_keys[i], request.mem_texts[i], request.mem_orders[i]))
+                                var rendered = render_memory(blocks, context // 4)
+                                if rendered != "":
+                                    eff_system = rendered if request.system == "" else rendered + "\n" + request.system
                             var anchor = resolve_post_history(request.post_history, request.has_post_history, post_history)
                             var delta = String("")
                             var resident_base = 0
                             if (request.has_session and request.has_messages and resident_active
                                     and request.session_id == resident_id
-                                    and request.system == resident_system
+                                    and eff_system == resident_system
                                     and (profile == "llama3" or profile == "qwen3")):
                                 delta = resident_delta(resident_roles, resident_contents, resident_reply, request.msg_roles, request.msg_contents)
                                 if delta != "":
@@ -486,7 +495,7 @@ def serve_loaded[T: ControlledTextSession](mut session: T, port: Int, key: Strin
                             if resident_turn:
                                 session.begin_turn(apply_post_history(delta, anchor), "", request_tokens)
                             else:
-                                session.begin_turn(apply_post_history(prompt, anchor), request.system, request_tokens)
+                                session.begin_turn(apply_post_history(prompt, anchor), eff_system, request_tokens)
                             print("[request=" + String(sequence) + " phase=generation]")
                             _ = external_call["fflush", Int32](Int(0))
                             var answer = String("")
@@ -563,7 +572,7 @@ def serve_loaded[T: ControlledTextSession](mut session: T, port: Int, key: Strin
                                     )
                             if request.has_session and request.has_messages:
                                 resident_id = request.session_id
-                                resident_system = request.system
+                                resident_system = eff_system
                                 resident_roles = request.msg_roles.copy()
                                 resident_contents = request.msg_contents.copy()
                                 resident_reply = answer
@@ -572,7 +581,7 @@ def serve_loaded[T: ControlledTextSession](mut session: T, port: Int, key: Strin
                     elif not ollama and head.method == "GET" and head.path == "/health":
                         body = "{\"status\":\"" + ("ready" if session.status().healthy else "failed") + "\",\"backend\":\"" + backend + "\",\"cpu_offload\":0,\"profile\":\"" + profile + "\",\"context\":" + String(context)
                         body += ",\"model\":\"" + json_escape_string(model.name) + "\",\"model_digest\":\"" + json_escape_string(model.digest) + "\",\"max_tokens\":" + String(token_limit)
-                        body += ",\"generation_timeout_ms\":" + String(timeout_ms) + ",\"capabilities\":{\"text_generation\":true,\"embeddings\":false,\"exact_prefix_reuse\":" + ("true" if prefix_cache else "false") + ",\"post_history_configured\":" + ("true" if post_history != "" else "false") + ",\"session_residency\":true},\"prefill_batch\":" + String(prefill_batch) + ",\"queue_limit\":" + String(queue_limit) + "}"
+                        body += ",\"generation_timeout_ms\":" + String(timeout_ms) + ",\"capabilities\":{\"text_generation\":true,\"embeddings\":false,\"exact_prefix_reuse\":" + ("true" if prefix_cache else "false") + ",\"post_history_configured\":" + ("true" if post_history != "" else "false") + ",\"session_residency\":true,\"memory_injection\":true},\"prefill_batch\":" + String(prefill_batch) + ",\"queue_limit\":" + String(queue_limit) + "}"
                     elif not ollama and head.method == "GET" and head.path == "/health/live":
                         body = service_liveness()
                     elif not ollama and head.method == "GET" and head.path == "/health/ready":

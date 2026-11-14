@@ -1,0 +1,5 @@
+T1 seed, blocks A prompt=50 reused=25 evaluated=25 wall_ms=395 reply='Your name is Volmarr, and you live in Indiana.'
+T2 same blocks, continuation prompt=83 reused=64 evaluated=19 wall_ms=651 reply='Winters in Indiana can be quite cold, with average temperatures ranging from 24°F to 38°F (-4°C to 3°C).'
+T3 appended block, continuation shape prompt=133 reused=25 evaluated=108 wall_ms=931 reply="You're working on Aesir, a local AI engine."
+VERDICT T2_evaluated=19 T3_evaluated=108 T3_reused=25
+HS7 BENCH PASS

@@ -48,6 +48,7 @@ from tests.test_native_planning import test_host_memory_observations, test_nativ
 from tests.test_hip_serve_admission import test_hip_device_selection, test_hip_selection_refusal_names_hip, test_hip_config_gate, test_amd_discovery_classification
 from tests.test_post_history import test_post_history_resolution, test_post_history_application
 from tests.test_session_residency import test_session_residency_delta
+from tests.test_memory_injection import test_memory_injection_render, test_memory_injection_append_stability
 from tests.test_text_admission import test_persisted_text_admission
 from tests.test_gemma4_profile import test_gemma4_profiles
 from tests.test_model_registry import test_model_architecture_registry
@@ -1170,6 +1171,8 @@ def main() raises:
     run_case(ledger, "serve.post_history_resolution", test_post_history_resolution)
     run_case(ledger, "serve.post_history_application", test_post_history_application)
     run_case(ledger, "serve.session_residency_delta", test_session_residency_delta)
+    run_case(ledger, "serve.memory_injection_render", test_memory_injection_render)
+    run_case(ledger, "serve.memory_injection_append_stability", test_memory_injection_append_stability)
     run_case(ledger, "hardware.amd_discovery_classification", test_amd_discovery_classification)
     run_case(ledger, "hardware.planning_cli_rejection", test_native_planning_cli_rejection)
     run_case(ledger, "storage.persisted_text_admission", test_persisted_text_admission)

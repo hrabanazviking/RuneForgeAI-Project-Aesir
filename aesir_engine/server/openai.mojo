@@ -24,6 +24,10 @@ struct OpenAIRequest:
     var has_session: Bool
     var msg_roles: List[String]
     var msg_contents: List[String]
+    var mem_keys: List[String]
+    var mem_texts: List[String]
+    var mem_orders: List[Int]
+    var has_memory: Bool
     var stream: Bool
     var max_tokens: Int
     var sampling: NativeSamplingConfig
@@ -47,6 +51,10 @@ struct OpenAIRequest:
         self.has_session = False
         self.msg_roles = List[String]()
         self.msg_contents = List[String]()
+        self.mem_keys = List[String]()
+        self.mem_texts = List[String]()
+        self.mem_orders = List[Int]()
+        self.has_memory = False
         self.stream = False
         self.max_tokens = 0
         self.sampling = defaults
@@ -91,6 +99,8 @@ struct OpenAIRequest:
                 elif name == "post_history":
                     self.post_history = parser.string()
                     self.has_post_history = True
+                elif name == "memory_blocks":
+                    self._parse_memory_blocks(parser)
                 elif name == "max_tokens":
                     self.max_tokens = bounded_decimal(parser.number())
                     if self.max_tokens == 0:
@@ -331,6 +341,58 @@ struct OpenAIRequest:
         parser.take(93)
         if count == 0 or last_role != "user":
             raise Error("OpenAI chat requires a final user message")
+
+
+    def _parse_memory_blocks(mut self, mut parser: FlatJSON) raises:
+        parser.take(91)
+        parser.space()
+        var count = 0
+        var total_text = 0
+        if parser.peek() != 93:
+            while True:
+                parser.take(123)
+                parser.space()
+                var key = String("")
+                var text = String("")
+                var order = 0
+                var seen = List[String]()
+                if parser.peek() != 125:
+                    while True:
+                        var name = parser.string()
+                        if name in seen:
+                            raise Error("Duplicate memory block field")
+                        seen.append(name)
+                        parser.take(58)
+                        if name == "key":
+                            key = parser.string()
+                        elif name == "text":
+                            text = parser.string()
+                        elif name == "order":
+                            order = bounded_decimal(parser.number())
+                        else:
+                            raise Error("Unsupported memory block field: " + name)
+                        parser.space()
+                        if parser.peek() != 44:
+                            break
+                        parser.position += 1
+                parser.take(125)
+                if key.byte_length() == 0 or key.byte_length() > 128 or text.byte_length() > 16384:
+                    raise Error("Memory block key or text out of bounds")
+                total_text += text.byte_length()
+                if total_text > 65536:
+                    raise Error("Memory block text exceeds 64 KiB in total")
+                self.mem_keys.append(key)
+                self.mem_texts.append(text)
+                self.mem_orders.append(order)
+                count += 1
+                if count > 64:
+                    raise Error("Too many memory blocks")
+                parser.space()
+                if parser.peek() != 44:
+                    break
+                parser.position += 1
+        parser.take(93)
+        self.has_memory = count > 0
 
 
 def openai_created_unix() raises -> Int:
