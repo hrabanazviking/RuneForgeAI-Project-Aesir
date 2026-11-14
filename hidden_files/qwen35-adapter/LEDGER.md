@@ -1,6 +1,6 @@
 # Qwen35 Adapter Campaign — Ledger
 
-## 2026-11-14 — QC-3b: gemma-4-E2B Q4_K_M -> Q8_0 whole-model conversion + grade (worker slice; staged banking)
+## 2026-11-14 — QC-3b: gemma-4-E2B Q4_K_M -> Q8_0 whole-model conversion + grade (worker slice; verified + banked by coordinator)
 
 - PREREQUISITE 1 (streaming writer): GGUFStreamWriter in
   loader/gguf_writer.mojo — header first, per-tensor chunked
@@ -70,6 +70,20 @@
   every heavy run. Full notes: QC-3b-NOTES.md.
   Next: QC-5 (Q4_K_M target tier — needs a K-quant packing
   writer + llama-quantize built) / QC-6 (27B).
+
+- Coordinator verification (2026-11-14): QC-3b-NOTES.md
+  re-read from disk (streaming byte-identity incl. the
+  E2B re-emission at sha 740185b2; conversion
+  3,106,738,272 -> 4,954,595,424 B; grade 78/79 in band
+  = 98.73%, verdict NOT FAITHFUL under the strict gate
+  rule, recorded as ruled); remote yrsa/qc-3b ==
+  19ffe352 confirmed by ls-remote before merge;
+  fast-forwarded into yrsa/hip-serve and banked.
+  FINDING F-3b-1 stands as named next work: the gemma4
+  registry profile omits Q8_0 from its supported list,
+  so a converted gemma file is loader-grade only until
+  the profile admits Q8_0 — fix before any serve-ready
+  claim for converted gemma models.
 
 ## 2026-11-14 — QC-4: llama.cpp cross-check of the QC-3a compressed model (worker slice; verified + banked by coordinator)
 
