@@ -1,0 +1,53 @@
+=== Seat gate E-MASTER run (banking-A-124) ===
+2026-11-14T03:42:16-05:00
+purpleraider
+Linux purpleraider 7.3.0-10-generic #10-Ubuntu SMP PREEMPT_DYNAMIC Thu Oct 22 07:35:54 UTC 2026 x86_64 GNU/Linux
+caa87d2974ad3f5ae28a109bdf025663b2161295
+main
+Mojo 1.2.0 (2016d0cd)
+staging=/tmp/tmp.rNQUnYYqQl
+stub_cc_exit=0
+par_cc_exit=0
+hip_cc_exit=0
+zc_cc_exit=0
+vulkan_cc_exit=0
+Imported from /home/volmarr/aesir-forge/aesir_engine/tests/run_all.mojo:564:
+/home/volmarr/aesir-forge/aesir_engine/tests/test_big_model_placement_a104.mojo:23:1: warning: 'alias' is deprecated; use 'comptime'
+alias CTX = 4096
+^~~~~
+comptime
+Imported from /home/volmarr/aesir-forge/aesir_engine/tests/run_all.mojo:564:
+/home/volmarr/aesir-forge/aesir_engine/tests/test_big_model_placement_a104.mojo:25:1: warning: 'alias' is deprecated; use 'comptime'
+alias LAST16 = 2109440000
+^~~~~
+comptime
+/home/volmarr/aesir-forge/aesir_engine/tests/run_all.mojo:1998:96: error: statements must start at the beginning of a line
+    run_case(ledger, "sliding.battery_digest_deterministic", test_sliding_digest_deterministic))
+                                                                                               ^
+/home/volmarr/aesir-forge/.pixi/envs/default/bin/mojo: error: failed to parse the provided Mojo source module
+Command exited with non-zero status 1
+	Command being timed: "pixi run --frozen mojo run -I . --target-accelerator gfx1151 -Xlinker -L/tmp/tmp.rNQUnYYqQl -Xlinker -laesir_hailo10h -Xlinker -laesir_par -Xlinker -laesir_hip -Xlinker -laesir_vulkan -Xlinker -laesir_zc -Xlinker -laesir_aff aesir_engine/tests/run_all.mojo"
+	User time (seconds): 0.27
+	System time (seconds): 0.05
+	Percent of CPU this job got: 94%
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 0:00.35
+	Average shared text size (kbytes): 0
+	Average unshared data size (kbytes): 0
+	Average stack size (kbytes): 0
+	Average total size (kbytes): 0
+	Maximum resident set size (kbytes): 131792
+	Average resident set size (kbytes): 0
+	Major (requiring I/O) page faults: 67
+	Minor (reclaiming a frame) page faults: 24794
+	Voluntary context switches: 528
+	Involuntary context switches: 24
+	Swaps: 0
+	File system inputs: 102904
+	File system outputs: 72
+	Socket messages sent: 0
+	Socket messages received: 0
+	Signals delivered: 0
+	Page size (bytes): 4096
+	Exit status: 1
+MOJO_EXIT=1
+=== end 2026-11-14T03:42:17-05:00 ===

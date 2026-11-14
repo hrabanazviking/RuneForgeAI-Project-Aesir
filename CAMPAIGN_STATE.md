@@ -1,62 +1,19 @@
-# CAMPAIGN_STATE — team-26 (purpleraider)
+# CAMPAIGN_STATE - team-27 (Aesir Z13 forge)
 
-- Team: team-26, branch yrsa/aesir-team-26,
-  worktree /home/volmarr/aesir-team-26.
-- Base: 881f5025 (banked main = A-121 closure,
-  121 of 216). Prior slice A-120 banked as 28efda7b
-  + closure 130bddd0 (verified in seat log).
-- Assignment: A-123 — Sliding-window attention
-  parity (Wave 14). Acceptance: rows judged at
-  window-boundary lengths specifically.
+- Team: team-27 (1 lead + 6 Mythic Engineering sub-agents)
+- Worktree: /home/volmarr/aesir-team-27, branch yrsa/aesir-team-27
+- Base: 881f50252b7995a5169eaa2f21cab0d036da7659 (banked main, 121 of 216, A-121 banking closure). Worktree reset onto banked main; the A-124 WIP was built on this same base (verified by the continuation lead: HEAD, branch and the expected modified/untracked set all match). Untracked scratch/a097/ left in place, not part of any slice.
+- Prior slices (team-27): A-100 DONE (banked), A-103 DONE (banked), A-106 DONE (banked), A-111 DONE (banked), A-114 DONE (banked), A-117 DONE (banked), A-118 DONE (banked), A-121 DONE (banked, in the 121-of-216 closure this base sits on).
+- Assigned slice: A-124 - RoPE scaling parity (Wave 14, Architecture breadth). Acceptance: NTK/YaRN-scaled long-context rows judged at >=32k context.
+- Builds on banked: A-109 teacher-forcing harness v2 (tf_harness_backends called), A-114 full matrix runner (MX_* verdict codes + mx_fnv1a64 called), A-115 exactness policy (banked; policy_for_quant called for the Q4_K_M obligation -- a direct call), A-052 context-boundary probes (the honest cap record), plus the independent comparator hidden_files/rope_ref_a124.py (float64 Python/numpy implementation of the published scaling formulas, sharing no code with the Mojo module; outputs at 9 filed sample pair indices transcribed value-for-value).
+- SURFACE REALITY (honest): no NTK/YaRN mathematics existed in-tree before this slice -- engine CPU/Vulkan/HIP RoPE is unscaled only, the GGUF loader does not parse *.rope.scaling.*, dense_gqa_profile rejects scaled RoPE, and the session path clamps context to 16000 per A-052. A-124 therefore builds the scaling surface as a pure closed-form module and judges its ladders; NO engine execution of scaled RoPE is claimed. IMMEDIATE NEXT WORK (recorded, not left silent): the engine-side follow-on -- loader parsing of *.rope.scaling.*, threading the scaling configs through apply_rope, dense_gqa_profile admission, and lifting the session context cap -- belongs to a later slice; the teacher-forcing NOT_GRADED account retires only with a sha-pinned NTK/YaRN fixture and a RAW >=32k corpus prompt, re-verdicted at A-135.
+- A-122 / A-123 DEPENDENCY (honest): A-122 (team-25) and A-123 (team-26) are building in parallel and have NOT banked. A-124 is built against banked surfaces only; no unbanked code is depended on. A-116 is the named tool for divergent ENGINE rows; A-124 files none, so A-116's Wave-14 in-anger condition is NOT claimed met here.
+- Status: DONE 2026-11-14 (see outcome below). The predecessor lead was cancelled mid-slice; a continuation lead audited the on-disk WIP, ran the clearing solo suite re-runs, and finished the slice. Commit on the team branch only, subject exactly "A-124: RoPE scaling parity"; keeper banks after A-122 and A-123 in roadmap order. Never merge or push from this worktree. Never touch README.md. No Docker, ever. Never run a full suite concurrently with another team or a seat gate (check ps first).
+- Suite baseline on this base: 811 passed / 1 failed / 2 skipped / 814 total; sole failure pre-existing gguf.tensor_directory_interface (J-022 drift); named intermittents (resilience.state_vault_rejects_growth, gpu.amd_hip_stream_async_round_trip, gguf.weight_residency_gpu_visibility, memory.budget_live_meminfo_pressure) clear on a solo re-run -- only J-022 (+ at most one named intermittent that clears solo) is GREEN-TO-BASELINE.
+- Raw-oracle discipline: teacher-forcing rank + logit gap on RAW prompts only, CPU engine vs CPU comparator only, near-tie band rank <= 2 with sub-logit gap = faithful, IQ graded on coherence never token-exactness, comparator artifacts are a verdict class; accelerator-visible is not accelerator-run.
 
-## Outcome
-
-- Built core/sliding_window_battery_a123.mojo +
-  tests (13 E-MASTER cases sliding.battery_*) +
-  bench driver, following the banked A-121 slice
-  pattern.
-- Battery: 72 rows (windows 16/512/4096 x boundary
-  lengths W-1, W, W+1, 2W-1, 2W, 2W+1 x 4 backends).
-  CPU rows execute the banked flash_attention_gqa
-  kernel vs an independent in-module scalar
-  reference: FAITHFUL 18, all at max_diff 0;
-  NOT_GRADED 54 (no CPU comparator for non-cpu
-  backends); policy owed 72 (Q4_K_M, A-115 by call).
-  Seeded defects discriminated: off-by-one and
-  window-ignored both DIVERGENT on the fixture.
-  Digest 14784864525343607696, MOJO_EXIT=0
-  (hidden_files/a123_battery.log).
-- Suite: four solo E-MASTER runs, pin 814 -> 827:
-  a123_run_all.log 823/2/2, a123_run_all_rerun.log
-  822/3/2, a123_run_all_rerun2.log 823/2/2,
-  a123_run_all_rerun3.log 823/2/2 (passed/failed/
-  skipped of 827). Sole non-intermittent failure in
-  every run: the pre-existing J-022
-  gguf.tensor_directory_interface. Named intermittents:
-  gpu.amd_hip_stream_async_round_trip failed run 2
-  only and cleared; resilience.state_vault_rejects_
-  growth failed in-suite in all four runs but passes
-  3/3 in isolation (hidden_files/a123_vault_solo.log,
-  the A-113 solo-driver pattern; a timing-race TOCTOU
-  test, pre-existing, in code this slice does not
-  touch -- recorded here as the standing intermittent
-  it is, not cleared in-suite this tick). All 13
-  sliding.battery_* cases PASS in every run. Two
-  discarded attempts kept: a123_run_all_concurrent_
-  discarded.log (first launch killed within a minute
-  when a team-27 suite appeared; re-run solo) and
-  a123_run_all_parsefail_discarded.log (see defect 2).
-- Defect 2 fixed in-slice (found by the first solo
-  suite run): the new test file imported
-  battery_backends, but the core module exports
-  sw_backends -- the whole suite failed to parse.
-  Fixed by aligning the test import and its two call
-  sites to sw_backends (core and bench untouched,
-  battery digest unchanged; test sha256 updated in
-  hidden_files/A123_LEDGER.md).
-- Defect fixed in-slice: float-literal cast compile
-  error in the new fixture code (Float32(...)
-  .cast[f16]()). No engine bug discovered; no
-  DIVERGENT engine row, A-116 not required.
-- Not merged or pushed to main: keeper banks A-123
-  after A-122 in roadmap order. README untouched.
+## Team-27 outcome 2026-11-14 - A-124 DONE (PASS)
+- Battery: core/rope_scaling_battery_a124.mojo -- 4 scaling configs (NONE, LINEAR, NTK-aware, YaRN) x 3 positions (32768, 65536, 131072) x 4 backends = 48 rows under pre-registered R1-R3 (non-cpu -> NOT_GRADED/BACKEND_NO_CPU_COMPARATOR with the A-115 obligation filed by call; cpu -> R2 ladder checks over the config's filed reference record; SYNTHETIC defect fixture labelled SYNTHETIC in every line). Run (hidden_files/a124_battery.log, MOJO_EXIT=0): total=48 faithful=12 not_graded=36 owed=48 coherence=0; teacher-forcing account total=48 graded=0 not_graded=48 (NO_FILED_RECORDS); synthetic total=5 faithful=1 divergent=3 (ROPE_UNSCALED_AT_LONG_CONTEXT, YARN_RAMP_IGNORED, YARN_ATTENTION_FACTOR_MISSING) artifact=1 (BACKEND_MISMATCH); digest 17297022117500131283. Zero unexplained; no model executed on this machine, no accelerator claim.
+- Suite E-MASTER (solo, ps-checked before every launch): five runs (hidden_files/a124_run_all.log, a124_run_all_rerun.log, a124_run_all_rerun2.log, a124_run_all_rerun3.log, a124_run_all_rerun4.log) each 823/2/2/827 -- J-022 plus one named intermittent (gpu.amd_hip_stream_async_round_trip in run_all/rerun/rerun4, resilience.state_vault_rejects_growth in rerun2/rerun3); clearing re-run (a124_run_all_rerun5.log, solo) 824 passed / 1 failed / 2 skipped / 827 total, sole failure pre-existing J-022. GREEN-TO-BASELINE. All 13 new rope.scaling_* cases PASS in every run. run_all finish pin 814 -> 827. (The predecessor's aborted attempt is preserved as a124_run_all_killed_timeout.log and was never used as evidence.)
+- Docs: docs/bench/A124_ROPE_SCALING_BATTERY.md; hidden_files/A124_LEDGER.md; CAPABILITY_LEDGER.md section 26 (Z13-P5-124) + E-MASTER checker phrase 812 named / 814 total -> 825 named / 827 total.
+- Bugs: one in-slice defect found by the battery's first run and fixed before filing -- the structural pair-0 check demanded exactly 1.0 in every mode, but LINEAR divides the whole ladder (pair 0 = 1/factor); the check and its pre-registration are now mode-aware. No banked-code bugs found; the two rotating suite failures are the pre-existing named intermittents, cleared solo in re-run 5. Next: keeper banks A-124 after A-122 and A-123 in roadmap order; the engine-side scaled-RoPE follow-on recorded above is the named next work.

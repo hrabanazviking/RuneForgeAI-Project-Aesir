@@ -1,0 +1,73 @@
+=== A-124 RoPE scaling battery run (team-27) ===
+2026-11-14T01:49:50-05:00
+purpleraider
+881f50252b7995a5169eaa2f21cab0d036da7659
+yrsa/aesir-team-27
+Mojo 1.2.0 (2016d0cd)
+Imported from /home/volmarr/aesir-team-27/aesir_engine/tests/bench_rope_scaling_battery_a124.mojo:19:
+/home/volmarr/aesir-team-27/aesir_engine/core/rope_scaling_battery_a124.mojo:975:20: warning: 'read' is deprecated; use 'imm'
+def battery_render(read report: BatteryReport) -> String:
+                   ^~~~
+                   imm
+A-124 RoPE scaling parity: 4 scaling configs x 3 long-context positions (>=32768) x 4 Z13 backends judged against independently computed filed reference ladders (float64); synthetic defect fixture labelled SYNTHETIC in every line; teacher-forcing rows at >=32k NOT_GRADED (NO_FILED_RECORDS); non-cpu rows NOT_GRADED with a named reason, zero unexplained
+A124_BATTERY configs=4 positions=3 backends=4 total=48 fixture_status=SYNTHETIC
+RB_ROW config=0 mode=none position=32768 backend=cpu verdict=FAITHFUL reason=ROPE_LADDER_CHECKS_PASS policy=TOKEN_EXACTNESS_OWED max_err_ppm=0 attn_x10000=10000 samples=9
+RB_ROW config=0 mode=none position=32768 backend=vulkan verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=TOKEN_EXACTNESS_OWED max_err_ppm=-1 attn_x10000=-1 samples=-1
+RB_ROW config=0 mode=none position=32768 backend=hip verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=TOKEN_EXACTNESS_OWED max_err_ppm=-1 attn_x10000=-1 samples=-1
+RB_ROW config=0 mode=none position=32768 backend=npu verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=TOKEN_EXACTNESS_OWED max_err_ppm=-1 attn_x10000=-1 samples=-1
+RB_ROW config=0 mode=none position=65536 backend=cpu verdict=FAITHFUL reason=ROPE_LADDER_CHECKS_PASS policy=TOKEN_EXACTNESS_OWED max_err_ppm=0 attn_x10000=10000 samples=9
+RB_ROW config=0 mode=none position=65536 backend=vulkan verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=TOKEN_EXACTNESS_OWED max_err_ppm=-1 attn_x10000=-1 samples=-1
+RB_ROW config=0 mode=none position=65536 backend=hip verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=TOKEN_EXACTNESS_OWED max_err_ppm=-1 attn_x10000=-1 samples=-1
+RB_ROW config=0 mode=none position=65536 backend=npu verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=TOKEN_EXACTNESS_OWED max_err_ppm=-1 attn_x10000=-1 samples=-1
+RB_ROW config=0 mode=none position=131072 backend=cpu verdict=FAITHFUL reason=ROPE_LADDER_CHECKS_PASS policy=TOKEN_EXACTNESS_OWED max_err_ppm=0 attn_x10000=10000 samples=9
+RB_ROW config=0 mode=none position=131072 backend=vulkan verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=TOKEN_EXACTNESS_OWED max_err_ppm=-1 attn_x10000=-1 samples=-1
+RB_ROW config=0 mode=none position=131072 backend=hip verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=TOKEN_EXACTNESS_OWED max_err_ppm=-1 attn_x10000=-1 samples=-1
+RB_ROW config=0 mode=none position=131072 backend=npu verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=TOKEN_EXACTNESS_OWED max_err_ppm=-1 attn_x10000=-1 samples=-1
+RB_ROW config=1 mode=linear position=32768 backend=cpu verdict=FAITHFUL reason=ROPE_LADDER_CHECKS_PASS policy=TOKEN_EXACTNESS_OWED max_err_ppm=0 attn_x10000=10000 samples=9
+RB_ROW config=1 mode=linear position=32768 backend=vulkan verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=TOKEN_EXACTNESS_OWED max_err_ppm=-1 attn_x10000=-1 samples=-1
+RB_ROW config=1 mode=linear position=32768 backend=hip verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=TOKEN_EXACTNESS_OWED max_err_ppm=-1 attn_x10000=-1 samples=-1
+RB_ROW config=1 mode=linear position=32768 backend=npu verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=TOKEN_EXACTNESS_OWED max_err_ppm=-1 attn_x10000=-1 samples=-1
+RB_ROW config=1 mode=linear position=65536 backend=cpu verdict=FAITHFUL reason=ROPE_LADDER_CHECKS_PASS policy=TOKEN_EXACTNESS_OWED max_err_ppm=0 attn_x10000=10000 samples=9
+RB_ROW config=1 mode=linear position=65536 backend=vulkan verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=TOKEN_EXACTNESS_OWED max_err_ppm=-1 attn_x10000=-1 samples=-1
+RB_ROW config=1 mode=linear position=65536 backend=hip verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=TOKEN_EXACTNESS_OWED max_err_ppm=-1 attn_x10000=-1 samples=-1
+RB_ROW config=1 mode=linear position=65536 backend=npu verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=TOKEN_EXACTNESS_OWED max_err_ppm=-1 attn_x10000=-1 samples=-1
+RB_ROW config=1 mode=linear position=131072 backend=cpu verdict=FAITHFUL reason=ROPE_LADDER_CHECKS_PASS policy=TOKEN_EXACTNESS_OWED max_err_ppm=0 attn_x10000=10000 samples=9
+RB_ROW config=1 mode=linear position=131072 backend=vulkan verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=TOKEN_EXACTNESS_OWED max_err_ppm=-1 attn_x10000=-1 samples=-1
+RB_ROW config=1 mode=linear position=131072 backend=hip verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=TOKEN_EXACTNESS_OWED max_err_ppm=-1 attn_x10000=-1 samples=-1
+RB_ROW config=1 mode=linear position=131072 backend=npu verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=TOKEN_EXACTNESS_OWED max_err_ppm=-1 attn_x10000=-1 samples=-1
+RB_ROW config=2 mode=ntk position=32768 backend=cpu verdict=FAITHFUL reason=ROPE_LADDER_CHECKS_PASS policy=TOKEN_EXACTNESS_OWED max_err_ppm=0 attn_x10000=10000 samples=9
+RB_ROW config=2 mode=ntk position=32768 backend=vulkan verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=TOKEN_EXACTNESS_OWED max_err_ppm=-1 attn_x10000=-1 samples=-1
+RB_ROW config=2 mode=ntk position=32768 backend=hip verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=TOKEN_EXACTNESS_OWED max_err_ppm=-1 attn_x10000=-1 samples=-1
+RB_ROW config=2 mode=ntk position=32768 backend=npu verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=TOKEN_EXACTNESS_OWED max_err_ppm=-1 attn_x10000=-1 samples=-1
+RB_ROW config=2 mode=ntk position=65536 backend=cpu verdict=FAITHFUL reason=ROPE_LADDER_CHECKS_PASS policy=TOKEN_EXACTNESS_OWED max_err_ppm=0 attn_x10000=10000 samples=9
+RB_ROW config=2 mode=ntk position=65536 backend=vulkan verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=TOKEN_EXACTNESS_OWED max_err_ppm=-1 attn_x10000=-1 samples=-1
+RB_ROW config=2 mode=ntk position=65536 backend=hip verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=TOKEN_EXACTNESS_OWED max_err_ppm=-1 attn_x10000=-1 samples=-1
+RB_ROW config=2 mode=ntk position=65536 backend=npu verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=TOKEN_EXACTNESS_OWED max_err_ppm=-1 attn_x10000=-1 samples=-1
+RB_ROW config=2 mode=ntk position=131072 backend=cpu verdict=FAITHFUL reason=ROPE_LADDER_CHECKS_PASS policy=TOKEN_EXACTNESS_OWED max_err_ppm=0 attn_x10000=10000 samples=9
+RB_ROW config=2 mode=ntk position=131072 backend=vulkan verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=TOKEN_EXACTNESS_OWED max_err_ppm=-1 attn_x10000=-1 samples=-1
+RB_ROW config=2 mode=ntk position=131072 backend=hip verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=TOKEN_EXACTNESS_OWED max_err_ppm=-1 attn_x10000=-1 samples=-1
+RB_ROW config=2 mode=ntk position=131072 backend=npu verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=TOKEN_EXACTNESS_OWED max_err_ppm=-1 attn_x10000=-1 samples=-1
+RB_ROW config=3 mode=yarn position=32768 backend=cpu verdict=FAITHFUL reason=ROPE_LADDER_CHECKS_PASS policy=TOKEN_EXACTNESS_OWED max_err_ppm=0 attn_x10000=13466 samples=9
+RB_ROW config=3 mode=yarn position=32768 backend=vulkan verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=TOKEN_EXACTNESS_OWED max_err_ppm=-1 attn_x10000=-1 samples=-1
+RB_ROW config=3 mode=yarn position=32768 backend=hip verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=TOKEN_EXACTNESS_OWED max_err_ppm=-1 attn_x10000=-1 samples=-1
+RB_ROW config=3 mode=yarn position=32768 backend=npu verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=TOKEN_EXACTNESS_OWED max_err_ppm=-1 attn_x10000=-1 samples=-1
+RB_ROW config=3 mode=yarn position=65536 backend=cpu verdict=FAITHFUL reason=ROPE_LADDER_CHECKS_PASS policy=TOKEN_EXACTNESS_OWED max_err_ppm=0 attn_x10000=13466 samples=9
+RB_ROW config=3 mode=yarn position=65536 backend=vulkan verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=TOKEN_EXACTNESS_OWED max_err_ppm=-1 attn_x10000=-1 samples=-1
+RB_ROW config=3 mode=yarn position=65536 backend=hip verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=TOKEN_EXACTNESS_OWED max_err_ppm=-1 attn_x10000=-1 samples=-1
+RB_ROW config=3 mode=yarn position=65536 backend=npu verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=TOKEN_EXACTNESS_OWED max_err_ppm=-1 attn_x10000=-1 samples=-1
+RB_ROW config=3 mode=yarn position=131072 backend=cpu verdict=FAITHFUL reason=ROPE_LADDER_CHECKS_PASS policy=TOKEN_EXACTNESS_OWED max_err_ppm=0 attn_x10000=13466 samples=9
+RB_ROW config=3 mode=yarn position=131072 backend=vulkan verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=TOKEN_EXACTNESS_OWED max_err_ppm=-1 attn_x10000=-1 samples=-1
+RB_ROW config=3 mode=yarn position=131072 backend=hip verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=TOKEN_EXACTNESS_OWED max_err_ppm=-1 attn_x10000=-1 samples=-1
+RB_ROW config=3 mode=yarn position=131072 backend=npu verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=TOKEN_EXACTNESS_OWED max_err_ppm=-1 attn_x10000=-1 samples=-1
+RB_SYN case=SYN_YARN_OK status=SYNTHETIC verdict=FAITHFUL reason=SYNTHETIC_YARN_LADDER_MATCH
+RB_SYN case=SYN_UNSCALED status=SYNTHETIC verdict=DIVERGENT reason=ROPE_UNSCALED_AT_LONG_CONTEXT
+RB_SYN case=SYN_NTK_ALL status=SYNTHETIC verdict=DIVERGENT reason=YARN_RAMP_IGNORED
+RB_SYN case=SYN_NO_ATTENTION status=SYNTHETIC verdict=DIVERGENT reason=YARN_ATTENTION_FACTOR_MISSING
+RB_SYN case=SYN_MISMATCH status=SYNTHETIC verdict=COMPARATOR_ARTIFACT reason=BACKEND_MISMATCH
+A124_BATTERY_SUMMARY total=48 faithful=12 near_tie=0 divergent=0 artifact=0 fixture_limited=0 not_graded=36 owed=48 coherence=0
+A124_TF_ACCOUNT total=48 graded=0 not_graded=48 reason=NO_FILED_RECORDS
+A124_SYNTHETIC_SUMMARY status=SYNTHETIC total=5 faithful=1 divergent=3 artifact=1
+A124_BATTERY_DIGEST 17297022117500131283
+A124_BENCH_DONE rows= 48
+MOJO_EXIT=0
+=== end 2026-11-14T01:49:52-05:00 ===
