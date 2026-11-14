@@ -1,0 +1,11 @@
+MimirWell initialized with 37896704 derived bytes.
+GGUF validated: 56 tensors, 23 metadata entries, architecture qwen35
+RESIDENT CENSUS: large_tensors= 33  large_elements= 822272  q8_0_bytes= 873664  f16_bytes= 1644544  mode= q8_0_resident
+PASS (r1): resident census 33 large tensors, priced both ways
+MimirWell initialized with 37896704 derived bytes.
+GGUF validated: 56 tensors, 23 metadata entries, architecture qwen35
+MimirWell initialized with 37896704 derived bytes.
+GGUF validated: 56 tensors, 23 metadata entries, architecture qwen35
+Qwen35 resident load: mode=q8_0_resident large_tensors=33 q8_0_bytes=873664 f16_materialized_bytes_avoided=1644544
+stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`
+Unhandled exception caught during execution: (r2) resident greedy diverged from the banked Q35-3a sequence at step 0
