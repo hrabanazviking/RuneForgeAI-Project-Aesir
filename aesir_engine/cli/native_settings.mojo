@@ -17,8 +17,8 @@ def load_native_config(path: String, seen: List[String]) raises -> AesirConfig:
 
 def native_config_sampling(config: AesirConfig) raises -> NativeSamplingConfig:
     """Admit only connected intent; keep neutral legacy schema fields inert."""
-    if config.acceleration_backend != "auto" and config.acceleration_backend != "cuda":
-        raise Error("Native configuration requires auto or cuda acceleration_backend")
+    if config.acceleration_backend != "auto" and config.acceleration_backend != "cuda" and config.acceleration_backend != "hip":
+        raise Error("Native configuration requires auto, cuda or hip acceleration_backend")
     if config.target_npu != "auto" or config.num_gpu_layers != 0 or config.max_threads != 0:
         raise Error("Native configuration does not support target_npu, num_gpu_layers or max_threads overrides")
     if config.skaldbrodir_enabled or config.thinking_enabled:

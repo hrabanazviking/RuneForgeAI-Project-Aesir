@@ -22,7 +22,7 @@ from server.api import BifrostGate
 from loader.corpus_ingestion import mean_pool_token_embeddings
 from core.gemma4_cuda import Gemma4CUDASession
 from core.llama3_cuda import Llama3CUDASession
-from core.runtime_plan import NativeModelPlan, NativeCUDASelection, choose_native_cuda, choose_native_cuda_plan, explain_host_fit
+from core.runtime_plan import NativeModelPlan, NativeDeviceSelection, choose_native_cuda, choose_native_cuda_plan, choose_native_hip_plan, explain_host_fit
 from core.inference_memory import MemoryFitExplanation, llama3_memory_plan
 from core.native_hardware import observe_host_memory, observe_cpu_name, bounded_decimal
 from core.cuda_gate import CUDAGate

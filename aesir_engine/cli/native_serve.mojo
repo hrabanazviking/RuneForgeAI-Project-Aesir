@@ -2,9 +2,13 @@
 from std.ffi import external_call
 from aesir import (Gemma4CUDASession, Llama3CUDASession,
                    NativeSamplingConfig, ControlledTextSession, GenerationControl,
-                   choose_native_cuda_plan, bounded_decimal, monotonic_milliseconds,
+                   NativeDeviceSelection,
+                   choose_native_cuda_plan, choose_native_hip_plan,
+                   bounded_decimal, monotonic_milliseconds,
                    llama3_memory_plan)
 from cli.hardware import parse_device_index, parse_reserve_bytes
+from core.cuda_gate import CUDAGate
+from core.amd_gate import AMDGate
 from core.sampling_options import with_sampling_option
 from core.tool_use import parse_gemma_zero_arg_call
 from cli.sampling import sampling_option_name
@@ -281,7 +285,7 @@ def serve_loaded[T: ControlledTextSession](mut session: T, port: Int, key: Strin
         device_bytes: Int, sampling_defaults: NativeSamplingConfig = NativeSamplingConfig(),
         system_defaults: String = "", has_system_defaults: Bool = False,
         queue_limit: Int = 4, queue_timeout_ms: Int = 30000,
-        prefix_cache: Bool = False, prefill_batch: Int = 1) raises:
+        prefix_cache: Bool = False, prefill_batch: Int = 1, backend: String = "cuda") raises:
     sampling_defaults.validate()
     var listener = listen_local(port)
     var owner = register_service(model_store, port, model.name, model.digest,
@@ -290,7 +294,7 @@ def serve_loaded[T: ControlledTextSession](mut session: T, port: Int, key: Strin
     var sequence = 0
     var pending = List[PendingClient]()
     print(("Ollama-compatible" if ollama else "Native") + " inference ready at http://127.0.0.1:" + String(port) +
-          "; authentication=" + ("none-loopback-only" if ollama else "required") + "; backend=cuda; profile=" + profile +
+          "; authentication=" + ("none-loopback-only" if ollama else "required") + "; backend=" + backend + "; profile=" + profile +
           "; concurrency=1; queue_limit=" + String(queue_limit) +
           "; queue_timeout_ms=" + String(queue_timeout_ms) +
           "; context=" + String(context) + "; max_tokens=" + String(token_limit))
@@ -511,16 +515,16 @@ def serve_loaded[T: ControlledTextSession](mut session: T, port: Int, key: Strin
                                 elif head.path == "/v1/chat/completions":
                                     body = OpenAIGate.format_chat_completion(
                                         request_id, created, model.name, answer, finish,
-                                        state.prompt_tokens, state.generated_tokens,
+                                        state.prompt_tokens, state.generated_tokens, state.reused_prompt_tokens,
                                     )
                                 else:
                                     body = OpenAIGate.format_completion(
                                         request_id, created, model.name, answer, finish,
-                                        state.prompt_tokens, state.generated_tokens,
+                                        state.prompt_tokens, state.generated_tokens, state.reused_prompt_tokens,
                                     )
                             status = 200
                     elif not ollama and head.method == "GET" and head.path == "/health":
-                        body = "{\"status\":\"" + ("ready" if session.status().healthy else "failed") + "\",\"backend\":\"cuda\",\"cpu_offload\":0,\"profile\":\"" + profile + "\",\"context\":" + String(context)
+                        body = "{\"status\":\"" + ("ready" if session.status().healthy else "failed") + "\",\"backend\":\"" + backend + "\",\"cpu_offload\":0,\"profile\":\"" + profile + "\",\"context\":" + String(context)
                         body += ",\"model\":\"" + json_escape_string(model.name) + "\",\"model_digest\":\"" + json_escape_string(model.digest) + "\",\"max_tokens\":" + String(token_limit)
                         body += ",\"generation_timeout_ms\":" + String(timeout_ms) + ",\"capabilities\":{\"text_generation\":true,\"embeddings\":false,\"exact_prefix_reuse\":" + ("true" if prefix_cache else "false") + "},\"prefill_batch\":" + String(prefill_batch) + ",\"queue_limit\":" + String(queue_limit) + "}"
                     elif not ollama and head.method == "GET" and head.path == "/health/live":
@@ -566,9 +570,9 @@ def serve_loaded[T: ControlledTextSession](mut session: T, port: Int, key: Strin
                         var decode_elapsed_ms = monotonic_milliseconds() - decode_started_ms
                         var state = session.status()
                         if request.stream:
-                            send_local(client.fd, "{\"text\":\"\",\"done\":true,\"finish_reason\":\"" + state.finish_reason + "\",\"prompt_tokens\":" + String(state.prompt_tokens) + ",\"generated_tokens\":" + String(state.generated_tokens) + ",\"context_used\":" + String(state.position) + ",\"backend\":\"cuda\",\"cpu_offload\":0,\"model\":\"" + json_escape_string(model.name) + "\",\"model_digest\":\"" + json_escape_string(model.digest) + "\",\"timings_ms\":{\"prefill\":" + String(prefill_elapsed_ms) + ",\"decode\":" + String(decode_elapsed_ms) + "}}\n", io_timeout_ms, interrupt_fd)
+                            send_local(client.fd, "{\"text\":\"\",\"done\":true,\"finish_reason\":\"" + state.finish_reason + "\",\"prompt_tokens\":" + String(state.prompt_tokens) + ",\"generated_tokens\":" + String(state.generated_tokens) + ",\"reused_prompt_tokens\":" + String(state.reused_prompt_tokens) + ",\"context_used\":" + String(state.position) + ",\"backend\":\"" + backend + "\",\"cpu_offload\":0,\"model\":\"" + json_escape_string(model.name) + "\",\"model_digest\":\"" + json_escape_string(model.digest) + "\",\"timings_ms\":{\"prefill\":" + String(prefill_elapsed_ms) + ",\"decode\":" + String(decode_elapsed_ms) + "}}\n", io_timeout_ms, interrupt_fd)
                         else:
-                            body = "{\"text\":\"" + json_escape_string(answer) + "\",\"finish_reason\":\"" + state.finish_reason + "\",\"prompt_tokens\":" + String(state.prompt_tokens) + ",\"generated_tokens\":" + String(state.generated_tokens) + ",\"context_used\":" + String(state.position) + ",\"backend\":\"cuda\",\"cpu_offload\":0,\"model\":\"" + json_escape_string(model.name) + "\",\"model_digest\":\"" + json_escape_string(model.digest) + "\",\"timings_ms\":{\"prefill\":" + String(prefill_elapsed_ms) + ",\"decode\":" + String(decode_elapsed_ms) + "}}"
+                            body = "{\"text\":\"" + json_escape_string(answer) + "\",\"finish_reason\":\"" + state.finish_reason + "\",\"prompt_tokens\":" + String(state.prompt_tokens) + ",\"generated_tokens\":" + String(state.generated_tokens) + ",\"reused_prompt_tokens\":" + String(state.reused_prompt_tokens) + ",\"context_used\":" + String(state.position) + ",\"backend\":\"" + backend + "\",\"cpu_offload\":0,\"model\":\"" + json_escape_string(model.name) + "\",\"model_digest\":\"" + json_escape_string(model.digest) + "\",\"timings_ms\":{\"prefill\":" + String(prefill_elapsed_ms) + ",\"decode\":" + String(decode_elapsed_ms) + "}}"
                         status = 200
                     else:
                         status = 404
@@ -618,9 +622,24 @@ def serve_loaded[T: ControlledTextSession](mut session: T, port: Int, key: Strin
     _ = owner
 
 
+def resolve_automatic_acceleration() raises -> String:
+    """--accel auto resolution: a compatible CUDA device wins; otherwise a
+    loadable HIP runtime; otherwise the CUDA road, whose refusal names the
+    cause. There is no CPU fallback on any road."""
+    var discovered = CUDAGate.discover_physical_devices()
+    for device in discovered.devices:
+        if device.capabilities.is_compatible:
+            return "cuda"
+    if AMDGate.is_available():
+        return "hip"
+    if len(discovered.devices) > 0:
+        return "cuda"
+    raise Error("Automatic acceleration found no CUDA or HIP device; no CPU fallback")
+
+
 def dispatch_native_serve(args: List[String]) raises:
     if len(args) < 2:
-        raise Error("Usage: aesir serve <model> --accel cuda --api-key-file <private-file> | aesir serve <model-name> --accel cuda --ollama")
+        raise Error("Usage: aesir serve <model> --accel cuda|hip|auto --api-key-file <private-file> | aesir serve <model-name> --accel cuda|hip|auto --ollama")
     var key_path = String("")
     var acceleration = String("")
     var profile = String("auto")
@@ -709,8 +728,8 @@ def dispatch_native_serve(args: List[String]) raises:
         else:
             raise Error("Unsupported service option")
         i += 2
-    if acceleration != "cuda" or (profile != "auto" and profile != "llama3" and profile != "qwen3" and profile != "gemma4"):
-        raise Error("Native service requires a supported CUDA profile; no CPU fallback")
+    if (acceleration != "cuda" and acceleration != "hip" and acceleration != "auto") or (profile != "auto" and profile != "llama3" and profile != "qwen3" and profile != "gemma4"):
+        raise Error("Native service requires a supported CUDA or HIP profile; no CPU fallback")
     if ollama and "--port" not in seen:
         port = 11434
     if (not show_settings and not ollama and key_path == "") or (ollama and key_path != "") or port < 1024 or port > 65535 or context < 0 or context > 32768:
@@ -745,9 +764,17 @@ def dispatch_native_serve(args: List[String]) raises:
     var modified_at = String("1970-01-01T00:00:00Z")
     var modelfile = resolved.modelfile_content
     var interrupts = ChatInterrupts(True)
-    var selection = choose_native_cuda_plan(
-        model_path, profile, context, device, reserve
-    )
+    if acceleration == "auto":
+        acceleration = resolve_automatic_acceleration()
+    var selection: NativeDeviceSelection
+    if acceleration == "hip":
+        selection = choose_native_hip_plan(
+            model_path, profile, context, device, reserve
+        )
+    else:
+        selection = choose_native_cuda_plan(
+            model_path, profile, context, device, reserve
+        )
     var plan = selection.plan.copy()
     if prefill_batch == 4 and (plan.profile != "llama3" or plan.variant != "llama3-3B"):
         raise Error("Four-token prefill is admitted only for the exercised 3B profile")
@@ -761,10 +788,10 @@ def dispatch_native_serve(args: List[String]) raises:
     var quantization = "Q4_K_M" if ("Q4_K_M" in model_path or "Q4_K_M" in modelfile) else "unknown"
     var model_info = OllamaModelInfo(model_name, digest, model_size, quantization, modified_at, modelfile, family, parameter_size)
     if plan.profile == "llama3" or plan.profile == "qwen3":
-        var session = Llama3CUDASession(model_path, plan.context_length, device, reserve, sampling, prefix_cache, prefill_batch)
-        serve_loaded(session, port, key, plan.profile, plan.context_length, token_limit, timeout_ms, io_timeout_ms, interrupts.fd, ollama, model_info, model_store, resolved.from_catalog, llama3_memory_plan(Int(model_size), plan.context_length, session.profile, session.prefill_batch).device_bytes, sampling, effective.system, effective.has_system, queue_limit, queue_timeout_ms, prefix_cache, session.prefill_batch)
+        var session = Llama3CUDASession(model_path, plan.context_length, device, reserve, sampling, prefix_cache, prefill_batch, api=acceleration)
+        serve_loaded(session, port, key, plan.profile, plan.context_length, token_limit, timeout_ms, io_timeout_ms, interrupts.fd, ollama, model_info, model_store, resolved.from_catalog, llama3_memory_plan(Int(model_size), plan.context_length, session.profile, session.prefill_batch).device_bytes, sampling, effective.system, effective.has_system, queue_limit, queue_timeout_ms, prefix_cache, session.prefill_batch, backend=acceleration)
     else:
-        var session = Gemma4CUDASession(model_path, plan.context_length, device, reserve, sampling)
-        serve_loaded(session, port, key, plan.profile, plan.context_length, token_limit, timeout_ms, io_timeout_ms, interrupts.fd, ollama, model_info, model_store, resolved.from_catalog, plan.memory.device_bytes, sampling, effective.system, effective.has_system, queue_limit, queue_timeout_ms)
+        var session = Gemma4CUDASession(model_path, plan.context_length, device, reserve, sampling, api=acceleration)
+        serve_loaded(session, port, key, plan.profile, plan.context_length, token_limit, timeout_ms, io_timeout_ms, interrupts.fd, ollama, model_info, model_store, resolved.from_catalog, plan.memory.device_bytes, sampling, effective.system, effective.has_system, queue_limit, queue_timeout_ms, backend=acceleration)
     _ = interrupts
     _ = blob_lease
