@@ -1,0 +1,4 @@
+CASE hardware.hip_config_gate: PASS
+--- Testing StateVault rejects files that grew during read (F012) ---
+StateVault growth rejection: PASS
+CASE resilience.state_vault_rejects_growth: PASS

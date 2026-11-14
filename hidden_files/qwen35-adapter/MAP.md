@@ -179,3 +179,18 @@ before any Q8_1 reliance): Q8_1 block size — loader prices
   short (positions 0..~60) — serve-length re-witness is
   Q35-4b's R1. Next: Q35-4b, then the Q8_1 fix (QC-0's named
   bug), Q35-6a resume, QC-1; Q35-7 last.
+
+## Status update — 2026-11-14 (Q35-7 banked — CAMPAIGN COMPLETE)
+
+- Q35-7 DONE: stage-1 fixes (F-4b-2 stop tokens, F-4b-1 marker
+  trim, A-119 successor attestation, /health model_variant),
+  the gate swap (27B Q8_0-resident CPU on :18434, fence 48G/64G,
+  bench ALL PASS, gate left RUNNING), and the full-suite gate
+  (see QWEN35_RESULTS.md for the defended count). The Q35 line
+  is COMPLETE: QA-0, Q35-1, Q35-2, Q35-3a, Q35-3b, Q35-3r,
+  Q35-4a, Q35-4b, Q35-5, Q35-6 (+6b), Q35-7 all banked. The QC
+  compression line is COMPLETE separately (QC-0..QC-7,
+  QC_RESULTS.md). Named remaining work stands in
+  QWEN35_RESULTS.md: Q4_K_M resident analogue, searched-fit
+  packer, HIP decode speed + native HIP admission,
+  min_p/repeat_last_n, gemma4 CPU forward.

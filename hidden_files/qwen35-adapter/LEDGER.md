@@ -1,5 +1,54 @@
 # Qwen35 Adapter Campaign — Ledger
 
+## 2026-11-14 — Q35-7: gate swap to the 27B + full-suite gate — DONE (worker slice; CAMPAIGN CLOSE)
+
+Q35-7 — the closing slice, DONE on yrsa/q35-7 (base f3655d35).
+Stage 1 (preconditions): F-4b-2 FIXED — the qwen35 sessions
+(CPU + HIP mirror) stop on a stop set DERIVED from the model's
+own tokenizer (eos 248046 <|im_end|> + 26 GGUF CONTROL entries
+= 27 ids; type-4 user-defined tokens excluded, think blocks
+unaffected); a stop token is forwarded but never emitted or
+counted. The Q35-4b short-answer shape now halts at 4 emitted
+tokens with clean text "\n\nhello", finish stop (was:
+control-token spellings to the cap). F-4b-1 FIXED — one leading
+role-marker block ("Assistant:" / "\nAssistant:" /
+"\n\nAssistant:") trimmed in the sessions' presentation
+path; served replies are byte-identical to the banked Q35-4b
+replies after the marker (bench TRIM PROOF R1/R2/LONG).
+A-119 successor attestation FILED beside (not over) A-048's
+account: qwen35_successor_status ->
+REAL_FILE_LOAD_PASS_ADAPTER_RESIDENT, existing test case
+extended in place (905 count unchanged). /health gained
+model_variant (qwen35-scoped, Q35-3r pattern; other profiles'
+bytes unchanged). Stage 2 (swap): pre-swap gate configuration
+backed up (hidden_files/hip-serve/aesir-gate-llama3-3b-
+config-backup-q35-7.txt); VOXTA_SWITCHOVER.md updated (27B
+resident primary, llama3-3b fallback + exact rollback); gate
+serves the 27B Q8_0-resident CPU on :18434, fence
+MemoryHigh=48G / MemoryMax=64G (measured VmHWM 31,616,528 kB);
+bench ALL PASS on the gate (health truth incl.
+model_variant=qwen35-27B, resident reuse 55, stateless
+snapshot reuse 55, replies == reference, stop case clean);
+gate left RUNNING on the 27B (health + completion re-verified
+after the final restart). Stage 3 (suite): four fenced
+build_matrix.sh amd runs; hip_config_gate failed run 1 and
+was FIXED in scope (Q35-4a had added cpu to the admitted-
+backend message; the HS-1 test expectation was stale — now
+"auto, cpu, cuda or hip"; passes since). Final defended
+count 900/905: the only failures are the two proven
+pre-existing (gguf.tensor_directory_interface,
+gpu.hip_q4k_gemv_no_leak — accounts untouched) and
+resilience.state_vault_rejects_growth, an evidenced
+scheduling-race flake (passes standalone 3/3 quiet + passed
+in-suite at baseline; reproduced standalone under synthetic
+32-core contention; no vault code touched by the campaign).
+QWEN35_RESULTS.md filed in this folder; MAP.md completion
+states updated. The Qwen35 adapter campaign is COMPLETE.
+Named remaining work (in QWEN35_RESULTS.md): Q4_K_M resident
+analogue + serve smoke, searched-fit packer, HIP decode
+speed + native HIP admission, min_p/repeat_last_n on the
+qwen35 path, gemma4 CPU forward.
+
 ## 2026-11-14 — QC-6: the 27B Q8_0 heretic -> Q4_K_M — DONE (worker slice; verified + banked by coordinator)
 
 QC-6 — the 27B Q8_0 heretic -> Q4_K_M, DONE on yrsa/qc-6.

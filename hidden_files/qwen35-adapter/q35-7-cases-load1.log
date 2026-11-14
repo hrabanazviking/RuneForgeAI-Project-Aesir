@@ -1,0 +1,4 @@
+CASE hardware.hip_config_gate: PASS
+--- Testing StateVault rejects files that grew during read (F012) ---
+stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`
+Unhandled exception caught during execution: StateVault accepted a checkpoint that grew during read
