@@ -1,0 +1,490 @@
++ cd /home/volmarr/aesir-qc-3b
++ export PATH=/home/volmarr/.pixi/bin:/home/volmarr/.cargo/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin
++ PATH=/home/volmarr/.pixi/bin:/home/volmarr/.cargo/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin
++ SH=hidden_files/hip-serve/shims
++ mkdir -p hidden_files/hip-serve/shims .aesir hidden_files/qwen35-adapter
++ '[' '!' -f hidden_files/hip-serve/shims/libaesir_hip.so ']'
++ python3 scripts/build_shaders.py
++ cc -std=c11 -fPIC -shared aesir_engine/hailo10h_stub.c -o hidden_files/hip-serve/shims/libaesir_hailo10h.so
++ cc -std=c11 -O2 -fPIC -shared aesir_engine/thread_par.c -o hidden_files/hip-serve/shims/libaesir_par.so -lpthread
++ cc -std=c11 -O2 -fPIC -shared aesir_engine/hip_memory_shim.c -o hidden_files/hip-serve/shims/libaesir_hip.so -ldl
++ cc -std=c11 -O2 -fPIC -shared aesir_engine/vulkan_context_shim.c aesir_engine/vulkan_buffer_shim.c -o hidden_files/hip-serve/shims/libaesir_vulkan.so -ldl
++ cc -std=c11 -O2 -fPIC -shared aesir_engine/zero_copy_shim.c -o hidden_files/hip-serve/shims/libaesir_zc.so -ldl
++ cc -std=c11 -O2 -fPIC -shared aesir_engine/affinity_shim.c -o hidden_files/hip-serve/shims/libaesir_aff.so
++ LK='-Xlinker -Lhidden_files/hip-serve/shims -Xlinker -laesir_hailo10h -Xlinker -laesir_par -Xlinker -laesir_hip -Xlinker -laesir_vulkan -Xlinker -laesir_zc -Xlinker -laesir_aff'
++ python3 scripts/make_qwen35_fixtures.py
+wrote /home/volmarr/aesir-qc-3b/aesir_engine/tests/fixtures/qwen35_tiny.gguf 51872 bytes, 56 tensors, qkv_width 56
+wrote /home/volmarr/aesir-qc-3b/aesir_engine/tests/fixtures/qwen35_tiny_bad_qkv.gguf 55136 bytes, 56 tensors, qkv_width 56
+wrote /home/volmarr/aesir-qc-3b/aesir_engine/tests/fixtures/qwen35_tiny_type_probe.gguf 53984 bytes, 56 tensors, qkv_width 56
+wrote /home/volmarr/aesir-qc-3b/aesir_engine/tests/fixtures/qwen35_forward.gguf 912544 bytes, 56 tensors, qkv_width 128
+wrote /home/volmarr/aesir-qc-3b/aesir_engine/tests/fixtures/qwen35_forward_f16probe.gguf 943264 bytes, 56 tensors, qkv_width 128
+wrote /home/volmarr/aesir-qc-3b/aesir_engine/tests/fixtures/qwen35_large.gguf 33200896 bytes, 109 tensors, qkv_width 512
++ echo FIXTURES_EXIT=0
+FIXTURES_EXIT=0
++ pixi run --frozen mojo build -I . --target-accelerator gfx1151 -Xlinker -Lhidden_files/hip-serve/shims -Xlinker -laesir_hailo10h -Xlinker -laesir_par -Xlinker -laesir_hip -Xlinker -laesir_vulkan -Xlinker -laesir_zc -Xlinker -laesir_aff aesir_engine/tests/test_gguf_writer_streaming_qc_3b.mojo -o hidden_files/qwen35-adapter/test_gguf_writer_streaming_qc_3b
+Imported from /home/volmarr/aesir-qc-3b/aesir_engine/tests/test_gguf_writer_streaming_qc_3b.mojo:26:
+/home/volmarr/aesir-qc-3b/aesir_engine/loader/gguf.mojo:9:6: error: unable to locate module 'core'
+from core.mimir_well import (
+     ^
+/home/volmarr/aesir-qc-3b/.pixi/envs/default/bin/mojo: error: failed to parse the provided Mojo source module
++ echo STREAM_TEST_BUILD_EXIT=1
+STREAM_TEST_BUILD_EXIT=1
++ pixi run --frozen mojo build -I . --target-accelerator gfx1151 -Xlinker -Lhidden_files/hip-serve/shims -Xlinker -laesir_hailo10h -Xlinker -laesir_par -Xlinker -laesir_hip -Xlinker -laesir_vulkan -Xlinker -laesir_zc -Xlinker -laesir_aff aesir_engine/tests/test_dequantize_input_qc_3b.mojo -o hidden_files/qwen35-adapter/test_dequantize_input_qc_3b
+/home/volmarr/aesir-qc-3b/aesir_engine/tests/test_dequantize_input_qc_3b.mojo:89:42: error: invalid call to 'dequantize_value_f32': value passed to 'w' cannot be converted from 'Pointer[UInt8, origin_of(block)]' to 'Pointer[UInt8, MutUntrackedOrigin]'
+        var value = dequantize_value_f32(ptr, 0, 12, j)
+                    ~~~~~~~~~~~~~~~~~~~~ ^~~
+Imported from /home/volmarr/aesir-qc-3b/aesir_engine/tests/test_dequantize_input_qc_3b.mojo:21:
+/home/volmarr/aesir-qc-3b/aesir_engine/core/dequantize_input.mojo:74:5: note: function declared here
+def dequantize_value_f32(
+    ^
+/home/volmarr/aesir-qc-3b/aesir_engine/tests/test_dequantize_input_qc_3b.mojo:89:42: note: .mut of the first value is 'False' but the second value is 'True'
+        var value = dequantize_value_f32(ptr, 0, 12, j)
+                                         ^
+/home/volmarr/aesir-qc-3b/aesir_engine/tests/test_dequantize_input_qc_3b.mojo:95:36: error: invalid call to 'dequantize_value_f32': value passed to 'w' cannot be converted from 'Pointer[UInt8, origin_of(block)]' to 'Pointer[UInt8, MutUntrackedOrigin]'
+    check_f32(dequantize_value_f32(ptr, 0, 12, 0), Float32(14.25), "Q4_K hand lane 0")
+              ~~~~~~~~~~~~~~~~~~~~ ^~~
+Imported from /home/volmarr/aesir-qc-3b/aesir_engine/tests/test_dequantize_input_qc_3b.mojo:21:
+/home/volmarr/aesir-qc-3b/aesir_engine/core/dequantize_input.mojo:74:5: note: function declared here
+def dequantize_value_f32(
+    ^
+/home/volmarr/aesir-qc-3b/aesir_engine/tests/test_dequantize_input_qc_3b.mojo:95:36: note: .mut of the first value is 'False' but the second value is 'True'
+    check_f32(dequantize_value_f32(ptr, 0, 12, 0), Float32(14.25), "Q4_K hand lane 0")
+                                   ^
+/home/volmarr/aesir-qc-3b/aesir_engine/tests/test_dequantize_input_qc_3b.mojo:96:36: error: invalid call to 'dequantize_value_f32': value passed to 'w' cannot be converted from 'Pointer[UInt8, origin_of(block)]' to 'Pointer[UInt8, MutUntrackedOrigin]'
+    check_f32(dequantize_value_f32(ptr, 0, 12, 100), Float32(96.75), "Q4_K hand lane 100")
+              ~~~~~~~~~~~~~~~~~~~~ ^~~
+Imported from /home/volmarr/aesir-qc-3b/aesir_engine/tests/test_dequantize_input_qc_3b.mojo:21:
+/home/volmarr/aesir-qc-3b/aesir_engine/core/dequantize_input.mojo:74:5: note: function declared here
+def dequantize_value_f32(
+    ^
+/home/volmarr/aesir-qc-3b/aesir_engine/tests/test_dequantize_input_qc_3b.mojo:96:36: note: .mut of the first value is 'False' but the second value is 'True'
+    check_f32(dequantize_value_f32(ptr, 0, 12, 100), Float32(96.75), "Q4_K hand lane 100")
+                                   ^
+/home/volmarr/aesir-qc-3b/aesir_engine/tests/test_dequantize_input_qc_3b.mojo:97:36: error: invalid call to 'dequantize_value_f32': value passed to 'w' cannot be converted from 'Pointer[UInt8, origin_of(block)]' to 'Pointer[UInt8, MutUntrackedOrigin]'
+    check_f32(dequantize_value_f32(ptr, 0, 12, 200), Float32(87.25), "Q4_K hand lane 200")
+              ~~~~~~~~~~~~~~~~~~~~ ^~~
+Imported from /home/volmarr/aesir-qc-3b/aesir_engine/tests/test_dequantize_input_qc_3b.mojo:21:
+/home/volmarr/aesir-qc-3b/aesir_engine/core/dequantize_input.mojo:74:5: note: function declared here
+def dequantize_value_f32(
+    ^
+/home/volmarr/aesir-qc-3b/aesir_engine/tests/test_dequantize_input_qc_3b.mojo:97:36: note: .mut of the first value is 'False' but the second value is 'True'
+    check_f32(dequantize_value_f32(ptr, 0, 12, 200), Float32(87.25), "Q4_K hand lane 200")
+                                   ^
+/home/volmarr/aesir-qc-3b/aesir_engine/tests/test_dequantize_input_qc_3b.mojo:98:36: error: invalid call to 'dequantize_range_f32': value passed to 'w' cannot be converted from 'Pointer[UInt8, origin_of(block)]' to 'Pointer[UInt8, MutUntrackedOrigin]'
+    var row = dequantize_range_f32(ptr, 0, 12, 0, 256)
+              ~~~~~~~~~~~~~~~~~~~~ ^~~
+Imported from /home/volmarr/aesir-qc-3b/aesir_engine/tests/test_dequantize_input_qc_3b.mojo:21:
+/home/volmarr/aesir-qc-3b/aesir_engine/core/dequantize_input.mojo:87:5: note: function declared here
+def dequantize_range_f32(
+    ^
+/home/volmarr/aesir-qc-3b/aesir_engine/tests/test_dequantize_input_qc_3b.mojo:98:36: note: .mut of the first value is 'False' but the second value is 'True'
+    var row = dequantize_range_f32(ptr, 0, 12, 0, 256)
+                                   ^
+/home/volmarr/aesir-qc-3b/aesir_engine/tests/test_dequantize_input_qc_3b.mojo:140:42: error: invalid call to 'dequantize_value_f32': value passed to 'w' cannot be converted from 'Pointer[UInt8, origin_of(block)]' to 'Pointer[UInt8, MutUntrackedOrigin]'
+        var value = dequantize_value_f32(ptr, 0, 13, j)
+                    ~~~~~~~~~~~~~~~~~~~~ ^~~
+Imported from /home/volmarr/aesir-qc-3b/aesir_engine/tests/test_dequantize_input_qc_3b.mojo:21:
+/home/volmarr/aesir-qc-3b/aesir_engine/core/dequantize_input.mojo:74:5: note: function declared here
+def dequantize_value_f32(
+    ^
+/home/volmarr/aesir-qc-3b/aesir_engine/tests/test_dequantize_input_qc_3b.mojo:140:42: note: .origin of the first value is 'origin_of(block)' but the second value is 'MutUntrackedOrigin'
+        var value = dequantize_value_f32(ptr, 0, 13, j)
+                                         ^
+/home/volmarr/aesir-qc-3b/aesir_engine/tests/test_dequantize_input_qc_3b.mojo:144:36: error: invalid call to 'dequantize_value_f32': value passed to 'w' cannot be converted from 'Pointer[UInt8, origin_of(block)]' to 'Pointer[UInt8, MutUntrackedOrigin]'
+    check_f32(dequantize_value_f32(ptr, 0, 13, 0), Float32(94.25), "Q5_K hand lane 0")
+              ~~~~~~~~~~~~~~~~~~~~ ^~~
+Imported from /home/volmarr/aesir-qc-3b/aesir_engine/tests/test_dequantize_input_qc_3b.mojo:21:
+/home/volmarr/aesir-qc-3b/aesir_engine/core/dequantize_input.mojo:74:5: note: function declared here
+def dequantize_value_f32(
+    ^
+/home/volmarr/aesir-qc-3b/aesir_engine/tests/test_dequantize_input_qc_3b.mojo:144:36: note: .origin of the first value is 'origin_of(block)' but the second value is 'MutUntrackedOrigin'
+    check_f32(dequantize_value_f32(ptr, 0, 13, 0), Float32(94.25), "Q5_K hand lane 0")
+                                   ^
+/home/volmarr/aesir-qc-3b/aesir_engine/tests/test_dequantize_input_qc_3b.mojo:145:36: error: invalid call to 'dequantize_value_f32': value passed to 'w' cannot be converted from 'Pointer[UInt8, origin_of(block)]' to 'Pointer[UInt8, MutUntrackedOrigin]'
+    check_f32(dequantize_value_f32(ptr, 0, 13, 10), Float32(124.25), "Q5_K hand lane 10")
+              ~~~~~~~~~~~~~~~~~~~~ ^~~
+Imported from /home/volmarr/aesir-qc-3b/aesir_engine/tests/test_dequantize_input_qc_3b.mojo:21:
+/home/volmarr/aesir-qc-3b/aesir_engine/core/dequantize_input.mojo:74:5: note: function declared here
+def dequantize_value_f32(
+    ^
+/home/volmarr/aesir-qc-3b/aesir_engine/tests/test_dequantize_input_qc_3b.mojo:145:36: note: .origin of the first value is 'origin_of(block)' but the second value is 'MutUntrackedOrigin'
+    check_f32(dequantize_value_f32(ptr, 0, 13, 10), Float32(124.25), "Q5_K hand lane 10")
+                                   ^
+/home/volmarr/aesir-qc-3b/aesir_engine/tests/test_dequantize_input_qc_3b.mojo:183:42: error: invalid call to 'dequantize_value_f32': value passed to 'w' cannot be converted from 'Pointer[UInt8, origin_of(block)]' to 'Pointer[UInt8, MutUntrackedOrigin]'
+        var value = dequantize_value_f32(ptr, 0, 14, j)
+                    ~~~~~~~~~~~~~~~~~~~~ ^~~
+Imported from /home/volmarr/aesir-qc-3b/aesir_engine/tests/test_dequantize_input_qc_3b.mojo:21:
+/home/volmarr/aesir-qc-3b/aesir_engine/core/dequantize_input.mojo:74:5: note: function declared here
+def dequantize_value_f32(
+    ^
+/home/volmarr/aesir-qc-3b/aesir_engine/tests/test_dequantize_input_qc_3b.mojo:183:42: note: .origin of the first value is 'origin_of(block)' but the second value is 'MutUntrackedOrigin'
+        var value = dequantize_value_f32(ptr, 0, 14, j)
+                                         ^
+/home/volmarr/aesir-qc-3b/aesir_engine/tests/test_dequantize_input_qc_3b.mojo:187:36: error: invalid call to 'dequantize_value_f32': value passed to 'w' cannot be converted from 'Pointer[UInt8, origin_of(block)]' to 'Pointer[UInt8, MutUntrackedOrigin]'
+    check_f32(dequantize_value_f32(ptr, 0, 14, 0), Float32(50.0), "Q6_K hand lane 0")
+              ~~~~~~~~~~~~~~~~~~~~ ^~~
+Imported from /home/volmarr/aesir-qc-3b/aesir_engine/tests/test_dequantize_input_qc_3b.mojo:21:
+/home/volmarr/aesir-qc-3b/aesir_engine/core/dequantize_input.mojo:74:5: note: function declared here
+def dequantize_value_f32(
+    ^
+/home/volmarr/aesir-qc-3b/aesir_engine/tests/test_dequantize_input_qc_3b.mojo:187:36: note: .origin of the first value is 'origin_of(block)' but the second value is 'MutUntrackedOrigin'
+    check_f32(dequantize_value_f32(ptr, 0, 14, 0), Float32(50.0), "Q6_K hand lane 0")
+                                   ^
+/home/volmarr/aesir-qc-3b/aesir_engine/tests/test_dequantize_input_qc_3b.mojo:188:36: error: invalid call to 'dequantize_value_f32': value passed to 'w' cannot be converted from 'Pointer[UInt8, origin_of(block)]' to 'Pointer[UInt8, MutUntrackedOrigin]'
+    check_f32(dequantize_value_f32(ptr, 0, 14, 33), Float32(-18.0), "Q6_K hand lane 33")
+              ~~~~~~~~~~~~~~~~~~~~ ^~~
+Imported from /home/volmarr/aesir-qc-3b/aesir_engine/tests/test_dequantize_input_qc_3b.mojo:21:
+/home/volmarr/aesir-qc-3b/aesir_engine/core/dequantize_input.mojo:74:5: note: function declared here
+def dequantize_value_f32(
+    ^
+/home/volmarr/aesir-qc-3b/aesir_engine/tests/test_dequantize_input_qc_3b.mojo:188:36: note: .origin of the first value is 'origin_of(block)' but the second value is 'MutUntrackedOrigin'
+    check_f32(dequantize_value_f32(ptr, 0, 14, 33), Float32(-18.0), "Q6_K hand lane 33")
+                                   ^
+/home/volmarr/aesir-qc-3b/aesir_engine/tests/test_dequantize_input_qc_3b.mojo:199:36: error: invalid call to 'dequantize_value_f32': value passed to 'w' cannot be converted from 'Pointer[UInt8, origin_of(f32_bytes)]' to 'Pointer[UInt8, MutUntrackedOrigin]'
+    check_f32(dequantize_value_f32(ptr, 0, 0, 0), Float32(1.5), "F32 lane 0")
+              ~~~~~~~~~~~~~~~~~~~~ ^~~
+Imported from /home/volmarr/aesir-qc-3b/aesir_engine/tests/test_dequantize_input_qc_3b.mojo:21:
+/home/volmarr/aesir-qc-3b/aesir_engine/core/dequantize_input.mojo:74:5: note: function declared here
+def dequantize_value_f32(
+    ^
+/home/volmarr/aesir-qc-3b/aesir_engine/tests/test_dequantize_input_qc_3b.mojo:199:36: note: .origin of the first value is 'origin_of(f32_bytes)' but the second value is 'MutUntrackedOrigin'
+    check_f32(dequantize_value_f32(ptr, 0, 0, 0), Float32(1.5), "F32 lane 0")
+                                   ^
+/home/volmarr/aesir-qc-3b/aesir_engine/tests/test_dequantize_input_qc_3b.mojo:200:36: error: invalid call to 'dequantize_value_f32': value passed to 'w' cannot be converted from 'Pointer[UInt8, origin_of(f32_bytes)]' to 'Pointer[UInt8, MutUntrackedOrigin]'
+    check_f32(dequantize_value_f32(ptr, 0, 0, 1), Float32(-2.25), "F32 lane 1")
+              ~~~~~~~~~~~~~~~~~~~~ ^~~
+Imported from /home/volmarr/aesir-qc-3b/aesir_engine/tests/test_dequantize_input_qc_3b.mojo:21:
+/home/volmarr/aesir-qc-3b/aesir_engine/core/dequantize_input.mojo:74:5: note: function declared here
+def dequantize_value_f32(
+    ^
+/home/volmarr/aesir-qc-3b/aesir_engine/tests/test_dequantize_input_qc_3b.mojo:200:36: note: .origin of the first value is 'origin_of(f32_bytes)' but the second value is 'MutUntrackedOrigin'
+    check_f32(dequantize_value_f32(ptr, 0, 0, 1), Float32(-2.25), "F32 lane 1")
+                                   ^
+/home/volmarr/aesir-qc-3b/aesir_engine/tests/test_dequantize_input_qc_3b.mojo:201:36: error: invalid call to 'dequantize_value_f32': value passed to 'w' cannot be converted from 'Pointer[UInt8, origin_of(f32_bytes)]' to 'Pointer[UInt8, MutUntrackedOrigin]'
+    check_f32(dequantize_value_f32(ptr, 0, 0, 3), Float32(100.5), "F32 lane 3")
+              ~~~~~~~~~~~~~~~~~~~~ ^~~
+Imported from /home/volmarr/aesir-qc-3b/aesir_engine/tests/test_dequantize_input_qc_3b.mojo:21:
+/home/volmarr/aesir-qc-3b/aesir_engine/core/dequantize_input.mojo:74:5: note: function declared here
+def dequantize_value_f32(
+    ^
+/home/volmarr/aesir-qc-3b/aesir_engine/tests/test_dequantize_input_qc_3b.mojo:201:36: note: .origin of the first value is 'origin_of(f32_bytes)' but the second value is 'MutUntrackedOrigin'
+    check_f32(dequantize_value_f32(ptr, 0, 0, 3), Float32(100.5), "F32 lane 3")
+                                   ^
+/home/volmarr/aesir-qc-3b/aesir_engine/tests/test_dequantize_input_qc_3b.mojo:208:36: error: invalid call to 'dequantize_value_f32': value passed to 'w' cannot be converted from 'Pointer[UInt8, origin_of(f16_bytes)]' to 'Pointer[UInt8, MutUntrackedOrigin]'
+    check_f32(dequantize_value_f32(ptr16, 0, 1, 0), Float32(1.5), "F16 lane 0")
+              ~~~~~~~~~~~~~~~~~~~~ ^~~~~
+Imported from /home/volmarr/aesir-qc-3b/aesir_engine/tests/test_dequantize_input_qc_3b.mojo:21:
+/home/volmarr/aesir-qc-3b/aesir_engine/core/dequantize_input.mojo:74:5: note: function declared here
+def dequantize_value_f32(
+    ^
+/home/volmarr/aesir-qc-3b/aesir_engine/tests/test_dequantize_input_qc_3b.mojo:208:36: note: .origin of the first value is 'origin_of(f16_bytes)' but the second value is 'MutUntrackedOrigin'
+    check_f32(dequantize_value_f32(ptr16, 0, 1, 0), Float32(1.5), "F16 lane 0")
+                                   ^
+/home/volmarr/aesir-qc-3b/aesir_engine/tests/test_dequantize_input_qc_3b.mojo:209:36: error: invalid call to 'dequantize_value_f32': value passed to 'w' cannot be converted from 'Pointer[UInt8, origin_of(f16_bytes)]' to 'Pointer[UInt8, MutUntrackedOrigin]'
+    check_f32(dequantize_value_f32(ptr16, 0, 1, 1), Float32(-2.0), "F16 lane 1")
+              ~~~~~~~~~~~~~~~~~~~~ ^~~~~
+Imported from /home/volmarr/aesir-qc-3b/aesir_engine/tests/test_dequantize_input_qc_3b.mojo:21:
+/home/volmarr/aesir-qc-3b/aesir_engine/core/dequantize_input.mojo:74:5: note: function declared here
+def dequantize_value_f32(
+    ^
+/home/volmarr/aesir-qc-3b/aesir_engine/tests/test_dequantize_input_qc_3b.mojo:209:36: note: .origin of the first value is 'origin_of(f16_bytes)' but the second value is 'MutUntrackedOrigin'
+    check_f32(dequantize_value_f32(ptr16, 0, 1, 1), Float32(-2.0), "F16 lane 1")
+                                   ^
+/home/volmarr/aesir-qc-3b/aesir_engine/tests/test_dequantize_input_qc_3b.mojo:214:36: error: invalid call to 'dequantize_value_f32': value passed to 'w' cannot be converted from 'Pointer[UInt8, origin_of(bf16_bytes)]' to 'Pointer[UInt8, MutUntrackedOrigin]'
+    check_f32(dequantize_value_f32(ptrb, 0, 30, 0), Float32(1.5), "BF16 lane 0")
+              ~~~~~~~~~~~~~~~~~~~~ ^~~~
+Imported from /home/volmarr/aesir-qc-3b/aesir_engine/tests/test_dequantize_input_qc_3b.mojo:21:
+/home/volmarr/aesir-qc-3b/aesir_engine/core/dequantize_input.mojo:74:5: note: function declared here
+def dequantize_value_f32(
+    ^
+/home/volmarr/aesir-qc-3b/aesir_engine/tests/test_dequantize_input_qc_3b.mojo:214:36: note: .origin of the first value is 'origin_of(bf16_bytes)' but the second value is 'MutUntrackedOrigin'
+    check_f32(dequantize_value_f32(ptrb, 0, 30, 0), Float32(1.5), "BF16 lane 0")
+                                   ^
+/home/volmarr/aesir-qc-3b/aesir_engine/tests/test_dequantize_input_qc_3b.mojo:231:34: error: invalid call to 'dequantize_value_f32': value passed to 'w' cannot be converted from 'Pointer[UInt8, origin_of(block)]' to 'Pointer[UInt8, MutUntrackedOrigin]'
+        _ = dequantize_value_f32(ptr, 0, 2, 0)
+            ~~~~~~~~~~~~~~~~~~~~ ^~~
+Imported from /home/volmarr/aesir-qc-3b/aesir_engine/tests/test_dequantize_input_qc_3b.mojo:21:
+/home/volmarr/aesir-qc-3b/aesir_engine/core/dequantize_input.mojo:74:5: note: function declared here
+def dequantize_value_f32(
+    ^
+/home/volmarr/aesir-qc-3b/aesir_engine/tests/test_dequantize_input_qc_3b.mojo:231:34: note: .origin of the first value is 'origin_of(block)' but the second value is 'MutUntrackedOrigin'
+        _ = dequantize_value_f32(ptr, 0, 2, 0)
+                                 ^
+/home/volmarr/aesir-qc-3b/.pixi/envs/default/bin/mojo: error: failed to parse the provided Mojo source module
++ echo DEQUANT_TEST_BUILD_EXIT=1
+DEQUANT_TEST_BUILD_EXIT=1
++ pixi run --frozen mojo build -I . --target-accelerator gfx1151 -Xlinker -Lhidden_files/hip-serve/shims -Xlinker -laesir_hailo10h -Xlinker -laesir_par -Xlinker -laesir_hip -Xlinker -laesir_vulkan -Xlinker -laesir_zc -Xlinker -laesir_aff aesir_engine/tests/test_gguf_writer_qc_1.mojo -o hidden_files/qwen35-adapter/test_gguf_writer_qc_1
+Included from /home/volmarr/aesir-qc-3b/aesir_engine/tests/test_gguf_writer_qc_1.mojo:28:
+/home/volmarr/aesir-qc-3b/aesir_engine/loader/gguf.mojo:566:29: warning: assignment to 'width' was never used; assign to '_' instead?
+                var width = 0
+                            ^
++ echo QC1_TEST_BUILD_EXIT=0
+QC1_TEST_BUILD_EXIT=0
++ pixi run --frozen mojo build -I . --target-accelerator gfx1151 -Xlinker -Lhidden_files/hip-serve/shims -Xlinker -laesir_hailo10h -Xlinker -laesir_par -Xlinker -laesir_hip -Xlinker -laesir_vulkan -Xlinker -laesir_zc -Xlinker -laesir_aff aesir_engine/main.mojo -o .aesir/aesir
+Imported from /home/volmarr/aesir-qc-3b/aesir_engine/main.mojo:12:
+Imported from /home/volmarr/aesir-qc-3b/aesir_engine/cli/commands.mojo:25:
+Imported from /home/volmarr/aesir-qc-3b/aesir_engine/cli/doctor.mojo:3:
+Imported from /home/volmarr/aesir-qc-3b/aesir_engine/aesir.mojo:6:
+/home/volmarr/aesir-qc-3b/aesir_engine/core/inference.mojo:2181:9: warning: '__del__' is deprecated; use '__deinit__'
+    def __del__(deinit self):
+        ^~~~~~~
+        __deinit__
+Imported from /home/volmarr/aesir-qc-3b/aesir_engine/main.mojo:12:
+Imported from /home/volmarr/aesir-qc-3b/aesir_engine/cli/commands.mojo:25:
+Imported from /home/volmarr/aesir-qc-3b/aesir_engine/cli/doctor.mojo:3:
+Imported from /home/volmarr/aesir-qc-3b/aesir_engine/aesir.mojo:6:
+/home/volmarr/aesir-qc-3b/aesir_engine/core/inference.mojo:2182:20: warning: 'free' is deprecated, use 'unsafe_free' instead
+        self.s_data.free()
+        ~~~~~~~~~~~^~~~~
+                    unsafe_free
+<unknown>:0: note: 'free' declared here
+Imported from /home/volmarr/aesir-qc-3b/aesir_engine/main.mojo:12:
+Imported from /home/volmarr/aesir-qc-3b/aesir_engine/cli/commands.mojo:25:
+Imported from /home/volmarr/aesir-qc-3b/aesir_engine/cli/doctor.mojo:3:
+Imported from /home/volmarr/aesir-qc-3b/aesir_engine/aesir.mojo:6:
+/home/volmarr/aesir-qc-3b/aesir_engine/core/inference.mojo:2183:23: warning: 'free' is deprecated, use 'unsafe_free' instead
+        self.conv_data.free()
+        ~~~~~~~~~~~~~~^~~~~
+                       unsafe_free
+<unknown>:0: note: 'free' declared here
+Imported from /home/volmarr/aesir-qc-3b/aesir_engine/main.mojo:12:
+Imported from /home/volmarr/aesir-qc-3b/aesir_engine/cli/commands.mojo:25:
+Imported from /home/volmarr/aesir-qc-3b/aesir_engine/cli/doctor.mojo:3:
+Imported from /home/volmarr/aesir-qc-3b/aesir_engine/aesir.mojo:6:
+/home/volmarr/aesir-qc-3b/aesir_engine/core/inference.mojo:2184:21: warning: 'free' is deprecated, use 'unsafe_free' instead
+        self.scratch.free()
+        ~~~~~~~~~~~~^~~~~
+                     unsafe_free
+<unknown>:0: note: 'free' declared here
+Imported from /home/volmarr/aesir-qc-3b/aesir_engine/main.mojo:12:
+Imported from /home/volmarr/aesir-qc-3b/aesir_engine/cli/commands.mojo:21:
+Imported from /home/volmarr/aesir-qc-3b/aesir_engine/cli/bench.mojo:41:
+Imported from /home/volmarr/aesir-qc-3b/aesir_engine/core/thread_topology.mojo:101:
+/home/volmarr/aesir-qc-3b/aesir_engine/core/parallel.mojo:39:1: warning: 'alias' is deprecated; use 'comptime'
+alias RangeFn = def(Int64, Int64, Int64) thin -> None
+^~~~~
+comptime
+Imported from /home/volmarr/aesir-qc-3b/aesir_engine/main.mojo:12:
+Imported from /home/volmarr/aesir-qc-3b/aesir_engine/cli/commands.mojo:21:
+Imported from /home/volmarr/aesir-qc-3b/aesir_engine/cli/bench.mojo:41:
+/home/volmarr/aesir-qc-3b/aesir_engine/core/thread_topology.mojo:424:18: warning: `alloc` without a `Layout` is deprecated, use the `Layout`-based `alloc` instead; as a temporary migration step, use `unsafe_alloc`
+    var output = alloc[Float32](out_len)
+                 ^~~~~
+<unknown>:0: note: 'alloc' declared here
+Imported from /home/volmarr/aesir-qc-3b/aesir_engine/main.mojo:12:
+Imported from /home/volmarr/aesir-qc-3b/aesir_engine/cli/commands.mojo:21:
+Imported from /home/volmarr/aesir-qc-3b/aesir_engine/cli/bench.mojo:41:
+/home/volmarr/aesir-qc-3b/aesir_engine/core/thread_topology.mojo:425:15: warning: `alloc` without a `Layout` is deprecated, use the `Layout`-based `alloc` instead; as a temporary migration step, use `unsafe_alloc`
+    var ctx = alloc[Int64](6)
+              ^~~~~
+<unknown>:0: note: 'alloc' declared here
+Imported from /home/volmarr/aesir-qc-3b/aesir_engine/main.mojo:12:
+Imported from /home/volmarr/aesir-qc-3b/aesir_engine/cli/commands.mojo:25:
+Imported from /home/volmarr/aesir-qc-3b/aesir_engine/cli/doctor.mojo:3:
+Imported from /home/volmarr/aesir-qc-3b/aesir_engine/aesir.mojo:6:
+/home/volmarr/aesir-qc-3b/aesir_engine/core/inference.mojo:965:27: warning: `alloc` without a `Layout` is deprecated, use the `Layout`-based `alloc` instead; as a temporary migration step, use `unsafe_alloc`
+            var scratch = alloc[Float32](256)
+                          ^~~~~
+<unknown>:0: note: 'alloc' declared here
+Imported from /home/volmarr/aesir-qc-3b/aesir_engine/main.mojo:12:
+Imported from /home/volmarr/aesir-qc-3b/aesir_engine/cli/commands.mojo:25:
+Imported from /home/volmarr/aesir-qc-3b/aesir_engine/cli/doctor.mojo:3:
+Imported from /home/volmarr/aesir-qc-3b/aesir_engine/aesir.mojo:6:
+/home/volmarr/aesir-qc-3b/aesir_engine/core/inference.mojo:986:30: warning: `alloc` without a `Layout` is deprecated, use the `Layout`-based `alloc` instead; as a temporary migration step, use `unsafe_alloc`
+            var nl_scratch = alloc[Float32](32)
+                             ^~~~~
+<unknown>:0: note: 'alloc' declared here
+Imported from /home/volmarr/aesir-qc-3b/aesir_engine/main.mojo:12:
+Imported from /home/volmarr/aesir-qc-3b/aesir_engine/cli/commands.mojo:25:
+Imported from /home/volmarr/aesir-qc-3b/aesir_engine/cli/doctor.mojo:3:
+Imported from /home/volmarr/aesir-qc-3b/aesir_engine/aesir.mojo:6:
+Imported from /home/volmarr/aesir-qc-3b/aesir_engine/core/inference.mojo:11:
+/home/volmarr/aesir-qc-3b/aesir_engine/core/compute.mojo:1976:15: warning: `alloc` without a `Layout` is deprecated, use the `Layout`-based `alloc` instead; as a temporary migration step, use `unsafe_alloc`
+    var dst = alloc[UInt16](2048)
+              ^~~~~
+<unknown>:0: note: 'alloc' declared here
+Imported from /home/volmarr/aesir-qc-3b/aesir_engine/main.mojo:12:
+Imported from /home/volmarr/aesir-qc-3b/aesir_engine/cli/commands.mojo:25:
+Imported from /home/volmarr/aesir-qc-3b/aesir_engine/cli/doctor.mojo:3:
+Imported from /home/volmarr/aesir-qc-3b/aesir_engine/aesir.mojo:6:
+Imported from /home/volmarr/aesir-qc-3b/aesir_engine/core/inference.mojo:11:
+/home/volmarr/aesir-qc-3b/aesir_engine/core/compute.mojo:1267:14: warning: `alloc` without a `Layout` is deprecated, use the `Layout`-based `alloc` instead; as a temporary migration step, use `unsafe_alloc`
+    var cp = alloc[Int64](6)
+             ^~~~~
+<unknown>:0: note: 'alloc' declared here
+Imported from /home/volmarr/aesir-qc-3b/aesir_engine/main.mojo:12:
+Imported from /home/volmarr/aesir-qc-3b/aesir_engine/cli/commands.mojo:25:
+Imported from /home/volmarr/aesir-qc-3b/aesir_engine/cli/doctor.mojo:3:
+Imported from /home/volmarr/aesir-qc-3b/aesir_engine/aesir.mojo:6:
+Imported from /home/volmarr/aesir-qc-3b/aesir_engine/core/inference.mojo:11:
+/home/volmarr/aesir-qc-3b/aesir_engine/core/compute.mojo:2638:14: warning: `alloc` without a `Layout` is deprecated, use the `Layout`-based `alloc` instead; as a temporary migration step, use `unsafe_alloc`
+    var cp = alloc[Int64](6)
+             ^~~~~
+<unknown>:0: note: 'alloc' declared here
+Imported from /home/volmarr/aesir-qc-3b/aesir_engine/main.mojo:12:
+Imported from /home/volmarr/aesir-qc-3b/aesir_engine/cli/commands.mojo:25:
+Imported from /home/volmarr/aesir-qc-3b/aesir_engine/cli/doctor.mojo:3:
+Imported from /home/volmarr/aesir-qc-3b/aesir_engine/aesir.mojo:6:
+Imported from /home/volmarr/aesir-qc-3b/aesir_engine/core/inference.mojo:11:
+/home/volmarr/aesir-qc-3b/aesir_engine/core/compute.mojo:2181:14: warning: `alloc` without a `Layout` is deprecated, use the `Layout`-based `alloc` instead; as a temporary migration step, use `unsafe_alloc`
+    var cp = alloc[Int64](7)
+             ^~~~~
+<unknown>:0: note: 'alloc' declared here
+Imported from /home/volmarr/aesir-qc-3b/aesir_engine/main.mojo:12:
+Imported from /home/volmarr/aesir-qc-3b/aesir_engine/cli/commands.mojo:25:
+Imported from /home/volmarr/aesir-qc-3b/aesir_engine/cli/doctor.mojo:3:
+Imported from /home/volmarr/aesir-qc-3b/aesir_engine/aesir.mojo:6:
+Imported from /home/volmarr/aesir-qc-3b/aesir_engine/core/inference.mojo:11:
+/home/volmarr/aesir-qc-3b/aesir_engine/core/compute.mojo:1094:19: warning: `alloc` without a `Layout` is deprecated, use the `Layout`-based `alloc` instead; as a temporary migration step, use `unsafe_alloc`
+    var scratch = alloc[Float32](a_cols)
+                  ^~~~~
+<unknown>:0: note: 'alloc' declared here
+Imported from /home/volmarr/aesir-qc-3b/aesir_engine/main.mojo:12:
+Imported from /home/volmarr/aesir-qc-3b/aesir_engine/cli/commands.mojo:25:
+Imported from /home/volmarr/aesir-qc-3b/aesir_engine/cli/doctor.mojo:3:
+Imported from /home/volmarr/aesir-qc-3b/aesir_engine/aesir.mojo:6:
+Imported from /home/volmarr/aesir-qc-3b/aesir_engine/core/inference.mojo:11:
+/home/volmarr/aesir-qc-3b/aesir_engine/core/compute.mojo:1941:14: warning: `alloc` without a `Layout` is deprecated, use the `Layout`-based `alloc` instead; as a temporary migration step, use `unsafe_alloc`
+    var cp = alloc[Int64](9)
+             ^~~~~
+<unknown>:0: note: 'alloc' declared here
+Imported from /home/volmarr/aesir-qc-3b/aesir_engine/main.mojo:12:
+Imported from /home/volmarr/aesir-qc-3b/aesir_engine/cli/commands.mojo:25:
+Imported from /home/volmarr/aesir-qc-3b/aesir_engine/cli/doctor.mojo:3:
+Imported from /home/volmarr/aesir-qc-3b/aesir_engine/aesir.mojo:6:
+Imported from /home/volmarr/aesir-qc-3b/aesir_engine/core/inference.mojo:11:
+/home/volmarr/aesir-qc-3b/aesir_engine/core/compute.mojo:2093:14: warning: `alloc` without a `Layout` is deprecated, use the `Layout`-based `alloc` instead; as a temporary migration step, use `unsafe_alloc`
+    var cp = alloc[Int64](8)
+             ^~~~~
+<unknown>:0: note: 'alloc' declared here
+Imported from /home/volmarr/aesir-qc-3b/aesir_engine/main.mojo:12:
+Imported from /home/volmarr/aesir-qc-3b/aesir_engine/cli/commands.mojo:25:
+Imported from /home/volmarr/aesir-qc-3b/aesir_engine/cli/doctor.mojo:3:
+Imported from /home/volmarr/aesir-qc-3b/aesir_engine/aesir.mojo:6:
+Imported from /home/volmarr/aesir-qc-3b/aesir_engine/core/inference.mojo:11:
+/home/volmarr/aesir-qc-3b/aesir_engine/core/compute.mojo:2558:14: warning: `alloc` without a `Layout` is deprecated, use the `Layout`-based `alloc` instead; as a temporary migration step, use `unsafe_alloc`
+    var cp = alloc[Int64](8)
+             ^~~~~
+<unknown>:0: note: 'alloc' declared here
+Imported from /home/volmarr/aesir-qc-3b/aesir_engine/main.mojo:12:
+Imported from /home/volmarr/aesir-qc-3b/aesir_engine/cli/commands.mojo:25:
+Imported from /home/volmarr/aesir-qc-3b/aesir_engine/cli/doctor.mojo:3:
+Imported from /home/volmarr/aesir-qc-3b/aesir_engine/aesir.mojo:6:
+Imported from /home/volmarr/aesir-qc-3b/aesir_engine/core/inference.mojo:11:
+/home/volmarr/aesir-qc-3b/aesir_engine/core/compute.mojo:1638:28: warning: unreachable code on right side of 'False and ...'
+    return VNNI_DEFAULT_ON and cpu_has_vnni()
+                           ^
+Imported from /home/volmarr/aesir-qc-3b/aesir_engine/main.mojo:12:
+Imported from /home/volmarr/aesir-qc-3b/aesir_engine/cli/commands.mojo:25:
+Imported from /home/volmarr/aesir-qc-3b/aesir_engine/cli/doctor.mojo:3:
+Imported from /home/volmarr/aesir-qc-3b/aesir_engine/aesir.mojo:6:
+Imported from /home/volmarr/aesir-qc-3b/aesir_engine/core/inference.mojo:11:
+/home/volmarr/aesir-qc-3b/aesir_engine/core/compute.mojo:1749:18: warning: `alloc` without a `Layout` is deprecated, use the `Layout`-based `alloc` instead; as a temporary migration step, use `unsafe_alloc`
+        var xq = alloc[Int8](rows_here * a_cols)
+                 ^~~~~
+<unknown>:0: note: 'alloc' declared here
+Imported from /home/volmarr/aesir-qc-3b/aesir_engine/main.mojo:12:
+Imported from /home/volmarr/aesir-qc-3b/aesir_engine/cli/commands.mojo:25:
+Imported from /home/volmarr/aesir-qc-3b/aesir_engine/cli/doctor.mojo:3:
+Imported from /home/volmarr/aesir-qc-3b/aesir_engine/aesir.mojo:6:
+Imported from /home/volmarr/aesir-qc-3b/aesir_engine/core/inference.mojo:11:
+/home/volmarr/aesir-qc-3b/aesir_engine/core/compute.mojo:1750:22: warning: `alloc` without a `Layout` is deprecated, use the `Layout`-based `alloc` instead; as a temporary migration step, use `unsafe_alloc`
+        var xscale = alloc[Float32](rows_here * blocks_per_row * nsub)
+                     ^~~~~
+<unknown>:0: note: 'alloc' declared here
+Imported from /home/volmarr/aesir-qc-3b/aesir_engine/main.mojo:12:
+Imported from /home/volmarr/aesir-qc-3b/aesir_engine/cli/commands.mojo:25:
+Imported from /home/volmarr/aesir-qc-3b/aesir_engine/cli/doctor.mojo:3:
+Imported from /home/volmarr/aesir-qc-3b/aesir_engine/aesir.mojo:6:
+Imported from /home/volmarr/aesir-qc-3b/aesir_engine/core/inference.mojo:11:
+/home/volmarr/aesir-qc-3b/aesir_engine/core/compute.mojo:1751:21: warning: `alloc` without a `Layout` is deprecated, use the `Layout`-based `alloc` instead; as a temporary migration step, use `unsafe_alloc`
+        var xsums = alloc[Float32](rows_here * blocks_per_row * nsub)
+                    ^~~~~
+<unknown>:0: note: 'alloc' declared here
+Included from /home/volmarr/aesir-qc-3b/aesir_engine/main.mojo:12:
+Included from /home/volmarr/aesir-qc-3b/aesir_engine/cli/commands.mojo:25:
+Included from /home/volmarr/aesir-qc-3b/aesir_engine/cli/doctor.mojo:3:
+Included from /home/volmarr/aesir-qc-3b/aesir_engine/aesir.mojo:25:
+Included from /home/volmarr/aesir-qc-3b/aesir_engine/core/runtime_plan.mojo:10:
+/home/volmarr/aesir-qc-3b/aesir_engine/core/amd_gate.mojo:221:21: warning: 'except' logic is unreachable, try doesn't raise an exception
+            return (False, Int(0))
+                    ^
+Included from /home/volmarr/aesir-qc-3b/aesir_engine/main.mojo:12:
+Included from /home/volmarr/aesir-qc-3b/aesir_engine/cli/commands.mojo:25:
+Included from /home/volmarr/aesir-qc-3b/aesir_engine/cli/doctor.mojo:4:
+/home/volmarr/aesir-qc-3b/aesir_engine/core/hardware_census.mojo:512:27: warning: assignment to 'version' was never used; assign to '_' instead?
+            var version = -1
+                          ^
+Included from /home/volmarr/aesir-qc-3b/aesir_engine/main.mojo:12:
+Included from /home/volmarr/aesir-qc-3b/aesir_engine/cli/commands.mojo:25:
+Included from /home/volmarr/aesir-qc-3b/aesir_engine/cli/doctor.mojo:4:
+/home/volmarr/aesir-qc-3b/aesir_engine/core/hardware_census.mojo:462:22: warning: assignment to 'card' was never used; assign to '_' instead?
+    var card = String("")
+                     ^
+Included from /home/volmarr/aesir-qc-3b/aesir_engine/main.mojo:12:
+Included from /home/volmarr/aesir-qc-3b/aesir_engine/cli/commands.mojo:25:
+Included from /home/volmarr/aesir-qc-3b/aesir_engine/cli/doctor.mojo:4:
+/home/volmarr/aesir-qc-3b/aesir_engine/core/hardware_census.mojo:542:23: warning: assignment to 'accel' was never used; assign to '_' instead?
+    var accel = String("")
+                      ^
+Included from /home/volmarr/aesir-qc-3b/aesir_engine/main.mojo:12:
+Included from /home/volmarr/aesir-qc-3b/aesir_engine/cli/commands.mojo:25:
+Included from /home/volmarr/aesir-qc-3b/aesir_engine/cli/doctor.mojo:3:
+Included from /home/volmarr/aesir-qc-3b/aesir_engine/aesir.mojo:6:
+/home/volmarr/aesir-qc-3b/aesir_engine/core/inference.mojo:2433:43: warning: assignment to 'v_per_group' was never used; assign to '_' instead?
+                var v_per_group = v_heads // groups
+                                          ^
+Included from /home/volmarr/aesir-qc-3b/aesir_engine/main.mojo:12:
+Included from /home/volmarr/aesir-qc-3b/aesir_engine/cli/commands.mojo:25:
+Included from /home/volmarr/aesir-qc-3b/aesir_engine/cli/doctor.mojo:3:
+Included from /home/volmarr/aesir-qc-3b/aesir_engine/aesir.mojo:6:
+/home/volmarr/aesir-qc-3b/aesir_engine/core/inference.mojo:2685:43: warning: assignment to 'v_per_group' was never used; assign to '_' instead?
+                var v_per_group = v_heads // groups
+                                          ^
+Included from /home/volmarr/aesir-qc-3b/aesir_engine/main.mojo:12:
+Included from /home/volmarr/aesir-qc-3b/aesir_engine/cli/commands.mojo:25:
+Included from /home/volmarr/aesir-qc-3b/aesir_engine/cli/doctor.mojo:20:
+/home/volmarr/aesir-qc-3b/aesir_engine/core/scheduler_telemetry.mojo:418:20: warning: assignment to 'util' was never used; assign to '_' instead?
+        var util = -1
+                   ^
+Included from /home/volmarr/aesir-qc-3b/aesir_engine/main.mojo:12:
+Included from /home/volmarr/aesir-qc-3b/aesir_engine/cli/commands.mojo:25:
+Included from /home/volmarr/aesir-qc-3b/aesir_engine/cli/doctor.mojo:20:
+/home/volmarr/aesir-qc-3b/aesir_engine/core/scheduler_telemetry.mojo:426:20: warning: assignment to 'used' was never used; assign to '_' instead?
+        var used = -1
+                   ^
+Included from /home/volmarr/aesir-qc-3b/aesir_engine/main.mojo:12:
+Included from /home/volmarr/aesir-qc-3b/aesir_engine/cli/commands.mojo:25:
+Included from /home/volmarr/aesir-qc-3b/aesir_engine/cli/doctor.mojo:20:
+/home/volmarr/aesir-qc-3b/aesir_engine/core/scheduler_telemetry.mojo:427:23: warning: assignment to 'total_b' was never used; assign to '_' instead?
+        var total_b = -1
+                      ^
+Included from /home/volmarr/aesir-qc-3b/aesir_engine/main.mojo:12:
+Included from /home/volmarr/aesir-qc-3b/aesir_engine/cli/commands.mojo:25:
+Included from /home/volmarr/aesir-qc-3b/aesir_engine/cli/doctor.mojo:5:
+/home/volmarr/aesir-qc-3b/aesir_engine/core/thermal_power.mojo:195:25: warning: assignment to 'listing' was never used; assign to '_' instead?
+    var listing = String("")
+                        ^
+Included from /home/volmarr/aesir-qc-3b/aesir_engine/main.mojo:12:
+Included from /home/volmarr/aesir-qc-3b/aesir_engine/cli/commands.mojo:25:
+Included from /home/volmarr/aesir-qc-3b/aesir_engine/cli/doctor.mojo:5:
+/home/volmarr/aesir-qc-3b/aesir_engine/core/thermal_power.mojo:240:25: warning: assignment to 'domains' was never used; assign to '_' instead?
+    var domains = String("")
+                        ^
+Included from /home/volmarr/aesir-qc-3b/aesir_engine/main.mojo:12:
+Included from /home/volmarr/aesir-qc-3b/aesir_engine/cli/commands.mojo:22:
+Included from /home/volmarr/aesir-qc-3b/aesir_engine/cli/model_inspect.mojo:2:
+Included from /home/volmarr/aesir-qc-3b/aesir_engine/loader/packed_gguf.mojo:7:
+/home/volmarr/aesir-qc-3b/aesir_engine/loader/gguf.mojo:566:29: warning: assignment to 'width' was never used; assign to '_' instead?
+                var width = 0
+                            ^
+Included from /home/volmarr/aesir-qc-3b/aesir_engine/main.mojo:12:
+Included from /home/volmarr/aesir-qc-3b/aesir_engine/cli/commands.mojo:25:
+Included from /home/volmarr/aesir-qc-3b/aesir_engine/cli/doctor.mojo:3:
+/home/volmarr/aesir-qc-3b/aesir_engine/aesir.mojo:1255:30: warning: assignment to 'next_token' was never used; assign to '_' instead?
+            var next_token = -1
+                             ^
++ echo ENGINE_BUILD_EXIT=0
+ENGINE_BUILD_EXIT=0
++ echo QC3B_STAGE1_BUILD_DONE
+QC3B_STAGE1_BUILD_DONE

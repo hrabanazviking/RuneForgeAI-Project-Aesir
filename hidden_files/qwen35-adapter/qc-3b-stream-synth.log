@@ -1,0 +1,3 @@
+PASS: synthetic streaming emission byte-identical to in-memory emission ( 896  bytes, 7-byte chunks)
+PASS: stream refusals fire (chunk overrun / short tensor / out-of-order)
+QC-3b streaming writer proof (synth): DONE

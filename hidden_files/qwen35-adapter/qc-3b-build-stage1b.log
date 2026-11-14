@@ -1,0 +1,64 @@
++ cd /home/volmarr/aesir-qc-3b
++ export PATH=/home/volmarr/.pixi/bin:/home/volmarr/.cargo/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin
++ PATH=/home/volmarr/.pixi/bin:/home/volmarr/.cargo/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin
++ SH=hidden_files/hip-serve/shims
++ LK='-Xlinker -Lhidden_files/hip-serve/shims -Xlinker -laesir_hailo10h -Xlinker -laesir_par -Xlinker -laesir_hip -Xlinker -laesir_vulkan -Xlinker -laesir_zc -Xlinker -laesir_aff'
++ pixi run --frozen mojo build -I . --target-accelerator gfx1151 -Xlinker -Lhidden_files/hip-serve/shims -Xlinker -laesir_hailo10h -Xlinker -laesir_par -Xlinker -laesir_hip -Xlinker -laesir_vulkan -Xlinker -laesir_zc -Xlinker -laesir_aff aesir_engine/tests/test_gguf_writer_streaming_qc_3b.mojo -o hidden_files/qwen35-adapter/test_gguf_writer_streaming_qc_3b
++ echo STREAM_TEST_BUILD_EXIT=0
+STREAM_TEST_BUILD_EXIT=0
++ pixi run --frozen mojo build -I . --target-accelerator gfx1151 -Xlinker -Lhidden_files/hip-serve/shims -Xlinker -laesir_hailo10h -Xlinker -laesir_par -Xlinker -laesir_hip -Xlinker -laesir_vulkan -Xlinker -laesir_zc -Xlinker -laesir_aff aesir_engine/tests/test_dequantize_input_qc_3b.mojo -o hidden_files/qwen35-adapter/test_dequantize_input_qc_3b
+/home/volmarr/aesir-qc-3b/aesir_engine/tests/test_dequantize_input_qc_3b.mojo:89:42: error: invalid call to 'dequantize_value_f32': value passed to 'w' cannot be converted from 'Pointer[UInt8, ImmUntrackedOrigin]' to 'Pointer[UInt8, MutUntrackedOrigin]'
+        var value = dequantize_value_f32(ptr, 0, 12, j)
+                    ~~~~~~~~~~~~~~~~~~~~ ^~~
+Imported from /home/volmarr/aesir-qc-3b/aesir_engine/tests/test_dequantize_input_qc_3b.mojo:21:
+/home/volmarr/aesir-qc-3b/aesir_engine/core/dequantize_input.mojo:74:5: note: function declared here
+def dequantize_value_f32(
+    ^
+/home/volmarr/aesir-qc-3b/aesir_engine/tests/test_dequantize_input_qc_3b.mojo:89:42: note: .mut of the first value is 'False' but the second value is 'True'
+        var value = dequantize_value_f32(ptr, 0, 12, j)
+                                         ^
+/home/volmarr/aesir-qc-3b/aesir_engine/tests/test_dequantize_input_qc_3b.mojo:95:36: error: invalid call to 'dequantize_value_f32': value passed to 'w' cannot be converted from 'Pointer[UInt8, ImmUntrackedOrigin]' to 'Pointer[UInt8, MutUntrackedOrigin]'
+    check_f32(dequantize_value_f32(ptr, 0, 12, 0), Float32(14.25), "Q4_K hand lane 0")
+              ~~~~~~~~~~~~~~~~~~~~ ^~~
+Imported from /home/volmarr/aesir-qc-3b/aesir_engine/tests/test_dequantize_input_qc_3b.mojo:21:
+/home/volmarr/aesir-qc-3b/aesir_engine/core/dequantize_input.mojo:74:5: note: function declared here
+def dequantize_value_f32(
+    ^
+/home/volmarr/aesir-qc-3b/aesir_engine/tests/test_dequantize_input_qc_3b.mojo:95:36: note: .mut of the first value is 'False' but the second value is 'True'
+    check_f32(dequantize_value_f32(ptr, 0, 12, 0), Float32(14.25), "Q4_K hand lane 0")
+                                   ^
+/home/volmarr/aesir-qc-3b/aesir_engine/tests/test_dequantize_input_qc_3b.mojo:96:36: error: invalid call to 'dequantize_value_f32': value passed to 'w' cannot be converted from 'Pointer[UInt8, ImmUntrackedOrigin]' to 'Pointer[UInt8, MutUntrackedOrigin]'
+    check_f32(dequantize_value_f32(ptr, 0, 12, 100), Float32(96.75), "Q4_K hand lane 100")
+              ~~~~~~~~~~~~~~~~~~~~ ^~~
+Imported from /home/volmarr/aesir-qc-3b/aesir_engine/tests/test_dequantize_input_qc_3b.mojo:21:
+/home/volmarr/aesir-qc-3b/aesir_engine/core/dequantize_input.mojo:74:5: note: function declared here
+def dequantize_value_f32(
+    ^
+/home/volmarr/aesir-qc-3b/aesir_engine/tests/test_dequantize_input_qc_3b.mojo:96:36: note: .mut of the first value is 'False' but the second value is 'True'
+    check_f32(dequantize_value_f32(ptr, 0, 12, 100), Float32(96.75), "Q4_K hand lane 100")
+                                   ^
+/home/volmarr/aesir-qc-3b/aesir_engine/tests/test_dequantize_input_qc_3b.mojo:97:36: error: invalid call to 'dequantize_value_f32': value passed to 'w' cannot be converted from 'Pointer[UInt8, ImmUntrackedOrigin]' to 'Pointer[UInt8, MutUntrackedOrigin]'
+    check_f32(dequantize_value_f32(ptr, 0, 12, 200), Float32(87.25), "Q4_K hand lane 200")
+              ~~~~~~~~~~~~~~~~~~~~ ^~~
+Imported from /home/volmarr/aesir-qc-3b/aesir_engine/tests/test_dequantize_input_qc_3b.mojo:21:
+/home/volmarr/aesir-qc-3b/aesir_engine/core/dequantize_input.mojo:74:5: note: function declared here
+def dequantize_value_f32(
+    ^
+/home/volmarr/aesir-qc-3b/aesir_engine/tests/test_dequantize_input_qc_3b.mojo:97:36: note: .mut of the first value is 'False' but the second value is 'True'
+    check_f32(dequantize_value_f32(ptr, 0, 12, 200), Float32(87.25), "Q4_K hand lane 200")
+                                   ^
+/home/volmarr/aesir-qc-3b/aesir_engine/tests/test_dequantize_input_qc_3b.mojo:98:36: error: invalid call to 'dequantize_range_f32': value passed to 'w' cannot be converted from 'Pointer[UInt8, ImmUntrackedOrigin]' to 'Pointer[UInt8, MutUntrackedOrigin]'
+    var row = dequantize_range_f32(ptr, 0, 12, 0, 256)
+              ~~~~~~~~~~~~~~~~~~~~ ^~~
+Imported from /home/volmarr/aesir-qc-3b/aesir_engine/tests/test_dequantize_input_qc_3b.mojo:21:
+/home/volmarr/aesir-qc-3b/aesir_engine/core/dequantize_input.mojo:87:5: note: function declared here
+def dequantize_range_f32(
+    ^
+/home/volmarr/aesir-qc-3b/aesir_engine/tests/test_dequantize_input_qc_3b.mojo:98:36: note: .mut of the first value is 'False' but the second value is 'True'
+    var row = dequantize_range_f32(ptr, 0, 12, 0, 256)
+                                   ^
+/home/volmarr/aesir-qc-3b/.pixi/envs/default/bin/mojo: error: failed to parse the provided Mojo source module
++ echo DEQUANT_TEST_BUILD_EXIT=1
+DEQUANT_TEST_BUILD_EXIT=1
++ echo QC3B_STAGE1B_BUILD_DONE
+QC3B_STAGE1B_BUILD_DONE

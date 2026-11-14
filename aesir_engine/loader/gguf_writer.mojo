@@ -533,10 +533,10 @@ def _validate_kv_structure(kv: GGUFKV) raises:
             raise Error("GGUF writer: array element type refused for key " + kv.key)
 
 
-def _validate_kv_contract(desc: GGUFModelDesc) raises:
+def _validate_kv_contract(kvs: List[GGUFKV], alignment: Int) raises:
     var seen = List[String]()
     var has_alignment_key = False
-    for kv in desc.kvs:
+    for kv in kvs:
         if kv.key in seen:
             raise Error("GGUF writer: duplicate metadata key refused: " + kv.key)
         seen.append(String(kv.key))
@@ -575,9 +575,9 @@ def _validate_kv_contract(desc: GGUFModelDesc) raises:
                 raise Error("GGUF writer: metadata key has unexpected value type: " + kv.key)
         if kv.key == "general.alignment":
             has_alignment_key = True
-            if Int(kv.value.as_u32()) != desc.alignment:
+            if Int(kv.value.as_u32()) != alignment:
                 raise Error("GGUF writer: general.alignment does not match the emission alignment")
-    if desc.alignment != 32 and not has_alignment_key:
+    if alignment != 32 and not has_alignment_key:
         raise Error("GGUF writer: non-default alignment requires a general.alignment key")
 
 
@@ -587,7 +587,7 @@ def validate_gguf_desc(desc: GGUFModelDesc) raises:
     the shapes the readers would silently misprice."""
     if desc.alignment <= 0 or desc.alignment > 4096 or (desc.alignment & (desc.alignment - 1)) != 0:
         raise Error("GGUF writer: alignment must be a power of two up to 4096")
-    _validate_kv_contract(desc)
+    _validate_kv_contract(desc.kvs, desc.alignment)
     var names = List[String]()
     for tensor in desc.tensors:
         if tensor.name in names:
@@ -621,36 +621,17 @@ def gguf_tensor_offsets(desc: GGUFModelDesc) raises -> List[Int]:
 
 def build_gguf_bytes(desc: GGUFModelDesc) raises -> List[UInt8]:
     validate_gguf_desc(desc)
-    var offsets = gguf_tensor_offsets(desc)
-    var bytes = List[UInt8]()
-    bytes.append(0x47)
-    bytes.append(0x47)
-    bytes.append(0x55)
-    bytes.append(0x46)
-    _append_u32(bytes, 3)
-    _append_u64(bytes, UInt64(len(desc.tensors)))
-    _append_u64(bytes, UInt64(len(desc.kvs)))
-    for kv in desc.kvs:
-        _append_string(bytes, kv.key)
-        _append_u32(bytes, kv.value.value_type)
-        _append_bytes(bytes, kv.value.raw)
+    var metas = List[GGUFWriterTensorMeta]()
+    for tensor in desc.tensors:
+        metas.append(GGUFWriterTensorMeta(tensor.name, tensor.dims, tensor.tensor_type))
+    var built = build_gguf_header_bytes(desc.kvs, metas, desc.alignment)
+    var bytes = built.header.copy()
+    var data_offset = built.data_offset
     for i in range(len(desc.tensors)):
-        ref tensor = desc.tensors[i]
-        _append_string(bytes, tensor.name)
-        _append_u32(bytes, UInt32(len(tensor.dims)))
-        for dim in tensor.dims:
-            _append_u64(bytes, dim)
-        _append_u32(bytes, tensor.tensor_type)
-        _append_u64(bytes, UInt64(offsets[i]))
-    while len(bytes) % desc.alignment != 0:
-        bytes.append(0)
-    var data_offset = len(bytes)
-    for i in range(len(desc.tensors)):
-        while len(bytes) - data_offset < offsets[i]:
+        while len(bytes) - data_offset < built.offsets[i]:
             bytes.append(0)
         _append_bytes(bytes, desc.tensors[i].payload)
     return bytes^
-
 
 def write_gguf_file(path: String, desc: GGUFModelDesc) raises -> Int:
     """Builds the byte stream and writes it (create/truncate, 0644).
@@ -772,3 +753,295 @@ def copy_gguf_model(path: String) raises -> GGUFModelDesc:
             payload.append(UInt8(seer.mmap_ptr.unsafe_offset(base + index).unsafe_load()))
         desc.add_tensor(GGUFWriterTensor(entry.name, entry.dims, entry.tensor_type, payload))
     return desc^
+
+
+# ---------------------------------------------------------------------
+# QC-3b streaming emission path.
+#
+# The in-memory path above (GGUFModelDesc + build_gguf_bytes +
+# write_gguf_file) holds every payload AND the whole output byte
+# stream in memory: correct at fixture scale, not viable at whole-
+# model scale (the gemma-4-E2B conversion emits ~5 GB; QC-6's 27B
+# output is ~15 GB). The streaming path below emits the identical
+# byte layout -- header/KV/directory first (built by the same
+# build_gguf_header_bytes the in-memory path now shares), then each
+# tensor's payload produced and written per tensor, in directory
+# order, in caller-sized chunks -- so peak memory is O(header +
+# largest chunk), never O(file). Tensor payloads never ride inside
+# a description here: a GGUFWriterTensorMeta carries only name /
+# dims / GGML type, and its byte size is priced by the same
+# GGUFSeer-priced gguf_tensor_byte_size as the in-memory path, so
+# the two paths cannot disagree about layout. Validation mirrors
+# validate_gguf_desc exactly, minus the payload-length check (a
+# meta has no payload; the stream writer enforces the priced size
+# as chunks arrive: end_tensor refuses a short or overlong tensor).
+
+
+struct GGUFWriterTensorMeta(Copyable, Movable):
+    # One tensor to emit, without its payload: name, dims in GGML
+    # order (dim0 = columns / innermost), GGML type number.
+    var name: String
+    var dims: List[UInt64]
+    var tensor_type: UInt32
+
+    def __init__(
+        out self, name: String, dims: List[UInt64], tensor_type: UInt32
+    ):
+        self.name = String(name)
+        self.dims = dims.copy()
+        self.tensor_type = tensor_type
+
+    def element_count(self) raises -> Int:
+        var total = 1
+        for dim in self.dims:
+            if dim <= 0 or dim > UInt64(9223372036854775807):
+                raise Error("GGUF writer: tensor dimension out of range: " + self.name)
+            if Int(dim) > 9223372036854775807 // total:
+                raise Error("GGUF writer: tensor element count overflows: " + self.name)
+            total *= Int(dim)
+        return total
+
+    def byte_size(self) raises -> Int:
+        return gguf_tensor_byte_size(self.element_count(), self.tensor_type)
+
+
+def gguf_metas_offsets(
+    metas: List[GGUFWriterTensorMeta], alignment: Int
+) raises -> List[Int]:
+    # Relative tensor offsets for metas: caller order, each rounded
+    # UP to the emission alignment (zero padding between payloads).
+    # Identical walk to gguf_tensor_offsets, priced from metas.
+    var offsets = List[Int]()
+    var cursor = 0
+    for meta in metas:
+        var aligned = ((cursor + alignment - 1) // alignment) * alignment
+        offsets.append(aligned)
+        cursor = aligned + meta.byte_size()
+    return offsets^
+
+
+def validate_gguf_metas(
+    kvs: List[GGUFKV], metas: List[GGUFWriterTensorMeta], alignment: Int
+) raises:
+    # Every write-side refusal for the streaming path, checked
+    # before any byte is emitted; mirrors validate_gguf_desc.
+    if alignment <= 0 or alignment > 4096 or (alignment & (alignment - 1)) != 0:
+        raise Error("GGUF writer: alignment must be a power of two up to 4096")
+    _validate_kv_contract(kvs, alignment)
+    var names = List[String]()
+    for meta in metas:
+        if meta.name in names:
+            raise Error("GGUF writer: duplicate tensor name refused: " + meta.name)
+        names.append(String(meta.name))
+        if len(meta.dims) < 1 or len(meta.dims) > 3:
+            raise Error("GGUF writer: tensor must have one to three dimensions: " + meta.name)
+        var block = gguf_block_elements(meta.tensor_type)
+        if Int(meta.dims[0]) % block != 0:
+            raise Error("GGUF writer: tensor dim0 is not block aligned: " + meta.name)
+        _ = meta.byte_size()
+
+
+struct GGUFHeaderBuild(Copyable, Movable):
+    # The built header section (header + KVs + directory, zero-
+    # padded to data_offset), the relative tensor offsets, and the
+    # data_offset itself. Shared by build_gguf_bytes (in-memory)
+    # and GGUFStreamWriter (streaming) so both emit one layout.
+    var header: List[UInt8]
+    var offsets: List[Int]
+    var data_offset: Int
+
+    def __init__(
+        out self, header: List[UInt8], offsets: List[Int], data_offset: Int
+    ):
+        self.header = header.copy()
+        self.offsets = offsets.copy()
+        self.data_offset = data_offset
+
+
+def build_gguf_header_bytes(
+    kvs: List[GGUFKV], metas: List[GGUFWriterTensorMeta], alignment: Int
+) raises -> GGUFHeaderBuild:
+    validate_gguf_metas(kvs, metas, alignment)
+    var offsets = gguf_metas_offsets(metas, alignment)
+    var bytes = List[UInt8]()
+    bytes.append(0x47)
+    bytes.append(0x47)
+    bytes.append(0x55)
+    bytes.append(0x46)
+    _append_u32(bytes, 3)
+    _append_u64(bytes, UInt64(len(metas)))
+    _append_u64(bytes, UInt64(len(kvs)))
+    for kv in kvs:
+        _append_string(bytes, kv.key)
+        _append_u32(bytes, kv.value.value_type)
+        _append_bytes(bytes, kv.value.raw)
+    for i in range(len(metas)):
+        ref meta = metas[i]
+        _append_string(bytes, meta.name)
+        _append_u32(bytes, UInt32(len(meta.dims)))
+        for dim in meta.dims:
+            _append_u64(bytes, dim)
+        _append_u32(bytes, meta.tensor_type)
+        _append_u64(bytes, UInt64(offsets[i]))
+    while len(bytes) % alignment != 0:
+        bytes.append(0)
+    return GGUFHeaderBuild(bytes^, offsets^, len(bytes))
+
+
+comptime GGUF_STREAM_FLUSH_BYTES = 1048576
+
+
+struct GGUFStreamWriter(Copyable, Movable):
+    # Sequential streaming GGUF writer. Usage:
+    #   var w = open_gguf_stream(path, kvs, metas, alignment)
+    #   for i in range(len(metas)):
+    #       w.begin_tensor(i)
+    #       w.write_chunk(chunk)   # any number of chunks
+    #       w.end_tensor()
+    #   var total = w.finish()
+    # Tensors are written strictly in directory order; begin_tensor
+    # zero-pads to the tensor's aligned offset; write_chunk refuses
+    # to overrun the tensor's reader-priced size; end_tensor refuses
+    # a short tensor; finish refuses unwritten tensors and returns
+    # the exact file size (data_offset + the final tensor's end).
+    var fd: Int32
+    var buffer: List[UInt8]
+    var offsets: List[Int]
+    var byte_sizes: List[Int]
+    var data_offset: Int
+    var cursor: Int
+    var next_tensor: Int
+    var tensor_open: Bool
+    var tensor_end: Int
+    var total_size: Int
+
+    def __init__(
+        out self,
+        fd: Int32,
+        offsets: List[Int],
+        byte_sizes: List[Int],
+        data_offset: Int,
+        total_size: Int,
+    ):
+        self.fd = fd
+        self.buffer = List[UInt8]()
+        self.offsets = offsets.copy()
+        self.byte_sizes = byte_sizes.copy()
+        self.data_offset = data_offset
+        self.cursor = 0
+        self.next_tensor = 0
+        self.tensor_open = False
+        self.tensor_end = 0
+        self.total_size = total_size
+
+    def _flush(mut self) raises:
+        var offset = 0
+        while offset < len(self.buffer):
+            var wrote = external_call["write", Int](
+                Int(self.fd),
+                self.buffer.unsafe_ptr().unsafe_offset(offset),
+                len(self.buffer) - offset,
+            )
+            if wrote <= 0:
+                raise Error("GGUF stream writer: failed to write output file")
+            offset += wrote
+        self.buffer.clear()
+
+    def _write_raw(mut self, data: List[UInt8]) raises:
+        for byte in data:
+            self.buffer.append(byte)
+        self.cursor += len(data)
+        if len(self.buffer) >= GGUF_STREAM_FLUSH_BYTES:
+            self._flush()
+
+    def begin_tensor(mut self, index: Int) raises:
+        if self.tensor_open:
+            raise Error("GGUF stream writer: previous tensor is still open")
+        if index != self.next_tensor:
+            raise Error(
+                "GGUF stream writer: tensors must be written in directory"
+                + " order (expected " + String(self.next_tensor)
+                + ", got " + String(index) + ")"
+            )
+        var target = self.data_offset + self.offsets[index]
+        while self.cursor < target:
+            var n = target - self.cursor
+            if n > 65536:
+                n = 65536
+            var zeros = List[UInt8]()
+            zeros.resize(n, UInt8(0))
+            self._write_raw(zeros)
+        self.tensor_open = True
+        self.tensor_end = target + self.byte_sizes[index]
+
+    def write_chunk(mut self, data: List[UInt8]) raises:
+        if not self.tensor_open:
+            raise Error("GGUF stream writer: write_chunk outside a tensor")
+        if self.cursor + len(data) > self.tensor_end:
+            raise Error(
+                "GGUF stream writer: chunk overruns the tensor's"
+                + " reader-priced size"
+            )
+        self._write_raw(data)
+
+    def write_tensor(mut self, index: Int, payload: List[UInt8]) raises:
+        # Whole-payload convenience over begin/chunk/end.
+        self.begin_tensor(index)
+        self.write_chunk(payload)
+        self.end_tensor()
+
+    def end_tensor(mut self) raises:
+        if not self.tensor_open:
+            raise Error("GGUF stream writer: end_tensor with no open tensor")
+        if self.cursor != self.tensor_end:
+            raise Error(
+                "GGUF stream writer: tensor payload is short of its"
+                + " reader-priced size"
+            )
+        self.tensor_open = False
+        self.next_tensor += 1
+
+    def finish(mut self) raises -> Int:
+        if self.tensor_open:
+            raise Error("GGUF stream writer: finish with a tensor still open")
+        if self.next_tensor != len(self.offsets):
+            raise Error("GGUF stream writer: finish with unwritten tensors")
+        self._flush()
+        if self.cursor != self.total_size:
+            raise Error("GGUF stream writer: final size mismatch")
+        if external_call["close", Int32](self.fd) != 0:
+            raise Error("GGUF stream writer: failed to close output file")
+        self.fd = -1
+        return self.cursor
+
+
+def open_gguf_stream(
+    path: String,
+    kvs: List[GGUFKV],
+    metas: List[GGUFWriterTensorMeta],
+    alignment: Int,
+) raises -> GGUFStreamWriter:
+    # Validates (via build_gguf_header_bytes), creates/truncates the
+    # output file (0644, same flags as write_gguf_file), writes the
+    # header section, and returns the writer positioned at
+    # data_offset, ready for begin_tensor(0).
+    var built = build_gguf_header_bytes(kvs, metas, alignment)
+    var byte_sizes = List[Int]()
+    for meta in metas:
+        byte_sizes.append(meta.byte_size())
+    var total = built.data_offset
+    if len(metas) > 0:
+        total = built.data_offset + built.offsets[len(metas) - 1] + byte_sizes[len(metas) - 1]
+    var path_bytes = List[Int8]()
+    for byte in path.as_bytes():
+        path_bytes.append(Int8(byte))
+    path_bytes.append(0)
+    var fd = external_call["open64", Int32](path_bytes.unsafe_ptr(), Int32(577), Int32(420))
+    if fd < 0:
+        raise Error("GGUF stream writer: failed to open output file: " + path)
+    var writer = GGUFStreamWriter(fd, built.offsets, byte_sizes, built.data_offset, total)
+    writer._write_raw(built.header)
+    writer._flush()
+    if writer.cursor != built.data_offset:
+        raise Error("GGUF stream writer: header write did not reach data_offset")
+    return writer^

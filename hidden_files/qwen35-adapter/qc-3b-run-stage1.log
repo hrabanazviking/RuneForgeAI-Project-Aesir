@@ -1,0 +1,8 @@
+DEQUANT_BUILD_EXIT=0
+DEQUANT_TEST_EXIT=1
+STREAM_SYNTH_EXIT=0
+STREAM_STORIES_EXIT=0
+57a81ed1c8b032ba29319eae80c3e568dbb5a16ce665a09da1a0efe2e4eb69e3  hidden_files/qwen35-adapter/qc-3b-stories-stream.gguf
+57a81ed1c8b032ba29319eae80c3e568dbb5a16ce665a09da1a0efe2e4eb69e3  /home/volmarr/aesir-team-01/hidden_files/fixtures/stories260K.F16.gguf
+QC1_REGRESS_EXIT=0
+QC3B_STAGE1_RUNS_DONE
