@@ -985,6 +985,21 @@ from tests.test_rope_scaling_battery_a124 import (
     test_rope_synthetic_labelled,
     test_rope_synthetic_yarn_rule,
 )
+from tests.test_special_token_battery_a126 import (
+    test_special_axes_product,
+    test_special_backend_not_graded,
+    test_special_bos_rule_execution,
+    test_special_cpu_faithful,
+    test_special_engine_stop_transcription,
+    test_special_enumeration_unique,
+    test_special_llama_divergent_stop_set,
+    test_special_policy_obligation,
+    test_special_scenario_grid,
+    test_special_spec_profiles_by_call,
+    test_special_summary_sums,
+    test_special_synthetic_defects,
+    test_special_synthetic_labelled,
+)
 from tests.test_placement_planner_a100 import (
     test_planner_standard_fixtures,
     test_planner_prefill_variants,
@@ -2041,6 +2056,19 @@ def main() raises:
     run_case(ledger, "wtok.battery_invalid_cases_refused", test_wtok_invalid_cases_refused)
     run_case(ledger, "wtok.battery_row_line_render", test_wtok_row_line_render)
     run_case(ledger, "wtok.battery_digest_deterministic", test_wtok_digest_deterministic)
+    run_case(ledger, "special_token.axes_product", test_special_axes_product)
+    run_case(ledger, "special_token.enumeration_unique", test_special_enumeration_unique)
+    run_case(ledger, "special_token.policy_obligation", test_special_policy_obligation)
+    run_case(ledger, "special_token.cpu_faithful", test_special_cpu_faithful)
+    run_case(ledger, "special_token.llama_divergent_stop_set", test_special_llama_divergent_stop_set)
+    run_case(ledger, "special_token.backend_not_graded", test_special_backend_not_graded)
+    run_case(ledger, "special_token.spec_profiles_by_call", test_special_spec_profiles_by_call)
+    run_case(ledger, "special_token.bos_rule_execution", test_special_bos_rule_execution)
+    run_case(ledger, "special_token.engine_stop_transcription", test_special_engine_stop_transcription)
+    run_case(ledger, "special_token.scenario_grid", test_special_scenario_grid)
+    run_case(ledger, "special_token.synthetic_labelled", test_special_synthetic_labelled)
+    run_case(ledger, "special_token.synthetic_defects", test_special_synthetic_defects)
+    run_case(ledger, "special_token.summary_sums", test_special_summary_sums)
     run_case(ledger, "planner.standard_fixtures", test_planner_standard_fixtures)
     run_case(ledger, "planner.prefill_variants", test_planner_prefill_variants)
     run_case(ledger, "planner.gemm_thresholds", test_planner_gemm_thresholds)
@@ -2858,4 +2886,9 @@ def main() raises:
     # tests/test_wrong_tokenizer_a125.mojo) counted on top of
     # the A-124 seat pin (union composed at the seat; the A-122,
     # A-123 and A-124 cases are kept).
-    ledger.finish(868)
+    # A-126 union re-pin at banking: 868 -> 881 -- thirteen
+    # special-token battery cases (special_token_* in
+    # tests/test_special_token_battery_a126.mojo) counted on top of
+    # the A-125 seat pin (union composed at the seat; the A-122,
+    # A-123, A-124 and A-125 cases are kept).
+    ledger.finish(881)

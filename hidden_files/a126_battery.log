@@ -1,0 +1,45 @@
+=== A-126 Special-token battery run (team-26) ===
+2026-11-14T04:44:04-05:00
+purpleraider
+5f15496a696ec31bb32a07b7faf6751cbe195c8b
+yrsa/aesir-team-26
+Mojo 1.2.0 (2016d0cd)
+Imported from /home/volmarr/aesir-team-26/aesir_engine/tests/bench_special_token_battery_a126.mojo:31:
+/home/volmarr/aesir-team-26/aesir_engine/core/special_token_battery_a126.mojo:970:20: warning: 'read' is deprecated; use 'imm'
+def battery_render(read report: BatteryReport) -> String:
+                   ^~~~
+                   imm
+A-126 Special-token handling: 5 families x 4 Z13 backends judged on filed EOS/BOS/pad specs (dense profiles by call, tokenizer validations, session stop records); BOS rule executed on the banked RuneWeaver; stop-reason scenario grid judged (llama cpu row DIVERGENT, STOP_SET_INCOMPLETE); synthetic defect fixture labelled SYNTHETIC in every line; non-cpu rows NOT_GRADED with a named reason, zero unexplained
+A126_BATTERY families=5 backends=4 total=20 fixture_status=SYNTHETIC
+ST_ROW family=llama arch=llama backend=cpu verdict=DIVERGENT reason=STOP_SET_INCOMPLETE policy=TOKEN_EXACTNESS_OWED bos=128000 eos=128001 turn=128009 pad=-1 add_bos=true scenarios=6 scenarios_agree=5
+ST_ROW family=llama arch=llama backend=vulkan verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=TOKEN_EXACTNESS_OWED bos=128000 eos=128001 turn=128009 pad=-1 add_bos=true scenarios=0 scenarios_agree=0
+ST_ROW family=llama arch=llama backend=hip verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=TOKEN_EXACTNESS_OWED bos=128000 eos=128001 turn=128009 pad=-1 add_bos=true scenarios=0 scenarios_agree=0
+ST_ROW family=llama arch=llama backend=npu verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=TOKEN_EXACTNESS_OWED bos=128000 eos=128001 turn=128009 pad=-1 add_bos=true scenarios=0 scenarios_agree=0
+ST_ROW family=qwen2 arch=qwen2 backend=cpu verdict=FAITHFUL reason=SPECIAL_TOKEN_CHECKS_PASS policy=TOKEN_EXACTNESS_OWED bos=-2 eos=151645 turn=151645 pad=-1 add_bos=false scenarios=6 scenarios_agree=6
+ST_ROW family=qwen2 arch=qwen2 backend=vulkan verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=TOKEN_EXACTNESS_OWED bos=-2 eos=151645 turn=151645 pad=-1 add_bos=false scenarios=0 scenarios_agree=0
+ST_ROW family=qwen2 arch=qwen2 backend=hip verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=TOKEN_EXACTNESS_OWED bos=-2 eos=151645 turn=151645 pad=-1 add_bos=false scenarios=0 scenarios_agree=0
+ST_ROW family=qwen2 arch=qwen2 backend=npu verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=TOKEN_EXACTNESS_OWED bos=-2 eos=151645 turn=151645 pad=-1 add_bos=false scenarios=0 scenarios_agree=0
+ST_ROW family=qwen3 arch=qwen3 backend=cpu verdict=FAITHFUL reason=SPECIAL_TOKEN_CHECKS_PASS policy=TOKEN_EXACTNESS_OWED bos=-2 eos=151645 turn=151645 pad=-1 add_bos=false scenarios=6 scenarios_agree=6
+ST_ROW family=qwen3 arch=qwen3 backend=vulkan verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=TOKEN_EXACTNESS_OWED bos=-2 eos=151645 turn=151645 pad=-1 add_bos=false scenarios=0 scenarios_agree=0
+ST_ROW family=qwen3 arch=qwen3 backend=hip verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=TOKEN_EXACTNESS_OWED bos=-2 eos=151645 turn=151645 pad=-1 add_bos=false scenarios=0 scenarios_agree=0
+ST_ROW family=qwen3 arch=qwen3 backend=npu verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=TOKEN_EXACTNESS_OWED bos=-2 eos=151645 turn=151645 pad=-1 add_bos=false scenarios=0 scenarios_agree=0
+ST_ROW family=gemma4 arch=gemma4 backend=cpu verdict=FAITHFUL reason=SPECIAL_TOKEN_CHECKS_PASS policy=TOKEN_EXACTNESS_OWED bos=-2 eos=-2 turn=-1 pad=-1 add_bos=true scenarios=6 scenarios_agree=6
+ST_ROW family=gemma4 arch=gemma4 backend=vulkan verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=TOKEN_EXACTNESS_OWED bos=-2 eos=-2 turn=-1 pad=-1 add_bos=true scenarios=0 scenarios_agree=0
+ST_ROW family=gemma4 arch=gemma4 backend=hip verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=TOKEN_EXACTNESS_OWED bos=-2 eos=-2 turn=-1 pad=-1 add_bos=true scenarios=0 scenarios_agree=0
+ST_ROW family=gemma4 arch=gemma4 backend=npu verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=TOKEN_EXACTNESS_OWED bos=-2 eos=-2 turn=-1 pad=-1 add_bos=true scenarios=0 scenarios_agree=0
+ST_ROW family=mistral3 arch=mistral3 backend=cpu verdict=NOT_GRADED reason=NO_FILED_SURFACE policy=TOKEN_EXACTNESS_OWED bos=-1 eos=-1 turn=-1 pad=-1 add_bos=false scenarios=0 scenarios_agree=0
+ST_ROW family=mistral3 arch=mistral3 backend=vulkan verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=TOKEN_EXACTNESS_OWED bos=-1 eos=-1 turn=-1 pad=-1 add_bos=false scenarios=0 scenarios_agree=0
+ST_ROW family=mistral3 arch=mistral3 backend=hip verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=TOKEN_EXACTNESS_OWED bos=-1 eos=-1 turn=-1 pad=-1 add_bos=false scenarios=0 scenarios_agree=0
+ST_ROW family=mistral3 arch=mistral3 backend=npu verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=TOKEN_EXACTNESS_OWED bos=-1 eos=-1 turn=-1 pad=-1 add_bos=false scenarios=0 scenarios_agree=0
+ST_SYN case=SYN_OK status=SYNTHETIC verdict=FAITHFUL reason=SYNTHETIC_SPEC_GRID_MATCH
+ST_SYN case=SYN_EOS_ONLY status=SYNTHETIC verdict=DIVERGENT reason=STOP_SET_INCOMPLETE
+ST_SYN case=SYN_TURN_AS_TEXT status=SYNTHETIC verdict=DIVERGENT reason=TURN_TOKEN_NOT_A_STOP
+ST_SYN case=SYN_PAD_AS_EOS status=SYNTHETIC verdict=DIVERGENT reason=PAD_TOKEN_AS_STOP
+ST_SYN case=SYN_MISMATCH status=SYNTHETIC verdict=COMPARATOR_ARTIFACT reason=BACKEND_MISMATCH
+A126_BATTERY_SUMMARY total=20 faithful=3 near_tie=0 divergent=1 artifact=0 fixture_limited=0 not_graded=16 owed=20 coherence=0
+A126_TF_ACCOUNT total=20 graded=0 not_graded=20 reason=NO_FILED_RECORDS
+A126_SYNTHETIC_SUMMARY status=SYNTHETIC total=5 faithful=1 divergent=3 artifact=1
+A126_BATTERY_DIGEST 17053524392034059918
+A126_BENCH_DONE rows= 20
+MOJO_EXIT=0
+=== end 2026-11-14T04:44:08-05:00 ===
