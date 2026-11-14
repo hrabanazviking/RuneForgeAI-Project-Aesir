@@ -68,7 +68,20 @@ when its lead is live on its assigned slice in its own worktree.
 
 ## State
 
-- Banked: **111 of 216** (A-001..A-111). A-111 banked at the
+- Banked: **112 of 216** (A-001..A-112). A-112 banked at the
+  seat 2026-11-13 (team-25 commit c66c29a7 cherry-picked
+  as 8b31bcf9 clean, no conflicts, +12 run_all cases, seat pin
+  695 -> 707; comparator-artifact checklist automated -
+  the four pre-filing checks K1 template, K2 BOS, K3
+  backend mismatch, K4 step-0 boundary over a stated
+  comparison account, COMPARATOR_ARTIFACT verdicts with
+  the kind named, seeded fakes of each class caught;
+  Capability Ledger section 26 entry Z13-P5-112 filed by
+  the team commit and the E-MASTER phrase at the checker
+  form for 707; seat gate 704/1/2 of 707 exact on run 1
+  solo, sole failure J-022, no intermittent fired;
+  full note in PROJECT_MEMORY_MAP). Wave 13 stands at
+  4 of 9 (A-109..A-112). A-111 banked at the
   seat 2026-11-13 (team-27 commit a1efe3e7 cherry-picked
   as 7d199eca with the run_all union composed at banking
   across three hunks, +11 run_all cases, seat pin
