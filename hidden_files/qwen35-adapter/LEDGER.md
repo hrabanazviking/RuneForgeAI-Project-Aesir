@@ -1,7 +1,7 @@
 # Qwen35 Adapter Campaign — Ledger
 
 
-## 2026-11-14 — Q35-4b: real-file serve proof — 27B Q8_0 resident on :18435 (worker slice)
+## 2026-11-14 — Q35-4b: real-file serve proof — 27B Q8_0 resident on :18435 (worker slice; verified + banked by coordinator)
 
 - REAL-FILE SERVE PROVEN END TO END: the 27B (sha256
   1fca6eef…186f08e, re-measured) served through the Qwen35 CPU
@@ -54,6 +54,14 @@
 - Both serve units stopped; :18435 free; :18434 down and
   untouched; aesir-gate/Ollama/Voxta stayed down throughout.
   Details: Q35-4b-NOTES.md + q35-4b-*.log in this folder.
+
+- Coordinator verification (2026-11-14): bench log re-read
+  from disk (health payload, T1/T2/stateless usage lines and
+  MATCHES REFERENCE lines all present); regression logs ALL
+  PASS incl. the rebuilt Q35-5 snapshot binary — the post-U1
+  standalone rerun is closed; remote yrsa/q35-4b == d0f533aa
+  confirmed by ls-remote before merge; fast-forwarded into
+  yrsa/hip-serve and banked.
 
 ## 2026-11-14 — Q35-3b: real-file oracle grade FAITHFUL (worker slice; verified + banked by coordinator)
 
