@@ -1,5 +1,36 @@
 # Qwen35 Adapter Campaign — Ledger
 
+## 2026-11-14 — QC-0: compression workstream recon + plan (worker slice; verified + banked by coordinator)
+
+- Plan banked as QC-0-PLAN.md (488 lines, this folder). Dequant
+  inventory as the writer's inverse spec: Q8_0 34 B blocks
+  (f16 d + 32 i8); K-quants Q2_K 84 B / Q3_K 110 B / Q4_K 144 B /
+  Q5_K 176 B / Q6_K 210 B at 256-blocks; IQ/TQ family via
+  codebooks; Q8_K named but has NO dequant (unsupported).
+  GGUF writer state ABSENT, proven by search (cli
+  llama_cpp_compat lists quantize as explicitly unsupported);
+  emission spec derived from our reader: v3-only, LE, typed-KV
+  contract, tensor directory, alignment 32, qwen35 F32-norms
+  gate.
+- First-proof substrate: no uncompressed mid-size model exists
+  on the box — every source is itself quantized, so quantizer
+  input is F32 values via the engine's own dequantizers. First
+  whole-model proof: stories260K.F16.gguf (601,248 B, true F16,
+  full tokenizer); scale step: gemma-4-E2B-it-Q4_K_M.gguf
+  (3,106,738,272 B). The vault's 16 G MTP Q4_K_M is a DIFFERENT
+  variant — size reference only, never the deliverable.
+- Slices QC-1..QC-7 as in the MAP's QC section. Unknowns
+  U-QC1..U-QC7 in the plan, each with its settler; U-QC1: no
+  llama.cpp binary/source on the box — QC-4 must locate/build
+  one (native, no Docker) before any cross-check claim.
+- DISCOVERED BUG, named next work (not fixed; recon scope):
+  Q8_1 block size conflict — loader _tensor_byte_size prices
+  36 B/block while compute.mojo walks 40 B blocks. Owed before
+  any Q8_1 reliance; Q8_1 is not a scheduled tier.
+- Coordinator verification: remote yrsa/qc-0 == bc833bb0
+  confirmed by ls-remote before merge; single-file commit
+  (plan only, no code); fast-forwarded into yrsa/hip-serve.
+
 ## 2026-11-14 — Coordinator note: services stopped by Volmarr's orders; gate key TURNED; QC workstream commissioned
 
 - ~13:15 EST voxta.service + ollama.service stopped by Volmarr's

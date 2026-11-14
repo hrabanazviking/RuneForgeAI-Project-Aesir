@@ -150,3 +150,22 @@ numbers · 7. any genuine blocker, the moment it is proven.
   gate; device greedy == banked CPU greedy; state-diff A/B owed).
   It resumes after Q35-3b/Q35-4b.
 - NEW: compression workstream QC — QC-0 recon + plan first.
+
+## Compression workstream QC — opened 2026-11-14 (Volmarr's commission)
+
+Teach Aesir to WRITE compression: quantize a source model, emit a
+valid GGUF that Aesir and llama.cpp can load and run. Full plan:
+QC-0-PLAN.md in this folder (banked with QC-0). Grading:
+teacher-forcing rank + logit gap on RAW prompts, compressed vs
+its own uncompressed source, CPU-vs-CPU; near-tie band (rank <=2,
+sub-logit gap) = faithful; size-vs-quality per tier, honest where
+a tier hurts. Slices: QC-1 GGUF writer core - QC-2 Q8_0
+quantizer + round-trip - QC-3 whole-model Q8_0 + grade
+(stories260K first, then gemma-4-E2B) - QC-4 llama.cpp
+cross-check - QC-5 Q4_K_M tier - QC-6 27B Q8_0 to Q4_K_M
+(~15.2 GB predicted) + registry admission + grade - QC-7
+QC_RESULTS.md + residency note for Q35-7. First targets: Q8_0
+(the exact-inverse tier; the 27B's native format), then Q4_K_M
+(the workhorse). Named bug from QC-0 recon (next work, owed
+before any Q8_1 reliance): Q8_1 block size — loader prices
+36 B/block, compute.mojo walks 40 B blocks.
