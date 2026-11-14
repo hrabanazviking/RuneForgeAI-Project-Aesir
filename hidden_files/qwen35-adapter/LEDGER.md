@@ -1,5 +1,56 @@
 # Qwen35 Adapter Campaign — Ledger
 
+## 2026-11-14 — QC-1: GGUF writer core — spec-exact v3 emission + metadata-copy path (worker slice; coordinator integrates)
+
+- DELIVERED: aesir_engine/loader/gguf_writer.mojo (new, ONE
+  module beside the readers) — GGUFModelDesc (KV list + tensor
+  directory + payloads in-entry) -> spec-exact GGUF v3 bytes /
+  file: 24 B header, typed-KV contract mirrored from
+  GGUFSeer._parse_metadata_value, directory 1–3 dims in GGML
+  order, offsets all % alignment == 0 (default 32), file size ==
+  data_offset + final tensor end exactly. KV values ride as RAW
+  encoded bytes (typed constructors for all 13 scalar types +
+  5 array kinds), so copy fidelity never depends on interpreting
+  a value. Pricing delegates to GGUFSeer._tensor_byte_size itself
+  (one source of truth; accepted set = the 25 explicitly priced
+  types). PLUS the metadata-copy reader path
+  (read_gguf_header_copy / copy_gguf_model): GGUFSeer mmap +
+  cursor walk, NO tensor materialization (Q35-1 style).
+- WRITER REFUSES, pre-emission, what the readers refuse or
+  misprice: duplicate KV keys, duplicate tensor names, bad /
+  nested-array value types, typed-key contract violations,
+  general.alignment mismatch, payload length != reader-priced
+  size, dim0 not block-aligned, rank outside 1..3, unsupported
+  tensor type.
+- PROOF (test_gguf_writer_qc_1; log qc-1-test.log) ALL PASS:
+  synthetic 3-tensor model (F32 norm + F16 matrix + Q8_0 matrix,
+  16 hand-built 34 B blocks; 33 KVs covering all 13 value types)
+  — header/KV/directory copy-parse EXACT, offsets 0/128/640 all
+  32-aligned, size 2720 == data_offset 1536 + 1184, payloads
+  byte-identical incl. Q8_0 blocks; GGUFSeer maps all 3 (stops
+  only at required-tensor validation, the synthetic baseline)
+  and PackedGGUF loads in full; 10 refusal cases fire. Real
+  file: stories260K header copy == both readers' parses for all
+  48 tensors, and the copied model re-emits BYTE-IDENTICAL
+  (601,248 B, 0 mismatches) and reaches VALIDATED.
+- BONUS (U-QC4 parse half): gemma-4-E2B header copy ==
+  GGUFSeer + PackedGGUF parses (56 KV, 601 tensors,
+  data_offset 15,819,776); feed_forward_length i32 array x35
+  identical element-for-element. Whole-file gemma re-emission
+  stays QC-3b's road (streaming writer first).
+- ERRATA for QC-0: E-1 the size identity generalizes to
+  data_offset + final tensor end (inter-tensor padding is
+  real); E-2 loader _tensor_byte_size falls through to a Q4_0
+  price for unpriced types (refusal arrives later at map time)
+  — named next work, no reader change in this slice; E-3
+  stories260K has no rope.freq_base key (reader default
+  10000.0). No reader bugs blocked the proof.
+- REGRESSIONS: engine compile exit 0; Q35-1 ALL PASS; gguf
+  metadata suite exit 1 ONLY at the known pre-existing
+  gguf.tensor_directory_interface (attributed, not chased).
+  Builds/tests fenced MemoryMax 32G. Full notes:
+  QC-1-NOTES.md.
+
 ## 2026-11-14 — Q8-1 fix: Q8_1 block size arbitrated at 36 B, compute side repaired (worker slice; verified + banked by coordinator)
 
 - ARBITRATION (U-QC2 SETTLED): ggml block_q8_1 is 36 bytes — f16 d @0,

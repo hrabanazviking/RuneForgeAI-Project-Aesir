@@ -1,0 +1,312 @@
+Nov 14 14:59:40 purpleraider systemd[2331]: Started qc1-final-build.service - [systemd-run] /usr/bin/bash hidden_files/qwen35-adapter/build-qc-1.sh.
+Nov 14 14:59:40 purpleraider bash[1636229]: + cd /home/volmarr/aesir-qc-1
+Nov 14 14:59:40 purpleraider bash[1636229]: + export PATH=/home/volmarr/.pixi/bin:/home/volmarr/.cargo/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin
+Nov 14 14:59:40 purpleraider bash[1636229]: + PATH=/home/volmarr/.pixi/bin:/home/volmarr/.cargo/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin
+Nov 14 14:59:40 purpleraider bash[1636229]: + SH=hidden_files/hip-serve/shims
+Nov 14 14:59:40 purpleraider bash[1636229]: + mkdir -p hidden_files/hip-serve/shims .aesir hidden_files/qwen35-adapter
+Nov 14 14:59:40 purpleraider bash[1636229]: + '[' '!' -f hidden_files/hip-serve/shims/libaesir_hip.so ']'
+Nov 14 14:59:40 purpleraider bash[1636229]: + LK='-Xlinker -Lhidden_files/hip-serve/shims -Xlinker -laesir_hailo10h -Xlinker -laesir_par -Xlinker -laesir_hip -Xlinker -laesir_vulkan -Xlinker -laesir_zc -Xlinker -laesir_aff'
+Nov 14 14:59:40 purpleraider bash[1636229]: + python3 scripts/make_qwen35_fixtures.py
+Nov 14 14:59:44 purpleraider bash[1636232]: wrote /home/volmarr/aesir-qc-1/aesir_engine/tests/fixtures/qwen35_tiny.gguf 51872 bytes, 56 tensors, qkv_width 56
+Nov 14 14:59:44 purpleraider bash[1636232]: wrote /home/volmarr/aesir-qc-1/aesir_engine/tests/fixtures/qwen35_tiny_bad_qkv.gguf 55136 bytes, 56 tensors, qkv_width 56
+Nov 14 14:59:44 purpleraider bash[1636232]: wrote /home/volmarr/aesir-qc-1/aesir_engine/tests/fixtures/qwen35_tiny_type_probe.gguf 53984 bytes, 56 tensors, qkv_width 56
+Nov 14 14:59:44 purpleraider bash[1636232]: wrote /home/volmarr/aesir-qc-1/aesir_engine/tests/fixtures/qwen35_forward.gguf 912544 bytes, 56 tensors, qkv_width 128
+Nov 14 14:59:44 purpleraider bash[1636232]: wrote /home/volmarr/aesir-qc-1/aesir_engine/tests/fixtures/qwen35_forward_f16probe.gguf 943264 bytes, 56 tensors, qkv_width 128
+Nov 14 14:59:44 purpleraider bash[1636232]: wrote /home/volmarr/aesir-qc-1/aesir_engine/tests/fixtures/qwen35_large.gguf 33200896 bytes, 109 tensors, qkv_width 512
+Nov 14 14:59:44 purpleraider bash[1636229]: + echo FIXTURES_EXIT=0
+Nov 14 14:59:44 purpleraider bash[1636229]: FIXTURES_EXIT=0
+Nov 14 14:59:44 purpleraider bash[1636229]: + pixi run --frozen mojo build -I . --target-accelerator gfx1151 -Xlinker -Lhidden_files/hip-serve/shims -Xlinker -laesir_hailo10h -Xlinker -laesir_par -Xlinker -laesir_hip -Xlinker -laesir_vulkan -Xlinker -laesir_zc -Xlinker -laesir_aff aesir_engine/tests/test_gguf_writer_qc_1.mojo -o hidden_files/qwen35-adapter/test_gguf_writer_qc_1
+Nov 14 14:59:45 purpleraider bash[1636285]: Included from /home/volmarr/aesir-qc-1/aesir_engine/tests/test_gguf_writer_qc_1.mojo:28:
+Nov 14 14:59:45 purpleraider bash[1636285]: /home/volmarr/aesir-qc-1/aesir_engine/loader/gguf.mojo:566:29: warning: assignment to 'width' was never used; assign to '_' instead?
+Nov 14 14:59:45 purpleraider bash[1636285]:                 var width = 0
+Nov 14 14:59:45 purpleraider bash[1636285]:                             ^
+Nov 14 14:59:45 purpleraider bash[1636229]: + echo QC1_TEST_BUILD_EXIT=0
+Nov 14 14:59:45 purpleraider bash[1636229]: QC1_TEST_BUILD_EXIT=0
+Nov 14 14:59:45 purpleraider bash[1636229]: + pixi run --frozen mojo build -I . --target-accelerator gfx1151 -Xlinker -Lhidden_files/hip-serve/shims -Xlinker -laesir_hailo10h -Xlinker -laesir_par -Xlinker -laesir_hip -Xlinker -laesir_vulkan -Xlinker -laesir_zc -Xlinker -laesir_aff aesir_engine/tests/test_gguf_writer_qc_1_gemma_probe.mojo -o hidden_files/qwen35-adapter/test_gguf_writer_qc_1_gemma_probe
+Nov 14 14:59:46 purpleraider bash[1636381]: Included from /home/volmarr/aesir-qc-1/aesir_engine/tests/test_gguf_writer_qc_1_gemma_probe.mojo:23:
+Nov 14 14:59:46 purpleraider bash[1636381]: /home/volmarr/aesir-qc-1/aesir_engine/loader/gguf.mojo:566:29: warning: assignment to 'width' was never used; assign to '_' instead?
+Nov 14 14:59:46 purpleraider bash[1636381]:                 var width = 0
+Nov 14 14:59:46 purpleraider bash[1636381]:                             ^
+Nov 14 14:59:46 purpleraider bash[1636229]: + echo QC1_GEMMA_BUILD_EXIT=0
+Nov 14 14:59:46 purpleraider bash[1636229]: QC1_GEMMA_BUILD_EXIT=0
+Nov 14 14:59:46 purpleraider bash[1636229]: + pixi run --frozen mojo build -I . --target-accelerator gfx1151 -Xlinker -Lhidden_files/hip-serve/shims -Xlinker -laesir_hailo10h -Xlinker -laesir_par -Xlinker -laesir_hip -Xlinker -laesir_vulkan -Xlinker -laesir_zc -Xlinker -laesir_aff aesir_engine/tests/test_qwen35_loader_q35_1.mojo -o hidden_files/qwen35-adapter/test_qwen35_loader_q35_1
+Nov 14 14:59:47 purpleraider bash[1636469]: Included from /home/volmarr/aesir-qc-1/aesir_engine/tests/test_qwen35_loader_q35_1.mojo:21:
+Nov 14 14:59:47 purpleraider bash[1636469]: /home/volmarr/aesir-qc-1/aesir_engine/loader/gguf.mojo:566:29: warning: assignment to 'width' was never used; assign to '_' instead?
+Nov 14 14:59:47 purpleraider bash[1636469]:                 var width = 0
+Nov 14 14:59:47 purpleraider bash[1636469]:                             ^
+Nov 14 14:59:47 purpleraider bash[1636229]: + echo Q351_BUILD_EXIT=0
+Nov 14 14:59:47 purpleraider bash[1636229]: Q351_BUILD_EXIT=0
+Nov 14 14:59:47 purpleraider bash[1636229]: + pixi run --frozen mojo build -I . --target-accelerator gfx1151 -Xlinker -Lhidden_files/hip-serve/shims -Xlinker -laesir_hailo10h -Xlinker -laesir_par -Xlinker -laesir_hip -Xlinker -laesir_vulkan -Xlinker -laesir_zc -Xlinker -laesir_aff aesir_engine/tests/test_gguf_metadata_types.mojo -o hidden_files/qwen35-adapter/test_gguf_metadata_types
+Nov 14 14:59:48 purpleraider bash[1636552]: Included from /home/volmarr/aesir-qc-1/aesir_engine/tests/test_gguf_metadata_types.mojo:4:
+Nov 14 14:59:48 purpleraider bash[1636552]: /home/volmarr/aesir-qc-1/aesir_engine/loader/gguf.mojo:566:29: warning: assignment to 'width' was never used; assign to '_' instead?
+Nov 14 14:59:48 purpleraider bash[1636552]:                 var width = 0
+Nov 14 14:59:48 purpleraider bash[1636552]:                             ^
+Nov 14 14:59:48 purpleraider bash[1636229]: + echo META_BUILD_EXIT=0
+Nov 14 14:59:48 purpleraider bash[1636229]: META_BUILD_EXIT=0
+Nov 14 14:59:48 purpleraider bash[1636229]: + pixi run --frozen mojo build -I . --target-accelerator gfx1151 -Xlinker -Lhidden_files/hip-serve/shims -Xlinker -laesir_hailo10h -Xlinker -laesir_par -Xlinker -laesir_hip -Xlinker -laesir_vulkan -Xlinker -laesir_zc -Xlinker -laesir_aff aesir_engine/main.mojo -o .aesir/aesir
+Nov 14 14:59:50 purpleraider bash[1636635]: Imported from /home/volmarr/aesir-qc-1/aesir_engine/main.mojo:12:
+Nov 14 14:59:50 purpleraider bash[1636635]: Imported from /home/volmarr/aesir-qc-1/aesir_engine/cli/commands.mojo:24:
+Nov 14 14:59:50 purpleraider bash[1636635]: Imported from /home/volmarr/aesir-qc-1/aesir_engine/cli/doctor.mojo:3:
+Nov 14 14:59:50 purpleraider bash[1636635]: Imported from /home/volmarr/aesir-qc-1/aesir_engine/aesir.mojo:6:
+Nov 14 14:59:50 purpleraider bash[1636635]: /home/volmarr/aesir-qc-1/aesir_engine/core/inference.mojo:2181:9: warning: '__del__' is deprecated; use '__deinit__'
+Nov 14 14:59:50 purpleraider bash[1636635]:     def __del__(deinit self):
+Nov 14 14:59:50 purpleraider bash[1636635]:         ^~~~~~~
+Nov 14 14:59:50 purpleraider bash[1636635]:         __deinit__
+Nov 14 14:59:51 purpleraider bash[1636635]: Imported from /home/volmarr/aesir-qc-1/aesir_engine/main.mojo:12:
+Nov 14 14:59:51 purpleraider bash[1636635]: Imported from /home/volmarr/aesir-qc-1/aesir_engine/cli/commands.mojo:24:
+Nov 14 14:59:51 purpleraider bash[1636635]: Imported from /home/volmarr/aesir-qc-1/aesir_engine/cli/doctor.mojo:3:
+Nov 14 14:59:51 purpleraider bash[1636635]: Imported from /home/volmarr/aesir-qc-1/aesir_engine/aesir.mojo:6:
+Nov 14 14:59:51 purpleraider bash[1636635]: /home/volmarr/aesir-qc-1/aesir_engine/core/inference.mojo:2182:20: warning: 'free' is deprecated, use 'unsafe_free' instead
+Nov 14 14:59:51 purpleraider bash[1636635]:         self.s_data.free()
+Nov 14 14:59:51 purpleraider bash[1636635]:         ~~~~~~~~~~~^~~~~
+Nov 14 14:59:51 purpleraider bash[1636635]:                     unsafe_free
+Nov 14 14:59:51 purpleraider bash[1636635]: <unknown>:0: note: 'free' declared here
+Nov 14 14:59:51 purpleraider bash[1636635]: Imported from /home/volmarr/aesir-qc-1/aesir_engine/main.mojo:12:
+Nov 14 14:59:51 purpleraider bash[1636635]: Imported from /home/volmarr/aesir-qc-1/aesir_engine/cli/commands.mojo:24:
+Nov 14 14:59:51 purpleraider bash[1636635]: Imported from /home/volmarr/aesir-qc-1/aesir_engine/cli/doctor.mojo:3:
+Nov 14 14:59:51 purpleraider bash[1636635]: Imported from /home/volmarr/aesir-qc-1/aesir_engine/aesir.mojo:6:
+Nov 14 14:59:51 purpleraider bash[1636635]: /home/volmarr/aesir-qc-1/aesir_engine/core/inference.mojo:2183:23: warning: 'free' is deprecated, use 'unsafe_free' instead
+Nov 14 14:59:51 purpleraider bash[1636635]:         self.conv_data.free()
+Nov 14 14:59:51 purpleraider bash[1636635]:         ~~~~~~~~~~~~~~^~~~~
+Nov 14 14:59:51 purpleraider bash[1636635]:                        unsafe_free
+Nov 14 14:59:51 purpleraider bash[1636635]: <unknown>:0: note: 'free' declared here
+Nov 14 14:59:51 purpleraider bash[1636635]: Imported from /home/volmarr/aesir-qc-1/aesir_engine/main.mojo:12:
+Nov 14 14:59:51 purpleraider bash[1636635]: Imported from /home/volmarr/aesir-qc-1/aesir_engine/cli/commands.mojo:24:
+Nov 14 14:59:51 purpleraider bash[1636635]: Imported from /home/volmarr/aesir-qc-1/aesir_engine/cli/doctor.mojo:3:
+Nov 14 14:59:51 purpleraider bash[1636635]: Imported from /home/volmarr/aesir-qc-1/aesir_engine/aesir.mojo:6:
+Nov 14 14:59:51 purpleraider bash[1636635]: /home/volmarr/aesir-qc-1/aesir_engine/core/inference.mojo:2184:21: warning: 'free' is deprecated, use 'unsafe_free' instead
+Nov 14 14:59:51 purpleraider bash[1636635]:         self.scratch.free()
+Nov 14 14:59:51 purpleraider bash[1636635]:         ~~~~~~~~~~~~^~~~~
+Nov 14 14:59:51 purpleraider bash[1636635]:                      unsafe_free
+Nov 14 14:59:51 purpleraider bash[1636635]: <unknown>:0: note: 'free' declared here
+Nov 14 14:59:53 purpleraider bash[1636635]: Imported from /home/volmarr/aesir-qc-1/aesir_engine/main.mojo:12:
+Nov 14 14:59:53 purpleraider bash[1636635]: Imported from /home/volmarr/aesir-qc-1/aesir_engine/cli/commands.mojo:21:
+Nov 14 14:59:53 purpleraider bash[1636635]: Imported from /home/volmarr/aesir-qc-1/aesir_engine/cli/bench.mojo:41:
+Nov 14 14:59:53 purpleraider bash[1636635]: Imported from /home/volmarr/aesir-qc-1/aesir_engine/core/thread_topology.mojo:101:
+Nov 14 14:59:53 purpleraider bash[1636635]: /home/volmarr/aesir-qc-1/aesir_engine/core/parallel.mojo:39:1: warning: 'alias' is deprecated; use 'comptime'
+Nov 14 14:59:53 purpleraider bash[1636635]: alias RangeFn = def(Int64, Int64, Int64) thin -> None
+Nov 14 14:59:53 purpleraider bash[1636635]: ^~~~~
+Nov 14 14:59:53 purpleraider bash[1636635]: comptime
+Nov 14 14:59:53 purpleraider bash[1636635]: Imported from /home/volmarr/aesir-qc-1/aesir_engine/main.mojo:12:
+Nov 14 14:59:53 purpleraider bash[1636635]: Imported from /home/volmarr/aesir-qc-1/aesir_engine/cli/commands.mojo:21:
+Nov 14 14:59:53 purpleraider bash[1636635]: Imported from /home/volmarr/aesir-qc-1/aesir_engine/cli/bench.mojo:41:
+Nov 14 14:59:53 purpleraider bash[1636635]: /home/volmarr/aesir-qc-1/aesir_engine/core/thread_topology.mojo:424:18: warning: `alloc` without a `Layout` is deprecated, use the `Layout`-based `alloc` instead; as a temporary migration step, use `unsafe_alloc`
+Nov 14 14:59:53 purpleraider bash[1636635]:     var output = alloc[Float32](out_len)
+Nov 14 14:59:53 purpleraider bash[1636635]:                  ^~~~~
+Nov 14 14:59:53 purpleraider bash[1636635]: <unknown>:0: note: 'alloc' declared here
+Nov 14 14:59:53 purpleraider bash[1636635]: Imported from /home/volmarr/aesir-qc-1/aesir_engine/main.mojo:12:
+Nov 14 14:59:53 purpleraider bash[1636635]: Imported from /home/volmarr/aesir-qc-1/aesir_engine/cli/commands.mojo:21:
+Nov 14 14:59:53 purpleraider bash[1636635]: Imported from /home/volmarr/aesir-qc-1/aesir_engine/cli/bench.mojo:41:
+Nov 14 14:59:53 purpleraider bash[1636635]: /home/volmarr/aesir-qc-1/aesir_engine/core/thread_topology.mojo:425:15: warning: `alloc` without a `Layout` is deprecated, use the `Layout`-based `alloc` instead; as a temporary migration step, use `unsafe_alloc`
+Nov 14 14:59:53 purpleraider bash[1636635]:     var ctx = alloc[Int64](6)
+Nov 14 14:59:53 purpleraider bash[1636635]:               ^~~~~
+Nov 14 14:59:53 purpleraider bash[1636635]: <unknown>:0: note: 'alloc' declared here
+Nov 14 14:59:56 purpleraider bash[1636635]: Imported from /home/volmarr/aesir-qc-1/aesir_engine/main.mojo:12:
+Nov 14 14:59:56 purpleraider bash[1636635]: Imported from /home/volmarr/aesir-qc-1/aesir_engine/cli/commands.mojo:24:
+Nov 14 14:59:56 purpleraider bash[1636635]: Imported from /home/volmarr/aesir-qc-1/aesir_engine/cli/doctor.mojo:3:
+Nov 14 14:59:56 purpleraider bash[1636635]: Imported from /home/volmarr/aesir-qc-1/aesir_engine/aesir.mojo:6:
+Nov 14 14:59:56 purpleraider bash[1636635]: /home/volmarr/aesir-qc-1/aesir_engine/core/inference.mojo:965:27: warning: `alloc` without a `Layout` is deprecated, use the `Layout`-based `alloc` instead; as a temporary migration step, use `unsafe_alloc`
+Nov 14 14:59:56 purpleraider bash[1636635]:             var scratch = alloc[Float32](256)
+Nov 14 14:59:56 purpleraider bash[1636635]:                           ^~~~~
+Nov 14 14:59:56 purpleraider bash[1636635]: <unknown>:0: note: 'alloc' declared here
+Nov 14 14:59:56 purpleraider bash[1636635]: Imported from /home/volmarr/aesir-qc-1/aesir_engine/main.mojo:12:
+Nov 14 14:59:56 purpleraider bash[1636635]: Imported from /home/volmarr/aesir-qc-1/aesir_engine/cli/commands.mojo:24:
+Nov 14 14:59:56 purpleraider bash[1636635]: Imported from /home/volmarr/aesir-qc-1/aesir_engine/cli/doctor.mojo:3:
+Nov 14 14:59:56 purpleraider bash[1636635]: Imported from /home/volmarr/aesir-qc-1/aesir_engine/aesir.mojo:6:
+Nov 14 14:59:56 purpleraider bash[1636635]: /home/volmarr/aesir-qc-1/aesir_engine/core/inference.mojo:986:30: warning: `alloc` without a `Layout` is deprecated, use the `Layout`-based `alloc` instead; as a temporary migration step, use `unsafe_alloc`
+Nov 14 14:59:56 purpleraider bash[1636635]:             var nl_scratch = alloc[Float32](32)
+Nov 14 14:59:56 purpleraider bash[1636635]:                              ^~~~~
+Nov 14 14:59:56 purpleraider bash[1636635]: <unknown>:0: note: 'alloc' declared here
+Nov 14 14:59:57 purpleraider bash[1636635]: Imported from /home/volmarr/aesir-qc-1/aesir_engine/main.mojo:12:
+Nov 14 14:59:57 purpleraider bash[1636635]: Imported from /home/volmarr/aesir-qc-1/aesir_engine/cli/commands.mojo:24:
+Nov 14 14:59:57 purpleraider bash[1636635]: Imported from /home/volmarr/aesir-qc-1/aesir_engine/cli/doctor.mojo:3:
+Nov 14 14:59:57 purpleraider bash[1636635]: Imported from /home/volmarr/aesir-qc-1/aesir_engine/aesir.mojo:6:
+Nov 14 14:59:57 purpleraider bash[1636635]: Imported from /home/volmarr/aesir-qc-1/aesir_engine/core/inference.mojo:11:
+Nov 14 14:59:57 purpleraider bash[1636635]: /home/volmarr/aesir-qc-1/aesir_engine/core/compute.mojo:1976:15: warning: `alloc` without a `Layout` is deprecated, use the `Layout`-based `alloc` instead; as a temporary migration step, use `unsafe_alloc`
+Nov 14 14:59:57 purpleraider bash[1636635]:     var dst = alloc[UInt16](2048)
+Nov 14 14:59:57 purpleraider bash[1636635]:               ^~~~~
+Nov 14 14:59:57 purpleraider bash[1636635]: <unknown>:0: note: 'alloc' declared here
+Nov 14 15:00:00 purpleraider bash[1636635]: Imported from /home/volmarr/aesir-qc-1/aesir_engine/main.mojo:12:
+Nov 14 15:00:00 purpleraider bash[1636635]: Imported from /home/volmarr/aesir-qc-1/aesir_engine/cli/commands.mojo:24:
+Nov 14 15:00:00 purpleraider bash[1636635]: Imported from /home/volmarr/aesir-qc-1/aesir_engine/cli/doctor.mojo:3:
+Nov 14 15:00:00 purpleraider bash[1636635]: Imported from /home/volmarr/aesir-qc-1/aesir_engine/aesir.mojo:6:
+Nov 14 15:00:00 purpleraider bash[1636635]: Imported from /home/volmarr/aesir-qc-1/aesir_engine/core/inference.mojo:11:
+Nov 14 15:00:00 purpleraider bash[1636635]: /home/volmarr/aesir-qc-1/aesir_engine/core/compute.mojo:1267:14: warning: `alloc` without a `Layout` is deprecated, use the `Layout`-based `alloc` instead; as a temporary migration step, use `unsafe_alloc`
+Nov 14 15:00:00 purpleraider bash[1636635]:     var cp = alloc[Int64](6)
+Nov 14 15:00:00 purpleraider bash[1636635]:              ^~~~~
+Nov 14 15:00:00 purpleraider bash[1636635]: <unknown>:0: note: 'alloc' declared here
+Nov 14 15:00:00 purpleraider bash[1636635]: Imported from /home/volmarr/aesir-qc-1/aesir_engine/main.mojo:12:
+Nov 14 15:00:00 purpleraider bash[1636635]: Imported from /home/volmarr/aesir-qc-1/aesir_engine/cli/commands.mojo:24:
+Nov 14 15:00:00 purpleraider bash[1636635]: Imported from /home/volmarr/aesir-qc-1/aesir_engine/cli/doctor.mojo:3:
+Nov 14 15:00:00 purpleraider bash[1636635]: Imported from /home/volmarr/aesir-qc-1/aesir_engine/aesir.mojo:6:
+Nov 14 15:00:00 purpleraider bash[1636635]: Imported from /home/volmarr/aesir-qc-1/aesir_engine/core/inference.mojo:11:
+Nov 14 15:00:00 purpleraider bash[1636635]: /home/volmarr/aesir-qc-1/aesir_engine/core/compute.mojo:2638:14: warning: `alloc` without a `Layout` is deprecated, use the `Layout`-based `alloc` instead; as a temporary migration step, use `unsafe_alloc`
+Nov 14 15:00:00 purpleraider bash[1636635]:     var cp = alloc[Int64](6)
+Nov 14 15:00:00 purpleraider bash[1636635]:              ^~~~~
+Nov 14 15:00:00 purpleraider bash[1636635]: <unknown>:0: note: 'alloc' declared here
+Nov 14 15:00:00 purpleraider bash[1636635]: Imported from /home/volmarr/aesir-qc-1/aesir_engine/main.mojo:12:
+Nov 14 15:00:00 purpleraider bash[1636635]: Imported from /home/volmarr/aesir-qc-1/aesir_engine/cli/commands.mojo:24:
+Nov 14 15:00:00 purpleraider bash[1636635]: Imported from /home/volmarr/aesir-qc-1/aesir_engine/cli/doctor.mojo:3:
+Nov 14 15:00:00 purpleraider bash[1636635]: Imported from /home/volmarr/aesir-qc-1/aesir_engine/aesir.mojo:6:
+Nov 14 15:00:00 purpleraider bash[1636635]: Imported from /home/volmarr/aesir-qc-1/aesir_engine/core/inference.mojo:11:
+Nov 14 15:00:00 purpleraider bash[1636635]: /home/volmarr/aesir-qc-1/aesir_engine/core/compute.mojo:2181:14: warning: `alloc` without a `Layout` is deprecated, use the `Layout`-based `alloc` instead; as a temporary migration step, use `unsafe_alloc`
+Nov 14 15:00:00 purpleraider bash[1636635]:     var cp = alloc[Int64](7)
+Nov 14 15:00:00 purpleraider bash[1636635]:              ^~~~~
+Nov 14 15:00:00 purpleraider bash[1636635]: <unknown>:0: note: 'alloc' declared here
+Nov 14 15:00:00 purpleraider bash[1636635]: Imported from /home/volmarr/aesir-qc-1/aesir_engine/main.mojo:12:
+Nov 14 15:00:00 purpleraider bash[1636635]: Imported from /home/volmarr/aesir-qc-1/aesir_engine/cli/commands.mojo:24:
+Nov 14 15:00:00 purpleraider bash[1636635]: Imported from /home/volmarr/aesir-qc-1/aesir_engine/cli/doctor.mojo:3:
+Nov 14 15:00:00 purpleraider bash[1636635]: Imported from /home/volmarr/aesir-qc-1/aesir_engine/aesir.mojo:6:
+Nov 14 15:00:00 purpleraider bash[1636635]: Imported from /home/volmarr/aesir-qc-1/aesir_engine/core/inference.mojo:11:
+Nov 14 15:00:00 purpleraider bash[1636635]: /home/volmarr/aesir-qc-1/aesir_engine/core/compute.mojo:1094:19: warning: `alloc` without a `Layout` is deprecated, use the `Layout`-based `alloc` instead; as a temporary migration step, use `unsafe_alloc`
+Nov 14 15:00:00 purpleraider bash[1636635]:     var scratch = alloc[Float32](a_cols)
+Nov 14 15:00:00 purpleraider bash[1636635]:                   ^~~~~
+Nov 14 15:00:00 purpleraider bash[1636635]: <unknown>:0: note: 'alloc' declared here
+Nov 14 15:00:00 purpleraider bash[1636635]: Imported from /home/volmarr/aesir-qc-1/aesir_engine/main.mojo:12:
+Nov 14 15:00:00 purpleraider bash[1636635]: Imported from /home/volmarr/aesir-qc-1/aesir_engine/cli/commands.mojo:24:
+Nov 14 15:00:00 purpleraider bash[1636635]: Imported from /home/volmarr/aesir-qc-1/aesir_engine/cli/doctor.mojo:3:
+Nov 14 15:00:00 purpleraider bash[1636635]: Imported from /home/volmarr/aesir-qc-1/aesir_engine/aesir.mojo:6:
+Nov 14 15:00:00 purpleraider bash[1636635]: Imported from /home/volmarr/aesir-qc-1/aesir_engine/core/inference.mojo:11:
+Nov 14 15:00:00 purpleraider bash[1636635]: /home/volmarr/aesir-qc-1/aesir_engine/core/compute.mojo:1941:14: warning: `alloc` without a `Layout` is deprecated, use the `Layout`-based `alloc` instead; as a temporary migration step, use `unsafe_alloc`
+Nov 14 15:00:00 purpleraider bash[1636635]:     var cp = alloc[Int64](9)
+Nov 14 15:00:00 purpleraider bash[1636635]:              ^~~~~
+Nov 14 15:00:00 purpleraider bash[1636635]: <unknown>:0: note: 'alloc' declared here
+Nov 14 15:00:00 purpleraider bash[1636635]: Imported from /home/volmarr/aesir-qc-1/aesir_engine/main.mojo:12:
+Nov 14 15:00:00 purpleraider bash[1636635]: Imported from /home/volmarr/aesir-qc-1/aesir_engine/cli/commands.mojo:24:
+Nov 14 15:00:00 purpleraider bash[1636635]: Imported from /home/volmarr/aesir-qc-1/aesir_engine/cli/doctor.mojo:3:
+Nov 14 15:00:00 purpleraider bash[1636635]: Imported from /home/volmarr/aesir-qc-1/aesir_engine/aesir.mojo:6:
+Nov 14 15:00:00 purpleraider bash[1636635]: Imported from /home/volmarr/aesir-qc-1/aesir_engine/core/inference.mojo:11:
+Nov 14 15:00:00 purpleraider bash[1636635]: /home/volmarr/aesir-qc-1/aesir_engine/core/compute.mojo:2093:14: warning: `alloc` without a `Layout` is deprecated, use the `Layout`-based `alloc` instead; as a temporary migration step, use `unsafe_alloc`
+Nov 14 15:00:00 purpleraider bash[1636635]:     var cp = alloc[Int64](8)
+Nov 14 15:00:00 purpleraider bash[1636635]:              ^~~~~
+Nov 14 15:00:00 purpleraider bash[1636635]: <unknown>:0: note: 'alloc' declared here
+Nov 14 15:00:00 purpleraider bash[1636635]: Imported from /home/volmarr/aesir-qc-1/aesir_engine/main.mojo:12:
+Nov 14 15:00:00 purpleraider bash[1636635]: Imported from /home/volmarr/aesir-qc-1/aesir_engine/cli/commands.mojo:24:
+Nov 14 15:00:00 purpleraider bash[1636635]: Imported from /home/volmarr/aesir-qc-1/aesir_engine/cli/doctor.mojo:3:
+Nov 14 15:00:00 purpleraider bash[1636635]: Imported from /home/volmarr/aesir-qc-1/aesir_engine/aesir.mojo:6:
+Nov 14 15:00:00 purpleraider bash[1636635]: Imported from /home/volmarr/aesir-qc-1/aesir_engine/core/inference.mojo:11:
+Nov 14 15:00:00 purpleraider bash[1636635]: /home/volmarr/aesir-qc-1/aesir_engine/core/compute.mojo:2558:14: warning: `alloc` without a `Layout` is deprecated, use the `Layout`-based `alloc` instead; as a temporary migration step, use `unsafe_alloc`
+Nov 14 15:00:00 purpleraider bash[1636635]:     var cp = alloc[Int64](8)
+Nov 14 15:00:00 purpleraider bash[1636635]:              ^~~~~
+Nov 14 15:00:00 purpleraider bash[1636635]: <unknown>:0: note: 'alloc' declared here
+Nov 14 15:00:00 purpleraider bash[1636635]: Imported from /home/volmarr/aesir-qc-1/aesir_engine/main.mojo:12:
+Nov 14 15:00:00 purpleraider bash[1636635]: Imported from /home/volmarr/aesir-qc-1/aesir_engine/cli/commands.mojo:24:
+Nov 14 15:00:00 purpleraider bash[1636635]: Imported from /home/volmarr/aesir-qc-1/aesir_engine/cli/doctor.mojo:3:
+Nov 14 15:00:00 purpleraider bash[1636635]: Imported from /home/volmarr/aesir-qc-1/aesir_engine/aesir.mojo:6:
+Nov 14 15:00:00 purpleraider bash[1636635]: Imported from /home/volmarr/aesir-qc-1/aesir_engine/core/inference.mojo:11:
+Nov 14 15:00:00 purpleraider bash[1636635]: /home/volmarr/aesir-qc-1/aesir_engine/core/compute.mojo:1638:28: warning: unreachable code on right side of 'False and ...'
+Nov 14 15:00:00 purpleraider bash[1636635]:     return VNNI_DEFAULT_ON and cpu_has_vnni()
+Nov 14 15:00:00 purpleraider bash[1636635]:                            ^
+Nov 14 15:00:00 purpleraider bash[1636635]: Imported from /home/volmarr/aesir-qc-1/aesir_engine/main.mojo:12:
+Nov 14 15:00:00 purpleraider bash[1636635]: Imported from /home/volmarr/aesir-qc-1/aesir_engine/cli/commands.mojo:24:
+Nov 14 15:00:00 purpleraider bash[1636635]: Imported from /home/volmarr/aesir-qc-1/aesir_engine/cli/doctor.mojo:3:
+Nov 14 15:00:00 purpleraider bash[1636635]: Imported from /home/volmarr/aesir-qc-1/aesir_engine/aesir.mojo:6:
+Nov 14 15:00:00 purpleraider bash[1636635]: Imported from /home/volmarr/aesir-qc-1/aesir_engine/core/inference.mojo:11:
+Nov 14 15:00:00 purpleraider bash[1636635]: /home/volmarr/aesir-qc-1/aesir_engine/core/compute.mojo:1749:18: warning: `alloc` without a `Layout` is deprecated, use the `Layout`-based `alloc` instead; as a temporary migration step, use `unsafe_alloc`
+Nov 14 15:00:00 purpleraider bash[1636635]:         var xq = alloc[Int8](rows_here * a_cols)
+Nov 14 15:00:00 purpleraider bash[1636635]:                  ^~~~~
+Nov 14 15:00:00 purpleraider bash[1636635]: <unknown>:0: note: 'alloc' declared here
+Nov 14 15:00:00 purpleraider bash[1636635]: Imported from /home/volmarr/aesir-qc-1/aesir_engine/main.mojo:12:
+Nov 14 15:00:00 purpleraider bash[1636635]: Imported from /home/volmarr/aesir-qc-1/aesir_engine/cli/commands.mojo:24:
+Nov 14 15:00:00 purpleraider bash[1636635]: Imported from /home/volmarr/aesir-qc-1/aesir_engine/cli/doctor.mojo:3:
+Nov 14 15:00:00 purpleraider bash[1636635]: Imported from /home/volmarr/aesir-qc-1/aesir_engine/aesir.mojo:6:
+Nov 14 15:00:00 purpleraider bash[1636635]: Imported from /home/volmarr/aesir-qc-1/aesir_engine/core/inference.mojo:11:
+Nov 14 15:00:00 purpleraider bash[1636635]: /home/volmarr/aesir-qc-1/aesir_engine/core/compute.mojo:1750:22: warning: `alloc` without a `Layout` is deprecated, use the `Layout`-based `alloc` instead; as a temporary migration step, use `unsafe_alloc`
+Nov 14 15:00:00 purpleraider bash[1636635]:         var xscale = alloc[Float32](rows_here * blocks_per_row * nsub)
+Nov 14 15:00:00 purpleraider bash[1636635]:                      ^~~~~
+Nov 14 15:00:00 purpleraider bash[1636635]: <unknown>:0: note: 'alloc' declared here
+Nov 14 15:00:00 purpleraider bash[1636635]: Imported from /home/volmarr/aesir-qc-1/aesir_engine/main.mojo:12:
+Nov 14 15:00:00 purpleraider bash[1636635]: Imported from /home/volmarr/aesir-qc-1/aesir_engine/cli/commands.mojo:24:
+Nov 14 15:00:00 purpleraider bash[1636635]: Imported from /home/volmarr/aesir-qc-1/aesir_engine/cli/doctor.mojo:3:
+Nov 14 15:00:00 purpleraider bash[1636635]: Imported from /home/volmarr/aesir-qc-1/aesir_engine/aesir.mojo:6:
+Nov 14 15:00:00 purpleraider bash[1636635]: Imported from /home/volmarr/aesir-qc-1/aesir_engine/core/inference.mojo:11:
+Nov 14 15:00:00 purpleraider bash[1636635]: /home/volmarr/aesir-qc-1/aesir_engine/core/compute.mojo:1751:21: warning: `alloc` without a `Layout` is deprecated, use the `Layout`-based `alloc` instead; as a temporary migration step, use `unsafe_alloc`
+Nov 14 15:00:00 purpleraider bash[1636635]:         var xsums = alloc[Float32](rows_here * blocks_per_row * nsub)
+Nov 14 15:00:00 purpleraider bash[1636635]:                     ^~~~~
+Nov 14 15:00:00 purpleraider bash[1636635]: <unknown>:0: note: 'alloc' declared here
+Nov 14 15:00:01 purpleraider bash[1636635]: Included from /home/volmarr/aesir-qc-1/aesir_engine/main.mojo:12:
+Nov 14 15:00:01 purpleraider bash[1636635]: Included from /home/volmarr/aesir-qc-1/aesir_engine/cli/commands.mojo:24:
+Nov 14 15:00:01 purpleraider bash[1636635]: Included from /home/volmarr/aesir-qc-1/aesir_engine/cli/doctor.mojo:3:
+Nov 14 15:00:01 purpleraider bash[1636635]: Included from /home/volmarr/aesir-qc-1/aesir_engine/aesir.mojo:25:
+Nov 14 15:00:01 purpleraider bash[1636635]: Included from /home/volmarr/aesir-qc-1/aesir_engine/core/runtime_plan.mojo:10:
+Nov 14 15:00:01 purpleraider bash[1636635]: /home/volmarr/aesir-qc-1/aesir_engine/core/amd_gate.mojo:221:21: warning: 'except' logic is unreachable, try doesn't raise an exception
+Nov 14 15:00:01 purpleraider bash[1636635]:             return (False, Int(0))
+Nov 14 15:00:01 purpleraider bash[1636635]:                     ^
+Nov 14 15:00:01 purpleraider bash[1636635]: Included from /home/volmarr/aesir-qc-1/aesir_engine/main.mojo:12:
+Nov 14 15:00:01 purpleraider bash[1636635]: Included from /home/volmarr/aesir-qc-1/aesir_engine/cli/commands.mojo:24:
+Nov 14 15:00:01 purpleraider bash[1636635]: Included from /home/volmarr/aesir-qc-1/aesir_engine/cli/doctor.mojo:4:
+Nov 14 15:00:01 purpleraider bash[1636635]: /home/volmarr/aesir-qc-1/aesir_engine/core/hardware_census.mojo:512:27: warning: assignment to 'version' was never used; assign to '_' instead?
+Nov 14 15:00:01 purpleraider bash[1636635]:             var version = -1
+Nov 14 15:00:01 purpleraider bash[1636635]:                           ^
+Nov 14 15:00:01 purpleraider bash[1636635]: Included from /home/volmarr/aesir-qc-1/aesir_engine/main.mojo:12:
+Nov 14 15:00:01 purpleraider bash[1636635]: Included from /home/volmarr/aesir-qc-1/aesir_engine/cli/commands.mojo:24:
+Nov 14 15:00:01 purpleraider bash[1636635]: Included from /home/volmarr/aesir-qc-1/aesir_engine/cli/doctor.mojo:4:
+Nov 14 15:00:01 purpleraider bash[1636635]: /home/volmarr/aesir-qc-1/aesir_engine/core/hardware_census.mojo:462:22: warning: assignment to 'card' was never used; assign to '_' instead?
+Nov 14 15:00:01 purpleraider bash[1636635]:     var card = String("")
+Nov 14 15:00:01 purpleraider bash[1636635]:                      ^
+Nov 14 15:00:01 purpleraider bash[1636635]: Included from /home/volmarr/aesir-qc-1/aesir_engine/main.mojo:12:
+Nov 14 15:00:01 purpleraider bash[1636635]: Included from /home/volmarr/aesir-qc-1/aesir_engine/cli/commands.mojo:24:
+Nov 14 15:00:01 purpleraider bash[1636635]: Included from /home/volmarr/aesir-qc-1/aesir_engine/cli/doctor.mojo:4:
+Nov 14 15:00:01 purpleraider bash[1636635]: /home/volmarr/aesir-qc-1/aesir_engine/core/hardware_census.mojo:542:23: warning: assignment to 'accel' was never used; assign to '_' instead?
+Nov 14 15:00:01 purpleraider bash[1636635]:     var accel = String("")
+Nov 14 15:00:01 purpleraider bash[1636635]:                       ^
+Nov 14 15:00:01 purpleraider bash[1636635]: Included from /home/volmarr/aesir-qc-1/aesir_engine/main.mojo:12:
+Nov 14 15:00:01 purpleraider bash[1636635]: Included from /home/volmarr/aesir-qc-1/aesir_engine/cli/commands.mojo:24:
+Nov 14 15:00:01 purpleraider bash[1636635]: Included from /home/volmarr/aesir-qc-1/aesir_engine/cli/doctor.mojo:3:
+Nov 14 15:00:01 purpleraider bash[1636635]: Included from /home/volmarr/aesir-qc-1/aesir_engine/aesir.mojo:6:
+Nov 14 15:00:01 purpleraider bash[1636635]: /home/volmarr/aesir-qc-1/aesir_engine/core/inference.mojo:2433:43: warning: assignment to 'v_per_group' was never used; assign to '_' instead?
+Nov 14 15:00:01 purpleraider bash[1636635]:                 var v_per_group = v_heads // groups
+Nov 14 15:00:01 purpleraider bash[1636635]:                                           ^
+Nov 14 15:00:01 purpleraider bash[1636635]: Included from /home/volmarr/aesir-qc-1/aesir_engine/main.mojo:12:
+Nov 14 15:00:01 purpleraider bash[1636635]: Included from /home/volmarr/aesir-qc-1/aesir_engine/cli/commands.mojo:24:
+Nov 14 15:00:01 purpleraider bash[1636635]: Included from /home/volmarr/aesir-qc-1/aesir_engine/cli/doctor.mojo:3:
+Nov 14 15:00:01 purpleraider bash[1636635]: Included from /home/volmarr/aesir-qc-1/aesir_engine/aesir.mojo:6:
+Nov 14 15:00:01 purpleraider bash[1636635]: /home/volmarr/aesir-qc-1/aesir_engine/core/inference.mojo:2685:43: warning: assignment to 'v_per_group' was never used; assign to '_' instead?
+Nov 14 15:00:01 purpleraider bash[1636635]:                 var v_per_group = v_heads // groups
+Nov 14 15:00:01 purpleraider bash[1636635]:                                           ^
+Nov 14 15:00:01 purpleraider bash[1636635]: Included from /home/volmarr/aesir-qc-1/aesir_engine/main.mojo:12:
+Nov 14 15:00:01 purpleraider bash[1636635]: Included from /home/volmarr/aesir-qc-1/aesir_engine/cli/commands.mojo:24:
+Nov 14 15:00:01 purpleraider bash[1636635]: Included from /home/volmarr/aesir-qc-1/aesir_engine/cli/doctor.mojo:20:
+Nov 14 15:00:01 purpleraider bash[1636635]: /home/volmarr/aesir-qc-1/aesir_engine/core/scheduler_telemetry.mojo:418:20: warning: assignment to 'util' was never used; assign to '_' instead?
+Nov 14 15:00:01 purpleraider bash[1636635]:         var util = -1
+Nov 14 15:00:01 purpleraider bash[1636635]:                    ^
+Nov 14 15:00:01 purpleraider bash[1636635]: Included from /home/volmarr/aesir-qc-1/aesir_engine/main.mojo:12:
+Nov 14 15:00:01 purpleraider bash[1636635]: Included from /home/volmarr/aesir-qc-1/aesir_engine/cli/commands.mojo:24:
+Nov 14 15:00:01 purpleraider bash[1636635]: Included from /home/volmarr/aesir-qc-1/aesir_engine/cli/doctor.mojo:20:
+Nov 14 15:00:01 purpleraider bash[1636635]: /home/volmarr/aesir-qc-1/aesir_engine/core/scheduler_telemetry.mojo:426:20: warning: assignment to 'used' was never used; assign to '_' instead?
+Nov 14 15:00:01 purpleraider bash[1636635]:         var used = -1
+Nov 14 15:00:01 purpleraider bash[1636635]:                    ^
+Nov 14 15:00:01 purpleraider bash[1636635]: Included from /home/volmarr/aesir-qc-1/aesir_engine/main.mojo:12:
+Nov 14 15:00:01 purpleraider bash[1636635]: Included from /home/volmarr/aesir-qc-1/aesir_engine/cli/commands.mojo:24:
+Nov 14 15:00:01 purpleraider bash[1636635]: Included from /home/volmarr/aesir-qc-1/aesir_engine/cli/doctor.mojo:20:
+Nov 14 15:00:01 purpleraider bash[1636635]: /home/volmarr/aesir-qc-1/aesir_engine/core/scheduler_telemetry.mojo:427:23: warning: assignment to 'total_b' was never used; assign to '_' instead?
+Nov 14 15:00:01 purpleraider bash[1636635]:         var total_b = -1
+Nov 14 15:00:01 purpleraider bash[1636635]:                       ^
+Nov 14 15:00:01 purpleraider bash[1636635]: Included from /home/volmarr/aesir-qc-1/aesir_engine/main.mojo:12:
+Nov 14 15:00:01 purpleraider bash[1636635]: Included from /home/volmarr/aesir-qc-1/aesir_engine/cli/commands.mojo:24:
+Nov 14 15:00:01 purpleraider bash[1636635]: Included from /home/volmarr/aesir-qc-1/aesir_engine/cli/doctor.mojo:5:
+Nov 14 15:00:01 purpleraider bash[1636635]: /home/volmarr/aesir-qc-1/aesir_engine/core/thermal_power.mojo:195:25: warning: assignment to 'listing' was never used; assign to '_' instead?
+Nov 14 15:00:01 purpleraider bash[1636635]:     var listing = String("")
+Nov 14 15:00:01 purpleraider bash[1636635]:                         ^
+Nov 14 15:00:01 purpleraider bash[1636635]: Included from /home/volmarr/aesir-qc-1/aesir_engine/main.mojo:12:
+Nov 14 15:00:01 purpleraider bash[1636635]: Included from /home/volmarr/aesir-qc-1/aesir_engine/cli/commands.mojo:24:
+Nov 14 15:00:01 purpleraider bash[1636635]: Included from /home/volmarr/aesir-qc-1/aesir_engine/cli/doctor.mojo:5:
+Nov 14 15:00:01 purpleraider bash[1636635]: /home/volmarr/aesir-qc-1/aesir_engine/core/thermal_power.mojo:240:25: warning: assignment to 'domains' was never used; assign to '_' instead?
+Nov 14 15:00:01 purpleraider bash[1636635]:     var domains = String("")
+Nov 14 15:00:01 purpleraider bash[1636635]:                         ^
+Nov 14 15:00:01 purpleraider bash[1636635]: Included from /home/volmarr/aesir-qc-1/aesir_engine/main.mojo:12:
+Nov 14 15:00:01 purpleraider bash[1636635]: Included from /home/volmarr/aesir-qc-1/aesir_engine/cli/commands.mojo:22:
+Nov 14 15:00:01 purpleraider bash[1636635]: Included from /home/volmarr/aesir-qc-1/aesir_engine/cli/model_inspect.mojo:2:
+Nov 14 15:00:01 purpleraider bash[1636635]: Included from /home/volmarr/aesir-qc-1/aesir_engine/loader/packed_gguf.mojo:7:
+Nov 14 15:00:01 purpleraider bash[1636635]: /home/volmarr/aesir-qc-1/aesir_engine/loader/gguf.mojo:566:29: warning: assignment to 'width' was never used; assign to '_' instead?
+Nov 14 15:00:01 purpleraider bash[1636635]:                 var width = 0
+Nov 14 15:00:01 purpleraider bash[1636635]:                             ^
+Nov 14 15:00:01 purpleraider bash[1636635]: Included from /home/volmarr/aesir-qc-1/aesir_engine/main.mojo:12:
+Nov 14 15:00:01 purpleraider bash[1636635]: Included from /home/volmarr/aesir-qc-1/aesir_engine/cli/commands.mojo:24:
+Nov 14 15:00:01 purpleraider bash[1636635]: Included from /home/volmarr/aesir-qc-1/aesir_engine/cli/doctor.mojo:3:
+Nov 14 15:00:01 purpleraider bash[1636635]: /home/volmarr/aesir-qc-1/aesir_engine/aesir.mojo:1255:30: warning: assignment to 'next_token' was never used; assign to '_' instead?
+Nov 14 15:00:01 purpleraider bash[1636635]:             var next_token = -1
+Nov 14 15:00:01 purpleraider bash[1636635]:                              ^
+Nov 14 15:00:04 purpleraider bash[1636229]: + echo ENGINE_BUILD_EXIT=0
+Nov 14 15:00:04 purpleraider bash[1636229]: ENGINE_BUILD_EXIT=0
+Nov 14 15:00:04 purpleraider systemd[2331]: qc1-final-build.service: Consumed 23.650s CPU time over 23.541s wall clock time, 1001.4M memory peak.

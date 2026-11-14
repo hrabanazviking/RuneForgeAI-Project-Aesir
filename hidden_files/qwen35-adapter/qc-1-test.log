@@ -1,0 +1,23 @@
+PASS: synthetic header/KV/directory exact, offsets 0/128/640 all 32-aligned, size == data_offset + 1184, payloads byte-identical
+PASS: GGUFSeer inspect_metadata parses the synthetic header/KV exactly
+PASS: GGUFSeer maps all 3 synthetic tensors at the written offsets/types/shapes (load stops only at required-tensor validation)
+PASS: PackedGGUF loads the synthetic file in full (offsets/kinds/byte counts + typed KV reads)
+PASS: writer refusal — duplicate KV key -> GGUF writer: duplicate metadata key refused: general.name
+PASS: writer refusal — duplicate tensor name -> GGUF writer: duplicate tensor name refused: probe.weight
+PASS: writer refusal — typed-key contract (context_length as string) -> GGUF writer: metadata key has unexpected value type: llama.context_length
+PASS: writer refusal — tokenizer tokens must be a string array -> GGUF writer: tokenizer.ggml.tokens must be an array of strings
+PASS: writer refusal — payload length != reader-priced size -> GGUF writer: tensor payload size mismatch for probe.weight: payload 100 bytes, reader-priced size 128
+PASS: writer refusal — Q8_0 dim0 not a multiple of 32 -> GGUF writer: tensor dim0 is not block aligned: probe.weight
+PASS: writer refusal — rank-4 tensor -> GGUF writer: tensor must have one to three dimensions: probe.weight
+PASS: writer refusal — general.alignment != emission alignment -> GGUF writer: general.alignment does not match the emission alignment
+PASS: writer refusal — Q8_K (type 15) has no explicit reader price -> GGUF writer: unsupported tensor type 15
+PASS: writer refusal — nested array (elem type 9) -> GGUF writer: array element type refused for key extension.bad
+PASS: all writer refusals fire before emission
+PASS: stories260K header copy == GGUFSeer parse (21 KV, 48 tensors, data_offset 14240, typed values == config)
+GGUF validated: 48 tensors, 21 metadata entries, architecture llama
+PASS: stories260K directory == GGUFSeer full-load parse for all 48 tensors (type/offset/shape)
+PASS: stories260K directory == PackedGGUF parse for all 48 tensors (offset/byte_count/kind)
+PASS: stories260K metadata+payload copy re-emits a BYTE-IDENTICAL file (601248 bytes, 0 mismatches)
+GGUF validated: 48 tensors, 21 metadata entries, architecture llama
+PASS: re-emitted stories260K parses identically and reaches GGUFSeer VALIDATED
+QC-1 GGUF writer proof: ALL PASS

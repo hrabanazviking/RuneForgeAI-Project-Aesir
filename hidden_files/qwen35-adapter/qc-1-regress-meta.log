@@ -1,0 +1,15 @@
+PASS: metadata type rejection and cleanup: llama.context_length
+PASS: metadata type rejection and cleanup: llama.embedding_length
+PASS: metadata type rejection and cleanup: llama.rope.freq_base
+PASS: metadata type rejection and cleanup: llama.attention.layer_norm_rms_epsilon
+PASS: metadata type rejection and cleanup: tokenizer.ggml.add_bos_token
+PASS: metadata type rejection and cleanup: tokenizer.ggml.add_space_prefix
+PASS: metadata type rejection and cleanup: general.alignment
+PASS: metadata type rejection and cleanup: tokenizer.ggml.tokens
+PASS: metadata type rejection and cleanup: tokenizer.ggml.tokens
+PASS: metadata type rejection and cleanup: extension.unknown_key
+PASS: GGUF selected metadata type unit matrix
+PASS: metadata type rejection integrates with full load before allocation
+PASS: valid rank-one F16 tensor maps before missing-model-tensor rejection
+stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`
+Unhandled exception caught during execution: tensor directory admission differs for rank 3: GGUF is missing required tensor: token_embd.weight

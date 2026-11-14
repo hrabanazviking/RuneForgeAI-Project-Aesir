@@ -1,0 +1,3 @@
+PASS: gemma E2B header copy == GGUFSeer metadata parse (56 KV, 601 tensors, ffn array max 12288 )
+PASS: gemma E2B directory == PackedGGUF for all 601 tensors; feed_forward_length array identical element-for-element
+QC-1 gemma header-copy probe: ALL PASS
