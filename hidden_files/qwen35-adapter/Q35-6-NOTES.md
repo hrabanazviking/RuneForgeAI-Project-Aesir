@@ -132,3 +132,55 @@ before any code change, and is extended in stages.
   (f) snapshot seam: state+KV readback -> reset executor ->
   writeback -> continuation logits diff 0.0 (bit-exact).
   Snapshots DO compose with the HIP executor.
+
+## Session + fixture serve (step 5)
+
+- NEW aesir_engine/qwen35_hip_session.mojo: Qwen35HipSession, a
+  ControlledTextSession over Qwen35HipExecutor mirroring the
+  CPU session's contract (reset semantics, snapshot-based exact
+  prefix reuse at committed turn boundaries, structured/tool
+  refused). Prefill = batched GEMM (step-4 choice). Sampling is
+  host-side over device logits through the CPU sampler itself
+  (sample_token_from_logits + replay_rng), so serve sampling
+  semantics are the CPU session's by construction. Snapshots
+  store the executor state image + KV prefix image; restore is
+  the executor byte-copy seam. Tokenizer via a resident
+  AesirEngine used only for encode/decode.
+- ADMISSION (native_serve.mojo): qwen35 + --accel hip admitted
+  ONLY under --experimental-qwen35; without it the serve
+  refuses by name ("Qwen 3.5 HIP serve requires
+  --experimental-qwen35 in Q35-6; native HIP admission is not
+  claimed", exit 1 proven, q35-6-refusal-noexperimental.log).
+  Other accelerations for qwen35 refuse with the updated
+  CPU/experimental-HIP message. NativeModelPlan admission is
+  unchanged (Q35-4a truth); the ripple probe header + final
+  line record the Q35-6 serve-level lift, assertions r1-r5
+  unchanged, probe ALL PASS (q35-6-ripple.log).
+- IN-PROCESS HIP SESSION (q35-6-hipsession.log): ALL PASS.
+  R1/R2 on one device-resident state (POS1=72, POS2=106);
+  reset reproduces R1 exactly; fresh session reproduces both;
+  stateless text-extension after reset restored the turn-1
+  snapshot (STATELESS_REUSED=72 == POS1) with reply == R2.
+  Snapshots compose with the HIP session, not only the
+  executor seam.
+- HTTP FIXTURE SERVE (q35-6-bench.log, :18435, context 512,
+  MemoryMax 32G unit): ALL PASS. /health: backend "hip",
+  session_residency true, exact_prefix_reuse true WITH detail
+  "snapshot-based at committed turn boundaries only",
+  experimental_admission true, weight_load_mode
+  "q8_0_resident". Resident T1 == in-process R1; T2 == R2
+  with usage prompt 90 / reused 72 / evaluated 18. Stateless
+  resend after an intervening session: reused 72 (snapshot
+  restore), reply == R2. Port free after; MemAvailable
+  ~124 GB before and after.
+- REGRESSIONS (full driver q35-6-full.log, all rebuilt from
+  this tree): engine compile exit 0; Q35-1 ALL PASS, Q35-2
+  ALL PASS, Q35-3a ALL PASS, Q35-3r ALL PASS, Q35-4a session
+  ALL PASS, Q35-5 snapshot ALL PASS, ripple ALL PASS, HIP
+  executor test ALL PASS. CPU numerics unmoved (no CPU-path
+  files touched by this slice).
+- Build note: the HIP session test first failed to build with
+  "unable to locate module 'loader'" from core/qwen35_hip --
+  the Q35-1 anchoring lesson: a direct loader import now
+  anchors the package root in both the session module and
+  its test.

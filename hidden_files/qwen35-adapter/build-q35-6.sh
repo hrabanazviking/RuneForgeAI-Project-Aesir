@@ -19,7 +19,7 @@ fi
 LK="-Xlinker -L$SH -Xlinker -laesir_hailo10h -Xlinker -laesir_par -Xlinker -laesir_hip -Xlinker -laesir_vulkan -Xlinker -laesir_zc -Xlinker -laesir_aff"
 pixi run --frozen mojo build -I . --target-accelerator gfx1151 $LK aesir_engine/main.mojo -o .aesir/aesir
 echo ENGINE_BUILD_EXIT=$?
-for t in test_qwen35_hip_q35_6 test_qwen35_loader_q35_1 test_qwen35_registry_q35_2 test_qwen35_forward_q35_3 test_qwen35_resident_q35_3r test_qwen35_session_q35_4 test_qwen35_snapshot_q35_5 probe_qwen35_runtime_ripple_q35_2; do
+for t in test_qwen35_hip_q35_6 test_qwen35_hip_session_q35_6 test_qwen35_loader_q35_1 test_qwen35_registry_q35_2 test_qwen35_forward_q35_3 test_qwen35_resident_q35_3r test_qwen35_session_q35_4 test_qwen35_snapshot_q35_5 probe_qwen35_runtime_ripple_q35_2; do
   pixi run --frozen mojo build -I . --target-accelerator gfx1151 $LK aesir_engine/tests/$t.mojo -o hidden_files/qwen35-adapter/$t
   echo BUILD_$t=$?
 done

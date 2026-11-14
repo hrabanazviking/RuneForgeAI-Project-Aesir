@@ -9,6 +9,7 @@ from aesir import (Gemma4CUDASession, Llama3CUDASession, NativeModelPlan,
 from cli.hardware import parse_device_index, parse_reserve_bytes
 from core.cuda_gate import CUDAGate
 from qwen35_session import Qwen35CPUSession
+from qwen35_hip_session import Qwen35HipSession
 from core.amd_gate import AMDGate
 from core.sampling_options import with_sampling_option
 from core.tool_use import parse_gemma_zero_arg_call
@@ -805,8 +806,14 @@ def dispatch_native_serve(args: List[String]) raises:
         # Q35-4a: the ONLY CPU serve path is qwen35; every other
         # profile keeps the no-CPU-fallback refusal verbatim.
         raise Error("Native service requires a supported CUDA or HIP profile; no CPU fallback")
-    if profile == "qwen35" and acceleration != "cpu":
-        raise Error("Qwen 3.5 native serve is CPU-only in Q35-4a; HIP qwen35 execution lands in Q35-6")
+    if profile == "qwen35" and acceleration == "hip" and not experimental_qwen35:
+        # Q35-6: HIP qwen35 serve is admitted ONLY under the
+        # experimental opt-in (fixture/experimental route, incl.
+        # the Q35-6b real-file proof); native HIP admission is
+        # not claimed on this slice.
+        raise Error("Qwen 3.5 HIP serve requires --experimental-qwen35 in Q35-6; native HIP admission is not claimed")
+    if profile == "qwen35" and acceleration != "cpu" and acceleration != "hip":
+        raise Error("Qwen 3.5 native serve supports CPU (Q35-4a) or experimental HIP (Q35-6) acceleration only")
     if experimental_qwen35 and profile != "qwen35":
         raise Error("--experimental-qwen35 applies only to --profile qwen35")
     if qwen35_resident and profile != "qwen35":
@@ -850,6 +857,11 @@ def dispatch_native_serve(args: List[String]) raises:
     var plan: NativeModelPlan
     if acceleration == "cpu":
         plan = NativeModelPlan(model_path, profile, context, experimental_qwen35, qwen35_resident)
+    elif profile == "qwen35" and acceleration == "hip":
+        # Q35-6: plan-level admission is the Q35-4a truth (real
+        # file native, fixture experimental-only); the HIP route
+        # itself is experimental-gated above regardless of file.
+        plan = NativeModelPlan(model_path, profile, context, experimental_qwen35, qwen35_resident)
     else:
         var selection: NativeDeviceSelection
         if acceleration == "hip":
@@ -873,7 +885,10 @@ def dispatch_native_serve(args: List[String]) raises:
     var parameter_size = ("3B" if plan.variant == "llama3-3B" else "8B") if plan.profile == "llama3" else ("0.6B" if plan.profile == "qwen3" else (q35_size if plan.profile == "qwen35" else ("2B" if plan.variant == "gemma4-E2B" else "4B")))
     var quantization = "Q4_K_M" if ("Q4_K_M" in model_path or "Q4_K_M" in modelfile) else "unknown"
     var model_info = OllamaModelInfo(model_name, digest, model_size, quantization, modified_at, modelfile, family, parameter_size)
-    if plan.profile == "qwen35":
+    if plan.profile == "qwen35" and acceleration == "hip":
+        var hip_session = Qwen35HipSession(model_path, plan.context_length, sampling)
+        serve_loaded(hip_session, port, key, plan.profile, plan.context_length, token_limit, timeout_ms, io_timeout_ms, interrupts.fd, ollama, model_info, model_store, resolved.from_catalog, plan.memory.device_bytes, sampling, effective.system, effective.has_system, queue_limit, queue_timeout_ms, True, 1, backend="hip", post_history=effective.post_history, experimental=True, prefix_reuse_detail="snapshot-based at committed turn boundaries only", weight_load_mode=hip_session.weight_load_mode())
+    elif plan.profile == "qwen35":
         var session = Qwen35CPUSession(model_path, plan.context_length, sampling, plan.resident_q8)
         serve_loaded(session, port, key, plan.profile, plan.context_length, token_limit, timeout_ms, io_timeout_ms, interrupts.fd, ollama, model_info, model_store, resolved.from_catalog, plan.memory.device_bytes, sampling, effective.system, effective.has_system, queue_limit, queue_timeout_ms, True, 1, backend="cpu", post_history=effective.post_history, experimental=plan.experimental, prefix_reuse_detail="snapshot-based at committed turn boundaries only", weight_load_mode=session.weight_load_mode())
     elif plan.profile == "llama3" or plan.profile == "qwen3":

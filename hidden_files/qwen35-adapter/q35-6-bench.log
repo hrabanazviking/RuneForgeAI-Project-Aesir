@@ -1,0 +1,10 @@
+HEALTH status=200 body={"status": "ready", "backend": "hip", "cpu_offload": 0, "profile": "qwen35", "context": 512, "model": "aesir_engine/tests/fixtures/qwen35_forward.gguf", "model_digest": "", "max_tokens": 16, "generation_timeout_ms": 30000, "capabilities": {"text_generation": true, "embeddings": false, "exact_prefix_reuse": true, "exact_prefix_reuse_detail": "snapshot-based at committed turn boundaries only", "post_history_configured": false, "session_residency": true, "memory_injection": true, "experimental_admission": true, "weight_load_mode": "q8_0_resident"}, "prefill_batch": 1, "queue_limit": 4}
+HEALTH CAPS PASS: profile=qwen35 backend=hip residency=true exact_prefix_reuse=true(snapshot-based) experimental=true weight_load_mode=q8_0_resident
+RESIDENT T1 status=200 usage={"prompt_tokens": 56, "completion_tokens": 16, "total_tokens": 72, "reused_prompt_tokens": 0} reply='tok0882tok0583tok0723tok0749tok0819tok0152tok0189tok0184tok0963tok0438tok0400tok0609tok0129tok0901tok0737tok1010'
+T1 MATCHES HIP REFERENCE
+RESIDENT T2 status=200 usage={"prompt_tokens": 90, "completion_tokens": 16, "total_tokens": 106, "reused_prompt_tokens": 72} reply='tok0964tok0387tok0308tok0661tok0529tok0430tok0105tok0120tok0488tok0969tok0423ftok0457tok0177tok0224tok1018'
+T2 MATCHES HIP REFERENCE; RESIDENCY usage: prompt_tokens=90 reused=72 evaluated=18
+INTERVENING status=200 usage={"prompt_tokens": 56, "completion_tokens": 16, "total_tokens": 72, "reused_prompt_tokens": 0} reply='tok0645tok0864tok1002tok0580tok0551tok0760tok0977tok0444tok0756tok0599tok0998tok0622tok0998tok0319tok0564tok0258'
+STATELESS T2 status=200 usage={"prompt_tokens": 90, "completion_tokens": 16, "total_tokens": 106, "reused_prompt_tokens": 72} reply='tok0964tok0387tok0308tok0661tok0529tok0430tok0105tok0120tok0488tok0969tok0423ftok0457tok0177tok0224tok1018'
+STATELESS PASS: reused=72 (turn-1 snapshot boundary) reply==resident R2 (snapshot restore on the HIP session)
+Q35-6 HTTP HIP bench: ALL PASS
