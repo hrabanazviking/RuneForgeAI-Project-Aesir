@@ -1,6 +1,6 @@
 # Qwen35 Adapter Campaign — Ledger
 
-## 2026-11-14 — QC-1: GGUF writer core — spec-exact v3 emission + metadata-copy path (worker slice; coordinator integrates)
+## 2026-11-14 — QC-1: GGUF writer core — spec-exact v3 emission + metadata-copy path (worker slice; verified + banked by coordinator)
 
 - DELIVERED: aesir_engine/loader/gguf_writer.mojo (new, ONE
   module beside the readers) — GGUFModelDesc (KV list + tensor
@@ -50,6 +50,16 @@
   gguf.tensor_directory_interface (attributed, not chased).
   Builds/tests fenced MemoryMax 32G. Full notes:
   QC-1-NOTES.md.
+
+- Coordinator verification (2026-11-14): proof logs re-read
+  from disk (writer proof ALL PASS; stories260K re-emission
+  byte-identical, 601,248 B, 0 mismatches; synthetic offsets
+  0/128/640 aligned; refusal cases present); remote
+  yrsa/qc-1 == f7fac828 confirmed by ls-remote before merge;
+  fast-forwarded into yrsa/hip-serve and banked. Errata
+  E-1..E-3 stand as recorded in QC-1-NOTES.md (E-2, the
+  _tensor_byte_size Q4_0 fall-through for unpriced types,
+  is named next work for the reader side).
 
 ## 2026-11-14 — Q8-1 fix: Q8_1 block size arbitrated at 36 B, compute side repaired (worker slice; verified + banked by coordinator)
 
