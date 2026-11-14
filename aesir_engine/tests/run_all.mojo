@@ -771,6 +771,19 @@ from tests.test_oracle_pins_a110 import (
     test_pin_registry_judged_rows_pinned,
     test_pin_registry_unpinned_example_unjudged,
 )
+from tests.test_near_tie_gate_a111 import (
+    test_near_tie_band_constants,
+    test_near_tie_band_interior,
+    test_near_tie_band_line,
+    test_near_tie_comparator_precedence,
+    test_near_tie_exact_step,
+    test_near_tie_gap_edge,
+    test_near_tie_invalid_records_refused,
+    test_near_tie_matches_prefill_grade,
+    test_near_tie_rank_edge,
+    test_near_tie_row_verdicts,
+    test_near_tie_sequence_verdicts,
+)
 from tests.test_placement_planner_a100 import (
     test_planner_standard_fixtures,
     test_planner_prefill_variants,
@@ -1643,6 +1656,17 @@ def main() raises:
     run_case(ledger, "oracle.pin_mark_judged_success", test_pin_mark_judged_success)
     run_case(ledger, "oracle.pin_build_hash_forms", test_pin_build_hash_forms)
     run_case(ledger, "oracle.pin_registry_file_in_repo", test_pin_registry_file_in_repo)
+    run_case(ledger, "gate.near_tie_band_constants", test_near_tie_band_constants)
+    run_case(ledger, "gate.near_tie_exact_step", test_near_tie_exact_step)
+    run_case(ledger, "gate.near_tie_band_interior", test_near_tie_band_interior)
+    run_case(ledger, "gate.near_tie_rank_edge", test_near_tie_rank_edge)
+    run_case(ledger, "gate.near_tie_gap_edge", test_near_tie_gap_edge)
+    run_case(ledger, "gate.near_tie_invalid_refused", test_near_tie_invalid_records_refused)
+    run_case(ledger, "gate.near_tie_comparator_precedence", test_near_tie_comparator_precedence)
+    run_case(ledger, "gate.near_tie_row_verdicts", test_near_tie_row_verdicts)
+    run_case(ledger, "gate.near_tie_sequence_verdicts", test_near_tie_sequence_verdicts)
+    run_case(ledger, "gate.near_tie_matches_prefill", test_near_tie_matches_prefill_grade)
+    run_case(ledger, "gate.near_tie_band_line", test_near_tie_band_line)
     run_case(ledger, "planner.standard_fixtures", test_planner_standard_fixtures)
     run_case(ledger, "planner.prefill_variants", test_planner_prefill_variants)
     run_case(ledger, "planner.gemm_thresholds", test_planner_gemm_thresholds)
@@ -2387,4 +2411,13 @@ def main() raises:
     # oracle.pin_* cases counted on top of the A-109 seat pin
     # (team branch pin was 677 on the A-108 base; union
     # reconciled here at banking).
-    ledger.finish(684)
+    # A-111 re-pin (team-27): 670 -> 681 -- eleven
+    # near-tie gate cases (gate.near_tie_* in
+    # tests/test_near_tie_gate_a111.mojo) counted on top
+    # of the A-108 seat pin; the union reconciles at
+    # banking.
+    # A-111 union re-pin at banking: 684 -> 695 -- the
+    # eleven gate.near_tie_* cases counted on top of the
+    # A-110 seat pin (team branch pin was 681 on the A-108
+    # base; union reconciled here at banking).
+    ledger.finish(695)
