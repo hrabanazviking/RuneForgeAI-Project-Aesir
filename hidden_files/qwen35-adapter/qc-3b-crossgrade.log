@@ -1,0 +1,20 @@
+PAIRING: QC-3b llama.cpp CPU: candidate gemma-4-E2B Q8_0 (Aesir QC-3b) vs comparator gemma-4-E2B Q4_K_M source as-is
+AGGREGATE: records 79 exact 73 near_tie 5 divergent 1 in_band 78/79 = 98.73% agree 73/79 = 92.41% worst_rank 2 worst_gap_milli 587 max_gap_milli 1489
+  worst_record: prompt 0 pos 1 comp_argmax 50134 cand_argmax 106 rank 2 gap_milli 587
+prompt 0: records 8 exact 7 near_tie 1 divergent 0 in_band 8/8 = 100.00% agree 7/8 = 87.50% worst_rank 2 worst_gap_milli 587 max_gap_milli 587
+  worst_record: prompt 0 pos 1 comp_argmax 50134 cand_argmax 106 rank 2 gap_milli 587
+prompt 1: records 9 exact 9 near_tie 0 divergent 0 in_band 9/9 = 100.00% agree 9/9 = 100.00% worst_rank 0 worst_gap_milli 0 max_gap_milli 0
+  worst_record: prompt 1 pos 0 comp_argmax 236761 cand_argmax 236761 rank 0 gap_milli 0
+prompt 2: records 11 exact 10 near_tie 1 divergent 0 in_band 11/11 = 100.00% agree 10/11 = 90.91% worst_rank 2 worst_gap_milli 587 max_gap_milli 587
+  worst_record: prompt 2 pos 1 comp_argmax 50134 cand_argmax 106 rank 2 gap_milli 587
+prompt 3: records 14 exact 14 near_tie 0 divergent 0 in_band 14/14 = 100.00% agree 14/14 = 100.00% worst_rank 0 worst_gap_milli 0 max_gap_milli 0
+  worst_record: prompt 3 pos 0 comp_argmax 236761 cand_argmax 236761 rank 0 gap_milli 0
+prompt 4: records 11 exact 10 near_tie 1 divergent 0 in_band 11/11 = 100.00% agree 10/11 = 90.91% worst_rank 2 worst_gap_milli 587 max_gap_milli 587
+  worst_record: prompt 4 pos 1 comp_argmax 50134 cand_argmax 106 rank 2 gap_milli 587
+prompt 5: records 26 exact 23 near_tie 2 divergent 1 in_band 25/26 = 96.15% agree 23/26 = 88.46% worst_rank 1 worst_gap_milli 1489 max_gap_milli 1489
+  worst_record: prompt 5 pos 24 comp_argmax 5756 cand_argmax 31225 rank 1 gap_milli 1489
+prompt_segment: records 44 exact 39 near_tie 5 divergent 0 in_band 44/44 = 100.00% agree 39/44 = 88.64% worst_rank 2 worst_gap_milli 587 max_gap_milli 805
+  worst_record: prompt 0 pos 1 comp_argmax 50134 cand_argmax 106 rank 2 gap_milli 587
+continuation_segment: records 35 exact 34 near_tie 0 divergent 1 in_band 34/35 = 97.14% agree 34/35 = 97.14% worst_rank 1 worst_gap_milli 1489 max_gap_milli 1489
+  worst_record: prompt 5 pos 24 comp_argmax 5756 cand_argmax 31225 rank 1 gap_milli 1489
+VERDICT: DIVERGENT (1 records out of band)

@@ -1,0 +1,5 @@
+BUILD_EXIT=0
+TEST_EXIT=1
+DEBUG token_embd.weight row 0 block 1 lane 0 src 0.0023674965 dequant nan err nan bound nan amax 0.1181767 d 0.0009305252 d_hat nan q 3 d_bits 65439 raw0 -97 raw1 19
+stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`
+DBGPROBE_DONE

@@ -1,0 +1,5 @@
+Included from /home/volmarr/aesir-qc-3b/aesir_engine/tests/test_quantize_gemma_qc_3b.mojo:27:
+Included from /home/volmarr/aesir-qc-3b/aesir_engine/cli/quantize.mojo:40:
+/home/volmarr/aesir-qc-3b/aesir_engine/loader/gguf.mojo:566:29: warning: assignment to 'width' was never used; assign to '_' instead?
+                var width = 0
+                            ^

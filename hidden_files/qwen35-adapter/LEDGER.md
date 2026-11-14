@@ -1,5 +1,76 @@
 # Qwen35 Adapter Campaign — Ledger
 
+## 2026-11-14 — QC-3b: gemma-4-E2B Q4_K_M -> Q8_0 whole-model conversion + grade (worker slice; staged banking)
+
+- PREREQUISITE 1 (streaming writer): GGUFStreamWriter in
+  loader/gguf_writer.mojo — header first, per-tensor chunked
+  payloads, in-memory API untouched. Byte proofs: synthetic
+  streamed == in-memory; stories260K streaming copy identical
+  to in-memory emission AND source; gemma E2B header-copy
+  re-emission through BOTH paths byte-identical to source
+  (sha 740185b2...). Peak RSS on the gemma re-emission:
+  in-memory 9,049,800 KB vs streaming 3,087,116 KB.
+- PREREQUISITE 2 (dequantizing input path):
+  core/dequantize_input.mojo, checked dispatch over the
+  engine's own packed_value. Covers exactly the E2B census
+  types {F32, F16, BF16, Q4_K, Q5_K, Q6_K}; all other types
+  refused by name. Hand-built 256-lane block proofs exact
+  per type. Kept-by-policy set for E2B: EMPTY.
+- CONVERSION (streaming path; cli/quantize.mojo extended,
+  QC-3a function untouched; --streaming added): 318 tensors
+  quantized, 283 kept — every keep the rank-1 norm/scale
+  class, named; zero dim0 keeps, zero dequant keeps.
+  Source 3,106,738,272 B (sha 740185b2..., pin confirmed)
+  -> emitted 4,954,595,424 B, sha256 a63bde439cf2...,
+  file_type 15 -> 7. Emitted is LARGER (+59.5%): Q8_0 is a
+  less dense tier than the Q4_K_M mix — expected, framed in
+  the notes. Streaming CLI on stories reproduces QC-3a's
+  banked sha 5d4df894... byte-identically. Conversion peak
+  RSS 3,066,060 KB, 33.59 s, uncontended.
+- U-QC4 SETTLED at copy+convert+emit level: 56 KVs incl.
+  arrays carried raw; emitted metadata == source except
+  file_type (asserted by the load-proof test).
+- LOAD PROOF ALL PASS: PackedGGUF constructs on both
+  files; GGUFSeer VALIDATED on both (gemma4, 601 tensors,
+  vocab 262144); QC-2 bound probes on 6 tensors spanning
+  every source class, worst err/bound 0.79-0.85.
+- FINDING F-3b-1 (named, unfixed): registry admission
+  DIFFERS — aesir inspect: source READY/VERIFIED, emitted
+  NOT READY/UNSUPPORTED ("The Gemma 4 adapter does not
+  support this GGUF quantization"; the gemma4 profile's
+  supported list omits Q8_0). Loader admission identical.
+  Mirror image of F-3a-1; profile fix named for a future
+  slice, out of scope here.
+- FINDING F-3b-2 (toolchain): UInt16(UInt8(Int8 load)) can
+  fold to a sign-extended widening in this Mojo build;
+  materialize mmap bytes through List[UInt8] before
+  widening. Probe-side only; Python arbitration proved the
+  emitted file inside bound before the probe was fixed.
+- GRADE: Aesir harness attempt recorded (both models loaded,
+  tokenizer parity passed, then NearTieGate raised on
+  non-negative rank/gap — gemma4 CPU forward is not a
+  supported path, inspect CPU support: no). Fallback per
+  brief: llama.cpp BOTH sides, raw token IDs from the start
+  (qc3bstream/qc3bgrade/qc3b_crossgrade.py). 79 records:
+  exact 73, near-tie 5, divergent 1; in-band 78/79 =
+  98.73%; agreement 73/79 = 92.41%. VERDICT: NOT FAITHFUL
+  under the strict gate rule — the one out-of-band record
+  is prompt 5 pos 24 (rank 1, gap 1489 milli; 5756 "fresh"
+  vs 31225 "damp"), also the greedy witness's first
+  divergence (step 15 of prompt 5; prompts 0-4 identical).
+  Framing: the source is itself quantized — the grade
+  prices the dequant->requantize round trip, not
+  compression from a float original.
+- REGRESSIONS from this tree: engine compile exit 0;
+  QC-1, QC-2, Q35-1 ALL PASS; QC-3a proof ALL PASS, CLI
+  sha 5d4df894... reproduced, grade CSV byte-identical to
+  banked qc-3-grade.csv (diff exit 0), verdict FAITHFUL.
+- Contention honestly noted: sibling Q35-6 27B serve was
+  active at slice start (recon/build window), gone before
+  every heavy run. Full notes: QC-3b-NOTES.md.
+  Next: QC-5 (Q4_K_M target tier — needs a K-quant packing
+  writer + llama-quantize built) / QC-6 (27B).
+
 ## 2026-11-14 — QC-4: llama.cpp cross-check of the QC-3a compressed model (worker slice; verified + banked by coordinator)
 
 - Determinism: `aesir quantize` from the merged tree reproduces

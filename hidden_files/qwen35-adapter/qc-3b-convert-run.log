@@ -1,0 +1,7 @@
+STORIES_STREAM_CLI_EXIT=0
+5d4df894e4ed0d16f84d94c0a2a7524a4915123fe96148dc0e41b7bc1a6d77b7  hidden_files/qwen35-adapter/qc-3b-stories-q8-stream.gguf
+740185b21d22ceb83a11c3aa62ad5842ef32c70f6096d756bbee85a1e4ec34b8  /home/volmarr/aesir-forge/.aesir/models/gemma-4-E2B-it-Q4_K_M.gguf
+CONVERT_EXIT=0
+a63bde439cf22226df55e1ef937c656c71a801e34c721290c8d1cfeb962a36d1  hidden_files/qwen35-adapter/gemma-4-E2B-it-Q8_0.gguf
+-rw-r--r-- 1 volmarr volmarr 4954595424 Nov 14 16:07 hidden_files/qwen35-adapter/gemma-4-E2B-it-Q8_0.gguf
+QC3B_CONVERT_DONE

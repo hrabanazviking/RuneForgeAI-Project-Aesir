@@ -31,13 +31,21 @@
 from std.memory import bitcast
 
 from core.mimir_well import f16, f32
-from core.quantize import Q8_0_GGML_TYPE, quantize_q8_0
+from core.dequantize_input import (
+    dequant_input_keep_reason,
+    dequant_input_supported,
+    dequantize_range_f32,
+)
+from core.quantize import Q8_0_GGML_TYPE, q8_0_payload_bytes, quantize_q8_0
 from loader.gguf import GGMLType, GGUFSeer
 from loader.gguf_writer import (
     GGUFDirectoryEntry,
+    GGUFKV,
+    GGUFWriterTensorMeta,
     GGUFModelDesc,
     GGUFWriterTensor,
     gguf_kv_u32,
+    open_gguf_stream,
     read_gguf_header_copy,
     write_gguf_file,
 )
@@ -262,6 +270,7 @@ def dispatch_quantize(args: List[String]) raises:
     var output = String("")
     var tier = String(QUANTIZE_TIER_Q8_0)
     var seen_to = False
+    var streaming = False
     var index = 1
     while index < len(args):
         var token = args[index]
@@ -271,6 +280,10 @@ def dispatch_quantize(args: List[String]) raises:
             seen_to = True
             tier = args[index + 1]
             index += 2
+            continue
+        if token == "--streaming":
+            streaming = True
+            index += 1
             continue
         if token.startswith("--"):
             raise Error("quantize: unknown option " + token)
@@ -293,5 +306,174 @@ def dispatch_quantize(args: List[String]) raises:
         )
     if source == output:
         raise Error("quantize: source and output paths must differ")
-    var report = quantize_gguf_q8_0(source, output)
+    var report = QuantizeReport()
+    if streaming:
+        report = quantize_gguf_q8_0_streaming(source, output)
+    else:
+        report = quantize_gguf_q8_0(source, output)
     print_quantize_report(report, source, output)
+
+
+# ---------------------------------------------------------------------
+# QC-3b: dequantizing policy + streaming whole-model conversion.
+#
+# quantize_gguf_q8_0 above widens DENSE floats only and keeps every
+# quantized tensor at source type; at gemma-4-E2B scale (3.1 GB,
+# 601 tensors, mostly Q4_K/Q5_K/Q6_K) it also cannot ride the
+# in-memory writer. The streaming conversion below is the QC-3b
+# extension: the per-role policy gains the dequantizing input path
+# (core/dequantize_input.mojo -- Q4_K/Q5_K/Q6_K through the engine's
+# own packed_value, F32 out), values are produced ROW BY ROW
+# (dim0 values at a time), quantized per row with QC-2's
+# quantize_q8_0, and emitted through QC-1's streaming writer
+# (loader/gguf_writer.open_gguf_stream), so peak memory stays
+# O(largest row + header), never O(file). Kept tensors are copied
+# from the source mmap in 64 KiB chunks. Metadata handling is
+# identical to the in-memory path (raw KV copy, general.file_type
+# set to 7); tensor names/shapes/directory order are preserved.
+
+
+def q8_0_keep_reason_dequant(name: String, entry: GGUFDirectoryEntry) -> String:
+    # QC-3b per-role policy: identical to q8_0_keep_reason except
+    # that a quantized source type WITH a wired F32 dequantizer
+    # (Q4_K / Q5_K / Q6_K, the E2B census) quantizes instead of
+    # being kept; a quantized type without one is kept with the
+    # dequant path's named reason.
+    if len(entry.dims) < 2:
+        return String(
+            "one-dimensional tensor (norm/scale/bias class) stays at source type"
+        )
+    if "norm" in name:
+        return String("norm tensor stays at source type")
+    if name.endswith(".bias"):
+        return String("bias tensor stays at source type")
+    var dense = (
+        entry.tensor_type == UInt32(GGMLType.F16)
+        or entry.tensor_type == UInt32(GGMLType.F32)
+        or entry.tensor_type == UInt32(GGMLType.BF16)
+    )
+    if not dense and not dequant_input_supported(Int(entry.tensor_type)):
+        return dequant_input_keep_reason(Int(entry.tensor_type))
+    if Int(entry.dims[0]) % 32 != 0:
+        return String(
+            "dim0 "
+            + String(entry.dims[0])
+            + " is not a multiple of the 32-value Q8_0 block; stays at"
+            + " source type (no padding -- GGUF has no padding semantics)"
+        )
+    return String("")
+
+
+def _read_row_f32(
+    seer: GGUFSeer, base: Int, entry: GGUFDirectoryEntry, row: Int
+) raises -> List[Float32]:
+    # One row (dim0 values) of a tensor as F32: exact widening for
+    # dense floats (the _read_dense_f32 rules, row-sliced), the
+    # dequantizing input path for quantized types.
+    var dim0 = Int(entry.dims[0])
+    var start = row * dim0
+    if entry.tensor_type == UInt32(GGMLType.F16):
+        var values = List[Float32]()
+        values.reserve(dim0)
+        var ptr = seer.mmap_ptr.unsafe_offset(base + start * 2).unsafe_bitcast[Scalar[f16]]()
+        for i in range(dim0):
+            values.append(ptr.unsafe_load(i).cast[f32]())
+        return values^
+    if entry.tensor_type == UInt32(GGMLType.F32):
+        var values = List[Float32]()
+        values.reserve(dim0)
+        var ptr = seer.mmap_ptr.unsafe_offset(base + start * 4).unsafe_bitcast[Float32]()
+        for i in range(dim0):
+            values.append(ptr.unsafe_load(i))
+        return values^
+    if entry.tensor_type == UInt32(GGMLType.BF16):
+        var values = List[Float32]()
+        values.reserve(dim0)
+        var ptr = seer.mmap_ptr.unsafe_offset(base + start * 2).unsafe_bitcast[UInt16]()
+        for i in range(dim0):
+            var bits = UInt32(ptr.unsafe_load(i)) << 16
+            values.append(bitcast[DType.float32](bits))
+        return values^
+    return dequantize_range_f32(
+        seer.mmap_ptr.unsafe_bitcast[UInt8](),
+        base,
+        Int(entry.tensor_type),
+        start,
+        dim0,
+    )
+
+
+def quantize_gguf_q8_0_streaming(
+    source_path: String, output_path: String
+) raises -> QuantizeReport:
+    # Whole-model Q8_0 conversion through the streaming writer and
+    # the dequantizing input path (QC-3b). Same report contract as
+    # quantize_gguf_q8_0: every tensor named exactly once, as
+    # quantized or as kept-with-a-reason.
+    var head = read_gguf_header_copy(source_path)
+    var seer = GGUFSeer(source_path)
+    seer._open_and_map()
+    seer._parse_header()
+    var kvs = List[GGUFKV]()
+    var saw_file_type = False
+    for kv in head.kvs:
+        if kv.key == "general.file_type":
+            kvs.append(gguf_kv_u32("general.file_type", UInt32(Q8_0_FILE_TYPE)))
+            saw_file_type = True
+        else:
+            kvs.append(kv.copy())
+    if not saw_file_type:
+        raise Error(
+            "quantize: source carries no general.file_type key to set;"
+            + " refusing to invent metadata layout"
+        )
+    var metas = List[GGUFWriterTensorMeta]()
+    var reasons = List[String]()
+    for entry in head.directory:
+        var reason = q8_0_keep_reason_dequant(entry.name, entry.copy())
+        reasons.append(reason)
+        if reason.byte_length() == 0:
+            metas.append(
+                GGUFWriterTensorMeta(entry.name, entry.dims, UInt32(Q8_0_GGML_TYPE))
+            )
+        else:
+            metas.append(
+                GGUFWriterTensorMeta(entry.name, entry.dims, entry.tensor_type)
+            )
+    var writer = open_gguf_stream(output_path, kvs, metas, head.alignment)
+    var report = QuantizeReport()
+    for i in range(len(head.directory)):
+        ref entry = head.directory[i]
+        var base = head.data_offset + entry.relative_offset
+        seer._require_range(base, entry.byte_size)
+        writer.begin_tensor(i)
+        if reasons[i].byte_length() == 0:
+            var count = _element_count(entry.copy())
+            var dim0 = Int(entry.dims[0])
+            var rows = count // dim0
+            for row in range(rows):
+                var values = _read_row_f32(seer, base, entry.copy(), row)
+                var payload = quantize_q8_0(values)
+                writer.write_chunk(payload)
+            report.quantized_names.append(String(entry.name))
+            report.quantized_source_bytes.append(entry.byte_size)
+            report.quantized_output_bytes.append(q8_0_payload_bytes(count))
+        else:
+            var done = 0
+            while done < entry.byte_size:
+                var n = entry.byte_size - done
+                if n > 65536:
+                    n = 65536
+                var chunk = List[UInt8]()
+                chunk.resize(n, UInt8(0))
+                for k in range(n):
+                    chunk[k] = UInt8(seer.mmap_ptr.unsafe_offset(base + done + k).unsafe_load())
+                writer.write_chunk(chunk)
+                done += n
+            report.kept_names.append(String(entry.name))
+            report.kept_types.append(entry.tensor_type)
+            report.kept_bytes.append(entry.byte_size)
+            report.kept_reasons.append(reasons[i])
+        writer.end_tensor()
+    report.output_bytes = writer.finish()
+    return report^

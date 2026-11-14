@@ -1,0 +1,15 @@
+MimirWell initialized with 1182401536 derived bytes.
+GGUF validated: 601 tensors, 56 metadata entries, architecture gemma4
+LOADED source: gemma4 blocks: 35 vocab: 262144
+PROMPT 0 tokens: 2 4906 1719 236764 9902 3307 3939 531
+PROMPT 1 tokens: 2 14946 3324 496 990 236764 993 691 496 2268 3953
+PROMPT 2 tokens: 2 818 4799 11536 531 506
+PROMPT 3 tokens: 2 68364 1176 236764 2229 1590 532
+PROMPT 4 tokens: 2 4906 1719 236764 496 2268 6938 7489 8460
+PROMPT 5 tokens: 2 818 3768 691 36489 532 506 13923
+MimirWell initialized with 1182401536 derived bytes.
+GGUF validated: 601 tensors, 56 metadata entries, architecture gemma4
+LOADED quantized: gemma4 blocks: 35 vocab: 262144
+TOKENIZER PARITY: quantized model reproduces the identical token-ID streams on all prompts
+stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`
+Unhandled exception caught during execution: NearTieGate: rank and gap must be non-negative
