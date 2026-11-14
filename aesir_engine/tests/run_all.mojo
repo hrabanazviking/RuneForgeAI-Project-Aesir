@@ -1000,6 +1000,23 @@ from tests.test_special_token_battery_a126 import (
     test_special_synthetic_defects,
     test_special_synthetic_labelled,
 )
+from tests.test_coherence_harness_a127 import (
+    test_coherence_axes_product,
+    test_coherence_digest_deterministic,
+    test_coherence_enumeration_unique,
+    test_coherence_invalid_axes_refused,
+    test_coherence_metrics_exact_counts,
+    test_coherence_not_graded_reasons,
+    test_coherence_policy_coherence_only,
+    test_coherence_sanity_degenerate_fails,
+    test_coherence_sanity_echo_and_empty,
+    test_coherence_sanity_garbage_fails,
+    test_coherence_sanity_good_passes,
+    test_coherence_sanity_offtopic_fails,
+    test_coherence_sanity_repetition_fails,
+    test_coherence_summary_sums,
+    test_coherence_unique_and_run,
+)
 from tests.test_placement_planner_a100 import (
     test_planner_standard_fixtures,
     test_planner_prefill_variants,
@@ -2069,6 +2086,21 @@ def main() raises:
     run_case(ledger, "special_token.synthetic_labelled", test_special_synthetic_labelled)
     run_case(ledger, "special_token.synthetic_defects", test_special_synthetic_defects)
     run_case(ledger, "special_token.summary_sums", test_special_summary_sums)
+    run_case(ledger, "coherence.harness_axes_product", test_coherence_axes_product)
+    run_case(ledger, "coherence.harness_enumeration_unique", test_coherence_enumeration_unique)
+    run_case(ledger, "coherence.harness_policy_coherence_only", test_coherence_policy_coherence_only)
+    run_case(ledger, "coherence.harness_metrics_exact_counts", test_coherence_metrics_exact_counts)
+    run_case(ledger, "coherence.harness_unique_and_run", test_coherence_unique_and_run)
+    run_case(ledger, "coherence.harness_sanity_good_passes", test_coherence_sanity_good_passes)
+    run_case(ledger, "coherence.harness_sanity_repetition_fails", test_coherence_sanity_repetition_fails)
+    run_case(ledger, "coherence.harness_sanity_garbage_fails", test_coherence_sanity_garbage_fails)
+    run_case(ledger, "coherence.harness_sanity_offtopic_fails", test_coherence_sanity_offtopic_fails)
+    run_case(ledger, "coherence.harness_sanity_degenerate_fails", test_coherence_sanity_degenerate_fails)
+    run_case(ledger, "coherence.harness_sanity_echo_and_empty", test_coherence_sanity_echo_and_empty)
+    run_case(ledger, "coherence.harness_not_graded_reasons", test_coherence_not_graded_reasons)
+    run_case(ledger, "coherence.harness_summary_sums", test_coherence_summary_sums)
+    run_case(ledger, "coherence.harness_invalid_axes_refused", test_coherence_invalid_axes_refused)
+    run_case(ledger, "coherence.harness_digest_deterministic", test_coherence_digest_deterministic)
     run_case(ledger, "planner.standard_fixtures", test_planner_standard_fixtures)
     run_case(ledger, "planner.prefill_variants", test_planner_prefill_variants)
     run_case(ledger, "planner.gemm_thresholds", test_planner_gemm_thresholds)
@@ -2891,4 +2923,9 @@ def main() raises:
     # tests/test_special_token_battery_a126.mojo) counted on top of
     # the A-125 seat pin (union composed at the seat; the A-122,
     # A-123, A-124 and A-125 cases are kept).
-    ledger.finish(881)
+    # A-127 union re-pin at banking: 881 -> 896 -- fifteen
+    # coherence harness cases (coherence.harness_* in
+    # tests/test_coherence_harness_a127.mojo) counted on top of
+    # the A-126 seat pin (union composed at the seat; the A-122,
+    # A-123, A-124, A-125 and A-126 cases are kept).
+    ledger.finish(896)

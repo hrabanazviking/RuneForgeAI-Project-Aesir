@@ -1,0 +1,136 @@
+=== A-127 Coherence harness run (team-27) ===
+2026-11-14T04:29:00-05:00
+purpleraider
+5f15496a696ec31bb32a07b7faf6751cbe195c8b
+yrsa/aesir-team-27
+Mojo 1.2.0 (2016d0cd)
+Imported from /home/volmarr/aesir-team-27/aesir_engine/tests/bench_coherence_harness_a127.mojo:21:
+/home/volmarr/aesir-team-27/aesir_engine/core/coherence_harness_a127.mojo:922:20: warning: 'read' is deprecated; use 'imm'
+def harness_render(read report: HarnessReport) -> String:
+                   ^~~~
+                   imm
+A-127 Coherence grading harness: the 9 IQ quants (A-115 coherence-only, by call) x 3 archs x 4 backends = 108 score rows filed; every cell NOT_GRADED with a named reason (no filed sampled generations for any IQ cell), score -1, zero unexplained; the pure text scorer sanity-checked on the SYNTHETIC fixture (labelled SYNTHETIC in every line): 2 known-good pass, 7 known-broken fail with named defects; IQ graded on coherence, never token-exactness
+A127_HARNESS quants=9 archs=3 backends=4 total=108 fixture_status=SYNTHETIC
+CH_ROW quant=IQ1_S arch=llama backend=cpu verdict=NOT_GRADED reason=NO_FILED_GENERATIONS policy=COHERENCE_ONLY score_x1000=-1
+CH_ROW quant=IQ1_S arch=llama backend=vulkan verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=COHERENCE_ONLY score_x1000=-1
+CH_ROW quant=IQ1_S arch=llama backend=hip verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=COHERENCE_ONLY score_x1000=-1
+CH_ROW quant=IQ1_S arch=llama backend=npu verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=COHERENCE_ONLY score_x1000=-1
+CH_ROW quant=IQ1_S arch=gemma4 backend=cpu verdict=NOT_GRADED reason=NO_FILED_RECORDS policy=COHERENCE_ONLY score_x1000=-1
+CH_ROW quant=IQ1_S arch=gemma4 backend=vulkan verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=COHERENCE_ONLY score_x1000=-1
+CH_ROW quant=IQ1_S arch=gemma4 backend=hip verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=COHERENCE_ONLY score_x1000=-1
+CH_ROW quant=IQ1_S arch=gemma4 backend=npu verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=COHERENCE_ONLY score_x1000=-1
+CH_ROW quant=IQ1_S arch=mistral3 backend=cpu verdict=NOT_GRADED reason=NO_FILED_RECORDS policy=COHERENCE_ONLY score_x1000=-1
+CH_ROW quant=IQ1_S arch=mistral3 backend=vulkan verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=COHERENCE_ONLY score_x1000=-1
+CH_ROW quant=IQ1_S arch=mistral3 backend=hip verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=COHERENCE_ONLY score_x1000=-1
+CH_ROW quant=IQ1_S arch=mistral3 backend=npu verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=COHERENCE_ONLY score_x1000=-1
+CH_ROW quant=IQ1_M arch=llama backend=cpu verdict=NOT_GRADED reason=NO_FILED_GENERATIONS policy=COHERENCE_ONLY score_x1000=-1
+CH_ROW quant=IQ1_M arch=llama backend=vulkan verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=COHERENCE_ONLY score_x1000=-1
+CH_ROW quant=IQ1_M arch=llama backend=hip verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=COHERENCE_ONLY score_x1000=-1
+CH_ROW quant=IQ1_M arch=llama backend=npu verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=COHERENCE_ONLY score_x1000=-1
+CH_ROW quant=IQ1_M arch=gemma4 backend=cpu verdict=NOT_GRADED reason=NO_FILED_RECORDS policy=COHERENCE_ONLY score_x1000=-1
+CH_ROW quant=IQ1_M arch=gemma4 backend=vulkan verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=COHERENCE_ONLY score_x1000=-1
+CH_ROW quant=IQ1_M arch=gemma4 backend=hip verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=COHERENCE_ONLY score_x1000=-1
+CH_ROW quant=IQ1_M arch=gemma4 backend=npu verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=COHERENCE_ONLY score_x1000=-1
+CH_ROW quant=IQ1_M arch=mistral3 backend=cpu verdict=NOT_GRADED reason=NO_FILED_RECORDS policy=COHERENCE_ONLY score_x1000=-1
+CH_ROW quant=IQ1_M arch=mistral3 backend=vulkan verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=COHERENCE_ONLY score_x1000=-1
+CH_ROW quant=IQ1_M arch=mistral3 backend=hip verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=COHERENCE_ONLY score_x1000=-1
+CH_ROW quant=IQ1_M arch=mistral3 backend=npu verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=COHERENCE_ONLY score_x1000=-1
+CH_ROW quant=IQ2_XXS arch=llama backend=cpu verdict=NOT_GRADED reason=NO_FILED_GENERATIONS policy=COHERENCE_ONLY score_x1000=-1
+CH_ROW quant=IQ2_XXS arch=llama backend=vulkan verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=COHERENCE_ONLY score_x1000=-1
+CH_ROW quant=IQ2_XXS arch=llama backend=hip verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=COHERENCE_ONLY score_x1000=-1
+CH_ROW quant=IQ2_XXS arch=llama backend=npu verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=COHERENCE_ONLY score_x1000=-1
+CH_ROW quant=IQ2_XXS arch=gemma4 backend=cpu verdict=NOT_GRADED reason=NO_FILED_RECORDS policy=COHERENCE_ONLY score_x1000=-1
+CH_ROW quant=IQ2_XXS arch=gemma4 backend=vulkan verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=COHERENCE_ONLY score_x1000=-1
+CH_ROW quant=IQ2_XXS arch=gemma4 backend=hip verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=COHERENCE_ONLY score_x1000=-1
+CH_ROW quant=IQ2_XXS arch=gemma4 backend=npu verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=COHERENCE_ONLY score_x1000=-1
+CH_ROW quant=IQ2_XXS arch=mistral3 backend=cpu verdict=NOT_GRADED reason=NO_FILED_RECORDS policy=COHERENCE_ONLY score_x1000=-1
+CH_ROW quant=IQ2_XXS arch=mistral3 backend=vulkan verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=COHERENCE_ONLY score_x1000=-1
+CH_ROW quant=IQ2_XXS arch=mistral3 backend=hip verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=COHERENCE_ONLY score_x1000=-1
+CH_ROW quant=IQ2_XXS arch=mistral3 backend=npu verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=COHERENCE_ONLY score_x1000=-1
+CH_ROW quant=IQ2_XS arch=llama backend=cpu verdict=NOT_GRADED reason=NO_FILED_GENERATIONS policy=COHERENCE_ONLY score_x1000=-1
+CH_ROW quant=IQ2_XS arch=llama backend=vulkan verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=COHERENCE_ONLY score_x1000=-1
+CH_ROW quant=IQ2_XS arch=llama backend=hip verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=COHERENCE_ONLY score_x1000=-1
+CH_ROW quant=IQ2_XS arch=llama backend=npu verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=COHERENCE_ONLY score_x1000=-1
+CH_ROW quant=IQ2_XS arch=gemma4 backend=cpu verdict=NOT_GRADED reason=NO_FILED_RECORDS policy=COHERENCE_ONLY score_x1000=-1
+CH_ROW quant=IQ2_XS arch=gemma4 backend=vulkan verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=COHERENCE_ONLY score_x1000=-1
+CH_ROW quant=IQ2_XS arch=gemma4 backend=hip verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=COHERENCE_ONLY score_x1000=-1
+CH_ROW quant=IQ2_XS arch=gemma4 backend=npu verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=COHERENCE_ONLY score_x1000=-1
+CH_ROW quant=IQ2_XS arch=mistral3 backend=cpu verdict=NOT_GRADED reason=NO_FILED_RECORDS policy=COHERENCE_ONLY score_x1000=-1
+CH_ROW quant=IQ2_XS arch=mistral3 backend=vulkan verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=COHERENCE_ONLY score_x1000=-1
+CH_ROW quant=IQ2_XS arch=mistral3 backend=hip verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=COHERENCE_ONLY score_x1000=-1
+CH_ROW quant=IQ2_XS arch=mistral3 backend=npu verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=COHERENCE_ONLY score_x1000=-1
+CH_ROW quant=IQ2_S arch=llama backend=cpu verdict=NOT_GRADED reason=NO_FILED_GENERATIONS policy=COHERENCE_ONLY score_x1000=-1
+CH_ROW quant=IQ2_S arch=llama backend=vulkan verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=COHERENCE_ONLY score_x1000=-1
+CH_ROW quant=IQ2_S arch=llama backend=hip verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=COHERENCE_ONLY score_x1000=-1
+CH_ROW quant=IQ2_S arch=llama backend=npu verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=COHERENCE_ONLY score_x1000=-1
+CH_ROW quant=IQ2_S arch=gemma4 backend=cpu verdict=NOT_GRADED reason=NO_FILED_RECORDS policy=COHERENCE_ONLY score_x1000=-1
+CH_ROW quant=IQ2_S arch=gemma4 backend=vulkan verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=COHERENCE_ONLY score_x1000=-1
+CH_ROW quant=IQ2_S arch=gemma4 backend=hip verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=COHERENCE_ONLY score_x1000=-1
+CH_ROW quant=IQ2_S arch=gemma4 backend=npu verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=COHERENCE_ONLY score_x1000=-1
+CH_ROW quant=IQ2_S arch=mistral3 backend=cpu verdict=NOT_GRADED reason=NO_FILED_RECORDS policy=COHERENCE_ONLY score_x1000=-1
+CH_ROW quant=IQ2_S arch=mistral3 backend=vulkan verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=COHERENCE_ONLY score_x1000=-1
+CH_ROW quant=IQ2_S arch=mistral3 backend=hip verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=COHERENCE_ONLY score_x1000=-1
+CH_ROW quant=IQ2_S arch=mistral3 backend=npu verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=COHERENCE_ONLY score_x1000=-1
+CH_ROW quant=IQ3_XXS arch=llama backend=cpu verdict=NOT_GRADED reason=NO_FILED_GENERATIONS policy=COHERENCE_ONLY score_x1000=-1
+CH_ROW quant=IQ3_XXS arch=llama backend=vulkan verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=COHERENCE_ONLY score_x1000=-1
+CH_ROW quant=IQ3_XXS arch=llama backend=hip verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=COHERENCE_ONLY score_x1000=-1
+CH_ROW quant=IQ3_XXS arch=llama backend=npu verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=COHERENCE_ONLY score_x1000=-1
+CH_ROW quant=IQ3_XXS arch=gemma4 backend=cpu verdict=NOT_GRADED reason=NO_FILED_RECORDS policy=COHERENCE_ONLY score_x1000=-1
+CH_ROW quant=IQ3_XXS arch=gemma4 backend=vulkan verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=COHERENCE_ONLY score_x1000=-1
+CH_ROW quant=IQ3_XXS arch=gemma4 backend=hip verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=COHERENCE_ONLY score_x1000=-1
+CH_ROW quant=IQ3_XXS arch=gemma4 backend=npu verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=COHERENCE_ONLY score_x1000=-1
+CH_ROW quant=IQ3_XXS arch=mistral3 backend=cpu verdict=NOT_GRADED reason=NO_FILED_RECORDS policy=COHERENCE_ONLY score_x1000=-1
+CH_ROW quant=IQ3_XXS arch=mistral3 backend=vulkan verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=COHERENCE_ONLY score_x1000=-1
+CH_ROW quant=IQ3_XXS arch=mistral3 backend=hip verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=COHERENCE_ONLY score_x1000=-1
+CH_ROW quant=IQ3_XXS arch=mistral3 backend=npu verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=COHERENCE_ONLY score_x1000=-1
+CH_ROW quant=IQ3_S arch=llama backend=cpu verdict=NOT_GRADED reason=NO_FILED_GENERATIONS policy=COHERENCE_ONLY score_x1000=-1
+CH_ROW quant=IQ3_S arch=llama backend=vulkan verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=COHERENCE_ONLY score_x1000=-1
+CH_ROW quant=IQ3_S arch=llama backend=hip verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=COHERENCE_ONLY score_x1000=-1
+CH_ROW quant=IQ3_S arch=llama backend=npu verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=COHERENCE_ONLY score_x1000=-1
+CH_ROW quant=IQ3_S arch=gemma4 backend=cpu verdict=NOT_GRADED reason=NO_FILED_RECORDS policy=COHERENCE_ONLY score_x1000=-1
+CH_ROW quant=IQ3_S arch=gemma4 backend=vulkan verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=COHERENCE_ONLY score_x1000=-1
+CH_ROW quant=IQ3_S arch=gemma4 backend=hip verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=COHERENCE_ONLY score_x1000=-1
+CH_ROW quant=IQ3_S arch=gemma4 backend=npu verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=COHERENCE_ONLY score_x1000=-1
+CH_ROW quant=IQ3_S arch=mistral3 backend=cpu verdict=NOT_GRADED reason=NO_FILED_RECORDS policy=COHERENCE_ONLY score_x1000=-1
+CH_ROW quant=IQ3_S arch=mistral3 backend=vulkan verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=COHERENCE_ONLY score_x1000=-1
+CH_ROW quant=IQ3_S arch=mistral3 backend=hip verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=COHERENCE_ONLY score_x1000=-1
+CH_ROW quant=IQ3_S arch=mistral3 backend=npu verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=COHERENCE_ONLY score_x1000=-1
+CH_ROW quant=IQ4_NL arch=llama backend=cpu verdict=NOT_GRADED reason=NO_FILED_GENERATIONS policy=COHERENCE_ONLY score_x1000=-1
+CH_ROW quant=IQ4_NL arch=llama backend=vulkan verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=COHERENCE_ONLY score_x1000=-1
+CH_ROW quant=IQ4_NL arch=llama backend=hip verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=COHERENCE_ONLY score_x1000=-1
+CH_ROW quant=IQ4_NL arch=llama backend=npu verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=COHERENCE_ONLY score_x1000=-1
+CH_ROW quant=IQ4_NL arch=gemma4 backend=cpu verdict=NOT_GRADED reason=NO_FILED_RECORDS policy=COHERENCE_ONLY score_x1000=-1
+CH_ROW quant=IQ4_NL arch=gemma4 backend=vulkan verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=COHERENCE_ONLY score_x1000=-1
+CH_ROW quant=IQ4_NL arch=gemma4 backend=hip verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=COHERENCE_ONLY score_x1000=-1
+CH_ROW quant=IQ4_NL arch=gemma4 backend=npu verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=COHERENCE_ONLY score_x1000=-1
+CH_ROW quant=IQ4_NL arch=mistral3 backend=cpu verdict=NOT_GRADED reason=NO_FILED_RECORDS policy=COHERENCE_ONLY score_x1000=-1
+CH_ROW quant=IQ4_NL arch=mistral3 backend=vulkan verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=COHERENCE_ONLY score_x1000=-1
+CH_ROW quant=IQ4_NL arch=mistral3 backend=hip verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=COHERENCE_ONLY score_x1000=-1
+CH_ROW quant=IQ4_NL arch=mistral3 backend=npu verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=COHERENCE_ONLY score_x1000=-1
+CH_ROW quant=IQ4_XS arch=llama backend=cpu verdict=NOT_GRADED reason=NO_FILED_GENERATIONS policy=COHERENCE_ONLY score_x1000=-1
+CH_ROW quant=IQ4_XS arch=llama backend=vulkan verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=COHERENCE_ONLY score_x1000=-1
+CH_ROW quant=IQ4_XS arch=llama backend=hip verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=COHERENCE_ONLY score_x1000=-1
+CH_ROW quant=IQ4_XS arch=llama backend=npu verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=COHERENCE_ONLY score_x1000=-1
+CH_ROW quant=IQ4_XS arch=gemma4 backend=cpu verdict=NOT_GRADED reason=NO_FILED_RECORDS policy=COHERENCE_ONLY score_x1000=-1
+CH_ROW quant=IQ4_XS arch=gemma4 backend=vulkan verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=COHERENCE_ONLY score_x1000=-1
+CH_ROW quant=IQ4_XS arch=gemma4 backend=hip verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=COHERENCE_ONLY score_x1000=-1
+CH_ROW quant=IQ4_XS arch=gemma4 backend=npu verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=COHERENCE_ONLY score_x1000=-1
+CH_ROW quant=IQ4_XS arch=mistral3 backend=cpu verdict=NOT_GRADED reason=NO_FILED_RECORDS policy=COHERENCE_ONLY score_x1000=-1
+CH_ROW quant=IQ4_XS arch=mistral3 backend=vulkan verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=COHERENCE_ONLY score_x1000=-1
+CH_ROW quant=IQ4_XS arch=mistral3 backend=hip verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=COHERENCE_ONLY score_x1000=-1
+CH_ROW quant=IQ4_XS arch=mistral3 backend=npu verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=COHERENCE_ONLY score_x1000=-1
+CH_SYN case=SYN_GOOD_HOSPITALITY status=SYNTHETIC verdict=COHERENCE_PASS reason=COHERENCE_CHECKS_PASS words=43 score_x1000=830
+CH_SYN case=SYN_GOOD_HARBOUR status=SYNTHETIC verdict=COHERENCE_PASS reason=COHERENCE_CHECKS_PASS words=49 score_x1000=800
+CH_SYN case=SYN_LOOP status=SYNTHETIC verdict=COHERENCE_FAIL reason=REPETITION_LOW_DIVERSITY words=32 score_x1000=433
+CH_SYN case=SYN_GARBAGE status=SYNTHETIC verdict=COHERENCE_FAIL reason=GARBAGE_CHARS words=29 score_x1000=837
+CH_SYN case=SYN_SHORT status=SYNTHETIC verdict=COHERENCE_FAIL reason=TOO_SHORT words=3 score_x1000=944
+CH_SYN case=SYN_PUNCT status=SYNTHETIC verdict=COHERENCE_FAIL reason=NON_ALPHA_CONTENT words=0 score_x1000=0
+CH_SYN case=SYN_OFFTOPIC status=SYNTHETIC verdict=COHERENCE_FAIL reason=OFF_TOPIC words=41 score_x1000=882
+CH_SYN case=SYN_ECHO status=SYNTHETIC verdict=COHERENCE_FAIL reason=PROMPT_ECHO words=43 score_x1000=830
+CH_SYN case=SYN_EMPTY status=SYNTHETIC verdict=COHERENCE_FAIL reason=EMPTY_SAMPLE_REFUSED words=0 score_x1000=0
+A127_HARNESS_SUMMARY total=108 pass=0 fail=0 not_graded=108 backend_not_graded=81 arch_not_graded=18 no_generations=9 owed=0 coherence=108
+A127_SYNTHETIC_SUMMARY status=SYNTHETIC total=9 pass=2 fail=7
+A127_HARNESS_DIGEST 3903033312964371200
+A127_BENCH_DONE rows= 108
+MOJO_EXIT=0
+=== end 2026-11-14T04:29:02-05:00 ===
