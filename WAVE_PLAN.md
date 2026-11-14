@@ -68,7 +68,15 @@ when its lead is live on its assigned slice in its own worktree.
 
 ## State
 
-- Banked: **108 of 216** (A-001..A-108). A-108 banked at the
+- Banked: **109 of 216** (A-001..A-109). A-109 banked at the
+  seat 2026-11-13 (team-25 commit 6cd2706e cherry-picked
+  as 416fc5d4 clean, +7 run_all cases, seat pin 670 -> 677;
+  teacher-forcing harness v2 - the one grading entry point
+  for every backend, template-rendered inputs detected and
+  rejected by the harness itself, all ten measured A-045
+  rows reproduced exactly; seat gate 674/1/2 of 677 exact
+  on run 1 solo, sole failure J-022, no intermittent fired;
+  full note in PROJECT_MEMORY_MAP). A-108 banked at the
   seat 2026-11-13 (team-26 commit bd529c8d cherry-picked
   as 346c627e with the run_all union composed at banking,
   +6 run_all cases, seat pin 664 -> 670; Part IV gate -
