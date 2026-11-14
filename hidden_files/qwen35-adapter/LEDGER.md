@@ -1,5 +1,43 @@
 # Qwen35 Adapter Campaign — Ledger
 
+## 2026-11-14 — Q35-6: HIP execution for qwen35 + Q35-6b real-file HIP serve — DONE (worker slice; verified + banked by coordinator)
+
+Q35-6 HIP execution for qwen35 — DONE. Fixture: corrected CPU
+reference re-established (H1: prior HIP test sampled with
+GenerationConfig defaults; pinned banked config), device
+defects D1 (tiled q/k broadcast in _delta_kernel) + D2 (ring
+shift race -> stage/commit via ring_tmp) fixed; trajectory
+inside/at Q35-3a (c) band (s 0.0007150769, conv 0.0078125,
+logits one f16 ulp over at rank 1 gap 0.0); greedy == corrected
+CPU reference; batched prefill chosen (6.7x: 9.43 ms vs 63.16
+ms at 64 tok). Qwen35HipSession (snapshot-composing,
+CPU-mirrored contract) + experimental serve admission for
+qwen35+hip (refusal without --experimental-qwen35 proven).
+Fixture serve bench ALL PASS (resident reuse 72, stateless
+snapshot reuse == resident reply). Q35-6b real 27B: grade
+71/71 positions CPU-argmax rank 1 gap 0.0 (P0/P1/P5, incl. the
+P5 pos-32 near-tie), 40-token greedy token-identical to the
+banked llama.cpp-agreeing witness; HTTP serve ALL PASS
+(health truth, T1 == CPU R1, resident T2 reused 55 + R2
+prefix, stateless restore == T2, VmHWM 30.1 GB). T2 truncated-
+T1 anomaly investigated to ground: model behavior on a
+mid-sentence-truncated stream, not a defect (bisects all
+bit-exact). Regressions Q35-1/2/3a/3r/4a/5 + ripple ALL PASS,
+engine compile exit 0. Risks for Q35-7: naive GEMV bandwidth
+(~11-14 s/token at 27B), native (non-experimental) admission
+unclaimed, min_p/repeat_last_n unclaimed on qwen35 sampling,
+F-4b-1/F-4b-2 carry-over.
+- Coordinator verification (2026-11-14): q35-6b bench log
+  re-read from disk (Q35-6b HTTP HIP real-file bench: ALL
+  PASS); remote yrsa/q35-6 == 6c79d8cf confirmed by
+  ls-remote before merge; merged into yrsa/hip-serve
+  (clean merge, no conflicts) and banked. HIP decode
+  speed (~0.07-0.09 tok/s naive GEMV) stands as the
+  named Q35-7 consideration: the gate configuration
+  decision (CPU-resident vs HIP-experimental) must weigh
+  it honestly.
+
+
 ## 2026-11-14 — F-3b-1: gemma4 registry profile admits Q8_0 — FIXED (verified + banked by coordinator)
 
 - Finding F-3b-1 from QC-3b is FIXED. Verdict on the exclusion:
