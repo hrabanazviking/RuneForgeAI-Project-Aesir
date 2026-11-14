@@ -1,0 +1,17 @@
+TRIM PROOF R1: new reference == banked Q35-4b reply minus its leading role-marker block, byte-otherwise-identical
+TRIM PROOF R2: new reference == banked Q35-4b reply minus its leading role-marker block, byte-otherwise-identical
+TRIM PROOF LONG: new reference == banked Q35-4b reply minus its leading role-marker block, byte-otherwise-identical
+HEALTH status=200 wall=0.01s body={"status": "ready", "backend": "cpu", "cpu_offload": 0, "profile": "qwen35", "context": 4096, "model": "/mnt/vault/models/gguf/Qwen3.8-27B-Ultimate-Heretic-Uncn-Turbo-Brilli-50x-AGI-NEO-Q8_0.gguf", "model_digest": "", "max_tokens": 48, "generation_timeout_ms": 900000, "capabilities": {"text_generation": true, "embeddings": false, "exact_prefix_reuse": true, "exact_prefix_reuse_detail": "snapshot-based at committed turn boundaries only", "post_history_configured": false, "session_residency": true, "memory_injection": true, "experimental_admission": false, "weight_load_mode": "q8_0_resident", "model_variant": "qwen35-27B"}, "prefill_batch": 1, "queue_limit": 4}
+HEALTH TRUTH PASS: profile=qwen35 variant=qwen35-27B backend=cpu residency=true exact_prefix_reuse=true(snapshot detail) weight_load_mode=q8_0_resident experimental=false
+T1 status=200 wall=24.25s usage={"prompt_tokens": 23, "completion_tokens": 32, "total_tokens": 55, "reused_prompt_tokens": 0} reply='\n\nThe capital of France is **Paris**. One of the most famous museums located there is the **Louvre**, which is renowned for housing masterpieces'
+T1 MATCHES REFERENCE (trimmed); eval_tok/s=1.32
+T2 status=200 wall=22.65s usage={"prompt_tokens": 65, "completion_tokens": 32, "total_tokens": 97, "reused_prompt_tokens": 55} reply='\n\nThe primary language spoken in Paris is **French**. It is the official language of France and is used in daily life, business, and government'
+T2 MATCHES REFERENCE; RESIDENT reuse: prompt=65 reused=55 evaluated=10
+STOPCASE status=200 wall=6.25s usage={"prompt_tokens": 8, "completion_tokens": 4, "total_tokens": 12, "reused_prompt_tokens": 0} finish=stop reply='\n\nhello'
+STOPCASE PASS: reply halted on the model's stop tokens; clean text '\n\nhello'; completion_tokens=4 < cap 8
+STATELESS status=200 wall=22.88s usage={"prompt_tokens": 65, "completion_tokens": 32, "total_tokens": 97, "reused_prompt_tokens": 55} reply='\n\nThe primary language spoken in Paris is **French**. It is the official language of France and is used in daily life, business, and government'
+STATELESS MATCHES REFERENCE via SNAPSHOT: prompt=65 reused=55 evaluated=10
+LONG status=200 wall=165.00s usage={"prompt_tokens": 483, "completion_tokens": 48, "total_tokens": 531, "reused_prompt_tokens": 0}
+LONG REPLY='\n\n<think>\nThe user is asking me to extract three specific pieces of information from the passage:\n\n1. How many iron steps did Tomas climb to reach the lamp room?\n2. How often did the light flash?\n'
+LONG MATCHES IN-PROCESS REFERENCE at prompt_tokens=483
+Q35-7 HTTP bench: ALL PASS

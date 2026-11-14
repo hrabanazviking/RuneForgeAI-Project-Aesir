@@ -103,6 +103,20 @@ evidence, never grading evidence: no row verdict in this
 battery rests on it, and it is filed here only so the
 family's attested state travels with its battery.
 
+SUCCESSOR ATTESTATION (Q35-7, 2026-11-14): A-048's smoke
+account above is a FILED HISTORICAL record and is NOT
+rewritten. Beside it, qwen35_successor_status() files the
+successor row the Qwen35 adapter campaign earned: the
+REAL 27B qwen35 file (sha256 1fca6eef...186f08e) now
+LOADS and generates through the adapter + Q8_0-resident
+path -- Q35-3b's real-file oracle grade (FAITHFUL,
+198/198 near-tie band vs llama.cpp CPU, greedy token-
+identical) and Q35-4b's resident serve proof on the same
+file (admission=native, weight_load_mode=q8_0_resident,
+ replies == the in-process reference). Like the smoke
+account, this is load/generation evidence filed as data;
+it changes no row verdict in this battery.
+
 WHAT RETIRES NO_FILED_RECORDS (named, owed): filed
 teacher-forcing records for a Qwen architecture -- a real
 sha-pinned Qwen GGUF fixture (A-110 pins), raw prompts
@@ -181,6 +195,19 @@ def qwen_smoke_status(arch: String) -> String:
     if arch == String("qwen35"):
         return String("LOAD_FAIL_NAMED_CAUSE")
     return String("NO_FILED_SMOKE_ROW")
+
+
+def qwen35_successor_status(arch: String) -> String:
+    """Q35-7 successor attestation beside A-048's filed
+    smoke account (which stays untouched above): the real
+    qwen35 file's load state through the Qwen35 adapter +
+    Q8_0-resident path, as attested by the banked Q35-3b
+    real-file grade and Q35-4b resident serve proof. An
+    arch string with no successor evidence files
+    NO_FILED_SUCCESSOR_ROW, never a defaulted pass."""
+    if arch == String("qwen35"):
+        return String("REAL_FILE_LOAD_PASS_ADAPTER_RESIDENT")
+    return String("NO_FILED_SUCCESSOR_ROW")
 
 
 def qwen_policy_obligation(quant: String) raises -> Int:

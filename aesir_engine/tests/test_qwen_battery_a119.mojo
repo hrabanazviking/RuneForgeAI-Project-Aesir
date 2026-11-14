@@ -39,6 +39,7 @@ from core.qwen_battery_a119 import (
     qwen_policy_obligation,
     qwen_policy_obligation_name,
     qwen_smoke_status,
+    qwen35_successor_status,
     run_qwen_battery,
 )
 
@@ -266,6 +267,15 @@ def test_qbattery_arch_strings_and_smoke() raises:
         raise Error("qwen35 smoke must be A-048 LOAD_FAIL, named cause")
     if qwen_smoke_status(String("qwen9")) != String("NO_FILED_SMOKE_ROW"):
         raise Error("unrowed arch must file NO_FILED_SMOKE_ROW")
+    # Q35-7 successor attestation: A-048's account above is
+    # unchanged (asserted just above); the successor row
+    # files the adapter + resident real-file load beside it.
+    if qwen35_successor_status(String("qwen35")) != String("REAL_FILE_LOAD_PASS_ADAPTER_RESIDENT"):
+        raise Error("qwen35 successor must file the Q35-3b/4b real-file load")
+    if qwen35_successor_status(String("qwen2")) != String("NO_FILED_SUCCESSOR_ROW"):
+        raise Error("arch without successor evidence must file NO_FILED_SUCCESSOR_ROW")
+    if qwen35_successor_status(String("qwen9")) != String("NO_FILED_SUCCESSOR_ROW"):
+        raise Error("unrowed arch must file NO_FILED_SUCCESSOR_ROW")
 
 
 def test_qbattery_agrees_with_matrix() raises:

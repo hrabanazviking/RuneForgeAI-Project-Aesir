@@ -1,0 +1,17 @@
+# aesir-gate configuration backup — taken by Q35-7 BEFORE the 27B swap
+# (2026-11-14). This is the exact pre-swap gate configuration as
+# documented in VOXTA_SWITCHOVER.md (the gate is a transient
+# machine-level systemd-run unit; no unit file exists on disk).
+#
+# Unit: aesir-gate.service (machine-level, transient)
+# Fence: MemoryHigh=24G / MemoryMax=32G, User=volmarr
+# Binary: /home/volmarr/aesir-hipserve/.aesir/aesir (branch yrsa/hip-serve)
+# Model: llama3-3b:latest (Llama-3.2-3B-Instruct Q4_K_M), backend hip
+# Address: http://127.0.0.1:18434 (loopback only)
+# Auth: bearer key in /home/volmarr/.config/aesir/service.key
+# Context: 8192, max_tokens 512
+#
+# Exact start command (pre-swap):
+#   sudo systemd-run --unit=aesir-gate -p User=volmarr -p MemoryHigh=24G -p MemoryMax=32G -p WorkingDirectory=/home/volmarr/aesir-hipserve /bin/bash -c 'export LD_LIBRARY_PATH=.pixi/envs/default/lib:.aesir/shims; exec ./.aesir/aesir serve llama3-3b:latest --accel hip --api-key-file /home/volmarr/.config/aesir/service.key --context 8192 --max-tokens 512 --port 18434 > hidden_files/hip-serve/serve-bench.log 2>&1'
+# Stop: sudo systemctl stop aesir-gate.service
+# State at backup time: gate STOPPED (inactive; transient unit gone).

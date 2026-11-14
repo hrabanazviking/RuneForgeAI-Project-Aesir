@@ -70,7 +70,7 @@ def test_hip_config_gate() raises:
         _ = native_config_sampling(bad)
     except error:
         message = String(error)
-    if "auto, cuda or hip" not in message:
+    if "auto, cpu, cuda or hip" not in message:
         raise Error("Config gate must admit hip and name the admitted set: " + message)
 
 

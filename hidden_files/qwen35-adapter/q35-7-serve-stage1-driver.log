@@ -1,0 +1,7 @@
+MemAvailable:   124340056 kB
+Running as unit: q35-7-serve1.service; invocation ID: bdad658a35dd4f679c7803bc2badf4ee
+SERVE_HEALTHY after 2x2s
+BENCH_EXIT=0
+VmHWM:	    4124 kB
+MemAvailable:   119432932 kB
+PORT_18435_FREE

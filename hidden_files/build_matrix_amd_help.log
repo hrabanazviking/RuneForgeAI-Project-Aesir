@@ -22,6 +22,9 @@ Implemented:
       Fetch one model from the in-repo known-models catalogue by name;
       downloaded and checksum-verified before use; a mismatch is refused.
   inspect <model> [--format text|json] [--context N] [--model-store path]
+  quantize <source.gguf> <output.gguf> [--to q8_0]
+      Convert a GGUF to Q8_0 (QC-3): weight matrices quantize;
+      norms and non-32-aligned tensors stay at source type, listed by name.
       Report architecture, adapter readiness, capabilities, and memory estimate.
   vision inspect <model> [--model-store path]
       Report the mmproj vision tower structure beside a multimodal model.

@@ -1,4 +1,4 @@
-"""Q35-4a + Q35-5: CPU serve session for the Qwen 3.5 hybrid (qwen35).
+"""Q35-4a + Q35-5 + Q35-7: CPU serve session for the Qwen 3.5 hybrid (qwen35).
 
 A ControlledTextSession over the engine-core path (AesirEngine +
 forward_pass_qwen35 / forward_pass_qwen35_batched, Q35-3a). The
@@ -82,6 +82,26 @@ Capabilities, stated honestly:
   repetition_penalty/seed from NativeSamplingConfig; min_p and
   repeat_last_n have no CPU-forward counterpart and are not claimed.
 
+Q35-7 serve-surface fixes (F-4b-1 / F-4b-2, from Q35-4b's findings):
+- Stop tokens: generation halts on the model's own end/control
+  tokens -- the tokenizer's eos_token_id plus every vocabulary
+  entry the GGUF token_type table marks CONTROL (type 3) --
+  derived from the loaded model's metadata at session init,
+  never a hardcoded list. A stop token is forwarded (so the
+  committed stream and snapshots stay exact) but is NOT decoded
+  into the reply text and NOT counted in generated_tokens:
+  completion accounting counts only emitted tokens, exactly as
+  the pre-Q35-7 eos branch already did for eos alone.
+- Presentation trim: the raw-continuation surface makes the
+  model generate the "Assistant:" role marker as its first
+  text. The session holds back the first decoded bytes until
+  the marker question is decided and drops exactly that one
+  leading marker; turn_generated_text (and therefore snapshot
+  text, resident history and the served reply) is the trimmed
+  text everywhere, byte-identical after the marker. Text that
+  merely starts like a prefix of the marker is held, then
+  flushed verbatim if generation ends first.
+
 Text handling: the fixture carries no chat template, so the session
 encodes the serve's prompt text as one plain stream (system text,
 when present at position 0, precedes the prompt separated by a
@@ -153,6 +173,12 @@ struct Qwen35CPUSession(ControlledTextSession):
     var turn_generated_text: String
     # Q35-3r: Q8_0-resident load opt-in (default off).
     var resident_q8: Bool
+    # Q35-7 F-4b-2: stop set derived from the model's tokenizer
+    # (eos + CONTROL token_type entries); see header.
+    var stop_token_ids: List[Int]
+    # Q35-7 F-4b-1: leading-marker trim state (per turn).
+    var trim_active: Bool
+    var trim_buffer: String
 
     def __init__(out self, path: String, context_length: Int,
                  sampling: NativeSamplingConfig = NativeSamplingConfig(),
@@ -162,6 +188,13 @@ struct Qwen35CPUSession(ControlledTextSession):
         self.engine = AesirEngine(path, knowledge_capacity=1, qwen35_resident=resident_q8)
         if self.engine.parser.config.architecture != "qwen35":
             raise Error("Qwen35 CPU session requires a qwen35 model")
+        self.stop_token_ids = List[Int]()
+        self.stop_token_ids.append(self.engine.tokenizer.eos_token_id)
+        for tid in range(len(self.engine.tokenizer.token_types)):
+            if self.engine.tokenizer.token_types[tid] == 3 and tid != self.engine.tokenizer.eos_token_id:
+                self.stop_token_ids.append(tid)
+        self.trim_active = False
+        self.trim_buffer = String("")
         if context_length < 2 or context_length > self.engine.parser.config.context_length:
             raise Error("Qwen35 CPU session context must be within 2.." + String(self.engine.parser.config.context_length))
         self.context_length = context_length
@@ -198,6 +231,65 @@ struct Qwen35CPUSession(ControlledTextSession):
         if self.resident_q8:
             return String("q8_0_resident")
         return String("")
+
+    def is_stop_token(self, token: Int) -> Bool:
+        """Q35-7 F-4b-2: True iff token is in the model's derived
+        stop set (eos + GGUF CONTROL token_type entries)."""
+        for i in range(len(self.stop_token_ids)):
+            if self.stop_token_ids[i] == token:
+                return True
+        return False
+
+    def stop_token_summary(self) -> String:
+        var s = String("eos=") + String(self.engine.tokenizer.eos_token_id)
+        s += String(" stop_count=") + String(len(self.stop_token_ids)) + String(" stops=")
+        for i in range(len(self.stop_token_ids)):
+            if i > 0:
+                s += String(",")
+            s += String(self.stop_token_ids[i])
+        return s
+
+    def _present_chunk(mut self, chunk: String) -> String:
+        """Q35-7 F-4b-1: drop exactly one leading role-marker
+        block from the turn's generated text. The observed
+        shapes are "Assistant:" at byte 0 (Q35-4b T1/long) and
+        "\nAssistant:" (Q35-4b T2: one leading newline token
+        before the marker); one more leading newline is
+        admitted for the same block. Initial bytes are held
+        while they are still a proper prefix of one of those
+        shapes; the decision is made as soon as the text
+        diverges or a shape completes. Anything else is
+        presented verbatim."""
+        if not self.trim_active:
+            return chunk
+        var raw = self.trim_buffer + chunk
+        var shapes = List[String]()
+        shapes.append(String("\n\nAssistant:"))
+        shapes.append(String("\nAssistant:"))
+        shapes.append(String("Assistant:"))
+        for i in range(len(shapes)):
+            if raw.startswith(shapes[i]):
+                self.trim_active = False
+                self.trim_buffer = String("")
+                return String(raw[byte=shapes[i].byte_length():])
+        for i in range(len(shapes)):
+            if shapes[i].startswith(raw):
+                self.trim_buffer = raw
+                return String("")
+        self.trim_active = False
+        self.trim_buffer = String("")
+        return raw
+
+    def _flush_trim(mut self) -> String:
+        """Generation ended while marker-prefix bytes were held:
+        they are real text (a reply that is only a marker prefix),
+        so flush them verbatim."""
+        if not self.trim_active:
+            return String("")
+        self.trim_active = False
+        var held = self.trim_buffer
+        self.trim_buffer = String("")
+        return held
 
     def _gen_config(self) -> GenerationConfig:
         return GenerationConfig(
@@ -419,6 +511,8 @@ struct Qwen35CPUSession(ControlledTextSession):
         self.max_new_tokens = max_tokens
         self.finish_reason = ""
         self.turn_generated_text = String("")
+        self.trim_active = True
+        self.trim_buffer = String("")
         self.control.start()
         var cfg = self._gen_config()
         var end = len(self.stream)
@@ -511,17 +605,20 @@ struct Qwen35CPUSession(ControlledTextSession):
             return self.cancel(stop)
         var cfg = self._gen_config()
         var token = self.pending_token
-        if token == self.engine.tokenizer.eos_token_id:
+        if self.is_stop_token(token):
             self.stream.append(token)
             _ = self.engine._forward_position(self.stream, self.kv, self.position, cfg, False)
             self.position += 1
             self.finish_reason = "eos"
             self.generating = False
+            var flushed = self._flush_trim()
+            self.turn_generated_text += flushed
             self.last_generated_text = self.turn_generated_text
             self._take_snapshot()
-            return ""
+            return flushed
         var chunk = self.engine.tokenizer.decode(token)
-        self.turn_generated_text += chunk
+        var presented = self._present_chunk(chunk)
+        self.turn_generated_text += presented
         self.generated_tokens += 1
         self.stream.append(token)
         var limit = self.generated_tokens >= self.max_new_tokens
@@ -531,9 +628,12 @@ struct Qwen35CPUSession(ControlledTextSession):
         if limit or full:
             self.finish_reason = "context_exhausted" if full else "length"
             self.generating = False
+            var tail = self._flush_trim()
+            presented += tail
+            self.turn_generated_text += tail
             self.last_generated_text = self.turn_generated_text
             self._take_snapshot()
-        return chunk
+        return presented
 
     def status(self) -> NativeGenerationStatus:
         return NativeGenerationStatus(self.healthy, self.generating, self.prompt_tokens,
