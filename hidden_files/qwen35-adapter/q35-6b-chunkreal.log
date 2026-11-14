@@ -1,0 +1,9 @@
+Secondary CUID not available: AMDCUID support not enabled.
+A singles done
+B chunk done
+  maxdiff at index -1
+state maxdiff = 0.0
+  maxdiff at index -1
+kv maxdiff = 0.0
+REAL CHUNK BISECT DONE
+Warning: Resource leak detected by SharedSignalPool, 212 Signals leaked.

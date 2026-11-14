@@ -1,4 +1,9 @@
 # tests/probe_qwen35_runtime_ripple_q35_2.mojo
+# Q35-6 NOTE (plan truth unchanged): Q35-6 lifts the SERVE-level
+# CPU-only refusal for qwen35+hip in native_serve, gated on
+# --experimental-qwen35 only (fixture/experimental route);
+# NativeModelPlan admission below is exactly the Q35-4a truth
+# and this probe's assertions are unchanged.
 # Q35-2 ripple guard, UPDATED BY Q35-4a (superseded expectation):
 # Q35-2 required NativeModelPlan to refuse qwen35 entirely, because
 # serve admission was Q35-4's slice. Q35-4a IS that slice, so the
@@ -49,4 +54,4 @@ def main() raises:
     print("PASS (r4): fixture admitted under the opt-in as experimental: variant=", fixture_plan.variant, " context=", fixture_plan.context_length)
     var e5 = expect_refusal(args[1], "qwen35x", False)
     print("PASS (r5): unknown profile still refused:", e5)
-    print("Q35-4a runtime admission probe: ALL PASS (supersedes the Q35-2 refusal guard)")
+    print("Q35-4a runtime admission probe: ALL PASS (supersedes the Q35-2 refusal guard; plan truth unchanged by Q35-6, whose HIP lift is serve-level + experimental-gated)")

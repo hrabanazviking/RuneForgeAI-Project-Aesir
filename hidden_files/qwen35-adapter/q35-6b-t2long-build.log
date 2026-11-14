@@ -1,0 +1,55 @@
+Imported from /home/volmarr/aesir-q35-6/aesir_engine/tests/test_qwen35_hip_t2long_q35_6b.mojo:8:
+Imported from /home/volmarr/aesir-q35-6/aesir_engine/qwen35_hip_session.mojo:58:
+Imported from /home/volmarr/aesir-q35-6/aesir_engine/aesir.mojo:6:
+/home/volmarr/aesir-q35-6/aesir_engine/core/inference.mojo:2181:9: warning: '__del__' is deprecated; use '__deinit__'
+    def __del__(deinit self):
+        ^~~~~~~
+        __deinit__
+Imported from /home/volmarr/aesir-q35-6/aesir_engine/tests/test_qwen35_hip_t2long_q35_6b.mojo:8:
+Imported from /home/volmarr/aesir-q35-6/aesir_engine/qwen35_hip_session.mojo:58:
+Imported from /home/volmarr/aesir-q35-6/aesir_engine/aesir.mojo:6:
+/home/volmarr/aesir-q35-6/aesir_engine/core/inference.mojo:2182:20: warning: 'free' is deprecated, use 'unsafe_free' instead
+        self.s_data.free()
+        ~~~~~~~~~~~^~~~~
+                    unsafe_free
+<unknown>:0: note: 'free' declared here
+Imported from /home/volmarr/aesir-q35-6/aesir_engine/tests/test_qwen35_hip_t2long_q35_6b.mojo:8:
+Imported from /home/volmarr/aesir-q35-6/aesir_engine/qwen35_hip_session.mojo:58:
+Imported from /home/volmarr/aesir-q35-6/aesir_engine/aesir.mojo:6:
+/home/volmarr/aesir-q35-6/aesir_engine/core/inference.mojo:2183:23: warning: 'free' is deprecated, use 'unsafe_free' instead
+        self.conv_data.free()
+        ~~~~~~~~~~~~~~^~~~~
+                       unsafe_free
+<unknown>:0: note: 'free' declared here
+Imported from /home/volmarr/aesir-q35-6/aesir_engine/tests/test_qwen35_hip_t2long_q35_6b.mojo:8:
+Imported from /home/volmarr/aesir-q35-6/aesir_engine/qwen35_hip_session.mojo:58:
+Imported from /home/volmarr/aesir-q35-6/aesir_engine/aesir.mojo:6:
+/home/volmarr/aesir-q35-6/aesir_engine/core/inference.mojo:2184:21: warning: 'free' is deprecated, use 'unsafe_free' instead
+        self.scratch.free()
+        ~~~~~~~~~~~~^~~~~
+                     unsafe_free
+<unknown>:0: note: 'free' declared here
+Included from /home/volmarr/aesir-q35-6/aesir_engine/tests/test_qwen35_hip_t2long_q35_6b.mojo:8:
+Included from /home/volmarr/aesir-q35-6/aesir_engine/qwen35_hip_session.mojo:55:
+Included from /home/volmarr/aesir-q35-6/aesir_engine/core/qwen35_hip.mojo:43:
+Included from /home/volmarr/aesir-q35-6/aesir_engine/core/hip_gemv.mojo:45:
+/home/volmarr/aesir-q35-6/aesir_engine/core/mojo_gpu_target.mojo:96:20: warning: 'except' logic is unreachable, try doesn't raise an exception
+            return -1
+                   ^
+Included from /home/volmarr/aesir-q35-6/aesir_engine/tests/test_qwen35_hip_t2long_q35_6b.mojo:7:
+Included from /home/volmarr/aesir-q35-6/aesir_engine/loader/packed_gguf.mojo:7:
+/home/volmarr/aesir-q35-6/aesir_engine/loader/gguf.mojo:566:29: warning: assignment to 'width' was never used; assign to '_' instead?
+                var width = 0
+                            ^
+Included from /home/volmarr/aesir-q35-6/aesir_engine/tests/test_qwen35_hip_t2long_q35_6b.mojo:8:
+Included from /home/volmarr/aesir-q35-6/aesir_engine/qwen35_hip_session.mojo:55:
+Included from /home/volmarr/aesir-q35-6/aesir_engine/core/qwen35_hip.mojo:43:
+Included from /home/volmarr/aesir-q35-6/aesir_engine/core/hip_gemv.mojo:43:
+/home/volmarr/aesir-q35-6/aesir_engine/core/amd_gate.mojo:380:31: warning: assignment to 'version' was never used; assign to '_' instead?
+                var version = -1
+                              ^
+Included from /home/volmarr/aesir-q35-6/aesir_engine/tests/test_qwen35_hip_t2long_q35_6b.mojo:8:
+Included from /home/volmarr/aesir-q35-6/aesir_engine/qwen35_hip_session.mojo:55:
+/home/volmarr/aesir-q35-6/aesir_engine/core/qwen35_hip.mojo:221:18: warning: assignment to 'ctx' was never used; assign to '_' instead?
+    var ctx = Int(ctx_arg)
+                 ^

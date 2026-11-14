@@ -1,0 +1,24 @@
++ cd /home/volmarr/aesir-q35-6
++ export PATH=/home/volmarr/.pixi/bin:/home/volmarr/.cargo/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin
++ PATH=/home/volmarr/.pixi/bin:/home/volmarr/.cargo/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin
++ SH=hidden_files/hip-serve/shims
++ H=hidden_files/qwen35-adapter
++ LK='-Xlinker -Lhidden_files/hip-serve/shims -Xlinker -laesir_hailo10h -Xlinker -laesir_par -Xlinker -laesir_hip -Xlinker -laesir_vulkan -Xlinker -laesir_zc -Xlinker -laesir_aff'
++ pixi run --frozen mojo build -I . --target-accelerator gfx1151 -Xlinker -Lhidden_files/hip-serve/shims -Xlinker -laesir_hailo10h -Xlinker -laesir_par -Xlinker -laesir_hip -Xlinker -laesir_vulkan -Xlinker -laesir_zc -Xlinker -laesir_aff aesir_engine/tests/test_qwen35_hip_chunk_real_q35_6b.mojo -o hidden_files/qwen35-adapter/test_qwen35_hip_chunk_real_q35_6b
++ echo BUILD=0
+BUILD=0
++ export LD_LIBRARY_PATH=/home/volmarr/aesir-q35-6/hidden_files/hip-serve/shims
++ LD_LIBRARY_PATH=/home/volmarr/aesir-q35-6/hidden_files/hip-serve/shims
++ ./hidden_files/qwen35-adapter/test_qwen35_hip_chunk_real_q35_6b
++ echo RUN=0
+RUN=0
++ cat hidden_files/qwen35-adapter/q35-6b-chunkreal.log
+Secondary CUID not available: AMDCUID support not enabled.
+A singles done
+B chunk done
+  maxdiff at index -1
+state maxdiff = 0.0
+  maxdiff at index -1
+kv maxdiff = 0.0
+REAL CHUNK BISECT DONE
+Warning: Resource leak detected by SharedSignalPool, 212 Signals leaked.

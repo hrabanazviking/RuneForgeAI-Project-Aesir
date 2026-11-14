@@ -1,0 +1,18 @@
+Secondary CUID not available: AMDCUID support not enabled.
+MimirWell initialized with 4232837120 derived bytes.
+GGUF validated: 851 tensors, 48 metadata entries, architecture qwen35
+Qwen35 resident load: mode=q8_0_resident large_tensors=498 q8_0_bytes=28574187520 f16_materialized_bytes_avoided=53786705920
+Native inference ready at http://127.0.0.1:18435; authentication=required; backend=hip; profile=qwen35; concurrency=1; queue_limit=4; queue_timeout_ms=30000; context=4096; max_tokens=48; admission=experimental
+[request=1 status=200 elapsed_ms=0]
+[request=2 status=200 elapsed_ms=0]
+[request=3 status=200 elapsed_ms=0]
+[request=4 phase=generation]
+[request=4 status=200 elapsed_ms=785412]
+[request=5 phase=generation]
+[request=5 status=200 elapsed_ms=305678]
+[request=6 phase=generation]
+[request=6 status=200 elapsed_ms=196736]
+[request=7 phase=generation]
+[request=7 status=200 elapsed_ms=304262]
+Native inference service stopped
+Warning: Resource leak detected by SharedSignalPool, 120 Signals leaked.

@@ -1,0 +1,18 @@
++ cd /home/volmarr/aesir-q35-6/hidden_files/qwen35-adapter
++ export LD_LIBRARY_PATH=/home/volmarr/aesir-q35-6/hidden_files/hip-serve/shims
++ LD_LIBRARY_PATH=/home/volmarr/aesir-q35-6/hidden_files/hip-serve/shims
++ REAL=/mnt/vault/models/gguf/Qwen3.8-27B-Ultimate-Heretic-Uncn-Turbo-Brilli-50x-AGI-NEO-Q8_0.gguf
++ grep MemAvailable /proc/meminfo
+MemAvailable:   124792036 kB
++ ps aux
++ grep -E 'mojo|cc1|clang'
++ grep -v grep
++ head -5
++ /usr/bin/time -v ./grade_qwen35_hip_q35_6b grade /mnt/vault/models/gguf/Qwen3.8-27B-Ultimate-Heretic-Uncn-Turbo-Brilli-50x-AGI-NEO-Q8_0.gguf q35-3b-tokens.txt 1 q35-3b-v2-p1.csv q35-6b-p1.csv
++ echo GRADE_P1=0
+GRADE_P1=0
++ /usr/bin/time -v ./grade_qwen35_hip_q35_6b grade /mnt/vault/models/gguf/Qwen3.8-27B-Ultimate-Heretic-Uncn-Turbo-Brilli-50x-AGI-NEO-Q8_0.gguf q35-3b-tokens.txt 5 q35-3b-v2-p5.csv q35-6b-p5.csv
++ echo GRADE_P5=0
+GRADE_P5=0
++ grep MemAvailable /proc/meminfo
+MemAvailable:   43501676 kB
