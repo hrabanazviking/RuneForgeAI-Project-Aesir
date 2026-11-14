@@ -1,0 +1,16 @@
+Included from /home/volmarr/aesir-q35-6/aesir_engine/tests/test_qwen35_hip_t1chunk_q35_6b.mojo:6:
+Included from /home/volmarr/aesir-q35-6/aesir_engine/core/qwen35_hip.mojo:43:
+Included from /home/volmarr/aesir-q35-6/aesir_engine/core/hip_gemv.mojo:45:
+/home/volmarr/aesir-q35-6/aesir_engine/core/mojo_gpu_target.mojo:96:20: warning: 'except' logic is unreachable, try doesn't raise an exception
+            return -1
+                   ^
+Included from /home/volmarr/aesir-q35-6/aesir_engine/tests/test_qwen35_hip_t1chunk_q35_6b.mojo:6:
+Included from /home/volmarr/aesir-q35-6/aesir_engine/core/qwen35_hip.mojo:43:
+Included from /home/volmarr/aesir-q35-6/aesir_engine/core/hip_gemv.mojo:43:
+/home/volmarr/aesir-q35-6/aesir_engine/core/amd_gate.mojo:380:31: warning: assignment to 'version' was never used; assign to '_' instead?
+                var version = -1
+                              ^
+Included from /home/volmarr/aesir-q35-6/aesir_engine/tests/test_qwen35_hip_t1chunk_q35_6b.mojo:6:
+/home/volmarr/aesir-q35-6/aesir_engine/core/qwen35_hip.mojo:221:18: warning: assignment to 'ctx' was never used; assign to '_' instead?
+    var ctx = Int(ctx_arg)
+                 ^

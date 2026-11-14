@@ -1,0 +1,31 @@
+Secondary CUID not available: AMDCUID support not enabled.
+T1 pending: 69267
+T1 stream tail: 69267 25 271 760 6511 314 pos 29
+snapshotted: 39223296 950272
+T2 pending: 198
+T2 gen: 198 69267 25 271 760 6511
+SEQ REPLICATION DONE
+Warning: Resource leak detected by SharedSignalPool, 106 Signals leaked.
+	Command being timed: "./hidden_files/qwen35-adapter/test_qwen35_hip_seq_q35_6b"
+	User time (seconds): 589.94
+	System time (seconds): 7.64
+	Percent of CPU this job got: 99%
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 10:00.69
+	Average shared text size (kbytes): 0
+	Average unshared data size (kbytes): 0
+	Average stack size (kbytes): 0
+	Average total size (kbytes): 0
+	Maximum resident set size (kbytes): 24631044
+	Average resident set size (kbytes): 0
+	Major (requiring I/O) page faults: 1808
+	Minor (reclaiming a frame) page faults: 789603
+	Voluntary context switches: 8045
+	Involuntary context switches: 7439
+	Swaps: 0
+	File system inputs: 40946168
+	File system outputs: 40
+	Socket messages sent: 0
+	Socket messages received: 0
+	Signals delivered: 0
+	Page size (bytes): 4096
+	Exit status: 0

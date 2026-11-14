@@ -1,0 +1,10 @@
+HEALTH status=200 wall=0.00s body={"status": "ready", "backend": "hip", "cpu_offload": 0, "profile": "qwen35", "context": 4096, "model": "/mnt/vault/models/gguf/Qwen3.8-27B-Ultimate-Heretic-Uncn-Turbo-Brilli-50x-AGI-NEO-Q8_0.gguf", "model_digest": "", "max_tokens": 48, "generation_timeout_ms": 1800000, "capabilities": {"text_generation": true, "embeddings": false, "exact_prefix_reuse": true, "exact_prefix_reuse_detail": "snapshot-based at committed turn boundaries only", "post_history_configured": false, "session_residency": true, "memory_injection": true, "experimental_admission": true, "weight_load_mode": "q8_0_resident"}, "prefill_batch": 1, "queue_limit": 4}
+HEALTH CAPS PASS: backend=hip residency=true exact_prefix_reuse=true(snapshot-based) experimental=true weight_load_mode=q8_0_resident
+T1 status=200 wall=785.41s usage={"prompt_tokens": 23, "completion_tokens": 32, "total_tokens": 55, "reused_prompt_tokens": 0} reply='Assistant:\n\nThe capital of France is **Paris**. One of the most famous museums located there is the **Louvre**, which is renowned for housing masterpieces'
+T1 MATCHES CPU REFERENCE PREFIX; completion tok/s=0.041
+T2 status=200 wall=305.68s usage={"prompt_tokens": 65, "completion_tokens": 12, "total_tokens": 77, "reused_prompt_tokens": 55} reply='\nAssistant:\n\nThe primary language spoken in Paris is **'
+T2 MATCHES CPU REFERENCE PREFIX; RESIDENT reuse: prompt=65 reused=55 evaluated=10; completion tok/s=0.039
+INTERVENE status=200 wall=196.74s usage={"prompt_tokens": 11, "completion_tokens": 4, "total_tokens": 15, "reused_prompt_tokens": 0} reply='Assistant:\n\nHello'
+STATELESS status=200 wall=304.26s usage={"prompt_tokens": 65, "completion_tokens": 12, "total_tokens": 77, "reused_prompt_tokens": 55} reply='\nAssistant:\n\nThe primary language spoken in Paris is **'
+STATELESS PASS: reused=55 (snapshot restore) reply==resident T2; completion tok/s=0.039
+Q35-6b HTTP HIP real-file bench: ALL PASS

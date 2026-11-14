@@ -1,0 +1,47 @@
++ cd /home/volmarr/aesir-q35-6
++ export PATH=/home/volmarr/.pixi/bin:/home/volmarr/.cargo/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin
++ PATH=/home/volmarr/.pixi/bin:/home/volmarr/.cargo/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin
++ SH=hidden_files/hip-serve/shims
++ H=hidden_files/qwen35-adapter
++ LK='-Xlinker -Lhidden_files/hip-serve/shims -Xlinker -laesir_hailo10h -Xlinker -laesir_par -Xlinker -laesir_hip -Xlinker -laesir_vulkan -Xlinker -laesir_zc -Xlinker -laesir_aff'
++ pixi run --frozen mojo build -I . --target-accelerator gfx1151 -Xlinker -Lhidden_files/hip-serve/shims -Xlinker -laesir_hailo10h -Xlinker -laesir_par -Xlinker -laesir_hip -Xlinker -laesir_vulkan -Xlinker -laesir_zc -Xlinker -laesir_aff aesir_engine/tests/test_qwen35_hip_t1chunk_q35_6b.mojo -o hidden_files/qwen35-adapter/test_qwen35_hip_t1chunk_q35_6b
++ echo BUILD=0
+BUILD=0
++ export LD_LIBRARY_PATH=/home/volmarr/aesir-q35-6/hidden_files/hip-serve/shims
++ LD_LIBRARY_PATH=/home/volmarr/aesir-q35-6/hidden_files/hip-serve/shims
++ /usr/bin/time -v ./hidden_files/qwen35-adapter/test_qwen35_hip_t1chunk_q35_6b
++ echo RUN=0
+RUN=0
++ cat hidden_files/qwen35-adapter/q35-6b-t1chunk.log
+Secondary CUID not available: AMDCUID support not enabled.
+A singles done
+B chunk done
+  maxdiff at index -1 of 39223296
+state maxdiff = 0.0
+  maxdiff at index -1 of 753664
+kv maxdiff = 0.0
+T1 CHUNK BISECT DONE
+Warning: Resource leak detected by SharedSignalPool, 224 Signals leaked.
+	Command being timed: "./hidden_files/qwen35-adapter/test_qwen35_hip_t1chunk_q35_6b"
+	User time (seconds): 449.95
+	System time (seconds): 11.12
+	Percent of CPU this job got: 98%
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 7:46.07
+	Average shared text size (kbytes): 0
+	Average unshared data size (kbytes): 0
+	Average stack size (kbytes): 0
+	Average total size (kbytes): 0
+	Maximum resident set size (kbytes): 50920496
+	Average resident set size (kbytes): 0
+	Major (requiring I/O) page faults: 5767
+	Minor (reclaiming a frame) page faults: 1541513
+	Voluntary context switches: 15653
+	Involuntary context switches: 6235
+	Swaps: 0
+	File system inputs: 58237576
+	File system outputs: 24
+	Socket messages sent: 0
+	Socket messages received: 0
+	Signals delivered: 0
+	Page size (bytes): 4096
+	Exit status: 0

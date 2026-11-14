@@ -1,0 +1,29 @@
+Secondary CUID not available: AMDCUID support not enabled.
+PROMPT TOKENS: 19
+EXECUTOR LOADED: layers= 64  vocab= 248320
+GRADE WRITTEN: q35-6b-p1.csv
+GRADE SUMMARY: positions= 18  cpu_argmax_rank1_in_hip= 18  in_near_tie_band= 18  argmax_agreement= 18  worst_gap_cpu= 0.0
+Warning: Resource leak detected by SharedSignalPool, 116 Signals leaked.
+	Command being timed: "./grade_qwen35_hip_q35_6b grade /mnt/vault/models/gguf/Qwen3.8-27B-Ultimate-Heretic-Uncn-Turbo-Brilli-50x-AGI-NEO-Q8_0.gguf q35-3b-tokens.txt 1 q35-3b-v2-p1.csv q35-6b-p1.csv"
+	User time (seconds): 223.77
+	System time (seconds): 5.63
+	Percent of CPU this job got: 98%
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 3:54.02
+	Average shared text size (kbytes): 0
+	Average unshared data size (kbytes): 0
+	Average stack size (kbytes): 0
+	Average total size (kbytes): 0
+	Maximum resident set size (kbytes): 28277068
+	Average resident set size (kbytes): 0
+	Major (requiring I/O) page faults: 711
+	Minor (reclaiming a frame) page faults: 656421
+	Voluntary context switches: 7335
+	Involuntary context switches: 2692
+	Swaps: 0
+	File system inputs: 49577296
+	File system outputs: 224
+	Socket messages sent: 0
+	Socket messages received: 0
+	Signals delivered: 0
+	Page size (bytes): 4096
+	Exit status: 0

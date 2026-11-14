@@ -1,0 +1,32 @@
+Secondary CUID not available: AMDCUID support not enabled.
+MimirWell initialized with 4232837120 derived bytes.
+GGUF validated: 851 tensors, 48 metadata entries, architecture qwen35
+Qwen35 resident load: mode=q8_0_resident large_tensors=498 q8_0_bytes=28574187520 f16_materialized_bytes_avoided=53786705920
+T1(32) reply=Assistant:<NL><NL>The capital of France is **Paris**. One of the most famous museums located there is the **Louvre**, which is renowned for housing masterpieces
+T1 pos=55
+T2(12) RESIDENT reply=<NL>Assistant:<NL><NL>The primary language spoken in Paris is **
+T2 LONG DONE
+Warning: Resource leak detected by SharedSignalPool, 120 Signals leaked.
+	Command being timed: "./hidden_files/qwen35-adapter/test_qwen35_hip_t2long_q35_6b"
+	User time (seconds): 823.41
+	System time (seconds): 7.36
+	Percent of CPU this job got: 99%
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 13:52.39
+	Average shared text size (kbytes): 0
+	Average unshared data size (kbytes): 0
+	Average stack size (kbytes): 0
+	Average total size (kbytes): 0
+	Maximum resident set size (kbytes): 29179624
+	Average resident set size (kbytes): 0
+	Major (requiring I/O) page faults: 4878
+	Minor (reclaiming a frame) page faults: 1950556
+	Voluntary context switches: 8408
+	Involuntary context switches: 193396
+	Swaps: 0
+	File system inputs: 10378432
+	File system outputs: 32
+	Socket messages sent: 0
+	Socket messages received: 0
+	Signals delivered: 0
+	Page size (bytes): 4096
+	Exit status: 0

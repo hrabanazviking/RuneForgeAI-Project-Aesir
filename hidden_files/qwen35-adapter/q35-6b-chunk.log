@@ -1,0 +1,7 @@
+Secondary CUID not available: AMDCUID support not enabled.
+B4  vs A12 state maxdiff = 0.0
+B12 vs A20 state maxdiff = 0.0
+B4  vs A12 kv maxdiff = 0.0
+B12 vs A20 kv maxdiff = 0.0
+CHUNK BISECT DONE
+Warning: Resource leak detected by SharedSignalPool, 386 Signals leaked.

@@ -1,0 +1,11 @@
+Secondary CUID not available: AMDCUID support not enabled.
+MimirWell initialized with 4232837120 derived bytes.
+GGUF validated: 851 tensors, 48 metadata entries, architecture qwen35
+Qwen35 resident load: mode=q8_0_resident large_tensors=498 q8_0_bytes=28574187520 f16_materialized_bytes_avoided=53786705920
+A T1 reply=Assistant:<NL><NL>The capital of pos=29
+A STREAM1=2523 513 264 10631 17313 13 198 1421 25 3437 369 279 6511 314 9338 30 3855 799 10919 23223 1017 13 198 69267 25 271 760 6511 314 
+A T2 RESIDENT reply=<NL>Assistant:<NL><NL>The capital reused=0
+A STREAM2=2523 513 264 10631 17313 13 198 1421 25 3437 369 279 6511 314 9338 30 3855 799 10919 23223 1017 13 198 69267 25 271 760 6511 314 3710 3992 635 1379 1208 6266 303 421 3177 30 198 69267 25 271 760 6511 
+MimirWell initialized with 4232837120 derived bytes.
+GGUF validated: 851 tensors, 48 metadata entries, architecture qwen35
+Qwen35 resident load: mode=q8_0_resident large_tensors=498 q8_0_bytes=28574187520 f16_materialized_bytes_avoided=53786705920

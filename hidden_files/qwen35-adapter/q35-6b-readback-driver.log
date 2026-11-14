@@ -1,0 +1,49 @@
++ cd /home/volmarr/aesir-q35-6
++ export PATH=/home/volmarr/.pixi/bin:/home/volmarr/.cargo/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin
++ PATH=/home/volmarr/.pixi/bin:/home/volmarr/.cargo/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin
++ SH=hidden_files/hip-serve/shims
++ H=hidden_files/qwen35-adapter
++ LK='-Xlinker -Lhidden_files/hip-serve/shims -Xlinker -laesir_hailo10h -Xlinker -laesir_par -Xlinker -laesir_hip -Xlinker -laesir_vulkan -Xlinker -laesir_zc -Xlinker -laesir_aff'
++ pixi run --frozen mojo build -I . --target-accelerator gfx1151 -Xlinker -Lhidden_files/hip-serve/shims -Xlinker -laesir_hailo10h -Xlinker -laesir_par -Xlinker -laesir_hip -Xlinker -laesir_vulkan -Xlinker -laesir_zc -Xlinker -laesir_aff aesir_engine/tests/test_qwen35_hip_readback_q35_6b.mojo -o hidden_files/qwen35-adapter/test_qwen35_hip_readback_q35_6b
++ echo BUILD=0
+BUILD=0
++ export LD_LIBRARY_PATH=/home/volmarr/aesir-q35-6/hidden_files/hip-serve/shims
++ LD_LIBRARY_PATH=/home/volmarr/aesir-q35-6/hidden_files/hip-serve/shims
++ /usr/bin/time -v ./hidden_files/qwen35-adapter/test_qwen35_hip_readback_q35_6b
++ echo RUN=0
+RUN=0
++ cat hidden_files/qwen35-adapter/q35-6b-readback.log
+CONTROL
+Secondary CUID not available: AMDCUID support not enabled.
+gen: 279 6511 3177 1379 91188
+state sum: 0.00037012072 8.201273e-05
+PROBE
+probe readbacks: 39223296 491520
+gen: 279 6511 3177 1379 91188
+state sum: 0.00037012072 8.201273e-05
+CONTROL == PROBE: True
+READBACK PROBE DONE
+Warning: Resource leak detected by SharedSignalPool, 239 Signals leaked.
+	Command being timed: "./hidden_files/qwen35-adapter/test_qwen35_hip_readback_q35_6b"
+	User time (seconds): 403.22
+	System time (seconds): 8.10
+	Percent of CPU this job got: 99%
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 6:55.06
+	Average shared text size (kbytes): 0
+	Average unshared data size (kbytes): 0
+	Average stack size (kbytes): 0
+	Average total size (kbytes): 0
+	Maximum resident set size (kbytes): 30193864
+	Average resident set size (kbytes): 0
+	Major (requiring I/O) page faults: 8166
+	Minor (reclaiming a frame) page faults: 1615643
+	Voluntary context switches: 17231
+	Involuntary context switches: 5218
+	Swaps: 0
+	File system inputs: 27096472
+	File system outputs: 32
+	Socket messages sent: 0
+	Socket messages received: 0
+	Signals delivered: 0
+	Page size (bytes): 4096
+	Exit status: 0

@@ -184,3 +184,120 @@ before any code change, and is extended in stages.
   the Q35-1 anchoring lesson: a direct loader import now
   anchors the package root in both the session module and
   its test.
+
+## Q35-6b — real-file grade (DONE, PASS)
+
+Driver: aesir_engine/tests/grade_qwen35_hip_q35_6b.mojo (banked
+parity_battery rank/gap; CPU comparator = banked Q35-3b v2 CSVs).
+Real file Qwen3.8-27B Q8_0 (28,596,003,296 B), fenced 96G units.
+
+- GEN WITNESS (P0, 40 tokens): HIP GEN IDS token-identical to the
+  banked Q35-3b CPU GEN IDS (11751 13 271 ... 3478 3521); text ==
+  the llama.cpp-agreeing witness text. Wall 8:49 (construction +
+  5-token prefill + 40 decode), max RSS 25.6 GB.
+- GRADE P0: 4/4 CPU-argmax rank 1 in HIP, gap 0.0, agreement 4/4.
+- GRADE P1: 18/18 rank 1, gap 0.0, agreement 18/18 (3:54).
+- GRADE P5: 49/49 rank 1, gap 0.0, agreement 49/49 (12:33, RSS
+  29.4 GB) — including pos 32, the CPU-vs-llama near-tie position
+  (HIP argmax 430 == CPU argmax 430, gap 0.0).
+- TOTAL: 71/71 graded positions rank 1 gap 0.0 vs the corrected
+  CPU path. Per-forward pace at real scale ~11 s (naive byte-load
+  GEMV; see risks).
+
+## Q35-6b — real-file serve: T1 PASS, T2 anomaly (INVESTIGATED)
+
+HTTP serve (hip, ctx 4096, --experimental-qwen35, 96G fence):
+/health truthful (backend hip, residency true, exact_prefix_reuse
+true + snapshot detail, experimental true, q8_0_resident).
+T1 PASS: reply == prefix of CPU R1, wall 343.93 s (23 prefill +
+12 gen). T2: resident reuse fired (prompt 45, reused 35, eval 10)
+but the reply repeated T1's answer ('The capital of France is
+**Paris**.') instead of the CPU R2 language answer.
+
+Investigation (all logs q35-6b-*):
+- In-process session debug reproduced it (resident route, ctx
+  4096, max_tokens 6): T2 gen [198 69267 25 271 760 6511];
+  stream verified correct (23 prompt + 6 gen + 10 delta ids).
+- Executor bisects, all bit-exact (state + KV images, 0.0):
+  chunk@start>0 vs singles (fixture AND real), chunk@0 (T1
+  pattern) vs singles (real), snapshot readbacks interposed
+  (probe == control).
+- Executor-level replication of the session's exact call
+  sequence reproduced the T2 output exactly; variant with the
+  T2 delta as singles reproduced it too. So neither the chunk,
+  the readbacks, nor the session bookkeeping is the cause: the
+  continuation is what this executor (== CPU numerics, graded)
+  produces for THIS stream.
+- Working explanation (test running): the bench truncated T1
+  mid-sentence (6/12 tokens vs Q35-4b's 32). On a stream whose
+  assistant turn is cut mid-sentence, the appended bare user
+  delta is answered as a re-answer of the last complete
+  question. Q35-4b's CPU T2 followed a 32-token T1. The HIP
+  session at max_tokens=32 is being run to confirm parity.
+
+## Q35-6b T2 anomaly — RESOLVED (no defect)
+
+The long-T1 test (log q35-6b-t2long.log) settles it: HIP
+session, T1 at max_tokens=32 == CPU R1 exactly (pos 55, the
+Q35-4b POS1), resident T2(12) == '\nAssistant:\n\nThe primary
+language spoken in Paris is **' — the CPU R2 continuation.
+The earlier re-answer came from truncating T1 mid-sentence
+(6/12 tokens): on that stream the model re-answers the last
+complete question; executor bisects (chunk vs singles at both
+scales, T1-pattern chunk, readback probe, sequence replication,
+delta-as-singles variant — logs q35-6b-chunk*.log,
+q35-6b-readback.log, q35-6b-seq*.log, q35-6b-t1chunk.log) are
+all bit-exact or exactly reproducing, i.e. the device follows
+the CPU numerics on every stream; the stream was the variable.
+Bench fixed to the Q35-4b shape (T1 max_tokens=32) and rerun.
+
+## Q35-6b — real-file HIP serve (DONE, ALL PASS)
+
+Serve: real 27B via Qwen35HipSession, :18435, ctx 4096,
+max-tokens 48, --experimental-qwen35, MemoryMax 110G driver /
+96G serve unit. Bench q35_6b_bench.py (log q35-6b-bench.log):
+- /health: backend hip, residency true, exact_prefix_reuse
+  true (snapshot detail), experimental_admission true,
+  weight_load_mode q8_0_resident. CAPS PASS.
+- T1 (max 32): reply == CPU R1 EXACTLY (55 total, reused 0),
+  wall 785.41 s.
+- T2 resident: prompt 65, reused 55, evaluated 10; reply ==
+  CPU R2 prefix ('The primary language spoken in Paris is
+  **'), wall 305.68 s.
+- Intervening different-session request: 200, 196.74 s.
+- Stateless resend: snapshot restore reused 55, reply ==
+  resident T2 exactly, wall 304.26 s. ALL PASS.
+- Serve VmHWM peak 30,055,972 KB (~30.1 GB). Port free after;
+  MemAvailable back to ~125 GB.
+- Pace: ~14 s/forward under sibling QC-5 compile contention
+  (~11 s uncontended in-process grade runs); decode ~0.07-0.09
+  tok/s, completion-by-wall ~0.04 tok/s. The naive byte-load
+  GEMV is the bottleneck (Q35-7 performance risk, named).
+
+## LEDGER entry draft (for coordinator merge)
+
+Q35-6 HIP execution for qwen35 — DONE. Fixture: corrected CPU
+reference re-established (H1: prior HIP test sampled with
+GenerationConfig defaults; pinned banked config), device
+defects D1 (tiled q/k broadcast in _delta_kernel) + D2 (ring
+shift race -> stage/commit via ring_tmp) fixed; trajectory
+inside/at Q35-3a (c) band (s 0.0007150769, conv 0.0078125,
+logits one f16 ulp over at rank 1 gap 0.0); greedy == corrected
+CPU reference; batched prefill chosen (6.7x: 9.43 ms vs 63.16
+ms at 64 tok). Qwen35HipSession (snapshot-composing,
+CPU-mirrored contract) + experimental serve admission for
+qwen35+hip (refusal without --experimental-qwen35 proven).
+Fixture serve bench ALL PASS (resident reuse 72, stateless
+snapshot reuse == resident reply). Q35-6b real 27B: grade
+71/71 positions CPU-argmax rank 1 gap 0.0 (P0/P1/P5, incl. the
+P5 pos-32 near-tie), 40-token greedy token-identical to the
+banked llama.cpp-agreeing witness; HTTP serve ALL PASS
+(health truth, T1 == CPU R1, resident T2 reused 55 + R2
+prefix, stateless restore == T2, VmHWM 30.1 GB). T2 truncated-
+T1 anomaly investigated to ground: model behavior on a
+mid-sentence-truncated stream, not a defect (bisects all
+bit-exact). Regressions Q35-1/2/3a/3r/4a/5 + ripple ALL PASS,
+engine compile exit 0. Risks for Q35-7: naive GEMV bandwidth
+(~11-14 s/token at 27B), native (non-experimental) admission
+unclaimed, min_p/repeat_last_n unclaimed on qwen35 sampling,
+F-4b-1/F-4b-2 carry-over.
