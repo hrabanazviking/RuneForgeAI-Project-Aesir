@@ -808,6 +808,20 @@ from tests.test_near_tie_gate_a111 import (
     test_near_tie_row_verdicts,
     test_near_tie_sequence_verdicts,
 )
+from tests.test_matrix_runner_a114 import (
+    test_matrix_arch_not_graded,
+    test_matrix_artifact_cells,
+    test_matrix_axes_product,
+    test_matrix_backend_not_graded,
+    test_matrix_digest_deterministic,
+    test_matrix_divergent_cells,
+    test_matrix_enumeration_unique_ordered,
+    test_matrix_faithful_cells,
+    test_matrix_invalid_axes_refused,
+    test_matrix_iq_fixture_limited,
+    test_matrix_near_tie_cells,
+    test_matrix_summary_sums,
+)
 from tests.test_placement_planner_a100 import (
     test_planner_standard_fixtures,
     test_planner_prefill_variants,
@@ -1711,6 +1725,18 @@ def main() raises:
     run_case(ledger, "oracle.comparator_step0_plus_later", test_comparator_step0_plus_later_genuine)
     run_case(ledger, "oracle.comparator_combined_precedence", test_comparator_combined_precedence)
     run_case(ledger, "oracle.comparator_invalid_refused", test_comparator_invalid_records_refused)
+    run_case(ledger, "matrix.runner_axes_product", test_matrix_axes_product)
+    run_case(ledger, "matrix.runner_enumeration_unique", test_matrix_enumeration_unique_ordered)
+    run_case(ledger, "matrix.runner_faithful_cells", test_matrix_faithful_cells)
+    run_case(ledger, "matrix.runner_near_tie_cells", test_matrix_near_tie_cells)
+    run_case(ledger, "matrix.runner_divergent_cells", test_matrix_divergent_cells)
+    run_case(ledger, "matrix.runner_artifact_cells", test_matrix_artifact_cells)
+    run_case(ledger, "matrix.runner_iq_fixture_limited", test_matrix_iq_fixture_limited)
+    run_case(ledger, "matrix.runner_backend_not_graded", test_matrix_backend_not_graded)
+    run_case(ledger, "matrix.runner_arch_not_graded", test_matrix_arch_not_graded)
+    run_case(ledger, "matrix.runner_summary_sums", test_matrix_summary_sums)
+    run_case(ledger, "matrix.runner_invalid_axes_refused", test_matrix_invalid_axes_refused)
+    run_case(ledger, "matrix.runner_digest_deterministic", test_matrix_digest_deterministic)
     run_case(ledger, "planner.standard_fixtures", test_planner_standard_fixtures)
     run_case(ledger, "planner.prefill_variants", test_planner_prefill_variants)
     run_case(ledger, "planner.gemm_thresholds", test_planner_gemm_thresholds)
@@ -2476,4 +2502,13 @@ def main() raises:
     # eight corpus.* cases counted on top of the A-112 seat
     # pin (team branch pin was 703 on the A-111 base; union
     # reconciled here at banking).
-    ledger.finish(715)
+    # A-114 re-pin (team-27): 695 -> 707 -- twelve
+    # full matrix runner cases (matrix.runner_* in
+    # tests/test_matrix_runner_a114.mojo) counted on top
+    # of the A-111 seat pin (A-112/A-113 build in parallel
+    # on the same seat; union reconciles at banking).
+    # A-114 union re-pin at banking: 715 -> 727 -- the
+    # twelve matrix.runner_* cases counted on top of the
+    # A-113 seat pin (team branch pin was 707 on the A-111
+    # base; union reconciled here at banking).
+    ledger.finish(727)
