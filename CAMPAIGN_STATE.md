@@ -30,3 +30,10 @@
 - Suite (hidden_files/a105_run_all.log): 634 passed / 1 failed / 2 skipped / 637 total; sole failure pre-existing J-022; no intermittent fired; team pin 629 -> 637 on this base (seat union reconciles at banking). GREEN-TO-BASELINE.
 - Gap: no docs/bench/A105 doc exists; bench log + hidden_files/A105_LEDGER.md are the filed evidence.
 - Commit: see git log (subject A-105: Two-model fairness). Team branch only; keeper banks after A-103 and A-104 in roadmap order (both banked earlier this same keeper tick: 103 and 104 of 216).
+
+## Team-27 outcome 2026-11-13 - A-106 DONE (PASS)
+- Slice: A-106 - Scheduler telemetry (Wave 12). Base 9f75ab0d (banked main, 105 of 216). 6 Mythic Engineering sub-agents mustered, no rate limit.
+- Built: core/scheduler_telemetry.mojo (per-device utilisation from amdgpu sysfs + /proc, CPU two-sample delta, NPU presence with utilisation honestly unknown - no kernel counter, placement tally of the A-100 planner's 12 standard fixtures with FNV-1a digest); doctor text + JSON exposure; 8 suite cases sched.telemetry_* (all PASS); bench bench_telemetry_a106.mojo; doc docs/bench/A106_SCHEDULER_TELEMETRY.md; ledger hidden_files/A106_LEDGER.md.
+- Bench (hidden_files/a106_bench.log, RUN_EXIT=0): external cat agreement at idle; 300 RADV vec_add dispatches (vendor 0x1002, type 1), GPU busy 0.0% -> 5.0%; during-residency internal/external GTT exactly equal (71,630,848 B); placements 12 = GPU 6 / NPU 2 / CPU 4, digest 14661850525200458208 reproduced. xrt-smi examine failed mmap EAGAIN on this machine - filed honestly.
+- Suite E-MASTER run 2 solo: 655 passed / 1 failed / 2 skipped / 658 total = baseline 647/1/2/650 + 8 new; sole failure pre-existing J-022 gguf.tensor_directory_interface; no intermittent fired. Run 1 in-slice assert defect fixed baseline-relative and re-proven.
+- Commit: on yrsa/aesir-team-27 only, subject "A-106: Scheduler telemetry"; keeper banks next in roadmap order. Never merged or pushed. No README touched. No Docker.

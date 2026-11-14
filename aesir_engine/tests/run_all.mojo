@@ -384,6 +384,16 @@ from tests.test_fairness_a105 import (
     test_fairness_log_reproducible,
     test_fairness_device_execution,
 )
+from tests.test_telemetry_a106 import (
+    test_telemetry_live_bounds,
+    test_telemetry_cpu_util_parser,
+    test_telemetry_external_match,
+    test_telemetry_placement_decisions_exposed,
+    test_telemetry_clamp_and_tolerance,
+    test_telemetry_no_device_graceful,
+    test_telemetry_gpu_memory_reacts,
+    test_telemetry_cpu_util_live_window,
+)
 from tests.test_vulkan_batch_a072 import (
     test_vulkan_continuous_batch_four_match_single,
     test_vulkan_continuous_batch_heterogeneous,
@@ -1354,6 +1364,14 @@ def main() raises:
     run_case(ledger, "sched.fairness_governor_pressure", test_fairness_governor_pressure)
     run_case(ledger, "sched.fairness_log_reproducible", test_fairness_log_reproducible)
     run_case(ledger, "sched.fairness_device_execution", test_fairness_device_execution)
+    run_case(ledger, "sched.telemetry_live_bounds", test_telemetry_live_bounds)
+    run_case(ledger, "sched.telemetry_cpu_util_parser", test_telemetry_cpu_util_parser)
+    run_case(ledger, "sched.telemetry_external_match", test_telemetry_external_match)
+    run_case(ledger, "sched.telemetry_placement_decisions_exposed", test_telemetry_placement_decisions_exposed)
+    run_case(ledger, "sched.telemetry_clamp_and_tolerance", test_telemetry_clamp_and_tolerance)
+    run_case(ledger, "sched.telemetry_no_device_graceful", test_telemetry_no_device_graceful)
+    run_case(ledger, "sched.telemetry_gpu_memory_reacts", test_telemetry_gpu_memory_reacts)
+    run_case(ledger, "sched.telemetry_cpu_util_live_window", test_telemetry_cpu_util_live_window)
     run_case(ledger, "gpu.gpu_soak_slope_flat_and_leak", test_gpu_soak_slope_flat_and_leak)
     run_case(ledger, "gpu.gpu_soak_verdict_precedence", test_gpu_soak_verdict_precedence)
     run_case(ledger, "gpu.gpu_soak_tally_accounting", test_gpu_soak_tally_accounting)
@@ -2281,4 +2299,8 @@ def main() raises:
     # tests/test_fairness_a105.mojo) counted on top of the
     # A-104 seat pin (team branch pin was 637 on the A-102
     # base; union reconciled here at banking).
-    ledger.finish(650)
+    # A-106 re-pin (team-27): 650 -> 658 -- eight scheduler
+    # telemetry cases (sched.telemetry_* in
+    # tests/test_telemetry_a106.mojo) counted on top of the
+    # A-105 seat pin; the union reconciles at banking.
+    ledger.finish(658)

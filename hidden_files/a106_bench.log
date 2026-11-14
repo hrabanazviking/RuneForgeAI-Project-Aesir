@@ -1,0 +1,189 @@
+2026-11-13T18:57:20-05:00
+purpleraider
+9f75ab0d61aaaea29d44c1b1f8c2b1cb4dd025fa
+yrsa/aesir-team-27
+ 18:57:20 up 1 day, 17:16,  1 user,  load average: 1.12, 1.10, 0.78
+=== external observation BEFORE (shell) ===
+0
+71376896
+658063360
+XRT build version: 2.25.00
+Build hash: 
+Build hash date: 
+Git branch: 
+PID: 3902334
+UID: 1000
+[Fri Nov 13 23:57:20 2026 GMT]
+HOST: purpleraider
+EXE: /usr/bin/xrt-smi
+[xrt-smi] ERROR: mmap(addr=0x70f51c000000, len=67108864, prot=3, flags=8209, offset=4294967296) failed (err=-11): Resource temporarily unavailable
+  Name:                    AMD RYZEN AI MAX+ 395 w/ Radeon 8060S
+  Marketing Name:          AMD RYZEN AI MAX+ 395 w/ Radeon 8060S
+/dev/nvme0n1p3  1.7T  184G  1.6T  11% /home
+               total        used        free      shared  buff/cache   available
+Mem:             121           2         119           0           0         119
+staging=/tmp/tmp.JZ6HfRQLkq
+cc_libaesir_hailo10h=0
+cc_libaesir_par=0
+cc_libaesir_hip=0
+cc_libaesir_zc=0
+cc_libaesir_aff=0
+cc_vulkan=0
+/home/volmarr/aesir-team-27/aesir_engine/tests/bench_telemetry_a106.mojo:116:11: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+        pa[i] = UInt8(1)
+        ~~^~~
+<unknown>:0: note: '__getitem__' declared here
+Imported from /home/volmarr/aesir-team-27/aesir_engine/tests/bench_telemetry_a106.mojo:47:
+/home/volmarr/aesir-team-27/aesir_engine/core/vulkan_buffers.mojo:267:24: warning: `alloc` without a `Layout` is deprecated, use the `Layout`-based `alloc` instead; as a temporary migration step, use `unsafe_alloc`
+        var name_buf = alloc[UInt8](256)
+                       ^~~~~
+<unknown>:0: note: 'alloc' declared here
+Imported from /home/volmarr/aesir-team-27/aesir_engine/tests/bench_telemetry_a106.mojo:47:
+/home/volmarr/aesir-team-27/aesir_engine/core/vulkan_buffers.mojo:295:24: warning: `alloc` without a `Layout` is deprecated, use the `Layout`-based `alloc` instead; as a temporary migration step, use `unsafe_alloc`
+        var name_buf = alloc[UInt8](256)
+                       ^~~~~
+<unknown>:0: note: 'alloc' declared here
+Included from /home/volmarr/aesir-team-27/aesir_engine/tests/bench_telemetry_a106.mojo:36:
+/home/volmarr/aesir-team-27/aesir_engine/core/scheduler_telemetry.mojo:418:20: warning: assignment to 'util' was never used; assign to '_' instead?
+        var util = -1
+                   ^
+Included from /home/volmarr/aesir-team-27/aesir_engine/tests/bench_telemetry_a106.mojo:36:
+/home/volmarr/aesir-team-27/aesir_engine/core/scheduler_telemetry.mojo:426:20: warning: assignment to 'used' was never used; assign to '_' instead?
+        var used = -1
+                   ^
+Included from /home/volmarr/aesir-team-27/aesir_engine/tests/bench_telemetry_a106.mojo:36:
+/home/volmarr/aesir-team-27/aesir_engine/core/scheduler_telemetry.mojo:427:23: warning: assignment to 'total_b' was never used; assign to '_' instead?
+        var total_b = -1
+                      ^
+	Command being timed: "pixi run --frozen mojo build -I . --target-accelerator gfx1151 -Xlinker -L/tmp/tmp.JZ6HfRQLkq -Xlinker -laesir_hailo10h -Xlinker -laesir_par -Xlinker -laesir_hip -Xlinker -laesir_vulkan -Xlinker -laesir_zc -Xlinker -laesir_aff -o /tmp/a106_bench aesir_engine/tests/bench_telemetry_a106.mojo"
+	User time (seconds): 6.90
+	System time (seconds): 0.59
+	Percent of CPU this job got: 244%
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 0:03.07
+	Average shared text size (kbytes): 0
+	Average unshared data size (kbytes): 0
+	Average stack size (kbytes): 0
+	Average total size (kbytes): 0
+	Maximum resident set size (kbytes): 409132
+	Average resident set size (kbytes): 0
+	Major (requiring I/O) page faults: 129
+	Minor (reclaiming a frame) page faults: 121352
+	Voluntary context switches: 73616
+	Involuntary context switches: 3029
+	Swaps: 0
+	File system inputs: 310264
+	File system outputs: 2168
+	Socket messages sent: 0
+	Socket messages received: 0
+	Signals delivered: 0
+	Page size (bytes): 4096
+	Exit status: 0
+BUILD_EXIT=0
+A106_TELEMETRY_BENCH: start
+Secondary CUID not available: AMDCUID support not enabled.
+'DISPLAY' environment variable not set... skipping surface info
+error: XDG_RUNTIME_DIR is invalid or not set in the environment.
+WARNING: [Loader Message] Code 0 : ICD for selected physical device does not export vkGetPhysicalDeviceDisplayPlanePropertiesKHR!
+WARNING: [Loader Message] Code 0 : ICD for selected physical device does not export vkGetPhysicalDeviceDisplayPropertiesKHR!
+  scheduler telemetry (A-106): per-device utilisation + placement decisions
+  cpu: util unknown | mem 2.5 GiB of 121.4 GiB | source /proc/meminfo; utilisation via /proc/stat two-sample delta (read_cpu_times)
+  gpu: util 0.0% | mem 68.0 MiB of 121.4 GiB | source amdgpu sysfs /sys/class/drm/card1/device; pool gtt (unified)
+  npu: util unknown | mem unknown | source /sys/class/accel/accel0; kernel states no utilisation counter (xrt-smi is the external observer) - reported unknown, never invented
+  placement decisions (A-100 planner, standard fixtures): total 12 | gpu 6 | npu 2 | cpu 4 | none 0 | digest 14661850525200458208
+    prefill_default: prefill_projection -> GPU (Vulkan): MEASURED_OPTIMUM_A098: at 128x1024x1024 the GPU is fastest (67.5 us) and the perf-per-watt winner (51.20 GFLOP/s/W gross vs NPU 5.39, CPU 5.34); first-class GPU backend per A-086 [measured est 67.5 us]
+    prefill_power_capped: prefill_projection -> NPU (XRT): POWER_CAPPED_A098: NPU package draw is 22.1 W vs GPU 77.7 W at this shape class and its net-of-idle J/op beats CPU (0.0298 vs 0.0446); under a power cap that is the measured optimum [measured est 2258.2 us] [fallback: CPU (A-099 FALLBACK_<NAME>)]
+    prefill_overlap: prefill_projection -> NPU (XRT): OVERLAP_A096: NPU prefill computed inside the GPU decode shadow was fully hidden (median benefit 4,198 us over serial); overlapped, the NPU is the optimum [fallback: CPU (A-099 FALLBACK_<NAME>)]
+    gemm_small_32: gemm -> CPU (CPU): BELOW_FLOOR_A094: under ~0.1M MACs the 93.0 us NPU dispatch floor dominates (32x32x32 measured NPU 93.0 us vs CPU oracle 27.2 us, 0.29x) [measured est 27.2 us]
+    decode_gemv: gemv -> GPU (Vulkan): NOT_FIT_A094: decode GEMV (M=1) is not expressible in the stood-up NPU design (tile M=32) and per-op dispatch would cost ~19 ms/token across 32 layers; the Vulkan decode road owns decode
+    sampling_vocab_131072: sampling -> CPU (CPU): MEASURED_A097: NPU argmax loses to the CPU scan at both vocab sizes (104.8 vs 19.9 us at V=32768; 165.2 vs 76.7 us at V=131072) -- floor-bound, NOT FIT on NPU [measured est 76.7 us]
+    attention_prefill: attention -> GPU (Vulkan): A017_CLASS: attention is memory-bound over the KV cache and is not NPU-shaped in this engine; the Vulkan attention road owns it
+    embedding_lookup: embedding_lookup -> CPU (CPU): NOT_FIT_A094: embedding lookup is a gather with no arithmetic; no NPU crossover exists
+    elementwise_decode_row: elementwise -> CPU (CPU): FUSION_ONLY_A094: standalone elementwise can never repay the 93.0 us NPU dispatch floor at decode sizes; value only fused inside a resident GEMM design
+    embedding_projection_default: embedding_projection -> GPU (Vulkan): MEASURED_OPTIMUM_A098: at 128x1024x1024 the GPU is fastest (67.5 us) and the perf-per-watt winner (51.20 GFLOP/s/W gross vs NPU 5.39, CPU 5.34); first-class GPU backend per A-086 [measured est 67.5 us]
+    prefill_below_m_band: prefill_projection -> GPU (Vulkan): MEASURED_OPTIMUM_A098: at 128x1024x1024 the GPU is fastest (67.5 us) and the perf-per-watt winner (51.20 GFLOP/s/W gross vs NPU 5.39, CPU 5.34); first-class GPU backend per A-086
+    transfer_default: transfer -> GPU (Vulkan): A017_POLICY_DELEGATE (no A-100 measured row): skip NPU (NPU present (XRT) but no NPU execution is proven yet -- presence only, not placement). Vulkan GPU backend available (bake-off winner, first-class)
+  external idle: gtt_used= 71376896  busy_pct= 0
+A106 leg2 external-idle: PASS
+  cpu window util= 0.0%
+A106 leg3 cpu-window: PASS
+  device vendor= 4098  type= 1
+  q4k dispatch count probe (vec_add uses its own path): 0
+Secondary CUID not available: AMDCUID support not enabled.
+'DISPLAY' environment variable not set... skipping surface info
+error: XDG_RUNTIME_DIR is invalid or not set in the environment.
+WARNING: [Loader Message] Code 0 : ICD for selected physical device does not export vkGetPhysicalDeviceDisplayPlanePropertiesKHR!
+WARNING: [Loader Message] Code 0 : ICD for selected physical device does not export vkGetPhysicalDeviceDisplayPropertiesKHR!
+Secondary CUID not available: AMDCUID support not enabled.
+'DISPLAY' environment variable not set... skipping surface info
+error: XDG_RUNTIME_DIR is invalid or not set in the environment.
+WARNING: [Loader Message] Code 0 : ICD for selected physical device does not export vkGetPhysicalDeviceDisplayPlanePropertiesKHR!
+WARNING: [Loader Message] Code 0 : ICD for selected physical device does not export vkGetPhysicalDeviceDisplayPropertiesKHR!
+Secondary CUID not available: AMDCUID support not enabled.
+'DISPLAY' environment variable not set... skipping surface info
+error: XDG_RUNTIME_DIR is invalid or not set in the environment.
+WARNING: [Loader Message] Code 0 : ICD for selected physical device does not export vkGetPhysicalDeviceDisplayPlanePropertiesKHR!
+WARNING: [Loader Message] Code 0 : ICD for selected physical device does not export vkGetPhysicalDeviceDisplayPropertiesKHR!
+Secondary CUID not available: AMDCUID support not enabled.
+'DISPLAY' environment variable not set... skipping surface info
+error: XDG_RUNTIME_DIR is invalid or not set in the environment.
+WARNING: [Loader Message] Code 0 : ICD for selected physical device does not export vkGetPhysicalDeviceDisplayPlanePropertiesKHR!
+WARNING: [Loader Message] Code 0 : ICD for selected physical device does not export vkGetPhysicalDeviceDisplayPropertiesKHR!
+Secondary CUID not available: AMDCUID support not enabled.
+'DISPLAY' environment variable not set... skipping surface info
+error: XDG_RUNTIME_DIR is invalid or not set in the environment.
+WARNING: [Loader Message] Code 0 : ICD for selected physical device does not export vkGetPhysicalDeviceDisplayPlanePropertiesKHR!
+WARNING: [Loader Message] Code 0 : ICD for selected physical device does not export vkGetPhysicalDeviceDisplayPropertiesKHR!
+Secondary CUID not available: AMDCUID support not enabled.
+'DISPLAY' environment variable not set... skipping surface info
+error: XDG_RUNTIME_DIR is invalid or not set in the environment.
+WARNING: [Loader Message] Code 0 : ICD for selected physical device does not export vkGetPhysicalDeviceDisplayPlanePropertiesKHR!
+WARNING: [Loader Message] Code 0 : ICD for selected physical device does not export vkGetPhysicalDeviceDisplayPropertiesKHR!
+Secondary CUID not available: AMDCUID support not enabled.
+'DISPLAY' environment variable not set... skipping surface info
+error: XDG_RUNTIME_DIR is invalid or not set in the environment.
+WARNING: [Loader Message] Code 0 : ICD for selected physical device does not export vkGetPhysicalDeviceDisplayPlanePropertiesKHR!
+WARNING: [Loader Message] Code 0 : ICD for selected physical device does not export vkGetPhysicalDeviceDisplayPropertiesKHR!
+  during: internal gtt_used= 71630848  external gtt_used= 71630848  max sampled busy= 5.0%
+Secondary CUID not available: AMDCUID support not enabled.
+'DISPLAY' environment variable not set... skipping surface info
+error: XDG_RUNTIME_DIR is invalid or not set in the environment.
+WARNING: [Loader Message] Code 0 : ICD for selected physical device does not export vkGetPhysicalDeviceDisplayPlanePropertiesKHR!
+WARNING: [Loader Message] Code 0 : ICD for selected physical device does not export vkGetPhysicalDeviceDisplayPropertiesKHR!
+  after free: gtt_used= 71630848  (idle  71376896 )
+A106 leg4 device-load: PASS
+Secondary CUID not available: AMDCUID support not enabled.
+'DISPLAY' environment variable not set... skipping surface info
+error: XDG_RUNTIME_DIR is invalid or not set in the environment.
+WARNING: [Loader Message] Code 0 : ICD for selected physical device does not export vkGetPhysicalDeviceDisplayPlanePropertiesKHR!
+WARNING: [Loader Message] Code 0 : ICD for selected physical device does not export vkGetPhysicalDeviceDisplayPropertiesKHR!
+  placements total= 12  gpu/npu/cpu/none= 6 / 2 / 4 / 0  digest= 14661850525200458208
+A106 leg5 placements: PASS
+A106_TELEMETRY: PASS
+	Command being timed: "env LD_LIBRARY_PATH=/tmp/tmp.JZ6HfRQLkq /tmp/a106_bench"
+	User time (seconds): 0.59
+	System time (seconds): 0.62
+	Percent of CPU this job got: 93%
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 0:01.30
+	Average shared text size (kbytes): 0
+	Average unshared data size (kbytes): 0
+	Average stack size (kbytes): 0
+	Average total size (kbytes): 0
+	Maximum resident set size (kbytes): 119780
+	Average resident set size (kbytes): 0
+	Major (requiring I/O) page faults: 67
+	Minor (reclaiming a frame) page faults: 317808
+	Voluntary context switches: 2421
+	Involuntary context switches: 1023
+	Swaps: 0
+	File system inputs: 240280
+	File system outputs: 24
+	Socket messages sent: 0
+	Socket messages received: 0
+	Signals delivered: 0
+	Page size (bytes): 4096
+	Exit status: 0
+RUN_EXIT=0
+=== external observation AFTER (shell) ===
+5
+71376896
+ 18:57:26 up 1 day, 17:16,  1 user,  load average: 1.11, 1.10, 0.79

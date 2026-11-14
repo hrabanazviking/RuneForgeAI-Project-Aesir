@@ -1,0 +1,106 @@
+2026-11-13T18:48:56-05:00
+purpleraider
+9f75ab0d61aaaea29d44c1b1f8c2b1cb4dd025fa
+yrsa/aesir-team-27
+ 18:48:56 up 1 day, 17:07,  1 user,  load average: 0.13, 0.19, 0.50
+=== external observation BEFORE (shell) ===
+0
+75448320
+660152320
+XRT build version: 2.25.00
+Build hash: 
+Build hash date: 
+Git branch: 
+PID: 3485836
+UID: 1000
+[Fri Nov 13 23:48:56 2026 GMT]
+HOST: purpleraider
+EXE: /usr/bin/xrt-smi
+[xrt-smi] ERROR: mmap(addr=0x7a3ac4000000, len=67108864, prot=3, flags=8209, offset=4294967296) failed (err=-11): Resource temporarily unavailable
+  Name:                    AMD RYZEN AI MAX+ 395 w/ Radeon 8060S
+  Marketing Name:          AMD RYZEN AI MAX+ 395 w/ Radeon 8060S
+/dev/nvme0n1p3  1.7T  184G  1.6T  11% /home
+               total        used        free      shared  buff/cache   available
+Mem:             121           2         117           0           2         118
+staging=/tmp/tmp.8RUYGfzvZf
+cc_libaesir_hailo10h=0
+cc_libaesir_par=0
+cc_libaesir_hip=0
+cc_libaesir_zc=0
+cc_libaesir_aff=0
+cc_vulkan=0
+/home/volmarr/aesir-team-27/aesir_engine/tests/bench_telemetry_a106.mojo:116:11: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+        pa[i] = UInt8(1)
+        ~~^~~
+<unknown>:0: note: '__getitem__' declared here
+Imported from /home/volmarr/aesir-team-27/aesir_engine/tests/bench_telemetry_a106.mojo:47:
+/home/volmarr/aesir-team-27/aesir_engine/core/vulkan_buffers.mojo:267:24: warning: `alloc` without a `Layout` is deprecated, use the `Layout`-based `alloc` instead; as a temporary migration step, use `unsafe_alloc`
+        var name_buf = alloc[UInt8](256)
+                       ^~~~~
+<unknown>:0: note: 'alloc' declared here
+Imported from /home/volmarr/aesir-team-27/aesir_engine/tests/bench_telemetry_a106.mojo:47:
+/home/volmarr/aesir-team-27/aesir_engine/core/vulkan_buffers.mojo:295:24: warning: `alloc` without a `Layout` is deprecated, use the `Layout`-based `alloc` instead; as a temporary migration step, use `unsafe_alloc`
+        var name_buf = alloc[UInt8](256)
+                       ^~~~~
+<unknown>:0: note: 'alloc' declared here
+Imported from /home/volmarr/aesir-team-27/aesir_engine/tests/bench_telemetry_a106.mojo:36:
+/home/volmarr/aesir-team-27/aesir_engine/core/scheduler_telemetry.mojo:262:5: error: cannot synthesize implicit copy constructor because field 'lines' has non-implicitly-copyable type 'List[String]'
+    var lines: List[String]
+    ^
+/home/volmarr/aesir-team-27/.pixi/envs/default/bin/mojo: error: failed to parse the provided Mojo source module
+Command exited with non-zero status 1
+	Command being timed: "pixi run --frozen mojo build -I . --target-accelerator gfx1151 -Xlinker -L/tmp/tmp.8RUYGfzvZf -Xlinker -laesir_hailo10h -Xlinker -laesir_par -Xlinker -laesir_hip -Xlinker -laesir_vulkan -Xlinker -laesir_zc -Xlinker -laesir_aff -o /tmp/a106_bench aesir_engine/tests/bench_telemetry_a106.mojo"
+	User time (seconds): 0.62
+	System time (seconds): 0.05
+	Percent of CPU this job got: 99%
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 0:00.68
+	Average shared text size (kbytes): 0
+	Average unshared data size (kbytes): 0
+	Average stack size (kbytes): 0
+	Average total size (kbytes): 0
+	Maximum resident set size (kbytes): 145248
+	Average resident set size (kbytes): 0
+	Major (requiring I/O) page faults: 57
+	Minor (reclaiming a frame) page faults: 29200
+	Voluntary context switches: 447
+	Involuntary context switches: 25
+	Swaps: 0
+	File system inputs: 216776
+	File system outputs: 72
+	Socket messages sent: 0
+	Socket messages received: 0
+	Signals delivered: 0
+	Page size (bytes): 4096
+	Exit status: 1
+BUILD_EXIT=1
+env: '/tmp/a106_bench': No such file or directory
+env: use -[v]S to pass options in shebang lines
+Command exited with non-zero status 127
+	Command being timed: "env LD_LIBRARY_PATH=/tmp/tmp.8RUYGfzvZf /tmp/a106_bench"
+	User time (seconds): 0.00
+	System time (seconds): 0.00
+	Percent of CPU this job got: 50%
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 0:00.00
+	Average shared text size (kbytes): 0
+	Average unshared data size (kbytes): 0
+	Average stack size (kbytes): 0
+	Average total size (kbytes): 0
+	Maximum resident set size (kbytes): 10908
+	Average resident set size (kbytes): 0
+	Major (requiring I/O) page faults: 0
+	Minor (reclaiming a frame) page faults: 652
+	Voluntary context switches: 1
+	Involuntary context switches: 0
+	Swaps: 0
+	File system inputs: 0
+	File system outputs: 0
+	Socket messages sent: 0
+	Socket messages received: 0
+	Signals delivered: 0
+	Page size (bytes): 4096
+	Exit status: 127
+RUN_EXIT=127
+=== external observation AFTER (shell) ===
+0
+75448320
+ 18:48:57 up 1 day, 17:07,  1 user,  load average: 0.13, 0.19, 0.50

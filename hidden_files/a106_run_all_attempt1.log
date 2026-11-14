@@ -1,0 +1,46 @@
+=== A-106 E-MASTER run (team-27) ===
+2026-11-13T19:02:27-05:00
+purpleraider
+Linux purpleraider 7.3.0-10-generic #10-Ubuntu SMP PREEMPT_DYNAMIC Thu Oct 22 07:35:54 UTC 2026 x86_64 GNU/Linux
+9f75ab0d61aaaea29d44c1b1f8c2b1cb4dd025fa
+yrsa/aesir-team-27
+Mojo 1.2.0 (2016d0cd)
+staging=/tmp/tmp.S8CnwPGun9
+stub_cc_exit=0
+par_cc_exit=0
+hip_cc_exit=0
+zc_cc_exit=0
+vulkan_cc_exit=0
+/home/volmarr/aesir-team-27/aesir_engine/tests/run_all.mojo:395:41: error: expected construct name to import
+    test_telemetry_cpu_util_live_window,
+                                        ^
+/home/volmarr/aesir-team-27/aesir_engine/tests/run_all.mojo:395:41: note: escape keyword 'from' with backticks to use it as an identifier
+    test_telemetry_cpu_util_live_window,
+                                        ^
+/home/volmarr/aesir-team-27/.pixi/envs/default/bin/mojo: error: failed to parse the provided Mojo source module
+Command exited with non-zero status 1
+	Command being timed: "pixi run --frozen mojo run -I . --target-accelerator gfx1151 -Xlinker -L/tmp/tmp.S8CnwPGun9 -Xlinker -laesir_hailo10h -Xlinker -laesir_par -Xlinker -laesir_hip -Xlinker -laesir_vulkan -Xlinker -laesir_zc -Xlinker -laesir_aff aesir_engine/tests/run_all.mojo"
+	User time (seconds): 0.05
+	System time (seconds): 0.06
+	Percent of CPU this job got: 15%
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 0:00.72
+	Average shared text size (kbytes): 0
+	Average unshared data size (kbytes): 0
+	Average stack size (kbytes): 0
+	Average total size (kbytes): 0
+	Maximum resident set size (kbytes): 96784
+	Average resident set size (kbytes): 0
+	Major (requiring I/O) page faults: 93
+	Minor (reclaiming a frame) page faults: 17142
+	Voluntary context switches: 574
+	Involuntary context switches: 64
+	Swaps: 0
+	File system inputs: 271904
+	File system outputs: 168
+	Socket messages sent: 0
+	Socket messages received: 0
+	Signals delivered: 0
+	Page size (bytes): 4096
+	Exit status: 1
+MOJO_EXIT=1
+=== end 2026-11-13T19:02:29-05:00 ===

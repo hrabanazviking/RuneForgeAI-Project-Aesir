@@ -17,6 +17,7 @@ from core.gpu_winner import (
 )
 from core.device_policy import default_placement_policy
 from core.placement_planner import planner_fixture_lines, planner_summary
+from core.scheduler_telemetry import observe_scheduler_telemetry, scheduler_telemetry_json, scheduler_telemetry_lines
 from server.api import json_escape_string
 from core.native_diagnostics import (
     human_bytes,
@@ -183,6 +184,7 @@ def dispatch_doctor(args: List[String]) raises:
 
     var census = observe_hardware_census()
     var thermal = observe_thermal_power()
+    var telemetry = observe_scheduler_telemetry()
 
     var store_ok = False
     var store_detail: String
@@ -412,6 +414,7 @@ def dispatch_doctor(args: List[String]) raises:
         placement_json += ',"npu_execution_proven":' + _json_bool(placement_policy.npu_execution_proven) + '}'
         output += ',"placement":' + placement_json
         output += ',"placement_planner":' + _json_string(planner_summary())
+        output += ',"scheduler_telemetry":' + scheduler_telemetry_json(telemetry)
         output += ',"model":' + optional_model + ',"issues":' + issues_json + '}'
         print(output)
         return
@@ -459,6 +462,10 @@ def dispatch_doctor(args: List[String]) raises:
     print("\nPlacement planner (A-100, measured tables)\n")
     for planner_line in planner_fixture_lines(backend_registry):
         print("  " + planner_line)
+
+    print("\nScheduler telemetry (A-106)\n")
+    for telemetry_line in scheduler_telemetry_lines(telemetry):
+        print("  " + telemetry_line)
 
     print("\nHardware census (runtime-observed)\n")
     var census_rendered = census_lines(census)
