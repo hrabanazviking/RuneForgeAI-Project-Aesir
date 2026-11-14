@@ -1,0 +1,6 @@
+PASS: Q4_K hand-built block -- all 256 lanes exact (incl. g>=4 packed scale/min reconstruction), hand lanes 14.25 / 96.75 / 87.25
+PASS: Q5_K hand-built block -- all 256 lanes exact (high-bit lanes included), hand lanes 94.25 / 124.25
+PASS: Q6_K hand-built block -- all 256 lanes exact (signed scales incl. negatives), hand lanes 50.0 / -18.0
+PASS: dense passthroughs F32 / F16 / BF16 exact
+PASS: unwired types refused by name (2,3,6,7,8,9,10,11,15,20,23); keep-reason string present
+QC-3b dequantizing input path proof: ALL PASS
