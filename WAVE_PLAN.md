@@ -68,7 +68,7 @@ when its lead is live on its assigned slice in its own worktree.
 
 ## State
 
-- Banked: **114 of 216** (A-001..A-114). A-114 banked at the
+- Banked: **115 of 216** (A-001..A-115). A-115 banked at the seat 2026-11-13 (team-25 commit 864b9c2f cherry-picked as 0e97855f clean, no conflicts, +13 run_all cases, seat pin 727 -> 740; token-exactness policy encoded - ten measured families TOKEN_EXACTNESS_OWED under the A-111 gate, nine IQ families COHERENCE_ONLY, unknown labels refused; Capability Ledger section 26 entry Z13-P5-115 filed by the team commit and the E-MASTER phrase at the checker form for 740; seat gate 737/1/2 of 740 exact on run 1 solo, sole failure J-022, no intermittent fired; full note in PROJECT_MEMORY_MAP). Wave 13 stands at 7 of 9 (A-109..A-115). A-114 banked at the
   seat 2026-11-13 (team-27 commit 1eb395aa cherry-picked
   as 730666a2 with the run_all and Capability Ledger
   unions composed at banking, +12 run_all cases, seat pin
