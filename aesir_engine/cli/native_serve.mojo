@@ -791,7 +791,7 @@ def dispatch_native_serve(args: List[String]) raises:
         var session = Llama3CUDASession(model_path, plan.context_length, device, reserve, sampling, prefix_cache, prefill_batch, api=acceleration)
         serve_loaded(session, port, key, plan.profile, plan.context_length, token_limit, timeout_ms, io_timeout_ms, interrupts.fd, ollama, model_info, model_store, resolved.from_catalog, llama3_memory_plan(Int(model_size), plan.context_length, session.profile, session.prefill_batch).device_bytes, sampling, effective.system, effective.has_system, queue_limit, queue_timeout_ms, prefix_cache, session.prefill_batch, backend=acceleration)
     else:
-        var session = Gemma4CUDASession(model_path, plan.context_length, device, reserve, sampling, api=acceleration)
-        serve_loaded(session, port, key, plan.profile, plan.context_length, token_limit, timeout_ms, io_timeout_ms, interrupts.fd, ollama, model_info, model_store, resolved.from_catalog, plan.memory.device_bytes, sampling, effective.system, effective.has_system, queue_limit, queue_timeout_ms, backend=acceleration)
+        var session = Gemma4CUDASession(model_path, plan.context_length, device, reserve, sampling, prefix_cache, api=acceleration)
+        serve_loaded(session, port, key, plan.profile, plan.context_length, token_limit, timeout_ms, io_timeout_ms, interrupts.fd, ollama, model_info, model_store, resolved.from_catalog, plan.memory.device_bytes, sampling, effective.system, effective.has_system, queue_limit, queue_timeout_ms, prefix_cache, 1, backend=acceleration)
     _ = interrupts
     _ = blob_lease

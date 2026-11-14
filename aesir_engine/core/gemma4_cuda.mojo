@@ -10,6 +10,7 @@ from core.cuda_sampling import NativeCUDASampler
 from core.cuda_upload import upload_cuda_bytes
 from core.sampling_config import NativeSamplingConfig
 from core.generation_control import GenerationControl, NativeGenerationStatus, ControlledTextSession
+from core.prompt_prefix import reusable_prompt_prefix
 from core.grammar import BooleanJSONGrammar
 from core.tool_use import validate_gemma_zero_arg_tool
 from core.gemma4_kernels import (
@@ -56,6 +57,9 @@ struct Gemma4CUDASession(ControlledTextSession):
     var pending_token: Int
     var finish_reason: String
     var committed_tokens: List[Int]
+    var cached_tokens: List[Int]
+    var prefix_cache: Bool
+    var reused_prompt_tokens: Int
     var decoder: RuneStreamDecoder
     var sampler: NativeCUDASampler
     var control: GenerationControl
@@ -71,6 +75,7 @@ struct Gemma4CUDASession(ControlledTextSession):
     def __init__(out self, path: String, context_length: Int = 0,
                  device_index: Int = 0, reserve_bytes: Int = 268435456,
                  sampling: NativeSamplingConfig = NativeSamplingConfig(),
+                 prefix_cache: Bool = True,
                  api: String = "cuda") raises:
         sampling.validate()
         if device_index < 0 or reserve_bytes < 0:
@@ -97,6 +102,9 @@ struct Gemma4CUDASession(ControlledTextSession):
         self.pending_token = -1
         self.finish_reason = ""
         self.committed_tokens = List[Int]()
+        self.cached_tokens = List[Int]()
+        self.prefix_cache = prefix_cache
+        self.reused_prompt_tokens = 0
         self.decoder = RuneStreamDecoder()
         self.kv_offsets = List[Int]()
         var cache_elements = 0
@@ -329,6 +337,10 @@ struct Gemma4CUDASession(ControlledTextSession):
         self.finish_reason = ""
         self.decoder = RuneStreamDecoder()
         self.control.start()
+        var reuse = 0
+        self.reused_prompt_tokens = 0
+        if self.position == 0 and self.prefix_cache and not self.span_active:
+            reuse = reusable_prompt_prefix(self.cached_tokens, tokens)
         for i in range(len(tokens)):
             var reason: String
             try:
@@ -342,18 +354,34 @@ struct Gemma4CUDASession(ControlledTextSession):
                 self.finish_reason = reason
                 self.pending_token = -1
                 raise Error("CUDA prefill " + reason + "; explicit reset required")
-            self.pending_token = self.forward(tokens[i], i == len(tokens) - 1)
+            if i < reuse:
+                # Exact model/token/position equality preserves KV (the
+                # Llama 3 session's discipline, ported). Synchronize before
+                # committing any reused token; an execution failure leaves
+                # healthy=False and prevents reuse.
+                self.healthy = False
+                self.sampler.record(tokens[i])
+                self.context.synchronize()
+                self.position += 1
+                self.committed_tokens.append(tokens[i])
+                self.reused_prompt_tokens += 1
+                self.healthy = True
+            else:
+                self.pending_token = self.forward(tokens[i], i == len(tokens) - 1)
         self.generating = True
 
     def reset(mut self) raises:
         if not self.healthy or self.generating:
             raise Error("Cannot reset a busy or failed CUDA session")
         self.healthy = False
+        if self.prefix_cache:
+            self.cached_tokens = self.committed_tokens.copy()
         self.sampler.clear()
         self.context.synchronize()
         self.position = 0
         self.generated_tokens = 0
         self.prompt_tokens = 0
+        self.reused_prompt_tokens = 0
         self.pending_token = -1
         self.finish_reason = "reset"
         self.committed_tokens.clear()
@@ -497,4 +525,4 @@ struct Gemma4CUDASession(ControlledTextSession):
     def status(self) -> NativeGenerationStatus:
         return NativeGenerationStatus(self.healthy, self.generating, self.prompt_tokens,
                                       self.generated_tokens, self.position, self.finish_reason,
-                                      0)
+                                      self.reused_prompt_tokens)

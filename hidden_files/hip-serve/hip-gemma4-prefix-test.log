@@ -1,0 +1,20 @@
+Secondary CUID not available: AMDCUID support not enabled.
+[HIP] native Mojo Gemma 4 E2B; device=0 api=hip layers=35/35 weights_bytes=3106738272 kv_bytes=18874368 context=512 host_staging_bytes=67108864 cpu_offload=0
+gemma prefix case 0 enabled False
+gemma prefix case 1 enabled False
+gemma prefix case 2 enabled False
+gemma prefix case 3 enabled False
+gemma prefix case 4 enabled False
+gemma prefix case 0 enabled True
+gemma prefix case 1 enabled True
+gemma prefix case 2 enabled True
+gemma prefix case 3 enabled True
+gemma prefix case 4 enabled True
+gemma hip reply 0 :: Four|eos|1
+gemma hip reply 1 :: Four|eos|1
+gemma hip reply 2 :: Five|eos|1
+gemma hip reply 3 :: The silver ship glinted under the moonlight.|eos|10
+gemma hip reply 4 :: The silver ship glinted under the moonlight.|eos|10
+PASS: five cached/fresh Gemma 4 HIP replies, repeat/divergence isolation, disabled-cache zero reuse
+Warning: Resource leak detected by SharedSignalPool, 147 Signals leaked.
+RUN_EXIT=0
