@@ -1,6 +1,6 @@
 # Qwen35 Adapter Campaign — Ledger
 
-## 2026-11-14 — QC-2: Q8_0 quantizer + round-trip property tests (worker slice; WORKER DRAFT — coordinator integrates)
+## 2026-11-14 — QC-2: Q8_0 quantizer + round-trip property tests (worker slice; verified + banked by coordinator)
 
 - DELIVERED: aesir_engine/core/quantize.mojo (new, ONE module in
   core/ beside the dequantizers it inverts, per QC-0 section 6) —
@@ -58,6 +58,17 @@
   (QC-3 owns cli/commands.mojo dispatch per QC-0 section 6);
   streaming quantizer entry named as QC-6 road. Full notes:
   QC-2-NOTES.md.
+
+- Coordinator verification (2026-11-14): proof log re-read
+  from disk (round-trip bound worst ratio 0.8951; 1M-element
+  file round-trip max err 0.19629216; ALL PASS); remote
+  yrsa/qc-2 == bf29712d confirmed by ls-remote before merge;
+  fast-forwarded into yrsa/hip-serve and banked. Plan
+  erratum E-1 stands (ggml roundf, half away from zero,
+  pinned by byte-exact tie tests). Findings F-1 (engine
+  dequant writes f16 — engine-path proof stated for
+  amax <= 65504) and F-2 (GGUFSeer failed-load dangling
+  pointers) recorded, readers untouched.
 
 ## 2026-11-14 — QC-1: GGUF writer core — spec-exact v3 emission + metadata-copy path (worker slice; verified + banked by coordinator)
 
