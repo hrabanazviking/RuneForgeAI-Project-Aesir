@@ -1,0 +1,8 @@
+health: {"status": "ready", "backend": "hip", "cpu_offload": 0, "profile": "llama3", "context": 4096, "model": "llama3-3b:latest", "model_digest": "sha256:6c99cc00ae910f6a532a80022cb4bc1939094527a089c29294b841c0bd87f74d", "max_tokens": 256, "generation_timeout_ms": 30000, "capabilities": {"text_generation": true, "embeddings": false, "exact_prefix_reuse": true}, "prefill_batch": 4, "queue_limit": 4}
+turn1: prompt_tokens=50 reused=0 evaluated=50 generated=27 prefill_ms=332 decode_ms=494 wall_ms=828 finish=eos
+turn1 text: "Nice to meet you, Volmarr! I've taken note that your favourite colour is purple. How can I assist you today?"
+turn2: prompt_tokens=92 reused=44 evaluated=48 generated=39 prefill_ms=347 decode_ms=725 wall_ms=1072 finish=eos
+turn2 text: "Nice to meet you, Volmarr! I've noted that your favourite colour is purple. You're Volmarr, and your favourite colour is purple. How can I assist you today?"
+turn3-control-changed-system: prompt_tokens=81 reused=5 evaluated=76 generated=20 prefill_ms=515 decode_ms=376 wall_ms=891 finish=eos
+turn3-control-changed-system text: "Nice to meet you, Volmarr! I've taken note that your favourite colour is purple."
+BENCH DONE

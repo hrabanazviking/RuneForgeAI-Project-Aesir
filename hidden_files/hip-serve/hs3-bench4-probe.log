@@ -1,0 +1,4 @@
+probe1: prompt_tokens=50 reused=5 generated=27
+probe2-identical-prompt: prompt_tokens=50 reused=49 generated=27
+probe3-prompt-plus-reply: prompt_tokens=77 reused=44 generated=28
+PROBE DONE

@@ -360,6 +360,7 @@ struct OpenAIGate:
         finish_reason: String,
         prompt_tokens: Int,
         completion_tokens: Int,
+        reused_prompt_tokens: Int = -1,
     ) raises -> String:
         """Formats one bounded response from caller-observed generation data."""
         OpenAIGate._validate_identity(request_id, created_unix, model)
@@ -385,7 +386,10 @@ struct OpenAIGate:
         res += "\"\n    }\n  ],\n  \"usage\": {\n    \"prompt_tokens\": "
         res += String(prompt_tokens)
         res += ",\n    \"completion_tokens\": " + String(completion_tokens)
-        res += ",\n    \"total_tokens\": " + String(total_tokens) + "\n  }\n}"
+        res += ",\n    \"total_tokens\": " + String(total_tokens)
+        if reused_prompt_tokens >= 0:
+            res += ",\n    \"reused_prompt_tokens\": " + String(reused_prompt_tokens)
+        res += "\n  }\n}"
         return res
 
     @staticmethod
@@ -448,6 +452,7 @@ struct OpenAIGate:
     def format_completion(
         request_id: String, created_unix: Int, model: String, text: String,
         finish_reason: String, prompt_tokens: Int, completion_tokens: Int,
+        reused_prompt_tokens: Int = -1,
     ) raises -> String:
         OpenAIGate._validate_identity(request_id, created_unix, model)
         OpenAIGate._validate_finish_reason(finish_reason, False)
@@ -458,7 +463,11 @@ struct OpenAIGate:
                 or completion_tokens > 4611686018427387903 - prompt_tokens):
             raise Error("OpenAI response token count overflow")
         var total_tokens = prompt_tokens + completion_tokens
-        return "{\"id\":\"" + json_escape_string(request_id) + "\",\"object\":\"text_completion\",\"created\":" + String(created_unix) + ",\"model\":\"" + json_escape_string(model) + "\",\"choices\":[{\"text\":\"" + json_escape_string(text) + "\",\"index\":0,\"finish_reason\":\"" + json_escape_string(finish_reason) + "\"}],\"usage\":{\"prompt_tokens\":" + String(prompt_tokens) + ",\"completion_tokens\":" + String(completion_tokens) + ",\"total_tokens\":" + String(total_tokens) + "}}"
+        var res = "{\"id\":\"" + json_escape_string(request_id) + "\",\"object\":\"text_completion\",\"created\":" + String(created_unix) + ",\"model\":\"" + json_escape_string(model) + "\",\"choices\":[{\"text\":\"" + json_escape_string(text) + "\",\"index\":0,\"finish_reason\":\"" + json_escape_string(finish_reason) + "\"}],\"usage\":{\"prompt_tokens\":" + String(prompt_tokens) + ",\"completion_tokens\":" + String(completion_tokens) + ",\"total_tokens\":" + String(total_tokens)
+        if reused_prompt_tokens >= 0:
+            res += ",\"reused_prompt_tokens\":" + String(reused_prompt_tokens)
+        res += "}}"
+        return res
 
     @staticmethod
     def format_completion_chunk(

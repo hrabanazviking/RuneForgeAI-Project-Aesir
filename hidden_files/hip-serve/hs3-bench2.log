@@ -1,0 +1,7 @@
+B-turn1: prompt_tokens=50 reused=5 evaluated=45 generated=27 prefill_ms=288 decode_ms=494 wall_ms=788 finish=eos
+B-turn1 text: "Nice to meet you, Volmarr! I've taken note that your favourite colour is purple. How can I assist you today?"
+B-turn2-append-exact: prompt_tokens=92 reused=44 evaluated=48 generated=36 prefill_ms=343 decode_ms=658 wall_ms=1002 finish=eos
+B-turn2-append-exact text: "Nice to meet you too, Volmarr! You're right, I did note that your favourite colour is purple. You'd like to know how I can assist you today."
+B-turn3-newline-seam: prompt_tokens=92 reused=71 evaluated=21 generated=44 prefill_ms=148 decode_ms=812 wall_ms=960 finish=eos
+B-turn3-newline-seam text: "Nice to meet you too, Volmarr! You're right, I did note that your favourite colour is purple. You're Volmarr, and your favourite colour is purple. How can I assist you today?"
+BENCH2 DONE

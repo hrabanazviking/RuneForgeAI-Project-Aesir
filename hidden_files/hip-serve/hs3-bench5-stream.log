@@ -1,0 +1,3 @@
+content-type: text/event-stream
+streamed chunks=5 done_marker=True text='Hello!'
+STREAM PROBE DONE

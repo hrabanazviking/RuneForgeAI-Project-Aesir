@@ -1,0 +1,7 @@
+C-turn1: prompt_tokens=52 reused=0 evaluated=52 completion=27 wall_ms=825
+C-turn1 text: "Nice to meet you, Volmarr! I've taken note that your favourite colour is purple. How can I assist you today?"
+C-turn2: prompt_tokens=98 reused=46 evaluated=52 completion=14 wall_ms=610
+C-turn2 text: 'Your name is Volmarr, and your favourite colour is purple.'
+C-turn3-control-changed-system: prompt_tokens=87 reused=5 evaluated=82 completion=14 wall_ms=747
+C-turn3-control-changed-system text: 'Your name is Volmarr, and your favourite colour is purple.'
+BENCH3 DONE

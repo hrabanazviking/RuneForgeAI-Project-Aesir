@@ -72,18 +72,21 @@ struct NativeGenerationStatus(Copyable, ImplicitlyCopyable):
     var healthy: Bool
     var generating: Bool
     var prompt_tokens: Int
+    var reused_prompt_tokens: Int
     var generated_tokens: Int
     var position: Int
     var finish_reason: String
 
     def __init__(out self, healthy: Bool, generating: Bool, prompt_tokens: Int,
-                 generated_tokens: Int, position: Int, finish_reason: String):
+                 generated_tokens: Int, position: Int, finish_reason: String,
+                 reused_prompt_tokens: Int):
         self.healthy = healthy
         self.generating = generating
         self.prompt_tokens = prompt_tokens
         self.generated_tokens = generated_tokens
         self.position = position
         self.finish_reason = finish_reason
+        self.reused_prompt_tokens = reused_prompt_tokens
 
 
 
