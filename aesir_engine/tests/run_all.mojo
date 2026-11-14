@@ -923,6 +923,21 @@ from tests.test_moe_battery_a121 import (
     test_moe_synthetic_labelled,
     test_moe_synthetic_raw_rule,
 )
+from tests.test_attention_battery_a122 import (
+    test_attn_axes_product,
+    test_attn_backend_not_graded,
+    test_attn_digest_deterministic,
+    test_attn_enumeration_unique,
+    test_attn_gqa_delegates_matrix,
+    test_attn_gqa_filed_counts,
+    test_attn_invalid_axes_refused,
+    test_attn_iq_precedence,
+    test_attn_mla_attestation,
+    test_attn_policy_obligation,
+    test_attn_row_line_render,
+    test_attn_summary_sums,
+    test_attn_variant_cpu_not_graded,
+)
 from tests.test_placement_planner_a100 import (
     test_planner_standard_fixtures,
     test_planner_prefill_variants,
@@ -1925,6 +1940,19 @@ def main() raises:
     run_case(ledger, "moe.battery_synthetic_defects", test_moe_synthetic_defects)
     run_case(ledger, "moe.battery_invalid_axes_refused", test_moe_invalid_axes_refused)
     run_case(ledger, "moe.battery_digest_deterministic", test_moe_digest_deterministic)
+    run_case(ledger, "attn.battery_axes_product", test_attn_axes_product)
+    run_case(ledger, "attn.battery_enumeration_unique", test_attn_enumeration_unique)
+    run_case(ledger, "attn.battery_policy_obligation", test_attn_policy_obligation)
+    run_case(ledger, "attn.battery_gqa_delegates_matrix", test_attn_gqa_delegates_matrix)
+    run_case(ledger, "attn.battery_gqa_filed_counts", test_attn_gqa_filed_counts)
+    run_case(ledger, "attn.battery_variant_cpu_not_graded", test_attn_variant_cpu_not_graded)
+    run_case(ledger, "attn.battery_backend_not_graded", test_attn_backend_not_graded)
+    run_case(ledger, "attn.battery_mla_attestation", test_attn_mla_attestation)
+    run_case(ledger, "attn.battery_summary_sums", test_attn_summary_sums)
+    run_case(ledger, "attn.battery_iq_precedence", test_attn_iq_precedence)
+    run_case(ledger, "attn.battery_invalid_axes_refused", test_attn_invalid_axes_refused)
+    run_case(ledger, "attn.battery_row_line_render", test_attn_row_line_render)
+    run_case(ledger, "attn.battery_digest_deterministic", test_attn_digest_deterministic)
     run_case(ledger, "planner.standard_fixtures", test_planner_standard_fixtures)
     run_case(ledger, "planner.prefill_variants", test_planner_prefill_variants)
     run_case(ledger, "planner.gemm_thresholds", test_planner_gemm_thresholds)
@@ -2732,4 +2760,8 @@ def main() raises:
     # tests/test_moe_battery_a121.mojo) counted on top of
     # the A-120 seat pin (A-119/A-120 built in parallel
     # on the same seat; union reconciles at banking).
-    ledger.finish(814)
+    # A-122 re-pin: 814 -> 827 -- thirteen attention
+    # variants battery cases (attn.battery_* in
+    # tests/test_attention_battery_a122.mojo) counted on
+    # top of the A-121 seat pin.
+    ledger.finish(827)

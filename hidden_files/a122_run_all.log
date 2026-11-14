@@ -1,0 +1,3281 @@
+=== A-122 E-MASTER run (team-25) ===
+2026-11-14T01:34:40-05:00
+purpleraider
+881f50252b7995a5169eaa2f21cab0d036da7659
+yrsa/aesir-team-25
+Mojo 1.2.0 (2016d0cd)
+staging=/tmp/tmp.T4vfbVyFMv
+stub_cc_exit=0
+par_cc_exit=0
+hip_cc_exit=0
+zc_cc_exit=0
+aff_cc_exit=0
+Imported from /home/volmarr/aesir-team-25/aesir_engine/tests/run_all.mojo:564:
+/home/volmarr/aesir-team-25/aesir_engine/tests/test_big_model_placement_a104.mojo:23:1: warning: 'alias' is deprecated; use 'comptime'
+alias CTX = 4096
+^~~~~
+comptime
+Imported from /home/volmarr/aesir-team-25/aesir_engine/tests/run_all.mojo:564:
+/home/volmarr/aesir-team-25/aesir_engine/tests/test_big_model_placement_a104.mojo:25:1: warning: 'alias' is deprecated; use 'comptime'
+alias LAST16 = 2109440000
+^~~~~
+comptime
+Imported from /home/volmarr/aesir-team-25/aesir_engine/tests/run_all.mojo:197:
+/home/volmarr/aesir-team-25/aesir_engine/tests/test_amd_realm.mojo:262:20: warning: `alloc` without a `Layout` is deprecated, use the `Layout`-based `alloc` instead; as a temporary migration step, use `unsafe_alloc`
+        var host = alloc[UInt8](n)
+                   ^~~~~
+<unknown>:0: note: 'alloc' declared here
+Imported from /home/volmarr/aesir-team-25/aesir_engine/tests/run_all.mojo:197:
+/home/volmarr/aesir-team-25/aesir_engine/tests/test_amd_realm.mojo:410:16: warning: `alloc` without a `Layout` is deprecated, use the `Layout`-based `alloc` instead; as a temporary migration step, use `unsafe_alloc`
+    var host = alloc[UInt8](n)
+               ^~~~~
+<unknown>:0: note: 'alloc' declared here
+Imported from /home/volmarr/aesir-team-25/aesir_engine/tests/run_all.mojo:197:
+/home/volmarr/aesir-team-25/aesir_engine/tests/test_amd_realm.mojo:518:22: warning: `alloc` without a `Layout` is deprecated, use the `Layout`-based `alloc` instead; as a temporary migration step, use `unsafe_alloc`
+        var oracle = alloc[UInt8](n)
+                     ^~~~~
+<unknown>:0: note: 'alloc' declared here
+Imported from /home/volmarr/aesir-team-25/aesir_engine/tests/run_all.mojo:197:
+/home/volmarr/aesir-team-25/aesir_engine/tests/test_amd_realm.mojo:519:20: warning: `alloc` without a `Layout` is deprecated, use the `Layout`-based `alloc` instead; as a temporary migration step, use `unsafe_alloc`
+        var back = alloc[UInt8](n)
+                   ^~~~~
+<unknown>:0: note: 'alloc' declared here
+Imported from /home/volmarr/aesir-team-25/aesir_engine/tests/run_all.mojo:197:
+/home/volmarr/aesir-team-25/aesir_engine/tests/test_amd_realm.mojo:542:17: warning: `alloc` without a `Layout` is deprecated, use the `Layout`-based `alloc` instead; as a temporary migration step, use `unsafe_alloc`
+    var thost = alloc[UInt8](tn)
+                ^~~~~
+<unknown>:0: note: 'alloc' declared here
+Imported from /home/volmarr/aesir-team-25/aesir_engine/tests/run_all.mojo:197:
+/home/volmarr/aesir-team-25/aesir_engine/tests/test_amd_realm.mojo:730:17: warning: `alloc` without a `Layout` is deprecated, use the `Layout`-based `alloc` instead; as a temporary migration step, use `unsafe_alloc`
+    var dummy = alloc[UInt8](64)
+                ^~~~~
+<unknown>:0: note: 'alloc' declared here
+Imported from /home/volmarr/aesir-team-25/aesir_engine/tests/run_all.mojo:227:
+/home/volmarr/aesir-team-25/aesir_engine/tests/test_weight_residency.mojo:175:21: warning: `alloc` without a `Layout` is deprecated, use the `Layout`-based `alloc` instead; as a temporary migration step, use `unsafe_alloc`
+    var host_copy = alloc[UInt8](size)
+                    ^~~~~
+<unknown>:0: note: 'alloc' declared here
+Imported from /home/volmarr/aesir-team-25/aesir_engine/tests/run_all.mojo:319:
+/home/volmarr/aesir-team-25/aesir_engine/tests/test_accum_policy_a075.mojo:91:21: warning: 'if' condition always evaluates to 'False'; 'if' branch is unreachable
+    if KERNEL_COUNT != 25:
+                    ^
+Imported from /home/volmarr/aesir-team-25/aesir_engine/tests/run_all.mojo:319:
+/home/volmarr/aesir-team-25/aesir_engine/tests/test_accum_policy_a075.mojo:93:25: warning: 'if' condition always evaluates to 'False'; 'if' branch is unreachable
+    if POLICY_ROW_COUNT != KERNEL_COUNT + CPU_SITE_COUNT:
+                        ^
+Imported from /home/volmarr/aesir-team-25/aesir_engine/tests/run_all.mojo:319:
+/home/volmarr/aesir-team-25/aesir_engine/tests/test_accum_policy_a075.mojo:95:23: warning: 'if' condition always evaluates to 'False'; 'if' branch is unreachable
+    if CPU_SITE_COUNT != 5:
+                      ^
+Imported from /home/volmarr/aesir-team-25/aesir_engine/tests/run_all.mojo:343:
+/home/volmarr/aesir-team-25/aesir_engine/tests/test_device_lost_a079.mojo:88:29: warning: 'if' condition always evaluates to 'False'; 'if' branch is unreachable
+    if VK_ERROR_DEVICE_LOST != -4:
+                            ^
+Imported from /home/volmarr/aesir-team-25/aesir_engine/tests/run_all.mojo:369:
+/home/volmarr/aesir-team-25/aesir_engine/tests/test_spillover_policy_a102.mojo:205:12: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+        ptr[i] = UInt8((i * 31 + 7) % 251)
+        ~~~^~~
+<unknown>:0: note: '__getitem__' declared here
+Imported from /home/volmarr/aesir-team-25/aesir_engine/tests/run_all.mojo:369:
+/home/volmarr/aesir-team-25/aesir_engine/tests/test_spillover_policy_a102.mojo:210:32: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+        checksum += UInt64(back[i])
+                           ~~~~^~~
+<unknown>:0: note: '__getitem__' declared here
+Imported from /home/volmarr/aesir-team-25/aesir_engine/tests/run_all.mojo:378:
+/home/volmarr/aesir-team-25/aesir_engine/tests/test_fairness_a105.mojo:287:20: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+                ptr[filled_a * _CHUNK + i] = UInt8((i * 31 + 7) % 251)
+                ~~~^~~~~~~~~~~~~~~~~~~~~~~
+<unknown>:0: note: '__getitem__' declared here
+Imported from /home/volmarr/aesir-team-25/aesir_engine/tests/run_all.mojo:378:
+/home/volmarr/aesir-team-25/aesir_engine/tests/test_fairness_a105.mojo:293:20: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+                ptr[filled_b * _CHUNK + i] = UInt8((i * 17 + 3) % 241)
+                ~~~^~~~~~~~~~~~~~~~~~~~~~~
+<unknown>:0: note: '__getitem__' declared here
+Imported from /home/volmarr/aesir-team-25/aesir_engine/tests/run_all.mojo:378:
+/home/volmarr/aesir-team-25/aesir_engine/tests/test_fairness_a105.mojo:305:31: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+        sum_a += UInt64(back_a[i])
+                        ~~~~~~^~~
+<unknown>:0: note: '__getitem__' declared here
+Imported from /home/volmarr/aesir-team-25/aesir_engine/tests/run_all.mojo:378:
+/home/volmarr/aesir-team-25/aesir_engine/tests/test_fairness_a105.mojo:310:31: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+        sum_b += UInt64(back_b[i])
+                        ~~~~~~^~~
+<unknown>:0: note: '__getitem__' declared here
+Imported from /home/volmarr/aesir-team-25/aesir_engine/tests/run_all.mojo:388:
+/home/volmarr/aesir-team-25/aesir_engine/tests/test_telemetry_a106.mojo:242:12: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+        ptr[i] = UInt8((i * 31 + 7) % 251)
+        ~~~^~~
+<unknown>:0: note: '__getitem__' declared here
+Imported from /home/volmarr/aesir-team-25/aesir_engine/tests/run_all.mojo:388:
+/home/volmarr/aesir-team-25/aesir_engine/tests/test_telemetry_a106.mojo:247:32: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+        checksum += UInt64(back[i])
+                           ~~~~^~~
+<unknown>:0: note: '__getitem__' declared here
+Imported from /home/volmarr/aesir-team-25/aesir_engine/tests/run_all.mojo:414:
+/home/volmarr/aesir-team-25/aesir_engine/tests/test_cpu_assist_a070.mojo:179:21: warning: 'if' condition always evaluates to 'False'; 'if' branch is unreachable
+    if ASSIST_COUNT != 10:
+                    ^
+Imported from /home/volmarr/aesir-team-25/aesir_engine/tests/run_all.mojo:496:
+/home/volmarr/aesir-team-25/aesir_engine/tests/test_rocm_repro_a087.mojo:70:23: warning: 'if' condition always evaluates to 'False'; 'if' branch is unreachable
+    if ROCM_PIN_COUNT != 9:
+                      ^
+Imported from /home/volmarr/aesir-team-25/aesir_engine/tests/run_all.mojo:511:
+/home/volmarr/aesir-team-25/aesir_engine/tests/test_buffer_ownership.mojo:89:16: warning: `alloc` without a `Layout` is deprecated, use the `Layout`-based `alloc` instead; as a temporary migration step, use `unsafe_alloc`
+    var host = alloc[UInt8](4096)
+               ^~~~~
+<unknown>:0: note: 'alloc' declared here
+Imported from /home/volmarr/aesir-team-25/aesir_engine/tests/run_all.mojo:525:
+Imported from /home/volmarr/aesir-team-25/aesir_engine/tests/test_thread_scaling.mojo:22:
+/home/volmarr/aesir-team-25/aesir_engine/core/parallel.mojo:39:1: warning: 'alias' is deprecated; use 'comptime'
+alias RangeFn = def(Int64, Int64, Int64) thin -> None
+^~~~~
+comptime
+Imported from /home/volmarr/aesir-team-25/aesir_engine/tests/run_all.mojo:525:
+/home/volmarr/aesir-team-25/aesir_engine/tests/test_thread_scaling.mojo:194:17: warning: `alloc` without a `Layout` is deprecated, use the `Layout`-based `alloc` instead; as a temporary migration step, use `unsafe_alloc`
+    var input = alloc[Float32](K)
+                ^~~~~
+<unknown>:0: note: 'alloc' declared here
+Imported from /home/volmarr/aesir-team-25/aesir_engine/tests/run_all.mojo:525:
+/home/volmarr/aesir-team-25/aesir_engine/tests/test_thread_scaling.mojo:195:18: warning: `alloc` without a `Layout` is deprecated, use the `Layout`-based `alloc` instead; as a temporary migration step, use `unsafe_alloc`
+    var matrix = alloc[Float32](K * N)
+                 ^~~~~
+<unknown>:0: note: 'alloc' declared here
+Imported from /home/volmarr/aesir-team-25/aesir_engine/tests/run_all.mojo:525:
+/home/volmarr/aesir-team-25/aesir_engine/tests/test_thread_scaling.mojo:196:22: warning: `alloc` without a `Layout` is deprecated, use the `Layout`-based `alloc` instead; as a temporary migration step, use `unsafe_alloc`
+    var out_serial = alloc[Float32](N)
+                     ^~~~~
+<unknown>:0: note: 'alloc' declared here
+Imported from /home/volmarr/aesir-team-25/aesir_engine/tests/run_all.mojo:525:
+/home/volmarr/aesir-team-25/aesir_engine/tests/test_thread_scaling.mojo:197:24: warning: `alloc` without a `Layout` is deprecated, use the `Layout`-based `alloc` instead; as a temporary migration step, use `unsafe_alloc`
+    var out_threaded = alloc[Float32](N)
+                       ^~~~~
+<unknown>:0: note: 'alloc' declared here
+Imported from /home/volmarr/aesir-team-25/aesir_engine/tests/run_all.mojo:525:
+/home/volmarr/aesir-team-25/aesir_engine/tests/test_thread_scaling.mojo:209:15: warning: `alloc` without a `Layout` is deprecated, use the `Layout`-based `alloc` instead; as a temporary migration step, use `unsafe_alloc`
+    var ctx = alloc[Int64](5)
+              ^~~~~
+<unknown>:0: note: 'alloc' declared here
+Imported from /home/volmarr/aesir-team-25/aesir_engine/tests/run_all.mojo:564:
+Imported from /home/volmarr/aesir-team-25/aesir_engine/tests/test_big_model_placement_a104.mojo:18:
+/home/volmarr/aesir-team-25/aesir_engine/core/big_model_placement.mojo:61:1: warning: 'alias' is deprecated; use 'comptime'
+alias POOL_128GB_BYTES = 128 * 1024 * 1024 * 1024
+^~~~~
+comptime
+Imported from /home/volmarr/aesir-team-25/aesir_engine/tests/run_all.mojo:564:
+Imported from /home/volmarr/aesir-team-25/aesir_engine/tests/test_big_model_placement_a104.mojo:18:
+/home/volmarr/aesir-team-25/aesir_engine/core/big_model_placement.mojo:265:1: warning: 'alias' is deprecated; use 'comptime'
+alias LLAMA31_8B_NON_LAYER_BYTES = 726458624
+^~~~~
+comptime
+Imported from /home/volmarr/aesir-team-25/aesir_engine/tests/run_all.mojo:564:
+Imported from /home/volmarr/aesir-team-25/aesir_engine/tests/test_big_model_placement_a104.mojo:18:
+/home/volmarr/aesir-team-25/aesir_engine/core/big_model_placement.mojo:266:1: warning: 'alias' is deprecated; use 'comptime'
+alias LLAMA31_8B_EMBED_BYTES = 295501824
+^~~~~
+comptime
+Imported from /home/volmarr/aesir-team-25/aesir_engine/tests/run_all.mojo:564:
+Imported from /home/volmarr/aesir-team-25/aesir_engine/tests/test_big_model_placement_a104.mojo:18:
+/home/volmarr/aesir-team-25/aesir_engine/core/big_model_placement.mojo:267:1: warning: 'alias' is deprecated; use 'comptime'
+alias LLAMA31_8B_OUTPUT_BYTES = 430956800
+^~~~~
+comptime
+Imported from /home/volmarr/aesir-team-25/aesir_engine/tests/run_all.mojo:564:
+Imported from /home/volmarr/aesir-team-25/aesir_engine/tests/test_big_model_placement_a104.mojo:18:
+/home/volmarr/aesir-team-25/aesir_engine/core/big_model_placement.mojo:268:1: warning: 'alias' is deprecated; use 'comptime'
+alias LLAMA31_8B_KV_HEADS = 8
+^~~~~
+comptime
+Imported from /home/volmarr/aesir-team-25/aesir_engine/tests/run_all.mojo:564:
+Imported from /home/volmarr/aesir-team-25/aesir_engine/tests/test_big_model_placement_a104.mojo:18:
+/home/volmarr/aesir-team-25/aesir_engine/core/big_model_placement.mojo:269:1: warning: 'alias' is deprecated; use 'comptime'
+alias LLAMA31_8B_HEAD_DIM = 128
+^~~~~
+comptime
+Imported from /home/volmarr/aesir-team-25/aesir_engine/tests/run_all.mojo:564:
+/home/volmarr/aesir-team-25/aesir_engine/tests/test_big_model_placement_a104.mojo:38:35: warning: 'if' condition always evaluates to 'False'; 'if' branch is unreachable
+    if LLAMA31_8B_NON_LAYER_BYTES != 726458624:
+                                  ^
+Imported from /home/volmarr/aesir-team-25/aesir_engine/tests/run_all.mojo:564:
+/home/volmarr/aesir-team-25/aesir_engine/tests/test_big_model_placement_a104.mojo:47:57: warning: 'if' condition always evaluates to 'False'; 'if' branch is unreachable
+    if LLAMA31_8B_EMBED_BYTES + LLAMA31_8B_OUTPUT_BYTES != LLAMA31_8B_NON_LAYER_BYTES:
+                                                        ^
+Imported from /home/volmarr/aesir-team-25/aesir_engine/tests/run_all.mojo:775:
+/home/volmarr/aesir-team-25/aesir_engine/tests/test_comparator_checklist_a112.mojo:64:29: warning: 'if' condition always evaluates to 'False'; 'if' branch is unreachable
+    if CHECKLIST_CHECKS_RUN != 4:
+                            ^
+Imported from /home/volmarr/aesir-team-25/aesir_engine/tests/run_all.mojo:799:
+/home/volmarr/aesir-team-25/aesir_engine/tests/test_near_tie_gate_a111.mojo:48:22: warning: 'if' condition always evaluates to 'False'; 'if' branch is unreachable
+    if BAND_MAX_RANK != 2:
+                     ^
+Imported from /home/volmarr/aesir-team-25/aesir_engine/tests/run_all.mojo:799:
+/home/volmarr/aesir-team-25/aesir_engine/tests/test_near_tie_gate_a111.mojo:50:27: warning: 'if' condition always evaluates to 'False'; 'if' branch is unreachable
+    if BAND_MAX_GAP_MILLI != 1000:
+                          ^
+Imported from /home/volmarr/aesir-team-25/aesir_engine/tests/run_all.mojo:799:
+/home/volmarr/aesir-team-25/aesir_engine/tests/test_near_tie_gate_a111.mojo:52:22: warning: 'if' condition always evaluates to 'False'; 'if' branch is unreachable
+    if BAND_MAX_RANK != NEAR_TIE_MAX_RANK:
+                     ^
+Imported from /home/volmarr/aesir-team-25/aesir_engine/tests/run_all.mojo:799:
+/home/volmarr/aesir-team-25/aesir_engine/tests/test_near_tie_gate_a111.mojo:54:27: warning: 'if' condition always evaluates to 'False'; 'if' branch is unreachable
+    if BAND_MAX_GAP_MILLI != NEAR_TIE_MAX_GAP_MILLI:
+                          ^
+Imported from /home/volmarr/aesir-team-25/aesir_engine/tests/run_all.mojo:812:
+/home/volmarr/aesir-team-25/aesir_engine/tests/test_local_gate_a117.mojo:36:21: warning: constant value on left side of 'False or ...'
+    if LG_PASS != 0 or LG_FAIL != 1 or LG_NOT_RUN != 2:
+                    ^
+Imported from /home/volmarr/aesir-team-25/aesir_engine/tests/run_all.mojo:824:
+/home/volmarr/aesir-team-25/aesir_engine/tests/test_matrix_runner_a114.mojo:39:5: warning: 'read' is deprecated; use 'imm'
+    read report: MatrixReport, quant: String, arch: String, backend: String
+    ^~~~
+    imm
+Imported from /home/volmarr/aesir-team-25/aesir_engine/tests/run_all.mojo:824:
+Imported from /home/volmarr/aesir-team-25/aesir_engine/tests/test_matrix_runner_a114.mojo:31:
+/home/volmarr/aesir-team-25/aesir_engine/core/matrix_runner.mojo:444:19: warning: 'read' is deprecated; use 'imm'
+def matrix_render(read report: MatrixReport) -> String:
+                  ^~~~
+                  imm
+Imported from /home/volmarr/aesir-team-25/aesir_engine/tests/run_all.mojo:853:
+/home/volmarr/aesir-team-25/aesir_engine/tests/test_divergence_localiser_a116.mojo:82:20: warning: 'if' condition always evaluates to 'False'; 'if' branch is unreachable
+    if DEMO_LAYERS != 12:
+                   ^
+Imported from /home/volmarr/aesir-team-25/aesir_engine/tests/run_all.mojo:853:
+/home/volmarr/aesir-team-25/aesir_engine/tests/test_divergence_localiser_a116.mojo:84:26: warning: constant value on left side of 'False or ...'
+    if SEEDED_LAYER != 7 or SEEDED_OP != String("mlp.down_proj"):
+                         ^
+Imported from /home/volmarr/aesir-team-25/aesir_engine/tests/run_all.mojo:853:
+/home/volmarr/aesir-team-25/aesir_engine/tests/test_divergence_localiser_a116.mojo:86:21: warning: 'if' condition always evaluates to 'False'; 'if' branch is unreachable
+    if SEEDED_INDEX != 31:
+                    ^
+Imported from /home/volmarr/aesir-team-25/aesir_engine/tests/run_all.mojo:853:
+Imported from /home/volmarr/aesir-team-25/aesir_engine/tests/test_divergence_localiser_a116.mojo:24:
+/home/volmarr/aesir-team-25/aesir_engine/core/divergence_localiser.mojo:521:5: warning: 'read' is deprecated; use 'imm'
+    read loc: Localisation, probes: List[Probe]
+    ^~~~
+    imm
+Imported from /home/volmarr/aesir-team-25/aesir_engine/tests/run_all.mojo:867:
+/home/volmarr/aesir-team-25/aesir_engine/tests/test_qwen_battery_a119.mojo:47:5: warning: 'read' is deprecated; use 'imm'
+    read report: QwenBatteryReport, quant: String, backend: String
+    ^~~~
+    imm
+Imported from /home/volmarr/aesir-team-25/aesir_engine/tests/run_all.mojo:867:
+Imported from /home/volmarr/aesir-team-25/aesir_engine/tests/test_qwen_battery_a119.mojo:34:
+/home/volmarr/aesir-team-25/aesir_engine/core/qwen_battery_a119.mojo:389:25: warning: 'read' is deprecated; use 'imm'
+def qwen_battery_render(read report: QwenBatteryReport) -> String:
+                        ^~~~
+                        imm
+Imported from /home/volmarr/aesir-team-25/aesir_engine/tests/run_all.mojo:882:
+/home/volmarr/aesir-team-25/aesir_engine/tests/test_gemma_battery_a120.mojo:136:32: warning: 'if' condition always evaluates to 'False'; 'if' branch is unreachable
+    if GB_TOKEN_EXACTNESS_OWED != POLICY_TOKEN_EXACTNESS_OWED:
+                               ^
+Imported from /home/volmarr/aesir-team-25/aesir_engine/tests/run_all.mojo:882:
+/home/volmarr/aesir-team-25/aesir_engine/tests/test_gemma_battery_a120.mojo:138:26: warning: 'if' condition always evaluates to 'False'; 'if' branch is unreachable
+    if GB_COHERENCE_ONLY != POLICY_COHERENCE_ONLY:
+                         ^
+Imported from /home/volmarr/aesir-team-25/aesir_engine/tests/run_all.mojo:882:
+/home/volmarr/aesir-team-25/aesir_engine/tests/test_gemma_battery_a120.mojo:53:5: warning: 'read' is deprecated; use 'imm'
+    read report: GemmaBatteryReport, quant: String, backend: String
+    ^~~~
+    imm
+Imported from /home/volmarr/aesir-team-25/aesir_engine/tests/run_all.mojo:882:
+Imported from /home/volmarr/aesir-team-25/aesir_engine/tests/test_gemma_battery_a120.mojo:36:
+/home/volmarr/aesir-team-25/aesir_engine/core/gemma_battery_a120.mojo:354:26: warning: 'read' is deprecated; use 'imm'
+def gemma_battery_render(read report: GemmaBatteryReport) -> String:
+                         ^~~~
+                         imm
+Imported from /home/volmarr/aesir-team-25/aesir_engine/tests/run_all.mojo:897:
+/home/volmarr/aesir-team-25/aesir_engine/tests/test_llama_battery_a118.mojo:43:5: warning: 'read' is deprecated; use 'imm'
+    read report: BatteryReport, quant: String, backend: String
+    ^~~~
+    imm
+Imported from /home/volmarr/aesir-team-25/aesir_engine/tests/run_all.mojo:897:
+Imported from /home/volmarr/aesir-team-25/aesir_engine/tests/test_llama_battery_a118.mojo:22:
+/home/volmarr/aesir-team-25/aesir_engine/core/llama_battery_a118.mojo:288:20: warning: 'read' is deprecated; use 'imm'
+def battery_render(read report: BatteryReport) -> String:
+                   ^~~~
+                   imm
+Imported from /home/volmarr/aesir-team-25/aesir_engine/tests/run_all.mojo:912:
+/home/volmarr/aesir-team-25/aesir_engine/tests/test_moe_battery_a121.mojo:51:5: warning: 'read' is deprecated; use 'imm'
+    read report: BatteryReport, layer: Int, backend: String
+    ^~~~
+    imm
+Imported from /home/volmarr/aesir-team-25/aesir_engine/tests/run_all.mojo:912:
+Imported from /home/volmarr/aesir-team-25/aesir_engine/tests/test_moe_battery_a121.mojo:39:
+/home/volmarr/aesir-team-25/aesir_engine/core/moe_battery_a121.mojo:659:20: warning: 'read' is deprecated; use 'imm'
+def battery_render(read report: BatteryReport) -> String:
+                   ^~~~
+                   imm
+Imported from /home/volmarr/aesir-team-25/aesir_engine/tests/run_all.mojo:927:
+/home/volmarr/aesir-team-25/aesir_engine/tests/test_attention_battery_a122.mojo:49:5: warning: 'read' is deprecated; use 'imm'
+    read report: AttentionBatteryReport,
+    ^~~~
+    imm
+Imported from /home/volmarr/aesir-team-25/aesir_engine/tests/run_all.mojo:927:
+Imported from /home/volmarr/aesir-team-25/aesir_engine/tests/test_attention_battery_a122.mojo:26:
+/home/volmarr/aesir-team-25/aesir_engine/core/attention_battery_a122.mojo:429:30: warning: 'read' is deprecated; use 'imm'
+def attention_battery_render(read report: AttentionBatteryReport) -> String:
+                             ^~~~
+                             imm
+Imported from /home/volmarr/aesir-team-25/aesir_engine/tests/run_all.mojo:27:
+Imported from /home/volmarr/aesir-team-25/aesir_engine/tests/test_compute.mojo:6:
+/home/volmarr/aesir-team-25/aesir_engine/core/compute.mojo:1089:19: warning: `alloc` without a `Layout` is deprecated, use the `Layout`-based `alloc` instead; as a temporary migration step, use `unsafe_alloc`
+    var scratch = alloc[Float32](a_cols)
+                  ^~~~~
+<unknown>:0: note: 'alloc' declared here
+Imported from /home/volmarr/aesir-team-25/aesir_engine/tests/run_all.mojo:27:
+Imported from /home/volmarr/aesir-team-25/aesir_engine/tests/test_compute.mojo:6:
+/home/volmarr/aesir-team-25/aesir_engine/core/compute.mojo:1262:14: warning: `alloc` without a `Layout` is deprecated, use the `Layout`-based `alloc` instead; as a temporary migration step, use `unsafe_alloc`
+    var cp = alloc[Int64](6)
+             ^~~~~
+<unknown>:0: note: 'alloc' declared here
+Imported from /home/volmarr/aesir-team-25/aesir_engine/tests/run_all.mojo:27:
+Imported from /home/volmarr/aesir-team-25/aesir_engine/tests/test_compute.mojo:6:
+/home/volmarr/aesir-team-25/aesir_engine/core/compute.mojo:2632:14: warning: `alloc` without a `Layout` is deprecated, use the `Layout`-based `alloc` instead; as a temporary migration step, use `unsafe_alloc`
+    var cp = alloc[Int64](6)
+             ^~~~~
+<unknown>:0: note: 'alloc' declared here
+Imported from /home/volmarr/aesir-team-25/aesir_engine/tests/run_all.mojo:27:
+Imported from /home/volmarr/aesir-team-25/aesir_engine/tests/test_compute.mojo:6:
+/home/volmarr/aesir-team-25/aesir_engine/core/compute.mojo:2736:14: warning: `alloc` without a `Layout` is deprecated, use the `Layout`-based `alloc` instead; as a temporary migration step, use `unsafe_alloc`
+    var cp = alloc[Int64](6)
+             ^~~~~
+<unknown>:0: note: 'alloc' declared here
+Imported from /home/volmarr/aesir-team-25/aesir_engine/tests/run_all.mojo:52:
+Imported from /home/volmarr/aesir-team-25/aesir_engine/tests/test_inference.mojo:4:
+/home/volmarr/aesir-team-25/aesir_engine/core/inference.mojo:949:27: warning: `alloc` without a `Layout` is deprecated, use the `Layout`-based `alloc` instead; as a temporary migration step, use `unsafe_alloc`
+            var scratch = alloc[Float32](256)
+                          ^~~~~
+<unknown>:0: note: 'alloc' declared here
+Imported from /home/volmarr/aesir-team-25/aesir_engine/tests/run_all.mojo:52:
+Imported from /home/volmarr/aesir-team-25/aesir_engine/tests/test_inference.mojo:4:
+/home/volmarr/aesir-team-25/aesir_engine/core/inference.mojo:970:30: warning: `alloc` without a `Layout` is deprecated, use the `Layout`-based `alloc` instead; as a temporary migration step, use `unsafe_alloc`
+            var nl_scratch = alloc[Float32](32)
+                             ^~~~~
+<unknown>:0: note: 'alloc' declared here
+Imported from /home/volmarr/aesir-team-25/aesir_engine/tests/run_all.mojo:52:
+Imported from /home/volmarr/aesir-team-25/aesir_engine/tests/test_inference.mojo:4:
+/home/volmarr/aesir-team-25/aesir_engine/core/inference.mojo:2162:9: warning: '__del__' is deprecated; use '__deinit__'
+    def __del__(deinit self):
+        ^~~~~~~
+        __deinit__
+Imported from /home/volmarr/aesir-team-25/aesir_engine/tests/run_all.mojo:220:
+Imported from /home/volmarr/aesir-team-25/aesir_engine/tests/test_arena_allocator.mojo:14:
+Imported from /home/volmarr/aesir-team-25/aesir_engine/core/arena_allocator.mojo:48:
+Imported from /home/volmarr/aesir-team-25/aesir_engine/core/zero_copy.mojo:39:
+/home/volmarr/aesir-team-25/aesir_engine/core/vulkan_buffers.mojo:267:24: warning: `alloc` without a `Layout` is deprecated, use the `Layout`-based `alloc` instead; as a temporary migration step, use `unsafe_alloc`
+        var name_buf = alloc[UInt8](256)
+                       ^~~~~
+<unknown>:0: note: 'alloc' declared here
+Imported from /home/volmarr/aesir-team-25/aesir_engine/tests/run_all.mojo:220:
+Imported from /home/volmarr/aesir-team-25/aesir_engine/tests/test_arena_allocator.mojo:14:
+Imported from /home/volmarr/aesir-team-25/aesir_engine/core/arena_allocator.mojo:48:
+Imported from /home/volmarr/aesir-team-25/aesir_engine/core/zero_copy.mojo:39:
+/home/volmarr/aesir-team-25/aesir_engine/core/vulkan_buffers.mojo:334:19: warning: `alloc` without a `Layout` is deprecated, use the `Layout`-based `alloc` instead; as a temporary migration step, use `unsafe_alloc`
+        var raw = alloc[UInt64](_LIM_COUNT)
+                  ^~~~~
+<unknown>:0: note: 'alloc' declared here
+Imported from /home/volmarr/aesir-team-25/aesir_engine/tests/run_all.mojo:311:
+Imported from /home/volmarr/aesir-team-25/aesir_engine/tests/test_vulkan_async_a071.mojo:33:
+/home/volmarr/aesir-team-25/aesir_engine/core/vulkan_async.mojo:133:19: warning: `alloc` without a `Layout` is deprecated, use the `Layout`-based `alloc` instead; as a temporary migration step, use `unsafe_alloc`
+        var buf = alloc[UInt64](12)
+                  ^~~~~
+<unknown>:0: note: 'alloc' declared here
+Imported from /home/volmarr/aesir-team-25/aesir_engine/tests/run_all.mojo:627:
+Imported from /home/volmarr/aesir-team-25/aesir_engine/tests/test_extreme_quants.mojo:6:
+/home/volmarr/aesir-team-25/aesir_engine/core/extreme_quantization.mojo:363:19: warning: `alloc` without a `Layout` is deprecated, use the `Layout`-based `alloc` instead; as a temporary migration step, use `unsafe_alloc`
+    var scratch = alloc[Float32](256)
+                  ^~~~~
+<unknown>:0: note: 'alloc' declared here
+Imported from /home/volmarr/aesir-team-25/aesir_engine/tests/run_all.mojo:627:
+Imported from /home/volmarr/aesir-team-25/aesir_engine/tests/test_extreme_quants.mojo:6:
+/home/volmarr/aesir-team-25/aesir_engine/core/extreme_quantization.mojo:459:19: warning: `alloc` without a `Layout` is deprecated, use the `Layout`-based `alloc` instead; as a temporary migration step, use `unsafe_alloc`
+    var scratch = alloc[Float32](256)
+                  ^~~~~
+<unknown>:0: note: 'alloc' declared here
+Imported from /home/volmarr/aesir-team-25/aesir_engine/tests/run_all.mojo:627:
+Imported from /home/volmarr/aesir-team-25/aesir_engine/tests/test_extreme_quants.mojo:6:
+/home/volmarr/aesir-team-25/aesir_engine/core/extreme_quantization.mojo:847:19: warning: `alloc` without a `Layout` is deprecated, use the `Layout`-based `alloc` instead; as a temporary migration step, use `unsafe_alloc`
+    var scratch = alloc[Float32](256)
+                  ^~~~~
+<unknown>:0: note: 'alloc' declared here
+Imported from /home/volmarr/aesir-team-25/aesir_engine/tests/run_all.mojo:627:
+Imported from /home/volmarr/aesir-team-25/aesir_engine/tests/test_extreme_quants.mojo:6:
+/home/volmarr/aesir-team-25/aesir_engine/core/extreme_quantization.mojo:951:19: warning: `alloc` without a `Layout` is deprecated, use the `Layout`-based `alloc` instead; as a temporary migration step, use `unsafe_alloc`
+    var scratch = alloc[Float32](256)
+                  ^~~~~
+<unknown>:0: note: 'alloc' declared here
+Imported from /home/volmarr/aesir-team-25/aesir_engine/tests/run_all.mojo:627:
+Imported from /home/volmarr/aesir-team-25/aesir_engine/tests/test_extreme_quants.mojo:6:
+/home/volmarr/aesir-team-25/aesir_engine/core/extreme_quantization.mojo:1047:19: warning: `alloc` without a `Layout` is deprecated, use the `Layout`-based `alloc` instead; as a temporary migration step, use `unsafe_alloc`
+    var scratch = alloc[Float32](256)
+                  ^~~~~
+<unknown>:0: note: 'alloc' declared here
+Imported from /home/volmarr/aesir-team-25/aesir_engine/tests/run_all.mojo:627:
+Imported from /home/volmarr/aesir-team-25/aesir_engine/tests/test_extreme_quants.mojo:6:
+/home/volmarr/aesir-team-25/aesir_engine/core/extreme_quantization.mojo:1139:19: warning: `alloc` without a `Layout` is deprecated, use the `Layout`-based `alloc` instead; as a temporary migration step, use `unsafe_alloc`
+    var scratch = alloc[Float32](256)
+                  ^~~~~
+<unknown>:0: note: 'alloc' declared here
+Imported from /home/volmarr/aesir-team-25/aesir_engine/tests/run_all.mojo:838:
+Imported from /home/volmarr/aesir-team-25/aesir_engine/tests/test_exactness_policy_a115.mojo:39:
+/home/volmarr/aesir-team-25/aesir_engine/core/exactness_policy.mojo:388:9: warning: constant value on left side of 'True and ...'
+        and POL_FAITHFUL_NEAR_TIE == BAND_FAITHFUL_NEAR_TIE
+        ^
+Imported from /home/volmarr/aesir-team-25/aesir_engine/tests/run_all.mojo:867:
+Imported from /home/volmarr/aesir-team-25/aesir_engine/tests/test_qwen_battery_a119.mojo:34:
+/home/volmarr/aesir-team-25/aesir_engine/core/qwen_battery_a119.mojo:208:9: warning: constant value on left side of 'True and ...'
+        and QB_COHERENCE_ONLY == POLICY_COHERENCE_ONLY
+        ^
+Imported from /home/volmarr/aesir-team-25/aesir_engine/tests/run_all.mojo:52:
+Imported from /home/volmarr/aesir-team-25/aesir_engine/tests/test_inference.mojo:4:
+/home/volmarr/aesir-team-25/aesir_engine/core/inference.mojo:2163:20: warning: 'free' is deprecated, use 'unsafe_free' instead
+        self.s_data.free()
+        ~~~~~~~~~~~^~~~~
+                    unsafe_free
+<unknown>:0: note: 'free' declared here
+Imported from /home/volmarr/aesir-team-25/aesir_engine/tests/run_all.mojo:52:
+Imported from /home/volmarr/aesir-team-25/aesir_engine/tests/test_inference.mojo:4:
+/home/volmarr/aesir-team-25/aesir_engine/core/inference.mojo:2164:23: warning: 'free' is deprecated, use 'unsafe_free' instead
+        self.conv_data.free()
+        ~~~~~~~~~~~~~~^~~~~
+                       unsafe_free
+<unknown>:0: note: 'free' declared here
+Imported from /home/volmarr/aesir-team-25/aesir_engine/tests/run_all.mojo:52:
+Imported from /home/volmarr/aesir-team-25/aesir_engine/tests/test_inference.mojo:4:
+/home/volmarr/aesir-team-25/aesir_engine/core/inference.mojo:2165:21: warning: 'free' is deprecated, use 'unsafe_free' instead
+        self.scratch.free()
+        ~~~~~~~~~~~~^~~~~
+                     unsafe_free
+<unknown>:0: note: 'free' declared here
+Imported from /home/volmarr/aesir-team-25/aesir_engine/tests/run_all.mojo:429:
+/home/volmarr/aesir-team-25/aesir_engine/tests/test_vulkan_iq_gemv.mojo:111:16: warning: `alloc` without a `Layout` is deprecated, use the `Layout`-based `alloc` instead; as a temporary migration step, use `unsafe_alloc`
+    var host = alloc[UInt16](2048)
+               ^~~~~
+<unknown>:0: note: 'alloc' declared here
+Imported from /home/volmarr/aesir-team-25/aesir_engine/tests/run_all.mojo:444:
+/home/volmarr/aesir-team-25/aesir_engine/tests/test_vulkan_q4k_gemv_a057.mojo:86:18: warning: `alloc` without a `Layout` is deprecated, use the `Layout`-based `alloc` instead; as a temporary migration step, use `unsafe_alloc`
+    var w_host = alloc[UInt8](w_bytes)
+                 ^~~~~
+<unknown>:0: note: 'alloc' declared here
+Imported from /home/volmarr/aesir-team-25/aesir_engine/tests/run_all.mojo:444:
+/home/volmarr/aesir-team-25/aesir_engine/tests/test_vulkan_q4k_gemv_a057.mojo:105:15: warning: `alloc` without a `Layout` is deprecated, use the `Layout`-based `alloc` instead; as a temporary migration step, use `unsafe_alloc`
+    var deq = alloc[Scalar[f16]](k_elems)
+              ^~~~~
+<unknown>:0: note: 'alloc' declared here
+Imported from /home/volmarr/aesir-team-25/aesir_engine/tests/run_all.mojo:484:
+/home/volmarr/aesir-team-25/aesir_engine/tests/test_hip_q4k_gemv_a083.mojo:83:18: warning: `alloc` without a `Layout` is deprecated, use the `Layout`-based `alloc` instead; as a temporary migration step, use `unsafe_alloc`
+    var w_host = alloc[UInt8](w_bytes)
+                 ^~~~~
+<unknown>:0: note: 'alloc' declared here
+Imported from /home/volmarr/aesir-team-25/aesir_engine/tests/run_all.mojo:484:
+/home/volmarr/aesir-team-25/aesir_engine/tests/test_hip_q4k_gemv_a083.mojo:86:15: warning: `alloc` without a `Layout` is deprecated, use the `Layout`-based `alloc` instead; as a temporary migration step, use `unsafe_alloc`
+    var deq = alloc[Scalar[f16]](k_elems)
+              ^~~~~
+<unknown>:0: note: 'alloc' declared here
+Imported from /home/volmarr/aesir-team-25/aesir_engine/tests/run_all.mojo:610:
+/home/volmarr/aesir-team-25/aesir_engine/tests/test_k_dequant_simd_a040.mojo:22:13: warning: `alloc` without a `Layout` is deprecated, use the `Layout`-based `alloc` instead; as a temporary migration step, use `unsafe_alloc`
+    var w = alloc[UInt8](NB * bb)
+            ^~~~~
+<unknown>:0: note: 'alloc' declared here
+Imported from /home/volmarr/aesir-team-25/aesir_engine/tests/run_all.mojo:610:
+/home/volmarr/aesir-team-25/aesir_engine/tests/test_k_dequant_simd_a040.mojo:36:15: warning: `alloc` without a `Layout` is deprecated, use the `Layout`-based `alloc` instead; as a temporary migration step, use `unsafe_alloc`
+    var out = alloc[Scalar[f16]](NE)
+              ^~~~~
+<unknown>:0: note: 'alloc' declared here
+Imported from /home/volmarr/aesir-team-25/aesir_engine/tests/run_all.mojo:636:
+/home/volmarr/aesir-team-25/aesir_engine/tests/test_iq_simd_parity.mojo:52:16: warning: `alloc` without a `Layout` is deprecated, use the `Layout`-based `alloc` instead; as a temporary migration step, use `unsafe_alloc`
+    var data = alloc[UInt8](nbytes)
+               ^~~~~
+<unknown>:0: note: 'alloc' declared here
+Imported from /home/volmarr/aesir-team-25/aesir_engine/tests/run_all.mojo:636:
+/home/volmarr/aesir-team-25/aesir_engine/tests/test_iq_simd_parity.mojo:53:16: warning: `alloc` without a `Layout` is deprecated, use the `Layout`-based `alloc` instead; as a temporary migration step, use `unsafe_alloc`
+    var outp = alloc[Float16](elements)
+               ^~~~~
+<unknown>:0: note: 'alloc' declared here
+Imported from /home/volmarr/aesir-team-25/aesir_engine/tests/run_all.mojo:636:
+/home/volmarr/aesir-team-25/aesir_engine/tests/test_iq_simd_parity.mojo:54:16: warning: `alloc` without a `Layout` is deprecated, use the `Layout`-based `alloc` instead; as a temporary migration step, use `unsafe_alloc`
+    var grid = alloc[UInt16](2048)
+               ^~~~~
+<unknown>:0: note: 'alloc' declared here
+Imported from /home/volmarr/aesir-team-25/aesir_engine/tests/run_all.mojo:27:
+Imported from /home/volmarr/aesir-team-25/aesir_engine/tests/test_compute.mojo:6:
+/home/volmarr/aesir-team-25/aesir_engine/core/compute.mojo:1970:15: warning: `alloc` without a `Layout` is deprecated, use the `Layout`-based `alloc` instead; as a temporary migration step, use `unsafe_alloc`
+    var dst = alloc[UInt16](2048)
+              ^~~~~
+<unknown>:0: note: 'alloc' declared here
+Imported from /home/volmarr/aesir-team-25/aesir_engine/tests/run_all.mojo:27:
+Imported from /home/volmarr/aesir-team-25/aesir_engine/tests/test_compute.mojo:6:
+/home/volmarr/aesir-team-25/aesir_engine/core/compute.mojo:2175:14: warning: `alloc` without a `Layout` is deprecated, use the `Layout`-based `alloc` instead; as a temporary migration step, use `unsafe_alloc`
+    var cp = alloc[Int64](7)
+             ^~~~~
+<unknown>:0: note: 'alloc' declared here
+Imported from /home/volmarr/aesir-team-25/aesir_engine/tests/run_all.mojo:220:
+Imported from /home/volmarr/aesir-team-25/aesir_engine/tests/test_arena_allocator.mojo:14:
+Imported from /home/volmarr/aesir-team-25/aesir_engine/core/arena_allocator.mojo:48:
+Imported from /home/volmarr/aesir-team-25/aesir_engine/core/zero_copy.mojo:39:
+/home/volmarr/aesir-team-25/aesir_engine/core/vulkan_buffers.mojo:295:24: warning: `alloc` without a `Layout` is deprecated, use the `Layout`-based `alloc` instead; as a temporary migration step, use `unsafe_alloc`
+        var name_buf = alloc[UInt8](256)
+                       ^~~~~
+<unknown>:0: note: 'alloc' declared here
+Imported from /home/volmarr/aesir-team-25/aesir_engine/tests/run_all.mojo:293:
+Imported from /home/volmarr/aesir-team-25/aesir_engine/tests/test_vulkan_real_model_a067.mojo:60:
+/home/volmarr/aesir-team-25/aesir_engine/core/vulkan_real_model.mojo:764:23: warning: `alloc` without a `Layout` is deprecated, use the `Layout`-based `alloc` instead; as a temporary migration step, use `unsafe_alloc`
+            var buf = alloc[Scalar[DType.float16]](self.dim)
+                      ^~~~~
+<unknown>:0: note: 'alloc' declared here
+Imported from /home/volmarr/aesir-team-25/aesir_engine/tests/run_all.mojo:293:
+Imported from /home/volmarr/aesir-team-25/aesir_engine/tests/test_vulkan_real_model_a067.mojo:60:
+/home/volmarr/aesir-team-25/aesir_engine/core/vulkan_real_model.mojo:767:31: warning: positional `__getitem__` is deprecated, use `unsafe_offset=` instead
+                out.append(buf[i].cast[DType.float32]())
+                           ~~~^~~
+<unknown>:0: note: '__getitem__' declared here
+Imported from /home/volmarr/aesir-team-25/aesir_engine/tests/run_all.mojo:293:
+Imported from /home/volmarr/aesir-team-25/aesir_engine/tests/test_vulkan_real_model_a067.mojo:60:
+/home/volmarr/aesir-team-25/aesir_engine/core/vulkan_real_model.mojo:768:16: warning: 'free' is deprecated, use 'unsafe_free' instead
+            buf.free()
+            ~~~^~~~~
+                unsafe_free
+<unknown>:0: note: 'free' declared here
+Imported from /home/volmarr/aesir-team-25/aesir_engine/tests/run_all.mojo:627:
+Imported from /home/volmarr/aesir-team-25/aesir_engine/tests/test_extreme_quants.mojo:6:
+/home/volmarr/aesir-team-25/aesir_engine/core/extreme_quantization.mojo:167:19: warning: `alloc` without a `Layout` is deprecated, use the `Layout`-based `alloc` instead; as a temporary migration step, use `unsafe_alloc`
+    var scratch = alloc[Float32](256)
+                  ^~~~~
+<unknown>:0: note: 'alloc' declared here
+Imported from /home/volmarr/aesir-team-25/aesir_engine/tests/run_all.mojo:627:
+Imported from /home/volmarr/aesir-team-25/aesir_engine/tests/test_extreme_quants.mojo:6:
+/home/volmarr/aesir-team-25/aesir_engine/core/extreme_quantization.mojo:192:19: warning: `alloc` without a `Layout` is deprecated, use the `Layout`-based `alloc` instead; as a temporary migration step, use `unsafe_alloc`
+    var scratch = alloc[Float32](256)
+                  ^~~~~
+<unknown>:0: note: 'alloc' declared here
+Imported from /home/volmarr/aesir-team-25/aesir_engine/tests/run_all.mojo:627:
+Imported from /home/volmarr/aesir-team-25/aesir_engine/tests/test_extreme_quants.mojo:6:
+/home/volmarr/aesir-team-25/aesir_engine/core/extreme_quantization.mojo:245:15: warning: `alloc` without a `Layout` is deprecated, use the `Layout`-based `alloc` instead; as a temporary migration step, use `unsafe_alloc`
+    var dst = alloc[UInt16](2048)
+              ^~~~~
+<unknown>:0: note: 'alloc' declared here
+Imported from /home/volmarr/aesir-team-25/aesir_engine/tests/run_all.mojo:627:
+Imported from /home/volmarr/aesir-team-25/aesir_engine/tests/test_extreme_quants.mojo:6:
+/home/volmarr/aesir-team-25/aesir_engine/core/extreme_quantization.mojo:544:19: warning: `alloc` without a `Layout` is deprecated, use the `Layout`-based `alloc` instead; as a temporary migration step, use `unsafe_alloc`
+    var scratch = alloc[Float32](256)
+                  ^~~~~
+<unknown>:0: note: 'alloc' declared here
+Imported from /home/volmarr/aesir-team-25/aesir_engine/tests/run_all.mojo:429:
+/home/volmarr/aesir-team-25/aesir_engine/tests/test_vulkan_iq_gemv.mojo:126:16: warning: `alloc` without a `Layout` is deprecated, use the `Layout`-based `alloc` instead; as a temporary migration step, use `unsafe_alloc`
+    var host = alloc[UInt16](2048)
+               ^~~~~
+<unknown>:0: note: 'alloc' declared here
+Imported from /home/volmarr/aesir-team-25/aesir_engine/tests/run_all.mojo:27:
+Imported from /home/volmarr/aesir-team-25/aesir_engine/tests/test_compute.mojo:6:
+/home/volmarr/aesir-team-25/aesir_engine/core/compute.mojo:1935:14: warning: `alloc` without a `Layout` is deprecated, use the `Layout`-based `alloc` instead; as a temporary migration step, use `unsafe_alloc`
+    var cp = alloc[Int64](9)
+             ^~~~~
+<unknown>:0: note: 'alloc' declared here
+Imported from /home/volmarr/aesir-team-25/aesir_engine/tests/run_all.mojo:27:
+Imported from /home/volmarr/aesir-team-25/aesir_engine/tests/test_compute.mojo:6:
+/home/volmarr/aesir-team-25/aesir_engine/core/compute.mojo:2087:14: warning: `alloc` without a `Layout` is deprecated, use the `Layout`-based `alloc` instead; as a temporary migration step, use `unsafe_alloc`
+    var cp = alloc[Int64](8)
+             ^~~~~
+<unknown>:0: note: 'alloc' declared here
+Imported from /home/volmarr/aesir-team-25/aesir_engine/tests/run_all.mojo:27:
+Imported from /home/volmarr/aesir-team-25/aesir_engine/tests/test_compute.mojo:6:
+/home/volmarr/aesir-team-25/aesir_engine/core/compute.mojo:2672:19: warning: `alloc` without a `Layout` is deprecated, use the `Layout`-based `alloc` instead; as a temporary migration step, use `unsafe_alloc`
+    var scratch = alloc[Float32](shared_dim)
+                  ^~~~~
+<unknown>:0: note: 'alloc' declared here
+Imported from /home/volmarr/aesir-team-25/aesir_engine/tests/run_all.mojo:525:
+Imported from /home/volmarr/aesir-team-25/aesir_engine/tests/test_thread_scaling.mojo:31:
+/home/volmarr/aesir-team-25/aesir_engine/core/thread_topology.mojo:424:18: warning: `alloc` without a `Layout` is deprecated, use the `Layout`-based `alloc` instead; as a temporary migration step, use `unsafe_alloc`
+    var output = alloc[Float32](out_len)
+                 ^~~~~
+<unknown>:0: note: 'alloc' declared here
+Imported from /home/volmarr/aesir-team-25/aesir_engine/tests/run_all.mojo:525:
+Imported from /home/volmarr/aesir-team-25/aesir_engine/tests/test_thread_scaling.mojo:31:
+/home/volmarr/aesir-team-25/aesir_engine/core/thread_topology.mojo:425:15: warning: `alloc` without a `Layout` is deprecated, use the `Layout`-based `alloc` instead; as a temporary migration step, use `unsafe_alloc`
+    var ctx = alloc[Int64](6)
+              ^~~~~
+<unknown>:0: note: 'alloc' declared here
+Imported from /home/volmarr/aesir-team-25/aesir_engine/tests/run_all.mojo:27:
+Imported from /home/volmarr/aesir-team-25/aesir_engine/tests/test_compute.mojo:6:
+/home/volmarr/aesir-team-25/aesir_engine/core/compute.mojo:1632:28: warning: unreachable code on right side of 'False and ...'
+    return VNNI_DEFAULT_ON and cpu_has_vnni()
+                           ^
+Imported from /home/volmarr/aesir-team-25/aesir_engine/tests/run_all.mojo:27:
+Imported from /home/volmarr/aesir-team-25/aesir_engine/tests/test_compute.mojo:6:
+/home/volmarr/aesir-team-25/aesir_engine/core/compute.mojo:2552:14: warning: `alloc` without a `Layout` is deprecated, use the `Layout`-based `alloc` instead; as a temporary migration step, use `unsafe_alloc`
+    var cp = alloc[Int64](8)
+             ^~~~~
+<unknown>:0: note: 'alloc' declared here
+Imported from /home/volmarr/aesir-team-25/aesir_engine/tests/run_all.mojo:27:
+Imported from /home/volmarr/aesir-team-25/aesir_engine/tests/test_compute.mojo:6:
+/home/volmarr/aesir-team-25/aesir_engine/core/compute.mojo:1743:18: warning: `alloc` without a `Layout` is deprecated, use the `Layout`-based `alloc` instead; as a temporary migration step, use `unsafe_alloc`
+        var xq = alloc[Int8](rows_here * a_cols)
+                 ^~~~~
+<unknown>:0: note: 'alloc' declared here
+Imported from /home/volmarr/aesir-team-25/aesir_engine/tests/run_all.mojo:27:
+Imported from /home/volmarr/aesir-team-25/aesir_engine/tests/test_compute.mojo:6:
+/home/volmarr/aesir-team-25/aesir_engine/core/compute.mojo:1744:22: warning: `alloc` without a `Layout` is deprecated, use the `Layout`-based `alloc` instead; as a temporary migration step, use `unsafe_alloc`
+        var xscale = alloc[Float32](rows_here * blocks_per_row * nsub)
+                     ^~~~~
+<unknown>:0: note: 'alloc' declared here
+Imported from /home/volmarr/aesir-team-25/aesir_engine/tests/run_all.mojo:27:
+Imported from /home/volmarr/aesir-team-25/aesir_engine/tests/test_compute.mojo:6:
+/home/volmarr/aesir-team-25/aesir_engine/core/compute.mojo:1745:21: warning: `alloc` without a `Layout` is deprecated, use the `Layout`-based `alloc` instead; as a temporary migration step, use `unsafe_alloc`
+        var xsums = alloc[Float32](rows_here * blocks_per_row * nsub)
+                    ^~~~~
+<unknown>:0: note: 'alloc' declared here
+Included from /home/volmarr/aesir-team-25/aesir_engine/tests/run_all.mojo:853:
+/home/volmarr/aesir-team-25/aesir_engine/tests/test_divergence_localiser_a116.mojo:84:39: warning: unreachable code after 'if False'
+    if SEEDED_LAYER != 7 or SEEDED_OP != String("mlp.down_proj"):
+                                      ^
+Included from /home/volmarr/aesir-team-25/aesir_engine/tests/run_all.mojo:812:
+/home/volmarr/aesir-team-25/aesir_engine/tests/test_local_gate_a117.mojo:36:32: warning: unreachable code after 'if False'
+    if LG_PASS != 0 or LG_FAIL != 1 or LG_NOT_RUN != 2:
+                               ^
+Included from /home/volmarr/aesir-team-25/aesir_engine/tests/run_all.mojo:197:
+Included from /home/volmarr/aesir-team-25/aesir_engine/tests/test_amd_realm.mojo:5:
+/home/volmarr/aesir-team-25/aesir_engine/core/amd_gate.mojo:212:21: warning: 'except' logic is unreachable, try doesn't raise an exception
+            return (False, Int(0))
+                    ^
+Included from /home/volmarr/aesir-team-25/aesir_engine/tests/run_all.mojo:838:
+Included from /home/volmarr/aesir-team-25/aesir_engine/tests/test_exactness_policy_a115.mojo:39:
+/home/volmarr/aesir-team-25/aesir_engine/core/exactness_policy.mojo:388:35: warning: unreachable code after 'if True'
+        and POL_FAITHFUL_NEAR_TIE == BAND_FAITHFUL_NEAR_TIE
+                                  ^
+Included from /home/volmarr/aesir-team-25/aesir_engine/tests/run_all.mojo:472:
+Included from /home/volmarr/aesir-team-25/aesir_engine/tests/test_mojo_gpu_target.mojo:19:
+/home/volmarr/aesir-team-25/aesir_engine/core/mojo_gpu_target.mojo:96:20: warning: 'except' logic is unreachable, try doesn't raise an exception
+            return -1
+                   ^
+Included from /home/volmarr/aesir-team-25/aesir_engine/tests/run_all.mojo:867:
+Included from /home/volmarr/aesir-team-25/aesir_engine/tests/test_qwen_battery_a119.mojo:34:
+/home/volmarr/aesir-team-25/aesir_engine/core/qwen_battery_a119.mojo:208:31: warning: unreachable code after 'if True'
+        and QB_COHERENCE_ONLY == POLICY_COHERENCE_ONLY
+                              ^
+Included from /home/volmarr/aesir-team-25/aesir_engine/tests/run_all.mojo:319:
+/home/volmarr/aesir-team-25/aesir_engine/tests/test_accum_policy_a075.mojo:97:26: warning: assignment to 'manifest' was never used; assign to '_' instead?
+    var manifest = String("")
+                         ^
+Included from /home/volmarr/aesir-team-25/aesir_engine/tests/run_all.mojo:343:
+/home/volmarr/aesir-team-25/aesir_engine/tests/test_device_lost_a079.mojo:280:24: warning: assignment to 'raised' was never used; assign to '_' instead?
+    var raised = String("")
+                       ^
+Included from /home/volmarr/aesir-team-25/aesir_engine/tests/run_all.mojo:971:
+/home/volmarr/aesir-team-25/aesir_engine/tests/test_teacher_forcing_harness_a109.mojo:38:13: warning: ref 'v' was never used, remove it?
+        for v in range(20):
+            ^
+Included from /home/volmarr/aesir-team-25/aesir_engine/tests/run_all.mojo:971:
+/home/volmarr/aesir-team-25/aesir_engine/tests/test_teacher_forcing_harness_a109.mojo:85:9: warning: ref 'i' was never used, remove it?
+    for i in range(len(backends)):
+        ^
+Included from /home/volmarr/aesir-team-25/aesir_engine/tests/run_all.mojo:971:
+/home/volmarr/aesir-team-25/aesir_engine/tests/test_teacher_forcing_harness_a109.mojo:110:9: warning: ref 'v' was never used, remove it?
+    for v in range(20):
+        ^
+Included from /home/volmarr/aesir-team-25/aesir_engine/tests/run_all.mojo:971:
+/home/volmarr/aesir-team-25/aesir_engine/tests/test_teacher_forcing_harness_a109.mojo:105:9: warning: ref 'v' was never used, remove it?
+    for v in range(20):
+        ^
+Included from /home/volmarr/aesir-team-25/aesir_engine/tests/run_all.mojo:971:
+/home/volmarr/aesir-team-25/aesir_engine/tests/test_teacher_forcing_harness_a109.mojo:100:9: warning: ref 'v' was never used, remove it?
+    for v in range(20):
+        ^
+Included from /home/volmarr/aesir-team-25/aesir_engine/tests/run_all.mojo:265:
+/home/volmarr/aesir-team-25/aesir_engine/tests/test_vulkan_sampling_a063.mojo:253:9: warning: ref 'i' was never used, remove it?
+    for i in range(5000):
+        ^
+Included from /home/volmarr/aesir-team-25/aesir_engine/tests/run_all.mojo:457:
+/home/volmarr/aesir-team-25/aesir_engine/tests/test_zero_copy.mojo:134:31: warning: assignment to 'c0' was never used; assign to '_' instead?
+    var c0 = ZeroCopy.counters()
+                              ^
+Included from /home/volmarr/aesir-team-25/aesir_engine/tests/run_all.mojo:197:
+Included from /home/volmarr/aesir-team-25/aesir_engine/tests/test_amd_realm.mojo:5:
+/home/volmarr/aesir-team-25/aesir_engine/core/amd_gate.mojo:266:31: warning: assignment to 'version' was never used; assign to '_' instead?
+                var version = -1
+                              ^
+Included from /home/volmarr/aesir-team-25/aesir_engine/tests/run_all.mojo:343:
+Included from /home/volmarr/aesir-team-25/aesir_engine/tests/test_device_lost_a079.mojo:33:
+/home/volmarr/aesir-team-25/aesir_engine/core/device_lost.mojo:428:24: warning: assignment to 'finished' was never used; assign to '_' instead?
+            finished = True
+                       ^
+Included from /home/volmarr/aesir-team-25/aesir_engine/tests/run_all.mojo:343:
+Included from /home/volmarr/aesir-team-25/aesir_engine/tests/test_device_lost_a079.mojo:33:
+/home/volmarr/aesir-team-25/aesir_engine/core/device_lost.mojo:412:28: warning: assignment to 'finished' was never used; assign to '_' instead?
+                finished = True
+                           ^
+Included from /home/volmarr/aesir-team-25/aesir_engine/tests/run_all.mojo:343:
+Included from /home/volmarr/aesir-team-25/aesir_engine/tests/test_device_lost_a079.mojo:33:
+/home/volmarr/aesir-team-25/aesir_engine/core/device_lost.mojo:371:37: warning: assignment to 'pending_loss' was never used; assign to '_' instead?
+            pending_loss = remaining^
+                                    ^
+Included from /home/volmarr/aesir-team-25/aesir_engine/tests/run_all.mojo:343:
+Included from /home/volmarr/aesir-team-25/aesir_engine/tests/test_device_lost_a079.mojo:33:
+/home/volmarr/aesir-team-25/aesir_engine/core/device_lost.mojo:348:28: warning: assignment to 'finished' was never used; assign to '_' instead?
+                finished = True
+                           ^
+Included from /home/volmarr/aesir-team-25/aesir_engine/tests/run_all.mojo:197:
+Included from /home/volmarr/aesir-team-25/aesir_engine/tests/test_amd_realm.mojo:10:
+/home/volmarr/aesir-team-25/aesir_engine/core/hardware_census.mojo:512:27: warning: assignment to 'version' was never used; assign to '_' instead?
+            var version = -1
+                          ^
+Included from /home/volmarr/aesir-team-25/aesir_engine/tests/run_all.mojo:197:
+Included from /home/volmarr/aesir-team-25/aesir_engine/tests/test_amd_realm.mojo:10:
+/home/volmarr/aesir-team-25/aesir_engine/core/hardware_census.mojo:462:22: warning: assignment to 'card' was never used; assign to '_' instead?
+    var card = String("")
+                     ^
+Included from /home/volmarr/aesir-team-25/aesir_engine/tests/run_all.mojo:197:
+Included from /home/volmarr/aesir-team-25/aesir_engine/tests/test_amd_realm.mojo:10:
+/home/volmarr/aesir-team-25/aesir_engine/core/hardware_census.mojo:542:23: warning: assignment to 'accel' was never used; assign to '_' instead?
+    var accel = String("")
+                      ^
+Included from /home/volmarr/aesir-team-25/aesir_engine/tests/run_all.mojo:388:
+Included from /home/volmarr/aesir-team-25/aesir_engine/tests/test_telemetry_a106.mojo:51:
+/home/volmarr/aesir-team-25/aesir_engine/core/scheduler_telemetry.mojo:418:20: warning: assignment to 'util' was never used; assign to '_' instead?
+        var util = -1
+                   ^
+Included from /home/volmarr/aesir-team-25/aesir_engine/tests/run_all.mojo:388:
+Included from /home/volmarr/aesir-team-25/aesir_engine/tests/test_telemetry_a106.mojo:51:
+/home/volmarr/aesir-team-25/aesir_engine/core/scheduler_telemetry.mojo:426:20: warning: assignment to 'used' was never used; assign to '_' instead?
+        var used = -1
+                   ^
+Included from /home/volmarr/aesir-team-25/aesir_engine/tests/run_all.mojo:388:
+Included from /home/volmarr/aesir-team-25/aesir_engine/tests/test_telemetry_a106.mojo:51:
+/home/volmarr/aesir-team-25/aesir_engine/core/scheduler_telemetry.mojo:427:23: warning: assignment to 'total_b' was never used; assign to '_' instead?
+        var total_b = -1
+                      ^
+Included from /home/volmarr/aesir-team-25/aesir_engine/tests/run_all.mojo:714:
+Included from /home/volmarr/aesir-team-25/aesir_engine/tests/test_thermal_power.mojo:20:
+/home/volmarr/aesir-team-25/aesir_engine/core/thermal_power.mojo:195:25: warning: assignment to 'listing' was never used; assign to '_' instead?
+    var listing = String("")
+                        ^
+Included from /home/volmarr/aesir-team-25/aesir_engine/tests/run_all.mojo:714:
+Included from /home/volmarr/aesir-team-25/aesir_engine/tests/test_thermal_power.mojo:20:
+/home/volmarr/aesir-team-25/aesir_engine/core/thermal_power.mojo:240:25: warning: assignment to 'domains' was never used; assign to '_' instead?
+    var domains = String("")
+                        ^
+Included from /home/volmarr/aesir-team-25/aesir_engine/tests/run_all.mojo:34:
+Included from /home/volmarr/aesir-team-25/aesir_engine/tests/test_gguf.mojo:5:
+/home/volmarr/aesir-team-25/aesir_engine/loader/gguf.mojo:566:29: warning: assignment to 'width' was never used; assign to '_' instead?
+                var width = 0
+                            ^
+Included from /home/volmarr/aesir-team-25/aesir_engine/tests/run_all.mojo:37:
+Included from /home/volmarr/aesir-team-25/aesir_engine/tests/test_local_protocol.mojo:5:
+Included from /home/volmarr/aesir-team-25/aesir_engine/server/ollama.mojo:6:
+/home/volmarr/aesir-team-25/aesir_engine/aesir.mojo:1236:30: warning: assignment to 'next_token' was never used; assign to '_' instead?
+            var next_token = -1
+                             ^
+[CASE PASS] hardware.host_memory
+[CASE PASS] hardware.inference_memory_counts
+[CASE PASS] hardware.inference_memory_rejection
+[CASE PASS] hardware.native_device_selection
+[CASE PASS] hardware.automatic_context_sequence
+[CASE PASS] hardware.planning_cli_rejection
+[CASE PASS] storage.persisted_text_admission
+==============================================
+  ⚡ Project Aesir — The Grand Proving ⚡
+==============================================
+
+  [DOMAIN] Core Compute Kernels
+  -----------------------------------------
+--- Testing gemm_f16 (The Anvil's Strike) ---
+gemm_f16: PASS
+[CASE PASS] compute.gemm_f16
+--- Testing gemm_f16_gpgpu_vector CPU fallback parity (F009) ---
+gemm_f16_gpgpu_vector CPU fallback parity: PASS
+[CASE PASS] compute.gemm_f16_gpgpu_vector_fallback
+--- Testing flash_attention_2 (The Gaze of Odin) ---
+flash_attention_2: PASS
+[CASE PASS] compute.flash_attention_2
+--- Testing silu (The Bending of the Branch) ---
+silu: PASS
+[CASE PASS] compute.silu
+--- Testing geglu (The Binding of the Gates) ---
+geglu: PASS
+[CASE PASS] compute.geglu
+canonical Q4_K dequantization: PASS
+Q5_K all-output scalar layout oracle: PASS
+Q6_K all-output scalar layout oracle: PASS
+[CASE PASS] compute.dequantize_q4_k
+
+  [DOMAIN] GGUFSeer Loader
+  -----------------------------------------
+--- Testing GGUFSeer validation (The Runecaster's Vision) ---
+GGUFSeer malformed-model rejection & FAILED state transition: PASS
+[CASE PASS] gguf.malformed_model_rejection
+--- Testing GGMLType Constants ---
+GGMLType: PASS
+[CASE PASS] gguf.type_constants
+PASS: GGUF version 3 admission is consistent across file and byte paths
+[CASE PASS] gguf.version_interface
+PASS: GGUF version header byte-length, endian, magic, and boundary cases
+[CASE PASS] gguf.version_reference
+PASS: GGUF version gate integrates with loader state and mmap cleanup
+[CASE PASS] gguf.version_integration
+PASS: GGUF oversized header counts reject before metadata parsing
+[CASE PASS] gguf.header_adversarial
+PASS: metadata type rejection and cleanup: llama.context_length
+PASS: metadata type rejection and cleanup: llama.embedding_length
+PASS: metadata type rejection and cleanup: llama.rope.freq_base
+PASS: metadata type rejection and cleanup: llama.attention.layer_norm_rms_epsilon
+PASS: metadata type rejection and cleanup: tokenizer.ggml.add_bos_token
+PASS: metadata type rejection and cleanup: tokenizer.ggml.add_space_prefix
+PASS: metadata type rejection and cleanup: general.alignment
+PASS: metadata type rejection and cleanup: tokenizer.ggml.tokens
+PASS: metadata type rejection and cleanup: tokenizer.ggml.tokens
+PASS: metadata type rejection and cleanup: extension.unknown_key
+PASS: GGUF selected metadata type unit matrix
+[CASE PASS] gguf.metadata_type_baseline
+PASS: metadata type rejection integrates with full load before allocation
+[CASE PASS] gguf.metadata_type_integration
+PASS: valid rank-one F16 tensor maps before missing-model-tensor rejection
+[CASE PASS] gguf.tensor_directory_baseline
+[CASE FAIL] gguf.tensor_directory_interface :: tensor directory admission differs for rank 3: GGUF is missing required tensor: token_embd.weight
+PASS: GGUF tensor directory arithmetic hostile boundaries
+[CASE PASS] gguf.tensor_directory_adversarial
+PASS: F32 directory entry converts into one MimirWell element
+[CASE PASS] gguf.tensor_directory_integration
+PASS: F32 pool exhaustion is mutation-free and cleans mmap
+[CASE PASS] gguf.tensor_directory_pool_adversarial
+
+  [DOMAIN] Vision (mmproj)
+  -----------------------------------------
+mmproj split_model_path: PASS
+mmproj candidate paths: PASS
+mmproj pick sibling: PASS
+mmproj tensor byte count: PASS
+mmproj discovery absence: PASS
+mmproj spec language match: PASS
+[CASE PASS] vision.mmproj_structure
+image_prep parse_ppm: PASS
+image_prep resize identity: PASS
+image_prep resize bilinear oracle: PASS
+image_prep patchify order: PASS
+image_prep mean/std: PASS
+image unsupported format: PASS
+[CASE PASS] vision.image_preprocessing
+vision patch_embed single pixel: PASS
+vision patch_embed position sensitive: PASS
+vision rms_norm: PASS
+vision rope_2d: PASS
+vision gelu_tanh: PASS
+vision attention: PASS
+vision position add: PASS
+vision pool: PASS
+[CASE PASS] vision.encoder_stages
+embedding span exact rows: PASS
+embedding span chunk offset: PASS
+embedding span no intersection: PASS
+embedding span fail-closed: PASS
+[CASE PASS] vision.embedding_span_injection
+[CASE SKIP] vision.cuda_session_image_chat :: requires the real Gemma 4 pair and a CUDA device; opt-in program tests/image_chat_cuda_mmproj.mojo
+
+  [DOMAIN] RuneWeaver Tokenizer
+  -----------------------------------------
+--- Testing RuneWeaver ---
+Fallback tokens count: 11
+BPE merged tokens count: 3
+RuneWeaver vocabulary validation: PASS
+RuneWeaver: PASS
+[CASE PASS] tokenizer.synthetic_bpe
+PASS: byte BPE tie, score order, chaining and UTF-8 fallback baseline
+[CASE PASS] tokenizer.byte_bpe_merge_baseline
+PASS: byte BPE public vocabulary-to-encode interface
+[CASE PASS] tokenizer.byte_bpe_merge_interface
+PASS: byte BPE repeatability and partial byte fallback boundaries
+[CASE PASS] tokenizer.byte_bpe_merge_adversarial
+PASS: RuneWeaver byte fallback integrates with streaming UTF-8 decoder
+[CASE PASS] tokenizer.byte_bpe_merge_integration
+PASS: BPE negative-score ranking and tie boundary
+[CASE PASS] tokenizer.byte_bpe_merge_negative_scores
+PASS: RuneWeaver preserves composed and decomposed Unicode byte vectors
+[CASE PASS] tokenizer.unicode_normalization_baseline
+PASS: Unicode-preserving public encode and vocabulary-driven space interface
+[CASE PASS] tokenizer.unicode_normalization_interface
+PASS: composed and decomposed Unicode round trips remain distinct
+[CASE PASS] tokenizer.unicode_normalization_integration
+PASS: non-breaking space stays distinct from ASCII space marker
+[CASE PASS] tokenizer.unicode_normalization_adversarial
+PASS: invalid UTF-8 rejects to unknown ID with optional BOS
+[CASE PASS] tokenizer.invalid_utf8_baseline
+PASS: UTF-8 invalid boundaries and maximum scalar admission
+[CASE PASS] tokenizer.invalid_utf8_adversarial
+PASS: invalid UTF-8 is replaced by unknown token before stream decoding
+[CASE PASS] tokenizer.invalid_utf8_integration
+PASS: all 128 isolated high-byte UTF-8 inputs fail closed
+[CASE PASS] tokenizer.invalid_utf8_single_byte_sweep
+--- A-050 edge: empty and BOS ---
+A-050 empty/bos: PASS
+[CASE PASS] tokenizer.edge_empty_and_bos
+--- A-050 edge: no-vocab byte fallback ---
+A-050 no-vocab fallback: PASS
+[CASE PASS] tokenizer.edge_no_vocab_fallback
+--- A-050 edge: unicode and emoji vs reference ---
+A-050 unicode/emoji: PASS
+[CASE PASS] tokenizer.edge_unicode_emoji
+--- A-050 edge: control tokens ---
+A-050 control tokens: PASS
+[CASE PASS] tokenizer.edge_control_tokens
+--- A-050 edge: invalid UTF-8 battery ---
+A-050 invalid utf8: PASS
+[CASE PASS] tokenizer.edge_invalid_utf8
+--- A-050 edge: oversized inputs ---
+A-050 oversized: PASS
+[CASE PASS] tokenizer.edge_oversized
+--- Testing Profiled Linear BPE Tokenizer Merge Performance ---
+Profiled linear BPE tokenizer merge performance: PASS
+[CASE PASS] tokenizer.linear_bpe_perf
+--- Testing MimirWell Allocation Telemetry & Arena Recycling ---
+MimirWell allocation telemetry & arena recycling: PASS
+[CASE PASS] memory.telemetry_and_recycling
+
+  [DOMAIN] The Loom of Fate (Inference)
+  -----------------------------------------
+--- Testing IQ token embedding lookup ---
+IQ token embedding lookup: PASS
+[CASE PASS] inference.iq_embedding_lookup
+--- Testing forward_pass (The Loom of Fate) ---
+Next token generated: 0
+forward_pass: PASS
+[CASE PASS] inference.synthetic_forward
+Finite greedy tie and unique-maximum policy: PASS
+[CASE PASS] sampling.greedy_tie_policy
+Greedy tie position and scan-order matrix: PASS
+[CASE PASS] sampling.greedy_tie_adversarial
+Temperature oracle mid observed/expected:  0.12768555  /  0.11920292
+Temperature oracle high observed/expected:  0.2775879  /  0.26894143
+[CASE PASS] sampling.temperature_distribution_oracle
+Temperature config-to-sampler integration: PASS token= 0
+[CASE PASS] sampling.temperature_integration
+Temperature adversarial admission and finite extremes: PASS
+[CASE PASS] sampling.temperature_adversarial
+CPU top-k empty, no-op, cutoff tie and count boundaries: PASS
+[CASE PASS] sampling.top_k_boundaries
+CPU top_k=1 sampling integration short-circuit: PASS
+[CASE PASS] sampling.top_k_integration
+Top-k singleton, dense ties and config extremes: PASS
+[CASE PASS] sampling.top_k_adversarial
+PASS: RMSNorm inference output-normalization integration
+[CASE PASS] inference.rmsnorm_integration
+--- Testing deterministic generation stop policy ---
+deterministic generation stop policy: PASS
+[CASE PASS] inference.stop_policy
+unsupported runtime configurations: PASS
+[CASE PASS] inference.unsupported_runtime_config
+--- Testing generation prompt byte bound ---
+Prompt byte bound: PASS
+[CASE PASS] inference.prompt_byte_bound
+--- Testing KVCache (The Waters of Mímisbrunnr) ---
+--- Testing KVCache Ring-Buffer Rotation ---
+KVCache ring-buffer rotation: PASS
+PagedKVCache multi-sequence allocation, exhaustion, and reuse: PASS
+KVCache instantiation: PASS
+KVCache token append: PASS
+MimirWell memory exhaustion error: PASS
+KVCache slice bounds: PASS
+KVCache state accumulation: PASS
+test_kv_cache: PASS
+[CASE PASS] inference.kv_cache
+PASS: MimirWell exact capacity and mutation-free rejection
+[CASE PASS] memory.allocation_bounds
+PASS: checked span range, empty policy, bounds and overflow admission
+[CASE PASS] memory.checked_span
+PASS: stream reader slab reads, advice, accounting, EOF refusal
+PASS: StreamReader(path=/tmp/aesir_stream_reader_test.bin, reads=2, bytes_read=1691, advice_calls=2, advised_bytes=2048)
+[CASE PASS] io.stream_reader
+PASS: expert cache sizing, cap resolution and size parsing
+PASS: expert cache admission, promotion, pinning, shrink, cap
+PASS: expert cache LRU baseline and LFU policy modes
+PASS: expert cache fsketch sketch-admission policy
+PASS: expert cache no-scarcity starvation fix (segmented, fsketch)
+PASS: expert cache shared pool sizing and arbiter arithmetic
+PASS: expert cache shared pool drive (contention, lending, return)
+PASS: expert cache pressure decisions (shrink, floor, refuse, regrow caps)
+PASS: expert cache pressure drive (pin held, refusal shed, regrow)
+[CASE PASS] memory.expert_cache
+PASS: dense residency sizing, cap resolution and size parsing
+PASS: dense residency spill plan derivation and statement
+PASS: dense layer cache scan behaviour, cap, pinning, shrink
+[CASE PASS] memory.dense_residency
+[CASE PASS] memory.rune_tensor_layout
+PASS: RMSNorm interface admission and mutation-free rejection
+[CASE PASS] compute.rmsnorm_interface
+PASS: RMSNorm scalar F32 reference across SIMD widths and tails
+[CASE PASS] compute.rmsnorm_reference
+PASS: RMSNorm finite extremes and IEEE exceptional-value behavior
+[CASE PASS] compute.rmsnorm_adversarial
+PASS: RoPE interface admission and mutation-free rejection
+[CASE PASS] compute.rope_interface
+PASS: RoPE scalar F32 reference across layouts, rows, heads, and positions
+[CASE PASS] compute.rope_reference
+PASS: RoPE output flows into KV cache without changing values
+[CASE PASS] compute.rope_integration
+PASS: attention interface admission and mutation-free rejection
+[CASE PASS] compute.attention_interface
+PASS: causal attention scalar reference and future-value isolation
+[CASE PASS] compute.attention_reference
+PASS: KV cache active slices feed causal attention prefixes
+[CASE PASS] compute.attention_integration
+PASS: causal attention excludes future tile values and admits boundary row
+[CASE PASS] compute.attention_adversarial
+
+  [DOMAIN] Logical Host Tensor Partitioning
+  -----------------------------------------
+--- Testing configured logical host topology ---
+--- Testing Honest Accelerator Hardware Discovery & Capability Matrix ---
+Secondary CUID not available: AMDCUID support not enabled.
+honest accelerator hardware discovery: PASS
+--- Testing Multi-Device GQA Head Partitioning ---
+multi-device GQA head partitioning: PASS
+logical host topology: PASS
+[CASE PASS] sharding.logical_host_topology
+--- Testing ShardTensor (The Thread Slice) ---
+ShardTensor: PASS
+[CASE PASS] sharding.tensor_descriptor
+--- Testing Tensor Partitioning (Rows & Cols) ---
+Tensor Partitioning (Rows/Cols): PASS
+[CASE PASS] sharding.row_column_partition
+--- Testing all_reduce_sum (The Convergence of Shards) ---
+all_reduce_sum: PASS
+[CASE PASS] sharding.host_all_reduce
+--- Testing sequential host-shard GEMM parity ---
+sequential host-shard GEMM parity: PASS
+[CASE PASS] sharding.host_gemm_parity
+
+  [DOMAIN] Local Vector and RAG Building Blocks
+  -----------------------------------------
+--- Testing SIMD Cosine Similarity (The Alignment of Mímisbrunnr) ---
+cosine_similarity: PASS
+[CASE PASS] rag.cosine_similarity
+--- Testing MimirStore (Insertion & k-NN Vector Search) ---
+MimirStore (insertion & k-NN): PASS
+[CASE PASS] rag.in_memory_store
+--- Testing Query Embedding Extraction (Mean-Pooled Token Vectors) ---
+Query Embedding Extraction: PASS
+[CASE PASS] rag.query_embedding
+--- Testing Corpus Ingestion & Deterministic Text Chunking ---
+Corpus Ingestion & Text Chunking: PASS
+[CASE PASS] rag.corpus_ingestion
+--- Testing End-to-End RAG Grounded Context & Citation Budgeting ---
+End-to-End RAG Grounded Context & Citation Budgeting: PASS
+[CASE PASS] rag.local_retrieval_prompt
+RAG Engine Integration: SKIP (requires a validated real GGUF fixture)
+[CASE SKIP] rag.real_engine_integration :: requires a validated external GGUF fixture
+
+  [DOMAIN] NPU Descriptors and Unsupported Execution Gateway
+  -----------------------------------------
+--- Testing reserved NPU backend discriminants ---
+NPUBackendType: PASS
+[CASE PASS] npu.enum
+--- Testing no fabricated NPU discovery ---
+no fabricated NPU discovery: PASS
+[CASE PASS] npu.no_fabricated_detection
+--- Testing NPU-labeled host buffer descriptor ---
+NPU-labeled host buffer descriptor: PASS
+[CASE PASS] npu.host_buffer_view
+--- Testing host 8-wide SIMD helper parity ---
+host 8-wide SIMD helper parity: PASS
+[CASE PASS] npu.host_simd8_parity
+--- Testing unsupported NPU execution gateway ---
+unsupported NPU execution gateway: PASS
+[CASE PASS] npu.unsupported_execution
+--- Testing NPU probe absence (H011 retirement) ---
+NPU probe absence: PASS
+[CASE PASS] npu.probe_absence
+--- Testing gemm_f16_npu shape mismatch handling ---
+gemm_f16_npu shape mismatch handling: PASS
+[CASE PASS] npu.npu_gemm_dispatch_bounds
+--- Testing NPU realm error gateways ---
+NPU realm error gateways: PASS
+[CASE PASS] npu.npu_realm_unsupported_gateways
+
+  [DOMAIN] GPU Descriptors and Unsupported Physical Gateways
+  -----------------------------------------
+--- Testing reserved GPU realm discriminants ---
+GPURealmType: PASS
+[CASE PASS] gpu.enum
+--- Testing no fabricated GPU discovery ---
+no fabricated GPU discovery: PASS
+[CASE PASS] gpu.no_fabricated_detection
+--- Testing GPU-labeled host buffer descriptor ---
+GPU-labeled host buffer descriptor: PASS
+[CASE PASS] gpu.host_buffer_view
+--- Testing unsupported GPU execution gateway ---
+unsupported GPU execution gateway: PASS
+[CASE PASS] gpu.unsupported_execution
+discovery failure status classification: PASS
+[CASE PASS] gpu.discovery_status_classification
+physical device admission invariants: PASS
+[CASE PASS] gpu.physical_device_admission
+topology discovery accumulation: PASS
+[CASE PASS] gpu.discovery_accumulation
+topology stable device selection: PASS
+[CASE PASS] gpu.stable_device_selection
+topology probe failure notes: PASS
+[CASE PASS] gpu.probe_failure_notes
+CUDA resource budget accounting: PASS
+[CASE PASS] gpu.resource_budget_accounting
+CUDA resource budget transactional rejection: PASS
+[CASE PASS] gpu.resource_budget_transaction
+CUDA resource budget overflow and rollback: PASS
+[CASE PASS] gpu.resource_budget_rollback
+CUDA allocation tracker adversarial contracts: PASS
+[CASE PASS] gpu.allocation_tracker_adversarial
+CUDA resource policy admission: PASS
+[CASE PASS] gpu.resource_policy_admission
+CUDA GEMM plan counts and launch: PASS
+[CASE PASS] gpu.cuda_gemm_plan_counts
+CUDA GEMM plan shape rejection: PASS
+[CASE PASS] gpu.cuda_gemm_plan_shape_rejection
+CUDA GEMM plan overflow and ABI rejection: PASS
+[CASE PASS] gpu.cuda_gemm_plan_abi_rejection
+CUDA GEMM batch budget transaction: PASS
+[CASE PASS] gpu.cuda_gemm_batch_transaction
+--- Testing truthful CUDA runtime and physical device discovery ---
+CUDA runtime library: NOT LOADABLE (Fail-Closed)
+[CASE PASS] gpu.cuda_gate_availability
+--- Testing gemm_f16_gpu shape mismatch handling ---
+[CASE PASS] gpu.cuda_gemm_dispatch_bounds
+--- Testing unsupported GPU realm error gateways ---
+[CASE PASS] gpu.cuda_realm_unsupported_gateways
+--- Testing MetalGate driver & framework availability ---
+Apple Metal Framework: UNAVAILABLE on current host platform (Fail-Closed)
+MetalGate driver & framework availability: PASS
+[CASE PASS] gpu.metal_gate_availability
+--- Testing gemm_f16_gpu Metal shape mismatch handling ---
+gemm_f16_gpu Metal shape mismatch handling: PASS
+[CASE PASS] gpu.metal_gemm_dispatch_bounds
+--- Testing Apple Metal realm error gateways ---
+Apple Metal realm error gateways: PASS
+[CASE PASS] gpu.metal_realm_unsupported_gateways
+--- Testing IntelGate driver & runtime availability ---
+Intel Level Zero: UNAVAILABLE on current host platform (Fail-Closed)
+IntelGate driver & runtime availability: PASS
+[CASE PASS] gpu.intel_gate_availability
+--- Testing gemm_f16_gpu Intel shape mismatch handling ---
+gemm_f16_gpu Intel shape mismatch handling: PASS
+[CASE PASS] gpu.intel_gemm_dispatch_bounds
+--- Testing Intel Level Zero realm error gateways ---
+Intel Level Zero realm error gateways: PASS
+[CASE PASS] gpu.intel_realm_unsupported_gateways
+--- Testing AMDGate driver & runtime availability ---
+AMD HIP runtime library: LOADABLE; device count queried live through the runtime: 1
+AMDGate driver & runtime availability: PASS
+[CASE PASS] gpu.amd_gate_availability
+--- Testing gemm_f16_gpu AMD shape mismatch handling ---
+gemm_f16_gpu AMD shape mismatch handling: PASS
+[CASE PASS] gpu.amd_gemm_dispatch_bounds
+--- Testing AMD ROCm HIP realm error gateways ---
+AMD ROCm HIP realm error gateways: PASS
+[CASE PASS] gpu.amd_realm_unsupported_gateways
+--- Testing AMDGate HIP device gate (A-010) ---
+AMD HIP device 0: AMD Radeon 8060S Graphics | arch gfx1151 | total_memory_bytes 114117050368 | wavefront 32 | multi_processors 20 | runtime_version 71500000
+AMDGate HIP device gate: PASS
+[CASE PASS] gpu.amd_hip_device_gate
+--- Testing AMDGate HIP properties parser (A-010) ---
+AMDGate HIP properties parser: PASS
+[CASE PASS] gpu.amd_hip_properties_parser
+--- Testing HIP hipMalloc/hipFree round trips (A-011) ---
+HIP hipMalloc/hipFree round trips (1B/4KiB/1MiB, byte-exact): PASS
+[CASE PASS] gpu.amd_hip_malloc_free_round_trip
+--- Testing HIP allocation rejection (A-011) ---
+HIP allocation rejection (non-positive local, oversize fail-closed): PASS
+[CASE PASS] gpu.amd_hip_alloc_rejection
+--- Testing HIP hipMallocManaged round trip (A-011) ---
+HIP hipMallocManaged round trip (64KiB host-written/host-read, synced): PASS
+[CASE PASS] gpu.amd_hip_malloc_managed_round_trip
+--- Testing HIP hipMemGetInfo accounting (A-011) ---
+HIP hipMemGetInfo accounting (total stable, free returns to baseline): PASS
+[CASE PASS] gpu.amd_hip_mem_get_info_accounting
+--- Testing HIP zero-leak accounting, 1000 iterations (A-011) ---
+HIP zero-leak battery: 1000 hipMalloc + 1000 hipMallocManaged iterations, leaked = 0 bytes: PASS
+[CASE PASS] gpu.amd_hip_no_leak_1000
+--- Testing HIP sync memcpy vs CPU oracle (A-012) ---
+HIP sync timing: 10 x (4 MiB H2D + 4 MiB D2H) = 80 MiB in 2 ms (wall, monotonic)
+HIP sync oracle round trips (1B/7B/4KiB/1MiB+1, H2D+D2D+D2H, byte-exact vs CPU oracle): PASS
+[CASE PASS] gpu.amd_hip_sync_oracle_round_trip
+--- Testing HIP stream async round trip (A-012) ---
+[CASE FAIL] gpu.amd_hip_stream_async_round_trip :: VAL-003 VALUE_OUT_OF_RANGE: HipTransfer.memcpy_async_host_to_device: buffer ownership law refused the operation: MEM-004 USE_AFTER_FREE (A-022)
+--- Testing HIP multi-stream overlap smoke (A-012) ---
+HIP overlap smoke timing: 4 streams x (2 MiB H2D + 2 MiB D2H) enqueued-then-synced in 3 ms; same work on one stream in 1 ms (wall, monotonic; no speedup asserted - unified-memory pool)
+HIP multi-stream overlap smoke (4 streams, enqueue-all then sync-all, byte-exact on every stream): PASS
+[CASE PASS] gpu.amd_hip_stream_overlap_smoke
+--- Testing HIP event timing of async transfers (A-012) ---
+HIP event timing: 4 MiB H2D + 4 MiB D2H async on one stream measured 0.498903 ms on-device (hipEventElapsedTime); round trip byte-exact: PASS
+[CASE PASS] gpu.amd_hip_event_timing
+--- Testing HIP stream/event rejection (A-012) ---
+HIP stream/event rejection (zero handle local, double-destroy, use-after-destroy, non-positive pinned size): PASS
+[CASE PASS] gpu.amd_hip_stream_rejection
+--- Testing Vulkan context creation (A-013) ---
+Vulkan device: AMD Radeon 8060S Graphics (RADV STRIX_HALO)
+vendor_id=4098 device_id=5510 api_version=4211042 queue_family=0 queue_count=1
+Vulkan context create on gfx1151 (RADV): PASS
+[CASE PASS] gpu.vulkan_context_create
+--- Testing Vulkan VkResult -> taxonomy mapping ---
+Vulkan taxonomy mapping (13 codes): PASS
+[CASE PASS] gpu.vulkan_taxonomy_mapping
+--- Testing Vulkan forced failures map to taxonomy ---
+Vulkan forced failures (4 stages) -> taxonomy, no crash: PASS
+[CASE PASS] gpu.vulkan_forced_failure_taxonomy
+--- Testing Vulkan local rejection paths ---
+Vulkan local rejection (negative queue family): PASS
+[CASE PASS] gpu.vulkan_context_rejection
+--- Testing Vulkan buffer alignment rules (A-014) ---
+Vulkan alignment rules (align_up checked; device limits powers of two; requirements size % alignment == 0): PASS
+[CASE PASS] gpu.vulkan_buffer_alignment_rules
+--- Testing Vulkan mapped buffer round trip (A-014) ---
+Vulkan mapped round trip (1B/7B/64B/4KiB/64KiB/1MiB, two patterns, unmap/remap persistence, byte-exact): PASS
+[CASE PASS] gpu.vulkan_buffer_round_trip
+--- Testing Vulkan buffer allocation rejection (A-014) ---
+radv/amdgpu: Failed to allocate a buffer:
+radv/amdgpu:    size      : 359330709504 bytes
+radv/amdgpu:    alignment : 262144 bytes
+radv/amdgpu:    domains   : 4
+Vulkan allocation rejection (non-positive local, double-free, oversize fail-closed): PASS
+[CASE PASS] gpu.vulkan_buffer_alloc_rejection
+--- Testing Vulkan buffer leak accounting (A-014) ---
+Vulkan zero-leak battery: 200 alloc/map/touch/free iterations, live accounting returned to baseline exactly: PASS
+[CASE PASS] gpu.vulkan_buffer_no_leak
+--- Testing weight residency accounting rules (A-020) ---
+Weight residency rejection + RSS accounting: PASS, VmRSS bytes: 5736566784
+[CASE PASS] gguf.weight_residency_accounting_rules
+--- Testing weight residency mapping accounting (A-020) ---
+mapping resident: 16384 file_clean: 16384 anon_dirty: 0
+Weight residency mapping accounting: PASS
+[CASE PASS] gguf.weight_residency_mapping_accounting
+--- Testing weight residency GPU visibility (A-020) ---
+Weight residency GPU visibility (device ptr == mmap ptr): PASS
+[CASE PASS] gguf.weight_residency_gpu_visibility
+--- Testing weight residency no device copy (A-020) ---
+hip free before: 126505246720 during registration: 126505230336 rss before: 5736599552 during: 5736615936
+Weight residency no-device-copy accounting: PASS
+[CASE PASS] gguf.weight_residency_no_device_copy
+--- Testing Vulkan vec_add dispatch oracle (A-015) ---
+Vulkan vec_add dispatch (n=1/7/255/256/257/1000/4097/65537, incl. non-multiples of workgroup 256, RADV device, oracle exact at every element): PASS
+[CASE PASS] gpu.vulkan_dispatch_vec_add_oracle
+--- Testing Vulkan dispatch rejection (A-015) ---
+Vulkan dispatch rejection (zero n, oversize n, bogus id): PASS
+[CASE PASS] gpu.vulkan_dispatch_rejection
+--- Testing Vulkan dispatch no-leak (A-015) ---
+Vulkan dispatch no-leak (50 dispatches at n=257, accounting exact): PASS
+[CASE PASS] gpu.vulkan_dispatch_no_leak
+--- Testing SPIR-V pipeline manifest (A-055) ---
+SPIR-V manifest (25 kernels: 22 prior + rope_batched + kv_append_chunk + attention_prefill registered A-069, deterministic): PASS
+[CASE PASS] gpu.spirv_pipeline_manifest
+--- Testing SPIR-V pipeline recorded hashes (A-055) ---
+SPIR-V recorded hashes (all 8 spv_sha256 present, vec_add pinned): PASS
+[CASE PASS] gpu.spirv_pipeline_hashes_recorded
+--- Testing SPIR-V pipeline embedded header (A-055) ---
+SPIR-V embedded header (25 arrays + registry table): PASS
+[CASE PASS] gpu.spirv_pipeline_header_embedded
+--- Testing SPIR-V pipeline no-fetch discipline (A-055) ---
+SPIR-V no-fetch discipline (local glslang/spirv-val only): PASS
+[CASE PASS] gpu.spirv_pipeline_no_runtime_fetch
+--- Testing SPIR-V pipeline toolchain record (A-055) ---
+SPIR-V toolchain record (glslang 16.4.0, SPIR-V 1.0): PASS
+[CASE PASS] gpu.spirv_pipeline_toolchain_recorded
+--- Testing Vulkan Q8_0 GEMV oracle parity (A-056) ---
+A056_SHAPE rows= 1  cols= 32  cpu_oracle_max_abs= 4.7683716e-07
+A056_SHAPE rows= 4  cols= 64  cpu_oracle_max_abs= 3.8146973e-06
+A056_SHAPE rows= 16  cols= 288  cpu_oracle_max_abs= 1.335144e-05
+A056_SHAPE rows= 37  cols= 320  cpu_oracle_max_abs= 2.670288e-05
+A056_SHAPE rows= 64  cols= 1024  cpu_oracle_max_abs= 7.247925e-05
+A056_SHAPE rows= 13  cols= 4096  cpu_oracle_max_abs= 0.00010120869
+Vulkan Q8_0 GEMV oracle parity (6 shapes incl. K=288 stories scale and K=4096, RADV device, worst max_abs= 0.00010120869 ): PASS
+[CASE PASS] gpu.vulkan_q8_gemv_oracle_parity
+--- Testing Vulkan Q8_0 GEMV known value (A-056) ---
+Vulkan Q8_0 GEMV known value (scale 0.25, q=i-16, x=1 -> -4 exact): PASS
+[CASE PASS] gpu.vulkan_q8_gemv_known_value
+--- Testing Vulkan Q8_0 GEMV vs engine CPU GEMV (A-056) ---
+Vulkan Q8_0 GEMV vs engine CPU GEMV (dyadic K=1024 N=96, within half F16 ULP of engine output at every output): PASS
+[CASE PASS] gpu.vulkan_q8_gemv_engine_crosscheck
+--- Testing Vulkan Q8_0 GEMV rejection (A-056) ---
+Vulkan Q8_0 GEMV rejection (zero rows, cols=48, oversize, bogus id): PASS
+[CASE PASS] gpu.vulkan_q8_gemv_rejection
+--- Testing Vulkan Q8_0 GEMV dispatch evidence (A-056) ---
+A056_SHAPE rows= 8  cols= 256  cpu_oracle_max_abs= 5.722046e-06
+A056_SHAPE rows= 8  cols= 256  cpu_oracle_max_abs= 5.722046e-06
+Vulkan Q8_0 GEMV dispatch evidence (counter +2 for 2 dispatches, accounting exact): PASS
+[CASE PASS] gpu.vulkan_q8_gemv_dispatch_evidence
+--- Testing Vulkan decode attention oracle parity (A-062) ---
+attn shape heads=4 ratio=1 dim=32 kv=5 max_abs=8.940697e-08
+attn shape heads=8 ratio=2 dim=64 kv=17 max_abs=7.4505806e-08
+attn shape heads=16 ratio=4 dim=128 kv=129 max_abs=7.4505806e-08
+attn shape heads=8 ratio=8 dim=64 kv=64 max_abs=7.4505806e-08
+attn shape heads=8 ratio=2 dim=64 kv=1024 max_abs=2.9802322e-08
+attn shape heads=4 ratio=1 dim=128 kv=1 max_abs=0.0
+Vulkan decode attention oracle parity (6 shapes, MHA/GQA/MQA): PASS
+[CASE PASS] gpu.vulkan_attn_decode_oracle_parity
+--- Testing Vulkan decode attention known values (A-062) ---
+attn shape heads=4 ratio=2 dim=32 kv=1 max_abs=0.0
+Vulkan decode attention known values (kv_len=1 identity): PASS
+[CASE PASS] gpu.vulkan_attn_decode_known_value
+--- Testing Vulkan decode attention GQA fixture ratio (A-062) ---
+attn shape heads=24 ratio=3 dim=128 kv=37 max_abs=1.0430813e-07
+attn shape heads=24 ratio=3 dim=64 kv=128 max_abs=5.9604645e-08
+Vulkan decode attention GQA fixture ratio 3 (24/8): PASS
+[CASE PASS] gpu.vulkan_attn_decode_gqa_fixture
+--- Testing Vulkan decode attention rejection (A-062) ---
+Vulkan decode attention rejection (6 invalid calls): PASS
+[CASE PASS] gpu.vulkan_attn_decode_rejection
+--- Testing Vulkan decode attention dispatch evidence (A-062) ---
+attn shape heads=8 ratio=2 dim=64 kv=17 max_abs=7.4505806e-08
+attn shape heads=8 ratio=2 dim=64 kv=17 max_abs=7.4505806e-08
+Vulkan decode attention dispatch evidence (counter +2, accounting exact): PASS
+[CASE PASS] gpu.vulkan_attn_decode_dispatch_evidence
+--- Testing Vulkan sampling greedy oracle parity (A-063) ---
+Vulkan sampling greedy oracle parity (8 sizes, token-exact): PASS
+[CASE PASS] gpu.vulkan_sampling_greedy_oracle_parity
+--- Testing Vulkan sampling greedy tie policy (A-063) ---
+Vulkan sampling greedy tie policy (5 crafted cases, lowest index): PASS
+[CASE PASS] gpu.vulkan_sampling_greedy_tie_policy
+--- Testing Vulkan sampling temperature/top-k exact-u oracle (A-063) ---
+Vulkan sampling temperature/top-k exact-u oracle (7 fixtures x u grid, token-exact): PASS
+[CASE PASS] gpu.vulkan_sampling_sample_oracle_exact
+--- Testing Vulkan sampling temperature distribution (A-063) ---
+Vulkan sampling temperature distribution (800 deterministic-u draws, oracle probs): PASS
+[CASE PASS] gpu.vulkan_sampling_temperature_distribution
+--- Testing Vulkan sampling rejection (A-063) ---
+Vulkan sampling rejection (9 invalid calls raise, no dispatch): PASS
+[CASE PASS] gpu.vulkan_sampling_rejection
+--- Testing Vulkan sampling dispatch evidence (A-063) ---
+Vulkan sampling dispatch evidence (greedy +3, sample +2, accounting exact): PASS
+[CASE PASS] gpu.vulkan_sampling_dispatch_evidence
+--- Testing GPU weight residency single residency (A-064) ---
+A064_SINGLE weight_bytes= 4352  alloc_size= 4352  type_flags= 7  live_delta= 4352  upload_calls= 0
+GPU weight residency single residency (one alloc, unified type, 0 uploads): PASS
+[CASE PASS] gpu.gpu_weight_residency_single
+--- Testing GPU weight residency repeated runs (A-064) ---
+A064_REPEAT runs=3 dispatch_delta=3 accounting_unchanged=true  oracle_worst_max_abs= 5.2452087e-06
+GPU weight residency repeated runs do not re-upload: PASS
+[CASE PASS] gpu.gpu_weight_residency_no_reupload
+--- Testing GPU weight residency CPU-shared visibility (A-064) ---
+A064_SHARED cpu_write_visible_to_gpu=true uploads=0 max_abs= 5.2452087e-06
+GPU weight residency shared with CPU path (no upload): PASS
+[CASE PASS] gpu.gpu_weight_residency_cpu_shared
+--- Testing GPU weight residency multi-tensor accounting (A-064) ---
+GPU weight residency multi-tensor exact-sum accounting: PASS
+[CASE PASS] gpu.gpu_weight_residency_multi_tensor
+--- Testing GPU weight residency rejection (A-064) ---
+GPU weight residency rejection (zero, negative, undersized): PASS
+[CASE PASS] gpu.gpu_weight_residency_rejection
+--- Testing Vulkan full layer oracle parity per layer index (A-065) ---
+A065_LAYER idx=0 chained max_abs=0.0015869141
+A065_LAYER idx=1 chained max_abs=0.00390625
+A065_LAYER idx=2 chained max_abs=0.005493164
+Vulkan full layer oracle parity (layers 0,1,2 chained): PASS
+[CASE PASS] gpu.vulkan_layer_oracle_parity
+--- Testing Vulkan full layer known value (A-065) ---
+A065_KNOWN zero-weight residual identity max_abs=0.0
+Vulkan full layer known value (residual identity): PASS
+[CASE PASS] gpu.vulkan_layer_known_value
+--- Testing Vulkan full layer standalone layer index (A-065) ---
+A065_LAYER idx=2 standalone max_abs=0.0014648438
+Vulkan full layer standalone layer index 2: PASS
+[CASE PASS] gpu.vulkan_layer_standalone_index
+--- Testing Vulkan full layer rejection (A-065) ---
+Vulkan full layer rejection (6 invalid calls): PASS
+[CASE PASS] gpu.vulkan_layer_rejection
+--- Testing Vulkan full layer dispatch evidence (A-065) ---
+A065_DISPATCH rmsnorm=2 rope=2 q8_gemv=7 attn=1 elementwise=3
+Vulkan full layer dispatch evidence (2/2/7/1/3, accounting exact): PASS
+[CASE PASS] gpu.vulkan_layer_dispatch_evidence
+--- Testing Vulkan KV-append parity (A-066) ---
+Vulkan KV-append parity (4 positions, bit-exact, slots isolated): PASS
+[CASE PASS] gpu.vulkan_decode_kv_append_parity
+--- Testing Vulkan strided attention parity (A-066) ---
+  strided attention max_abs 5.9604645e-08
+Vulkan strided attention parity (kv_len 3 of max_len 16): PASS
+[CASE PASS] gpu.vulkan_decode_strided_attention_parity
+--- Testing Vulkan full decode token-exact (A-066) ---
+  oracle step 2 token 12 logit gap 1.4627514
+  oracle step 3 token 72 logit gap 6.245077
+  oracle step 4 token 74 logit gap 1.2121506
+  oracle step 5 token 66 logit gap 3.631874
+  oracle step 6 token 66 logit gap 0.6080437
+  oracle step 7 token 23 logit gap 3.5085793
+  oracle step 8 token 26 logit gap 1.3139744
+  oracle step 9 token 86 logit gap 0.28340912
+  step 0 gpu token 12 oracle token 12
+  step 1 gpu token 72 oracle token 72
+  step 2 gpu token 74 oracle token 74
+  step 3 gpu token 66 oracle token 66
+  step 4 gpu token 66 oracle token 66
+  step 5 gpu token 23 oracle token 23
+  step 6 gpu token 26 oracle token 26
+  step 7 gpu token 86 oracle token 86
+Vulkan full decode token-exact (8 greedy tokens, RADV dispatches counted): PASS
+[CASE PASS] gpu.vulkan_decode_token_exact
+--- Testing Vulkan decode rejection (A-066) ---
+Vulkan decode rejection (6 of 6 raise before dispatch): PASS
+[CASE PASS] gpu.vulkan_decode_rejection
+--- Testing Vulkan real-model logit sanitization (A-067) ---
+sanitize policy: NaN/+Inf/-Inf -> -1e9, counts exact, CPU-policy identical
+[CASE PASS] gpu.vulkan_real_model_sanitize_policy
+--- Testing Vulkan real-model RoPE layout permutation (A-067) ---
+rope permutation: interleaved -> rotate-half reindex exact
+[CASE PASS] gpu.vulkan_real_model_rope_permutation
+--- Testing Vulkan real-model fixture config (A-067) ---
+GGUF validated: 292 tensors, 33 metadata entries, architecture llama
+GGUF validated: 292 tensors, 33 metadata entries, architecture llama
+fixture config: llama 32L dim 4096 ffn 14336 vocab 128256, 32 live buffers, close releases all
+[CASE PASS] gpu.vulkan_real_model_fixture_config
+--- Testing Vulkan real-model teacher-forcing battery (A-067) ---
+GGUF validated: 292 tensors, 33 metadata entries, architecture llama
+MimirWell initialized with 2133881856 derived bytes.
+GGUF validated: 292 tensors, 33 metadata entries, architecture llama
+Starting deterministic generation loop (The Weaving of Fate)...
+Prompt tokens: 6 context_length: 131072
+ Token generated: 264 ' a'
+ Token generated: 3363 ' city'
+ Token generated: 315 ' of'
+ Token generated: 6800 ' grand'
+ Token generated: 12844 'eur'
+ Token generated: 323 ' and'
+ Token generated: 13444 ' beauty'
+ Token generated: 11 ','
+AESIR_TIMING_JSON: {"timing_version":1,"load_ms":489.113,"prefill_ms":679.980,"decode_ms":1101.045,"sample_ms":0.194,"accounted_ms":2270.333,"wall_ms":2270.554,"residual_ms":0.220,"coverage_pct":99.99,"prompt_tokens":6,"generated_tokens":8,"clock":"CLOCK_MONOTONIC","sample_scope":"sample_token_from_logits calls in the forward paths"}
+Generated 8 token(s); stop reason: length
+Inference complete. Fate is sealed.
+GGUF validated: 292 tensors, 33 metadata entries, architecture llama
+battery: continuation faithful-band  8 / 8 , top-1 agreement  13 / 13
+[CASE PASS] gpu.vulkan_real_model_teacher_forcing
+--- Testing Vulkan real-model GPU greedy generation (A-067) ---
+GGUF validated: 292 tensors, 33 metadata entries, architecture llama
+MimirWell initialized with 2133881856 derived bytes.
+GGUF validated: 292 tensors, 33 metadata entries, architecture llama
+Starting deterministic generation loop (The Weaving of Fate)...
+Prompt tokens: 6 context_length: 131072
+ Token generated: 264 ' a'
+ Token generated: 3363 ' city'
+ Token generated: 315 ' of'
+ Token generated: 6800 ' grand'
+ Token generated: 12844 'eur'
+ Token generated: 323 ' and'
+ Token generated: 13444 ' beauty'
+ Token generated: 11 ','
+ Token generated: 449 ' with'
+ Token generated: 264 ' a'
+ Token generated: 9257 ' rich'
+ Token generated: 3925 ' history'
+ Token generated: 323 ' and'
+ Token generated: 7829 ' culture'
+ Token generated: 430 ' that'
+ Token generated: 374 ' is'
+AESIR_TIMING_JSON: {"timing_version":1,"load_ms":498.666,"prefill_ms":268.406,"decode_ms":2431.588,"sample_ms":0.402,"accounted_ms":3199.063,"wall_ms":3199.292,"residual_ms":0.229,"coverage_pct":99.99,"prompt_tokens":6,"generated_tokens":16,"clock":"CLOCK_MONOTONIC","sample_scope":"sample_token_from_logits calls in the forward paths"}
+Generated 16 token(s); stop reason: length
+Inference complete. Fate is sealed.
+GGUF validated: 292 tensors, 33 metadata entries, architecture llama
+generation: GPU greedy == CPU greedy 16/16, first token 264
+[CASE PASS] gpu.vulkan_real_model_generation
+--- Testing Vulkan real-model dispatch evidence (A-067) ---
+GGUF validated: 292 tensors, 33 metadata entries, architecture llama
+GGUF validated: 292 tensors, 33 metadata entries, architecture llama
+dispatch evidence: one step = q4k 192, q6k 36, rmsnorm 65, rope 64, attn 32, elementwise 96 on RADV
+[CASE PASS] gpu.vulkan_real_model_dispatch_evidence
+--- Testing Vulkan real-model rejection (A-067) ---
+GGUF validated: 292 tensors, 33 metadata entries, architecture llama
+GGUF validated: 292 tensors, 33 metadata entries, architecture llama
+rejection: pre-load, bad path, bad token, skipped position all raise pre-dispatch
+[CASE PASS] gpu.vulkan_real_model_rejection
+--- Testing Vulkan chunked prefill CPU oracle parity (A-069) ---
+A069_ORACLE seq= 40  chunk=16 (16/16/8 partial final)  max_len= 64  out_max_abs= 1.0728836e-06  k_max_abs= 4.6491623e-06  v_max_abs= 9.536743e-07
+Vulkan chunked prefill CPU oracle parity (seq=40, chunk=16, outputs + KV caches, RADV device): PASS
+[CASE PASS] gpu.vulkan_chunked_prefill_cpu_oracle_parity
+--- Testing Vulkan chunked prefill identical to unchunked (A-069) ---
+A069_IDENTICAL seq= 40  chunk16_vs_whole_out= 0.0  chunk7_vs_whole_out= 0.0  chunk7_k= 0.0  chunk7_v= 0.0
+Vulkan chunked prefill identical to unchunked (chunk 16 and chunk 7 vs single-chunk, outputs + KV): PASS
+[CASE PASS] gpu.vulkan_chunked_prefill_identical_to_unchunked
+--- Testing Vulkan chunked prefill causal isolation (A-069) ---
+A069_CAUSAL perturbed_token=20 early_max_abs= 0.0  late_max_abs= 2.3295734
+Vulkan chunked prefill causal isolation (token 20 perturbation: positions <20 bitwise unchanged, >=20 changed): PASS
+[CASE PASS] gpu.vulkan_chunked_prefill_causal_isolation
+--- Testing Vulkan chunked prefill RoPE global positions (A-069) ---
+A069_ROPE base_position=8 vs_global_max_abs= 5.9604645e-07  vs_local_max_abs= 1.8964828
+Vulkan chunked prefill RoPE global positions (chunk starting at 8 matches global oracle, differs from restarted): PASS
+[CASE PASS] gpu.vulkan_chunked_prefill_rope_global_positions
+--- Testing Vulkan chunked prefill KV append chunk slots (A-069) ---
+Vulkan chunked prefill KV append chunk (5 tokens at slot 7, bit-exact, neighbours untouched): PASS
+[CASE PASS] gpu.vulkan_chunked_prefill_kv_append_chunk_slots
+--- Testing Vulkan chunked prefill rejection (A-069) ---
+Vulkan chunked prefill rejection (zero tokens, chunk overrun, head_dim 128, append overrun, bogus id; counters unmoved): PASS
+[CASE PASS] gpu.vulkan_chunked_prefill_rejection
+--- Testing Vulkan chunked prefill dispatch evidence + bounds (A-069) ---
+A069_BOUNDS workspace_chunk256= 786432  kv_cache_8k_bytes= 2097152  live_count_delta= 0
+Vulkan chunked prefill dispatch evidence + bounds (per-chunk deltas rope 2 / kv 2 / attn 1 / rmsnorm 2 / gemm 7 / elem 3; 8k plan 32 chunks; workspace chunk-sized only): PASS
+[CASE PASS] gpu.vulkan_chunked_prefill_dispatch_and_bounds
+--- Testing Vulkan continuous batch 4-seq vs solo (A-072) ---
+  seq 0 tokens [12, 72, 74, 66, 66, 23, 26, 86]
+  seq 1 tokens [42, 21, 21, 68, 86, 93, 47, 95]
+  seq 2 tokens [33, 48, 4, 48, 4, 48, 4, 48]
+  seq 3 tokens [11, 56, 74, 33, 42, 62, 20, 72]
+Vulkan continuous batch 4-seq match solo + oracle anchor: PASS
+[CASE PASS] gpu.vulkan_continuous_batch_four_match_single
+--- Testing Vulkan continuous batch heterogeneous (A-072) ---
+Vulkan continuous batch heterogeneous lengths/gens: PASS
+[CASE PASS] gpu.vulkan_continuous_batch_heterogeneous
+--- Testing Vulkan continuous batch admission (A-072) ---
+Vulkan continuous batch dynamic admission (2-slot churn): PASS
+[CASE PASS] gpu.vulkan_continuous_batch_dynamic_admission
+--- Testing Vulkan continuous batch isolation (A-072) ---
+Vulkan continuous batch isolation (no KV cross-talk): PASS
+[CASE PASS] gpu.vulkan_continuous_batch_isolation
+--- Testing Vulkan continuous batch rejection (A-072) ---
+Vulkan continuous batch rejection (7 of 7 pre-dispatch): PASS
+[CASE PASS] gpu.vulkan_continuous_batch_rejection
+--- Testing Vulkan continuous batch max_active=1 (A-072) ---
+Vulkan continuous batch single-slot serial equivalence: PASS
+[CASE PASS] gpu.vulkan_continuous_batch_single_slot_serial
+--- Testing accumulation policy table completeness (A-075) ---
+accum_policy table completeness: PASS
+[CASE PASS] accum_policy.table_completeness
+--- Testing accumulation policy uniformity (A-075) ---
+accum_policy uniform FP32: PASS
+[CASE PASS] accum_policy.table_uniform_fp32
+--- Testing accumulation dot error vs K (A-075) ---
+accum_policy dot error K-scaling: PASS
+[CASE PASS] accum_policy.dot_error_k_scaling
+--- Testing accumulation logit-gap battery (A-075) ---
+accum_policy logit-gap battery: PASS
+[CASE PASS] accum_policy.logit_gap_battery
+--- Testing accumulation norm/mass/attention evidence (A-075) ---
+accum_policy norm/mass/attention evidence: PASS
+[CASE PASS] accum_policy.norm_mass_attention
+--- Testing accumulation emulation invariants (A-075) ---
+accum_policy emulation invariants: PASS
+[CASE PASS] accum_policy.emulation_invariants
+--- Testing Vulkan Q8_0 GEMM oracle parity (A-068) ---
+A068_Q8_SHAPE rows= 16  cols= 288  tokens= 8  cpu_oracle_max_abs= 2.2888184e-05
+A068_Q8_SHAPE rows= 37  cols= 320  tokens= 13  cpu_oracle_max_abs= 2.4795532e-05
+A068_Q8_SHAPE rows= 64  cols= 1024  tokens= 32  cpu_oracle_max_abs= 7.247925e-05
+A068_Q8_SHAPE rows= 13  cols= 64  tokens= 1  cpu_oracle_max_abs= 9.536743e-07
+A068_Q8_SHAPE rows= 32  cols= 256  tokens= 64  cpu_oracle_max_abs= 2.670288e-05
+Vulkan Q8_0 GEMM oracle parity (5 batched shapes incl. tokens=1..64, K=288 stories scale and K=1024, RADV device, worst max_abs= 7.247925e-05 ): PASS
+[CASE PASS] gpu.vulkan_prefill_gemm_oracle_parity
+--- Testing Vulkan Q8_0 GEMM known value (A-068) ---
+Vulkan Q8_0 GEMM known value (tokens=4, scale 0.25, q=i-16, x=t+1 -> -4*(t+1) exact): PASS
+[CASE PASS] gpu.vulkan_prefill_gemm_known_value
+--- Testing Vulkan F32 GEMM oracle parity (A-068) ---
+A068_F32_SHAPE rows= 32  cols= 256  tokens= 16  cpu_oracle_max_abs= 1.7166138e-05
+A068_F32_SHAPE rows= 17  cols= 288  tokens= 7  cpu_oracle_max_abs= 1.335144e-05
+A068_F32_SHAPE rows= 64  cols= 1024  tokens= 32  cpu_oracle_max_abs= 4.9591064e-05
+Vulkan F32 GEMM oracle parity (3 batched shapes, RADV device, worst max_abs= 4.9591064e-05 ): PASS
+[CASE PASS] gpu.vulkan_prefill_gemm_f32_parity
+--- Testing Vulkan GEMM batch independence (A-068) ---
+Vulkan GEMM batch independence (tokens=8 joint == 8x tokens=1 bitwise; tokens=1 == A-056 GEMV bitwise): PASS
+[CASE PASS] gpu.vulkan_prefill_gemm_batch_independence
+--- Testing CPU assist stats accounting (A-070) ---
+[CASE PASS] cpu_assist.stats_accounting
+--- Testing CPU assist lawful policy verdicts (A-070) ---
+[CASE PASS] cpu_assist.policy_verdicts
+--- Testing lm_head stitch append == scatter (A-070) ---
+[CASE PASS] cpu_assist.stitch_equivalence
+--- Testing CPU assist sanitize policy pin (A-070) ---
+[CASE PASS] cpu_assist.sanitize_policy
+--- Testing CPU assist inventory completeness (A-070) ---
+[CASE PASS] cpu_assist.inventory_completeness
+--- Testing CPU assist stats on an unloaded model (A-070) ---
+[CASE PASS] cpu_assist.stats_absent_model
+--- Testing Vulkan GEMM rejection (A-068) ---
+Vulkan GEMM rejection (zero tokens, zero rows, cols=48, oversize batch, bogus id, f32 zero tokens): PASS
+[CASE PASS] gpu.vulkan_prefill_gemm_rejection
+--- Testing Vulkan GEMM dispatch evidence (A-068) ---
+A068_Q8_SHAPE rows= 8  cols= 256  tokens= 16  cpu_oracle_max_abs= 1.9073486e-05
+A068_Q8_SHAPE rows= 8  cols= 256  tokens= 16  cpu_oracle_max_abs= 1.9073486e-05
+Vulkan GEMM dispatch evidence (q8 counter +2, f32 counter +1, accounting exact): PASS
+[CASE PASS] gpu.vulkan_prefill_gemm_dispatch_evidence
+--- Testing Vulkan async decode token identity (A-071) ---
+  oracle step 2 token 12 logit gap 1.4627514
+  oracle step 3 token 72 logit gap 6.245077
+  oracle step 4 token 74 logit gap 1.2121506
+  oracle step 5 token 66 logit gap 3.631874
+  oracle step 6 token 66 logit gap 0.6080437
+  oracle step 7 token 23 logit gap 3.5085793
+  oracle step 8 token 26 logit gap 1.3139744
+  oracle step 9 token 86 logit gap 0.28340912
+  step 0 async 12 sync 12 oracle 12
+  step 1 async 72 sync 72 oracle 72
+  step 2 async 74 sync 74 oracle 74
+  step 3 async 66 sync 66 oracle 66
+  step 4 async 66 sync 66 oracle 66
+  step 5 async 23 sync 23 oracle 23
+  step 6 async 26 sync 26 oracle 26
+  step 7 async 86 sync 86 oracle 86
+Vulkan async decode token identity (sync == async == oracle): PASS
+[CASE PASS] gpu.vulkan_async_token_identity
+--- Testing Vulkan async no per-token host sync (A-071) ---
+  submits 374 completed 374 pending 0 max_depth 108 wait_idle 0 fence_waits 8
+Vulkan async no-wait-idle (queued, fence-drained per token): PASS
+[CASE PASS] gpu.vulkan_async_no_wait_idle
+--- Testing Vulkan async timeline trace sane (A-071) ---
+  ts_ok True busy_ns 1071845 span_ns 12224082 busy_fraction 0.08768306691659955 host_wait_ns 264725 period_ps 10019
+Vulkan async timeline sane (busy fraction in (0,1], span >= busy): PASS
+[CASE PASS] gpu.vulkan_async_timeline_sane
+--- Testing Vulkan async dispatch queueing (A-071) ---
+  mid pending 16 submits 16 max_depth 16
+Vulkan async dispatch queueing (16 queued GEMV, results exact): PASS
+[CASE PASS] gpu.vulkan_async_dispatch_queueing
+--- Testing Vulkan async rejection (A-071) ---
+Vulkan async rejection (validation before mode-on, no residue): PASS
+[CASE PASS] gpu.vulkan_async_rejection
+--- Testing Vulkan async dispatch evidence (A-071) ---
+  submits 374 per step 37 host_wait_ns/token 29539
+Vulkan async dispatch evidence (RADV counters + per-token host wait): PASS
+[CASE PASS] gpu.vulkan_async_dispatch_evidence
+--- Testing GPU fuzz seed replay (A-078) ---
+seed replay: 16 cases regenerate identical ids + rows; seeds distinct
+[CASE PASS] gpu_fuzz.seed_replay
+--- Testing GPU fuzz case coverage (A-078) ---
+coverage: prompt lens span  1 .. 32  over 64 cases; shapes incl. odd 37/251; gen lens 1..8
+[CASE PASS] gpu_fuzz.case_coverage
+--- Testing GPU fuzz verdict classifier (A-078) ---
+classifier: faithful/near-tie/comparator/IQ-noise/margin-noise/real/invalid all pinned
+[CASE PASS] gpu_fuzz.verdict_classifier
+--- Testing GPU fuzz synthetic row battery (A-078) ---
+synthetic battery: 64/64 verdicted, 0 real; faithful  56  near-tie  5  noise  3
+[CASE PASS] gpu_fuzz.synthetic_row_battery
+--- Testing GPU fuzz sampling greedy (A-078) ---
+greedy fuzz: 24 seeded rows, shapes 16..4096, token-exact vs CPU; dispatches  24
+[CASE PASS] gpu_fuzz.sampling_greedy
+--- Testing GPU fuzz sampling temperature (A-078) ---
+temperature fuzz:  18  seeded draws exact vs the CPU sampling oracle
+[CASE PASS] gpu_fuzz.sampling_temperature
+--- Testing GPU fuzz real-model random prompts (A-078) ---
+GGUF validated: 292 tensors, 33 metadata entries, architecture llama
+MimirWell initialized with 2133881856 derived bytes.
+GGUF validated: 292 tensors, 33 metadata entries, architecture llama
+GGUF validated: 292 tensors, 33 metadata entries, architecture llama
+real-model fuzz: 6 random prompts,  26  positions verdicted, 0 real; comparator  26  faithful  0  near-tie  0  noise  0
+[CASE PASS] gpu_fuzz.real_model_random_prompts
+--- Testing equivalence classifier table (A-080) ---
+classifier table: faithful/near-tie/comparator/noise/real/invalid pinned through the gate wrapper
+[CASE PASS] equivalence.classifier_table
+--- Testing equivalence battery aggregation (A-080) ---
+EQUIV_SYNTH total= 32  faithful= 28  near_tie= 4  noise= 0  real=0 invalid=0 gate=PASS
+[CASE PASS] equivalence.battery_aggregation
+--- Testing equivalence regression blocks (A-080) ---
+regression blocks: real divergence, invalid row, and empty battery each flip the gate to FAIL
+[CASE PASS] equivalence.regression_blocks
+--- Testing equivalence gate script contract (A-080) ---
+script contract: fast gate invokes the equivalence gate; equivalence gate judges the driver pass line
+[CASE PASS] equivalence.gate_script_contract
+--- Testing equivalence sampling parity (A-080) ---
+EQUIV_SAMPLE absent=0 cases= 12  token-exact vs CPU; dispatches  12
+[CASE PASS] equivalence.sampling_parity
+--- Testing equivalence real-model parity (A-080) ---
+GGUF validated: 292 tensors, 33 metadata entries, architecture llama
+MimirWell initialized with 2133881856 derived bytes.
+GGUF validated: 292 tensors, 33 metadata entries, architecture llama
+GGUF validated: 292 tensors, 33 metadata entries, architecture llama
+EQUIV_REAL absent=0 positions= 7  faithful= 0  near_tie= 0  noise= 0  comparator= 7  real=0 invalid=0 gate=PASS
+[CASE PASS] equivalence.real_model_parity
+--- Testing pressure classification boundaries (A-076) ---
+PASS: classification exact at every boundary, unknown stays unknown
+[CASE PASS] gpu.gpu_pressure_classification
+--- Testing GPU route under no pressure + baseline (A-076) ---
+PASS: accelerator-first admit, exact accounting, baseline return
+[CASE PASS] gpu.gpu_pressure_gpu_route_baseline
+--- Testing squeeze: spillable spills, non-spillable refused (A-076) ---
+PASS: squeeze degrades by spill/refusal, logged, no crash, no charge
+[CASE PASS] gpu.gpu_pressure_squeeze_spill_refuse
+--- Testing degradation is bounded (spill cap, sizes, releases) (A-076) ---
+PASS: spill cap bounds degradation; bad sizes and over-release refused
+[CASE PASS] gpu.gpu_pressure_bounded_degradation
+--- Testing recovery after pressure releases (A-076) ---
+PASS: degradation is a state, not a ratchet - GPU route reopens
+[CASE PASS] gpu.gpu_pressure_recovery
+--- Testing live meminfo reading + bounded log storm (A-076) ---
+MEASURED live pool: total 130454048768 available 108169908224 level NONE
+PASS: live reading is real; the log itself cannot become a leak
+[CASE PASS] gpu.gpu_pressure_live_and_log_bound
+--- Testing governor over a real RADV buffer (A-076) ---
+PASS: real RADV STRIX_HALO buffer admitted, freed, both accounts at baseline
+[CASE PASS] gpu.gpu_pressure_device_buffer
+--- Testing spillover: stack that fits is all-GPU (A-102) ---
+PASS: accelerator-first - fitting stack all-GPU, CPU untouched
+[CASE PASS] sched.spillover_all_fit_gpu
+--- Testing spillover: capacity spill in stack order (A-102) ---
+PASS: prefix on accelerator, suffix spilled to CPU, logged with reason
+[CASE PASS] sched.spillover_capacity_spill_order
+--- Testing spillover: non-spillable refusal is atomic (A-102) ---
+PASS: MEM-003 refusal before any placement, nothing half-placed
+[CASE PASS] sched.spillover_nonspillable_refusal_atomic
+--- Testing spillover: spill ledger is bounded (A-102) ---
+PASS: degradation bounded - spill past the cap refuses, never overflows
+[CASE PASS] sched.spillover_spill_cap_bound
+--- Testing spillover: CPU assist is evidence-gated (A-102) ---
+PASS: assist without evidence ignored; with evidence placed + logged
+[CASE PASS] sched.spillover_assist_evidence_gate
+--- Testing spillover: placement log is reproducible (A-102) ---
+PASS: same inputs, byte-identical log + digest; new capacity, new digest
+[CASE PASS] sched.spillover_log_reproducible
+--- Testing spillover: GPU placement executed on RADV (A-102) ---
+live pool avail= 108169908224  total= 130454048768
+PASS: placed bytes resident on RADV STRIX_HALO, readback exact, freed
+[CASE PASS] sched.spillover_device_execution
+--- Testing fairness: equal share, lag bound every step (A-105) ---
+PASS: 1:1 both drained, lag + wait bounds held every step, jain= 1000
+[CASE PASS] sched.fairness_equal_share
+--- Testing fairness: weighted 2:1 share is proportional (A-105) ---
+PASS: 2:1 service proportional, served= 204800 , 102400  jain= 1000
+[CASE PASS] sched.fairness_weighted_share
+--- Testing fairness: huge prefill cannot starve small model (A-105) ---
+PASS: small model worst latency steps= 1  bound= 2  huge model served= 101600
+[CASE PASS] sched.fairness_no_starvation_adversarial
+--- Testing fairness: idle model banks no credit (A-105) ---
+PASS: idle phase deficit 0 + full solo share; peer bound held on return
+[CASE PASS] sched.fairness_idle_no_hoard
+--- Testing fairness: single model pays no fairness tax (A-105) ---
+PASS: solo model drained 10000 tokens in 20 full-budget steps
+[CASE PASS] sched.fairness_single_model_throughput
+--- Testing fairness: governor budget squeeze keeps bounds (A-105) ---
+PASS: budgets 512/128/32/1 all fair, both progressed at budget 1, served= 21536 , 21536
+[CASE PASS] sched.fairness_governor_pressure
+--- Testing fairness: fairness log is reproducible (A-105) ---
+PASS: same script, byte-identical log + digest; new weights, new digest
+[CASE PASS] sched.fairness_log_reproducible
+--- Testing fairness: two models served on RADV in scheduler order (A-105) ---
+PASS: both models first-served inside the bound on RADV (steps 1 , 2 ), readbacks exact, freed
+[CASE PASS] sched.fairness_device_execution
+--- Testing telemetry: live rows inside physical bounds (A-106) ---
+Secondary CUID not available: AMDCUID support not enabled.
+'DISPLAY' environment variable not set... skipping surface info
+error: XDG_RUNTIME_DIR is invalid or not set in the environment.
+WARNING: [Loader Message] Code 0 : ICD for selected physical device does not export vkGetPhysicalDeviceDisplayPlanePropertiesKHR!
+WARNING: [Loader Message] Code 0 : ICD for selected physical device does not export vkGetPhysicalDeviceDisplayPropertiesKHR!
+PASS: gpu util= 2.0%  placements total= 12  gpu/npu/cpu= 6 / 2 / 4
+[CASE PASS] sched.telemetry_live_bounds
+--- Testing telemetry: /proc/stat two-sample delta is exact (A-106) ---
+PASS: synthetic delta exactly 50.0%, zero interval unknown, live samples monotonic
+[CASE PASS] sched.telemetry_cpu_util_parser
+--- Testing telemetry: matches external observation within tolerance (A-106) ---
+Secondary CUID not available: AMDCUID support not enabled.
+'DISPLAY' environment variable not set... skipping surface info
+error: XDG_RUNTIME_DIR is invalid or not set in the environment.
+WARNING: [Loader Message] Code 0 : ICD for selected physical device does not export vkGetPhysicalDeviceDisplayPlanePropertiesKHR!
+WARNING: [Loader Message] Code 0 : ICD for selected physical device does not export vkGetPhysicalDeviceDisplayPropertiesKHR!
+PASS: internal mem= 233304064  external mem= 233304064 ; internal util= 2.0%  external util= 2.0%
+[CASE PASS] sched.telemetry_external_match
+--- Testing telemetry: placement decisions exposed + reproducible (A-106) ---
+Secondary CUID not available: AMDCUID support not enabled.
+'DISPLAY' environment variable not set... skipping surface info
+error: XDG_RUNTIME_DIR is invalid or not set in the environment.
+WARNING: [Loader Message] Code 0 : ICD for selected physical device does not export vkGetPhysicalDeviceDisplayPlanePropertiesKHR!
+WARNING: [Loader Message] Code 0 : ICD for selected physical device does not export vkGetPhysicalDeviceDisplayPropertiesKHR!
+Secondary CUID not available: AMDCUID support not enabled.
+'DISPLAY' environment variable not set... skipping surface info
+error: XDG_RUNTIME_DIR is invalid or not set in the environment.
+WARNING: [Loader Message] Code 0 : ICD for selected physical device does not export vkGetPhysicalDeviceDisplayPlanePropertiesKHR!
+WARNING: [Loader Message] Code 0 : ICD for selected physical device does not export vkGetPhysicalDeviceDisplayPropertiesKHR!
+PASS:  12  decisions reproducible, digest= 14661850525200458208 ; doctor lines/summary/JSON carry telemetry
+[CASE PASS] sched.telemetry_placement_decisions_exposed
+--- Testing telemetry: clamp + tolerance units (A-106) ---
+PASS: clamp, tolerance edges and formatting all exact
+[CASE PASS] sched.telemetry_clamp_and_tolerance
+--- Testing telemetry: no-device snapshot renders gracefully (A-106) ---
+PASS: no-device telemetry renders absent rows, no crash
+[CASE PASS] sched.telemetry_no_device_graceful
+--- Testing telemetry: GPU pool reacts to a real RADV allocation (A-106) ---
+Secondary CUID not available: AMDCUID support not enabled.
+'DISPLAY' environment variable not set... skipping surface info
+error: XDG_RUNTIME_DIR is invalid or not set in the environment.
+WARNING: [Loader Message] Code 0 : ICD for selected physical device does not export vkGetPhysicalDeviceDisplayPlanePropertiesKHR!
+WARNING: [Loader Message] Code 0 : ICD for selected physical device does not export vkGetPhysicalDeviceDisplayPropertiesKHR!
+Secondary CUID not available: AMDCUID support not enabled.
+'DISPLAY' environment variable not set... skipping surface info
+error: XDG_RUNTIME_DIR is invalid or not set in the environment.
+WARNING: [Loader Message] Code 0 : ICD for selected physical device does not export vkGetPhysicalDeviceDisplayPlanePropertiesKHR!
+WARNING: [Loader Message] Code 0 : ICD for selected physical device does not export vkGetPhysicalDeviceDisplayPropertiesKHR!
+Secondary CUID not available: AMDCUID support not enabled.
+'DISPLAY' environment variable not set... skipping surface info
+error: XDG_RUNTIME_DIR is invalid or not set in the environment.
+WARNING: [Loader Message] Code 0 : ICD for selected physical device does not export vkGetPhysicalDeviceDisplayPlanePropertiesKHR!
+WARNING: [Loader Message] Code 0 : ICD for selected physical device does not export vkGetPhysicalDeviceDisplayPropertiesKHR!
+  gtt used before/during/after: 233304064 / 233304064 / 233304064
+PASS: pool observed live around a real RADV allocation, readback exact, pool returned
+[CASE PASS] sched.telemetry_gpu_memory_reacts
+--- Testing telemetry: live CPU window utilisation is sane (A-106) ---
+PASS: live CPU window util= 0.0%
+[CASE PASS] sched.telemetry_cpu_util_live_window
+--- Testing soak RSS slope fit (A-077) ---
+[CASE PASS] gpu.gpu_soak_slope_flat_and_leak
+--- Testing soak verdict precedence (A-077) ---
+[CASE PASS] gpu.gpu_soak_verdict_precedence
+--- Testing soak tally accounting (A-077) ---
+[CASE PASS] gpu.gpu_soak_tally_accounting
+--- Testing soak live RSS reader (A-077) ---
+[CASE PASS] gpu.gpu_soak_live_rss_reader
+--- Testing soak device burst, real model (A-077) ---
+MimirWell initialized with 2133881856 derived bytes.
+GGUF validated: 292 tensors, 33 metadata entries, architecture llama
+GGUF validated: 292 tensors, 33 metadata entries, architecture llama
+A077_BURST steps= 14  q4k_delta= 2688
+[CASE PASS] gpu.gpu_soak_device_burst
+--- Testing device-lost taxonomy + outcome names (A-079) ---
+[CASE PASS] gpu.device_lost_taxonomy
+--- Testing no-loss control parity (A-079) ---
+[CASE PASS] gpu.device_lost_control_parity
+--- Testing mid-run device-lost failover to CPU (A-079) ---
+[CASE PASS] gpu.device_lost_failover_midrun
+--- Testing device-lost fail-closed, state intact (A-079) ---
+[CASE PASS] gpu.device_lost_fail_closed_state_intact
+--- Testing loss edges: second loss + torn snapshot (A-079) ---
+[CASE PASS] gpu.device_lost_edges_and_repeat
+--- Testing watchdog iteration bound (A-079) ---
+[CASE PASS] gpu.device_lost_watchdog_bound
+--- Testing REAL shim device-lost fail-closed (A-079) ---
+  live device-lost fail-closed proven on RADV; state byte-intact
+[CASE PASS] gpu.device_lost_live_shim_fail_closed
+--- Testing Vulkan Q6_K + Q5_K GEMV oracle parity (A-058) ---
+A058_SHAPE which= 6  rows= 1  cols= 256  cpu_oracle_max_abs= 7.1525574e-06
+A058_SHAPE which= 5  rows= 1  cols= 256  cpu_oracle_max_abs= 3.8146973e-06
+A058_SHAPE which= 6  rows= 4  cols= 512  cpu_oracle_max_abs= 4.7683716e-06
+A058_SHAPE which= 5  rows= 4  cols= 512  cpu_oracle_max_abs= 3.0517578e-05
+A058_SHAPE which= 6  rows= 16  cols= 768  cpu_oracle_max_abs= 3.8146973e-05
+A058_SHAPE which= 5  rows= 16  cols= 768  cpu_oracle_max_abs= 0.0001373291
+A058_SHAPE which= 6  rows= 37  cols= 1024  cpu_oracle_max_abs= 6.1035156e-05
+A058_SHAPE which= 5  rows= 37  cols= 1024  cpu_oracle_max_abs= 0.000289917
+A058_SHAPE which= 6  rows= 13  cols= 2048  cpu_oracle_max_abs= 4.196167e-05
+A058_SHAPE which= 5  rows= 13  cols= 2048  cpu_oracle_max_abs= 0.0005187988
+Vulkan Q6_K + Q5_K GEMV oracle parity (5 shapes each incl. K=2048, RADV device, worst q6 max_abs= 6.1035156e-05  worst q5 max_abs= 0.0005187988 ): PASS
+[CASE PASS] gpu.vulkan_q6k_q5k_oracle_parity
+--- Testing Vulkan Q6_K + Q5_K GEMV known values (A-058) ---
+Vulkan Q6_K + Q5_K GEMV known values (Q6 -96 exact, Q5 192 exact): PASS
+[CASE PASS] gpu.vulkan_q6k_q5k_known_value
+--- Testing Vulkan Q6_K + Q5_K GEMV vs engine CPU GEMV (A-058) ---
+Vulkan Q6_K + Q5_K GEMV vs engine CPU GEMV (dyadic, within half F16 ULP): PASS
+[CASE PASS] gpu.vulkan_q6k_q5k_engine_crosscheck
+--- Testing Vulkan Q6_K + Q5_K GEMV rejection (A-058) ---
+Vulkan Q6_K + Q5_K GEMV rejection (zero rows, bad cols, oversize, bogus id): PASS
+[CASE PASS] gpu.vulkan_q6k_q5k_rejection
+--- Testing Vulkan Q6_K + Q5_K GEMV dispatch evidence (A-058) ---
+A058_SHAPE which= 6  rows= 8  cols= 256  cpu_oracle_max_abs= 1.335144e-05
+A058_SHAPE which= 6  rows= 8  cols= 256  cpu_oracle_max_abs= 1.335144e-05
+A058_SHAPE which= 5  rows= 8  cols= 256  cpu_oracle_max_abs= 2.2888184e-05
+A058_SHAPE which= 5  rows= 8  cols= 256  cpu_oracle_max_abs= 2.2888184e-05
+Vulkan Q6_K + Q5_K GEMV dispatch evidence (counters +2 each, accounting exact): PASS
+[CASE PASS] gpu.vulkan_q6k_q5k_dispatch_evidence
+--- Testing Vulkan IQ GEMV oracle parity (A-059) ---
+A059_SHAPE which= 0  rows= 1  cols= 256  cpu_oracle_max_abs= 9.536743e-07
+A059_SHAPE which= 0  rows= 4  cols= 512  cpu_oracle_max_abs= 2.861023e-06
+A059_SHAPE which= 0  rows= 16  cols= 768  cpu_oracle_max_abs= 1.4305115e-05
+A059_SHAPE which= 0  rows= 37  cols= 1024  cpu_oracle_max_abs= 2.2888184e-05
+A059_SHAPE which= 0  rows= 13  cols= 2048  cpu_oracle_max_abs= 3.8146973e-05
+A059_SHAPE which= 1  rows= 1  cols= 256  cpu_oracle_max_abs= 2.9802322e-07
+A059_SHAPE which= 1  rows= 4  cols= 512  cpu_oracle_max_abs= 8.34465e-07
+A059_SHAPE which= 1  rows= 16  cols= 768  cpu_oracle_max_abs= 1.66893e-06
+A059_SHAPE which= 1  rows= 37  cols= 1024  cpu_oracle_max_abs= 4.529953e-06
+A059_SHAPE which= 1  rows= 13  cols= 2048  cpu_oracle_max_abs= 4.7683716e-06
+A059_SHAPE which= 2  rows= 1  cols= 256  cpu_oracle_max_abs= 4.7683716e-06
+A059_SHAPE which= 2  rows= 4  cols= 512  cpu_oracle_max_abs= 3.8146973e-05
+A059_SHAPE which= 2  rows= 16  cols= 768  cpu_oracle_max_abs= 2.2888184e-05
+A059_SHAPE which= 2  rows= 37  cols= 1024  cpu_oracle_max_abs= 5.722046e-05
+A059_SHAPE which= 2  rows= 13  cols= 2048  cpu_oracle_max_abs= 5.340576e-05
+A059_SHAPE which= 3  rows= 1  cols= 32  cpu_oracle_max_abs= 2.3841858e-07
+A059_SHAPE which= 3  rows= 4  cols= 288  cpu_oracle_max_abs= 3.4570694e-06
+A059_SHAPE which= 3  rows= 16  cols= 512  cpu_oracle_max_abs= 7.6293945e-06
+A059_SHAPE which= 3  rows= 37  cols= 1024  cpu_oracle_max_abs= 3.528595e-05
+A059_SHAPE which= 3  rows= 13  cols= 2048  cpu_oracle_max_abs= 4.196167e-05
+Vulkan IQ GEMV oracle parity (4 formats x 5 shapes incl. IQ4_NL K=288, RADV device, worst max_abs= 5.722046e-05 ): PASS
+[CASE PASS] gpu.vulkan_iq_gemv_oracle_parity
+--- Testing Vulkan IQ GEMV known values (A-059) ---
+Vulkan IQ GEMV known values (256 / -224 / 256 / 128 / K=288 144, all exact): PASS
+[CASE PASS] gpu.vulkan_iq_gemv_known_value
+--- Testing Vulkan IQ GEMV vs engine CPU GEMV (A-059) ---
+Vulkan IQ GEMV vs engine CPU GEMV (dyadic, 4 formats, within half F16 ULP): PASS
+[CASE PASS] gpu.vulkan_iq_gemv_engine_crosscheck
+--- Testing Vulkan IQ GEMV rejection (A-059) ---
+Vulkan IQ GEMV rejection (zero rows, bad cols x2, oversize x2, bogus id, bogus grid): PASS
+[CASE PASS] gpu.vulkan_iq_gemv_rejection
+--- Testing Vulkan IQ GEMV dispatch evidence (A-059) ---
+A059_SHAPE which= 0  rows= 8  cols= 256  cpu_oracle_max_abs= 1.9073486e-06
+A059_SHAPE which= 0  rows= 8  cols= 256  cpu_oracle_max_abs= 1.9073486e-06
+A059_SHAPE which= 1  rows= 8  cols= 256  cpu_oracle_max_abs= 2.9802322e-07
+A059_SHAPE which= 1  rows= 8  cols= 256  cpu_oracle_max_abs= 2.9802322e-07
+A059_SHAPE which= 2  rows= 8  cols= 256  cpu_oracle_max_abs= 1.335144e-05
+A059_SHAPE which= 2  rows= 8  cols= 256  cpu_oracle_max_abs= 1.335144e-05
+A059_SHAPE which= 3  rows= 8  cols= 288  cpu_oracle_max_abs= 1.001358e-05
+A059_SHAPE which= 3  rows= 8  cols= 288  cpu_oracle_max_abs= 1.001358e-05
+Vulkan IQ GEMV dispatch evidence (counters +2 per format, accounting exact): PASS
+[CASE PASS] gpu.vulkan_iq_gemv_dispatch_evidence
+--- Testing Vulkan elementwise oracle parity (A-061) ---
+A061_EW n= 37  mode= 0  scale= 4.0  cpu_oracle_max_abs= 2.3841858e-07
+A061_EW n= 256  mode= 0  scale= 4.0  cpu_oracle_max_abs= 4.7683716e-07
+A061_EW n= 255  mode= 0  scale= 4.0  cpu_oracle_max_abs= 2.3841858e-07
+A061_EW n= 257  mode= 0  scale= 4.0  cpu_oracle_max_abs= 4.7683716e-07
+A061_EW n= 1000  mode= 0  scale= 4.0  cpu_oracle_max_abs= 4.7683716e-07
+A061_EW n= 4096  mode= 0  scale= 4.0  cpu_oracle_max_abs= 4.7683716e-07
+A061_EW n= 37  mode= 1  scale= 4.0  cpu_oracle_max_abs= 0.0
+A061_EW n= 256  mode= 1  scale= 4.0  cpu_oracle_max_abs= 0.0
+A061_EW n= 255  mode= 1  scale= 4.0  cpu_oracle_max_abs= 0.0
+A061_EW n= 257  mode= 1  scale= 4.0  cpu_oracle_max_abs= 0.0
+A061_EW n= 1000  mode= 1  scale= 4.0  cpu_oracle_max_abs= 0.0
+A061_EW n= 4096  mode= 1  scale= 4.0  cpu_oracle_max_abs= 0.0
+A061_EW n= 37  mode= 2  scale= 4.0  cpu_oracle_max_abs= 0.0
+A061_EW n= 256  mode= 2  scale= 4.0  cpu_oracle_max_abs= 0.0
+A061_EW n= 255  mode= 2  scale= 4.0  cpu_oracle_max_abs= 0.0
+A061_EW n= 257  mode= 2  scale= 4.0  cpu_oracle_max_abs= 0.0
+A061_EW n= 1000  mode= 2  scale= 4.0  cpu_oracle_max_abs= 0.0
+A061_EW n= 4096  mode= 2  scale= 4.0  cpu_oracle_max_abs= 0.0
+A061_EW n= 37  mode= 3  scale= 4.0  cpu_oracle_max_abs= 9.536743e-07
+A061_EW n= 256  mode= 3  scale= 4.0  cpu_oracle_max_abs= 9.536743e-07
+A061_EW n= 255  mode= 3  scale= 4.0  cpu_oracle_max_abs= 9.536743e-07
+A061_EW n= 257  mode= 3  scale= 4.0  cpu_oracle_max_abs= 9.536743e-07
+A061_EW n= 1000  mode= 3  scale= 4.0  cpu_oracle_max_abs= 9.536743e-07
+A061_EW n= 4096  mode= 3  scale= 4.0  cpu_oracle_max_abs= 1.9073486e-06
+A061_EW n= 512  mode= 0  scale= 50.0  cpu_oracle_max_abs= 9.536743e-07
+A061_EW n= 512  mode= 3  scale= 50.0  cpu_oracle_max_abs= 3.0517578e-05
+Vulkan elementwise oracle parity (4 modes x 6 sizes + scale-50 silu/gated, RADV device, worst max_abs= 3.0517578e-05 ): PASS
+[CASE PASS] gpu.vulkan_elementwise_oracle_parity
+--- Testing Vulkan elementwise known value (A-061) ---
+Vulkan elementwise known value (silu(0)=0 exact, mul/add exact dyadic): PASS
+[CASE PASS] gpu.vulkan_elementwise_known_value
+--- Testing Vulkan softmax oracle parity (A-061) ---
+A061_SM rows= 1  n= 64  cpu_oracle_max_abs= 2.9802322e-08
+A061_SM rows= 4  n= 37  cpu_oracle_max_abs= 5.9604645e-08
+A061_SM rows= 3  n= 257  cpu_oracle_max_abs= 1.8626452e-08
+A061_SM rows= 2  n= 1024  cpu_oracle_max_abs= 8.381903e-09
+Vulkan softmax oracle parity (4 shapes, n 37..1024, RADV device, worst max_abs= 5.9604645e-08 ): PASS
+[CASE PASS] gpu.vulkan_softmax_oracle_parity
+--- Testing Vulkan softmax adversarial logits (A-061) ---
+Vulkan softmax adversarial (+100 shift finite, -1000 constant row exactly uniform, single spike, worst max_abs= 1.1175871e-08 ): PASS
+[CASE PASS] gpu.vulkan_softmax_adversarial
+--- Testing Vulkan elementwise + softmax rejection (A-061) ---
+Vulkan elementwise + softmax rejection (9 cases: zero n/rows, bad mode, oversize, bogus id): PASS
+[CASE PASS] gpu.vulkan_elementwise_softmax_rejection
+--- Testing Vulkan elementwise + softmax dispatch evidence (A-061) ---
+A061_EW n= 256  mode= 1  scale= 4.0  cpu_oracle_max_abs= 0.0
+A061_EW n= 256  mode= 2  scale= 4.0  cpu_oracle_max_abs= 0.0
+Vulkan elementwise + softmax dispatch evidence (counters +2/+2 for 2+2 dispatches, accounting exact): PASS
+[CASE PASS] gpu.vulkan_elementwise_softmax_dispatch_evidence
+--- Testing Vulkan Q4_K GEMV oracle (A-057) ---
+Vulkan Q4_K GEMV (rows/k = 1/256, 7/512, 64/1024, 33/2048; GPU dequant+GEMV vs Z13 CPU oracle within filed f16-rounding tolerance, dispatch counter +1 per call, RADV device): PASS
+[CASE PASS] gpu.vulkan_q4k_gemv_oracle
+--- Testing Vulkan Q4_K GEMV rejection (A-057) ---
+Vulkan Q4_K GEMV rejection (zero k, ragged k, zero rows, oversize shape, bogus id): PASS
+[CASE PASS] gpu.vulkan_q4k_gemv_rejection
+--- Testing Vulkan Q4_K GEMV no-leak (A-057) ---
+Vulkan Q4_K GEMV no-leak (50 dispatches at rows=4 k=256, accounting exact, counter +50): PASS
+[CASE PASS] gpu.vulkan_q4k_gemv_no_leak
+--- Testing Vulkan RMSNorm oracle parity (A-060) ---
+A060_RMSNORM rows= 1  n= 64  scale= 3.0  eps= 1e-05  cpu_oracle_max_abs= 4.8974493e-07
+A060_RMSNORM rows= 4  n= 256  scale= 3.0  eps= 1e-05  cpu_oracle_max_abs= 5.287103e-07
+A060_RMSNORM rows= 13  n= 37  scale= 3.0  eps= 1e-05  cpu_oracle_max_abs= 3.7093469e-07
+A060_RMSNORM rows= 3  n= 255  scale= 3.0  eps= 1e-05  cpu_oracle_max_abs= 5.183166e-07
+A060_RMSNORM rows= 2  n= 257  scale= 3.0  eps= 1e-05  cpu_oracle_max_abs= 6.919574e-07
+A060_RMSNORM rows= 37  n= 320  scale= 3.0  eps= 1e-05  cpu_oracle_max_abs= 1.2672921e-06
+A060_RMSNORM rows= 1  n= 4096  scale= 3.0  eps= 1e-05  cpu_oracle_max_abs= 1.1214823e-06
+A060_RMSNORM rows= 2  n= 512  scale= 1000.0  eps= 1e-05  cpu_oracle_max_abs= 8.857947e-07
+Vulkan RMSNorm oracle parity (7 shapes + scale-1000 + zero/constant rows, RADV device, worst max_abs= 1.2672921e-06 ): PASS
+[CASE PASS] gpu.vulkan_rmsnorm_oracle_parity
+--- Testing Vulkan RMSNorm known value (A-060) ---
+Vulkan RMSNorm known value (x=[3,4], eps=3.5, g=[2,0.5] -> [1.5, 0.5]): PASS
+[CASE PASS] gpu.vulkan_rmsnorm_known_value
+--- Testing Vulkan RoPE oracle parity (A-060) ---
+A060_ROPE head_dim= 64  rows= 4  position= 1  cpu_oracle_max_abs= 4.7683716e-07
+A060_ROPE head_dim= 128  rows= 2  position= 7  cpu_oracle_max_abs= 8.419156e-07
+A060_ROPE head_dim= 32  rows= 13  position= 128  cpu_oracle_max_abs= 1.8537045e-05
+A060_ROPE head_dim= 256  rows= 1  position= 3  cpu_oracle_max_abs= 5.9604645e-07
+A060_ROPE head_dim= 64  rows= 1  position= 1000  cpu_oracle_max_abs= 6.765127e-05
+A060_ROPE head_dim= 128  rows= 3  position= 0  cpu_oracle_max_abs= 0.0
+Vulkan RoPE oracle parity (6 shapes, head_dim 32..256, positions 0..1000, RADV device, worst max_abs= 6.765127e-05 ): PASS
+[CASE PASS] gpu.vulkan_rope_oracle_parity
+--- Testing Vulkan RoPE known properties (A-060) ---
+Vulkan RoPE known properties (position 0 exact identity, pair norms preserved): PASS
+[CASE PASS] gpu.vulkan_rope_known_properties
+--- Testing Vulkan RMSNorm + RoPE rejection (A-060) ---
+Vulkan RMSNorm + RoPE rejection (11 cases: zero/odd dims, eps 0, negative position, oversize, bogus id): PASS
+[CASE PASS] gpu.vulkan_rmsnorm_rope_rejection
+--- Testing Vulkan RMSNorm + RoPE dispatch evidence (A-060) ---
+A060_RMSNORM rows= 8  n= 256  scale= 3.0  eps= 1e-05  cpu_oracle_max_abs= 6.868246e-07
+A060_RMSNORM rows= 8  n= 256  scale= 3.0  eps= 1e-05  cpu_oracle_max_abs= 6.868246e-07
+A060_ROPE head_dim= 64  rows= 8  position= 3  cpu_oracle_max_abs= 9.536743e-07
+A060_ROPE head_dim= 64  rows= 8  position= 3  cpu_oracle_max_abs= 9.536743e-07
+Vulkan RMSNorm + RoPE dispatch evidence (counters +2/+2 for 2+2 dispatches, accounting exact): PASS
+[CASE PASS] gpu.vulkan_rmsnorm_rope_dispatch_evidence
+--- Testing zero-copy HIP CPU-write GPU-read oracle (A-019) ---
+Zero-copy HIP CPU-write -> GPU kernel read (n=1/7/255/256/257/1000/4097/65537, byte-exact both oracle directions checked, memcpy calls = 0, kernel launches = 8): PASS
+[CASE PASS] gpu.zero_copy_hip_cpu_write_gpu_read
+--- Testing zero-copy HIP GPU-write CPU-read oracle (A-019) ---
+Zero-copy HIP GPU kernel write -> CPU read (n=1/7/257/1000/65537, byte-exact, memcpy calls = 0): PASS
+[CASE PASS] gpu.zero_copy_hip_gpu_write_cpu_read
+--- Testing zero-copy Vulkan CPU-write GPU-read oracle (A-019) ---
+Zero-copy Vulkan CPU-write -> GPU kernel read on HOST_CACHED coherent buffers (n=1/7/257/1000/65537, byte-exact, vk copy calls = 0): PASS
+[CASE PASS] gpu.zero_copy_vulkan_cpu_write_gpu_read
+--- Testing zero-copy rejection (A-019) ---
+Zero-copy rejection (zero size both backends, unknown backend, OOB span, OOB launch, cross-backend): PASS
+[CASE PASS] gpu.zero_copy_rejection
+--- Testing zero-copy no-leak accounting (A-019) ---
+Zero-copy no-leak (200 HIP transform rounds + 50 Vulkan rounds, HIP free bytes / Vulkan accounting / shim counters all back to baseline exactly): PASS
+[CASE PASS] gpu.zero_copy_no_leak
+--- Testing arena reset semantics (A-026) ---
+ARENA_RESET_OK baseline-exact after reset
+[CASE PASS] gpu.arena_reset_semantics
+--- Testing arena fail-closed rejection (A-026) ---
+ARENA_REJECTION_OK MEM-001/MEM-003/MEM-005 fail-closed
+[CASE PASS] gpu.arena_rejection
+--- Testing arena fragmentation stress 10k (A-026) ---
+ARENA_STRESS ops=10000 total_requested=26193248 peak_requested=106597 peak_carved=106800 waste_bytes=203 allocs=6394 frees=2401 resets=1205
+ARENA_STRESS_OK waste bounded, baseline exact
+[CASE PASS] gpu.arena_fragmentation_stress
+--- Testing arena pool over zero-copy backings (A-026) ---
+ARENA_POOL_OK device-backed, exhaustion/reset exact
+[CASE PASS] gpu.arena_pool_device
+--- Testing zero-copy shim registry >4096 regression (A-026) ---
+SHIM_REGISTRY_OK concurrent=5000 bytes=1440000 live_bytes returned exactly to baseline 0
+[CASE PASS] gpu.arena_shim_registry_over_4096
+--- Testing budget cap honoured in measured bytes (A-023) ---
+MEASURED cap honoured: governor live 3670016 == shim live delta 3670016 under cap 4194304
+PASS: measured accounts agree and return to baseline
+[CASE PASS] memory.budget_cap_honoured_measured
+--- Testing budget refusal is fail-closed (A-023) ---
+PASS: refusals raise MEM-003, charge nothing, allocate nothing
+[CASE PASS] memory.budget_refusal_fail_closed
+--- Testing budget spill degradation under pressure (A-023) ---
+PASS: engine degrades by spilling/refusing, never OOMs, never crashes
+[CASE PASS] memory.budget_spill_degradation
+--- Testing budget configurability (A-023) ---
+PASS: caps are configurable; invalid configs fail closed
+[CASE PASS] memory.budget_configurability
+--- Testing budget accounting returns to baseline (A-023) ---
+PASS: accounting exact, checked, and back at baseline
+[CASE PASS] memory.budget_accounting_baseline
+--- Testing budget live MemAvailable pressure (A-023) ---
+MEASURED live MemAvailable bytes: 105868857344 ; effective cap honoured at that figure
+PASS: live pressure reading is real and the cap honours it
+[CASE PASS] memory.budget_live_meminfo_pressure
+--- Testing Mojo-native vec_add oracle (A-029) ---
+[CASE PASS] gpu.mojo_native_vec_add_oracle
+--- Testing Mojo-native GEMM oracle (A-029) ---
+[CASE PASS] gpu.mojo_native_gemm_oracle
+--- Testing Mojo-native rejection (A-029) ---
+[CASE PASS] gpu.mojo_native_rejection
+--- Testing HIP Q8_0 GEMV oracle parity (A-082) ---
+A082_SHAPE rows= 1  cols= 32  cpu_oracle_max_abs= 0.0
+A082_SHAPE rows= 4  cols= 64  cpu_oracle_max_abs= 0.0
+A082_SHAPE rows= 16  cols= 288  cpu_oracle_max_abs= 0.0
+A082_SHAPE rows= 37  cols= 320  cpu_oracle_max_abs= 0.0
+A082_SHAPE rows= 64  cols= 1024  cpu_oracle_max_abs= 0.0
+A082_SHAPE rows= 13  cols= 4096  cpu_oracle_max_abs= 0.0
+HIP Q8_0 GEMV oracle parity (6 shapes incl. K=288 stories scale and K=4096, gfx1151 device, worst max_abs= 0.0 ): PASS
+[CASE PASS] gpu.hip_q8_gemv_oracle_parity
+--- Testing HIP Q8_0 GEMV known value (A-082) ---
+HIP Q8_0 GEMV known value (scale 0.25, q=i-16, x=1 -> -4 exact): PASS
+[CASE PASS] gpu.hip_q8_gemv_known_value
+--- Testing HIP Q8_0 GEMV vs engine CPU GEMV (A-082) ---
+HIP Q8_0 GEMV vs engine CPU GEMV (dyadic K=1024 N=96, within half F16 ULP of engine output at every output): PASS
+[CASE PASS] gpu.hip_q8_gemv_engine_crosscheck
+--- Testing HIP Q8_0 GEMV rejection (A-082) ---
+HIP Q8_0 GEMV rejection (zero rows, cols=48, oversize, short x): PASS
+[CASE PASS] gpu.hip_q8_gemv_rejection
+--- Testing HIP Q8_0 GEMV dispatch evidence (A-082) ---
+A082_SHAPE rows= 8  cols= 256  cpu_oracle_max_abs= 0.0
+A082_SHAPE rows= 8  cols= 256  cpu_oracle_max_abs= 0.0
+HIP Q8_0 GEMV dispatch evidence (device " AMD Radeon 8060S Graphics ", counter +2 for 2 dispatches): PASS
+[CASE PASS] gpu.hip_q8_gemv_dispatch_evidence
+--- Testing HIP Q4_K GEMV oracle (A-083) ---
+A083_DEVICE name=AMD Radeon 8060S Graphics
+HIP Q4_K GEMV (rows/k = 1/256, 7/512, 64/1024, 33/2048; HIP dequant+GEMV vs Z13 CPU oracle within filed f16-rounding tolerance, dispatch counter +1 per call, HIP device): PASS
+[CASE PASS] gpu.hip_q4k_gemv_oracle
+--- Testing HIP Q4_K GEMV rejection (A-083) ---
+HIP Q4_K GEMV rejection (zero rows, zero k, ragged k, oversize shape, undersized activation): PASS
+[CASE PASS] gpu.hip_q4k_gemv_rejection
+--- Testing HIP Q4_K GEMV no-leak (A-083) ---
+HIP Q4_K GEMV no-leak (50 dispatches at rows=4 k=256, outputs bit-identical across repeats, hipMemGetInfo retention exactly 50 x 8 MiB filed MAX per-context constant - zero slice-attributable bytes, counter +50): PASS
+[CASE PASS] gpu.hip_q4k_gemv_no_leak
+--- Testing HIP RMSNorm oracle parity (A-084) ---
+A084_RMS rows= 1  n= 64  max_abs_so_far= 0.0
+A084_RMS rows= 3  n= 128  max_abs_so_far= 0.0
+A084_RMS rows= 8  n= 37  max_abs_so_far= 0.0
+HIP RMSNorm oracle parity (worst max_abs= 0.0 ): PASS
+[CASE PASS] gpu.hip_attn_norms_rmsnorm_oracle
+--- Testing HIP RoPE oracle parity (A-084) ---
+A084_ROPE head_dim= 32  pos= 0  max_abs_so_far= 0.0
+A084_ROPE head_dim= 64  pos= 1  max_abs_so_far= 1.7881393e-07
+A084_ROPE head_dim= 128  pos= 17  max_abs_so_far= 1.1920929e-06
+HIP RoPE oracle parity (worst max_abs= 1.1920929e-06 ): PASS
+[CASE PASS] gpu.hip_attn_norms_rope_oracle
+--- Testing HIP decode attention oracle parity (A-084) ---
+A084_ATTN hd= 32  kv_len= 16  heads= 4  gqa= 1  max_abs_so_far= 1.1920929e-07
+A084_ATTN hd= 64  kv_len= 33  heads= 8  gqa= 2  max_abs_so_far= 1.1920929e-07
+A084_ATTN hd= 32  kv_len= 8  heads= 8  gqa= 4  max_abs_so_far= 1.7881393e-07
+HIP decode attention oracle parity (worst max_abs= 1.7881393e-07 ): PASS
+[CASE PASS] gpu.hip_attn_norms_attention_oracle
+--- Testing HIP attention+norms rejection (A-084) ---
+HIP attention+norms rejection (9 bad shapes, counters unmoved): PASS
+[CASE PASS] gpu.hip_attn_norms_rejection
+--- Testing HIP attention+norms dispatch evidence (A-084) ---
+HIP attention+norms dispatch evidence (device " AMD Radeon 8060S Graphics ", each counter +1): PASS
+[CASE PASS] gpu.hip_attn_norms_dispatch_evidence
+--- Testing ROCm pin table exactness (A-087) ---
+pin table: 9/9 A-005 pins exact, unique, hipcc excluded
+[CASE PASS] rocm_repro.pin_table_exact
+--- Testing ROCm convergence accepts pinned snapshot (A-087) ---
+convergence: pinned snapshot converges, drift 0, judging idempotent
+[CASE PASS] rocm_repro.convergence_accepts
+--- Testing ROCm convergence rejects drift (A-087) ---
+convergence negative controls: bump/missing/wrong/short all blocked with exact drift counts
+[CASE PASS] rocm_repro.convergence_rejects_drift
+--- Testing ROCm install script contract (A-087) ---
+script contract: 3 modes, dpkg/rocminfo probes, verdict lines, native-only
+[CASE PASS] rocm_repro.script_contract
+--- Testing ROCm script/core pin sync (A-087) ---
+script sync: all 9 pin arguments verbatim in script and core table
+[CASE PASS] rocm_repro.script_core_sync
+--- Testing KV unified layout math (A-021) ---
+KV unified layout (offsets/K-V separation/alignment): PASS
+[CASE PASS] gpu.kv_unified_layout
+--- Testing KV unified bounds fail-closed (A-021) ---
+KV unified bounds (9 coords + 7 geometries rejected): PASS
+[CASE PASS] gpu.kv_unified_bounds
+--- Testing KV GPU-write CPU-read + decode (A-021) ---
+KV GPU kernel write -> CPU read (24576 elems byte-exact) + CPU decode step vs formula oracle (argmax seq 62, bit-exact): PASS
+[CASE PASS] gpu.kv_unified_gpu_write_cpu_read
+--- Testing KV CPU-write GPU-read reverse (A-021) ---
+KV CPU write -> GPU kernel read/transform -> CPU verify (2048 elems byte-exact, memcpy = 0): PASS
+[CASE PASS] gpu.kv_unified_cpu_write_gpu_read
+--- Testing KV append/read roundtrip + edges (A-021) ---
+KV append roundtrip (byte-exact) + 4 edges rejected: PASS
+[CASE PASS] gpu.kv_unified_append_roundtrip
+--- Testing KV Vulkan HOST_CACHED sharing (A-021) ---
+KV Vulkan HOST_CACHED (flags 0xe) CPU write -> GPU vec_add -> CPU read (1024 elems byte-exact, copy calls = 0): PASS
+[CASE PASS] gpu.kv_unified_vulkan_shared
+--- Testing HIP buffer ownership adversarial (A-022) ---
+HIP ownership adversarial (double-free MEM-005, use-after-free MEM-004, foreign MEM-013, cross-kind MEM-012, hand-off MEM-011, stream/event alias destroy, accounting baseline): PASS
+[CASE PASS] gpu.buffer_ownership_hip_adversarial
+--- Testing Vulkan buffer ownership adversarial (A-022) ---
+Vulkan ownership adversarial (double-free MEM-005, use-after-free MEM-004, stale-generation MEM-014, hand-off MEM-011, cross-shim id refused, accounting baseline): PASS
+[CASE PASS] gpu.buffer_ownership_vulkan_adversarial
+--- Testing zero-copy ownership adversarial (A-022) ---
+Zero-copy ownership adversarial (double-free MEM-005, use-after-free MEM-004, cross-shim both directions MEM-013, hand-off MEM-011, accounting baseline): PASS
+[CASE PASS] gpu.buffer_ownership_zero_copy_adversarial
+--- Testing XRT BO ownership contract (A-022) ---
+XRT BO ownership contract (free-while-borrowed MEM-015, hand-off MEM-011, cross-device MEM-012, double-free MEM-005, use-after-free MEM-004, foreign MEM-013, stale MEM-014, live count baseline): PASS
+[CASE PASS] gpu.buffer_ownership_xrt_contract
+--- Testing CPU list parsing (A-024) ---
+[CASE PASS] cpu.thread_placement_list_parse
+--- Testing topology build + validation (A-024) ---
+[CASE PASS] cpu.thread_placement_topology_build
+--- Testing SPREAD placement map (A-024) ---
+[CASE PASS] cpu.thread_placement_map_spread
+--- Testing PACK + CCD_LOCAL placement maps (A-024) ---
+[CASE PASS] cpu.thread_placement_map_pack_ccd
+--- Testing placement rejection paths (A-024) ---
+[CASE PASS] cpu.thread_placement_reject
+--- Testing live topology + affinity apply (A-024) ---
+[CASE PASS] cpu.thread_placement_live_affinity
+--- Testing choke-guard default policy (A-041) ---
+PASS: choke-guard default policy table
+[CASE PASS] cpu.thread_scaling_default_policy
+--- Testing config cache probes (A-041/C-008) ---
+PASS: sysconf once, env reads frozen across 1000 getter calls
+[CASE PASS] cpu.thread_scaling_cache_probes
+--- Testing knob set/read-back/clear (A-041, J-039 contract) ---
+PASS: knobs set/read back/clear through the cached layer
+[CASE PASS] cpu.thread_scaling_knob_readback
+--- Testing stale-until-refresh cache proof (A-041/C-008) ---
+PASS: no per-call getenv; refresh is the only re-read
+[CASE PASS] cpu.thread_scaling_stale_until_refresh
+--- Testing cached engagement threshold (A-041) ---
+PASS: AESIR_PAR_MIN_WORK served from the same cache
+[CASE PASS] cpu.thread_scaling_min_work_cached
+--- Testing threaded dispatch identity (A-041) ---
+PASS: 4-thread dispatch bit-identical to serial, chunks == 4
+[CASE PASS] cpu.thread_scaling_dispatch_identity
+--- Testing A-033 backend -> taxonomy mapping table ---
+A-033 mapping table (21 rows): PASS
+[CASE PASS] errors.structured_mapping_table
+--- Testing A-033 fault injection per backend ---
+A-033 fault injection (5 backends, 11 injections): PASS
+[CASE PASS] errors.structured_fault_injection
+--- Testing A-033 real backend failure paths are coded ---
+A-033 real backend paths (6 coded failures): PASS
+[CASE PASS] errors.structured_real_paths
+--- Testing A-033 error translation and rendering ---
+A-033 translation/render: PASS
+[CASE PASS] errors.structured_translation
+--- Testing A-033 Vulkan/CPU taxonomy consistency ---
+A-033 Vulkan/CPU consistency: PASS
+[CASE PASS] errors.structured_vulkan_cpu_consistency
+--- Testing A-089 HIP code -> taxonomy mapping table ---
+A-089 mapping table (33 mapped codes): PASS
+[CASE PASS] errors.hip_mapping_table
+--- Testing A-089 fault injection per mapped HIP code ---
+A-089 fault injection (33 mapped codes): PASS
+[CASE PASS] errors.hip_fault_injection
+--- Testing A-089 fallback, sentinel and success handling ---
+A-089 fallback/sentinel/success: PASS
+[CASE PASS] errors.hip_fallback_and_success
+--- Testing A-089 consistency with the A-033 table ---
+A-089 gateway consistency: PASS
+[CASE PASS] errors.hip_gateway_consistency
+--- Testing A-089 real HIP gateway failure paths ---
+A-089 real gateway paths (OOM fault injection, live runtime): PASS
+[CASE PASS] errors.hip_real_paths
+--- Testing A-101 pairwise overlap interval math ---
+A-101 pairwise math: PASS
+[CASE PASS] pipeline.overlap_pairwise_math
+--- Testing A-101 wall, serial sum and delta ---
+A-101 wall/delta: PASS
+[CASE PASS] pipeline.overlap_wall_and_delta
+--- Testing A-101 timeline trace line format ---
+A-101 trace line: PASS
+[CASE PASS] pipeline.overlap_trace_line
+--- Testing A-101 acceptance predicate ---
+A-101 acceptance predicate: PASS
+[CASE PASS] pipeline.overlap_acceptance
+--- Testing A-101 plan gating on the A-095 dispatch ---
+A-101 plan gating: PASS
+[CASE PASS] pipeline.overlap_plan_gating
+--- Testing A-101 filed device trace replay ---
+A-101 filed trace replay: PASS
+[CASE PASS] pipeline.overlap_filed_trace
+[CASE PASS] replan.gpu_loss_onto_survivors
+[CASE PASS] replan.npu_loss_uses_survivors
+[CASE PASS] replan.drill_gpu_loss_completes_exact
+[CASE PASS] replan.drill_npu_loss_completes_exact
+[CASE PASS] replan.cpu_loss_fails_closed
+[CASE PASS] replan.second_failure_fails_closed
+[CASE PASS] replan.edges_and_summary
+--- Testing A-104 pinned fixture geometry ---
+A-104 geometry: PASS
+[CASE PASS] placement.big_model_geometry
+--- Testing A-104 KV cache accounting ---
+A-104 KV accounting: PASS
+[CASE PASS] placement.big_model_kv_accounting
+--- Testing A-104 half split under exact budget ---
+A-104 half split: PASS
+[CASE PASS] placement.big_model_split_half
+--- Testing A-104 split edges: zero and full ---
+A-104 split edges: PASS
+[CASE PASS] placement.big_model_split_edges
+--- Testing A-104 pool gate (A-049 class) ---
+A-104 pool gate: PASS
+[CASE PASS] placement.big_model_pool_gate
+--- Testing A-104 A-076 pressure budget + monotonicity ---
+A-104 pressure budget: PASS
+[CASE PASS] placement.big_model_pressure_budget
+--- Testing non-positive VRAM / NPU allocation rejection ---
+non-positive VRAM allocation rejection: PASS
+[CASE PASS] gpu.resilience_allocation_rejection
+--- Testing non-positive GEMM dimension rejection ---
+non-positive GEMM dimension rejection: PASS
+[CASE PASS] gpu.resilience_dimension_rejection
+--- Testing fail-closed error barriers and arena integrity ---
+fail-closed error barriers and arena integrity: PASS
+[CASE PASS] gpu.resilience_error_barriers
+
+  [DOMAIN] Implemented CLI and Unsupported Boundaries
+  -----------------------------------------
+--- Testing Modelfile directive parser, quoting & GenerationConfig conversion ---
+Modelfile directive parser & GenerationConfig integration: PASS
+[CASE PASS] cli.modelfile_parser
+--- Testing validated manifests & restart-safe durable catalog ---
+validated manifests & restart-safe durable catalog: PASS
+[CASE PASS] cli.manifest_store_restart
+validated public catalog schema codec seam: PASS
+[CASE PASS] cli.catalog_schema_interface
+catalog schema malformed count/record and duplicate-key cases: PASS
+[CASE PASS] cli.catalog_schema_unit_evidence
+recipe/blob identity interface pairings: PASS
+[CASE PASS] cli.blob_identity_interface
+blob identity scheme/width/case/suffix/signed-size matrix: PASS
+[CASE PASS] cli.blob_identity_unit_evidence
+atomic registration expected-pair and new-blob rollback: PASS
+[CASE PASS] cli.atomic_registration_unit_evidence
+--- Testing operational CLI command dispatchers & boundaries ---
+==========================================================================
+  Project Aesir CLI — verified local GGUF run + development surfaces
+==========================================================================
+Usage:
+  aesir [command] [flags]
+
+Implemented:
+  home [--model-store path] — interactive launcher; plain aesir opens it in a terminal
+  keygen <new-private-file> — create an OS-random service key without overwriting
+  hardware list — observed CPU/CUDA devices and backend availability
+  bench [--settle N] [--rounds N] [--pass prompt|reply|draft-check]
+      Sweep the configurations the placement engine may choose
+      (threads x devices x pass kinds) and print the machine report.
+  compute plan|explain <model> [--profile auto|gemma4|llama3|qwen3]
+      [--context N] [--device auto|N] [--reserve-mib N] [--model-store path]
+  pull <owner/repo> <filename.gguf> --revision <commit-sha>
+      --sha256 <digest> --size <bytes> [--output <path>] [--connections 1..8]
+      [--name <name[:tag]> [--config <path>]]
+      Download and verify a pinned GGUF; optionally register stored bytes.
+      Default single-connection pulls resume verified partial downloads.
+  get <name[:tag]> [--config <path>]
+      Fetch one model from the in-repo known-models catalogue by name;
+      downloaded and checksum-verified before use; a mismatch is refused.
+  inspect <model> [--format text|json] [--context N] [--model-store path]
+      Report architecture, adapter readiness, capabilities, and memory estimate.
+  vision inspect <model> [--model-store path]
+      Report the mmproj vision tower structure beside a multimodal model.
+  doctor [model] [--model-store path] [--format text|json]
+      Diagnose CUDA, model integrity, disk capacity, local API ports, and one model.
+  alias <short-name> <model> [--model-store path] | aliases
+  unalias <short-name> [--model-store path]
+  favorite <model-or-alias> [--model-store path] | favorites
+  unfavorite <model-or-alias> [--model-store path]
+  repair-preferences [--dry-run|--apply] [--model-store path | --config file]
+      Preview by default; --apply removes only shortcuts to missing catalog models.
+      Durable local shortcuts and favorite-first interactive selection.
+  run <model> [--max-tokens N] [--config path] [--accel auto|cpu|cuda] <prompt...>
+      CPU GGUF or auto-detected native CUDA Gemma4/Llama3/Qwen3 single-shot inference.
+  run --accel hailo10h --model-path <model.hef> <prompt...>
+      Hailo-10H direct in-process HailoRT GenAI single-shot inference.
+  chat [model] --accel cuda [--profile auto|gemma4|llama3|qwen3]
+      [--device auto|N] [--reserve-mib N] (default reserve: 256 MiB)
+      [--model-store path | --config file] [--tui] [--prompts file] [--log file] [--max-tokens N] [--context N] [--system text]
+      Omit model to choose an installed catalog model interactively.
+      --show-settings with an explicit model previews native config/recipe/CLI settings as JSON; no GPU load.
+      [--temperature 0] [--top-k 40] [--top-p 0.95] [--min-p 0]
+      [--timeout-ms 0] (per-turn deadline; 0 disables); Ctrl+C cancels generation
+      [--repeat-penalty 1] [--repeat-last-n 64] [--seed 42]
+      [--autosave-dir existing-private-directory] [--autosave-retain 1..64]
+      Optional crash recovery; restores the latest compatible committed generation.
+      Interactive: /help /show /clear /new /model <name-or-alias> /save <new-file> /load <file>
+      /export <new-markdown> /set <setting> <value> /bye
+      Multiline: /compose (line mode) or /edit (interactive TTY editor)
+      Defaults: context auto-fits observed CUDA memory; replies use at most half of it, capped by family.
+      Persistent CUDA text chat; one user turn per nonempty prompt-file line.
+  config [--config <path>] [--format json|text]
+      Validate and show the selected configuration file.
+  list|ls [--config path] [--format text|json]
+  show <name[:tag]> [--config path] [--format text|json]
+  create <name[:tag]> --modelfile <path> [--model <weights>] [--config path]
+  verify <name[:tag]> [--config path]
+  catalog migrate|backup|restore <path> [--model-store path | --config file]
+      One-way legacy import and immutable validate-before-replace snapshots.
+  gc [--config path]
+  cp <source[:tag]> <target[:tag]> [--config path]
+  rm|delete <name[:tag]> [--config path]
+      Restart-safe catalog operations; default store is .aesir/models.
+      Select a store with --model-store path OR --config file (not both).
+      --model imports immutable SHA-256-addressed bytes; verify rehashes them.
+  help, -h, --help
+      Show this capability-aware help.
+  -v, --version
+      Show the development version.
+
+  serve <model> --accel cuda --api-key-file <private-file>
+      [--port 18434] [--profile auto|gemma4|llama3|qwen3] [--context N] [--no-prefix-cache]
+      [--max-tokens 256] [--timeout-ms 30000] [--io-timeout-ms 5000]
+      [--device auto|N] [--reserve-mib 256]; authenticated IPv4 loopback only
+      Sampling defaults: --temperature, --top-k, --top-p, --min-p,
+      --repeat-penalty, --repeat-last-n, --seed; supplied request fields override defaults.
+      --system text overrides the stored recipe; --show-settings previews without a listener or key.
+      [--model-store path | --config file]; -c aliases --config; no implicit config loading.
+  serve <name[:tag]> --accel cuda --ollama [--context N] [--max-tokens N]
+      [--port 11434] [--model-store .aesir/models]; JSON and one-event NDJSON on loopback
+      Also serves OpenAI /v1/models, /v1/chat/completions, and /v1/completions.
+  ps [--model-store path] [--format json]
+      Report the one verified live foreground service owned by this store.
+  stop <exact-model> [--model-store path]
+      Request SIGTERM through a verified Linux pidfd; never signal a stale PID.
+Reserved but unsupported:
+  daemon; interactive run
+  push
+  llama-cli; llama-server; llama-bench; exl2; onnx; swarm
+See ../CAPABILITY_LEDGER.md for exact evidence and acceptance gates.
+==========================================================================
+  Project Aesir CLI — verified local GGUF run + development surfaces
+==========================================================================
+Usage:
+  aesir [command] [flags]
+
+Implemented:
+  home [--model-store path] — interactive launcher; plain aesir opens it in a terminal
+  keygen <new-private-file> — create an OS-random service key without overwriting
+  hardware list — observed CPU/CUDA devices and backend availability
+  bench [--settle N] [--rounds N] [--pass prompt|reply|draft-check]
+      Sweep the configurations the placement engine may choose
+      (threads x devices x pass kinds) and print the machine report.
+  compute plan|explain <model> [--profile auto|gemma4|llama3|qwen3]
+      [--context N] [--device auto|N] [--reserve-mib N] [--model-store path]
+  pull <owner/repo> <filename.gguf> --revision <commit-sha>
+      --sha256 <digest> --size <bytes> [--output <path>] [--connections 1..8]
+      [--name <name[:tag]> [--config <path>]]
+      Download and verify a pinned GGUF; optionally register stored bytes.
+      Default single-connection pulls resume verified partial downloads.
+  get <name[:tag]> [--config <path>]
+      Fetch one model from the in-repo known-models catalogue by name;
+      downloaded and checksum-verified before use; a mismatch is refused.
+  inspect <model> [--format text|json] [--context N] [--model-store path]
+      Report architecture, adapter readiness, capabilities, and memory estimate.
+  vision inspect <model> [--model-store path]
+      Report the mmproj vision tower structure beside a multimodal model.
+  doctor [model] [--model-store path] [--format text|json]
+      Diagnose CUDA, model integrity, disk capacity, local API ports, and one model.
+  alias <short-name> <model> [--model-store path] | aliases
+  unalias <short-name> [--model-store path]
+  favorite <model-or-alias> [--model-store path] | favorites
+  unfavorite <model-or-alias> [--model-store path]
+  repair-preferences [--dry-run|--apply] [--model-store path | --config file]
+      Preview by default; --apply removes only shortcuts to missing catalog models.
+      Durable local shortcuts and favorite-first interactive selection.
+  run <model> [--max-tokens N] [--config path] [--accel auto|cpu|cuda] <prompt...>
+      CPU GGUF or auto-detected native CUDA Gemma4/Llama3/Qwen3 single-shot inference.
+  run --accel hailo10h --model-path <model.hef> <prompt...>
+      Hailo-10H direct in-process HailoRT GenAI single-shot inference.
+  chat [model] --accel cuda [--profile auto|gemma4|llama3|qwen3]
+      [--device auto|N] [--reserve-mib N] (default reserve: 256 MiB)
+      [--model-store path | --config file] [--tui] [--prompts file] [--log file] [--max-tokens N] [--context N] [--system text]
+      Omit model to choose an installed catalog model interactively.
+      --show-settings with an explicit model previews native config/recipe/CLI settings as JSON; no GPU load.
+      [--temperature 0] [--top-k 40] [--top-p 0.95] [--min-p 0]
+      [--timeout-ms 0] (per-turn deadline; 0 disables); Ctrl+C cancels generation
+      [--repeat-penalty 1] [--repeat-last-n 64] [--seed 42]
+      [--autosave-dir existing-private-directory] [--autosave-retain 1..64]
+      Optional crash recovery; restores the latest compatible committed generation.
+      Interactive: /help /show /clear /new /model <name-or-alias> /save <new-file> /load <file>
+      /export <new-markdown> /set <setting> <value> /bye
+      Multiline: /compose (line mode) or /edit (interactive TTY editor)
+      Defaults: context auto-fits observed CUDA memory; replies use at most half of it, capped by family.
+      Persistent CUDA text chat; one user turn per nonempty prompt-file line.
+  config [--config <path>] [--format json|text]
+      Validate and show the selected configuration file.
+  list|ls [--config path] [--format text|json]
+  show <name[:tag]> [--config path] [--format text|json]
+  create <name[:tag]> --modelfile <path> [--model <weights>] [--config path]
+  verify <name[:tag]> [--config path]
+  catalog migrate|backup|restore <path> [--model-store path | --config file]
+      One-way legacy import and immutable validate-before-replace snapshots.
+  gc [--config path]
+  cp <source[:tag]> <target[:tag]> [--config path]
+  rm|delete <name[:tag]> [--config path]
+      Restart-safe catalog operations; default store is .aesir/models.
+      Select a store with --model-store path OR --config file (not both).
+      --model imports immutable SHA-256-addressed bytes; verify rehashes them.
+  help, -h, --help
+      Show this capability-aware help.
+  -v, --version
+      Show the development version.
+
+  serve <model> --accel cuda --api-key-file <private-file>
+      [--port 18434] [--profile auto|gemma4|llama3|qwen3] [--context N] [--no-prefix-cache]
+      [--max-tokens 256] [--timeout-ms 30000] [--io-timeout-ms 5000]
+      [--device auto|N] [--reserve-mib 256]; authenticated IPv4 loopback only
+      Sampling defaults: --temperature, --top-k, --top-p, --min-p,
+      --repeat-penalty, --repeat-last-n, --seed; supplied request fields override defaults.
+      --system text overrides the stored recipe; --show-settings previews without a listener or key.
+      [--model-store path | --config file]; -c aliases --config; no implicit config loading.
+  serve <name[:tag]> --accel cuda --ollama [--context N] [--max-tokens N]
+      [--port 11434] [--model-store .aesir/models]; JSON and one-event NDJSON on loopback
+      Also serves OpenAI /v1/models, /v1/chat/completions, and /v1/completions.
+  ps [--model-store path] [--format json]
+      Report the one verified live foreground service owned by this store.
+  stop <exact-model> [--model-store path]
+      Request SIGTERM through a verified Linux pidfd; never signal a stale PID.
+Reserved but unsupported:
+  daemon; interactive run
+  push
+  llama-cli; llama-server; llama-bench; exl2; onnx; swarm
+See ../CAPABILITY_LEDGER.md for exact evidence and acceptance gates.
+Validated configuration: aesir.config.json
+{
+  "hardware": {
+    "acceleration_backend": "auto",
+    "target_npu": "auto",
+    "num_gpu_layers": 0,
+    "max_threads": 0
+  },
+  "safety": {
+    "skaldbrodir_enabled": false,
+    "thinking_enabled": false
+  },
+  "experimental_paradigms": {
+    "cia_enabled": false,
+    "wic_enabled": false,
+    "nsfi_enabled": false,
+    "mqari_enabled": false
+  },
+  "interface": {
+    "tui_enabled": false
+  },
+  "storage": {
+    "model_store_path": ".aesir/models"
+  },
+  "sampling": {
+    "temperature": 0.0,
+    "top_p": 1.0
+  }
+}
+No live service owns this model store
+{"schema_version":1,"services":[]}
+operational CLI command dispatchers & boundaries: PASS
+[CASE PASS] cli.truthful_command_boundaries
+--- Testing RuneREPL session state, slash commands & stream execution ---
+Available REPL Slash Commands:
+  /? , /help         - Show this help message
+  /set parameter val - Set session parameter (e.g. /set temp 0.8)
+  /show [modelfile]  - Show model information and current config
+  /clear             - Clear chat conversation context
+  /bye , /exit       - Exit the REPL session
+Set temperature to 0.8
+Set top_k to 50
+Model:        aesir-chat:latest
+System:       You are Aesir, a sovereign LLM inference engine.
+Temperature:  0.8
+Top K:        50
+Top P:        0.9
+Max Tokens:   16000
+History Turns:1
+Conversation context cleared.
+Farewell from Project Aesir.
+Set temperature to 0.0
+Set top_k to 0
+RuneREPL session state & slash commands: PASS
+[CASE PASS] cli.repl_session_state
+--- Testing CLIOptions flag parser, duration conversion & JSON output ---
+CLIOptions flag parser, duration conversion & JSON output: PASS
+[CASE PASS] cli.flag_options_parser
+--- Testing CLIOptions enum flag value validation ---
+CLIOptions enum flag value validation: PASS
+[CASE PASS] cli.enum_flag_validation
+--- Testing strict parse_int semantics ---
+strict parse_int semantics: PASS
+[CASE PASS] cli.parse_int_strict
+--- Testing strict parse_duration_seconds semantics ---
+strict parse_duration_seconds semantics: PASS
+[CASE PASS] cli.duration_strict
+model reference traversal fail-closed: PASS
+[CASE PASS] cli.model_reference_traversal
+[CASE PASS] cli.doctor_observations
+[CASE PASS] cli.doctor_readiness
+[CASE PASS] cli.doctor_disk_fallback_issue
+[CASE PASS] cli.doctor_listener_probe_issue
+PASS: kfd gfx parser (verbatim version, formatted target, unknowns)
+[CASE PASS] hardware.census_kfd_parser
+PASS: os-release + uevent parsers (quoted pretty name, KEY=value)
+[CASE PASS] hardware.census_release_parsers
+PASS: sysfs number parsers (ints, nvme capacity, mem bank, refusals)
+[CASE PASS] hardware.census_sysfs_numbers
+PASS: census lines (present quantified, absent with reason, none omitted)
+[CASE PASS] hardware.census_lines
+CENSUS: cpu: AMD RYZEN AI MAX+ 395 w/ Radeon 8060S — 32 logical, 16 physical cores in 1 package, 2 thread(s) per core
+CENSUS: gpu: present — gfx1151, driver amdgpu, PCI 1002:1586, VRAM aperture 4.0 GiB, unified pool (GTT) 121.4 GiB; memory = unified pool shared with CPU
+CENSUS: npu: present — node /dev/accel/accel0, driver amdxdna, PCI 1022:17F0, firmware 1.1.2.65
+CENSUS: memory: 121.4 GiB total, 630.4 MiB available; memory clock 1000 MHz (KFD memory bank), bank width 256
+CENSUS: storage: NVMe Sandisk Optimus GX 7100M 2TB — 1.8 TiB, firmware 7620M0WD
+CENSUS: system: ROG Flow Z13 GZ302EA_GZ302EA, kernel 7.3.0-10-generic, OS Ubuntu 26.10
+CENSUS: rocm: absent — install root /opt/rocm absent (ROCm userland not installed)
+CENSUS: xrt: absent — install root /opt/xilinx/xrt absent (XRT userland not installed)
+PASS: live census on this machine (Z13 acceptance facts, all read at runtime)
+[CASE PASS] hardware.census_live
+PASS: absent CUDA reported as absent, census unaffected
+[CASE PASS] hardware.census_cuda_absent
+PASS: thermal parsers/formats (kernel units, plausible bands, refusals)
+[CASE PASS] thermal.hwmon_parsers
+PASS: thermal tolerance (temp +/-3 C; power 5 W or 30%)
+[CASE PASS] thermal.tolerance_tracking
+PASS: thermal lines (present quantified, RAPL unreadable honest, absent with reason)
+[CASE PASS] thermal.lines_fixture
+THERMAL: gpu thermal: edge 40.0°C, power PPT 27.3 W (amdgpu hwmon hwmon13)
+THERMAL: cpu thermal: Tctl 58.6°C (hwmon hwmon8 (k10temp))
+THERMAL: fan: fan1 3816 RPM (hwmon hwmon1 (acpi_fan))
+THERMAL: cpu power (RAPL): domain package-0 present — energy_uj unreadable: energy_uj could not be read or parsed: Failed to open file '/sys/class/powercap/intel-rapl:0/energy_uj': Permission denied
+PASS: live thermal on this machine (hwmon + RAPL, tracked within tolerance)
+[CASE PASS] thermal.live_sensors
+[CASE PASS] cli.backend_registry_all_present
+[CASE PASS] cli.backend_registry_absent_combinations
+[CASE PASS] cli.backend_registry_degraded_and_software_vulkan
+[CASE PASS] cli.backend_registry_parsers
+[CASE PASS] cli.device_policy_accelerator_first
+[CASE PASS] cli.device_policy_gpu_backend_fallback
+[CASE PASS] cli.device_policy_cpu_spillover_and_none
+[CASE PASS] cli.device_policy_override
+[CASE PASS] cli.device_policy_npu_proven_path
+[CASE PASS] cli.device_policy_deterministic_log
+[CASE PASS] cli.backend_config_vocabulary
+[CASE PASS] cli.backend_config_file_and_cli_surface
+[CASE PASS] cli.backend_config_explicit_resolution
+[CASE PASS] cli.backend_config_absent_fail_closed
+[CASE PASS] cli.backend_config_npu_honesty_gate
+[CASE PASS] cli.backend_config_auto_order
+[CASE PASS] gpu_winner.pending_state
+[CASE PASS] gpu_winner.hip_wins
+[CASE PASS] gpu_winner.vulkan_wins
+[CASE PASS] gpu_winner.invalid_verdicts_fail_closed
+[CASE PASS] gpu_winner.probe_only_never_placed
+[CASE PASS] gpu_winner.determinism_and_clear
+[CASE PASS] gate.part_iv_verdict_table
+[CASE PASS] gate.part_iv_no_unexplained
+[CASE PASS] gate.part_iv_in_flight_honest
+[CASE PASS] gate.part_iv_negatives
+[CASE PASS] gate.part_iv_planner_scope
+[CASE PASS] gate.part_iv_summary
+[CASE PASS] oracle.pin_registry_judged_rows_pinned
+[CASE PASS] oracle.pin_registry_unpinned_unjudged
+[CASE PASS] oracle.pin_missing_each_blocks
+[CASE PASS] oracle.pin_malformed_hash_blocks
+[CASE PASS] oracle.pin_mark_judged_success
+[CASE PASS] oracle.pin_build_hash_forms
+[CASE PASS] oracle.pin_registry_file_in_repo
+[CASE PASS] corpus.count_unique_ids
+[CASE PASS] corpus.coverage
+[CASE PASS] corpus.pins_complete
+[CASE PASS] corpus.raw_not_template
+[CASE PASS] corpus.pinned_expectations
+[CASE PASS] corpus.length_classes
+[CASE PASS] corpus.file_mirrors
+[CASE PASS] corpus.harness_consumes_unchanged
+[CASE PASS] gate.near_tie_band_constants
+[CASE PASS] gate.near_tie_exact_step
+[CASE PASS] gate.near_tie_band_interior
+[CASE PASS] gate.near_tie_rank_edge
+[CASE PASS] gate.near_tie_gap_edge
+[CASE PASS] gate.near_tie_invalid_refused
+[CASE PASS] gate.near_tie_comparator_precedence
+[CASE PASS] gate.near_tie_row_verdicts
+[CASE PASS] gate.near_tie_sequence_verdicts
+[CASE PASS] gate.near_tie_matches_prefill
+[CASE PASS] gate.near_tie_band_line
+[CASE PASS] oracle.comparator_constants_names
+[CASE PASS] oracle.comparator_clean_exact
+[CASE PASS] oracle.comparator_clean_genuine
+[CASE PASS] oracle.comparator_template_caught
+[CASE PASS] oracle.comparator_template_precedence
+[CASE PASS] oracle.comparator_bos_flags
+[CASE PASS] oracle.comparator_bos_rendered
+[CASE PASS] oracle.comparator_backend_mismatch
+[CASE PASS] oracle.comparator_step0_caught
+[CASE PASS] oracle.comparator_step0_plus_later
+[CASE PASS] oracle.comparator_combined_precedence
+[CASE PASS] oracle.comparator_invalid_refused
+[CASE PASS] matrix.runner_axes_product
+[CASE PASS] matrix.runner_enumeration_unique
+[CASE PASS] matrix.runner_faithful_cells
+[CASE PASS] matrix.runner_near_tie_cells
+[CASE PASS] matrix.runner_divergent_cells
+[CASE PASS] matrix.runner_artifact_cells
+[CASE PASS] matrix.runner_iq_fixture_limited
+[CASE PASS] matrix.runner_backend_not_graded
+[CASE PASS] matrix.runner_arch_not_graded
+[CASE PASS] matrix.runner_summary_sums
+[CASE PASS] matrix.runner_invalid_axes_refused
+[CASE PASS] matrix.runner_digest_deterministic
+[CASE PASS] policy.exactness_table_complete
+[CASE PASS] policy.exactness_measured_owed
+[CASE PASS] policy.exactness_iq_coherence_only
+[CASE PASS] policy.exactness_unknown_refused
+[CASE PASS] policy.exactness_exact_pass
+[CASE PASS] policy.exactness_near_tie_edges
+[CASE PASS] policy.exactness_divergent_fails
+[CASE PASS] policy.exactness_iq_divergent_never_fails
+[CASE PASS] policy.exactness_iq_coherence_fail
+[CASE PASS] policy.exactness_comparator_precedence
+[CASE PASS] policy.exactness_coherence_no_rescue
+[CASE PASS] policy.exactness_invalid_refused
+[CASE PASS] policy.exactness_render_digest
+[CASE PASS] oracle.localise_constants_and_names
+[CASE PASS] oracle.localise_identical_no_divergence
+[CASE PASS] oracle.localise_near_tie_probes_faithful
+[CASE PASS] oracle.localise_first_at_layer0
+[CASE PASS] oracle.localise_mid_stack_first_exact
+[CASE PASS] oracle.localise_seeded_exact
+[CASE PASS] oracle.localise_band_edges
+[CASE PASS] oracle.localise_artifact_template_blocks
+[CASE PASS] oracle.localise_artifact_backend_blocks
+[CASE PASS] oracle.localise_artifact_step0_blocks
+[CASE PASS] oracle.localise_digest_deterministic
+[CASE PASS] oracle.localise_invalid_refused
+[CASE PASS] gate.local_constants
+[CASE PASS] gate.local_suite_baseline
+[CASE PASS] gate.local_suite_clean
+[CASE PASS] gate.local_suite_extra_failure
+[CASE PASS] gate.local_suite_shape_refused
+[CASE PASS] gate.local_matrix_filed
+[CASE PASS] gate.local_matrix_incomplete
+[CASE PASS] gate.local_verdict_pass
+[CASE PASS] gate.local_verdict_fail
+[CASE PASS] gate.local_verdict_not_run
+[CASE PASS] qwen.battery_axes_product
+[CASE PASS] qwen.battery_enumeration_unique
+[CASE PASS] qwen.battery_policy_split
+[CASE PASS] qwen.battery_policy_agrees_with_a115
+[CASE PASS] qwen.battery_cpu_no_filed_records
+[CASE PASS] qwen.battery_iq_cpu_not_fixture_limited
+[CASE PASS] qwen.battery_backend_not_graded
+[CASE PASS] qwen.battery_summary_sums
+[CASE PASS] qwen.battery_invalid_axes_refused
+[CASE PASS] qwen.battery_unknown_quant_refused
+[CASE PASS] qwen.battery_arch_strings_and_smoke
+[CASE PASS] qwen.battery_agrees_with_matrix
+[CASE PASS] qwen.battery_digest_deterministic
+[CASE PASS] llama.battery_axes_product
+[CASE PASS] llama.battery_enumeration_unique
+[CASE PASS] llama.battery_policy_split
+[CASE PASS] llama.battery_cpu_faithful
+[CASE PASS] llama.battery_cpu_near_tie
+[CASE PASS] llama.battery_cpu_divergent
+[CASE PASS] llama.battery_cpu_artifact
+[CASE PASS] llama.battery_iq_fixture_limited
+[CASE PASS] llama.battery_backend_not_graded
+[CASE PASS] llama.battery_summary_sums
+[CASE PASS] llama.battery_invalid_axes_refused
+[CASE PASS] llama.battery_agrees_with_matrix
+[CASE PASS] llama.battery_digest_deterministic
+[CASE PASS] gemma.battery_axes_product
+[CASE PASS] gemma.battery_enumeration_unique
+[CASE PASS] gemma.battery_policy_split
+[CASE PASS] gemma.battery_policy_canonical
+[CASE PASS] gemma.battery_cpu_not_graded
+[CASE PASS] gemma.battery_iq_cpu_not_fixture
+[CASE PASS] gemma.battery_backend_not_graded
+[CASE PASS] gemma.battery_summary_sums
+[CASE PASS] gemma.battery_no_divergent
+[CASE PASS] gemma.battery_invalid_axes_refused
+[CASE PASS] gemma.battery_agrees_with_matrix
+[CASE PASS] gemma.battery_comparator_reference
+[CASE PASS] gemma.battery_digest_deterministic
+[CASE PASS] moe.battery_axes_product
+[CASE PASS] moe.battery_enumeration_unique
+[CASE PASS] moe.battery_policy_obligation
+[CASE PASS] moe.battery_cpu_faithful
+[CASE PASS] moe.battery_layer_witnesses
+[CASE PASS] moe.battery_backend_not_graded
+[CASE PASS] moe.battery_summary_sums
+[CASE PASS] moe.battery_checks_discriminate
+[CASE PASS] moe.battery_synthetic_labelled
+[CASE PASS] moe.battery_synthetic_raw_rule
+[CASE PASS] moe.battery_synthetic_defects
+[CASE PASS] moe.battery_invalid_axes_refused
+[CASE PASS] moe.battery_digest_deterministic
+[CASE PASS] attn.battery_axes_product
+[CASE PASS] attn.battery_enumeration_unique
+[CASE PASS] attn.battery_policy_obligation
+[CASE PASS] attn.battery_gqa_delegates_matrix
+[CASE PASS] attn.battery_gqa_filed_counts
+[CASE PASS] attn.battery_variant_cpu_not_graded
+[CASE PASS] attn.battery_backend_not_graded
+[CASE PASS] attn.battery_mla_attestation
+[CASE PASS] attn.battery_summary_sums
+[CASE PASS] attn.battery_iq_precedence
+[CASE PASS] attn.battery_invalid_axes_refused
+[CASE PASS] attn.battery_row_line_render
+[CASE PASS] attn.battery_digest_deterministic
+[CASE PASS] planner.standard_fixtures
+[CASE PASS] planner.prefill_variants
+[CASE PASS] planner.gemm_thresholds
+[CASE PASS] planner.decode_and_sampling
+[CASE PASS] planner.honesty_and_fallback
+[CASE PASS] planner.cost_tables_and_lines
+--- Battery: planner standard fixtures pinned (A-107) ---
+PASS: all 12 standard fixture decisions pinned in full
+[CASE PASS] battery.planner_standard_fixtures
+--- Battery: planner registry/context variants pinned ---
+PASS: GPU-absent + unproven-context decisions pinned (24)
+[CASE PASS] battery.planner_context_variants
+--- Battery: spillover standard plans pinned (A-107) ---
+PASS: 6 spillover plans pinned (log + digest + refusal)
+[CASE PASS] battery.spillover_standard_plans
+--- Battery: re-planning scenarios pinned (A-107) ---
+PASS: re-plan originals, GPU/NPU/CPU loss + drill pinned
+[CASE PASS] battery.replan_standard_scenarios
+--- Battery: big-model standard splits pinned (A-107) ---
+PASS: 6 named splits + 6-rung budget ladder pinned
+[CASE PASS] battery.big_model_standard_splits
+--- Battery: fairness standard scripts pinned (A-107) ---
+PASS: 5 fairness scripts pinned (summary + log digest)
+[CASE PASS] battery.fairness_standard_scripts
+[CASE PASS] timing.phase_coverage_arithmetic
+[CASE PASS] timing.phase_disjoint_pure
+[CASE PASS] timing.phase_json_schema
+[CASE PASS] timing.phase_kvcache_sink
+A045 top token (lowest-id tie): PASS
+[CASE PASS] parity.top_token_ties
+A045 rank arithmetic (ties, range): PASS
+[CASE PASS] parity.rank_arithmetic
+A045 logit-gap arithmetic: PASS
+[CASE PASS] parity.gap_arithmetic
+A045 verdict bands (faithful / near-tie / divergence): PASS
+[CASE PASS] parity.verdict_bands
+A045 logit-row sink defaults + copy: PASS
+[CASE PASS] parity.logit_sink_defaults
+A109 raw prompt accepted (CPU vs CPU): PASS
+[CASE PASS] oracle.tf_raw_prompt_accepted
+A109 template-rendered input detected + rejected: PASS
+[CASE PASS] oracle.tf_template_rejected
+A109 backend-mismatch + no-oracle gates: PASS
+[CASE PASS] oracle.tf_backend_oracle_gate
+A109 one harness grades every backend identically: PASS
+[CASE PASS] oracle.tf_grade_all_backends
+A109 grade bands (faithful/near-tie/divergence): PASS
+[CASE PASS] oracle.tf_grade_bands
+A109 A-045 CPU matrix reproduction (exact, drift caught): PASS
+[CASE PASS] oracle.tf_a045_reproduction
+A109 summary digest reproducible: PASS
+[CASE PASS] oracle.tf_digest_reproducible
+A044 SIMD max parity (tails, non-finite): PASS
+[CASE PASS] sampling_cost.simd_max_parity
+A044 greedy argmax parity (ties, tail, non-finite, suppress): PASS
+[CASE PASS] sampling_cost.greedy_argmax_parity
+A044 stable sort == insertion-sort reference: PASS
+[CASE PASS] sampling_cost.sort_stable_reference
+A044 top_k == full stable sort prefix: PASS
+[CASE PASS] sampling_cost.topk_reference
+A044 stochastic determinism at vocab 5000: PASS
+[CASE PASS] sampling_cost.stochastic_determinism_large
+[CASE PASS] precision.f32_accumulation_dyadic_exact
+[CASE PASS] precision.f16_gemm_f64_reference
+[CASE PASS] precision.bf16_gemm_f64_reference
+[CASE PASS] precision.bf16_widening_exact
+[CASE PASS] precision.f16_roundtrip_bound
+[CASE PASS] precision.rmsnorm_f32_f64_reference
+[CASE PASS] cli.conversation_codec
+[CASE PASS] core.prompt_prefix_exact
+[CASE PASS] core.dense_buffer_layout
+[CASE PASS] tests.turing_fixture_plan
+[CASE PASS] tests.turing_fixture_control
+[CASE PASS] tests.turing_replay_plan
+[CASE PASS] cli.conversation_compatibility
+conversation autosave generations: PASS
+[CASE PASS] cli.conversation_autosave_generations
+conversation autosave corrupt records: PASS
+[CASE PASS] cli.conversation_autosave_corrupt_records
+model preference codec and validation: PASS
+[CASE PASS] cli.model_preferences_codec
+favorite-first model selection: PASS
+[CASE PASS] cli.favorite_model_selection
+
+  [DOMAIN] Compressed Format Scaffolds
+  -----------------------------------------
+--- Testing CompressedFormatType (Format Discriminants) ---
+CompressedFormatType: PASS
+[CASE PASS] quantization.enum
+--- Testing compressed-format dequantization boundaries ---
+compressed-format dequantization boundaries: PASS
+[CASE PASS] quantization.external_dequant_boundaries
+raw Q4_K_M matvec: PASS
+[CASE PASS] quantization.fused_q4_k_m_parity
+--- Testing fused Q4_0 GEMM parity against uncompressed gemm_f16 ---
+fused Q4_0 GEMM parity: PASS
+[CASE PASS] quantization.fused_q4_0_parity
+gemm_f16: A.rows: 1 A.cols: 64 B.rows: 1 B.cols: 64 B.is_quant: True
+raw Q4_1 matvec: PASS
+[CASE PASS] quantization.fused_q4_1_parity
+raw Q5_0 matvec: PASS
+[CASE PASS] quantization.fused_q5_0_parity
+raw Q5_1 matvec: PASS
+[CASE PASS] quantization.fused_q5_1_parity
+Q8_0 GEMV SIMD known value: PASS
+[CASE PASS] quantization.q8_0_gemv_simd_known_value
+Q8_0 GEMV SIMD parity (bitwise, dyadic): PASS
+[CASE PASS] quantization.q8_0_gemv_simd_parity
+Q8_0 GEMV multirow regression (bitwise, dyadic): PASS
+[CASE PASS] quantization.q8_0_gemv_multirow_regression
+raw Q8_0 matvec: PASS
+[CASE PASS] quantization.fused_q8_0_parity
+raw Q8_1 matvec: PASS
+[CASE PASS] quantization.fused_q8_1_parity
+raw FP8 E4M3 matvec: PASS
+[CASE PASS] quantization.fused_fp8_e4m3_parity
+raw FP8 E5M2 matvec: PASS
+[CASE PASS] quantization.fused_fp8_e5m2_parity
+raw Q3_K_S matvec: PASS
+[CASE PASS] quantization.fused_q3_k_s_parity
+raw Q3_K_M matvec: PASS
+[CASE PASS] quantization.fused_q3_k_m_parity
+raw Q3_K_L matvec: PASS
+[CASE PASS] quantization.fused_q3_k_l_parity
+raw Q5_K_S matvec: PASS
+[CASE PASS] quantization.fused_q5_k_s_parity
+raw Q5_K_M matvec: PASS
+[CASE PASS] quantization.fused_q5_k_m_parity
+raw Q2_K matvec: PASS
+[CASE PASS] quantization.fused_q2_k_parity
+raw Q6_K matvec: PASS
+[CASE PASS] quantization.fused_q6_k_parity
+A-040 Q4_K SIMD dequant bit-parity: PASS
+[CASE PASS] quantization.k_dequant_simd_q4_k_parity
+A-040 Q5_K SIMD dequant bit-parity: PASS
+[CASE PASS] quantization.k_dequant_simd_q5_k_parity
+A-040 Q6_K SIMD dequant bit-parity: PASS
+[CASE PASS] quantization.k_dequant_simd_q6_k_parity
+GPTQ_4BIT canonical AutoGPTQ dequantization and GEMM: PASS
+[CASE PASS] quantization.gptq_4bit_known_value
+GPTQ_8BIT canonical AutoGPTQ dequantization and GEMM: PASS
+[CASE PASS] quantization.gptq_8bit_known_value
+AWQ_4BIT canonical AutoAWQ GEMM layout and execution: PASS
+[CASE PASS] quantization.awq_4bit_known_value
+EXL2_VARBIT explicit mutation-free rejection: PASS
+EXL2 canonical 2/3/4/5/6/8-bit packing and execution: PASS
+[CASE PASS] quantization.exl2_mixedbit_known_value
+HQQ 4-bit axis=1 native packing and execution: PASS
+[CASE PASS] quantization.hqq_4bit_axis1_known_value
+SMOOTHQUANT_INT8 static W8A8 execution: PASS
+[CASE PASS] quantization.smoothquant_int8_known_value
+IQ1_S canonical 50-byte block and GEMM: PASS
+[CASE PASS] quantization.iq1_s_known_value
+IQ2_XXS canonical 66-byte block and GEMM: PASS
+[CASE PASS] quantization.iq2_xxs_known_value
+IQ2_S canonical 82-byte block and GEMM: PASS
+[CASE PASS] quantization.iq2_s_known_value
+IQ3_S canonical 110-byte block and GEMM: PASS
+[CASE PASS] quantization.iq3_s_known_value
+IQ2_XS canonical 74-byte block and GEMM: PASS
+[CASE PASS] quantization.iq2_xs_known_value
+IQ3_XXS canonical 98-byte block and GEMM: PASS
+[CASE PASS] quantization.iq3_xxs_known_value
+TQ1_0 canonical 54-byte block and GEMM: PASS
+[CASE PASS] quantization.tq1_0_known_value
+A-039 parity kind 19 : PASS
+[CASE PASS] quantization.iq_simd_parity_iq1_s
+A-039 parity kind 29 : PASS
+[CASE PASS] quantization.iq_simd_parity_iq1_m
+A-039 parity kind 16 : PASS
+[CASE PASS] quantization.iq_simd_parity_iq2_xxs
+A-039 parity kind 17 : PASS
+[CASE PASS] quantization.iq_simd_parity_iq2_xs
+A-039 parity kind 22 : PASS
+[CASE PASS] quantization.iq_simd_parity_iq2_s
+A-039 parity kind 18 : PASS
+[CASE PASS] quantization.iq_simd_parity_iq3_xxs
+A-039 parity kind 21 : PASS
+[CASE PASS] quantization.iq_simd_parity_iq3_s
+A-039 parity kind 20 : PASS
+[CASE PASS] quantization.iq_simd_parity_iq4_nl
+A-039 parity kind 23 : PASS
+[CASE PASS] quantization.iq_simd_parity_iq4_xs
+Prefill batching policy: PASS
+[CASE PASS] prefill.batching_policy
+Prefill batching dense range parity (bitwise): PASS
+[CASE PASS] prefill.batching_dense_range_parity
+Prefill batching dense public parity (bitwise): PASS
+[CASE PASS] prefill.batching_dense_public_parity
+Prefill batching Q8_0 range parity (bitwise, dyadic): PASS
+[CASE PASS] prefill.batching_q8_range_parity
+Prefill batching Q4_0 public parity (bitwise): PASS
+[CASE PASS] prefill.batching_q4_0_public_parity
+A051 golden chatml: PASS (196 bytes)
+[CASE PASS] chat_template.golden_chatml
+A051 golden llama3: PASS (334 bytes)
+[CASE PASS] chat_template.golden_llama3
+A051 golden llama2: PASS (106 bytes)
+[CASE PASS] chat_template.golden_llama2
+A051 golden gemma: PASS (213 bytes)
+A051 golden gemma3: PASS (213 bytes)
+[CASE PASS] chat_template.golden_gemma
+A051 golden family routing: PASS
+[CASE PASS] chat_template.golden_family_routing
+--- A-052 growth: KV bytes vs context length ---
+A-052 growth account: PASS
+[CASE PASS] long_context.growth_account
+--- A-052 verdict: context vs engine session cap ---
+A-052 session cap verdict: PASS
+[CASE PASS] long_context.session_cap_verdict
+--- A-052 depths: needle placement and pattern ---
+A-052 depths and patterns: PASS
+[CASE PASS] long_context.depths_patterns
+--- A-052 grading: probe tolerance and rate ---
+A-052 probe grading: PASS
+[CASE PASS] long_context.probe_grading
+--- A-052 execution: KV growth to 32768 + readback ---
+A052_TEST_READBACK positions=12 dims=64 exact
+A-052 KV growth execution: PASS
+[CASE PASS] long_context.kv_growth_execution
+--- A-052 probes: needle retrieval at depth, full 32k ---
+A052_TEST_PROBE needle=0 depth=0 max_abs_diff=0.0
+A052_TEST_PROBE needle=1 depth=1024 max_abs_diff=0.0
+A052_TEST_PROBE needle=2 depth=4096 max_abs_diff=0.0
+A052_TEST_PROBE needle=3 depth=8192 max_abs_diff=0.0
+A052_TEST_PROBE needle=4 depth=16384 max_abs_diff=0.0
+A052_TEST_PROBE needle=5 depth=24576 max_abs_diff=0.0
+A052_TEST_PROBE needle=6 depth=32767 max_abs_diff=0.0
+A-052 needle probes: PASS
+[CASE PASS] long_context.needle_probes
+Z13 storage autosave generations on checkout filesystem: PASS
+[CASE PASS] storage.z13_autosave_generations
+Z13 storage StateVault disk checkpoint: PASS
+[CASE PASS] storage.z13_state_vault_disk
+Z13 storage durable catalog restart: PASS
+[CASE PASS] storage.z13_catalog_restart
+Z13 storage conversation snapshot: PASS
+[CASE PASS] storage.z13_conversation_snapshot
+A043_TEST_PARITY case=reference elements=512 bitwise=512 max_abs_diff=0.0
+[CASE PASS] attention.gqa_simd_reference_parity
+A043_TEST_PARITY case=dyadic elements=256 bitwise=256 max_abs_diff=0.0
+[CASE PASS] attention.gqa_simd_dyadic_bitwise
+A043_TEST_PARITY case=tail40 elements=240 bitwise=240 max_abs_diff=0.0
+A043_TEST_PARITY case=tail24 elements=96 bitwise=96 max_abs_diff=0.0
+[CASE PASS] attention.gqa_simd_tail_parity
+A043_TEST_PARITY case=modifiers elements=128 bitwise=128 max_abs_diff=0.0
+[CASE PASS] attention.gqa_simd_modifiers_parity
+A043_TEST_PARITY case=long elements=2048 bitwise=2043 max_abs_diff=6.1035156e-05
+[CASE PASS] attention.gqa_simd_long_parity
+truthful all-format quantization metadata: PASS
+[CASE PASS] quantization.format_metadata
+measured correctness-gated quantized GEMM autotuner: PASS
+[CASE PASS] quantization.measured_autotuner
+--- Testing Dequantizer Invalid Bounds Rejection ---
+dequantizer invalid bounds rejection: PASS
+[CASE PASS] quantization.hardening_zero_and_null_bounds
+--- Testing Quantized GEMM Invalid Dimension Rejection ---
+quantized GEMM invalid dimension rejection: PASS
+[CASE PASS] quantization.hardening_invalid_dimensions
+--- Testing Unrecognized Format Self-Healing Fallback ---
+unrecognized format strict rejection: PASS
+[CASE PASS] quantization.hardening_unrecognized_format
+--- Testing FP8 & Quantized NaN / Corrupt Weight Sanitization ---
+FP8 & quantized NaN / corrupt weight sanitization: PASS
+[CASE PASS] quantization.hardening_nan_sanitization
+--- Testing RuneTensor Q4_K_M quantization metadata ---
+RuneTensor Q4_K_M quantization metadata: PASS
+[CASE PASS] quantization.tensor_mapping_metadata
+
+  [DOMAIN] Formatter and Unsupported Ecosystem Boundaries
+  -----------------------------------------
+--- Testing OpenAIGate caller-observed JSON serialization ---
+OpenAIGate: PASS
+[CASE PASS] multi_engine.openai_formatter
+--- Testing fail-closed legacy grammar boundary ---
+fail-closed legacy grammar boundary: PASS
+[CASE PASS] multi_engine.grammar_mask
+--- Testing fail-closed legacy speculative boundary ---
+fail-closed legacy speculative boundary: PASS
+[CASE PASS] multi_engine.speculative_acceptance
+--- Testing honest ONNX execution boundary ---
+honest ONNX execution boundary: PASS
+[CASE PASS] multi_engine.onnx_unavailable
+--- Testing unsupported multi-engine CLI dispatchers ---
+unsupported multi-engine CLI dispatchers: PASS
+[CASE PASS] multi_engine.cli_unsupported
+--- Testing honest unsupported HTTP responses ---
+honest unsupported HTTP responses: PASS
+[CASE PASS] multi_engine.http_unsupported_responses
+--- Testing bare-metal POSIX socket bind/listen setup & options ---
+Bifrost socket listener open on http://127.0.0.1:0; no model-backed service loop is attached
+bare-metal POSIX socket bind/listen setup & options: PASS
+[CASE PASS] server.posix_socket
+--- Testing HTTP/1.1 request parser & route dispatcher ---
+HTTP/1.1 request parser & route dispatcher: PASS
+[CASE PASS] server.http_parser
+--- Testing HTTP/1.1 response framing & streaming utilities ---
+HTTP/1.1 response framing & streaming utilities: PASS
+[CASE PASS] server.http_response_framing
+--- Testing fail-closed OpenAI REST compatibility boundaries ---
+OpenAI REST API Gateway: PASS
+[CASE PASS] server.openai_rest_gateway
+
+  [DOMAIN] Local Resilience & Concurrency Matrix
+  -----------------------------------------
+--- Testing ErrorGuard (Pointer & Logit Sanitization) ---
+ErrorGuard: PASS
+[CASE PASS] resilience.error_guard
+--- Testing ErrorGuard float finiteness helpers ---
+ErrorGuard finiteness: PASS
+[CASE PASS] resilience.error_guard_finiteness
+--- Testing StateVault in-memory marker ---
+StateVault in-memory & disk durable checkpoint: PASS
+[CASE PASS] resilience.state_vault_marker
+--- Testing StateVault read returns exactly the file bytes (F012) ---
+StateVault exact-bytes read: PASS
+[CASE PASS] resilience.state_vault_read_exact_bytes
+--- Testing StateVault rejects files that grew during read (F012) ---
+StateVault growth rejection: PASS
+[CASE PASS] resilience.state_vault_rejects_growth
+--- Testing StateVault Marker Checkpoints & Corruption Detection ---
+StateVault marker checkpoints & corruption detection: PASS
+[CASE PASS] resilience.durable_state_vault
+--- Testing AesirEventBus last-event marker ---
+AesirEventBus last-event marker: PASS
+[CASE PASS] resilience.event_bus_marker
+--- Testing AesirEventBus Pub/Sub & Subscriptions ---
+AesirEventBus pub/sub & subscriptions: PASS
+[CASE PASS] resilience.event_bus_pub_sub
+--- Testing RuneThreadPool state scaffold ---
+RuneThreadPool state scaffold: PASS
+[CASE PASS] resilience.thread_pool_stub
+--- Testing Bounded Task Descriptors & Unsupported Workers ---
+Bounded task descriptors & unsupported workers: PASS
+[CASE PASS] resilience.task_descriptor_queue
+--- Testing Unsupported Supervisor Recovery Boundary ---
+unsupported supervisor recovery boundary: PASS
+[CASE PASS] resilience.supervisor_recovery_unsupported
+
+  [DOMAIN] Hugging Face Download Admission and Process Safety
+  -----------------------------------------
+--- Testing HuggingFaceSeer Repo Tag Parsing ---
+HuggingFace Tag Parsing: PASS
+[CASE PASS] huggingface.tag_parser
+--- Testing HuggingFace CDN Download URL Builder ---
+HuggingFace CDN URL Builder: PASS
+[CASE PASS] huggingface.url_builder
+[CASE PASS] huggingface.argv_safety
+[CASE PASS] huggingface.pinned_admission
+--- Testing Hugging Face resume-path completion verification (F011) ---
+Hugging Face resume completion verification: PASS
+[CASE PASS] huggingface.resume_verification
+[CASE PASS] cli.cuda_chat_admission
+[CASE PASS] cli.cuda_model_switch_syntax
+[CASE PASS] cli.chat_recovery_policy
+chat recovery snapshot validation: PASS
+[CASE PASS] cli.chat_recovery_snapshot_validation
+--- Testing Hugging Face download parameter boundary ---
+Hugging Face download parameter boundary: PASS
+[CASE PASS] huggingface.download_parameter_boundary
+
+  [DOMAIN] Swarm Protocol & Distributed Mesh Matrix
+  -----------------------------------------
+--- Testing SwarmNodeRole Discriminants ---
+SwarmNodeRole Discriminants: PASS
+[CASE PASS] swarm.role_enum
+--- Testing caller-supplied PeerNode capacity arithmetic ---
+caller-supplied PeerNode capacity arithmetic: PASS
+[CASE PASS] swarm.peer_metrics
+--- Testing caller-supplied peer selection primitive ---
+caller-supplied peer selection primitive: PASS
+[CASE PASS] swarm.registry_load_balancer
+--- Testing unsupported swarm network operations ---
+unsupported swarm network operations: PASS
+[CASE PASS] swarm.network_unsupported
+--- Testing Swarm Node Identity Authentication ---
+Swarm node identity authentication: PASS
+[CASE PASS] swarm.node_authentication
+--- Testing Unsupported Swarm Join, Leave, and Heartbeat Boundaries ---
+Unsupported swarm join, leave, and heartbeat boundaries: PASS
+[CASE PASS] swarm.join_leave_heartbeat
+--- Testing Remote Swarm Inference Dispatch ---
+Remote swarm inference dispatch: PASS
+[CASE PASS] swarm.remote_inference_dispatch
+
+  [DOMAIN] System Paradigms, Safety Protocols and Framework Controls
+  -----------------------------------------
+test_config_and_json: PASS
+[CASE PASS] paradigms.config_and_json
+test_cli_flags: PASS
+[CASE PASS] paradigms.cli_flags
+test_help_and_tui: PASS
+[CASE PASS] paradigms.help_and_tui
+test_skaldbrodir_doom_loop: PASS
+[CASE PASS] paradigms.skaldbrodir_doom_loop
+test_thinking_redaction: PASS
+[CASE PASS] paradigms.thinking_redaction
+test_tool_use_json: PASS
+[CASE PASS] paradigms.tool_use_json
+test_smart_failure_diagnostics: PASS
+[CASE PASS] paradigms.failure_diagnostics
+test_max_gate_boundary: PASS
+[CASE PASS] paradigms.max_gate_boundary
+test_experimental_paradigms: PASS
+[CASE PASS] paradigms.experimental_paradigms
+
+  [DOMAIN] ONNX Protobuf & Operator Dispatcher Subset
+  -----------------------------------------
+--- Testing ONNX recognized metadata operator subset ---
+ONNX recognized metadata operator subset: PASS
+[CASE PASS] onnx.recognized_operators
+--- Testing bounded ONNX ModelProto metadata parser ---
+bounded ONNX ModelProto metadata parser: PASS
+[CASE PASS] onnx.model_seer
+
+  [DOMAIN] EXL2 Descriptor and Unsupported Runtime Boundary
+  -----------------------------------------
+--- Testing unavailable EXL2 execution contract ---
+unavailable EXL2 execution contract: PASS
+[CASE PASS] exl2.cuda_contract
+--- Testing honest EXL2 descriptor boundary ---
+honest EXL2 descriptor boundary: PASS
+[CASE PASS] exl2.model_seer
+
+  [DOMAIN] llama.cpp Unsupported Compatibility Boundary
+  -----------------------------------------
+--- Testing unavailable llama.cpp subcommand boundary ---
+unavailable llama.cpp subcommand boundary: PASS
+[CASE PASS] llama_cpp_cli.subcommands
+--- Testing unavailable llama.cpp argument parser ---
+unavailable llama.cpp argument parser: PASS
+[CASE PASS] llama_cpp_cli.arg_parsing
+
+  [DOMAIN] GBNF Grammar Parser & Automaton
+  -----------------------------------------
+--- Testing GBNF Rule Construction & Automaton ---
+GBNF rule construction: PASS
+[CASE PASS] gbnf.rule_construction
+--- Testing bounded token-text grammar masking ---
+bounded token-text grammar masking: PASS
+[CASE PASS] gbnf.token_validation_masking
+
+  [DOMAIN] Speculative Decoding Engine
+  -----------------------------------------
+--- Testing speculative probability-ratio acceptance ---
+speculative probability-ratio acceptance: PASS
+[CASE PASS] speculative.proposal_verification
+--- Testing speculative validation and unsupported integrations ---
+speculative validation and unsupported integrations: PASS
+[CASE PASS] speculative.rejection_rollback
+
+[CASE PASS] sampling.strict_syntax
+[CASE PASS] sampling.config_rejection
+[CASE PASS] sampling.config_updates
+[CASE PASS] upload.staging_bounds
+[CASE PASS] upload.host_admission
+[CASE PASS] cgroup.paths
+[CASE PASS] cgroup.hierarchy
+[CASE PASS] cgroup.rejection
+[CASE PASS] control.deadline
+[CASE PASS] control.admission
+[CASE PASS] control.sigint
+[CASE PASS] local_service.json
+[CASE PASS] local_service.http
+[CASE PASS] local_service.http_bounds
+PASS HTTP framing: duplicate/ambiguous headers, methods, and body policy
+[CASE PASS] local_service.http_framing
+[CASE PASS] local_service.request
+[CASE PASS] local_service.c_paths
+ollama sampling bounds: PASS
+[CASE PASS] local_service.ollama_sampling_bounds
+[CASE PASS] local_service.gemma_tool_protocol
+PASS OwnedFD transfer: moved-from cleanup is inert; destination closes once
+[CASE PASS] local_service.fd_ownership
+PASS listener/owner admission: invalid ports and negative descriptors reject
+[CASE PASS] local_service.socket_admission
+PASS socketpair request transport: exact head/body framing preserved
+[CASE PASS] local_service.socketpair_framing
+PASS request transport adversarial: header/body bounds, short EOF, NUL reject
+[CASE PASS] local_service.transport_adversarial
+[CASE PASS] native.gemma4_profiles
+[CASE PASS] native.model_registry
+PASS: RoPE rejects invalid theta before mutating Q or K
+[CASE PASS] compute.rope_adversarial
+
+==============================================
+  Grand Proving Counted Summary
+==============================================
+Failure details:
+ - gguf.tensor_directory_interface :: tensor directory admission differs for rank 3: GGUF is missing required tensor: token_embd.weight
+ - gpu.amd_hip_stream_async_round_trip :: VAL-003 VALUE_OUT_OF_RANGE: HipTransfer.memcpy_async_host_to_device: buffer ownership law refused the operation: MEM-004 USE_AFTER_FREE (A-022)
+[SUMMARY] Passed: 823
+[SUMMARY] Failed: 2
+[SUMMARY] Skipped: 2
+[SUMMARY] Total: 827
+[SUMMARY] Status: FAIL
+stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`
+Unhandled exception caught during execution: Grand Proving recorded one or more failed cases
+/home/volmarr/aesir-team-25/.pixi/envs/default/bin/mojo: error: execution exited with a non-zero result: 1
+Warning: Resource leak detected by SharedSignalPool, 7120 Signals leaked.
+Command exited with non-zero status 1
+	Command being timed: "pixi run --frozen mojo run -I . --target-accelerator gfx1151 -Xlinker -L/tmp/tmp.T4vfbVyFMv -Xlinker -laesir_hailo10h -Xlinker -laesir_par -Xlinker -laesir_hip -Xlinker -laesir_vulkan -Xlinker -laesir_zc -Xlinker -laesir_aff aesir_engine/tests/run_all.mojo"
+	User time (seconds): 455.18
+	System time (seconds): 97.93
+	Percent of CPU this job got: 230%
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 3:59.48
+	Average shared text size (kbytes): 0
+	Average unshared data size (kbytes): 0
+	Average stack size (kbytes): 0
+	Average total size (kbytes): 0
+	Maximum resident set size (kbytes): 27562940
+	Average resident set size (kbytes): 0
+	Major (requiring I/O) page faults: 79773
+	Minor (reclaiming a frame) page faults: 14147384
+	Voluntary context switches: 3187016
+	Involuntary context switches: 124996
+	Swaps: 0
+	File system inputs: 21852976
+	File system outputs: 95960
+	Socket messages sent: 0
+	Socket messages received: 0
+	Signals delivered: 0
+	Page size (bytes): 4096
+	Exit status: 1
+MOJO_EXIT=1
+=== end 2026-11-14T01:38:40-05:00 ===
