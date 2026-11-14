@@ -1,0 +1,10 @@
+== phase A: stateless resend ==
+A1 prompt=34 reused=0 evaluated=34 wall_ms=272 reply='42.'
+A2 prompt=49 reused=28 evaluated=21 wall_ms=183 reply='84.'
+== phase B: resident session ==
+B1 prompt=34 reused=28 evaluated=6 wall_ms=103 reply='42.'
+B2 prompt=54 reused=37 evaluated=17 wall_ms=160 reply='84.'
+== phase C: edited history, same session id (fallback control) ==
+C3 prompt=49 reused=27 evaluated=22 wall_ms=198 reply='84.'
+VERDICT A2_evaluated=21 B2_evaluated=17 C3_evaluated=22
+HS6 BENCH PASS

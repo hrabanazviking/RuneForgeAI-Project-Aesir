@@ -20,6 +20,10 @@ struct OpenAIRequest:
     var chat_prompt: String
     var post_history: String
     var has_post_history: Bool
+    var session_id: String
+    var has_session: Bool
+    var msg_roles: List[String]
+    var msg_contents: List[String]
     var stream: Bool
     var max_tokens: Int
     var sampling: NativeSamplingConfig
@@ -39,6 +43,10 @@ struct OpenAIRequest:
         self.chat_prompt = ""
         self.post_history = ""
         self.has_post_history = False
+        self.session_id = ""
+        self.has_session = False
+        self.msg_roles = List[String]()
+        self.msg_contents = List[String]()
         self.stream = False
         self.max_tokens = 0
         self.sampling = defaults
@@ -77,6 +85,9 @@ struct OpenAIRequest:
                     if parser.string() != "auto":
                         raise Error("Only automatic Gemma tool choice is supported")
                     seen_tool_choice = True
+                elif name == "session_id":
+                    self.session_id = parser.string()
+                    self.has_session = True
                 elif name == "post_history":
                     self.post_history = parser.string()
                     self.has_post_history = True
@@ -112,6 +123,9 @@ struct OpenAIRequest:
                 or self.chat_prompt.byte_length() > 65536
                 or self.post_history.byte_length() > 65536):
             raise Error("OpenAI request text exceeds 64 KiB")
+        if self.has_session and (self.session_id.byte_length() == 0
+                or self.session_id.byte_length() > 256):
+            raise Error("OpenAI session id must be within 1..256 bytes")
         if self.system == "":
             self.system = default_system
         self.sampling.validate()
@@ -304,6 +318,8 @@ struct OpenAIRequest:
                     self.chat_prompt += (
                         "User: " if role == "user" else "Assistant: "
                     ) + content + "\n"
+                    self.msg_roles.append(role)
+                    self.msg_contents.append(content)
                 else:
                     raise Error("OpenAI chat supports system, user, and assistant roles")
                 last_role = role

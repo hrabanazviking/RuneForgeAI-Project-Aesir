@@ -1,0 +1,3 @@
+Secondary CUID not available: AMDCUID support not enabled.
+PASS session residency continuation predicate
+RUN_EXIT=0

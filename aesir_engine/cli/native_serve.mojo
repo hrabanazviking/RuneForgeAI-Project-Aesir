@@ -12,6 +12,7 @@ from core.amd_gate import AMDGate
 from core.sampling_options import with_sampling_option
 from core.tool_use import parse_gemma_zero_arg_call
 from core.post_history import resolve_post_history, apply_post_history
+from core.session_residency import resident_delta
 from cli.sampling import sampling_option_name
 from cli.native_settings import resolve_native_settings, native_settings_json, load_native_config, native_config_sampling
 from cli.interrupts import ChatInterrupts
@@ -301,6 +302,12 @@ def serve_loaded[T: ControlledTextSession](mut session: T, port: Int, key: Strin
                                  "ollama" if ollama else "native")
     var stop = GenerationControl(0, interrupt_fd)
     var sequence = 0
+    var resident_id = String("")
+    var resident_system = String("")
+    var resident_roles = List[String]()
+    var resident_contents = List[String]()
+    var resident_reply = String("")
+    var resident_active = False
     var pending = List[PendingClient]()
     print(("Ollama-compatible" if ollama else "Native") + " inference ready at http://127.0.0.1:" + String(port) +
           "; authentication=" + ("none-loopback-only" if ollama else "required") + "; backend=" + backend + "; profile=" + profile +
@@ -381,6 +388,7 @@ def serve_loaded[T: ControlledTextSession](mut session: T, port: Int, key: Strin
                             require_loaded_context(request.num_ctx, context)
                             var request_tokens = resolve_request_token_limit(request.num_predict, token_limit)
                             session.reset()
+                            resident_active = False
                             session.configure_sampling(request.sampling)
                             session.configure_control(timeout_ms, interrupt_fd)
                             status = 422
@@ -448,7 +456,22 @@ def serve_loaded[T: ControlledTextSession](mut session: T, port: Int, key: Strin
                             status = 400
                         else:
                             var request_tokens = resolve_request_token_limit(request.max_tokens, token_limit)
-                            session.reset()
+                            var anchor = resolve_post_history(request.post_history, request.has_post_history, post_history)
+                            var delta = String("")
+                            var resident_base = 0
+                            if (request.has_session and request.has_messages and resident_active
+                                    and request.session_id == resident_id
+                                    and request.system == resident_system
+                                    and (profile == "llama3" or profile == "qwen3")):
+                                delta = resident_delta(resident_roles, resident_contents, resident_reply, request.msg_roles, request.msg_contents)
+                                if delta != "":
+                                    resident_base = session.status().position
+                                    if resident_base + delta.byte_length() + request_tokens + 2 > context:
+                                        delta = ""
+                            var resident_turn = delta != ""
+                            resident_active = False
+                            if not resident_turn:
+                                session.reset()
                             session.configure_sampling(request.sampling)
                             session.configure_output(request.output_mode)
                             session.configure_tool(request.tool_name, request.tool_description)
@@ -460,8 +483,10 @@ def serve_loaded[T: ControlledTextSession](mut session: T, port: Int, key: Strin
                                 if head.path == "/v1/chat/completions"
                                 else request.prompt
                             )
-                            var anchor = resolve_post_history(request.post_history, request.has_post_history, post_history)
-                            session.begin_turn(apply_post_history(prompt, anchor), request.system, request_tokens)
+                            if resident_turn:
+                                session.begin_turn(apply_post_history(delta, anchor), "", request_tokens)
+                            else:
+                                session.begin_turn(apply_post_history(prompt, anchor), request.system, request_tokens)
                             print("[request=" + String(sequence) + " phase=generation]")
                             _ = external_call["fflush", Int32](Int(0))
                             var answer = String("")
@@ -498,6 +523,9 @@ def serve_loaded[T: ControlledTextSession](mut session: T, port: Int, key: Strin
                                         else OpenAIGate.format_completion_chunk(request_id, created, model.name, chunk, ""),
                                         io_timeout_ms, interrupt_fd)
                             var state = session.status()
+                            if resident_turn:
+                                state.prompt_tokens += resident_base
+                                state.reused_prompt_tokens = resident_base
                             if state.finish_reason == "timeout":
                                 raise Error("OpenAI generation deadline exceeded")
                             if request.output_mode == "json_boolean" and (
@@ -533,11 +561,18 @@ def serve_loaded[T: ControlledTextSession](mut session: T, port: Int, key: Strin
                                         request_id, created, model.name, answer, finish,
                                         state.prompt_tokens, state.generated_tokens, state.reused_prompt_tokens,
                                     )
+                            if request.has_session and request.has_messages:
+                                resident_id = request.session_id
+                                resident_system = request.system
+                                resident_roles = request.msg_roles.copy()
+                                resident_contents = request.msg_contents.copy()
+                                resident_reply = answer
+                                resident_active = True
                             status = 200
                     elif not ollama and head.method == "GET" and head.path == "/health":
                         body = "{\"status\":\"" + ("ready" if session.status().healthy else "failed") + "\",\"backend\":\"" + backend + "\",\"cpu_offload\":0,\"profile\":\"" + profile + "\",\"context\":" + String(context)
                         body += ",\"model\":\"" + json_escape_string(model.name) + "\",\"model_digest\":\"" + json_escape_string(model.digest) + "\",\"max_tokens\":" + String(token_limit)
-                        body += ",\"generation_timeout_ms\":" + String(timeout_ms) + ",\"capabilities\":{\"text_generation\":true,\"embeddings\":false,\"exact_prefix_reuse\":" + ("true" if prefix_cache else "false") + ",\"post_history_configured\":" + ("true" if post_history != "" else "false") + "},\"prefill_batch\":" + String(prefill_batch) + ",\"queue_limit\":" + String(queue_limit) + "}"
+                        body += ",\"generation_timeout_ms\":" + String(timeout_ms) + ",\"capabilities\":{\"text_generation\":true,\"embeddings\":false,\"exact_prefix_reuse\":" + ("true" if prefix_cache else "false") + ",\"post_history_configured\":" + ("true" if post_history != "" else "false") + ",\"session_residency\":true},\"prefill_batch\":" + String(prefill_batch) + ",\"queue_limit\":" + String(queue_limit) + "}"
                     elif not ollama and head.method == "GET" and head.path == "/health/live":
                         body = service_liveness()
                     elif not ollama and head.method == "GET" and head.path == "/health/ready":
@@ -552,6 +587,7 @@ def serve_loaded[T: ControlledTextSession](mut session: T, port: Int, key: Strin
                         var request = GenerateRequest(raw, token_limit, timeout_ms, sampling_defaults,
                             system_defaults if has_system_defaults else "You are a helpful assistant. Keep answers concise.")
                         session.reset()
+                        resident_active = False
                         session.configure_sampling(request.sampling)
                         session.configure_control(request.timeout_ms, interrupt_fd)
                         status = 422
