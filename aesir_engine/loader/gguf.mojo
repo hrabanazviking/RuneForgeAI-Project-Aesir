@@ -1358,6 +1358,20 @@ struct GGUFSeer:
         query width; the rest are Gated DeltaNet SSM layers. No layer
         carries ffn_norm.weight: post_attention_norm.weight plays the
         pre-FFN norm role for both layer types.
+
+        Q35-1 (2026-11-14): shapes and recorded types now follow the
+        real file's header census (Qwen3.8-27B Q8_0 file, 851 tensors:
+        498 Q8_0 + 353 F32, verified by a read-only header parse).
+        Per SSM layer, q and k each span ssm_group_count x
+        ssm_state_size and v spans ssm_inner_size, so the fused
+        attn_qkv width is 2*groups*state + inner (10240 on the real
+        file) -- NOT 3*inner. ssm_conv1d covers that same qkv width.
+        Every weight matrix in the real file is Q8_0; norms, ssm_a,
+        ssm_conv1d, ssm_dt.bias and ssm_norm are F32. The expected
+        types below record that census truthfully, but per the Q35-1
+        U2 probe _require_tensor_shape remains shape-driven: it
+        checks presence + rows/cols and only rejects a missing type
+        record (sentinel 99); it does not compare the type argument.
         """
         var hidden = self.config.embedding_length
         var kv_dim = self.config.kv_dim()
@@ -1372,14 +1386,15 @@ struct GGUFSeer:
         var dt_rank = self.config.ssm_time_step_rank
         if inner <= 0 or groups <= 0 or state <= 0 or dt_rank <= 0:
             raise Error("GGUF qwen35 SSM metadata is incomplete")
+        var qkv_width = 2 * groups * state + inner
         self._require_tensor_shape(
-            "token_embd.weight", vocab, hidden, GGMLType.F16
+            "token_embd.weight", vocab, hidden, GGMLType.Q8_0
         )
         self._require_tensor_shape(
             "output_norm.weight", 1, hidden, GGMLType.F32
         )
         self._require_tensor_shape(
-            "output.weight", vocab, hidden, GGMLType.F16
+            "output.weight", vocab, hidden, GGMLType.Q8_0
         )
         for layer_index in range(self.config.block_count):
             var prefix = String("blk.") + String(layer_index) + String(".")
@@ -1390,27 +1405,27 @@ struct GGUFSeer:
                 prefix + "post_attention_norm.weight", 1, hidden, GGMLType.F32
             )
             self._require_tensor_shape(
-                prefix + "ffn_gate.weight", ffn, hidden, GGMLType.F16
+                prefix + "ffn_gate.weight", ffn, hidden, GGMLType.Q8_0
             )
             self._require_tensor_shape(
-                prefix + "ffn_up.weight", ffn, hidden, GGMLType.F16
+                prefix + "ffn_up.weight", ffn, hidden, GGMLType.Q8_0
             )
             self._require_tensor_shape(
-                prefix + "ffn_down.weight", hidden, ffn, GGMLType.F16
+                prefix + "ffn_down.weight", hidden, ffn, GGMLType.Q8_0
             )
             var q_width = self.config.head_count * self.config.head_dim()
             if (layer_index + 1) % interval == 0:
                 self._require_tensor_shape(
-                    prefix + "attn_q.weight", 2 * q_width, hidden, GGMLType.F16
+                    prefix + "attn_q.weight", 2 * q_width, hidden, GGMLType.Q8_0
                 )
                 self._require_tensor_shape(
-                    prefix + "attn_k.weight", kv_dim, hidden, GGMLType.F16
+                    prefix + "attn_k.weight", kv_dim, hidden, GGMLType.Q8_0
                 )
                 self._require_tensor_shape(
-                    prefix + "attn_v.weight", kv_dim, hidden, GGMLType.F16
+                    prefix + "attn_v.weight", kv_dim, hidden, GGMLType.Q8_0
                 )
                 self._require_tensor_shape(
-                    prefix + "attn_output.weight", hidden, q_width, GGMLType.F16
+                    prefix + "attn_output.weight", hidden, q_width, GGMLType.Q8_0
                 )
                 self._require_tensor_shape(
                     prefix + "attn_q_norm.weight", 1, self.config.head_dim(), GGMLType.F32
@@ -1420,22 +1435,22 @@ struct GGUFSeer:
                 )
             else:
                 self._require_tensor_shape(
-                    prefix + "attn_qkv.weight", 3 * inner, hidden, GGMLType.F16
+                    prefix + "attn_qkv.weight", qkv_width, hidden, GGMLType.Q8_0
                 )
                 self._require_tensor_shape(
-                    prefix + "attn_gate.weight", inner, hidden, GGMLType.F16
+                    prefix + "attn_gate.weight", inner, hidden, GGMLType.Q8_0
                 )
                 self._require_tensor_shape(
-                    prefix + "ssm_alpha.weight", dt_rank, hidden, GGMLType.F16
+                    prefix + "ssm_alpha.weight", dt_rank, hidden, GGMLType.Q8_0
                 )
                 self._require_tensor_shape(
-                    prefix + "ssm_beta.weight", dt_rank, hidden, GGMLType.F16
+                    prefix + "ssm_beta.weight", dt_rank, hidden, GGMLType.Q8_0
                 )
                 self._require_tensor_shape(
                     prefix + "ssm_a", 1, dt_rank, GGMLType.F32
                 )
                 self._require_tensor_shape(
-                    prefix + "ssm_conv1d.weight", inner * 3, self.config.ssm_conv_kernel, GGMLType.F32
+                    prefix + "ssm_conv1d.weight", qkv_width, self.config.ssm_conv_kernel, GGMLType.F32
                 )
                 self._require_tensor_shape(
                     prefix + "ssm_dt.bias", 1, dt_rank, GGMLType.F32
@@ -1444,7 +1459,7 @@ struct GGUFSeer:
                     prefix + "ssm_norm.weight", 1, state, GGMLType.F32
                 )
                 self._require_tensor_shape(
-                    prefix + "ssm_out.weight", hidden, inner, GGMLType.F16
+                    prefix + "ssm_out.weight", hidden, inner, GGMLType.Q8_0
                 )
 
     def _cleanup(mut self):

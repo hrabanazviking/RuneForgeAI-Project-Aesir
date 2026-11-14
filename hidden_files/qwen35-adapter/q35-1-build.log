@@ -1,0 +1,21 @@
++ cd /home/volmarr/aesir-hipserve
++ export PATH=/home/volmarr/.pixi/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/snap/bin
++ PATH=/home/volmarr/.pixi/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/snap/bin
++ SH=hidden_files/hip-serve/shims
++ mkdir -p hidden_files/hip-serve/shims .aesir hidden_files/qwen35-adapter
++ '[' '!' -f hidden_files/hip-serve/shims/libaesir_hip.so ']'
++ LK='-Xlinker -Lhidden_files/hip-serve/shims -Xlinker -laesir_hailo10h -Xlinker -laesir_par -Xlinker -laesir_hip -Xlinker -laesir_vulkan -Xlinker -laesir_zc -Xlinker -laesir_aff'
++ pixi run --frozen mojo build -I . --target-accelerator gfx1151 -Xlinker -Lhidden_files/hip-serve/shims -Xlinker -laesir_hailo10h -Xlinker -laesir_par -Xlinker -laesir_hip -Xlinker -laesir_vulkan -Xlinker -laesir_zc -Xlinker -laesir_aff aesir_engine/tests/test_qwen35_loader_q35_1.mojo -o hidden_files/qwen35-adapter/test_qwen35_loader_q35_1
+Included from /home/volmarr/aesir-hipserve/aesir_engine/tests/test_qwen35_loader_q35_1.mojo:21:
+/home/volmarr/aesir-hipserve/aesir_engine/loader/gguf.mojo:566:29: warning: assignment to 'width' was never used; assign to '_' instead?
+                var width = 0
+                            ^
++ echo TEST_BUILD_EXIT=0
+TEST_BUILD_EXIT=0
++ pixi run --frozen mojo build -I . --target-accelerator gfx1151 -Xlinker -Lhidden_files/hip-serve/shims -Xlinker -laesir_hailo10h -Xlinker -laesir_par -Xlinker -laesir_hip -Xlinker -laesir_vulkan -Xlinker -laesir_zc -Xlinker -laesir_aff aesir_engine/tests/probe_qwen35_realfile_q35_1.mojo -o hidden_files/qwen35-adapter/probe_qwen35_realfile_q35_1
+Included from /home/volmarr/aesir-hipserve/aesir_engine/tests/probe_qwen35_realfile_q35_1.mojo:17:
+/home/volmarr/aesir-hipserve/aesir_engine/loader/gguf.mojo:566:29: warning: assignment to 'width' was never used; assign to '_' instead?
+                var width = 0
+                            ^
++ echo PROBE_BUILD_EXIT=0
+PROBE_BUILD_EXIT=0

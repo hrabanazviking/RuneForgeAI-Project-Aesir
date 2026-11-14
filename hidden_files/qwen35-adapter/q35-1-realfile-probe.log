@@ -1,0 +1,6 @@
+arch: qwen35 blocks: 64 hidden: 5120 tensors: 851
+ssm: groups 16 state 128 dt_rank 48 inner 6144 kernel 4 interval 4
+tensor directory parsed; pool F32-converted elements: 2645504
+REALFILE VALIDATION: PASS - _validate_qwen35_tensors accepted the real 27B tensor directory
+blk.0.attn_qkv: 10240 x 5120 type 8
+blk.0.ssm_conv1d: 10240 x 4 type 0

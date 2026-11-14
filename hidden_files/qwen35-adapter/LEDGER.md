@@ -1,5 +1,25 @@
 # Qwen35 Adapter Campaign — Ledger
 
+## 2026-11-14 — Q35-1: loader truth (worker slice; verified + banked by coordinator)
+
+- `_validate_qwen35_tensors` fixed: qkv rows and ssm_conv1d rows now
+  `qkv_width = 2*groups*state + inner` from config (real file: 10240);
+  type constants aligned to the real census (Q8_0 weight matrices,
+  F32 small tensors; 498 Q8_0 + 353 F32 re-verified by header parse).
+- U2 SETTLED: types are recorded, not enforced — `_require_tensor_shape`
+  never compares expected_type (code read), and the type-probe fixture
+  (attn_gate stored F16 vs validator Q8_0) still validates (test (c)).
+- Synthetic fixtures (scripts/make_qwen35_fixtures.py; tiny correct
+  geometry, qkv 56): good PASS, bad-qkv (88) rejected with the shape
+  error, type-probe PASS. Log: q35-1-test.log, ALL PASS.
+- Real-file probe PASS through the no-materialization seam
+  (inject_mmproj-style staging + direct _validate_required_tensors;
+  zero-copy views + only 2,645,504 F32 elements converted; unit peak
+  226 MB): q35-1-realfile-probe.log.
+- Full notes: Q35-1-NOTES.md (incl. the pre-existing
+  gguf.tensor_directory_interface regression note — unchanged,
+  out of scope). Next: Q35-2 (registry + profile + inspect).
+
 Running record. Newest entries at the top. Every entry from disk or a
 tool result, never from a summary.
 

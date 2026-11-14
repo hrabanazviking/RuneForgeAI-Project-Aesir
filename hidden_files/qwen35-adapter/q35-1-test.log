@@ -1,0 +1,6 @@
+GGUF validated: 56 tensors, 23 metadata entries, architecture qwen35
+PASS (a): good qwen35 fixture validates via loader path, attn_qkv 56x32 Q8_0, ssm_conv1d 56x4
+PASS (b): mutated qkv fixture rejected: GGUF required tensor has an invalid shape: blk.0.attn_qkv.weight actual: 88x32 expected: 56x32
+GGUF validated: 56 tensors, 23 metadata entries, architecture qwen35
+PASS (c) U2: attn_gate stored F16 (validator records Q8_0) still validates; types recorded, not enforced
+Q35-1 qwen35 loader validation: ALL PASS

@@ -1,0 +1,30 @@
++ cd /home/volmarr/aesir-hipserve
++ export PATH=/home/volmarr/.pixi/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/snap/bin
++ PATH=/home/volmarr/.pixi/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/snap/bin
++ SH=hidden_files/hip-serve/shims
++ LK='-Xlinker -Lhidden_files/hip-serve/shims -Xlinker -laesir_hailo10h -Xlinker -laesir_par -Xlinker -laesir_hip -Xlinker -laesir_vulkan -Xlinker -laesir_zc -Xlinker -laesir_aff'
++ pixi run --frozen mojo build -I . --target-accelerator gfx1151 -Xlinker -Lhidden_files/hip-serve/shims -Xlinker -laesir_hailo10h -Xlinker -laesir_par -Xlinker -laesir_hip -Xlinker -laesir_vulkan -Xlinker -laesir_zc -Xlinker -laesir_aff aesir_engine/tests/test_gguf_metadata_types.mojo -o hidden_files/qwen35-adapter/test_gguf_metadata_types_regress
+Included from /home/volmarr/aesir-hipserve/aesir_engine/tests/test_gguf_metadata_types.mojo:4:
+/home/volmarr/aesir-hipserve/aesir_engine/loader/gguf.mojo:566:29: warning: assignment to 'width' was never used; assign to '_' instead?
+                var width = 0
+                            ^
++ echo REGRESS_BUILD_EXIT=0
+REGRESS_BUILD_EXIT=0
++ ./hidden_files/qwen35-adapter/test_gguf_metadata_types_regress
+PASS: metadata type rejection and cleanup: llama.context_length
+PASS: metadata type rejection and cleanup: llama.embedding_length
+PASS: metadata type rejection and cleanup: llama.rope.freq_base
+PASS: metadata type rejection and cleanup: llama.attention.layer_norm_rms_epsilon
+PASS: metadata type rejection and cleanup: tokenizer.ggml.add_bos_token
+PASS: metadata type rejection and cleanup: tokenizer.ggml.add_space_prefix
+PASS: metadata type rejection and cleanup: general.alignment
+PASS: metadata type rejection and cleanup: tokenizer.ggml.tokens
+PASS: metadata type rejection and cleanup: tokenizer.ggml.tokens
+PASS: metadata type rejection and cleanup: extension.unknown_key
+PASS: GGUF selected metadata type unit matrix
+PASS: metadata type rejection integrates with full load before allocation
+PASS: valid rank-one F16 tensor maps before missing-model-tensor rejection
+stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`
+Unhandled exception caught during execution: tensor directory admission differs for rank 3: GGUF is missing required tensor: token_embd.weight
++ echo REGRESS_RUN_EXIT=1
+REGRESS_RUN_EXIT=1
