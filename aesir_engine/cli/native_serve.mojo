@@ -297,7 +297,7 @@ def serve_loaded[T: ControlledTextSession](mut session: T, port: Int, key: Strin
         system_defaults: String = "", has_system_defaults: Bool = False,
         queue_limit: Int = 4, queue_timeout_ms: Int = 30000,
         prefix_cache: Bool = False, prefill_batch: Int = 1, backend: String = "cuda",
-        post_history: String = "", experimental: Bool = False) raises:
+        post_history: String = "", experimental: Bool = False, prefix_reuse_detail: String = "") raises:
     sampling_defaults.validate()
     var listener = listen_local(port)
     var owner = register_service(model_store, port, model.name, model.digest,
@@ -582,7 +582,7 @@ def serve_loaded[T: ControlledTextSession](mut session: T, port: Int, key: Strin
                     elif not ollama and head.method == "GET" and head.path == "/health":
                         body = "{\"status\":\"" + ("ready" if session.status().healthy else "failed") + "\",\"backend\":\"" + backend + "\",\"cpu_offload\":0,\"profile\":\"" + profile + "\",\"context\":" + String(context)
                         body += ",\"model\":\"" + json_escape_string(model.name) + "\",\"model_digest\":\"" + json_escape_string(model.digest) + "\",\"max_tokens\":" + String(token_limit)
-                        body += ",\"generation_timeout_ms\":" + String(timeout_ms) + ",\"capabilities\":{\"text_generation\":true,\"embeddings\":false,\"exact_prefix_reuse\":" + ("true" if prefix_cache else "false") + ",\"post_history_configured\":" + ("true" if post_history != "" else "false") + ",\"session_residency\":true,\"memory_injection\":true,\"experimental_admission\":" + ("true" if experimental else "false") + "},\"prefill_batch\":" + String(prefill_batch) + ",\"queue_limit\":" + String(queue_limit) + "}"
+                        body += ",\"generation_timeout_ms\":" + String(timeout_ms) + ",\"capabilities\":{\"text_generation\":true,\"embeddings\":false,\"exact_prefix_reuse\":" + ("true" if prefix_cache else "false") + (",\"exact_prefix_reuse_detail\":\"" + prefix_reuse_detail + "\"" if prefix_reuse_detail != "" else "") + ",\"post_history_configured\":" + ("true" if post_history != "" else "false") + ",\"session_residency\":true,\"memory_injection\":true,\"experimental_admission\":" + ("true" if experimental else "false") + "},\"prefill_batch\":" + String(prefill_batch) + ",\"queue_limit\":" + String(queue_limit) + "}"
                     elif not ollama and head.method == "GET" and head.path == "/health/live":
                         body = service_liveness()
                     elif not ollama and head.method == "GET" and head.path == "/health/ready":
@@ -868,7 +868,7 @@ def dispatch_native_serve(args: List[String]) raises:
     var model_info = OllamaModelInfo(model_name, digest, model_size, quantization, modified_at, modelfile, family, parameter_size)
     if plan.profile == "qwen35":
         var session = Qwen35CPUSession(model_path, plan.context_length, sampling)
-        serve_loaded(session, port, key, plan.profile, plan.context_length, token_limit, timeout_ms, io_timeout_ms, interrupts.fd, ollama, model_info, model_store, resolved.from_catalog, plan.memory.device_bytes, sampling, effective.system, effective.has_system, queue_limit, queue_timeout_ms, False, 1, backend="cpu", post_history=effective.post_history, experimental=plan.experimental)
+        serve_loaded(session, port, key, plan.profile, plan.context_length, token_limit, timeout_ms, io_timeout_ms, interrupts.fd, ollama, model_info, model_store, resolved.from_catalog, plan.memory.device_bytes, sampling, effective.system, effective.has_system, queue_limit, queue_timeout_ms, True, 1, backend="cpu", post_history=effective.post_history, experimental=plan.experimental, prefix_reuse_detail="snapshot-based at committed turn boundaries only")
     elif plan.profile == "llama3" or plan.profile == "qwen3":
         var session = Llama3CUDASession(model_path, plan.context_length, device, reserve, sampling, prefix_cache, prefill_batch, api=acceleration)
         serve_loaded(session, port, key, plan.profile, plan.context_length, token_limit, timeout_ms, io_timeout_ms, interrupts.fd, ollama, model_info, model_store, resolved.from_catalog, llama3_memory_plan(Int(model_size), plan.context_length, session.profile, session.prefill_batch).device_bytes, sampling, effective.system, effective.has_system, queue_limit, queue_timeout_ms, prefix_cache, session.prefill_batch, backend=acceleration, post_history=effective.post_history)
