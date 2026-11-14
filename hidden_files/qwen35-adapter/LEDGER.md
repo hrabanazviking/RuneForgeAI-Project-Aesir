@@ -1,6 +1,6 @@
 # Qwen35 Adapter Campaign — Ledger
 
-## 2026-11-14 — F-3b-1: gemma4 registry profile admits Q8_0 — FIXED (DRAFT entry; coordinator to cross-reference QC-3b)
+## 2026-11-14 — F-3b-1: gemma4 registry profile admits Q8_0 — FIXED (verified + banked by coordinator)
 
 - Finding F-3b-1 from QC-3b is FIXED. Verdict on the exclusion:
   OMISSION — the gemma4 branch admitted via the shared
@@ -27,6 +27,17 @@
   F-3b-1-NOTES.md.
 - Remainder named, untouched: gemma4 CPU support still "no"
   (forward gap from QC-3b), out of this slice's scope.
+
+- Coordinator verification (2026-11-14): F-3b-1-NOTES.md
+  + proof logs re-read from disk (Q35-2 registry tests
+  ALL PASS incl. the new assertions; before-log carries
+  the NOT READY line); remote yrsa/f-3b-1 == 2b08890c
+  confirmed by ls-remote before merge; fast-forwarded
+  into yrsa/hip-serve and banked. Cross-reference:
+  QC-3b's F-3b-1 is CLOSED by the F-3b-1 entry above —
+  converted gemma Q8_0 files now inspect READY/
+  COMPATIBLE with the memory plan consuming them; the
+  gemma4 CPU-forward gap remains named, unchanged.
 
 ## 2026-11-14 — QC-3b: gemma-4-E2B Q4_K_M -> Q8_0 whole-model conversion + grade (worker slice; verified + banked by coordinator)
 
