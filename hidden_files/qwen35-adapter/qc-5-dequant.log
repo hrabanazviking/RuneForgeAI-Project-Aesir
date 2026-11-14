@@ -1,0 +1,4 @@
+Running as unit: run-p3784740-i9530514.scope; invocation ID: 2c0327688e674dbfb1e617fc40bda9b8
+DQ_BUILD_EXIT=0
+WROTE hidden_files/qwen35-adapter/stories260K.Q4_K_M.dequant.gguf 601248 bytes; dequantized 37 tensors, copied 11
+DQ_RUN_EXIT=0

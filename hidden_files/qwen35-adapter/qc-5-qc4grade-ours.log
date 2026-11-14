@@ -1,0 +1,6 @@
+Running as unit: run-p3785786-i12234922.scope; invocation ID: 939e68bb17d44e69b080d90227f1c6b1
+gguf_init_from_reader: tensor 'output.weight' of type 14 (q6_K) has 64 elements per row, not a multiple of block size (256)
+gguf_init_from_reader: failed to read tensor info
+llama_model_load: error loading model: llama_model_loader: failed to load model from stories260K.Q4_K_M.gguf
+llama_model_load_from_file_impl: failed to load model
+QC4GRADE_MODEL_LOAD_FAILED

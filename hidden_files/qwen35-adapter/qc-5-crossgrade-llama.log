@@ -1,0 +1,21 @@
+AESIR_CSV_STREAM_CHECK: true_next column reproduces all 157 stream positions
+PAIRING: QC-5 llama.cpp-Q4_K_M-fallback-mix vs Aesir-F16-source
+AGGREGATE: records 157 exact 153 near_tie 4 divergent 0 in_band 157/157 = 100.00% agree 153/157 = 97.45% worst_rank 1 worst_gap_milli 380 max_gap_milli 380
+  worst_record: prompt 2 pos 14 comp_argmax 342 cand_argmax 346 rank 1 gap_milli 380
+prompt 0: records 23 exact 23 near_tie 0 divergent 0 in_band 23/23 = 100.00% agree 23/23 = 100.00% worst_rank 0 worst_gap_milli 0 max_gap_milli 0
+  worst_record: prompt 0 pos 0 comp_argmax 403 cand_argmax 403 rank 0 gap_milli 0
+prompt 1: records 28 exact 28 near_tie 0 divergent 0 in_band 28/28 = 100.00% agree 28/28 = 100.00% worst_rank 0 worst_gap_milli 0 max_gap_milli 0
+  worst_record: prompt 1 pos 0 comp_argmax 403 cand_argmax 403 rank 0 gap_milli 0
+prompt 2: records 23 exact 21 near_tie 2 divergent 0 in_band 23/23 = 100.00% agree 21/23 = 91.30% worst_rank 1 worst_gap_milli 380 max_gap_milli 380
+  worst_record: prompt 2 pos 14 comp_argmax 342 cand_argmax 346 rank 1 gap_milli 380
+prompt 3: records 26 exact 25 near_tie 1 divergent 0 in_band 26/26 = 100.00% agree 25/26 = 96.15% worst_rank 1 worst_gap_milli 140 max_gap_milli 140
+  worst_record: prompt 3 pos 21 comp_argmax 401 cand_argmax 286 rank 1 gap_milli 140
+prompt 4: records 27 exact 27 near_tie 0 divergent 0 in_band 27/27 = 100.00% agree 27/27 = 100.00% worst_rank 0 worst_gap_milli 0 max_gap_milli 0
+  worst_record: prompt 4 pos 0 comp_argmax 403 cand_argmax 403 rank 0 gap_milli 0
+prompt 5: records 30 exact 29 near_tie 1 divergent 0 in_band 30/30 = 100.00% agree 29/30 = 96.67% worst_rank 1 worst_gap_milli 247 max_gap_milli 247
+  worst_record: prompt 5 pos 17 comp_argmax 393 cand_argmax 262 rank 1 gap_milli 247
+prompt_segment: records 61 exact 61 near_tie 0 divergent 0 in_band 61/61 = 100.00% agree 61/61 = 100.00% worst_rank 0 worst_gap_milli 0 max_gap_milli 0
+  worst_record: prompt 0 pos 0 comp_argmax 403 cand_argmax 403 rank 0 gap_milli 0
+continuation_segment: records 96 exact 92 near_tie 4 divergent 0 in_band 96/96 = 100.00% agree 92/96 = 95.83% worst_rank 1 worst_gap_milli 380 max_gap_milli 380
+  worst_record: prompt 2 pos 14 comp_argmax 342 cand_argmax 346 rank 1 gap_milli 380
+VERDICT: FAITHFUL

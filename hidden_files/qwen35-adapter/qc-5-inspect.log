@@ -1,0 +1,8 @@
+Running as unit: run-p3785894-i11100993.scope; invocation ID: f8a711ded0624bc6840386a22bfdd2c4
+=== OURS ===
+stack trace was not collected. Enable stack trace collection with environment variable `MODULAR_DEBUG=stack-trace-on-error`
+Unhandled exception caught during execution: Packed GGUF: K-quant row is not block aligned
+INSPECT_OURS_EXIT=1
+=== SOURCE ===
+{"schema_version":1,"scope":"gguf_metadata_and_native_layout","execution_tested":false,"name":"llama","architecture":"llama","family":"Llama 3.x","variant":"5L/64d","quantization":"F16","tokenizer_family":"Llama 3 BPE","chat_template":"llama3","attention":"grouped-query causal","rope":"Llama RoPE","activation":"SwiGLU","normalization":"RMSNorm","density":"dense","tensor_naming":"llama/blk.*","supported_quantizations":"Q4_K_S, Q4_K_M, Q5_K_S, Q5_K_M, Q6_K","metadata_context":128,"recommended_context":0,"requested_context":0,"evaluated_context":0,"tensor_validation":"not_run","estimated_vram_bytes":0,"cuda_support":false,"cpu_support":false,"capabilities":"inspection","compatibility":"UNSUPPORTED","status":"NOT READY","native_profile":"llama3","reason":"Tokenizer/chat-template metadata mismatch: Llama 3 requires gpt2/llama-bpe tokenizer metadata"}
+INSPECT_SOURCE_EXIT=0

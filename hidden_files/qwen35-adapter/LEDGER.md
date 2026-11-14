@@ -1,5 +1,67 @@
 # Qwen35 Adapter Campaign — Ledger
 
+## 2026-11-14 — QC-5: the Q4_K_M tier — K-quant packing writer, whole-model conversion + grade, llama.cpp arbitration (worker slice; awaiting coordinator verification)
+
+- Stage 1: llama-quantize BUILT in ~/llama.cpp-build (target
+  exit 0; llama.cpp at a956a85, the QC-4 referee commit) — the
+  reverse-leg tool QC-4 named as missing now exists.
+- Stage 2: K packer in core/quantize.mojo (quantize_q4_k /
+  quantize_q6_k, ggml layouts 144 B / 210 B per 256). Mirrors
+  ggml's structure; two NAMED simplifications (min/max fit
+  instead of make_qkx2_quants; symmetric fit instead of
+  make_qx_quants). Bounds proven and asserted elementwise;
+  adversarial worst err/bound Q4_K 0.9989002, Q6_K 0.9686628.
+  Harness ALL PASS.
+- Stage 3a: CLI tier `--to q4_k_m` (file_type 15), policy
+  transcribed from llama-quant.cpp (use_more_bits; layers 2,4
+  for n=5). As applied: output + blk.2/4 attn_v + blk.2/4
+  ffn_down -> Q6_K (5 tensors), 32 matrices -> Q4_K, 11 norms
+  kept F32. CLI product byte-identical to the test product
+  (sha256 068a41c7...). NAMED writer amendment: gguf_writer
+  validators now check block-256 types by flat element_count
+  % 256 (block-1/32 checks untouched; QC-1 proof still ALL
+  PASS).
+- Stage 3b: conversion proof ALL PASS. Emitted
+  stories260K.Q4_K_M.gguf = 196,816 B (32.7% of the 601,248 B
+  source; 51.9% of the Q8_0 product). Whole-model bound sweep
+  worst Q4_K 0.99672973 / Q6_K 0.7372395 over 292,096 elements.
+  GGUFSeer VALIDATED. ADMISSION FINDINGS (the slice's central
+  result): the engine has two K consumption models — FLAT
+  (GGUFSeer, packed_value, dequantize_input) vs PER-ROW
+  (PackedGGUF, fused K GEMM, ggml). Our flat-tiled file is
+  refused by PackedGGUF ("K-quant row is not block aligned"),
+  by the AesirEngine forward ("gemm_q4_k_m: invalid shape or
+  incomplete quantization block"), and inside registry inspect
+  (same PackedGGUF refusal, exit 1; source inspect exits 0
+  UNSUPPORTED on the pre-existing tokenizer mismatch).
+- Stage 3c: grade of OUR product on its dequantized weight set
+  (stock QC-3a driver; the K file itself cannot execute in the
+  per-row forward): in-band 154/157 = 98.09%, agreement
+  141/157 = 89.81%, worst rank 3, worst gap 2.054 — verdict
+  DIVERGENT by the strict gate rule, honestly reported.
+  Divergent records named: (p0,pos22) rank 3 gap 0.914;
+  (p2,pos10) rank 1 gap 1.062; (p3,pos8) rank 1 gap 2.054.
+- Stage 3d arbitration: llama-quantize's own Q4_K_M of the
+  source contains ZERO Q4_K/Q6_K tensors — {Q5_0: 29, Q8_0: 3,
+  F16: 5, F32: 11} under file_type 15 (per-row fallback,
+  exactly as predicted), 304,096 B. Aesir grades it FAITHFUL
+  (157/157, agreement 96.82%, worst gap 0.390); llama.cpp
+  cross-grade agrees (157/157, 97.45%, worst gap 0.380).
+  U-QC5 FOR FILE_TYPE 15: NO — llama.cpp refuses OUR file at
+  gguf_init_from_reader ("tensor 'output.weight' of type 14
+  (q6_K) has 64 elements per row, not a multiple of block size
+  (256)"). file_type is not the blocker; flat tiling vs the
+  per-row validity rule is.
+- Regressions: engine compile exit 0; QC-1, QC-2, QC-3a,
+  QC-3b (dequant + streaming synth/stories), Q35-1 proofs ALL
+  PASS rerun from this tree; QC-3a grade rerun CSV
+  byte-identical to banked qc-3-grade.csv; regenerated Q8_0
+  product byte-identical to QC-4's (sha256 5d4df894...).
+- QC-6 named risks: converter must gate on dim0 % 256 (per-row
+  rule) for forward-admissible products; no streaming K
+  converter exists yet (27B needs it); fit-simplification cost
+  unmeasured at scale; no imatrix. Full notes: QC-5-NOTES.md.
+
 ## 2026-11-14 — QC-3b: gemma-4-E2B Q4_K_M -> Q8_0 whole-model conversion + grade (worker slice; verified + banked by coordinator)
 
 - PREREQUISITE 1 (streaming writer): GGUFStreamWriter in
