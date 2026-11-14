@@ -2115,8 +2115,11 @@ def _softplus_f32(x: Float32) -> Float32:
 
 struct Qwen35State(Movable):
     """Persistent per-generation SSM state, heap-held in f32: the
-    [d_state x d_state] recurrence matrix per SSM layer/head and the
-    causal-conv input ring (kernel-1 previous qkv vectors per layer)."""
+    [d_state x d_state] recurrence matrix per SSM layer/V-HEAD and the
+    causal-conv input ring (kernel-1 previous qkv vectors per layer).
+    Q35-3 geometry: head_count is the v-head count
+    (ssm_time_step_rank, 48 on the real file), NOT the q/k group count;
+    conv_dim is qkv_width = 2*groups*state + inner (10240 real)."""
 
     var ssm_layer_count: Int
     var head_count: Int
@@ -2177,6 +2180,8 @@ struct Qwen35Block(Copyable):
     var rms_epsilon: Scalar[f32]
     var rope_theta: Scalar[f32]
     var rope_dims: Int
+    var ssm_group_count: Int
+    var ssm_state_size: Int
     var attn_norm_weight: RuneTensor[f16]
     var post_attn_norm_weight: RuneTensor[f16]
     var ffn_gate_weight: RuneTensor[f16]
@@ -2209,6 +2214,8 @@ struct Qwen35Block(Copyable):
         self.head_dim = head_dim
         self.num_heads = num_heads
         self.num_kv_heads = seer.config.head_count_kv
+        self.ssm_group_count = seer.config.ssm_group_count
+        self.ssm_state_size = seer.config.ssm_state_size
         self.rope_dims = seer.config.rope_dimension_count
         if self.rope_dims <= 0:
             self.rope_dims = head_dim
@@ -2269,6 +2276,8 @@ struct Qwen35Block(Copyable):
         self.rms_epsilon = existing.rms_epsilon
         self.rope_theta = existing.rope_theta
         self.rope_dims = existing.rope_dims
+        self.ssm_group_count = existing.ssm_group_count
+        self.ssm_state_size = existing.ssm_state_size
         self.attn_norm_weight = existing.attn_norm_weight
         self.post_attn_norm_weight = existing.post_attn_norm_weight
         self.ffn_gate_weight = existing.ffn_gate_weight
@@ -2374,9 +2383,19 @@ struct Qwen35Block(Copyable):
                 gemm_f16(attn_out, self.o_weight, x)
             else:
                 var inner = self.gate_weight.rows
-                var conv_dim = 3 * inner
-                var n_heads = state.head_count
+                # Q35-3 real Gated-DeltaNet layout (llama.cpp qwen35):
+                # conv width = qkv_width = 2*groups*state + inner;
+                # q band [0, groups*state), k band [groups*state,
+                # 2*groups*state), v band [2*groups*state, qkv_width).
+                # state.head_count is the v-head count (dt_rank).
+                var conv_dim = self.qkv_weight.rows
+                var v_heads = state.head_count
                 var d_state = state.d_state
+                var groups = self.ssm_group_count
+                if groups <= 0:
+                    groups = 1
+                var qk_band = groups * d_state
+                var v_per_group = v_heads // groups
                 var qkv_ptr = well.allocate(conv_dim)
                 var qkv = RuneTensor[f16](1, conv_dim, qkv_ptr, False)
                 gemm_f16(x, self.qkv_weight, qkv)
@@ -2424,18 +2443,13 @@ struct Qwen35Block(Copyable):
                         )
                 silu(conv_out)
 
-                # Delta-rule recurrence per head over the f32 state matrix.
-                var y_ptr = well.allocate(inner)
-                var y = RuneTensor[f16](1, inner, y_ptr, False)
-                var s_base = state.s_data.unsafe_offset(
-                    self.ssm_slot * n_heads * d_state * d_state
-                )
-                for h in range(n_heads):
-                    var q_off = h * d_state
-                    var k_off = inner + h * d_state
-                    var v_off = 2 * inner + h * d_state
-                    # L2-normalize q and k in place (llama.cpp gated delta
-                    # net normalizes with eps inside the square root).
+                # L2-normalize q and k once per group band: the
+                # recurrence below broadcasts each group head to
+                # v_per_group v-heads, so normalizing inside the
+                # v-head loop would re-normalize shared slices.
+                for g in range(groups):
+                    var q_off = g * d_state
+                    var k_off = qk_band + g * d_state
                     var q_norm: Float32 = 0.0
                     var k_norm: Float32 = 0.0
                     for d in range(d_state):
@@ -2448,14 +2462,30 @@ struct Qwen35Block(Copyable):
                     for d in range(d_state):
                         conv_out.data.unsafe_store(q_off + d, Scalar[f16](conv_out.data.unsafe_load(q_off + d).cast[DType.float32]() * q_scale))
                         conv_out.data.unsafe_store(k_off + d, Scalar[f16](conv_out.data.unsafe_load(k_off + d).cast[DType.float32]() * k_scale))
-                    var a_val = self.ssm_a.data.unsafe_load(h).cast[DType.float32]()
+
+                # Delta-rule recurrence per V-HEAD over the f32 state
+                # matrix. ssm_a / dt_bias / alpha / beta are indexed by
+                # v-head; q/k come from the v-head's group head; y and
+                # the z-gate span the full inner width.
+                var y_ptr = well.allocate(inner)
+                var y = RuneTensor[f16](1, inner, y_ptr, False)
+                var s_base = state.s_data.unsafe_offset(
+                    self.ssm_slot * v_heads * d_state * d_state
+                )
+                for vh in range(v_heads):
+                    var g = vh // v_per_group
+                    var q_off = g * d_state
+                    var k_off = qk_band + g * d_state
+                    var v_off = 2 * qk_band + vh * d_state
+                    var y_off = vh * d_state
+                    var a_val = self.ssm_a.data.unsafe_load(vh).cast[DType.float32]()
                     var dt = _softplus_f32(
-                        alpha.data.unsafe_load(h).cast[DType.float32]()
-                        + self.dt_bias.data.unsafe_load(h).cast[DType.float32]()
+                        alpha.data.unsafe_load(vh).cast[DType.float32]()
+                        + self.dt_bias.data.unsafe_load(vh).cast[DType.float32]()
                     )
                     var decay = exp(a_val * dt)
-                    var beta = _sigmoid_f32(beta_raw.data.unsafe_load(h).cast[DType.float32]())
-                    var s_head = s_base.unsafe_offset(h * d_state * d_state)
+                    var beta = _sigmoid_f32(beta_raw.data.unsafe_load(vh).cast[DType.float32]())
+                    var s_head = s_base.unsafe_offset(vh * d_state * d_state)
                     for i in range(d_state):
                         for j in range(d_state):
                             var idx = i * d_state + j
@@ -2478,7 +2508,7 @@ struct Qwen35Block(Copyable):
                             acc += s_head.unsafe_load(i * d_state + j).cast[DType.float32]() * conv_out.data.unsafe_load(q_off + i).cast[DType.float32]()
                         state.scratch.unsafe_store(d_state + j, Scalar[f32](acc * head_scale))
                     # Per-head RMSNorm with the shared ssm_norm weight,
-                    # gated by silu(z) for this head.
+                    # gated by silu(z) for this v-head.
                     var mean: Float32 = 0.0
                     for d in range(d_state):
                         var val = state.scratch.unsafe_load(d_state + d).cast[DType.float32]()
@@ -2487,9 +2517,9 @@ struct Qwen35Block(Copyable):
                     for d in range(d_state):
                         var val = state.scratch.unsafe_load(d_state + d).cast[DType.float32]() * nscale
                         var w = self.ssm_norm_weight.data.unsafe_load(d).cast[DType.float32]()
-                        var zg = z.data.unsafe_load(q_off + d).cast[DType.float32]()
+                        var zg = z.data.unsafe_load(y_off + d).cast[DType.float32]()
                         var silu_z = zg / (Float32(1.0) + exp(-zg))
-                        y.data.unsafe_store(q_off + d, Scalar[f16](val * w * silu_z))
+                        y.data.unsafe_store(y_off + d, Scalar[f16](val * w * silu_z))
                 gemm_f16(y, self.ssm_out_weight, x)
 
             for i in range(x.size):
@@ -2605,9 +2635,19 @@ struct Qwen35Block(Copyable):
                 gemm_f16(attn_out, self.o_weight, x)
             else:
                 var inner = self.gate_weight.rows
-                var conv_dim = 3 * inner
-                var n_heads = state.head_count
+                # Q35-3 real Gated-DeltaNet layout (llama.cpp qwen35):
+                # conv width = qkv_width = 2*groups*state + inner;
+                # q band [0, groups*state), k band [groups*state,
+                # 2*groups*state), v band [2*groups*state, qkv_width).
+                # state.head_count is the v-head count (dt_rank).
+                var conv_dim = self.qkv_weight.rows
+                var v_heads = state.head_count
                 var d_state = state.d_state
+                var groups = self.ssm_group_count
+                if groups <= 0:
+                    groups = 1
+                var qk_band = groups * d_state
+                var v_per_group = v_heads // groups
                 var qkv_ptr = well.allocate(batch * conv_dim)
                 var qkv = RuneTensor[f16](batch, conv_dim, qkv_ptr, False)
                 gemm_f16(x, self.qkv_weight, qkv)
@@ -2669,19 +2709,14 @@ struct Qwen35Block(Copyable):
 
                 # Delta-rule recurrence: strictly sequential per row,
                 # body identical to forward() with row offsets applied.
-                var y_ptr = well.allocate(batch * inner)
-                var y = RuneTensor[f16](batch, inner, y_ptr, False)
-                var s_base = state.s_data.unsafe_offset(
-                    self.ssm_slot * n_heads * d_state * d_state
-                )
+                # Q35-3 geometry as in forward(): q/k L2-normalized
+                # once per row per group band, recurrence per v-head
+                # with q/k broadcast from the v-head's group.
                 for r in range(batch):
                     var conv_base = r * conv_dim
-                    var row_base = r * inner
-                    var ab_base = r * dt_rank
-                    for h in range(n_heads):
-                        var q_off = conv_base + h * d_state
-                        var k_off = conv_base + inner + h * d_state
-                        var v_off = conv_base + 2 * inner + h * d_state
+                    for g in range(groups):
+                        var q_off = conv_base + g * d_state
+                        var k_off = conv_base + qk_band + g * d_state
                         var q_norm: Float32 = 0.0
                         var k_norm: Float32 = 0.0
                         for d in range(d_state):
@@ -2694,14 +2729,29 @@ struct Qwen35Block(Copyable):
                         for d in range(d_state):
                             conv_out.data.unsafe_store(q_off + d, Scalar[f16](conv_out.data.unsafe_load(q_off + d).cast[DType.float32]() * q_scale))
                             conv_out.data.unsafe_store(k_off + d, Scalar[f16](conv_out.data.unsafe_load(k_off + d).cast[DType.float32]() * k_scale))
-                        var a_val = self.ssm_a.data.unsafe_load(h).cast[DType.float32]()
+                var y_ptr = well.allocate(batch * inner)
+                var y = RuneTensor[f16](batch, inner, y_ptr, False)
+                var s_base = state.s_data.unsafe_offset(
+                    self.ssm_slot * v_heads * d_state * d_state
+                )
+                for r in range(batch):
+                    var conv_base = r * conv_dim
+                    var row_base = r * inner
+                    var ab_base = r * dt_rank
+                    for vh in range(v_heads):
+                        var g = vh // v_per_group
+                        var q_off = conv_base + g * d_state
+                        var k_off = conv_base + qk_band + g * d_state
+                        var v_off = conv_base + 2 * qk_band + vh * d_state
+                        var y_off = vh * d_state
+                        var a_val = self.ssm_a.data.unsafe_load(vh).cast[DType.float32]()
                         var dt = _softplus_f32(
-                            alpha.data.unsafe_load(ab_base + h).cast[DType.float32]()
-                            + self.dt_bias.data.unsafe_load(h).cast[DType.float32]()
+                            alpha.data.unsafe_load(ab_base + vh).cast[DType.float32]()
+                            + self.dt_bias.data.unsafe_load(vh).cast[DType.float32]()
                         )
                         var decay = exp(a_val * dt)
-                        var beta = _sigmoid_f32(beta_raw.data.unsafe_load(ab_base + h).cast[DType.float32]())
-                        var s_head = s_base.unsafe_offset(h * d_state * d_state)
+                        var beta = _sigmoid_f32(beta_raw.data.unsafe_load(ab_base + vh).cast[DType.float32]())
+                        var s_head = s_base.unsafe_offset(vh * d_state * d_state)
                         for i in range(d_state):
                             for j in range(d_state):
                                 var idx = i * d_state + j
@@ -2731,9 +2781,9 @@ struct Qwen35Block(Copyable):
                         for d in range(d_state):
                             var val = state.scratch.unsafe_load(d_state + d).cast[DType.float32]() * nscale
                             var w = self.ssm_norm_weight.data.unsafe_load(d).cast[DType.float32]()
-                            var zg = z.data.unsafe_load(row_base + h * d_state + d).cast[DType.float32]()
+                            var zg = z.data.unsafe_load(row_base + y_off + d).cast[DType.float32]()
                             var silu_z = zg / (Float32(1.0) + exp(-zg))
-                            y.data.unsafe_store(row_base + h * d_state + d, Scalar[f16](val * w * silu_z))
+                            y.data.unsafe_store(row_base + y_off + d, Scalar[f16](val * w * silu_z))
                 gemm_f16(y, self.ssm_out_weight, x)
 
             for i in range(x.size):
@@ -2819,6 +2869,14 @@ def forward_pass_qwen35_batched(
         var logits_ptr = well.allocate(vocab_dim)
         var logits = RuneTensor[f16](1, vocab_dim, logits_ptr, False)
         gemm_f16(x_last, output_weight, logits)
+        # A-045 logit-row sink, mirrored for the qwen35 paths (Q35-3):
+        # captures the exact row the sampler sees. No-op when off.
+        if kv_cache.capture_logit_row:
+            var row = List[Float32]()
+            for i in range(vocab_dim):
+                row.append(logits.data.unsafe_load(i).cast[DType.float32]())
+            kv_cache.last_logit_row = row^
+
 
         var rng = replay_rng(seed, start_pos + batch_len - 1)
         var suppress_list = List[Int]()
@@ -2883,6 +2941,14 @@ def forward_pass_qwen35(
         var logits_ptr = well.allocate(vocab_dim)
         var logits = RuneTensor[f16](1, vocab_dim, logits_ptr, False)
         gemm_f16(x, output_weight, logits)
+        # A-045 logit-row sink, mirrored for the qwen35 paths (Q35-3):
+        # captures the exact row the sampler sees. No-op when off.
+        if kv_cache.capture_logit_row:
+            var row = List[Float32]()
+            for i in range(vocab_dim):
+                row.append(logits.data.unsafe_load(i).cast[DType.float32]())
+            kv_cache.last_logit_row = row^
+
 
         var rng = replay_rng(seed, start_pos)
         var suppress_list = List[Int]()

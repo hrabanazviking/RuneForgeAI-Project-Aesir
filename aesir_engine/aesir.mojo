@@ -390,11 +390,15 @@ struct AesirEngine:
                 self.gemma4_blocks.append(
                     Gemma4Block(layer_idx, self.parser)
                 )
+        # Q35-3: state geometry follows the real layout -- head_count
+        # is the v-head count (ssm_time_step_rank) and the conv ring
+        # width is qkv_width = 2*groups*state + inner, not 3*inner.
+        var qwen35_qkv_width = 2 * self.parser.config.ssm_group_count * self.parser.config.ssm_state_size + self.parser.config.ssm_inner_size
         self.qwen35_state = Qwen35State(
             qwen35_ssm_layers,
-            self.parser.config.ssm_group_count,
+            self.parser.config.ssm_time_step_rank,
             self.parser.config.ssm_state_size,
-            3 * self.parser.config.ssm_inner_size,
+            qwen35_qkv_width,
             self.parser.config.ssm_conv_kernel,
         )
         self.load_ns = phase_now_ns() - _construct_t0

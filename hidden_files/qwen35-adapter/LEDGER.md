@@ -1,5 +1,47 @@
 # Qwen35 Adapter Campaign — Ledger
 
+## 2026-11-14 — Q35-3a: CPU forward geometry repair, fixture-grade proof (worker slice; verified + banked by coordinator)
+
+- Delta-net geometry repaired in inference.mojo (both forwards,
+  identically) + aesir.mojo construction: conv_dim 3*inner ->
+  qkv_width = qkv_weight.rows (2*groups*state + inner; 10240 real);
+  qkv bands q [0, groups*state), k [groups*state, 2*groups*state),
+  v [2*groups*state, qkv_width); recurrence over v-heads
+  (dt_rank = 48 real) with q/k broadcast from group heads
+  (3 v-heads/group), ssm_a/dt_bias/alpha/beta per v-head, y/z-gate
+  over full inner width; q/k L2-norm once per group band (was
+  in-loop per head); Qwen35State now layers x v_heads x state x
+  state with conv ring qkv_width (construction passed group_count
+  and 3*inner before). A-045 logit-row sink mirrored into both
+  qwen35 forward_pass functions. Full-attention branch, partial
+  rotary (64/256), ssm_norm/ssm_out path audited — already
+  layout-true, unchanged.
+- New fixture qwen35_forward.gguf (second profile in
+  scripts/make_qwen35_fixtures.py; Q35-1 fixtures byte-identical):
+  hidden 128, groups 2, state 16, dt_rank 4, inner 64, qkv 128,
+  vocab 1024, all Q8_0 widths % 32 == 0, seeded random weights,
+  ssm_a negative (stable by construction).
+- Proof ALL PASS (q35-3-test.log): (a) finite logits, argmax 79 <
+  1024, greedy == argmax; (b) greedy 16 tokens identical across
+  two runs (1019 675 143 452 111 251 827 386 423 176 368 1018 910
+  490 742 849); (c) per-token vs batched: s max_abs_diff
+  0.0008479953, conv 0.0078125, logits 0.013671875 (max |logit|
+  13.5546875) — NOT bit-identical, next token identical (finding
+  F1 for Q35-5); (d1) split per-token continuation EXACT 0.0;
+  (d2) batched-prefill-A + per-token-B EXACT 0.0; (d3) batched
+  continuation chunk carries state, diffs as (c); (e) real
+  signature formulas (2048 @ 0 / 2048 @ 2048 / 6144 @ 4096 /
+  48x128x128 per layer).
+- Regression: full engine compile exit 0; Q35-1 loader test ALL
+  PASS; Q35-2 registry test ALL PASS (rebuilt, unchanged sources).
+  Full 905 matrix not re-run. Named risks carried to Q35-3b:
+  U1 semantics beyond layout (oracle-arbitrated), rope
+  dimension_sections [11,11,10,0] unread by any engine code,
+  1/sqrt(d_state) q-readout scale placement. No real file loaded
+  through the forward path; Q35-3b stays parent-gated.
+- Full notes: Q35-3-NOTES.md. Next: coordinator verify + bank;
+  then Q35-3b (parent-gated) / Q35-4.
+
 ## 2026-11-14 — Q35-2: registry + profile + inspect (worker slice; verified + banked by coordinator)
 
 - `core/qwen35_profile.mojo` NEW: formula-driven Qwen35Profile from
