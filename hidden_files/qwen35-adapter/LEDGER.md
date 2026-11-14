@@ -63,6 +63,29 @@ qwen35 path, gemma4 CPU forward.
   and banked. Post-merge gate restart from this tree
   follows VOXTA_SWITCHOVER.md.
 
+- Post-merge gate restart (coordinator, 2026-11-14):
+  per VOXTA_SWITCHOVER.md, the merged tree was rebuilt
+  in aesir-hipserve (ENGINE_BUILD_EXIT=0; binary
+  5,013,536 B, byte-size identical to the q35-7 build)
+  and aesir-gate was restarted from
+  /home/volmarr/aesir-hipserve with the two paths
+  swapped, all other unit properties unchanged
+  (MemoryHigh=48G/MemoryMax=64G, resident, ctx 4096,
+  :18434). Verified live by the coordinator: unit
+  active; startup log carries GGUF validated (851
+  tensors) + resident load q8_0_resident (498 large
+  tensors) + admission=native; authenticated /health
+  reports profile qwen35, model_variant qwen35-27B,
+  weight_load_mode q8_0_resident, session_residency
+  true, exact_prefix_reuse true; a live completion
+  returned clean text (no marker, no control-token
+  leakage) with truthful finish accounting. The gate
+  stands RUNNING on the 27B from the merged tree.
+  (The auxiliary test_hip_prompt_prefix build in
+  build-1.sh exits 1 in this tree on the known -I
+  include-path quirk build-3.sh already carries the
+  fix pattern for; the engine build is unaffected.)
+
 ## 2026-11-14 - QC-7: QC_RESULTS.md + residency note - DONE (worker slice; verified + banked by coordinator)
 
 QC-7 - the compression workstream results record, DONE on
