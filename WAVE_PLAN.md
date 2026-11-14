@@ -68,7 +68,16 @@ when its lead is live on its assigned slice in its own worktree.
 
 ## State
 
-- Banked: **109 of 216** (A-001..A-109). A-109 banked at the
+- Banked: **110 of 216** (A-001..A-110). A-110 banked at the
+  seat 2026-11-13 (team-26 commit 673cb554 cherry-picked
+  as 5daa0063 with the run_all union composed at banking,
+  +7 run_all cases, seat pin 677 -> 684; oracle pin
+  registry - a row without pins cannot be marked judged,
+  prompt hash is over the RAW prompt bytes; the named
+  stream intermittent in the team suite cleared solo;
+  seat gate 681/1/2 of 684 exact on run 1 solo, sole
+  failure J-022, no intermittent fired;
+  full note in PROJECT_MEMORY_MAP). A-109 banked at the
   seat 2026-11-13 (team-25 commit 6cd2706e cherry-picked
   as 416fc5d4 clean, +7 run_all cases, seat pin 670 -> 677;
   teacher-forcing harness v2 - the one grading entry point
