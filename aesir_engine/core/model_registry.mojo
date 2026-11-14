@@ -113,6 +113,17 @@ def native_k_quantization_supported(name: String) -> Bool:
     )
 
 
+def gemma4_quantization_supported(name: String) -> Bool:
+    """Scoped to gemma4 only (F-3b-1): the shared native list plus
+    Q8_0. Q8_0 evidence for gemma4 is QC-3b: the converted
+    gemma-4-E2B Q8_0 file loads VALIDATED in GGUFSeer, constructs
+    in PackedGGUF, and the engine kernels already read Q8_0
+    (Q35-3r's Q8_0-resident path). The shared native lists are NOT
+    extended, mirroring the qwen35 scoping below: no other
+    architecture gains Q8_0 admission from this evidence."""
+    return native_quantization_supported(name) or name == "Q8_0"
+
+
 def qwen35_quantization_supported(name: String) -> Bool:
     """Scoped to qwen35 only: Q8_0 is the census-proven quantization
     of the real hybrid file (Q35-1: 498 Q8_0 + 353 F32 tensors). The
@@ -226,7 +237,7 @@ struct ModelArchitectureRegistry:
             result.normalization = "RMSNorm"
             result.density = "dense"
             result.tensor_naming = "gemma4/blk.*"
-            result.supported_quantizations = NATIVE_K_QUANTS + ", F16, BF16, F32"
+            result.supported_quantizations = NATIVE_K_QUANTS + ", Q8_0, F16, BF16, F32"
             result.native_profile = "gemma4"
             if layers == 35 and hidden == 1536:
                 result.model_variant = "E2B"
@@ -239,7 +250,7 @@ struct ModelArchitectureRegistry:
                 result.compatibility = "EXPERIMENTAL"
                 result.status = "NOT READY"
                 return result^
-            if not native_quantization_supported(result.quantization):
+            if not gemma4_quantization_supported(result.quantization):
                 result.reason = "The Gemma 4 adapter does not support this GGUF quantization."
                 result.status = "NOT READY"
                 return result^

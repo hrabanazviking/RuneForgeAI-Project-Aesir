@@ -3,6 +3,7 @@ from core.model_registry import (
     ModelArchitectureRegistry,
     gguf_quantization_name,
     native_quantization_supported,
+    gemma4_quantization_supported,
     native_k_quantization_supported,
     qwen3_0_6b_quantization_verified,
 )
@@ -129,6 +130,24 @@ def test_model_architecture_registry() raises:
             or not qwen3_0_6b_quantization_verified("Q6_K")
             or qwen3_0_6b_quantization_verified("Q4_K_S")):
         raise Error("Qwen physical K-quant evidence policy drifted")
+
+    # F-3b-1: Q8_0 is admitted for gemma4 ONLY (QC-3b evidence);
+    # the shared native list itself stays Q8_0-free, mirroring the
+    # qwen35 scoping. A gemma4 E2B file_type 7 (Q8_0) classifies
+    # READY / COMPATIBLE (VERIFIED stays pinned to Q4_K_M above).
+    if not gemma4_quantization_supported("Q8_0"):
+        raise Error("F-3b-1: Q8_0 must be admitted for gemma4")
+    if native_quantization_supported("Q8_0"):
+        raise Error("F-3b-1: shared native list must not gain Q8_0")
+    if not gemma4_quantization_supported("Q4_K_M"):
+        raise Error("F-3b-1: gemma4 K-quant admission regressed")
+    var gemma_e2b_q8 = ModelArchitectureRegistry.classify(
+        "gemma4", "2B", 35, 1536, 131072, 7, ""
+    )
+    if gemma_e2b_q8.status != "READY" or gemma_e2b_q8.compatibility != "COMPATIBLE":
+        raise Error("F-3b-1: Gemma 4 E2B Q8_0 readiness drifted")
+    if gemma_e2b_q8.supported_quantizations != "Q4_K_S, Q4_K_M, Q5_K_S, Q5_K_M, Q6_K, Q8_0, F16, BF16, F32":
+        raise Error("F-3b-1: Gemma 4 supported-quantizations list drifted")
 
     var gemma_e2b = ModelArchitectureRegistry.classify(
         "gemma4", "2B", 35, 1536, 131072, 15, ""
