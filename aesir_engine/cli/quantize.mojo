@@ -36,7 +36,15 @@ from core.dequantize_input import (
     dequant_input_supported,
     dequantize_range_f32,
 )
-from core.quantize import Q8_0_GGML_TYPE, q8_0_payload_bytes, quantize_q8_0
+from core.quantize import (
+    Q4_K_GGML_TYPE,
+    Q6_K_GGML_TYPE,
+    Q8_0_GGML_TYPE,
+    q8_0_payload_bytes,
+    quantize_q4_k,
+    quantize_q6_k,
+    quantize_q8_0,
+)
 from loader.gguf import GGMLType, GGUFSeer
 from loader.gguf_writer import (
     GGUFDirectoryEntry,
@@ -53,6 +61,8 @@ from loader.gguf_writer import (
 
 comptime QUANTIZE_TIER_Q8_0 = "q8_0"
 comptime Q8_0_FILE_TYPE = 7
+comptime QUANTIZE_TIER_Q4_K_M = "q4_k_m"
+comptime Q4_K_M_FILE_TYPE = 15
 
 
 struct QuantizeReport(Copyable, Movable):
@@ -67,6 +77,8 @@ struct QuantizeReport(Copyable, Movable):
     var kept_types: List[UInt32]
     var kept_bytes: List[Int]
     var kept_reasons: List[String]
+    var quantized_types: List[UInt32]
+    var file_type: Int
     var output_bytes: Int
 
     def __init__(out self):
@@ -77,6 +89,8 @@ struct QuantizeReport(Copyable, Movable):
         self.kept_types = List[UInt32]()
         self.kept_bytes = List[Int]()
         self.kept_reasons = List[String]()
+        self.quantized_types = List[UInt32]()
+        self.file_type = 0
         self.output_bytes = 0
 
     def quantized_count(self) -> Int:
@@ -207,6 +221,7 @@ def quantize_gguf_q8_0(
             report.quantized_names.append(String(entry.name))
             report.quantized_source_bytes.append(entry.byte_size)
             report.quantized_output_bytes.append(len(payload))
+            report.quantized_types.append(UInt32(Q8_0_GGML_TYPE))
             desc.add_tensor(
                 GGUFWriterTensor(
                     entry.name, entry.dims, UInt32(Q8_0_GGML_TYPE), payload
@@ -226,6 +241,7 @@ def quantize_gguf_q8_0(
             desc.add_tensor(
                 GGUFWriterTensor(entry.name, entry.dims, entry.tensor_type, payload)
             )
+    report.file_type = Q8_0_FILE_TYPE
     report.output_bytes = write_gguf_file(output_path, desc)
     return report^
 
@@ -237,7 +253,7 @@ def print_quantize_report(
         print(
             "QUANTIZED",
             report.quantized_names[i],
-            "-> Q8_0",
+            "-> " + _ggml_type_name(report.quantized_types[i]),
             report.quantized_source_bytes[i],
             "->",
             report.quantized_output_bytes[i],
@@ -258,13 +274,19 @@ def print_quantize_report(
         + " quantized_output_bytes=" + String(report.quantized_output_total())
         + " kept_bytes=" + String(report.kept_total())
     )
-    print("FILE_TYPE general.file_type=" + String(Q8_0_FILE_TYPE) + " (Q8_0)")
+    print(
+        "FILE_TYPE general.file_type="
+        + String(report.file_type)
+        + " ("
+        + _file_type_name(report.file_type)
+        + ")"
+    )
     print("WROTE " + output_path + " " + String(report.output_bytes) + " bytes (source: " + source_path + ")")
 
 
 def dispatch_quantize(args: List[String]) raises:
     """Parses and executes `aesir quantize <source.gguf> <output.gguf>
-    [--to q8_0]`. Q8_0 is the only tier this slice wires (QC-5 owns
+    [--to q8_0|q4_k_m]`. Q8_0 is the only tier this slice wires (QC-5 owns
     Q4_K_M); any other tier is refused by name, never approximated."""
     var source = String("")
     var output = String("")
@@ -293,21 +315,30 @@ def dispatch_quantize(args: List[String]) raises:
             output = token
         else:
             raise Error(
-                "Usage: aesir quantize <source.gguf> <output.gguf> [--to q8_0]"
+                "Usage: aesir quantize <source.gguf> <output.gguf> [--to q8_0|q4_k_m]"
             )
         index += 1
     if source.byte_length() == 0 or output.byte_length() == 0:
-        raise Error("Usage: aesir quantize <source.gguf> <output.gguf> [--to q8_0]")
-    if tier != QUANTIZE_TIER_Q8_0:
+        raise Error("Usage: aesir quantize <source.gguf> <output.gguf> [--to q8_0|q4_k_m]")
+    if tier != QUANTIZE_TIER_Q8_0 and tier != QUANTIZE_TIER_Q4_K_M:
         raise Error(
             "quantize: tier '"
             + tier
-            + "' is not implemented; the only wired tier is q8_0 (QC-3)"
+            + "' is not implemented; the wired tiers are q8_0 (QC-3)"
+            + " and q4_k_m (QC-5)"
         )
     if source == output:
         raise Error("quantize: source and output paths must differ")
     var report = QuantizeReport()
-    if streaming:
+    if tier == QUANTIZE_TIER_Q4_K_M:
+        if streaming:
+            raise Error(
+                "quantize: --streaming is not wired for q4_k_m; the"
+                " streaming K-quant converter is QC-6 scale work --"
+                " use the in-memory converter (no --streaming)"
+            )
+        report = quantize_gguf_q4_k_m(source, output)
+    elif streaming:
         report = quantize_gguf_q8_0_streaming(source, output)
     else:
         report = quantize_gguf_q8_0(source, output)
@@ -458,6 +489,7 @@ def quantize_gguf_q8_0_streaming(
             report.quantized_names.append(String(entry.name))
             report.quantized_source_bytes.append(entry.byte_size)
             report.quantized_output_bytes.append(q8_0_payload_bytes(count))
+            report.quantized_types.append(UInt32(Q8_0_GGML_TYPE))
         else:
             var done = 0
             while done < entry.byte_size:
@@ -475,5 +507,206 @@ def quantize_gguf_q8_0_streaming(
             report.kept_bytes.append(entry.byte_size)
             report.kept_reasons.append(reasons[i])
         writer.end_tensor()
+    report.file_type = Q8_0_FILE_TYPE
     report.output_bytes = writer.finish()
+    return report^
+
+
+# ---------------------------------------------------------------------------
+# QC-5: the Q4_K_M tier (file_type 15) -- llama.cpp's rule set, flat tiling.
+#
+# POLICY (QC-5-NOTES): the tensor-role rules are llama.cpp's Q4_K_M rules as
+# read from llama-quant.cpp at a956a85, WITHOUT imatrix (none exists; the
+# honest comparator, llama-quantize without imatrix, does not use one
+# either):
+#   - output.weight                       -> Q6_K
+#   - blk.<i>.attn_v.weight               -> Q6_K when use_more_bits(i, n)
+#   - blk.<i>.ffn_down.weight             -> Q6_K when use_more_bits(i, n)
+#   - every other dense matrix            -> Q4_K
+#   - norms / biases / 1-D / non-floats   -> kept at source type, named
+# with use_more_bits(i, n) = i < n/8 || i >= 7n/8 || (i - n/8) % 3 == 2.
+#
+# TILING FINDING (named divergence from QC-0-PLAN section 3's per-row
+# wording): llama.cpp tiles K-quants per ROW (ne[0] must divide 256, else
+# it falls back Q4_K -> Q5_0, Q6_K -> Q8_0, then F16). The Aesir engine
+# prices and reads K tensors FLAT -- loader/gguf _tensor_byte_size is
+# (element_count // 256) * block_bytes, packed_value indexes blocks flat
+# over the tensor, and dequantize_range_f32 is flat -- so this converter
+# quantizes a matrix iff its TOTAL element count is a multiple of 256.
+# For stories260K every matrix qualifies flat (37/37) while NO matrix has
+# dim0 divisible by 256; the two tilings are compared head-on in the
+# stage-3 arbitration (llama-quantize's own product is the per-row one).
+
+
+def _ggml_type_name(t: UInt32) -> String:
+    if t == UInt32(Q8_0_GGML_TYPE):
+        return String("Q8_0")
+    if t == UInt32(Q4_K_GGML_TYPE):
+        return String("Q4_K")
+    if t == UInt32(Q6_K_GGML_TYPE):
+        return String("Q6_K")
+    return String("type ") + String(t)
+
+
+def _file_type_name(file_type: Int) -> String:
+    if file_type == Q8_0_FILE_TYPE:
+        return String("Q8_0")
+    if file_type == Q4_K_M_FILE_TYPE:
+        return String("Q4_K_M")
+    return String("unknown")
+
+
+def _use_more_bits(i: Int, n: Int) -> Bool:
+    # llama.cpp llama-quant.cpp use_more_bits, transcribed exactly.
+    if n <= 0:
+        return False
+    if i < n // 8:
+        return True
+    if i >= (7 * n) // 8:
+        return True
+    return (i - n // 8) % 3 == 2
+
+
+def _layer_index(name: String) -> Int:
+    # Parses the layer number out of a "blk.<i>." tensor name; -1 if the
+    # name carries no well-formed blk prefix.
+    var bytes = name.as_bytes()
+    if len(bytes) < 6:
+        return -1
+    if bytes[0] != 98 or bytes[1] != 108 or bytes[2] != 107 or bytes[3] != 46:
+        return -1
+    var value = 0
+    var digits = 0
+    var j = 4
+    while j < len(bytes) and bytes[j] >= 48 and bytes[j] <= 57:
+        value = value * 10 + Int(bytes[j]) - 48
+        digits += 1
+        j += 1
+    if digits == 0 or j >= len(bytes) or bytes[j] != 46:
+        return -1
+    return value
+
+
+def q4_k_m_plan(
+    name: String, entry: GGUFDirectoryEntry, n_layers: Int
+) -> Tuple[Int, String]:
+    """The Q4_K_M per-tensor decision: (target ggml type, "") to quantize,
+    or (-1, reason) to keep the tensor at its source type."""
+    if len(entry.dims) < 2:
+        return (
+            -1,
+            String(
+                "one-dimensional tensor (norm/scale/bias class) stays at"
+                " source type"
+            ),
+        )
+    if "norm" in name:
+        return (-1, String("norm tensor stays at source type"))
+    if name.endswith(".bias"):
+        return (-1, String("bias tensor stays at source type"))
+    if (
+        entry.tensor_type != UInt32(GGMLType.F16)
+        and entry.tensor_type != UInt32(GGMLType.F32)
+        and entry.tensor_type != UInt32(GGMLType.BF16)
+    ):
+        return (
+            -1,
+            String("source type ")
+            + String(entry.tensor_type)
+            + " is not a dense float; stays at source type",
+        )
+    var count = _element_count(entry)
+    if count % 256 != 0:
+        return (
+            -1,
+            String("element count ")
+            + String(count)
+            + " is not a multiple of the 256-value K-quant super-block;"
+            + " stays at source type (no padding -- GGUF has no padding"
+            + " semantics)",
+        )
+    if name == "output.weight":
+        return (Int(Q6_K_GGML_TYPE), String(""))
+    var layer = _layer_index(name)
+    if layer >= 0 and _use_more_bits(layer, n_layers):
+        if name.endswith(".attn_v.weight"):
+            return (Int(Q6_K_GGML_TYPE), String(""))
+        if name.endswith(".ffn_down.weight"):
+            return (Int(Q6_K_GGML_TYPE), String(""))
+    return (Int(Q4_K_GGML_TYPE), String(""))
+
+
+def quantize_gguf_q4_k_m(
+    source_path: String, output_path: String
+) raises -> QuantizeReport:
+    """Converts a whole GGUF to Q4_K_M under the policy above and writes it
+    through the QC-1 writer with general.file_type = 15. Metadata is copied
+    wholesale (raw KV carriage) except the one key quantization owns;
+    tensor names, shapes, and directory order are preserved exactly."""
+    var head = read_gguf_header_copy(source_path)
+    var seer = GGUFSeer(source_path)
+    seer._open_and_map()
+    seer._parse_header()
+    var n_layers = 0
+    for entry in head.directory:
+        var layer = _layer_index(entry.name)
+        if layer + 1 > n_layers:
+            n_layers = layer + 1
+    var desc = GGUFModelDesc()
+    desc.alignment = head.alignment
+    var saw_file_type = False
+    for kv in head.kvs:
+        if kv.key == "general.file_type":
+            desc.add_kv(
+                gguf_kv_u32("general.file_type", UInt32(Q4_K_M_FILE_TYPE))
+            )
+            saw_file_type = True
+        else:
+            desc.add_kv(kv)
+    if not saw_file_type:
+        raise Error(
+            "quantize: source carries no general.file_type key to set;"
+            " refusing to invent metadata layout"
+        )
+    var report = QuantizeReport()
+    report.file_type = Q4_K_M_FILE_TYPE
+    for entry in head.directory:
+        var base = head.data_offset + entry.relative_offset
+        seer._require_range(base, entry.byte_size)
+        var plan = q4_k_m_plan(entry.name, entry.copy(), n_layers)
+        if plan[0] >= 0:
+            var values = _read_dense_f32(seer, base, entry.copy())
+            var payload = List[UInt8]()
+            if plan[0] == Int(Q6_K_GGML_TYPE):
+                payload = quantize_q6_k(values)
+            else:
+                payload = quantize_q4_k(values)
+            report.quantized_names.append(String(entry.name))
+            report.quantized_source_bytes.append(entry.byte_size)
+            report.quantized_output_bytes.append(len(payload))
+            report.quantized_types.append(UInt32(plan[0]))
+            desc.add_tensor(
+                GGUFWriterTensor(
+                    entry.name, entry.dims, UInt32(plan[0]), payload
+                )
+            )
+        else:
+            var payload = List[UInt8]()
+            payload.reserve(entry.byte_size)
+            for index in range(entry.byte_size):
+                payload.append(
+                    UInt8(
+                        seer.mmap_ptr.unsafe_offset(base + index).unsafe_load()
+                    )
+                )
+            report.kept_names.append(String(entry.name))
+            report.kept_types.append(entry.tensor_type)
+            report.kept_bytes.append(entry.byte_size)
+            report.kept_reasons.append(plan[1])
+            desc.add_tensor(
+                GGUFWriterTensor(
+                    entry.name, entry.dims, entry.tensor_type, payload
+                )
+            )
+    report.output_bytes = write_gguf_file(output_path, desc)
     return report^
