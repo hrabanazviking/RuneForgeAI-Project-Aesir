@@ -1,5 +1,63 @@
 # Qwen35 Adapter Campaign — Ledger
 
+## 2026-11-14 — QC-3a: whole-model Q8_0 conversion of stories260K + grade (worker slice; coordinator verification pending)
+
+- DELIVERED: `aesir quantize` — aesir_engine/cli/quantize.mojo
+  (new: quantize_gguf_q8_0 + q8_0_keep_reason policy +
+  dispatch_quantize) wired into cli/commands.mojo (dispatch beside
+  inspect + help), per QC-0 section 6's assignment of the CLI to
+  QC-3. Path: QC-1 metadata-copy parse + GGUFSeer tensor access;
+  per tensor either exact f16->f32 widening into QC-2's
+  quantize_q8_0 or a verbatim payload copy; KVs copied raw except
+  general.file_type = 7; emission via QC-1's writer, names /
+  shapes / order preserved.
+- POLICY AS APPLIED (stories260K census 37 F16 matrices + 11 F32
+  norms): 32 matrices quantized (dim0 64; 237,056 elems;
+  474,112 B -> 251,872 B Q8_0); 16 kept, every one named in the
+  run report — blk.0..4.ffn_down.weight x5 stay F16 (dim0 172,
+  172 % 32 = 12; no padding) and 11 norms stay F32
+  (one-dimensional class). Kept payloads byte-identical to source.
+- EMITTED: stories260K.Q8_0.gguf, 379,152 B (63.06% of the
+  601,248 B source; sha256 5d4df894...a6d77b7), in the campaign
+  folder, NOT committed (*.gguf is git-ignored; the source
+  fixture is manifest-classified external). Independent Python
+  census agrees: file_type 7, census {Q8_0: 32, F32: 11, F16: 5},
+  data_offset 14,240 unchanged, all offsets 32-aligned.
+- LOAD PROOF (test_quantize_model_qc_3, ALL PASS): metadata ==
+  source except file_type; emitted Q8_0 blocks inside QC-2's
+  proven bound (worst err/bound 0.7999 / 0.7987 on the two probed
+  tensors); GGUFSeer reaches VALIDATED; PackedGGUF constructs in
+  full (file_type reads 7); engine generates — greedy 8 ==
+  source's own first 8 == the pinned llama.cpp oracle prefix.
+- GRADE (grade_quantize_qc_3; CSV + independent Python re-grade
+  agree exactly): teacher-forcing rank + gap of the source's
+  argmax in the Q8_0 row, RAW prompts, CPU vs CPU, identical
+  token-ID streams; stream = prompt + source greedy 16 (A-045
+  convention), 6 prompts, 157 records — exact 156, near-tie 1,
+  divergent 0; gate verdict FAITHFUL_NEAR_TIE; in-band 100.00%;
+  argmax agreement 156/157 = 99.36%; worst rank 1, worst gap
+  0.007. Prompt segment 61/61 exact; continuation 95 exact + 1
+  near-tie. The one non-exact record is named: prompt 2 pos 10
+  (335 vs 426, rank 1, gap 7 milli) — the same position where
+  free-running greedy diverges at step 3 (5/6 prompts greedy-
+  identical x16; both prompt-2 continuations coherent).
+  VERDICT: FAITHFUL.
+- FINDING F-3a-1 (named, unfixed): `aesir inspect` files BOTH
+  the source and the emitted file NOT READY / UNSUPPORTED with
+  the identical reason (llama3-variant tokenizer metadata
+  mismatch) — admission is unchanged by conversion; the emitted
+  file's quantization reads Q8_0 correctly. Pre-existing
+  fixture-vs-registry property; stories' working path is the
+  engine path, not registry admission.
+- REGRESSIONS: engine compile exit 0; QC-2 quantizer test ALL
+  PASS (banked numbers reproduce exactly); QC-1 writer test ALL
+  PASS; Q35-1 loader test ALL PASS. Fences MemoryHigh=24G /
+  MemoryMax=32G throughout; contention honestly noted (sibling
+  Q35-6 HIP grade active during recon/build/first run; no
+  timings claimed). QC-3b named gaps: dequantizing input path
+  for quantized sources + the streaming writer at 3.1 GB are
+  prerequisites, not yet built. Full notes: QC-3a-NOTES.md.
+
 ## 2026-11-14 — QC-2: Q8_0 quantizer + round-trip property tests (worker slice; verified + banked by coordinator)
 
 - DELIVERED: aesir_engine/core/quantize.mojo (new, ONE module in
