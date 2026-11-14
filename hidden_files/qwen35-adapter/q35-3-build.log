@@ -1,0 +1,301 @@
++ cd /home/volmarr/aesir-hipserve
++ export PATH=/home/volmarr/.pixi/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/snap/bin
++ PATH=/home/volmarr/.pixi/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/snap/bin
++ SH=hidden_files/hip-serve/shims
++ mkdir -p hidden_files/hip-serve/shims .aesir hidden_files/qwen35-adapter
++ '[' '!' -f hidden_files/hip-serve/shims/libaesir_hip.so ']'
++ LK='-Xlinker -Lhidden_files/hip-serve/shims -Xlinker -laesir_hailo10h -Xlinker -laesir_par -Xlinker -laesir_hip -Xlinker -laesir_vulkan -Xlinker -laesir_zc -Xlinker -laesir_aff'
++ pixi run --frozen mojo build -I . --target-accelerator gfx1151 -Xlinker -Lhidden_files/hip-serve/shims -Xlinker -laesir_hailo10h -Xlinker -laesir_par -Xlinker -laesir_hip -Xlinker -laesir_vulkan -Xlinker -laesir_zc -Xlinker -laesir_aff aesir_engine/main.mojo -o .aesir/aesir
+Imported from /home/volmarr/aesir-hipserve/aesir_engine/main.mojo:12:
+Imported from /home/volmarr/aesir-hipserve/aesir_engine/cli/commands.mojo:24:
+Imported from /home/volmarr/aesir-hipserve/aesir_engine/cli/doctor.mojo:3:
+Imported from /home/volmarr/aesir-hipserve/aesir_engine/aesir.mojo:6:
+/home/volmarr/aesir-hipserve/aesir_engine/core/inference.mojo:2165:9: warning: '__del__' is deprecated; use '__deinit__'
+    def __del__(deinit self):
+        ^~~~~~~
+        __deinit__
+Imported from /home/volmarr/aesir-hipserve/aesir_engine/main.mojo:12:
+Imported from /home/volmarr/aesir-hipserve/aesir_engine/cli/commands.mojo:24:
+Imported from /home/volmarr/aesir-hipserve/aesir_engine/cli/doctor.mojo:3:
+Imported from /home/volmarr/aesir-hipserve/aesir_engine/aesir.mojo:6:
+/home/volmarr/aesir-hipserve/aesir_engine/core/inference.mojo:2166:20: warning: 'free' is deprecated, use 'unsafe_free' instead
+        self.s_data.free()
+        ~~~~~~~~~~~^~~~~
+                    unsafe_free
+<unknown>:0: note: 'free' declared here
+Imported from /home/volmarr/aesir-hipserve/aesir_engine/main.mojo:12:
+Imported from /home/volmarr/aesir-hipserve/aesir_engine/cli/commands.mojo:24:
+Imported from /home/volmarr/aesir-hipserve/aesir_engine/cli/doctor.mojo:3:
+Imported from /home/volmarr/aesir-hipserve/aesir_engine/aesir.mojo:6:
+/home/volmarr/aesir-hipserve/aesir_engine/core/inference.mojo:2167:23: warning: 'free' is deprecated, use 'unsafe_free' instead
+        self.conv_data.free()
+        ~~~~~~~~~~~~~~^~~~~
+                       unsafe_free
+<unknown>:0: note: 'free' declared here
+Imported from /home/volmarr/aesir-hipserve/aesir_engine/main.mojo:12:
+Imported from /home/volmarr/aesir-hipserve/aesir_engine/cli/commands.mojo:24:
+Imported from /home/volmarr/aesir-hipserve/aesir_engine/cli/doctor.mojo:3:
+Imported from /home/volmarr/aesir-hipserve/aesir_engine/aesir.mojo:6:
+/home/volmarr/aesir-hipserve/aesir_engine/core/inference.mojo:2168:21: warning: 'free' is deprecated, use 'unsafe_free' instead
+        self.scratch.free()
+        ~~~~~~~~~~~~^~~~~
+                     unsafe_free
+<unknown>:0: note: 'free' declared here
+Imported from /home/volmarr/aesir-hipserve/aesir_engine/main.mojo:12:
+Imported from /home/volmarr/aesir-hipserve/aesir_engine/cli/commands.mojo:21:
+Imported from /home/volmarr/aesir-hipserve/aesir_engine/cli/bench.mojo:41:
+Imported from /home/volmarr/aesir-hipserve/aesir_engine/core/thread_topology.mojo:101:
+/home/volmarr/aesir-hipserve/aesir_engine/core/parallel.mojo:39:1: warning: 'alias' is deprecated; use 'comptime'
+alias RangeFn = def(Int64, Int64, Int64) thin -> None
+^~~~~
+comptime
+Imported from /home/volmarr/aesir-hipserve/aesir_engine/main.mojo:12:
+Imported from /home/volmarr/aesir-hipserve/aesir_engine/cli/commands.mojo:21:
+Imported from /home/volmarr/aesir-hipserve/aesir_engine/cli/bench.mojo:41:
+/home/volmarr/aesir-hipserve/aesir_engine/core/thread_topology.mojo:424:18: warning: `alloc` without a `Layout` is deprecated, use the `Layout`-based `alloc` instead; as a temporary migration step, use `unsafe_alloc`
+    var output = alloc[Float32](out_len)
+                 ^~~~~
+<unknown>:0: note: 'alloc' declared here
+Imported from /home/volmarr/aesir-hipserve/aesir_engine/main.mojo:12:
+Imported from /home/volmarr/aesir-hipserve/aesir_engine/cli/commands.mojo:21:
+Imported from /home/volmarr/aesir-hipserve/aesir_engine/cli/bench.mojo:41:
+/home/volmarr/aesir-hipserve/aesir_engine/core/thread_topology.mojo:425:15: warning: `alloc` without a `Layout` is deprecated, use the `Layout`-based `alloc` instead; as a temporary migration step, use `unsafe_alloc`
+    var ctx = alloc[Int64](6)
+              ^~~~~
+<unknown>:0: note: 'alloc' declared here
+Imported from /home/volmarr/aesir-hipserve/aesir_engine/main.mojo:12:
+Imported from /home/volmarr/aesir-hipserve/aesir_engine/cli/commands.mojo:24:
+Imported from /home/volmarr/aesir-hipserve/aesir_engine/cli/doctor.mojo:3:
+Imported from /home/volmarr/aesir-hipserve/aesir_engine/aesir.mojo:6:
+/home/volmarr/aesir-hipserve/aesir_engine/core/inference.mojo:949:27: warning: `alloc` without a `Layout` is deprecated, use the `Layout`-based `alloc` instead; as a temporary migration step, use `unsafe_alloc`
+            var scratch = alloc[Float32](256)
+                          ^~~~~
+<unknown>:0: note: 'alloc' declared here
+Imported from /home/volmarr/aesir-hipserve/aesir_engine/main.mojo:12:
+Imported from /home/volmarr/aesir-hipserve/aesir_engine/cli/commands.mojo:24:
+Imported from /home/volmarr/aesir-hipserve/aesir_engine/cli/doctor.mojo:3:
+Imported from /home/volmarr/aesir-hipserve/aesir_engine/aesir.mojo:6:
+/home/volmarr/aesir-hipserve/aesir_engine/core/inference.mojo:970:30: warning: `alloc` without a `Layout` is deprecated, use the `Layout`-based `alloc` instead; as a temporary migration step, use `unsafe_alloc`
+            var nl_scratch = alloc[Float32](32)
+                             ^~~~~
+<unknown>:0: note: 'alloc' declared here
+Imported from /home/volmarr/aesir-hipserve/aesir_engine/main.mojo:12:
+Imported from /home/volmarr/aesir-hipserve/aesir_engine/cli/commands.mojo:24:
+Imported from /home/volmarr/aesir-hipserve/aesir_engine/cli/doctor.mojo:3:
+Imported from /home/volmarr/aesir-hipserve/aesir_engine/aesir.mojo:6:
+Imported from /home/volmarr/aesir-hipserve/aesir_engine/core/inference.mojo:11:
+/home/volmarr/aesir-hipserve/aesir_engine/core/compute.mojo:1970:15: warning: `alloc` without a `Layout` is deprecated, use the `Layout`-based `alloc` instead; as a temporary migration step, use `unsafe_alloc`
+    var dst = alloc[UInt16](2048)
+              ^~~~~
+<unknown>:0: note: 'alloc' declared here
+Imported from /home/volmarr/aesir-hipserve/aesir_engine/main.mojo:12:
+Imported from /home/volmarr/aesir-hipserve/aesir_engine/cli/commands.mojo:24:
+Imported from /home/volmarr/aesir-hipserve/aesir_engine/cli/doctor.mojo:3:
+Imported from /home/volmarr/aesir-hipserve/aesir_engine/aesir.mojo:6:
+Imported from /home/volmarr/aesir-hipserve/aesir_engine/core/inference.mojo:11:
+/home/volmarr/aesir-hipserve/aesir_engine/core/compute.mojo:1262:14: warning: `alloc` without a `Layout` is deprecated, use the `Layout`-based `alloc` instead; as a temporary migration step, use `unsafe_alloc`
+    var cp = alloc[Int64](6)
+             ^~~~~
+<unknown>:0: note: 'alloc' declared here
+Imported from /home/volmarr/aesir-hipserve/aesir_engine/main.mojo:12:
+Imported from /home/volmarr/aesir-hipserve/aesir_engine/cli/commands.mojo:24:
+Imported from /home/volmarr/aesir-hipserve/aesir_engine/cli/doctor.mojo:3:
+Imported from /home/volmarr/aesir-hipserve/aesir_engine/aesir.mojo:6:
+Imported from /home/volmarr/aesir-hipserve/aesir_engine/core/inference.mojo:11:
+/home/volmarr/aesir-hipserve/aesir_engine/core/compute.mojo:2632:14: warning: `alloc` without a `Layout` is deprecated, use the `Layout`-based `alloc` instead; as a temporary migration step, use `unsafe_alloc`
+    var cp = alloc[Int64](6)
+             ^~~~~
+<unknown>:0: note: 'alloc' declared here
+Imported from /home/volmarr/aesir-hipserve/aesir_engine/main.mojo:12:
+Imported from /home/volmarr/aesir-hipserve/aesir_engine/cli/commands.mojo:24:
+Imported from /home/volmarr/aesir-hipserve/aesir_engine/cli/doctor.mojo:3:
+Imported from /home/volmarr/aesir-hipserve/aesir_engine/aesir.mojo:6:
+Imported from /home/volmarr/aesir-hipserve/aesir_engine/core/inference.mojo:11:
+/home/volmarr/aesir-hipserve/aesir_engine/core/compute.mojo:2175:14: warning: `alloc` without a `Layout` is deprecated, use the `Layout`-based `alloc` instead; as a temporary migration step, use `unsafe_alloc`
+    var cp = alloc[Int64](7)
+             ^~~~~
+<unknown>:0: note: 'alloc' declared here
+Imported from /home/volmarr/aesir-hipserve/aesir_engine/main.mojo:12:
+Imported from /home/volmarr/aesir-hipserve/aesir_engine/cli/commands.mojo:24:
+Imported from /home/volmarr/aesir-hipserve/aesir_engine/cli/doctor.mojo:3:
+Imported from /home/volmarr/aesir-hipserve/aesir_engine/aesir.mojo:6:
+Imported from /home/volmarr/aesir-hipserve/aesir_engine/core/inference.mojo:11:
+/home/volmarr/aesir-hipserve/aesir_engine/core/compute.mojo:1089:19: warning: `alloc` without a `Layout` is deprecated, use the `Layout`-based `alloc` instead; as a temporary migration step, use `unsafe_alloc`
+    var scratch = alloc[Float32](a_cols)
+                  ^~~~~
+<unknown>:0: note: 'alloc' declared here
+Imported from /home/volmarr/aesir-hipserve/aesir_engine/main.mojo:12:
+Imported from /home/volmarr/aesir-hipserve/aesir_engine/cli/commands.mojo:24:
+Imported from /home/volmarr/aesir-hipserve/aesir_engine/cli/doctor.mojo:3:
+Imported from /home/volmarr/aesir-hipserve/aesir_engine/aesir.mojo:6:
+Imported from /home/volmarr/aesir-hipserve/aesir_engine/core/inference.mojo:11:
+/home/volmarr/aesir-hipserve/aesir_engine/core/compute.mojo:1935:14: warning: `alloc` without a `Layout` is deprecated, use the `Layout`-based `alloc` instead; as a temporary migration step, use `unsafe_alloc`
+    var cp = alloc[Int64](9)
+             ^~~~~
+<unknown>:0: note: 'alloc' declared here
+Imported from /home/volmarr/aesir-hipserve/aesir_engine/main.mojo:12:
+Imported from /home/volmarr/aesir-hipserve/aesir_engine/cli/commands.mojo:24:
+Imported from /home/volmarr/aesir-hipserve/aesir_engine/cli/doctor.mojo:3:
+Imported from /home/volmarr/aesir-hipserve/aesir_engine/aesir.mojo:6:
+Imported from /home/volmarr/aesir-hipserve/aesir_engine/core/inference.mojo:11:
+/home/volmarr/aesir-hipserve/aesir_engine/core/compute.mojo:2087:14: warning: `alloc` without a `Layout` is deprecated, use the `Layout`-based `alloc` instead; as a temporary migration step, use `unsafe_alloc`
+    var cp = alloc[Int64](8)
+             ^~~~~
+<unknown>:0: note: 'alloc' declared here
+Imported from /home/volmarr/aesir-hipserve/aesir_engine/main.mojo:12:
+Imported from /home/volmarr/aesir-hipserve/aesir_engine/cli/commands.mojo:24:
+Imported from /home/volmarr/aesir-hipserve/aesir_engine/cli/doctor.mojo:3:
+Imported from /home/volmarr/aesir-hipserve/aesir_engine/aesir.mojo:6:
+Imported from /home/volmarr/aesir-hipserve/aesir_engine/core/inference.mojo:11:
+/home/volmarr/aesir-hipserve/aesir_engine/core/compute.mojo:2552:14: warning: `alloc` without a `Layout` is deprecated, use the `Layout`-based `alloc` instead; as a temporary migration step, use `unsafe_alloc`
+    var cp = alloc[Int64](8)
+             ^~~~~
+<unknown>:0: note: 'alloc' declared here
+Imported from /home/volmarr/aesir-hipserve/aesir_engine/main.mojo:12:
+Imported from /home/volmarr/aesir-hipserve/aesir_engine/cli/commands.mojo:24:
+Imported from /home/volmarr/aesir-hipserve/aesir_engine/cli/doctor.mojo:3:
+Imported from /home/volmarr/aesir-hipserve/aesir_engine/aesir.mojo:6:
+Imported from /home/volmarr/aesir-hipserve/aesir_engine/core/inference.mojo:11:
+/home/volmarr/aesir-hipserve/aesir_engine/core/compute.mojo:1632:28: warning: unreachable code on right side of 'False and ...'
+    return VNNI_DEFAULT_ON and cpu_has_vnni()
+                           ^
+Imported from /home/volmarr/aesir-hipserve/aesir_engine/main.mojo:12:
+Imported from /home/volmarr/aesir-hipserve/aesir_engine/cli/commands.mojo:24:
+Imported from /home/volmarr/aesir-hipserve/aesir_engine/cli/doctor.mojo:3:
+Imported from /home/volmarr/aesir-hipserve/aesir_engine/aesir.mojo:6:
+Imported from /home/volmarr/aesir-hipserve/aesir_engine/core/inference.mojo:11:
+/home/volmarr/aesir-hipserve/aesir_engine/core/compute.mojo:1743:18: warning: `alloc` without a `Layout` is deprecated, use the `Layout`-based `alloc` instead; as a temporary migration step, use `unsafe_alloc`
+        var xq = alloc[Int8](rows_here * a_cols)
+                 ^~~~~
+<unknown>:0: note: 'alloc' declared here
+Imported from /home/volmarr/aesir-hipserve/aesir_engine/main.mojo:12:
+Imported from /home/volmarr/aesir-hipserve/aesir_engine/cli/commands.mojo:24:
+Imported from /home/volmarr/aesir-hipserve/aesir_engine/cli/doctor.mojo:3:
+Imported from /home/volmarr/aesir-hipserve/aesir_engine/aesir.mojo:6:
+Imported from /home/volmarr/aesir-hipserve/aesir_engine/core/inference.mojo:11:
+/home/volmarr/aesir-hipserve/aesir_engine/core/compute.mojo:1744:22: warning: `alloc` without a `Layout` is deprecated, use the `Layout`-based `alloc` instead; as a temporary migration step, use `unsafe_alloc`
+        var xscale = alloc[Float32](rows_here * blocks_per_row * nsub)
+                     ^~~~~
+<unknown>:0: note: 'alloc' declared here
+Imported from /home/volmarr/aesir-hipserve/aesir_engine/main.mojo:12:
+Imported from /home/volmarr/aesir-hipserve/aesir_engine/cli/commands.mojo:24:
+Imported from /home/volmarr/aesir-hipserve/aesir_engine/cli/doctor.mojo:3:
+Imported from /home/volmarr/aesir-hipserve/aesir_engine/aesir.mojo:6:
+Imported from /home/volmarr/aesir-hipserve/aesir_engine/core/inference.mojo:11:
+/home/volmarr/aesir-hipserve/aesir_engine/core/compute.mojo:1745:21: warning: `alloc` without a `Layout` is deprecated, use the `Layout`-based `alloc` instead; as a temporary migration step, use `unsafe_alloc`
+        var xsums = alloc[Float32](rows_here * blocks_per_row * nsub)
+                    ^~~~~
+<unknown>:0: note: 'alloc' declared here
+Included from /home/volmarr/aesir-hipserve/aesir_engine/main.mojo:12:
+Included from /home/volmarr/aesir-hipserve/aesir_engine/cli/commands.mojo:24:
+Included from /home/volmarr/aesir-hipserve/aesir_engine/cli/doctor.mojo:3:
+Included from /home/volmarr/aesir-hipserve/aesir_engine/aesir.mojo:25:
+Included from /home/volmarr/aesir-hipserve/aesir_engine/core/runtime_plan.mojo:9:
+/home/volmarr/aesir-hipserve/aesir_engine/core/amd_gate.mojo:221:21: warning: 'except' logic is unreachable, try doesn't raise an exception
+            return (False, Int(0))
+                    ^
+Included from /home/volmarr/aesir-hipserve/aesir_engine/main.mojo:12:
+Included from /home/volmarr/aesir-hipserve/aesir_engine/cli/commands.mojo:24:
+Included from /home/volmarr/aesir-hipserve/aesir_engine/cli/doctor.mojo:4:
+/home/volmarr/aesir-hipserve/aesir_engine/core/hardware_census.mojo:512:27: warning: assignment to 'version' was never used; assign to '_' instead?
+            var version = -1
+                          ^
+Included from /home/volmarr/aesir-hipserve/aesir_engine/main.mojo:12:
+Included from /home/volmarr/aesir-hipserve/aesir_engine/cli/commands.mojo:24:
+Included from /home/volmarr/aesir-hipserve/aesir_engine/cli/doctor.mojo:4:
+/home/volmarr/aesir-hipserve/aesir_engine/core/hardware_census.mojo:462:22: warning: assignment to 'card' was never used; assign to '_' instead?
+    var card = String("")
+                     ^
+Included from /home/volmarr/aesir-hipserve/aesir_engine/main.mojo:12:
+Included from /home/volmarr/aesir-hipserve/aesir_engine/cli/commands.mojo:24:
+Included from /home/volmarr/aesir-hipserve/aesir_engine/cli/doctor.mojo:4:
+/home/volmarr/aesir-hipserve/aesir_engine/core/hardware_census.mojo:542:23: warning: assignment to 'accel' was never used; assign to '_' instead?
+    var accel = String("")
+                      ^
+Included from /home/volmarr/aesir-hipserve/aesir_engine/main.mojo:12:
+Included from /home/volmarr/aesir-hipserve/aesir_engine/cli/commands.mojo:24:
+Included from /home/volmarr/aesir-hipserve/aesir_engine/cli/doctor.mojo:20:
+/home/volmarr/aesir-hipserve/aesir_engine/core/scheduler_telemetry.mojo:418:20: warning: assignment to 'util' was never used; assign to '_' instead?
+        var util = -1
+                   ^
+Included from /home/volmarr/aesir-hipserve/aesir_engine/main.mojo:12:
+Included from /home/volmarr/aesir-hipserve/aesir_engine/cli/commands.mojo:24:
+Included from /home/volmarr/aesir-hipserve/aesir_engine/cli/doctor.mojo:20:
+/home/volmarr/aesir-hipserve/aesir_engine/core/scheduler_telemetry.mojo:426:20: warning: assignment to 'used' was never used; assign to '_' instead?
+        var used = -1
+                   ^
+Included from /home/volmarr/aesir-hipserve/aesir_engine/main.mojo:12:
+Included from /home/volmarr/aesir-hipserve/aesir_engine/cli/commands.mojo:24:
+Included from /home/volmarr/aesir-hipserve/aesir_engine/cli/doctor.mojo:20:
+/home/volmarr/aesir-hipserve/aesir_engine/core/scheduler_telemetry.mojo:427:23: warning: assignment to 'total_b' was never used; assign to '_' instead?
+        var total_b = -1
+                      ^
+Included from /home/volmarr/aesir-hipserve/aesir_engine/main.mojo:12:
+Included from /home/volmarr/aesir-hipserve/aesir_engine/cli/commands.mojo:24:
+Included from /home/volmarr/aesir-hipserve/aesir_engine/cli/doctor.mojo:5:
+/home/volmarr/aesir-hipserve/aesir_engine/core/thermal_power.mojo:195:25: warning: assignment to 'listing' was never used; assign to '_' instead?
+    var listing = String("")
+                        ^
+Included from /home/volmarr/aesir-hipserve/aesir_engine/main.mojo:12:
+Included from /home/volmarr/aesir-hipserve/aesir_engine/cli/commands.mojo:24:
+Included from /home/volmarr/aesir-hipserve/aesir_engine/cli/doctor.mojo:5:
+/home/volmarr/aesir-hipserve/aesir_engine/core/thermal_power.mojo:240:25: warning: assignment to 'domains' was never used; assign to '_' instead?
+    var domains = String("")
+                        ^
+Included from /home/volmarr/aesir-hipserve/aesir_engine/main.mojo:12:
+Included from /home/volmarr/aesir-hipserve/aesir_engine/cli/commands.mojo:22:
+Included from /home/volmarr/aesir-hipserve/aesir_engine/cli/model_inspect.mojo:2:
+Included from /home/volmarr/aesir-hipserve/aesir_engine/loader/packed_gguf.mojo:7:
+/home/volmarr/aesir-hipserve/aesir_engine/loader/gguf.mojo:566:29: warning: assignment to 'width' was never used; assign to '_' instead?
+                var width = 0
+                            ^
+Included from /home/volmarr/aesir-hipserve/aesir_engine/main.mojo:12:
+Included from /home/volmarr/aesir-hipserve/aesir_engine/cli/commands.mojo:24:
+Included from /home/volmarr/aesir-hipserve/aesir_engine/cli/doctor.mojo:3:
+/home/volmarr/aesir-hipserve/aesir_engine/aesir.mojo:1240:30: warning: assignment to 'next_token' was never used; assign to '_' instead?
+            var next_token = -1
+                             ^
++ echo ENGINE_BUILD_EXIT=0
+ENGINE_BUILD_EXIT=0
++ pixi run --frozen mojo build -I . --target-accelerator gfx1151 -Xlinker -Lhidden_files/hip-serve/shims -Xlinker -laesir_hailo10h -Xlinker -laesir_par -Xlinker -laesir_hip -Xlinker -laesir_vulkan -Xlinker -laesir_zc -Xlinker -laesir_aff aesir_engine/tests/test_qwen35_forward_q35_3.mojo -o hidden_files/qwen35-adapter/test_qwen35_forward_q35_3
+/home/volmarr/aesir-hipserve/aesir_engine/tests/test_qwen35_forward_q35_3.mojo:57:20: error: value of type 'Qwen35State' cannot be implicitly copied, it does not conform to 'ImplicitlyCopyable'
+    var st = engine.qwen35_state
+             ~~~~~~^~~~~~~~~~~~~
+/home/volmarr/aesir-hipserve/aesir_engine/tests/test_qwen35_forward_q35_3.mojo:57:20: note: consider transferring the value with '^'
+    var st = engine.qwen35_state
+                   ^
+                                ^
+Imported from /home/volmarr/aesir-hipserve/aesir_engine/tests/test_qwen35_forward_q35_3.mojo:30:
+Imported from /home/volmarr/aesir-hipserve/aesir_engine/aesir.mojo:6:
+/home/volmarr/aesir-hipserve/aesir_engine/core/inference.mojo:2165:9: warning: '__del__' is deprecated; use '__deinit__'
+    def __del__(deinit self):
+        ^~~~~~~
+        __deinit__
+/home/volmarr/aesir-hipserve/aesir_engine/tests/test_qwen35_forward_q35_3.mojo:66:20: error: value of type 'Qwen35State' cannot be implicitly copied, it does not conform to 'ImplicitlyCopyable'
+    var st = engine.qwen35_state
+             ~~~~~~^~~~~~~~~~~~~
+/home/volmarr/aesir-hipserve/aesir_engine/tests/test_qwen35_forward_q35_3.mojo:66:20: note: consider transferring the value with '^'
+    var st = engine.qwen35_state
+                   ^
+                                ^
+/home/volmarr/aesir-hipserve/aesir_engine/tests/test_qwen35_forward_q35_3.mojo:100:20: error: value of type 'Qwen35State' cannot be implicitly copied, it does not conform to 'ImplicitlyCopyable'
+    var st = engine.qwen35_state
+             ~~~~~~^~~~~~~~~~~~~
+/home/volmarr/aesir-hipserve/aesir_engine/tests/test_qwen35_forward_q35_3.mojo:100:20: note: consider transferring the value with '^'
+    var st = engine.qwen35_state
+                   ^
+                                ^
+/home/volmarr/aesir-hipserve/.pixi/envs/default/bin/mojo: error: failed to parse the provided Mojo source module
++ echo TEST_BUILD_EXIT=1
+TEST_BUILD_EXIT=1
++ pixi run --frozen mojo build -I . --target-accelerator gfx1151 -Xlinker -Lhidden_files/hip-serve/shims -Xlinker -laesir_hailo10h -Xlinker -laesir_par -Xlinker -laesir_hip -Xlinker -laesir_vulkan -Xlinker -laesir_zc -Xlinker -laesir_aff aesir_engine/tests/test_qwen35_loader_q35_1.mojo -o hidden_files/qwen35-adapter/test_qwen35_loader_q35_1
+Included from /home/volmarr/aesir-hipserve/aesir_engine/tests/test_qwen35_loader_q35_1.mojo:21:
+/home/volmarr/aesir-hipserve/aesir_engine/loader/gguf.mojo:566:29: warning: assignment to 'width' was never used; assign to '_' instead?
+                var width = 0
+                            ^
++ echo Q351_BUILD_EXIT=0
+Q351_BUILD_EXIT=0
++ pixi run --frozen mojo build -I . --target-accelerator gfx1151 -Xlinker -Lhidden_files/hip-serve/shims -Xlinker -laesir_hailo10h -Xlinker -laesir_par -Xlinker -laesir_hip -Xlinker -laesir_vulkan -Xlinker -laesir_zc -Xlinker -laesir_aff aesir_engine/tests/test_qwen35_registry_q35_2.mojo -o hidden_files/qwen35-adapter/test_qwen35_registry_q35_2
++ echo Q352_BUILD_EXIT=0
+Q352_BUILD_EXIT=0
+DONE
