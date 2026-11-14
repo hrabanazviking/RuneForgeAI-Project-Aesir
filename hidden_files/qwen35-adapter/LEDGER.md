@@ -1,6 +1,6 @@
 # Qwen35 Adapter Campaign — Ledger
 
-## 2026-11-14 — Q35-3r: Q8_0-resident load path, fixture-grade proof (worker slice; coordinator verifies + banks)
+## 2026-11-14 — Q35-3r: Q8_0-resident load path, fixture-grade proof (worker slice; verified + banked by coordinator)
 
 - Recon verdict (code read, this slice): the engine-core CPU path
   already consumes Q8_0 packed -- GGUFSeer maps Q8_0 as zero-copy
@@ -39,6 +39,11 @@
 - Fixtures: generator parameterized; the four banked fixtures
   regenerate byte-identical; new qwen35_forward_f16probe.gguf
   (refusal probe) + qwen35_large.gguf (footprint profile).
+- Coordinator verification (2026-11-14): proof logs re-read from
+  disk (test/bench/session/snapshot/ripple/regress ALL PASS;
+  logits diff 0.0; real-file probe peak 178,664 KB, RESIDENT
+  VALIDATION PASS); remote yrsa/q35-3r == ec1b9a1b confirmed by
+  ls-remote before merge; fast-forwarded into yrsa/hip-serve.
 
 ## 2026-11-14 — Q35-5: residency + prefix snapshots for hybrid state, fixture-grade proof (verified + banked by coordinator)
 
