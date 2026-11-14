@@ -923,6 +923,23 @@ from tests.test_moe_battery_a121 import (
     test_moe_synthetic_labelled,
     test_moe_synthetic_raw_rule,
 )
+from tests.test_wrong_tokenizer_a125 import (
+    test_wtok_axes_product,
+    test_wtok_controls_admitted,
+    test_wtok_digest_deterministic,
+    test_wtok_empty_vocab_refused,
+    test_wtok_enumeration_unique,
+    test_wtok_invalid_cases_refused,
+    test_wtok_merges_refused,
+    test_wtok_model_and_special_ids,
+    test_wtok_no_silent_grading,
+    test_wtok_order_permutation,
+    test_wtok_row_line_render,
+    test_wtok_summary_sums,
+    test_wtok_token_divergence,
+    test_wtok_unverified_refused,
+    test_wtok_vocab_length_refused,
+)
 from tests.test_attention_battery_a122 import (
     test_attn_axes_product,
     test_attn_backend_not_graded,
@@ -2009,6 +2026,21 @@ def main() raises:
     run_case(ledger, "rope.scaling_synthetic_defects", test_rope_synthetic_defects)
     run_case(ledger, "rope.scaling_invalid_axes_refused", test_rope_invalid_axes_refused)
     run_case(ledger, "rope.scaling_digest_deterministic", test_rope_digest_deterministic)
+    run_case(ledger, "wtok.battery_axes_product", test_wtok_axes_product)
+    run_case(ledger, "wtok.battery_enumeration_unique", test_wtok_enumeration_unique)
+    run_case(ledger, "wtok.battery_controls_admitted", test_wtok_controls_admitted)
+    run_case(ledger, "wtok.battery_unverified_refused", test_wtok_unverified_refused)
+    run_case(ledger, "wtok.battery_token_divergence", test_wtok_token_divergence)
+    run_case(ledger, "wtok.battery_order_permutation", test_wtok_order_permutation)
+    run_case(ledger, "wtok.battery_vocab_length_refused", test_wtok_vocab_length_refused)
+    run_case(ledger, "wtok.battery_model_and_special_ids", test_wtok_model_and_special_ids)
+    run_case(ledger, "wtok.battery_merges_refused", test_wtok_merges_refused)
+    run_case(ledger, "wtok.battery_empty_vocab_refused", test_wtok_empty_vocab_refused)
+    run_case(ledger, "wtok.battery_no_silent_grading", test_wtok_no_silent_grading)
+    run_case(ledger, "wtok.battery_summary_sums", test_wtok_summary_sums)
+    run_case(ledger, "wtok.battery_invalid_cases_refused", test_wtok_invalid_cases_refused)
+    run_case(ledger, "wtok.battery_row_line_render", test_wtok_row_line_render)
+    run_case(ledger, "wtok.battery_digest_deterministic", test_wtok_digest_deterministic)
     run_case(ledger, "planner.standard_fixtures", test_planner_standard_fixtures)
     run_case(ledger, "planner.prefill_variants", test_planner_prefill_variants)
     run_case(ledger, "planner.gemm_thresholds", test_planner_gemm_thresholds)
@@ -2821,4 +2853,9 @@ def main() raises:
     # tests/test_rope_scaling_battery_a124.mojo) counted on top of
     # the A-123 seat pin (union composed at the seat; the A-122
     # and A-123 cases are kept).
-    ledger.finish(853)
+    # A-125 union re-pin at banking: 853 -> 868 -- fifteen
+    # wrong-tokenizer adversarial cases (wtok.battery_* in
+    # tests/test_wrong_tokenizer_a125.mojo) counted on top of
+    # the A-124 seat pin (union composed at the seat; the A-122,
+    # A-123 and A-124 cases are kept).
+    ledger.finish(868)

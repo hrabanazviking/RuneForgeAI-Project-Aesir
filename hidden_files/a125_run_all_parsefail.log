@@ -1,0 +1,94 @@
+=== A-125 E-MASTER run (team-25) ===
+2026-11-14T03:11:54-05:00
+purpleraider
+a43949047430b9f9a934fc06de1a7339f437b0f1
+yrsa/aesir-team-25
+Mojo 1.2.0 (2016d0cd)
+staging=/tmp/tmp.U1bID7ql3x
+stub_cc_exit=0
+par_cc_exit=0
+hip_cc_exit=0
+zc_cc_exit=0
+aff_cc_exit=0
+Imported from /home/volmarr/aesir-team-25/aesir_engine/tests/run_all.mojo:564:
+/home/volmarr/aesir-team-25/aesir_engine/tests/test_big_model_placement_a104.mojo:23:1: warning: 'alias' is deprecated; use 'comptime'
+alias CTX = 4096
+^~~~~
+comptime
+Imported from /home/volmarr/aesir-team-25/aesir_engine/tests/run_all.mojo:564:
+/home/volmarr/aesir-team-25/aesir_engine/tests/test_big_model_placement_a104.mojo:25:1: warning: 'alias' is deprecated; use 'comptime'
+alias LAST16 = 2109440000
+^~~~~
+comptime
+/home/volmarr/aesir-team-25/aesir_engine/tests/run_all.mojo:1973:22: error: use of unknown declaration 'wtok'
+    run_case(ledger, wtok.battery_axes_product, test_wtok_axes_product)
+                     ^~~~
+/home/volmarr/aesir-team-25/aesir_engine/tests/run_all.mojo:1974:22: error: use of unknown declaration 'wtok'
+    run_case(ledger, wtok.battery_enumeration_unique, test_wtok_enumeration_unique)
+                     ^~~~
+/home/volmarr/aesir-team-25/aesir_engine/tests/run_all.mojo:1975:22: error: use of unknown declaration 'wtok'
+    run_case(ledger, wtok.battery_controls_admitted, test_wtok_controls_admitted)
+                     ^~~~
+/home/volmarr/aesir-team-25/aesir_engine/tests/run_all.mojo:1976:22: error: use of unknown declaration 'wtok'
+    run_case(ledger, wtok.battery_unverified_refused, test_wtok_unverified_refused)
+                     ^~~~
+/home/volmarr/aesir-team-25/aesir_engine/tests/run_all.mojo:1977:22: error: use of unknown declaration 'wtok'
+    run_case(ledger, wtok.battery_token_divergence, test_wtok_token_divergence)
+                     ^~~~
+/home/volmarr/aesir-team-25/aesir_engine/tests/run_all.mojo:1978:22: error: use of unknown declaration 'wtok'
+    run_case(ledger, wtok.battery_order_permutation, test_wtok_order_permutation)
+                     ^~~~
+/home/volmarr/aesir-team-25/aesir_engine/tests/run_all.mojo:1979:22: error: use of unknown declaration 'wtok'
+    run_case(ledger, wtok.battery_vocab_length_refused, test_wtok_vocab_length_refused)
+                     ^~~~
+/home/volmarr/aesir-team-25/aesir_engine/tests/run_all.mojo:1980:22: error: use of unknown declaration 'wtok'
+    run_case(ledger, wtok.battery_model_and_special_ids, test_wtok_model_and_special_ids)
+                     ^~~~
+/home/volmarr/aesir-team-25/aesir_engine/tests/run_all.mojo:1981:22: error: use of unknown declaration 'wtok'
+    run_case(ledger, wtok.battery_merges_refused, test_wtok_merges_refused)
+                     ^~~~
+/home/volmarr/aesir-team-25/aesir_engine/tests/run_all.mojo:1982:22: error: use of unknown declaration 'wtok'
+    run_case(ledger, wtok.battery_empty_vocab_refused, test_wtok_empty_vocab_refused)
+                     ^~~~
+/home/volmarr/aesir-team-25/aesir_engine/tests/run_all.mojo:1983:22: error: use of unknown declaration 'wtok'
+    run_case(ledger, wtok.battery_no_silent_grading, test_wtok_no_silent_grading)
+                     ^~~~
+/home/volmarr/aesir-team-25/aesir_engine/tests/run_all.mojo:1984:22: error: use of unknown declaration 'wtok'
+    run_case(ledger, wtok.battery_summary_sums, test_wtok_summary_sums)
+                     ^~~~
+/home/volmarr/aesir-team-25/aesir_engine/tests/run_all.mojo:1985:22: error: use of unknown declaration 'wtok'
+    run_case(ledger, wtok.battery_invalid_cases_refused, test_wtok_invalid_cases_refused)
+                     ^~~~
+/home/volmarr/aesir-team-25/aesir_engine/tests/run_all.mojo:1986:22: error: use of unknown declaration 'wtok'
+    run_case(ledger, wtok.battery_row_line_render, test_wtok_row_line_render)
+                     ^~~~
+/home/volmarr/aesir-team-25/aesir_engine/tests/run_all.mojo:1987:22: error: use of unknown declaration 'wtok'
+    run_case(ledger, wtok.battery_digest_deterministic, test_wtok_digest_deterministic)
+                     ^~~~
+/home/volmarr/aesir-team-25/.pixi/envs/default/bin/mojo: error: failed to parse the provided Mojo source module
+Command exited with non-zero status 1
+	Command being timed: "pixi run --frozen mojo run -I . --target-accelerator gfx1151 -Xlinker -L/tmp/tmp.U1bID7ql3x -Xlinker -laesir_hailo10h -Xlinker -laesir_par -Xlinker -laesir_hip -Xlinker -laesir_vulkan -Xlinker -laesir_zc -Xlinker -laesir_aff aesir_engine/tests/run_all.mojo"
+	User time (seconds): 0.35
+	System time (seconds): 0.04
+	Percent of CPU this job got: 102%
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 0:00.38
+	Average shared text size (kbytes): 0
+	Average unshared data size (kbytes): 0
+	Average stack size (kbytes): 0
+	Average total size (kbytes): 0
+	Maximum resident set size (kbytes): 133136
+	Average resident set size (kbytes): 0
+	Major (requiring I/O) page faults: 25
+	Minor (reclaiming a frame) page faults: 25314
+	Voluntary context switches: 473
+	Involuntary context switches: 42
+	Swaps: 0
+	File system inputs: 4192
+	File system outputs: 80
+	Socket messages sent: 0
+	Socket messages received: 0
+	Signals delivered: 0
+	Page size (bytes): 4096
+	Exit status: 1
+MOJO_EXIT=1
+=== end 2026-11-14T03:11:56-05:00 ===

@@ -1,0 +1,32 @@
+=== A-125 Wrong-tokenizer battery run (team-25) ===
+2026-11-14T03:11:33-05:00
+purpleraider
+a43949047430b9f9a934fc06de1a7339f437b0f1
+yrsa/aesir-team-25
+Mojo 1.2.0 (2016d0cd)
+Imported from /home/volmarr/aesir-team-25/aesir_engine/tests/bench_wrong_tokenizer_a125.mojo:20:
+/home/volmarr/aesir-team-25/aesir_engine/core/wrong_tokenizer_a125.mojo:493:28: warning: 'read' is deprecated; use 'imm'
+def wrong_tokenizer_render(read report: WrongTokReport) -> String:
+                           ^~~~
+                           imm
+A-125 wrong-tokenizer adversarial: 14-case adversarial set (2 verified-identical controls admitted, 12 mismatched presentations refused with named errors) judged by the banked J-074 compare_tokenizers over the full tables; no refused pair is graded, none silently generates, zero unexplained
+A125_BATTERY cases=14 total=14
+WT_ROW case=control_identical fixture=SYNTHETIC verdict=ADMITTED reason=MATCH_VERIFIED first_token_divergence=-1 first_merge_divergence=-1 token_mismatches=0 merge_mismatches=0 vocab_compared=12 graded=-1
+WT_ROW case=control_both_absent_merges fixture=SYNTHETIC verdict=ADMITTED reason=MATCH_VERIFIED first_token_divergence=-1 first_merge_divergence=-1 token_mismatches=0 merge_mismatches=0 vocab_compared=12 graded=-1
+WT_ROW case=unverified fixture=SYNTHETIC verdict=REFUSED reason=TOKENIZER_UNVERIFIED first_token_divergence=-1 first_merge_divergence=-1 token_mismatches=0 merge_mismatches=0 vocab_compared=12 graded=-1
+WT_ROW case=empty_vocab fixture=SYNTHETIC verdict=REFUSED reason=EMPTY_VOCAB first_token_divergence=0 first_merge_divergence=-1 token_mismatches=12 merge_mismatches=0 vocab_compared=12 graded=-1
+WT_ROW case=model_string_mismatch fixture=SYNTHETIC verdict=REFUSED reason=TOKENIZER_MODEL_MISMATCH first_token_divergence=-1 first_merge_divergence=-1 token_mismatches=0 merge_mismatches=0 vocab_compared=12 graded=-1
+WT_ROW case=vocab_truncated fixture=SYNTHETIC verdict=REFUSED reason=VOCAB_LENGTH_MISMATCH first_token_divergence=10 first_merge_divergence=-1 token_mismatches=2 merge_mismatches=0 vocab_compared=12 graded=-1
+WT_ROW case=vocab_extended fixture=SYNTHETIC verdict=REFUSED reason=VOCAB_LENGTH_MISMATCH first_token_divergence=12 first_merge_divergence=-1 token_mismatches=1 merge_mismatches=0 vocab_compared=13 graded=-1
+WT_ROW case=token_content_divergence fixture=SYNTHETIC verdict=REFUSED reason=TOKEN_DIVERGENCE first_token_divergence=5 first_merge_divergence=-1 token_mismatches=1 merge_mismatches=0 vocab_compared=12 graded=-1
+WT_ROW case=token_order_permutation fixture=SYNTHETIC verdict=REFUSED reason=TOKEN_DIVERGENCE first_token_divergence=3 first_merge_divergence=-1 token_mismatches=2 merge_mismatches=0 vocab_compared=12 graded=-1
+WT_ROW case=special_token_text_divergence fixture=SYNTHETIC verdict=REFUSED reason=TOKEN_DIVERGENCE first_token_divergence=0 first_merge_divergence=-1 token_mismatches=1 merge_mismatches=0 vocab_compared=12 graded=-1
+WT_ROW case=merges_divergence fixture=SYNTHETIC verdict=REFUSED reason=MERGE_DIVERGENCE first_token_divergence=-1 first_merge_divergence=1 token_mismatches=0 merge_mismatches=1 vocab_compared=12 graded=-1
+WT_ROW case=merges_one_sided fixture=SYNTHETIC verdict=REFUSED reason=MERGES_ONE_SIDED first_token_divergence=-1 first_merge_divergence=0 token_mismatches=0 merge_mismatches=0 vocab_compared=12 graded=-1
+WT_ROW case=bos_mismatch fixture=SYNTHETIC verdict=REFUSED reason=BOS_MISMATCH first_token_divergence=-1 first_merge_divergence=-1 token_mismatches=0 merge_mismatches=0 vocab_compared=12 graded=-1
+WT_ROW case=eos_mismatch fixture=SYNTHETIC verdict=REFUSED reason=EOS_MISMATCH first_token_divergence=-1 first_merge_divergence=-1 token_mismatches=0 merge_mismatches=0 vocab_compared=12 graded=-1
+A125_BATTERY_SUMMARY total=14 admitted=2 refused=12 silent=0 unexplained=0
+A125_BATTERY_DIGEST 14975126816450906016
+A125_BENCH_DONE rows= 14
+MOJO_EXIT=0
+=== end 2026-11-14T03:11:35-05:00 ===
