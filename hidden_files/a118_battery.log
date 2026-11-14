@@ -1,0 +1,94 @@
+=== A-118 llama battery run (team-27) ===
+2026-11-13T22:55:42-05:00
+purpleraider
+57f2e2da73cb25183fe08dc5b288263fee0b62bf
+yrsa/aesir-team-27
+Mojo 1.2.0 (2016d0cd)
+Imported from /home/volmarr/aesir-team-27/aesir_engine/tests/bench_llama_battery_a118.mojo:15:
+/home/volmarr/aesir-team-27/aesir_engine/core/llama_battery_a118.mojo:288:20: warning: 'read' is deprecated; use 'imm'
+def battery_render(read report: BatteryReport) -> String:
+                   ^~~~
+                   imm
+A-118 llama-family battery: 19 quants x 4 Z13 backends, rows judged per the A-115 policy mirror (10 quants TOKEN_EXACTNESS_OWED under the A-111 near-tie gate, 9 IQ quants COHERENCE_ONLY); non-cpu rows NOT_GRADED with a named reason, IQ rows FIXTURE_LIMITED, zero unexplained
+A118_BATTERY quants=19 backends=4 total=76
+LB_ROW quant=F16 arch=llama backend=cpu verdict=FAITHFUL reason=A045_ALL_POSITIONS_FAITHFUL policy=TOKEN_EXACTNESS_OWED faithful=32 near_tie=0 divergent=0 worst_rank=1
+LB_ROW quant=F16 arch=llama backend=vulkan verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=TOKEN_EXACTNESS_OWED faithful=-1 near_tie=-1 divergent=-1 worst_rank=-1
+LB_ROW quant=F16 arch=llama backend=hip verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=TOKEN_EXACTNESS_OWED faithful=-1 near_tie=-1 divergent=-1 worst_rank=-1
+LB_ROW quant=F16 arch=llama backend=npu verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=TOKEN_EXACTNESS_OWED faithful=-1 near_tie=-1 divergent=-1 worst_rank=-1
+LB_ROW quant=BF16 arch=llama backend=cpu verdict=FAITHFUL reason=A045_ALL_POSITIONS_FAITHFUL policy=TOKEN_EXACTNESS_OWED faithful=32 near_tie=0 divergent=0 worst_rank=1
+LB_ROW quant=BF16 arch=llama backend=vulkan verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=TOKEN_EXACTNESS_OWED faithful=-1 near_tie=-1 divergent=-1 worst_rank=-1
+LB_ROW quant=BF16 arch=llama backend=hip verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=TOKEN_EXACTNESS_OWED faithful=-1 near_tie=-1 divergent=-1 worst_rank=-1
+LB_ROW quant=BF16 arch=llama backend=npu verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=TOKEN_EXACTNESS_OWED faithful=-1 near_tie=-1 divergent=-1 worst_rank=-1
+LB_ROW quant=Q8_0 arch=llama backend=cpu verdict=FAITHFUL reason=A045_ALL_POSITIONS_FAITHFUL policy=TOKEN_EXACTNESS_OWED faithful=32 near_tie=0 divergent=0 worst_rank=1
+LB_ROW quant=Q8_0 arch=llama backend=vulkan verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=TOKEN_EXACTNESS_OWED faithful=-1 near_tie=-1 divergent=-1 worst_rank=-1
+LB_ROW quant=Q8_0 arch=llama backend=hip verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=TOKEN_EXACTNESS_OWED faithful=-1 near_tie=-1 divergent=-1 worst_rank=-1
+LB_ROW quant=Q8_0 arch=llama backend=npu verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=TOKEN_EXACTNESS_OWED faithful=-1 near_tie=-1 divergent=-1 worst_rank=-1
+LB_ROW quant=Q4_0 arch=llama backend=cpu verdict=DIVERGENT reason=A045_DIVERGENT_POSITIONS policy=TOKEN_EXACTNESS_OWED faithful=27 near_tie=3 divergent=2 worst_rank=3
+LB_ROW quant=Q4_0 arch=llama backend=vulkan verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=TOKEN_EXACTNESS_OWED faithful=-1 near_tie=-1 divergent=-1 worst_rank=-1
+LB_ROW quant=Q4_0 arch=llama backend=hip verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=TOKEN_EXACTNESS_OWED faithful=-1 near_tie=-1 divergent=-1 worst_rank=-1
+LB_ROW quant=Q4_0 arch=llama backend=npu verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=TOKEN_EXACTNESS_OWED faithful=-1 near_tie=-1 divergent=-1 worst_rank=-1
+LB_ROW quant=Q5_0 arch=llama backend=cpu verdict=FAITHFUL_NEAR_TIE reason=A045_NEAR_TIE_POSITIONS policy=TOKEN_EXACTNESS_OWED faithful=31 near_tie=1 divergent=0 worst_rank=2
+LB_ROW quant=Q5_0 arch=llama backend=vulkan verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=TOKEN_EXACTNESS_OWED faithful=-1 near_tie=-1 divergent=-1 worst_rank=-1
+LB_ROW quant=Q5_0 arch=llama backend=hip verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=TOKEN_EXACTNESS_OWED faithful=-1 near_tie=-1 divergent=-1 worst_rank=-1
+LB_ROW quant=Q5_0 arch=llama backend=npu verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=TOKEN_EXACTNESS_OWED faithful=-1 near_tie=-1 divergent=-1 worst_rank=-1
+LB_ROW quant=Q2_K arch=llama backend=cpu verdict=COMPARATOR_ARTIFACT reason=A045_FILED_FIXTURE_ARTIFACT policy=TOKEN_EXACTNESS_OWED faithful=27 near_tie=3 divergent=2 worst_rank=3
+LB_ROW quant=Q2_K arch=llama backend=vulkan verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=TOKEN_EXACTNESS_OWED faithful=-1 near_tie=-1 divergent=-1 worst_rank=-1
+LB_ROW quant=Q2_K arch=llama backend=hip verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=TOKEN_EXACTNESS_OWED faithful=-1 near_tie=-1 divergent=-1 worst_rank=-1
+LB_ROW quant=Q2_K arch=llama backend=npu verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=TOKEN_EXACTNESS_OWED faithful=-1 near_tie=-1 divergent=-1 worst_rank=-1
+LB_ROW quant=Q3_K_M arch=llama backend=cpu verdict=DIVERGENT reason=A045_DIVERGENT_POSITIONS policy=TOKEN_EXACTNESS_OWED faithful=29 near_tie=1 divergent=2 worst_rank=5
+LB_ROW quant=Q3_K_M arch=llama backend=vulkan verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=TOKEN_EXACTNESS_OWED faithful=-1 near_tie=-1 divergent=-1 worst_rank=-1
+LB_ROW quant=Q3_K_M arch=llama backend=hip verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=TOKEN_EXACTNESS_OWED faithful=-1 near_tie=-1 divergent=-1 worst_rank=-1
+LB_ROW quant=Q3_K_M arch=llama backend=npu verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=TOKEN_EXACTNESS_OWED faithful=-1 near_tie=-1 divergent=-1 worst_rank=-1
+LB_ROW quant=Q4_K_M arch=llama backend=cpu verdict=FAITHFUL_NEAR_TIE reason=A045_NEAR_TIE_POSITIONS policy=TOKEN_EXACTNESS_OWED faithful=31 near_tie=1 divergent=0 worst_rank=2
+LB_ROW quant=Q4_K_M arch=llama backend=vulkan verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=TOKEN_EXACTNESS_OWED faithful=-1 near_tie=-1 divergent=-1 worst_rank=-1
+LB_ROW quant=Q4_K_M arch=llama backend=hip verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=TOKEN_EXACTNESS_OWED faithful=-1 near_tie=-1 divergent=-1 worst_rank=-1
+LB_ROW quant=Q4_K_M arch=llama backend=npu verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=TOKEN_EXACTNESS_OWED faithful=-1 near_tie=-1 divergent=-1 worst_rank=-1
+LB_ROW quant=Q5_K_M arch=llama backend=cpu verdict=FAITHFUL reason=A045_ALL_POSITIONS_FAITHFUL policy=TOKEN_EXACTNESS_OWED faithful=32 near_tie=0 divergent=0 worst_rank=1
+LB_ROW quant=Q5_K_M arch=llama backend=vulkan verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=TOKEN_EXACTNESS_OWED faithful=-1 near_tie=-1 divergent=-1 worst_rank=-1
+LB_ROW quant=Q5_K_M arch=llama backend=hip verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=TOKEN_EXACTNESS_OWED faithful=-1 near_tie=-1 divergent=-1 worst_rank=-1
+LB_ROW quant=Q5_K_M arch=llama backend=npu verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=TOKEN_EXACTNESS_OWED faithful=-1 near_tie=-1 divergent=-1 worst_rank=-1
+LB_ROW quant=Q6_K arch=llama backend=cpu verdict=COMPARATOR_ARTIFACT reason=A045_FILED_FIXTURE_ARTIFACT policy=TOKEN_EXACTNESS_OWED faithful=32 near_tie=0 divergent=0 worst_rank=1
+LB_ROW quant=Q6_K arch=llama backend=vulkan verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=TOKEN_EXACTNESS_OWED faithful=-1 near_tie=-1 divergent=-1 worst_rank=-1
+LB_ROW quant=Q6_K arch=llama backend=hip verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=TOKEN_EXACTNESS_OWED faithful=-1 near_tie=-1 divergent=-1 worst_rank=-1
+LB_ROW quant=Q6_K arch=llama backend=npu verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=TOKEN_EXACTNESS_OWED faithful=-1 near_tie=-1 divergent=-1 worst_rank=-1
+LB_ROW quant=IQ1_S arch=llama backend=cpu verdict=FIXTURE_LIMITED reason=IQ_FIXTURE_LIMITED policy=COHERENCE_ONLY faithful=-1 near_tie=-1 divergent=-1 worst_rank=-1
+LB_ROW quant=IQ1_S arch=llama backend=vulkan verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=COHERENCE_ONLY faithful=-1 near_tie=-1 divergent=-1 worst_rank=-1
+LB_ROW quant=IQ1_S arch=llama backend=hip verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=COHERENCE_ONLY faithful=-1 near_tie=-1 divergent=-1 worst_rank=-1
+LB_ROW quant=IQ1_S arch=llama backend=npu verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=COHERENCE_ONLY faithful=-1 near_tie=-1 divergent=-1 worst_rank=-1
+LB_ROW quant=IQ1_M arch=llama backend=cpu verdict=FIXTURE_LIMITED reason=IQ_FIXTURE_LIMITED policy=COHERENCE_ONLY faithful=-1 near_tie=-1 divergent=-1 worst_rank=-1
+LB_ROW quant=IQ1_M arch=llama backend=vulkan verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=COHERENCE_ONLY faithful=-1 near_tie=-1 divergent=-1 worst_rank=-1
+LB_ROW quant=IQ1_M arch=llama backend=hip verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=COHERENCE_ONLY faithful=-1 near_tie=-1 divergent=-1 worst_rank=-1
+LB_ROW quant=IQ1_M arch=llama backend=npu verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=COHERENCE_ONLY faithful=-1 near_tie=-1 divergent=-1 worst_rank=-1
+LB_ROW quant=IQ2_XXS arch=llama backend=cpu verdict=FIXTURE_LIMITED reason=IQ_FIXTURE_LIMITED policy=COHERENCE_ONLY faithful=-1 near_tie=-1 divergent=-1 worst_rank=-1
+LB_ROW quant=IQ2_XXS arch=llama backend=vulkan verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=COHERENCE_ONLY faithful=-1 near_tie=-1 divergent=-1 worst_rank=-1
+LB_ROW quant=IQ2_XXS arch=llama backend=hip verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=COHERENCE_ONLY faithful=-1 near_tie=-1 divergent=-1 worst_rank=-1
+LB_ROW quant=IQ2_XXS arch=llama backend=npu verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=COHERENCE_ONLY faithful=-1 near_tie=-1 divergent=-1 worst_rank=-1
+LB_ROW quant=IQ2_XS arch=llama backend=cpu verdict=FIXTURE_LIMITED reason=IQ_FIXTURE_LIMITED policy=COHERENCE_ONLY faithful=-1 near_tie=-1 divergent=-1 worst_rank=-1
+LB_ROW quant=IQ2_XS arch=llama backend=vulkan verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=COHERENCE_ONLY faithful=-1 near_tie=-1 divergent=-1 worst_rank=-1
+LB_ROW quant=IQ2_XS arch=llama backend=hip verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=COHERENCE_ONLY faithful=-1 near_tie=-1 divergent=-1 worst_rank=-1
+LB_ROW quant=IQ2_XS arch=llama backend=npu verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=COHERENCE_ONLY faithful=-1 near_tie=-1 divergent=-1 worst_rank=-1
+LB_ROW quant=IQ2_S arch=llama backend=cpu verdict=FIXTURE_LIMITED reason=IQ_FIXTURE_LIMITED policy=COHERENCE_ONLY faithful=-1 near_tie=-1 divergent=-1 worst_rank=-1
+LB_ROW quant=IQ2_S arch=llama backend=vulkan verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=COHERENCE_ONLY faithful=-1 near_tie=-1 divergent=-1 worst_rank=-1
+LB_ROW quant=IQ2_S arch=llama backend=hip verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=COHERENCE_ONLY faithful=-1 near_tie=-1 divergent=-1 worst_rank=-1
+LB_ROW quant=IQ2_S arch=llama backend=npu verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=COHERENCE_ONLY faithful=-1 near_tie=-1 divergent=-1 worst_rank=-1
+LB_ROW quant=IQ3_XXS arch=llama backend=cpu verdict=FIXTURE_LIMITED reason=IQ_FIXTURE_LIMITED policy=COHERENCE_ONLY faithful=-1 near_tie=-1 divergent=-1 worst_rank=-1
+LB_ROW quant=IQ3_XXS arch=llama backend=vulkan verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=COHERENCE_ONLY faithful=-1 near_tie=-1 divergent=-1 worst_rank=-1
+LB_ROW quant=IQ3_XXS arch=llama backend=hip verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=COHERENCE_ONLY faithful=-1 near_tie=-1 divergent=-1 worst_rank=-1
+LB_ROW quant=IQ3_XXS arch=llama backend=npu verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=COHERENCE_ONLY faithful=-1 near_tie=-1 divergent=-1 worst_rank=-1
+LB_ROW quant=IQ3_S arch=llama backend=cpu verdict=FIXTURE_LIMITED reason=IQ_FIXTURE_LIMITED policy=COHERENCE_ONLY faithful=-1 near_tie=-1 divergent=-1 worst_rank=-1
+LB_ROW quant=IQ3_S arch=llama backend=vulkan verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=COHERENCE_ONLY faithful=-1 near_tie=-1 divergent=-1 worst_rank=-1
+LB_ROW quant=IQ3_S arch=llama backend=hip verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=COHERENCE_ONLY faithful=-1 near_tie=-1 divergent=-1 worst_rank=-1
+LB_ROW quant=IQ3_S arch=llama backend=npu verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=COHERENCE_ONLY faithful=-1 near_tie=-1 divergent=-1 worst_rank=-1
+LB_ROW quant=IQ4_NL arch=llama backend=cpu verdict=FIXTURE_LIMITED reason=IQ_FIXTURE_LIMITED policy=COHERENCE_ONLY faithful=-1 near_tie=-1 divergent=-1 worst_rank=-1
+LB_ROW quant=IQ4_NL arch=llama backend=vulkan verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=COHERENCE_ONLY faithful=-1 near_tie=-1 divergent=-1 worst_rank=-1
+LB_ROW quant=IQ4_NL arch=llama backend=hip verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=COHERENCE_ONLY faithful=-1 near_tie=-1 divergent=-1 worst_rank=-1
+LB_ROW quant=IQ4_NL arch=llama backend=npu verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=COHERENCE_ONLY faithful=-1 near_tie=-1 divergent=-1 worst_rank=-1
+LB_ROW quant=IQ4_XS arch=llama backend=cpu verdict=FIXTURE_LIMITED reason=IQ_FIXTURE_LIMITED policy=COHERENCE_ONLY faithful=-1 near_tie=-1 divergent=-1 worst_rank=-1
+LB_ROW quant=IQ4_XS arch=llama backend=vulkan verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=COHERENCE_ONLY faithful=-1 near_tie=-1 divergent=-1 worst_rank=-1
+LB_ROW quant=IQ4_XS arch=llama backend=hip verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=COHERENCE_ONLY faithful=-1 near_tie=-1 divergent=-1 worst_rank=-1
+LB_ROW quant=IQ4_XS arch=llama backend=npu verdict=NOT_GRADED reason=BACKEND_NO_CPU_COMPARATOR policy=COHERENCE_ONLY faithful=-1 near_tie=-1 divergent=-1 worst_rank=-1
+A118_BATTERY_SUMMARY total=76 faithful=4 near_tie=2 divergent=2 artifact=2 fixture_limited=9 not_graded=57 owed=40 coherence=36
+A118_BATTERY_DIGEST 6210008811540276091
+A118_BENCH_DONE rows= 76
+MOJO_EXIT=0
+=== end 2026-11-13T22:55:44-05:00 ===

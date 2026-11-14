@@ -863,6 +863,21 @@ from tests.test_divergence_localiser_a116 import (
     test_localise_near_tie_probes_faithful,
     test_localise_seeded_exact,
 )
+from tests.test_llama_battery_a118 import (
+    test_battery_agrees_with_matrix,
+    test_battery_axes_product,
+    test_battery_backend_not_graded,
+    test_battery_cpu_artifact,
+    test_battery_cpu_divergent,
+    test_battery_cpu_faithful,
+    test_battery_cpu_near_tie,
+    test_battery_digest_deterministic,
+    test_battery_enumeration_unique,
+    test_battery_invalid_axes_refused,
+    test_battery_iq_fixture_limited,
+    test_battery_policy_split,
+    test_battery_summary_sums,
+)
 from tests.test_placement_planner_a100 import (
     test_planner_standard_fixtures,
     test_planner_prefill_variants,
@@ -1813,6 +1828,19 @@ def main() raises:
     run_case(ledger, "gate.local_verdict_pass", test_local_gate_verdict_pass)
     run_case(ledger, "gate.local_verdict_fail", test_local_gate_verdict_fail)
     run_case(ledger, "gate.local_verdict_not_run", test_local_gate_verdict_not_run)
+    run_case(ledger, "llama.battery_axes_product", test_battery_axes_product)
+    run_case(ledger, "llama.battery_enumeration_unique", test_battery_enumeration_unique)
+    run_case(ledger, "llama.battery_policy_split", test_battery_policy_split)
+    run_case(ledger, "llama.battery_cpu_faithful", test_battery_cpu_faithful)
+    run_case(ledger, "llama.battery_cpu_near_tie", test_battery_cpu_near_tie)
+    run_case(ledger, "llama.battery_cpu_divergent", test_battery_cpu_divergent)
+    run_case(ledger, "llama.battery_cpu_artifact", test_battery_cpu_artifact)
+    run_case(ledger, "llama.battery_iq_fixture_limited", test_battery_iq_fixture_limited)
+    run_case(ledger, "llama.battery_backend_not_graded", test_battery_backend_not_graded)
+    run_case(ledger, "llama.battery_summary_sums", test_battery_summary_sums)
+    run_case(ledger, "llama.battery_invalid_axes_refused", test_battery_invalid_axes_refused)
+    run_case(ledger, "llama.battery_agrees_with_matrix", test_battery_agrees_with_matrix)
+    run_case(ledger, "llama.battery_digest_deterministic", test_battery_digest_deterministic)
     run_case(ledger, "planner.standard_fixtures", test_planner_standard_fixtures)
     run_case(ledger, "planner.prefill_variants", test_planner_prefill_variants)
     run_case(ledger, "planner.gemm_thresholds", test_planner_gemm_thresholds)
@@ -2601,4 +2629,10 @@ def main() raises:
     # gate cases (gate.local_* in
     # tests/test_local_gate_a117.mojo) counted on top of
     # the A-114 seat pin.
-    ledger.finish(762)
+    # A-118 union re-pin at banking: 762 -> 775 -- thirteen
+    # llama battery cases (llama.battery_* in
+    # tests/test_llama_battery_a118.mojo) counted on top
+    # of the A-114 seat pin (A-115/A-116/A-117 build in
+    # parallel on the same seat; union reconciles at
+    # banking).
+    ledger.finish(775)
