@@ -168,3 +168,66 @@ Compression cross-reference (QC_RESULTS.md / RESIDENCY-NOTE):
   unit-state observation recorded, untouched per orders.
 - Gate never touched: aesir-gate still PID 5932, active,
   serving; QS-0 sent it client requests only.
+
+## QS-2 — HIP decode speed (OPEN)
+
+Seat: QS-2 team lead, six Mythic Engineering roles
+sequentially in one seat (no sub-agents; depth limit).
+Sole writer in ~/aesir-qs-hip on branch yrsa/qs-hip @
+bad65106. Full working notes: QS-2-NOTES.md in this folder.
+Start truth (2026-11-15 ~00:03 EST): purpleraider uptime
+4:03, load1 1.67 falling, MemAvailable ~113 GB.
+HEAVY.lock HELD by QS-3 (since 2026-11-14 ~22:31 EST;
+QS-3.8 v3 re-pack + grade, unit qs3-27b-v3) — all QS-2
+heavy (real-file) runs wait for it; fixture work proceeds
+fenced (32G class) per commission. rocprof absent (QS-0
+finding): engine timers + fixture timings only.
+
+### QS-2 entries as they land
+- Recon + design banked (QS-2-NOTES.md): the Q8_0 prize
+  is a bandwidth race — 27.2 GB of weights streamed per
+  token; Ollama Q8_0 7.65 tok/s implies ~208 GB/s
+  effective; 12.11 tok/s on Q8_0 would need ~330 GB/s,
+  beyond this memory system (that yardstick belongs to
+  the Q4_K_M tier, QS-3). Ceiling named up front, to be
+  measured, not assumed.
+- Baseline fixture reproduced in-tree from unmodified
+  bad65106 binaries (.base stash): ALL PASS, (b) diffs
+  digit-identical to QS-0, (e) GEMV loop 65.59 ms /
+  batched 10.21 ms (qs2-fixture-base.log).
+- QS-2.2 warp-per-row vectorized Q8 GEMV (_q8_gemv_kernel,
+  packed UInt32 loads, warp.sum; ALL batch sizes after a
+  (d)-gate discrimination: batch-split kernels broke the
+  (d) premise at state_diff 0.00390625 — fixed in scope
+  by unifying). Fixture ALL PASS: (d) 0.0/0.0 exact,
+  (c) greedy identical, rank 1 gap 0.0 (qs2-fixture-
+  gemv2.log). Session ALL PASS. Banked 0d1e1b9f.
+- QS-2.3 step 1: ring stage fused into conv kernel,
+  commit fused into l2norm kernel (-96 launches/token,
+  bit-exact). Fixture ALL PASS (qs2-fixture-fuse1.log).
+  Banked b218a215.
+- QS-2.4: delta step + gated RMSNorm fused
+  (_delta_norm_kernel, shared-memory reduction; -48
+  launches/token; fixture d_state 16 and real 128 both
+  take the fused branch). Fixture ALL PASS exact
+  (qs2-fixture-fuse3.log). Banked 39646164.
+- QS-2.3 step 2: SwiGLU pair fused into the FFN
+  down-GEMV (_q8_gemv_silu_kernel, bit-exact; -64
+  launches/token). Fixture ALL PASS (qs2-fixture-
+  fuse4.log). Banked c2adbe50.
+- QS-2.3 step 3: warp-parallel RMSNorm (was one serial
+  thread per row). Fixture ALL PASS, (b) diffs IMPROVED
+  (worst s 0.00021445751), (e) loop 49.47 -> 36.56 ms
+  (qs2-fixture-fuse5.log); session ALL PASS. Banked
+  fef90fb6. Launch census ~492/token (from ~700).
+- Fixture GEMV-loop trajectory (64 tok): 65.59 ms
+  baseline -> 36.56 ms current (1,751 tok/s, 1.79x at
+  fixture scale; fixture weights are L2-resident, so
+  this is the latency/launch component only — the
+  bandwidth component is measured by QS-2.1/QS-2.2
+  real-file runs under the lock).
+- PENDING (lock): QS-2.1 gen pair on .base binaries
+  (the QS-0.6 deferred measurement), gen pairs on
+  .gemv2 and current builds, real-file grade P0/P1/P5
+  on the current build (drive-heavy.sh is written and
+  ready; one fenced unit runs the whole sequence).
