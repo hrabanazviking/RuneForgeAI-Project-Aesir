@@ -207,3 +207,58 @@ Compression cross-reference (QC_RESULTS.md / RESIDENCY-NOTE):
   generic/gemma4 forwards share the dead-min_p defect
   (follow-up slice); native /v1/generate lacks a per-request
   repeat_last_n field (parser follow-up).
+## QS-1 — CPU-resident speed (branch yrsa/qs-cpu @ bad65106 base)
+
+Seat: single worker, six Mythic Engineering roles sequentially
+(no sub-agents; depth limit). Full record:
+hidden_files/qwen35-speed/QS-1-NOTES.md. Audit corrected the
+QS-0 mechanism on two points (code-verified): (1) serve decode
+already routes to the fused GEMV (session next_chunk ->
+_forward_position -> 1-row gemm_q8_0); the 86% fast_range
+share is the prefill-dominated profile window + perf-dwarf tax
+on the spawn-churned decode path. (2) fast_range already had
+A-042 decode-once + width-16; its remaining defect was the
+per-chunk horizontal reduce_add dot.
+- QS-1.1 GEMV: two independent accumulators, 2-block unroll.
+  Micro-bench rows=1: FFN -14%, QKV -15%, GATE -16%, OUT -21%
+  (median ms, bench_qs1_gemm). Dyadic parity bitwise PASS.
+- QS-1.2 fast_range: vector-accumulate dot + 4-row register
+  blocking. rows=32 FFN 2.57x, rows=256 FFN 2.32x, rows=256
+  QKV 2.07x vs pristine. Dyadic parity bitwise PASS.
+- QS-1.3 threading: persistent worker pool in thread_par.c
+  (same aesir_par_for contract). Dispatch 210-310 us -> ~17-40
+  us; GEMV QKV 0.457->0.185 ms, GATE 0.355->0.111, OUT
+  0.351->0.164, FFN 0.683->0.639; checksums bit-identical.
+  Thread sweep 8/16/24/28/32: no rung dominates; default 24
+  (A-041 choke-guard) KEPT — leaves 8 logical CPUs for the
+  desktop.
+- GRADE (2026-11-15 heavy window, lock held by QS-1):
+  198/198 IN BAND, 197 rank-1 — FAITHFUL, reproducing the
+  Q35-3b v2 profile exactly (same lone near-tie p5 pos32
+  rank 2 gap 0.015). Batch cross-checks agree on next token
+  (p0 11751, p3 271), logits diffs 0.0117/0.03125 (f16-ulp
+  class). Gen pair 2.55 tok/s in-process decode (T=24;
+  T=8 1.73, T=1 0.68). Forward isolation (450 tok): batched
+  prefill 5.96 tok/s vs per-token 2.44; decode 2.24 at
+  ctx ~466. Fenced serve bench (:18436, same harness as
+  QS-0): p500 prompt >= 3.80 (base 3.73), p2000 prompt
+  >= 4.41 (base 3.88), p2000 decode stream 2.30 (base
+  1.83); p500 plain leg contaminated by my own build
+  (flagged in notes), p2000 plain decode a harness artifact
+  (named in notes). Ollama Q8_0 7.65 NOT yet beaten at the
+  serve; next named causes: (1) delta-recurrence/conv
+  serial sections, (2) int8-dot VNNI GEMV, (3) serve-layer
+  per-token overhead. Full record: QS-1-NOTES.md.
+- QS-1.4 delta-recurrence SIMD (forward() only; the
+  forward_batched copy is separate text and remains
+  scalar — named follow-on): grade CSVs BYTE-IDENTICAL
+  to the QS-1.1-1.3 run (198/198 FAITHFUL); gen pair
+  0.392 -> 0.334 s/tok = 3.00 tok/s in-process decode
+  (x3 stable). Serve bench run 2 (qs1-bench-qs114.log):
+  p500 prompt >= 6.04 (QS-0 base 3.73, +62%), decode_plain
+  2.43 (base 2.14); p2000 prompt >= 5.29 (base 3.88,
+  +36%), decode_stream 2.28 (base 1.83, +25%). FINAL QS-1
+  serve verdict: prompt +36..62%, decode +14..25% by the
+  steadier reads; Ollama Q8_0 7.65 NOT beaten. Next causes
+  (ordered): batched-recurrence SIMD, VNNI int8-dot GEMV,
+  serve stream-variance audit.
