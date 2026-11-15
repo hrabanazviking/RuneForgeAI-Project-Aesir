@@ -215,3 +215,43 @@ Regression: QC-5 K test re-run on this tree ALL PASS with the
 banked worst ratios unchanged (q4 0.9989002, q6 0.9686628;
 qs-3-regress-qc5k.log). Builds: QS3_K/QC5_K/ENGINE all exit 0
 (qs-3-build.log).
+
+## SLICE QS-3.3 — FIXTURE PROOF: stories260K (banked)
+
+Pipeline (run-qs-3-fixtures.sh, all exits 0): fixture
+stories260K.F16.gguf sha256 57a81ed1...e4eb69e3 (the QC-5 pin),
+CLI convert --to q4_k_m --fit legacy|searched (in-memory
+converter, flat tiling as QC-5), dequantize_model_qc_5 to the
+F16 weight set, grade_quantize_qc_3 vs the F16 source (RAW
+prompts, teacher-forcing, CPU-vs-CPU), qc3_grade_summary.py
+independent re-account. qs-3-grade-stories-{legacy,searched}*
+
+LEGACY reproduces QC-5 EXACTLY: 154/157 in-band (98.09%),
+agreement 141/157 = 89.81%, worst gap 2.054, DIVERGENT;
+divergent records p0 pos22 (rank 3, gap 914), p2 pos10 (gap
+1062), p3 pos8 (rank 1, gap 2054). Harness is not a variable.
+
+SEARCHED: 154/157 in-band (98.09%), agreement 142/157 = 90.45%,
+worst gap 1.273, verdict still DIVERGENT. Per-record movement:
+  FIXED: p0 pos22 (p0 now 23/23 in-band, worst gap 171) and
+  p2 pos10 (p2 now 23/23). Both legacy fit-caused records the
+  QC-5 notes named are gone.
+  NEW out-of-band: p3 pos9 (rank 3, gap 1273), p3 pos11
+  (rank 3, gap 359), p5 pos8 (rank 1, gap 1062). p3 25->24
+  in-band, p5 30->29; p1/p4 unchanged 100%.
+Net: in-band count UNCHANGED, agreement +1 record, worst gap
+-38%. The searched fit does NOT fix the stories divergence as a
+whole and does NOT regress the count. Reading (QC-5's own
+conflation warning, now separated): on stories the remaining
+divergence is dominated by the flat true-K density itself
+(llama's FAITHFUL 157/157 product mixes per-row fallbacks at
+higher effective bits; no stories matrix is 256-aligned, so
+llama quantizes almost nothing at flat Q4_K density). The fit
+term, isolated here, is worth exactly the two named records +
+worst-gap reduction. On the 27B the conflation vanishes (flat ==
+per-row, fallbacks fire zero times, QC-6 census) and the single
+out-of-band record's gap is 0.421 — the searched fit is the only
+variable there. QS-3.5 arbitrates.
+Gemma E2B fixture: NOT run in this slice (stories + unit A/B
+arbitrate the fit; the E2B streaming A/B is named remaining
+fixture work, behind QS-3.4/3.5 in priority).
