@@ -1,0 +1,10 @@
+HEALTH 200 {"status":"ready","backend":"cpu","cpu_offload":0,"profile":"qwen35","context":4096,"model":"/mnt/vault/models/gguf/Qwen3.8-27B-Ultimate-Heretic-Uncn-Turbo-Brilli-50x-AGI-NEO-Q8_0.gguf","model_digest"
+LEG short wall=25.9s usage={"prompt_tokens": 21, "completion_tokens": 32, "total_tokens": 53, "reused_prompt_tokens": 0} text_head='\n\n<think>\nThe user wants a short, one-sentence definition of'
+LEG resident-t1 wall=17.8s usage={"prompt_tokens": 21, "completion_tokens": 40, "total_tokens": 61, "reused_prompt_tokens": 0} text_head='\n\n<think>\nThe user wants three colors associated with the se'
+LEG resident-t2 wall=28.3s usage={"prompt_tokens": 71, "completion_tokens": 31, "total_tokens": 102, "reused_prompt_tokens": 61} text_head='\n</think>\n\nThe rarest is the deep, inky indigo that lingers '
+LEG sampling-chat wall=19.9s usage={"prompt_tokens": 21, "completion_tokens": 48, "total_tokens": 69, "reused_prompt_tokens": 0} text_head='\n\n<think>\nThe user wants two vivid sentences describing a st'
+LEG generate-minp http=200 wall=15.4s body_head='{"text":"’s journal has recently been found in a small coastal town, and its pages tell the tale of a mysterious light that appeared on the horizon one foggy ni'
+LEG prefill-med wall=158.6s usage={"prompt_tokens": 845, "completion_tokens": 48, "total_tokens": 893, "reused_prompt_tokens": 0} text_head='\n\n<think>\nThe user wants to know what the clerks checked eac'
+LEG prefill-full wall=642.3s usage={"prompt_tokens": 3055, "completion_tokens": 64, "total_tokens": 3119, "reused_prompt_tokens": 0} text_head='\n\n<think>\nThe user wants to know what filled the manifests b'
+QS5 MEASURE MIX DONE
+MEASURE2_EXIT=0

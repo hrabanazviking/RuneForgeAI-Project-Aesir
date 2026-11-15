@@ -1,0 +1,35 @@
+HEALTH 200 {"status":"ready","backend":"cpu","cpu_offload":0,"profile":"qwen35","context":4096,"model":"/mnt/vault/models/gguf/Qwen3.8-27B-Ultimate-Heretic-Uncn-Turbo-Brilli-50x-AGI-NEO-Q8_0.gguf","model_digest"
+LEG short wall=16.2s usage={"prompt_tokens": 21, "completion_tokens": 32, "total_tokens": 53, "reused_prompt_tokens": 0} text_head='\n\n<think>\nThe user wants a short, one-sentence definition of'
+LEG resident-t1 wall=28.0s usage={"prompt_tokens": 21, "completion_tokens": 40, "total_tokens": 61, "reused_prompt_tokens": 0} text_head='\n\n<think>\nThe user wants three colors associated with the se'
+LEG resident-t2 wall=14.2s usage={"prompt_tokens": 71, "completion_tokens": 31, "total_tokens": 102, "reused_prompt_tokens": 61} text_head='\n</think>\n\nThe rarest is the deep, inky indigo that lingers '
+Traceback (most recent call last):
+  File "/home/volmarr/aesir-qs-stable/hidden_files/qwen35-speed/qs5_measure.py", line 70, in <module>
+    main()
+    ~~~~^^
+  File "/home/volmarr/aesir-qs-stable/hidden_files/qwen35-speed/qs5_measure.py", line 56, in main
+    chat([{"role": "system", "content": SYSTEM},
+    ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+          {"role": "user", "content": "Write two vivid sentences about a storm reaching a harbour."}],
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+         48, "sampling", temperature=0.8, top_p=0.95, min_p=0.05)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/volmarr/aesir-qs-stable/hidden_files/qwen35-speed/qs5_measure.py", line 26, in chat
+    with urllib.request.urlopen(r, timeout=1500) as resp:
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.14/urllib/request.py", line 187, in urlopen
+    return opener.open(url, data, timeout)
+           ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.14/urllib/request.py", line 493, in open
+    response = meth(req, response)
+  File "/usr/lib/python3.14/urllib/request.py", line 602, in http_response
+    response = self.parent.error(
+        'http', request, response, code, msg, hdrs)
+  File "/usr/lib/python3.14/urllib/request.py", line 531, in error
+    return self._call_chain(*args)
+           ~~~~~~~~~~~~~~~~^^^^^^^
+  File "/usr/lib/python3.14/urllib/request.py", line 464, in _call_chain
+    result = func(*args)
+  File "/usr/lib/python3.14/urllib/request.py", line 611, in http_error_default
+    raise HTTPError(req.full_url, code, msg, hdrs, fp)
+urllib.error.HTTPError: HTTP Error 400: Bad Request
+MEASURE_EXIT=1

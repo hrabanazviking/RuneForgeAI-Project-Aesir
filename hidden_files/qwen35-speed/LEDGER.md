@@ -389,3 +389,105 @@ recorded for every real-file run of this section.
   Ceiling: Q8_0 stream floor 0.137 s/token at 205 GB/s;
   7.65 needs >219 GB/s in-engine (not demonstrated).
   LOCK: released at this banking (03:08:42 EST).
+## QS-5 — ULTRA-STABLE SERVE (OPEN)
+
+Seat: QS-5 team lead, six Mythic Engineering roles
+sequentially in one seat (no sub-agents; depth limit).
+Sole writer in ~/aesir-qs-stable on branch yrsa/qs-stable
+@ d1e5815f. Gate tree ~/aesir-gate-serve (detached
+d1e5815f) changes only at planned swaps. Full record:
+QS-5-NOTES.md in this folder.
+
+### QS-5 entries as they land
+- QS-5.1 DONE: gate tree built (engine exit 0, binary
+  sha256 efc8334c...c270c1); rehearsal serve on :18438
+  with the proven Q35-7 command shape ALL_PASS verify
+  (health qwen35/qwen35-27B/q8_0_resident; turn 2
+  reused_prompt_tokens=69). Fence measurement mix
+  (qs5-measure2.log + qs5-peakleg.log, all legs 200,
+  largest 3,383 prompt + 132 gen): rehearsal cgroup
+  MemoryPeak 22,973,169,664 B (21.39 GiB). Governing
+  peak incl. Q35-7 lifetime 30.8 GB -> permanent-unit
+  fences MemoryHigh=40G / MemoryMax=52G (derivation in
+  QS-5-NOTES.md). Engine fact found: the OpenAI chat
+  parser accepts temperature/seed/top_p only; min_p on
+  /v1/chat/completions is refused 400 by design —
+  min_p + repeat_penalty exercised via /v1/generate
+  instead (HTTP 200, QS-4 wiring live on merged build).
+- QS-5.2 DONE: permanent unit + watchdog installed
+  from qs5-install/ sources (install-qs5.sh):
+  /etc/systemd/system/aesir-gate.service (User=volmarr,
+  gate tree, Restart=on-failure/10s, MemoryHigh=40G /
+  MemoryMax=52G, RequiresMountsFor=/mnt/vault,
+  WantedBy=multi-user.target; byte-identical to repo
+  source), watchdog timer every 2 min running
+  /usr/local/sbin/aesir-gate-health.sh (key read at
+  runtime, never logged; 3 consecutive failures ->
+  reset-failed + restart; journal + watchdog.log).
+  systemd-analyze verify exit 0; checker live-fired
+  OK against the transient gate. Timer ENABLED;
+  aesir-gate.service enable deferred to the swap
+  (the loaded transient of the same name shadows the
+  file; enable refused as transient/generated —
+  handled in the installer). Real unit NOT started;
+  transient gate never interrupted.
+- QS-5.3 DONE (the swap, single-restart protocol):
+  attempt 1 at 03:29:42 EST restarted the TRANSIENT
+  definition instead (same-name transient file in
+  /run/systemd/transient shadowed /etc; old build back
+  healthy by 03:29:51 — recorded, not hidden).
+  Attempt 2: stop 03:29:55, retired the transient file,
+  daemon-reload (FragmentPath -> /etc), enable OK,
+  start 03:30:40, health ready 03:30:45. Final-transition
+  outage 50 s; whole window 63 s. Post-swap verify
+  ALL_PASS (unit active + enabled, fences read back
+  40G/52G, Restart=on-failure/10s, completion 200,
+  turn-2 reused_prompt_tokens=69). Watchdog timer
+  started. QS-5.4 soak criteria stated in QS-5-NOTES.md
+  before the soak starts.
+- QS-5.2 WATCHDOG v2 FIX (bug found in the QS-5.4
+  soak, fixed on the spot): v1 counted any /health
+  failure toward a restart, but the serve is
+  single-concurrency with a 30 s queue timeout, so
+  health requests starve during legitimate long
+  prefills (observed 03:33-03:34 EST: sampler NOTREADY
+  + watchdog FAIL during a 115 s prefill that
+  completed 200). v2 adds a busy guard: failures count
+  only when the serve process CPU (utime+stime) has
+  NOT advanced >= 30 s since the last check; busy
+  failures log BUSY and do not count. Restart now
+  needs 3 consecutive IDLE failures (the wedged case).
+  Live-proven mid-prefill at install. QS-5.4 health
+  criterion amended accordingly in QS-5-NOTES.md
+  (recorded at soak t+5 min, before any verdict).
+- QS-5.4 SOAK RUN 1 INVALIDATED by external stops
+  (not a serve failure): 106/106 requests OK + memory
+  flat to t=6,718 s, then a Muse device session
+  outside QS-5 issued "sudo systemctl stop aesir-gate"
+  at 05:25:26 EST (journal + sudo log). Serve ignored
+  SIGTERM mid-prefill -> SIGKILL at stop-timeout ->
+  Restart=on-failure returned it at 05:26:27 (real
+  self-healing proof, reused for QS-5.5). Second stop
+  05:35:05 disabled the watchdog timer + stopped the
+  gate, followed by a "zo0-7b" ollama-bench unit —
+  the sibling bench team clearing the machine.
+  QS-5 restored gate + watchdog 05:37 (ready, enabled).
+  Soak harness flaw found + fixed (no failure backoff:
+  23,263 refused-spin lines; v2 sleeps 15 s after a
+  failure). Soak 2 relaunched on the quiet machine;
+  full record in QS-5-NOTES.md.
+- QS-5.4 SOAK RUN 2 INVALIDATED by a third external strike —
+  this one a deliberate pause: at 05:52–05:53 EST the operator
+  stopped the soak + gate (SIGKILL after the 60 s stop timeout),
+  MASKED aesir-gate.service + watchdog service + timer, and
+  moved the unit files to *.qs5-paused (preserved intact,
+  byte-identical). Then ollama surgery + a "zo-rev-7b" bench
+  unit — the zo bench line again. Soak 2 to the stop: 11/11
+  requests OK, memory flat, NRestarts=0 (logs soak2-*.log).
+  Masked = cannot self-heal; QS-5 did not unmask (above this
+  seat — escalated to the coordinator as a three-strike
+  coordination failure). Also recorded: after the 05:37
+  re-enable the watchdog timer showed Started but fired no
+  runs before the mask (soak 1: fired every 2 min) — to be
+  investigated on restoration. Soak + QS-5.5 kill test OWED,
+  pending a protected window. Full record in QS-5-NOTES.md.

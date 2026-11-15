@@ -1,0 +1,23 @@
+[Unit]
+Description=Aesir gate serve - Qwen3.8-27B Q8_0 resident (CPU, qwen35 profile) on port 18434 (QS-5 permanent)
+After=network.target mnt-vault.mount
+RequiresMountsFor=/mnt/vault
+StartLimitIntervalSec=600
+StartLimitBurst=5
+
+[Service]
+Type=simple
+User=volmarr
+WorkingDirectory=/home/volmarr/aesir-gate-serve
+Environment=LD_LIBRARY_PATH=/home/volmarr/aesir-gate-serve/hidden_files/hip-serve/shims
+ExecStart=/home/volmarr/aesir-gate-serve/.aesir/aesir serve /mnt/vault/models/gguf/Qwen3.8-27B-Ultimate-Heretic-Uncn-Turbo-Brilli-50x-AGI-NEO-Q8_0.gguf --accel cpu --profile qwen35 --qwen35-resident --api-key-file /home/volmarr/.config/aesir/service.key --context 4096 --max-tokens 512 --timeout-ms 900000 --port 18434
+Restart=on-failure
+RestartSec=10s
+MemoryHigh=40G
+MemoryMax=52G
+TimeoutStopSec=60s
+StandardOutput=append:/home/volmarr/aesir-gate-serve/hidden_files/qwen35-speed/aesir-gate-permanent.log
+StandardError=append:/home/volmarr/aesir-gate-serve/hidden_files/qwen35-speed/aesir-gate-permanent.log
+
+[Install]
+WantedBy=multi-user.target

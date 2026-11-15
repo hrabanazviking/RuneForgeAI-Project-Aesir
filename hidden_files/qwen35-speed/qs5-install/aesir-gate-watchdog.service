@@ -1,0 +1,9 @@
+[Unit]
+Description=Aesir gate watchdog health check (QS-5)
+After=network.target
+Wants=aesir-gate.service
+
+[Service]
+Type=oneshot
+User=root
+ExecStart=/usr/local/sbin/aesir-gate-health.sh
