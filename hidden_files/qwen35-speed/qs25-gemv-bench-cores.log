@@ -1,0 +1,31 @@
+Secondary CUID not available: AMDCUID support not enabled.
+SHAPE rows= 17408  cols= 5120  weight_bytes= 94699520
+V4 ms_per_rep= 1.044398  GB_s= 90.67378528109016
+MAXDIFF old_vs_v4= 0.0
+V5 ms_per_rep= 0.7032818  GB_s= 134.65373339676927
+MAXDIFF old_vs_v5= 0.0
+V6 ms_per_rep= 0.5405414000000001  GB_s= 175.19383344180483
+MAXDIFF old_vs_v6= 0.0
+V7 ms_per_rep= 0.4935854  GB_s= 191.86045616422206
+MAXDIFF old_vs_v7= 0.0
+V8 ms_per_rep= 0.475263  GB_s= 199.25708502450223
+MAXDIFF old_vs_v8= 0.0
+OLD ms_per_rep= 70.183756  GB_s= 1.3493082359399518
+NEW ms_per_rep= 1.7611325999999998  GB_s= 53.77194198778672
+MAXDIFF old_vs_new= 0.0
+SHAPE rows= 248320  cols= 5120  weight_bytes= 1350860800
+V4 ms_per_rep= 14.079850799999999  GB_s= 95.94283484878973
+MAXDIFF old_vs_v4= 0.0
+V5 ms_per_rep= 9.2354196  GB_s= 146.26956418959028
+MAXDIFF old_vs_v5= 0.0
+V6 ms_per_rep= 7.151439000000001  GB_s= 188.89356393867027
+MAXDIFF old_vs_v6= 0.0
+V7 ms_per_rep= 6.7580752  GB_s= 199.88839425758388
+MAXDIFF old_vs_v7= 0.0
+V8 ms_per_rep= 6.4444262  GB_s= 209.6169244672241
+MAXDIFF old_vs_v8= 0.0
+OLD ms_per_rep= 3053.9732534  GB_s= 0.44232895572876474
+NEW ms_per_rep= 20.538629800000002  GB_s= 65.77170985378976
+MAXDIFF old_vs_new= 0.0
+QS2_GEMV_BENCH DONE
+Warning: Resource leak detected by SharedSignalPool, 89 Signals leaked.

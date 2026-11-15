@@ -1,0 +1,109 @@
+Secondary CUID not available: AMDCUID support not enabled.
+Q35-6 HIP gate ok: device= AMD Radeon 8060S Graphics
+MimirWell initialized with 37896704 derived bytes.
+GGUF validated: 56 tensors, 23 metadata entries, architecture qwen35
+Q35-6 (a) executor constructed: layers= 4  ssm_layers= 3  attn_layers= 1
+QS_PROF wall_us= 2970  gemm_us= 429  gemm_n= 32  ssm_us= 1091  ssm_n= 12  attn_us= 977  attn_n= 4  ffn_us= 41  ffn_n= 13  oth_us= 0  oth_n= 0  sync_us= 66  hostoth_us= 362  wssm_us= 0  watt_us= 0
+Q35-6 (b) pos= 0  s_diff= 7.450581e-09  conv_diff= 0.0  logits_diff= 0.0009765625  dev_argmax_rank_in_cpu= 1  gap= 0.0
+QS_PROF wall_us= 561  gemm_us= 75  gemm_n= 32  ssm_us= 62  ssm_n= 12  attn_us= 39  attn_n= 4  ffn_us= 35  ffn_n= 13  oth_us= 0  oth_n= 0  sync_us= 317  hostoth_us= 31  wssm_us= 0  watt_us= 0
+Q35-6 (b) pos= 1  s_diff= 7.450581e-09  conv_diff= 0.001953125  logits_diff= 0.0078125  dev_argmax_rank_in_cpu= 1  gap= 0.0
+QS_PROF wall_us= 542  gemm_us= 65  gemm_n= 32  ssm_us= 36  ssm_n= 12  attn_us= 27  attn_n= 4  ffn_us= 21  ffn_n= 13  oth_us= 0  oth_n= 0  sync_us= 370  hostoth_us= 20  wssm_us= 0  watt_us= 0
+Q35-6 (b) pos= 2  s_diff= 5.9604645e-08  conv_diff= 0.001953125  logits_diff= 0.0078125  dev_argmax_rank_in_cpu= 1  gap= 0.0
+QS_PROF wall_us= 539  gemm_us= 80  gemm_n= 32  ssm_us= 38  ssm_n= 12  attn_us= 25  attn_n= 4  ffn_us= 28  ffn_n= 13  oth_us= 0  oth_n= 0  sync_us= 341  hostoth_us= 25  wssm_us= 0  watt_us= 0
+Q35-6 (b) pos= 3  s_diff= 5.9604645e-08  conv_diff= 0.001953125  logits_diff= 0.0078125  dev_argmax_rank_in_cpu= 1  gap= 0.0
+Q35-6 (b) WORST s= 5.9604645e-08  conv= 0.001953125  logits= 0.0078125  rank= 1  gap= 0.0
+Q35-6 (b) BAND q35-3a(c): s 0.0008479953 / conv 0.0078125 / logits 0.013671875
+QS_PROF wall_us= 498  gemm_us= 70  gemm_n= 32  ssm_us= 35  ssm_n= 12  attn_us= 23  attn_n= 4  ffn_us= 35  ffn_n= 13  oth_us= 0  oth_n= 0  sync_us= 320  hostoth_us= 11  wssm_us= 0  watt_us= 0
+QS_PROF wall_us= 416  gemm_us= 68  gemm_n= 32  ssm_us= 44  ssm_n= 12  attn_us= 25  attn_n= 4  ffn_us= 29  ffn_n= 13  oth_us= 0  oth_n= 0  sync_us= 226  hostoth_us= 21  wssm_us= 0  watt_us= 0
+QS_PROF wall_us= 384  gemm_us= 71  gemm_n= 32  ssm_us= 42  ssm_n= 12  attn_us= 25  attn_n= 4  ffn_us= 27  ffn_n= 13  oth_us= 0  oth_n= 0  sync_us= 198  hostoth_us= 18  wssm_us= 0  watt_us= 0
+QS_PROF wall_us= 399  gemm_us= 68  gemm_n= 32  ssm_us= 48  ssm_n= 12  attn_us= 34  attn_n= 4  ffn_us= 27  ffn_n= 13  oth_us= 0  oth_n= 0  sync_us= 205  hostoth_us= 14  wssm_us= 0  watt_us= 0
+QS_PROF wall_us= 382  gemm_us= 68  gemm_n= 32  ssm_us= 41  ssm_n= 12  attn_us= 25  attn_n= 4  ffn_us= 27  ffn_n= 13  oth_us= 0  oth_n= 0  sync_us= 199  hostoth_us= 19  wssm_us= 0  watt_us= 0
+QS_PROF wall_us= 561  gemm_us= 71  gemm_n= 32  ssm_us= 37  ssm_n= 12  attn_us= 23  attn_n= 4  ffn_us= 27  ffn_n= 13  oth_us= 0  oth_n= 0  sync_us= 375  hostoth_us= 26  wssm_us= 0  watt_us= 0
+QS_PROF wall_us= 399  gemm_us= 69  gemm_n= 32  ssm_us= 42  ssm_n= 12  attn_us= 27  attn_n= 4  ffn_us= 36  ffn_n= 13  oth_us= 0  oth_n= 0  sync_us= 203  hostoth_us= 20  wssm_us= 0  watt_us= 0
+QS_PROF wall_us= 399  gemm_us= 70  gemm_n= 32  ssm_us= 45  ssm_n= 12  attn_us= 26  attn_n= 4  ffn_us= 27  ffn_n= 13  oth_us= 0  oth_n= 0  sync_us= 208  hostoth_us= 21  wssm_us= 0  watt_us= 0
+QS_PROF wall_us= 408  gemm_us= 86  gemm_n= 32  ssm_us= 39  ssm_n= 12  attn_us= 24  attn_n= 4  ffn_us= 29  ffn_n= 13  oth_us= 0  oth_n= 0  sync_us= 208  hostoth_us= 18  wssm_us= 0  watt_us= 0
+QS_PROF wall_us= 402  gemm_us= 71  gemm_n= 32  ssm_us= 44  ssm_n= 12  attn_us= 28  attn_n= 4  ffn_us= 26  ffn_n= 13  oth_us= 0  oth_n= 0  sync_us= 210  hostoth_us= 21  wssm_us= 0  watt_us= 0
+QS_PROF wall_us= 385  gemm_us= 86  gemm_n= 32  ssm_us= 40  ssm_n= 12  attn_us= 26  attn_n= 4  ffn_us= 36  ffn_n= 13  oth_us= 0  oth_n= 0  sync_us= 167  hostoth_us= 27  wssm_us= 0  watt_us= 0
+QS_PROF wall_us= 422  gemm_us= 71  gemm_n= 32  ssm_us= 48  ssm_n= 12  attn_us= 25  attn_n= 4  ffn_us= 26  ffn_n= 13  oth_us= 0  oth_n= 0  sync_us= 237  hostoth_us= 12  wssm_us= 0  watt_us= 0
+QS_PROF wall_us= 420  gemm_us= 71  gemm_n= 32  ssm_us= 50  ssm_n= 12  attn_us= 25  attn_n= 4  ffn_us= 28  ffn_n= 13  oth_us= 0  oth_n= 0  sync_us= 224  hostoth_us= 19  wssm_us= 0  watt_us= 0
+QS_PROF wall_us= 571  gemm_us= 69  gemm_n= 32  ssm_us= 40  ssm_n= 12  attn_us= 32  attn_n= 4  ffn_us= 27  ffn_n= 13  oth_us= 0  oth_n= 0  sync_us= 369  hostoth_us= 33  wssm_us= 0  watt_us= 0
+QS_PROF wall_us= 407  gemm_us= 86  gemm_n= 32  ssm_us= 48  ssm_n= 12  attn_us= 26  attn_n= 4  ffn_us= 26  ffn_n= 13  oth_us= 0  oth_n= 0  sync_us= 204  hostoth_us= 14  wssm_us= 0  watt_us= 0
+QS_PROF wall_us= 411  gemm_us= 80  gemm_n= 32  ssm_us= 50  ssm_n= 12  attn_us= 28  attn_n= 4  ffn_us= 29  ffn_n= 13  oth_us= 0  oth_n= 0  sync_us= 199  hostoth_us= 22  wssm_us= 0  watt_us= 0
+Q35-6 (c) cpu_greedy= 679 194 893 673 322 687 585 758 136 104 316 224 916 54 103 47 
+Q35-6 (c) dev_greedy= 679 194 893 673 322 687 585 758 136 104 316 224 916 54 103 47 
+Q35-6 (c) greedy_identical= True
+QS_PROF wall_us= 781  gemm_us= 92  gemm_n= 32  ssm_us= 82  ssm_n= 12  attn_us= 45  attn_n= 4  ffn_us= 45  ffn_n= 13  oth_us= 0  oth_n= 0  sync_us= 464  hostoth_us= 51  wssm_us= 0  watt_us= 0
+QS_PROF wall_us= 385  gemm_us= 99  gemm_n= 32  ssm_us= 48  ssm_n= 12  attn_us= 27  attn_n= 4  ffn_us= 47  ffn_n= 13  oth_us= 0  oth_n= 0  sync_us= 149  hostoth_us= 11  wssm_us= 0  watt_us= 0
+QS_PROF wall_us= 360  gemm_us= 92  gemm_n= 32  ssm_us= 56  ssm_n= 12  attn_us= 28  attn_n= 4  ffn_us= 38  ffn_n= 13  oth_us= 0  oth_n= 0  sync_us= 132  hostoth_us= 13  wssm_us= 0  watt_us= 0
+QS_PROF wall_us= 361  gemm_us= 109  gemm_n= 32  ssm_us= 58  ssm_n= 12  attn_us= 35  attn_n= 4  ffn_us= 29  ffn_n= 13  oth_us= 0  oth_n= 0  sync_us= 101  hostoth_us= 25  wssm_us= 0  watt_us= 0
+Q35-6 (d) batched_vs_loop state_diff= 0.0  logits_diff= 0.0
+QS_PROF wall_us= 926  gemm_us= 74  gemm_n= 31  ssm_us= 61  ssm_n= 12  attn_us= 40  attn_n= 4  ffn_us= 34  ffn_n= 12  oth_us= 0  oth_n= 0  sync_us= 695  hostoth_us= 21  wssm_us= 0  watt_us= 0
+QS_PROF wall_us= 341  gemm_us= 72  gemm_n= 31  ssm_us= 38  ssm_n= 12  attn_us= 24  attn_n= 4  ffn_us= 27  ffn_n= 12  oth_us= 0  oth_n= 0  sync_us= 172  hostoth_us= 6  wssm_us= 0  watt_us= 0
+QS_PROF wall_us= 338  gemm_us= 73  gemm_n= 31  ssm_us= 36  ssm_n= 12  attn_us= 23  attn_n= 4  ffn_us= 24  ffn_n= 12  oth_us= 0  oth_n= 0  sync_us= 173  hostoth_us= 7  wssm_us= 0  watt_us= 0
+QS_PROF wall_us= 344  gemm_us= 72  gemm_n= 31  ssm_us= 37  ssm_n= 12  attn_us= 30  attn_n= 4  ffn_us= 24  ffn_n= 12  oth_us= 0  oth_n= 0  sync_us= 172  hostoth_us= 5  wssm_us= 0  watt_us= 0
+QS_PROF wall_us= 342  gemm_us= 65  gemm_n= 31  ssm_us= 38  ssm_n= 12  attn_us= 24  attn_n= 4  ffn_us= 32  ffn_n= 12  oth_us= 0  oth_n= 0  sync_us= 173  hostoth_us= 7  wssm_us= 0  watt_us= 0
+QS_PROF wall_us= 357  gemm_us= 65  gemm_n= 31  ssm_us= 36  ssm_n= 12  attn_us= 24  attn_n= 4  ffn_us= 30  ffn_n= 12  oth_us= 0  oth_n= 0  sync_us= 194  hostoth_us= 6  wssm_us= 0  watt_us= 0
+QS_PROF wall_us= 322  gemm_us= 70  gemm_n= 31  ssm_us= 35  ssm_n= 12  attn_us= 19  attn_n= 4  ffn_us= 29  ffn_n= 12  oth_us= 0  oth_n= 0  sync_us= 160  hostoth_us= 6  wssm_us= 0  watt_us= 0
+QS_PROF wall_us= 349  gemm_us= 76  gemm_n= 31  ssm_us= 48  ssm_n= 12  attn_us= 23  attn_n= 4  ffn_us= 25  ffn_n= 12  oth_us= 0  oth_n= 0  sync_us= 169  hostoth_us= 6  wssm_us= 0  watt_us= 0
+QS_PROF wall_us= 348  gemm_us= 69  gemm_n= 31  ssm_us= 43  ssm_n= 12  attn_us= 22  attn_n= 4  ffn_us= 24  ffn_n= 12  oth_us= 0  oth_n= 0  sync_us= 173  hostoth_us= 15  wssm_us= 0  watt_us= 0
+QS_PROF wall_us= 348  gemm_us= 114  gemm_n= 31  ssm_us= 51  ssm_n= 12  attn_us= 30  attn_n= 4  ffn_us= 35  ffn_n= 12  oth_us= 0  oth_n= 0  sync_us= 103  hostoth_us= 13  wssm_us= 0  watt_us= 0
+QS_PROF wall_us= 366  gemm_us= 91  gemm_n= 31  ssm_us= 42  ssm_n= 12  attn_us= 27  attn_n= 4  ffn_us= 27  ffn_n= 12  oth_us= 0  oth_n= 0  sync_us= 162  hostoth_us= 13  wssm_us= 0  watt_us= 0
+QS_PROF wall_us= 372  gemm_us= 83  gemm_n= 31  ssm_us= 43  ssm_n= 12  attn_us= 36  attn_n= 4  ffn_us= 26  ffn_n= 12  oth_us= 0  oth_n= 0  sync_us= 172  hostoth_us= 10  wssm_us= 0  watt_us= 0
+QS_PROF wall_us= 377  gemm_us= 88  gemm_n= 31  ssm_us= 57  ssm_n= 12  attn_us= 40  attn_n= 4  ffn_us= 30  ffn_n= 12  oth_us= 0  oth_n= 0  sync_us= 125  hostoth_us= 35  wssm_us= 0  watt_us= 0
+QS_PROF wall_us= 373  gemm_us= 73  gemm_n= 31  ssm_us= 43  ssm_n= 12  attn_us= 28  attn_n= 4  ffn_us= 28  ffn_n= 12  oth_us= 0  oth_n= 0  sync_us= 190  hostoth_us= 7  wssm_us= 0  watt_us= 0
+QS_PROF wall_us= 360  gemm_us= 71  gemm_n= 31  ssm_us= 41  ssm_n= 12  attn_us= 25  attn_n= 4  ffn_us= 27  ffn_n= 12  oth_us= 0  oth_n= 0  sync_us= 187  hostoth_us= 6  wssm_us= 0  watt_us= 0
+QS_PROF wall_us= 366  gemm_us= 60  gemm_n= 31  ssm_us= 33  ssm_n= 12  attn_us= 25  attn_n= 4  ffn_us= 24  ffn_n= 12  oth_us= 0  oth_n= 0  sync_us= 208  hostoth_us= 14  wssm_us= 0  watt_us= 0
+QS_PROF wall_us= 389  gemm_us= 63  gemm_n= 31  ssm_us= 37  ssm_n= 12  attn_us= 31  attn_n= 4  ffn_us= 33  ffn_n= 12  oth_us= 0  oth_n= 0  sync_us= 211  hostoth_us= 11  wssm_us= 0  watt_us= 0
+QS_PROF wall_us= 374  gemm_us= 65  gemm_n= 31  ssm_us= 37  ssm_n= 12  attn_us= 24  attn_n= 4  ffn_us= 23  ffn_n= 12  oth_us= 0  oth_n= 0  sync_us= 219  hostoth_us= 5  wssm_us= 0  watt_us= 0
+QS_PROF wall_us= 384  gemm_us= 71  gemm_n= 31  ssm_us= 35  ssm_n= 12  attn_us= 24  attn_n= 4  ffn_us= 25  ffn_n= 12  oth_us= 0  oth_n= 0  sync_us= 221  hostoth_us= 5  wssm_us= 0  watt_us= 0
+QS_PROF wall_us= 377  gemm_us= 61  gemm_n= 31  ssm_us= 35  ssm_n= 12  attn_us= 24  attn_n= 4  ffn_us= 23  ffn_n= 12  oth_us= 0  oth_n= 0  sync_us= 225  hostoth_us= 5  wssm_us= 0  watt_us= 0
+QS_PROF wall_us= 379  gemm_us= 65  gemm_n= 31  ssm_us= 38  ssm_n= 12  attn_us= 24  attn_n= 4  ffn_us= 33  ffn_n= 12  oth_us= 0  oth_n= 0  sync_us= 212  hostoth_us= 5  wssm_us= 0  watt_us= 0
+QS_PROF wall_us= 379  gemm_us= 67  gemm_n= 31  ssm_us= 35  ssm_n= 12  attn_us= 23  attn_n= 4  ffn_us= 23  ffn_n= 12  oth_us= 0  oth_n= 0  sync_us= 224  hostoth_us= 5  wssm_us= 0  watt_us= 0
+QS_PROF wall_us= 386  gemm_us= 73  gemm_n= 31  ssm_us= 37  ssm_n= 12  attn_us= 24  attn_n= 4  ffn_us= 24  ffn_n= 12  oth_us= 0  oth_n= 0  sync_us= 212  hostoth_us= 14  wssm_us= 0  watt_us= 0
+QS_PROF wall_us= 391  gemm_us= 75  gemm_n= 31  ssm_us= 37  ssm_n= 12  attn_us= 31  attn_n= 4  ffn_us= 25  ffn_n= 12  oth_us= 0  oth_n= 0  sync_us= 208  hostoth_us= 13  wssm_us= 0  watt_us= 0
+QS_PROF wall_us= 399  gemm_us= 66  gemm_n= 31  ssm_us= 37  ssm_n= 12  attn_us= 25  attn_n= 4  ffn_us= 24  ffn_n= 12  oth_us= 0  oth_n= 0  sync_us= 233  hostoth_us= 11  wssm_us= 0  watt_us= 0
+QS_PROF wall_us= 379  gemm_us= 80  gemm_n= 31  ssm_us= 35  ssm_n= 12  attn_us= 32  attn_n= 4  ffn_us= 25  ffn_n= 12  oth_us= 0  oth_n= 0  sync_us= 200  hostoth_us= 6  wssm_us= 0  watt_us= 0
+QS_PROF wall_us= 414  gemm_us= 65  gemm_n= 31  ssm_us= 43  ssm_n= 12  attn_us= 22  attn_n= 4  ffn_us= 24  ffn_n= 12  oth_us= 0  oth_n= 0  sync_us= 246  hostoth_us= 11  wssm_us= 0  watt_us= 0
+QS_PROF wall_us= 407  gemm_us= 64  gemm_n= 31  ssm_us= 53  ssm_n= 12  attn_us= 24  attn_n= 4  ffn_us= 25  ffn_n= 12  oth_us= 0  oth_n= 0  sync_us= 229  hostoth_us= 11  wssm_us= 0  watt_us= 0
+QS_PROF wall_us= 393  gemm_us= 70  gemm_n= 31  ssm_us= 46  ssm_n= 12  attn_us= 23  attn_n= 4  ffn_us= 24  ffn_n= 12  oth_us= 0  oth_n= 0  sync_us= 223  hostoth_us= 5  wssm_us= 0  watt_us= 0
+QS_PROF wall_us= 422  gemm_us= 67  gemm_n= 31  ssm_us= 45  ssm_n= 12  attn_us= 23  attn_n= 4  ffn_us= 25  ffn_n= 12  oth_us= 0  oth_n= 0  sync_us= 248  hostoth_us= 12  wssm_us= 0  watt_us= 0
+QS_PROF wall_us= 429  gemm_us= 75  gemm_n= 31  ssm_us= 47  ssm_n= 12  attn_us= 35  attn_n= 4  ffn_us= 26  ffn_n= 12  oth_us= 0  oth_n= 0  sync_us= 213  hostoth_us= 31  wssm_us= 0  watt_us= 0
+QS_PROF wall_us= 415  gemm_us= 62  gemm_n= 31  ssm_us= 47  ssm_n= 12  attn_us= 25  attn_n= 4  ffn_us= 25  ffn_n= 12  oth_us= 0  oth_n= 0  sync_us= 246  hostoth_us= 8  wssm_us= 0  watt_us= 0
+QS_PROF wall_us= 406  gemm_us= 88  gemm_n= 31  ssm_us= 37  ssm_n= 12  attn_us= 66  attn_n= 4  ffn_us= 44  ffn_n= 12  oth_us= 0  oth_n= 0  sync_us= 160  hostoth_us= 10  wssm_us= 0  watt_us= 0
+QS_PROF wall_us= 399  gemm_us= 81  gemm_n= 31  ssm_us= 36  ssm_n= 12  attn_us= 34  attn_n= 4  ffn_us= 24  ffn_n= 12  oth_us= 0  oth_n= 0  sync_us= 215  hostoth_us= 7  wssm_us= 0  watt_us= 0
+QS_PROF wall_us= 414  gemm_us= 62  gemm_n= 31  ssm_us= 37  ssm_n= 12  attn_us= 33  attn_n= 4  ffn_us= 32  ffn_n= 12  oth_us= 0  oth_n= 0  sync_us= 243  hostoth_us= 5  wssm_us= 0  watt_us= 0
+QS_PROF wall_us= 421  gemm_us= 65  gemm_n= 31  ssm_us= 38  ssm_n= 12  attn_us= 32  attn_n= 4  ffn_us= 23  ffn_n= 12  oth_us= 0  oth_n= 0  sync_us= 256  hostoth_us= 5  wssm_us= 0  watt_us= 0
+QS_PROF wall_us= 421  gemm_us= 66  gemm_n= 31  ssm_us= 39  ssm_n= 12  attn_us= 24  attn_n= 4  ffn_us= 23  ffn_n= 12  oth_us= 0  oth_n= 0  sync_us= 260  hostoth_us= 6  wssm_us= 0  watt_us= 0
+QS_PROF wall_us= 429  gemm_us= 67  gemm_n= 31  ssm_us= 37  ssm_n= 12  attn_us= 32  attn_n= 4  ffn_us= 25  ffn_n= 12  oth_us= 0  oth_n= 0  sync_us= 256  hostoth_us= 10  wssm_us= 0  watt_us= 0
+QS_PROF wall_us= 439  gemm_us= 66  gemm_n= 31  ssm_us= 38  ssm_n= 12  attn_us= 24  attn_n= 4  ffn_us= 24  ffn_n= 12  oth_us= 0  oth_n= 0  sync_us= 273  hostoth_us= 11  wssm_us= 0  watt_us= 0
+QS_PROF wall_us= 433  gemm_us= 62  gemm_n= 31  ssm_us= 36  ssm_n= 12  attn_us= 24  attn_n= 4  ffn_us= 24  ffn_n= 12  oth_us= 0  oth_n= 0  sync_us= 273  hostoth_us= 11  wssm_us= 0  watt_us= 0
+QS_PROF wall_us= 454  gemm_us= 66  gemm_n= 31  ssm_us= 46  ssm_n= 12  attn_us= 24  attn_n= 4  ffn_us= 31  ffn_n= 12  oth_us= 0  oth_n= 0  sync_us= 275  hostoth_us= 9  wssm_us= 0  watt_us= 0
+QS_PROF wall_us= 426  gemm_us= 72  gemm_n= 31  ssm_us= 50  ssm_n= 12  attn_us= 25  attn_n= 4  ffn_us= 23  ffn_n= 12  oth_us= 0  oth_n= 0  sync_us= 244  hostoth_us= 10  wssm_us= 0  watt_us= 0
+QS_PROF wall_us= 448  gemm_us= 70  gemm_n= 31  ssm_us= 47  ssm_n= 12  attn_us= 28  attn_n= 4  ffn_us= 25  ffn_n= 12  oth_us= 0  oth_n= 0  sync_us= 260  hostoth_us= 16  wssm_us= 0  watt_us= 0
+QS_PROF wall_us= 443  gemm_us= 70  gemm_n= 31  ssm_us= 39  ssm_n= 12  attn_us= 24  attn_n= 4  ffn_us= 24  ffn_n= 12  oth_us= 0  oth_n= 0  sync_us= 272  hostoth_us= 13  wssm_us= 0  watt_us= 0
+QS_PROF wall_us= 441  gemm_us= 67  gemm_n= 31  ssm_us= 46  ssm_n= 12  attn_us= 33  attn_n= 4  ffn_us= 25  ffn_n= 12  oth_us= 0  oth_n= 0  sync_us= 250  hostoth_us= 17  wssm_us= 0  watt_us= 0
+QS_PROF wall_us= 459  gemm_us= 66  gemm_n= 31  ssm_us= 37  ssm_n= 12  attn_us= 24  attn_n= 4  ffn_us= 25  ffn_n= 12  oth_us= 0  oth_n= 0  sync_us= 289  hostoth_us= 16  wssm_us= 0  watt_us= 0
+QS_PROF wall_us= 464  gemm_us= 63  gemm_n= 31  ssm_us= 48  ssm_n= 12  attn_us= 25  attn_n= 4  ffn_us= 24  ffn_n= 12  oth_us= 0  oth_n= 0  sync_us= 294  hostoth_us= 8  wssm_us= 0  watt_us= 0
+QS_PROF wall_us= 451  gemm_us= 77  gemm_n= 31  ssm_us= 37  ssm_n= 12  attn_us= 25  attn_n= 4  ffn_us= 33  ffn_n= 12  oth_us= 0  oth_n= 0  sync_us= 271  hostoth_us= 6  wssm_us= 0  watt_us= 0
+QS_PROF wall_us= 452  gemm_us= 73  gemm_n= 31  ssm_us= 48  ssm_n= 12  attn_us= 23  attn_n= 4  ffn_us= 25  ffn_n= 12  oth_us= 0  oth_n= 0  sync_us= 276  hostoth_us= 6  wssm_us= 0  watt_us= 0
+QS_PROF wall_us= 456  gemm_us= 65  gemm_n= 31  ssm_us= 40  ssm_n= 12  attn_us= 25  attn_n= 4  ffn_us= 26  ffn_n= 12  oth_us= 0  oth_n= 0  sync_us= 292  hostoth_us= 6  wssm_us= 0  watt_us= 0
+QS_PROF wall_us= 461  gemm_us= 64  gemm_n= 31  ssm_us= 36  ssm_n= 12  attn_us= 23  attn_n= 4  ffn_us= 31  ffn_n= 12  oth_us= 0  oth_n= 0  sync_us= 296  hostoth_us= 8  wssm_us= 0  watt_us= 0
+QS_PROF wall_us= 456  gemm_us= 65  gemm_n= 31  ssm_us= 37  ssm_n= 12  attn_us= 24  attn_n= 4  ffn_us= 25  ffn_n= 12  oth_us= 0  oth_n= 0  sync_us= 295  hostoth_us= 7  wssm_us= 0  watt_us= 0
+QS_PROF wall_us= 454  gemm_us= 72  gemm_n= 31  ssm_us= 46  ssm_n= 12  attn_us= 23  attn_n= 4  ffn_us= 25  ffn_n= 12  oth_us= 0  oth_n= 0  sync_us= 278  hostoth_us= 8  wssm_us= 0  watt_us= 0
+QS_PROF wall_us= 472  gemm_us= 65  gemm_n= 31  ssm_us= 37  ssm_n= 12  attn_us= 24  attn_n= 4  ffn_us= 26  ffn_n= 12  oth_us= 0  oth_n= 0  sync_us= 305  hostoth_us= 13  wssm_us= 0  watt_us= 0
+QS_PROF wall_us= 475  gemm_us= 65  gemm_n= 31  ssm_us= 40  ssm_n= 12  attn_us= 24  attn_n= 4  ffn_us= 25  ffn_n= 12  oth_us= 0  oth_n= 0  sync_us= 305  hostoth_us= 13  wssm_us= 0  watt_us= 0
+QS_PROF wall_us= 488  gemm_us= 71  gemm_n= 31  ssm_us= 36  ssm_n= 12  attn_us= 33  attn_n= 4  ffn_us= 25  ffn_n= 12  oth_us= 0  oth_n= 0  sync_us= 308  hostoth_us= 13  wssm_us= 0  watt_us= 0
+QS_PROF wall_us= 495  gemm_us= 64  gemm_n= 31  ssm_us= 44  ssm_n= 12  attn_us= 25  attn_n= 4  ffn_us= 24  ffn_n= 12  oth_us= 0  oth_n= 0  sync_us= 323  hostoth_us= 13  wssm_us= 0  watt_us= 0
+QS_PROF wall_us= 486  gemm_us= 74  gemm_n= 31  ssm_us= 37  ssm_n= 12  attn_us= 25  attn_n= 4  ffn_us= 25  ffn_n= 12  oth_us= 0  oth_n= 0  sync_us= 309  hostoth_us= 14  wssm_us= 0  watt_us= 0
+QS_PROF wall_us= 495  gemm_us= 67  gemm_n= 31  ssm_us= 35  ssm_n= 12  attn_us= 22  attn_n= 4  ffn_us= 23  ffn_n= 12  oth_us= 0  oth_n= 0  sync_us= 330  hostoth_us= 15  wssm_us= 0  watt_us= 0
+QS_PROF wall_us= 491  gemm_us= 66  gemm_n= 31  ssm_us= 35  ssm_n= 12  attn_us= 22  attn_n= 4  ffn_us= 25  ffn_n= 12  oth_us= 0  oth_n= 0  sync_us= 328  hostoth_us= 13  wssm_us= 0  watt_us= 0
+QS_PROF wall_us= 491  gemm_us= 66  gemm_n= 31  ssm_us= 35  ssm_n= 12  attn_us= 25  attn_n= 4  ffn_us= 26  ffn_n= 12  oth_us= 0  oth_n= 0  sync_us= 331  hostoth_us= 7  wssm_us= 0  watt_us= 0
+QS_PROF wall_us= 495  gemm_us= 66  gemm_n= 31  ssm_us= 37  ssm_n= 12  attn_us= 24  attn_n= 4  ffn_us= 24  ffn_n= 12  oth_us= 0  oth_n= 0  sync_us= 333  hostoth_us= 8  wssm_us= 0  watt_us= 0
+QS_PROF wall_us= 500  gemm_us= 73  gemm_n= 31  ssm_us= 38  ssm_n= 12  attn_us= 24  attn_n= 4  ffn_us= 24  ffn_n= 12  oth_us= 0  oth_n= 0  sync_us= 333  hostoth_us= 6  wssm_us= 0  watt_us= 0
+QS_PROF wall_us= 502  gemm_us= 67  gemm_n= 31  ssm_us= 38  ssm_n= 12  attn_us= 25  attn_n= 4  ffn_us= 24  ffn_n= 12  oth_us= 0  oth_n= 0  sync_us= 341  hostoth_us= 5  wssm_us= 0  watt_us= 0
+Q35-6 (e) prefill 64 tokens: gemv_loop_ms= 27.444444  batched_ms= 6.407197  gemv_loop_tok_s= 2331.9838434329367  batched_tok_s= 9988.767319000804
+QS_PROF wall_us= 500  gemm_us= 231  gemm_n= 94  ssm_us= 1412  ssm_n= 36  attn_us= 80  attn_n= 12  ffn_us= 76  ffn_n= 37  oth_us= 0  oth_n= 0  sync_us= 5027  hostoth_us= -6328  wssm_us= 0  watt_us= 0
+QS_PROF wall_us= 1189  gemm_us= 77  gemm_n= 32  ssm_us= 48  ssm_n= 12  attn_us= 31  attn_n= 4  ffn_us= 26  ffn_n= 13  oth_us= 0  oth_n= 0  sync_us= 975  hostoth_us= 30  wssm_us= 0  watt_us= 0
+Q35-6 (f) snapshot_restore_continuation_logits_diff= 0.0
+Q35_6_TEST ALL PASS
+Warning: Resource leak detected by SharedSignalPool, 608 Signals leaked.

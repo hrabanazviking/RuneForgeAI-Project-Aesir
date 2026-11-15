@@ -1,0 +1,34 @@
+Secondary CUID not available: AMDCUID support not enabled.
+PROMPT TOKENS: 5
+EXECUTOR LOADED: layers= 64  vocab= 248320
+MimirWell initialized with 4232837120 derived bytes.
+GGUF validated: 851 tensors, 48 metadata entries, architecture qwen35
+Qwen35 resident load: mode=q8_0_resident large_tensors=498 q8_0_bytes=28574187520 f16_materialized_bytes_avoided=53786705920
+GEN IDS: 11751 13 271 4639 369 4252 13 2972 57590 332 369 279 6511 321 1379 91188 3177 314 9338 13 1049 369 7172 303 279 9897 81183 919 314 279 3046 3055 279 181474 10629 321 369 264 3478 3521 
+GEN TEXT:  Paris.
+
+That is correct. **Paris** is the capital and most populous city of France. It is located in the north-central part of the country along the Seine River and is a major global
+Warning: Resource leak detected by SharedSignalPool, 116 Signals leaked.
+	Command being timed: "/home/volmarr/aesir-qs-phase/hidden_files/qwen35-speed/grade_qwen35_hip_q35_6b.qs25 gen /mnt/vault/models/gguf/Qwen3.8-27B-Ultimate-Heretic-Uncn-Turbo-Brilli-50x-AGI-NEO-Q8_0.gguf q35-3b-tokens.txt 0 40"
+	User time (seconds): 19.31
+	System time (seconds): 19.19
+	Percent of CPU this job got: 96%
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 0:39.84
+	Average shared text size (kbytes): 0
+	Average unshared data size (kbytes): 0
+	Average stack size (kbytes): 0
+	Average total size (kbytes): 0
+	Maximum resident set size (kbytes): 29974528
+	Average resident set size (kbytes): 0
+	Major (requiring I/O) page faults: 2255
+	Minor (reclaiming a frame) page faults: 1943449
+	Voluntary context switches: 2798
+	Involuntary context switches: 1058
+	Swaps: 0
+	File system inputs: 2873664
+	File system outputs: 24
+	Socket messages sent: 0
+	Socket messages received: 0
+	Signals delivered: 0
+	Page size (bytes): 4096
+	Exit status: 0
