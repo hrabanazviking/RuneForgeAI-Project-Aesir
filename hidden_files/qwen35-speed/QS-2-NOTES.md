@@ -145,3 +145,29 @@ Codebase-proven GPU idioms only (no exotic APIs):
 - Attribution stash: pre-fusion binaries kept as *.gemv2
   beside the *.base baseline copies, so the heavy window
   can gen-pair base vs gemv2 vs fused builds separately.
+
+## QS-2.4 — recurrent step fusion (fixture-proven)
+
+- _delta_norm_kernel: the Gated-DeltaNet delta step and
+  the gated RMSNorm fused into one launch per SSM layer
+  per row (-48 launches/token). Phase 1 is the delta body
+  verbatim; phase 2 sums val^2 through shared memory
+  (256 floats) with a block barrier, then applies the
+  gated norm in place. Design history: a warp.sum tree
+  version was replaced by the shared-memory version
+  because the fixture d_state is 16 (a warp would span
+  two v-heads) — the shared version is one code path for
+  every d_state dividing the 256-thread block (fixture
+  16, real file 128); other geometries keep the original
+  two-kernel path (host branch).
+- Fixture (qs2-fixture-fuse3.log): ALL PASS, fused branch
+  genuinely taken (16 divides 256); (b) diffs
+  digit-identical to the unfused runs; (d) 0.0/0.0 and
+  (f) 0.0 EXACT; (e) GEMV loop 50.76 ms (1,261 tok/s),
+  batched 9.29 ms (6,889 tok/s — above the banked 6,780).
+- Launch census now: ~700 - 96 (ring) - 48 (gated norm)
+  = ~556 launches/token. Remaining big blocks: per-layer
+  _copy + 2x _rmsnorm (1 active thread each at batch 1),
+  FFN silu_mul, residual _add — QS-2.3 continues after
+  the real-scale profile (gen pairs) names the true
+  ceiling: bandwidth vs launch vs serial-norm latency.

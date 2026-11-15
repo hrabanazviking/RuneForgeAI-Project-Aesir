@@ -34,6 +34,9 @@
 # A-082: HIP gate not satisfied => raise, no host fallback.
 
 from std.gpu import global_idx
+from std.gpu import thread_idx
+from std.memory import stack_allocation, AddressSpace
+from max.gpu import barrier
 from std.gpu.primitives import warp
 from std.memory import Pointer
 from std.math import sqrt, exp, log, cos, sin
@@ -508,6 +511,72 @@ def _delta_kernel(w: Bytes, a: Floats, st: Floats, ssm_a_arg: Int64, kind_arg: I
         a.unsafe_store(Int(scr_arg) + (row * Int(v_heads_arg) + vh) * d_state + j, acc * head_scale)
 
 
+def _delta_norm_kernel(w: Bytes, a: Floats, st: Floats, ssm_a_arg: Int64, kind_arg: Int64, conv_arg: Int64, alpha_arg: Int64, beta_arg: Int64, dt_bias_arg: Int64, scr_arg: Int64, s_base_arg: Int64, conv_dim_arg: Int64, qk_band_arg: Int64, d_state_arg: Int64, v_heads_arg: Int64, groups_arg: Int64, row_arg: Int64, normw_arg: Int64, z_arg: Int64, y_arg: Int64, eps: Float32):
+    """QS-2.4: _delta_kernel + _gated_norm_kernel fused into
+    one launch (the Gated-DeltaNet step for one row). Phase 1
+    is the delta body verbatim (thread per (v_head, j)); the
+    readout then goes through the gated per-head RMSNorm in
+    the same kernel: per-warp warp.sum partials over j are
+    combined through shared memory (valid when d_state
+    divides the 256-thread block so a v-head never
+    straddles a block; the host falls back to the
+    two-kernel path otherwise). The
+    norm scale sum order differs from the sequential gated
+    norm (tree vs linear) -- an f32 rounding-class
+    difference only; the store is the same f16 rounding."""
+    var d_state = Int(d_state_arg)
+    var qk_band = Int(qk_band_arg)
+    var conv_dim = Int(conv_dim_arg)
+    var row = Int(row_arg)
+    var idx = Int(global_idx.x)
+    var active = idx < Int(v_heads_arg) * d_state
+    var vh = idx // d_state
+    var j = idx % d_state
+    var val: Float32 = 0.0
+    if active:
+        var g = vh % Int(groups_arg)  # Q35-3b U1 tiled broadcast (see _delta_kernel)
+        var q_off = g * d_state
+        var k_off = qk_band + g * d_state
+        var v_off = 2 * qk_band + vh * d_state
+        var cbase = Int(conv_arg) + row * conv_dim
+        var a_val = _small_value(w, Int(ssm_a_arg), Int(kind_arg), vh)
+        var dt = _softplus(a.unsafe_load(Int(alpha_arg) + row * Int(v_heads_arg) + vh) + _small_value(w, Int(dt_bias_arg), Int(kind_arg), vh))
+        var decay = exp(a_val * dt)
+        var beta = _sigmoid(a.unsafe_load(Int(beta_arg) + row * Int(v_heads_arg) + vh))
+        var s_head = Int(s_base_arg) + vh * d_state * d_state
+        for i in range(d_state):
+            var idxi = s_head + i * d_state + j
+            st.unsafe_store(idxi, st.unsafe_load(idxi) * decay)
+        var mem: Float32 = 0.0
+        for i in range(d_state):
+            mem += st.unsafe_load(s_head + i * d_state + j) * a.unsafe_load(cbase + k_off + i)
+        var delta = (a.unsafe_load(cbase + v_off + j) - mem) * beta
+        for i in range(d_state):
+            var idxi = s_head + i * d_state + j
+            st.unsafe_store(idxi, st.unsafe_load(idxi) + a.unsafe_load(cbase + k_off + i) * delta)
+        var acc: Float32 = 0.0
+        for i in range(d_state):
+            acc += st.unsafe_load(s_head + i * d_state + j) * a.unsafe_load(cbase + q_off + i)
+        var head_scale = Float32(1.0) / sqrt(Float32(d_state))
+        val = acc * head_scale
+        a.unsafe_store(Int(scr_arg) + (row * Int(v_heads_arg) + vh) * d_state + j, val)
+    var partials = stack_allocation[256, Float32, address_space=AddressSpace.SHARED]()
+    var tid = Int(thread_idx.x)
+    partials.unsafe_store(tid, val * val)
+    barrier()
+    if active:
+        var vbase = (tid // d_state) * d_state
+        var total: Float32 = 0.0
+        for i in range(d_state):
+            total += partials.unsafe_load(vbase + i)
+        var nscale = Float32(1.0) / sqrt(total / Float32(d_state) + eps)
+        var v = val * nscale
+        var wgt = _small_value(w, Int(normw_arg), Int(kind_arg), j)
+        var zg = a.unsafe_load(Int(z_arg) + row * Int(v_heads_arg) * d_state + vh * d_state + j)
+        var silu_z = zg / (Float32(1.0) + exp(-zg))
+        a.unsafe_store(Int(y_arg) + row * Int(v_heads_arg) * d_state + vh * d_state + j, _f16r(v * wgt * silu_z))
+
+
 def _gated_norm_kernel(w: Bytes, a: Floats, normw_arg: Int64, kind_arg: Int64, scr_arg: Int64, z_arg: Int64, y_arg: Int64, d_state_arg: Int64, v_heads_arg: Int64, row_arg: Int64, eps: Float32):
     """Per-v-head RMSNorm of the readout, gated by silu(z)
     (CPU: norm in f32 over the readout, times ssm_norm weight,
@@ -812,8 +881,11 @@ struct Qwen35HipExecutor:
             self.context.enqueue_function[_conv_silu_kernel](self.w(), self.a(), self.s(), self.rtmp(), Int64(layer.conv1d.base), Int64(layer.conv1d.kind), Int64(self.o_qkv), Int64(self.o_conv), Int64(ring), Int64(conv_dim), Int64(p.ssm_conv_kernel), Int64(r), grid_dim=(conv_grid + 255) // 256, block_dim=256)
             self.context.enqueue_function[_l2norm_kernel](self.a(), self.s(), self.rtmp(), Int64(self.o_conv), Int64(conv_dim), Int64(p.ssm_group_count * p.ssm_state_size), Int64(p.ssm_state_size), Int64(p.ssm_group_count), Int64(r), Int64(ring), Int64(rn), grid_dim=1, block_dim=256)
             var dn = p.ssm_time_step_rank * p.ssm_state_size
-            self.context.enqueue_function[_delta_kernel](self.w(), self.a(), self.s(), Int64(layer.ssm_a.base), Int64(layer.ssm_a.kind), Int64(self.o_conv), Int64(self.o_alpha), Int64(self.o_beta), Int64(layer.dt_bias.base), Int64(self.o_scr), Int64(s_base), Int64(conv_dim), Int64(p.ssm_group_count * p.ssm_state_size), Int64(p.ssm_state_size), Int64(p.ssm_time_step_rank), Int64(p.ssm_group_count), Int64(r), grid_dim=(dn + 255) // 256, block_dim=256)
-            self.context.enqueue_function[_gated_norm_kernel](self.w(), self.a(), Int64(layer.ssm_norm.base), Int64(layer.ssm_norm.kind), Int64(self.o_scr), Int64(self.o_z), Int64(self.o_y), Int64(p.ssm_state_size), Int64(p.ssm_time_step_rank), Int64(r), p.normalization_epsilon, grid_dim=1, block_dim=256)
+            if p.ssm_state_size <= 256 and (256 % p.ssm_state_size) == 0:
+                self.context.enqueue_function[_delta_norm_kernel](self.w(), self.a(), self.s(), Int64(layer.ssm_a.base), Int64(layer.ssm_a.kind), Int64(self.o_conv), Int64(self.o_alpha), Int64(self.o_beta), Int64(layer.dt_bias.base), Int64(self.o_scr), Int64(s_base), Int64(conv_dim), Int64(p.ssm_group_count * p.ssm_state_size), Int64(p.ssm_state_size), Int64(p.ssm_time_step_rank), Int64(p.ssm_group_count), Int64(r), Int64(layer.ssm_norm.base), Int64(self.o_z), Int64(self.o_y), p.normalization_epsilon, grid_dim=(dn + 255) // 256, block_dim=256)
+            else:
+                self.context.enqueue_function[_delta_kernel](self.w(), self.a(), self.s(), Int64(layer.ssm_a.base), Int64(layer.ssm_a.kind), Int64(self.o_conv), Int64(self.o_alpha), Int64(self.o_beta), Int64(layer.dt_bias.base), Int64(self.o_scr), Int64(s_base), Int64(conv_dim), Int64(p.ssm_group_count * p.ssm_state_size), Int64(p.ssm_state_size), Int64(p.ssm_time_step_rank), Int64(p.ssm_group_count), Int64(r), grid_dim=(dn + 255) // 256, block_dim=256)
+                self.context.enqueue_function[_gated_norm_kernel](self.w(), self.a(), Int64(layer.ssm_norm.base), Int64(layer.ssm_norm.kind), Int64(self.o_scr), Int64(self.o_z), Int64(self.o_y), Int64(p.ssm_state_size), Int64(p.ssm_time_step_rank), Int64(r), p.normalization_epsilon, grid_dim=1, block_dim=256)
         self._gemm(layer.ssm_out, self.o_y, self.o_x, batch)
         self._add(self.o_x, self.o_res, batch * p.hidden_size)
         self._ffn(layer, batch)
