@@ -358,3 +358,22 @@ finding): engine timers + fixture timings only.
 ## Coordinator note (QS-2 merge, 2026-11-15)
 - QS-1 and QS-2 filed differing accounts of HEAVY.lock on the QS-1/QS-2 night (QS-1: QS-2 graded without the lock; QS-2: claimed 01:30:23 under OWNER.txt, the claim later removed by another party, re-claimed 02:37:43, released at banking). Both accounts stand in their sections above; the coordinator does not adjudicate beyond the record.
 - Protocol tightened from here: a claim is the atomic mkdir PLUS an OWNER.txt naming team and claim time; only the owner or the coordinator removes a claim; claim and release times are ledger entries. QS-2 acknowledged the correction unconditionally on receipt and complied from receipt.
+
+## QS-2.5 — HIP per-phase attribution + attack (branch yrsa/qs-phase @ d1e5815f base)
+
+Seat: QS-2.5 team lead, six Mythic Engineering roles
+sequentially in one seat (no sub-agents; depth limit). Sole
+writer in ~/aesir-qs-phase. Full record: QS-2.5-NOTES.md.
+HEAVY.lock claimed 2026-11-15 02:51:29 EST (OWNER.txt);
+QS-5 rehearsal serve (:18438, CPU path) co-resident and
+recorded for every real-file run of this section.
+- QS-2.5.1 DONE: env-gated engine timers (AESIR_QS_PROFILE
+  1/2/3) in Qwen35HipExecutor; fixture ALL PASS in all modes
+  + session ALL PASS. Real 27B: wall 271 ms/token; host
+  enqueue 3.4-4.5 ms (~1,440 launches) — launch/host path
+  EXONERATED. FFN segments 196.4 ms vs 88.7 ms stream floor;
+  isolated bench under the same co-residency: 199.3/209.6
+  GB/s (contention exonerated). Indictment: the silu-fused
+  down GEMV recomputes _silu_pair (one exp) per (row,k) —
+  5,120x redundant, ~5.7B exp/token; lmhead plain GEMV runs
+  at bench rate in-stream. Next: QS-2.5.2 de-fuse.
