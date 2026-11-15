@@ -1,0 +1,3 @@
+LEG prefill-max wall=676.7s usage={"prompt_tokens": 3383, "completion_tokens": 132, "total_tokens": 3515, "reused_prompt_tokens": 0} text_head='\n\n<think>\nThe user wants to know what filled the manifests b'
+PEAKLEG DONE
+PEAKLEG_EXIT=0

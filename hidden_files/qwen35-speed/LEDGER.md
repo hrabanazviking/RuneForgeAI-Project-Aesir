@@ -358,3 +358,29 @@ finding): engine timers + fixture timings only.
 ## Coordinator note (QS-2 merge, 2026-11-15)
 - QS-1 and QS-2 filed differing accounts of HEAVY.lock on the QS-1/QS-2 night (QS-1: QS-2 graded without the lock; QS-2: claimed 01:30:23 under OWNER.txt, the claim later removed by another party, re-claimed 02:37:43, released at banking). Both accounts stand in their sections above; the coordinator does not adjudicate beyond the record.
 - Protocol tightened from here: a claim is the atomic mkdir PLUS an OWNER.txt naming team and claim time; only the owner or the coordinator removes a claim; claim and release times are ledger entries. QS-2 acknowledged the correction unconditionally on receipt and complied from receipt.
+
+## QS-5 — ULTRA-STABLE SERVE (OPEN)
+
+Seat: QS-5 team lead, six Mythic Engineering roles
+sequentially in one seat (no sub-agents; depth limit).
+Sole writer in ~/aesir-qs-stable on branch yrsa/qs-stable
+@ d1e5815f. Gate tree ~/aesir-gate-serve (detached
+d1e5815f) changes only at planned swaps. Full record:
+QS-5-NOTES.md in this folder.
+
+### QS-5 entries as they land
+- QS-5.1 DONE: gate tree built (engine exit 0, binary
+  sha256 efc8334c...c270c1); rehearsal serve on :18438
+  with the proven Q35-7 command shape ALL_PASS verify
+  (health qwen35/qwen35-27B/q8_0_resident; turn 2
+  reused_prompt_tokens=69). Fence measurement mix
+  (qs5-measure2.log + qs5-peakleg.log, all legs 200,
+  largest 3,383 prompt + 132 gen): rehearsal cgroup
+  MemoryPeak 22,973,169,664 B (21.39 GiB). Governing
+  peak incl. Q35-7 lifetime 30.8 GB -> permanent-unit
+  fences MemoryHigh=40G / MemoryMax=52G (derivation in
+  QS-5-NOTES.md). Engine fact found: the OpenAI chat
+  parser accepts temperature/seed/top_p only; min_p on
+  /v1/chat/completions is refused 400 by design —
+  min_p + repeat_penalty exercised via /v1/generate
+  instead (HTTP 200, QS-4 wiring live on merged build).
