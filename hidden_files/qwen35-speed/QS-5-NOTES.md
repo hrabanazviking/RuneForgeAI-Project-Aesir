@@ -189,6 +189,29 @@ install-qs5.sh. Installed 2026-11-15 ~03:27 EST:
   transient gate served throughout (MainPID 5932,
   never interrupted).
 
+WATCHDOG v2 AMENDMENT (same slice, found during the
+QS-5.4 soak — fixed on the spot per the standing rule
+that no discovered bug is left unfixed): the v1
+watchdog counted any /health failure toward a restart.
+But the serve is single-concurrency with a 30 s queue
+timeout: during one long prefill a health request can
+queue past its timeout and fail while the serve is
+perfectly healthy (observed 03:33-03:34 EST in the
+soak: sampler NOTREADY + watchdog FAIL consecutive=1
+during a 115 s prefill whose request completed 200).
+A 3-strike v1 watchdog could therefore have restarted
+a healthy serve mid-request. v2 (installed + banked)
+adds a busy guard: a health failure counts only when
+the serve process is NOT demonstrably working — if its
+CPU time (utime+stime from /proc/<pid>/stat) advanced
+>= 30 s since the previous check, the failure is
+logged as BUSY and the counter does not move. Restart
+now requires 3 consecutive IDLE failures (wedged-but-
+alive, the case Restart=on-failure cannot see).
+First v2 live run, mid-prefill: "BUSY health-
+unreachable but serve CPU advanced 299245 jiffies;
+not counting" — the guard works as designed.
+
 ## QS-5.3 THE SWAP
 
 Pre-swap: transient gate healthy (old Q35-7 build, PID
@@ -250,8 +273,20 @@ PASS criteria (stated before the soak starts):
   multi-turn, medium + long prefill, QS-4 sampling
   exercised — chat temperature/top_p legs and
   /v1/generate min_p + repeat_penalty legs).
-- No unit restart during the soak (NRestarts stays 0,
-  sampler health = ready at every minute sample).
+- No unit restart during the soak (NRestarts stays 0;
+  no watchdog ACTION restarts).
+  CRITERION AMENDMENT (recorded at soak t+5 min, after
+  the discovery documented in the QS-5.2 v2 amendment,
+  before any verdict): sampler health samples MAY read
+  NOTREADY while a long request is in flight — health
+  requests queue behind the single-concurrency engine
+  and can exceed their timeout during legitimate long
+  prefills. A NOTREADY sample is therefore not a
+  failure by itself; it must correlate with the
+  soak-req log (a request in flight across the sample).
+  The binding health evidence is: every soak request
+  succeeds, NRestarts stays 0, and the (v2) watchdog
+  never issues a restart.
 - No failed requests (every request HTTP 200) and all
   completions sane (non-trivial text).
 - Memory flat: least-squares slope of MemoryCurrent

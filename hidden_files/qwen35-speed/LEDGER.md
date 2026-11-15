@@ -415,3 +415,18 @@ QS-5-NOTES.md in this folder.
   turn-2 reused_prompt_tokens=69). Watchdog timer
   started. QS-5.4 soak criteria stated in QS-5-NOTES.md
   before the soak starts.
+- QS-5.2 WATCHDOG v2 FIX (bug found in the QS-5.4
+  soak, fixed on the spot): v1 counted any /health
+  failure toward a restart, but the serve is
+  single-concurrency with a 30 s queue timeout, so
+  health requests starve during legitimate long
+  prefills (observed 03:33-03:34 EST: sampler NOTREADY
+  + watchdog FAIL during a 115 s prefill that
+  completed 200). v2 adds a busy guard: failures count
+  only when the serve process CPU (utime+stime) has
+  NOT advanced >= 30 s since the last check; busy
+  failures log BUSY and do not count. Restart now
+  needs 3 consecutive IDLE failures (the wedged case).
+  Live-proven mid-prefill at install. QS-5.4 health
+  criterion amended accordingly in QS-5-NOTES.md
+  (recorded at soak t+5 min, before any verdict).
