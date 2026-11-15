@@ -168,3 +168,14 @@ Compression cross-reference (QC_RESULTS.md / RESIDENCY-NOTE):
   unit-state observation recorded, untouched per orders.
 - Gate never touched: aesir-gate still PID 5932, active,
   serving; QS-0 sent it client requests only.
+
+## QS-4 — Sampling parity on qwen35 (yrsa/qs-sample, base 183ee901)
+
+- QS-4.1 EVIDENCE + DESIGN banked: min_p and repeat_last_n are
+  silent no-ops on the qwen35 CPU serve path. Witness:
+  _gen_config().min_p = 0.0 under sampling.min_p = 0.95;
+  fixture probe streams A==B (min_p 0 vs 0.95) and C==D
+  (repeat_last_n 1 vs 8192 at rep 2.5) identical, A!=C proves
+  the penalty itself is wired full-context
+  (qs-4-probe-prefix.log). Full audit + reference semantics +
+  design in QS-4-NOTES.md.

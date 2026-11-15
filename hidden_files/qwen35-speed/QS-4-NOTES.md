@@ -1,0 +1,132 @@
+# QS-4 NOTES — Sampling parity on qwen35 (min_p + repeat_last_n)
+
+Team: QS-4 lead seat, six Mythic Engineering roles run
+sequentially in one seat (no sub-agents available at depth 2/2;
+recorded per commission). Tree: ~/aesir-qs-sample, branch
+yrsa/qs-sample, base 183ee901 (QS-0 + QS-3 merged). Ports:
+own serve smoke on 18437 only. Heavy lock: held by QS-1 at
+campaign start (OWNER.txt, claimed 2026-11-15 ~01:28 EST) —
+fixture/code work proceeded; heavy items retried later.
+
+## QS-4.1 EVIDENCE — current behavior (2026-11-15)
+
+Verdict: BOTH parameters are SILENT NO-OPS on the qwen35 CPU
+serve path. A client asking for them gets neither the behavior
+nor a refusal. (The HIP session states the same scope in its
+header; the serve request parser accepts min_p and validates
+it, and accepts repeat_last_n via sampling options/modelfile/
+Ollama surfaces — then the value dies in the session.)
+
+### Code audit (file:line at base 183ee901)
+
+1. aesir_engine/cli/native_serve.mojo: the generate request
+   parser maps "min_p" -> with_sampling_option "min-p" into
+   NativeSamplingConfig (validated [0,1]); there is NO
+   "repeat_last_n" request field (unknown fields raise).
+   Serve defaults (QS-0-BASELINE): min_p 0, repeat_last_n 64.
+2. aesir_engine/core/sampling_config.mojo: NativeSamplingConfig
+   CARRIES both fields (min_p, repeat_last_n; validated).
+3. aesir_engine/qwen35_session.mojo:300 _gen_config(): builds
+   GenerationConfig from temperature/top_k/top_p/
+   repetition_penalty/seed ONLY. min_p is dropped;
+   repeat_last_n is dropped (GenerationConfig has no such
+   field at all — it cannot even be expressed downstream).
+   Session header (line 82) admits it: "min_p and
+   repeat_last_n have no CPU-forward counterpart and are not
+   claimed." QWEN35_RESULTS.md "Honest limits" says the same.
+4. aesir_engine/aesir.mojo _forward_position/_forward_batch
+   qwen35 branches: pass temperature/top_k/top_p/
+   repetition_penalty/seed to forward_pass_qwen35 /
+   forward_pass_qwen35_batched. No min_p, no repeat_last_n.
+5. aesir_engine/core/inference.mojo forward_pass_qwen35
+   (~2973) and _batched (~2885): call
+   core.sampler.sample_token_from_logits WITHOUT min_p
+   (sampler default 0.0) and with context_tokens = the FULL
+   token list (prompt + generated so far). No windowing
+   exists anywhere on the CPU path: sample_token_from_logits
+   has no repeat_last_n parameter at this base.
+6. Repetition penalty itself IS wired (full-context):
+   apply_repetition_penalty over the whole context list.
+
+### Live fixture probe (qs-4-probe-prefix.log)
+
+probe_qwen35_sampling_qs_4 on fixtures/qwen35_k256_q8.gguf
+(QS-3 k256 fixture), Qwen35CPUSession, temp 1.0, top_k 256,
+top_p 1.0, seed 42, 24 generated tokens, prompt stream 25:
+
+- WITNESS: _gen_config().min_p under sampling.min_p=0.95
+  prints 0.0 — the drop, observed directly.
+- A (min_p 0.00) == B (min_p 0.95): token streams IDENTICAL
+  (49 tokens) — min_p silent no-op.
+- C (rep 2.5, repeat_last_n 1) == D (rep 2.5, repeat_last_n
+  8192): IDENTICAL — repeat_last_n silent no-op.
+- A != C: repetition_penalty changes the stream — the
+  penalty is wired; only its window is missing.
+
+## Reference semantics (parity targets)
+
+In-tree generic sampler (core/sampler.mojo) — the sampler the
+llama/gemma CPU forwards and the HIP session share:
+- apply_min_p: sort desc; softmax probs over the CURRENT
+  candidate set; keep prob >= min_p * max_prob (always keeps
+  the top token); no-op when min_p <= 0 or >= 1. Pipeline
+  position in sample_token_from_logits: suppress mask ->
+  repetition penalty -> freq/presence penalties ->
+  temperature -> top_k -> top_p -> min_p -> weighted draw.
+- llama.cpp min_p is the same rule in ratio form (keep
+  p_i >= min_p * p_max over the candidate array); the CUDA
+  sampler (core/cuda_sampling.mojo sampling_merge) applies
+  it on unnormalized exp((l-m)/T) values — the same keep set,
+  since normalization cancels in the ratio. Parity = the
+  in-tree apply_min_p keep set.
+- repeat_last_n: llama.cpp penalties + in-tree CUDA sampler
+  (sampling_record ring of width repeat_last_n; counts > 0
+  gate the penalty): repetition/frequency/presence penalties
+  consider ONLY the last repeat_last_n context tokens
+  (prompt + generated so far). Window slides per token.
+- Greedy note: the in-tree sampler's temp<=0 / top_k==1 fast
+  path is a pure argmax (penalties and min_p do not apply) —
+  existing behavior on every CPU path; QS-4 keeps it exactly
+  (parity with the engine, and the teacher-forcing grade,
+  which runs greedy, is untouched by construction).
+
+## Design (QS-4.2 / QS-4.3)
+
+Minimal shared plumbing, defaults bit-identical to today:
+1. GenerationConfig gains repeat_last_n: Int = 0 appended as
+   the LAST field (0 = legacy full-context; validate
+   0..8192). min_p field already exists (dead until now).
+2. sample_token_from_logits gains repeat_last_n: Int = 0;
+   when > 0 the penalty context (repetition + freq/presence)
+   is the trailing repeat_last_n tokens of context_tokens.
+   Order of operations UNCHANGED (see pipeline above).
+3. forward_pass_qwen35 + forward_pass_qwen35_batched gain
+   min_p (default 0.0) + repeat_last_n (default 0), passed
+   to the sampler. Other archs' forwards untouched (their
+   dead min_p is the same defect class — named as next work,
+   out of QS-4 scope; defaults keep them bit-identical).
+4. AesirEngine._forward_position/_forward_batch qwen35
+   branches pass gen_config.min_p / gen_config.repeat_last_n.
+5. Qwen35CPUSession._gen_config() passes sampling.min_p and
+   sampling.repeat_last_n. Session header updated to claim
+   both. HIP session call site wired the same way (it calls
+   the sampler directly) + header updated.
+6. Grade safety: logit-row capture (capture_logit_row) sits
+   BEFORE sampling in both qwen35 forwards; sampling changes
+   cannot move logits. Defaults (min_p 0, repeat_last_n 0
+   from every existing GenerationConfig caller) keep all
+   existing behavior bit-identical; the session's Native-
+   SamplingConfig default repeat_last_n=64 becomes real on
+   the qwen35 serve path — that IS the commissioned parity
+   (serve defaults governed every prior proof at rep 1.0,
+   where the window is a no-op by definition: penalty == 1.0
+   short-circuits before the window matters).
+
+Tests per slice: sampler-level distribution/keep-set tests
+on synthetic logit rows (deterministic seeds), session-level
+fixture generation comparisons (min_p on/off and window
+narrow/wide must differ in the expected direction; defaults
+must reproduce the pre-fix streams bit-exactly), existing
+qwen35 fixture tests re-run, teacher-forcing grade battery
+re-run (fixture grade now; 27B grade when the HEAVY lock
+frees).
