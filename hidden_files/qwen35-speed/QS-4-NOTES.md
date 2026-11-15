@@ -164,3 +164,48 @@ Evidence (logs in this folder):
   teacher-forcing grade cannot move; the 27B 198-record
   grade re-run waits on the HEAVY lock (QS-2 phase) and is
   scheduled before QS-4.4 closes.
+
+## QS-4.3 REPEAT_LAST_N — implemented + proven (2026-11-15)
+
+Semantics matched to the reference, stated exactly:
+- Window: penalties consider ONLY the last repeat_last_n
+  tokens of (prompt + generated so far) — llama.cpp penalties
+  sampler and the in-tree CUDA sampler's ring (sampling_
+  record) both define the window this way.
+- Application order: UNCHANGED in-tree CPU order — repetition
+  penalty, then frequency/presence penalties (both over the
+  window), then temperature, top_k, top_p, min_p, draw.
+  (llama.cpp likewise applies its penalties before the
+  filter chain. The CUDA sampler has no freq/presence at
+  all — pre-existing divergence, not introduced here.)
+- repeat_last_n = 0 in GenerationConfig / the sampler means
+  the LEGACY full-context behavior, so every existing caller
+  is bit-identical; the qwen35 session always passes its
+  configured window (NativeSamplingConfig default 64). At
+  repetition_penalty == 1.0 and freq/presence == 0 the window
+  is a no-op by construction, which is why every prior serve
+  proof (defaults, rep 1.0) stands unchanged.
+
+Changes: GenerationConfig gains repeat_last_n as its LAST
+field (default 0, validated 0..8192; __init__/__copyinit__/
+copy() all extended in field order, so positional callers
+are untouched); sample_token_from_logits gains repeat_last_n
+(trailing kwarg, default 0) and slices the penalty context;
+qwen35 forwards + engine branches + CPU/HIP sessions pass it
+through, mirroring QS-4.2.
+
+Evidence (qs-4-rln-test.log, ALL PASS):
+- (r1) sampler window, seeded 512-draw distributions: token
+  present only 100 tokens back, rep 2.0: full-context draws
+  85 vs window-64 draws 251 (expectations ~90 / ~243);
+  frequency 0.5: full 184 vs window 251. Both penalty kinds
+  window, in the expected direction, with wide margins.
+- (r2) session: _gen_config().repeat_last_n witness carries
+  the configured value; repeat_last_n 1 vs 8192 at rep 2.5
+  now produce DIFFERENT streams (pre-fix they were identical).
+- (m3) re-run in the same binary: the rep-1.0 default stream
+  is still bit-exact vs the pre-fix probe.
+- Grade battery re-run post-4.3: forward fixture ALL PASS
+  (qs-4-fwd-fixture2.log), resident-K ALL PASS (qs-4-
+  residentk2.log), test_inference PASS (qs-4-test-
+  inference2.log). 27B grade still pending the HEAVY lock.

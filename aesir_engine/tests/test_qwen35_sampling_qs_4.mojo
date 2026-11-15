@@ -115,6 +115,64 @@ def test_session_min_p(path: String) raises:
     print("(m3) session min_p: default bit-exact, min_p=0.95 bites: PASS")
 
 
+def draw_ones(logits: Pointer[Scalar[DType.float16], MutUntrackedOrigin], ctx: List[Int], rep: Float32, freq: Float32, rln: Int, seed: UInt64) -> Int:
+    var rng = RuneRNG(seed)
+    var ones = 0
+    for _ in range(512):
+        var t = sample_token_from_logits(logits, 8, Float32(1.0), 8, Float32(1.0), rep, ctx, rng, frequency_penalty=freq, repeat_last_n=rln)
+        if t == 1:
+            ones += 1
+    return ones
+
+
+def test_repeat_window() raises:
+    # Token 1 sits at context position 0 ONLY, followed by 100
+    # filler tokens (id 5). Logits: id0 3.0, id1 2.9, rest -10.
+    var allocation = alloc(Layout[Scalar[DType.float16]](count=8))
+    var logits = allocation.unsafe_ptr().unsafe_origin_cast[MutUntrackedOrigin]()
+    logits.unsafe_store(0, Scalar[DType.float16](3.0))
+    logits.unsafe_store(1, Scalar[DType.float16](2.9))
+    for i in range(2, 8):
+        logits.unsafe_store(i, Scalar[DType.float16](-10.0))
+    var ctx = List[Int]()
+    ctx.append(1)
+    for _ in range(100):
+        ctx.append(5)
+    # Repetition penalty 2.0: full context penalizes token 1
+    # (2.9/2 = 1.45, share ~17%); window 64 excludes it (~47%).
+    var full = draw_ones(logits, ctx, Float32(2.0), Float32(0.0), 0, UInt64(777))
+    var win = draw_ones(logits, ctx, Float32(2.0), Float32(0.0), 64, UInt64(777))
+    # Frequency penalty 0.5 (count 1 in full context): full
+    # penalizes (2.9-0.5 = 2.4, share ~35%); window excludes.
+    var ffull = draw_ones(logits, ctx, Float32(1.0), Float32(0.5), 0, UInt64(777))
+    var fwin = draw_ones(logits, ctx, Float32(1.0), Float32(0.5), 64, UInt64(777))
+    dealloc(allocation^)
+    if not (full < 140 and win > 180 and win - full > 80):
+        raise Error("(r1) repetition window wrong: full=" + String(full) + " win=" + String(win))
+    if not (fwin > ffull + 30):
+        raise Error("(r1) frequency window wrong: full=" + String(ffull) + " win=" + String(fwin))
+    print("(r1) repeat_last_n window: rep full=" + String(full) + " win=" + String(win) + "; freq full=" + String(ffull) + " win=" + String(fwin) + ": PASS")
+
+
+def test_session_repeat_window(path: String) raises:
+    var cfg_c = NativeSamplingConfig(temperature=Float32(1.0), top_k=256, top_p=Float32(1.0), min_p=Float32(0.0), repetition_penalty=Float32(2.5), repeat_last_n=1, seed=UInt64(42))
+    var probe = Qwen35CPUSession(path, 512, cfg_c)
+    if probe._gen_config().repeat_last_n != 1:
+        raise Error("(r2) _gen_config dropped repeat_last_n")
+    var c = run_stream(path, cfg_c)
+    var cfg_d = NativeSamplingConfig(temperature=Float32(1.0), top_k=256, top_p=Float32(1.0), min_p=Float32(0.0), repetition_penalty=Float32(2.5), repeat_last_n=8192, seed=UInt64(42))
+    var d = run_stream(path, cfg_d)
+    var differ = len(c) != len(d)
+    if not differ:
+        for i in range(len(c)):
+            if c[i] != d[i]:
+                differ = True
+                break
+    if not differ:
+        raise Error("(r2) repeat_last_n 1 vs 8192 streams identical (still a no-op)")
+    print("(r2) session repeat_last_n: window changes the stream: PASS")
+
+
 def main() raises:
     var args = argv()
     if len(args) < 2:
@@ -122,4 +180,6 @@ def main() raises:
     test_min_p_keep_sets()
     test_min_p_distribution()
     test_session_min_p(args[1])
+    test_repeat_window()
+    test_session_repeat_window(args[1])
     print("QS-4 SAMPLING TESTS: PASS")

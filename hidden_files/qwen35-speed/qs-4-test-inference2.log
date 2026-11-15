@@ -1,0 +1,22 @@
+--- Testing IQ token embedding lookup ---
+IQ token embedding lookup: PASS
+--- Testing forward_pass (The Loom of Fate) ---
+Next token generated: 0
+forward_pass: PASS
+--- Testing deterministic generation stop policy ---
+deterministic generation stop policy: PASS
+unsupported runtime configurations: PASS
+--- Testing GenerationConfig bounds validation ---
+GenerationConfig validation: PASS
+--- Testing generation prompt byte bound ---
+Prompt byte bound: PASS
+--- Testing Configurable Sampler Stack & PRNG Reproducibility ---
+Configurable Sampler Stack: PASS
+--- Testing GGUF Chat Templates & Message Roles ---
+GGUF Chat Templates: PASS
+--- Testing Session Context & Cache Isolation ---
+Session Context & Cache Isolation: PASS
+--- Testing Token Suppression, Finite Argmax & Multi-Prompt Regression Corpora ---
+Token Suppression & Multi-Prompt Regression Corpora: PASS
+--- Testing Model-Produced EOS Fixture & Stop Policy ---
+Model-Produced EOS Fixture: PASS

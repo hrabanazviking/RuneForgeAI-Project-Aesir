@@ -187,3 +187,10 @@ Compression cross-reference (QC_RESULTS.md / RESIDENCY-NOTE):
   Fixture grade battery clean (forward ALL PASS, resident-K
   logits diff 0.0, test_inference PASS). 27B grade re-run
   pending HEAVY lock (QS-2).
+- QS-4.3 REPEAT_LAST_N banked: GenerationConfig gains the
+  field (default 0 = legacy full-context); sampler windows
+  the penalty context (rep + freq/presence, order unchanged);
+  qwen35 plumbing mirrors QS-4.2. Proof: seeded distributions
+  full 85 vs window 251 (rep), 184 vs 251 (freq); session
+  windows 1 vs 8192 now differ; defaults bit-exact; fixture
+  grade battery clean again (qs-4-rln-test.log).
