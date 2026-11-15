@@ -641,17 +641,21 @@ def q4_k_m_plan(
         )
     if name == "output.weight":
         return (Int(Q6_K_GGML_TYPE), String(""))
-    if name.endswith(".attn_qkv.weight"):
-        # QS-3.7: llama.cpp's Q4_K_M policy stores the SSM blocks'
-        # fused attn_qkv at Q6_K (measured by census against a
-        # llama-produced control that grades FAITHFUL; the QC-6
-        # policy had it at Q4_K — the sole type difference).
-        return (Int(Q6_K_GGML_TYPE), String(""))
     var layer = _layer_index(name)
     if layer >= 0 and _use_more_bits(layer, n_layers):
         if name.endswith(".attn_v.weight"):
             return (Int(Q6_K_GGML_TYPE), String(""))
         if name.endswith(".ffn_down.weight"):
+            return (Int(Q6_K_GGML_TYPE), String(""))
+        if name.endswith(".attn_qkv.weight"):
+            # QS-3.7 (corrected): llama.cpp's Q4_K_M policy treats
+            # the SSM blocks' fused attn_qkv as a use_more_bits
+            # class — Q6_K on those layers only. Census vs the
+            # FAITHFUL llama control: exactly 24 tensors, the
+            # use_more_bits subset of the 48 attn_qkv tensors.
+            # (The first QS-3.7 cut elevated all 48 — the v2
+            # product — and is kept in the notes as the overshoot
+            # the census caught.)
             return (Int(Q6_K_GGML_TYPE), String(""))
     return (Int(Q4_K_GGML_TYPE), String(""))
 
@@ -801,8 +805,6 @@ def q4_k_m_plan_qc6(
     var target = Int(Q4_K_GGML_TYPE)
     if name == "output.weight":
         target = Int(Q6_K_GGML_TYPE)
-    elif name.endswith(".attn_qkv.weight"):
-        target = Int(Q6_K_GGML_TYPE)  # QS-3.7 (see qc6_type_for_tensor)
     else:
         var layer = _layer_index(name)
         if layer >= 0 and _use_more_bits(layer, n_layers):
@@ -810,6 +812,8 @@ def q4_k_m_plan_qc6(
                 target = Int(Q6_K_GGML_TYPE)
             elif name.endswith(".ffn_down.weight"):
                 target = Int(Q6_K_GGML_TYPE)
+            elif name.endswith(".attn_qkv.weight"):
+                target = Int(Q6_K_GGML_TYPE)  # QS-3.7 (see qc6_type_for_tensor)
     var dim0 = Int(entry.dims[0])
     if dim0 % 256 == 0:
         return (target, String(""))

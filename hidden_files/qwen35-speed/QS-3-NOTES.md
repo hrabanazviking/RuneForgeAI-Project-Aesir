@@ -402,3 +402,32 @@ llama Q6_K vs Aesir QC-6 policy Q4_K. Counts: Aesir
 {Q4_K 457, Q6_K 41} vs llama {Q4_K 433, Q6_K 65}; every
 other tensor type identical. QS-3.7 applies exactly that
 one policy line and re-grades.
+
+## SLICE QS-3.7 — POLICY v2: ALL attn_qkv AT Q6_K (banked)
+
+First cut of the QS-3.6 fix: attn_qkv -> Q6_K unconditionally
+in both writers. Product searchedfit2.gguf: 16,872,042,976 B,
+conversion 1:20:46. Census vs the llama control then caught
+the overshoot: v2 {Q4_K 409, Q6_K 89} vs llama {433, 65} —
+STILL 24 differing tensors, the COMPLEMENTARY attn_qkv half.
+The llama rule is use_more_bits-GATED attn_qkv (24 of the 48
+SSM attn_qkv tensors), exactly like attn_v/ffn_down. The
+policy is corrected to the gate in this slice (QS-3.8 v3
+re-pack runs under the same lock).
+GRADE of v2 (default AND resident-K, identical again):
+197/198 = 99.49%, agreement 192/198, rank {1:192, 2:5, 4:1},
+DIVERGENT. But the fatal record moved in an instructive way:
+p5 pos8 gap 453 -> 265 milli — EXACTLY the llama gap there —
+while its RANK stayed 4 against llama rank 2. The band fails
+on rank, not gap: in the searched product three tokens crowd
+within 265 milli above the true token; in the llama product,
+one. The imatrix theory for the difference was tested
+against the llama.cpp source and DISPROVEN: quantize.cpp
+loads an imatrix only from an explicit --imatrix file
+argument, which the control never passed (the source file
+imatrix KVs are inert metadata). Remaining named cause
+after QS-3.8: if the policy-identical v3 still rank-4s at
+pos8, the delta is per-block fit minutiae accumulated in
+the deep tail, and the named instrument is a byte-level fit
+A/B on real rows (Aesir searched packer vs ggml quantize_row
+on identical inputs) to find any systematic slip.
