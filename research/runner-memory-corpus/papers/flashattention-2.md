@@ -1,0 +1,91 @@
+# FlashAttention-2 — Faster Attention with Better Parallelism and Work Partitioning
+
+## 1. Full citation
+
+- **Title:** FlashAttention-2: Faster Attention with Better Parallelism and Work Partitioning
+- **Authors:** Tri Dao
+- **Affiliations (as listed in the paper):** Department of Computer Science, Princeton University; Department of Computer Science, Stanford University
+- **Venue / year:** International Conference on Learning Representations (ICLR 2024). *Citation note:* the paper was released as an arXiv technical report in July 2023 and is sometimes cited by that year; its peer-reviewed venue record is the ICLR 2024 proceedings. This dossier cites the venue record.
+- **arXiv:** arXiv:2307.08691 [cs.LG] — submitted 17 July 2023 — https://arxiv.org/abs/2307.08691
+- **Code (as reported in the paper):** https://github.com/Dao-AILab/flash-attention
+
+## 2. The problem as the authors frame it
+
+FlashAttention (see `papers/flashattention.md`) proved that IO-aware tiling makes exact attention 2–4× faster than optimised baselines with linear instead of quadratic memory. FlashAttention-2 starts from the observation that this is still far from what the hardware can do:
+
+- Measured against the device's theoretical peak, FlashAttention's forward pass reaches only about **25–40% of maximum FLOPs/s** (the paper's introduction gives 30–50% forward and 25–35% backward on A100 in one passage, 25–40% overall in the abstract), while a well-optimised GEMM reaches **80–90%**. Attention, even after the IO fix, leaves more than half the machine idle.
+- Profiling attributes the gap not to memory traffic — FlashAttention already minimised that — but to **how the work is divided**: suboptimal partitioning between thread blocks and between warps causes either low occupancy (streaming multiprocessors sitting without work, the common case at long sequence lengths where batch size and head count are small) or unnecessary reads and writes through shared memory (warps exchanging partial results that a better partition would never have produced).
+
+The framing matters for the corpus: this is the second-order lesson of the lineage. Once the HBM-traffic problem is solved, the bottleneck moves *inside* the chip — to scheduling, occupancy, and on-chip communication. The problem is no longer "attention moves too many bytes to HBM" but "attention's work decomposition does not match the GPU's execution hierarchy."
+
+## 3. Core mechanism in our own words
+
+FlashAttention-2 changes no mathematics: same exact attention, same tiling, same online softmax, same IO complexity. It changes three things about how the computation is organised, all aimed at spending the GPU's time on tensor-core matmuls instead of everything else.
+
+**(1) Fewer non-matmul FLOPs.** On an A100, the paper notes, FP16/BF16 matmul peaks at 312 TFLOPs/s while non-matmul FP32 arithmetic peaks at 19.5 TFLOPs/s — each non-matmul FLOP effectively costs 16× a matmul FLOP, so the scalar bookkeeping around the matmuls (softmax rescaling above all) can dominate even when it is a small fraction of the FLOP count. Two algebraic tweaks cut it: (a) the output accumulator is kept **unscaled** through the inner loop — instead of dividing partial outputs by the running normaliser ℓ at every block, only the correction for a changed row maximum is applied per block, and the single division by the final ℓ happens once at the end; (b) the forward pass saves only the **logsumexp** L = m + log ℓ per row for the backward pass, instead of saving both the maximum m and the sum ℓ separately. Same outputs, measurably less scalar work per block.
+
+**(2) Parallelism over sequence length, via a swapped loop order.** FlashAttention parallelised only over batch × heads — one thread block per (batch, head) — and looped with K/V blocks outer, Q blocks inner. When batch × heads is smaller than the GPU's SM count (108 on A100), SMs idle. FlashAttention-2 **swaps the loops**: the outer loop runs over Q row blocks, the inner loop over K/V column blocks, so each thread block owns a block of query rows for one head and accumulates its output independently — thread blocks never need to communicate in the forward pass. Parallelism now also exists along the sequence dimension, so occupancy stays high exactly in the long-sequence / small-batch regime where FlashAttention starved. The backward pass is parallelised over the sequence dimension as well, with atomic adds handling the one genuinely shared update (dQ). Causal masking composes naturally with the blocked form: blocks entirely above the diagonal are skipped outright (the paper reports ~1.7–1.8× from causal masking versus unmasked), and only the diagonal block needs an explicit mask.
+
+**(3) Warp partitioning that avoids split-K in the forward pass.** Inside a thread block, FlashAttention had split K and V across the (typically 4) warps — the "split-K" scheme — so every warp produced a partial output slice that had to be written to shared memory, synchronised, and summed by the others. FlashAttention-2 inverts the split: **Q is split across warps, K and V are visible to all warps**. Each warp computes its own slice of QKᵀ and multiplies it by the shared V slice to produce its own slice of the output — no inter-warp communication, no shared-memory round-trip for partial results. The backward pass likewise avoids split-K where its more complex dependencies allow. Block sizes are tuned per head dimension (typically {64, 128} × {64, 128}) against the register/shared-memory budget, since larger blocks reduce shared-memory traffic but spill registers past a point.
+
+Multi-query and grouped-query attention are handled by index manipulation — the kernel maps several query heads onto the shared KV head rather than duplicating K/V in memory — which is the kernel-side complement of the GQA dossier's cache arithmetic (`papers/gqa.md`).
+
+## 4. Reported results — as reported, with hardware context
+
+All figures are the paper's own. Attention benchmarks: **A100 80GB SXM4** (with an additional forward+backward sweep on H100, noted separately). Benchmark shape unless stated: sequence lengths 512–16K, batch sized so total tokens = 16K, hidden dimension 2048, head dimension 64 or 128 (32 or 16 heads). End-to-end: GPT-style 1.3B / 2.7B models on **8× A100 80GB SXM**.
+
+- **Attention kernel vs FlashAttention:** **1.7–3.0× faster** across the sweep (summarised as "around 2×"); 1.3–2.5× faster than the Triton implementation of FlashAttention; **3–10× faster** than a standard PyTorch attention implementation.
+- **Efficiency reached:** up to **230 TFLOPs/s** in the benchmark summary and **73% of theoretical peak** in the forward pass; up to **63% of peak** in the backward pass. (Abstract framing: 50–73% of theoretical maximum FLOPs/s, versus FlashAttention's 25–40% — "getting close to the efficiency of GEMM operations.")
+- **End-to-end training:** up to **225 TFLOPs/s per A100 (72% model FLOPs utilisation)**. Table 1 of the paper (TFLOPs/s per GPU): GPT-1.3B at 2K context — 142 without FlashAttention, 189 FlashAttention, 196 FlashAttention-2; at 8K — 72 / 170 / **220**. GPT-2.7B at 2K — 149 / 189 / 205; at 8K — 80 / 175 / **225**. In the paper's summary: up to **1.3× over FlashAttention** and **2.8× over the no-FlashAttention baseline** end-to-end — note how much smaller the end-to-end gain is than the kernel gain, because attention is only part of a training step; the kernel-level 2× is the honest headline for the kernel itself.
+- **On H100, without using any Hopper-specific features:** the same implementation reaches up to **335 TFLOPs/s**; the paper explicitly leaves the expected further 1.5–2× from Hopper instructions (TMA, 4th-generation tensor cores, FP8) to future work — that future work is FlashAttention-3 (see its dossier).
+
+**Hardware-generation caveat — what survives on Turing (RTX 2060 Max-Q, compute capability 7.5).**
+
+- **The three mechanisms are scheduling ideas, not new instructions.** Reducing non-matmul FLOPs, parallelising over the sequence dimension, and partitioning warps to avoid shared-memory reductions require nothing that Turing lacks: Turing has FP16 tensor cores, warps, shared memory, and thread blocks in the same organisational shape. The paper's diagnosis (non-matmul throughput ~16× below matmul throughput) holds qualitatively on Turing too — its scalar/vector units are proportionally even weaker next to its tensor cores — so tweak (1) is, if anything, *more* valuable on small hardware.
+- **Direct evidence of portability exists inside the corpus's own paper set:** the FlashInfer paper (`papers/flashinfer.md`) documents production CUDA/CUTLASS templates implementing **the FlashAttention-2 algorithm for architectures from Turing (sm75) through Ada (sm89)**, reserving the FlashAttention-3 algorithm for Hopper. The FA2 algorithm on Turing is therefore not a conjecture; it is a shipped configuration of a serving library the corpus covers.
+- **What does not transfer:** the numbers. 73% of an A100's peak is a statement about A100's peak (312 TFLOPs/s FP16) and A100's 108 SMs / 192 KB shared memory per SM. Turing's occupancy arithmetic differs — fewer SMs means the batch×heads starvation that motivated tweak (2) bites at different shapes, and smaller shared memory caps block sizes — so the *size* of the FA2-over-FA1 gain on a 2060 must be measured there, not inherited. What the paper licenses saying: the direction of each tweak is architecture-general, and long-sequence small-batch workloads (the local long-chat prefill shape) are precisely the regime tweak (2) was built for.
+
+## 5. What it changed in practice
+
+- **FlashAttention-2 became the deployed default of the lineage.** The Dao-AILab flash-attention package's FA2 kernels are the attention implementation most frameworks actually shipped for the Ampere/Ada generation; PyTorch, Hugging Face, vLLM and SGLang all treat "FlashAttention" in this era as, in practice, FA2-class kernels for prefill and training.
+- **In the serving runners the corpus covers**, backend selection is generation-aware and FA2 is the Ampere/Ada answer: vLLM's documented priority on CUDA puts FlashAttention first on Ampere/Hopper and FlashInfer first on Blackwell, with the FlashAttention version (2, 3, or 4) forceable per deployment (corpus: `runners/vllm.md` § attention backends); SGLang auto-selects FlashAttention 3 on Hopper and FlashInfer on Ampere/Ada (corpus: `runners/sglang.md`). FA2 is also the algorithmic substrate FlashInfer extends — FlashInfer's templates *are* the FA2 algorithm generalised to paged/block-sparse KV (see `papers/flashinfer.md` §3).
+- **In ggml/llama.cpp and Ollama**, the shipped "Flash Attention" is an independent implementation of the same tiling design rather than Dao's code (see `papers/flashattention.md` §5); FA2's specific contributions — loop order, warp partition, deferred rescaling — are the checklist against which any such reimplementation's quality is judged, whether or not it names them.
+- **For training**, the end-to-end numbers (225 TFLOPs/s, 72% MFU on A100) made FA2 the reference point for "how fast should attention let a training run go," and its discussion section correctly predicted the next step: a Hopper-specific rewrite using TMA, newer tensor cores and FP8 — delivered as FlashAttention-3 a year later.
+
+## 6. Applicability
+
+### (a) Ollama on a 6 GB consumer GPU (RTX 2060 Max-Q, Turing)
+
+- **Prefill of long prompts is the FA2-shaped workload.** A long character chat's prompt processing is a single sequence, batch 1, many heads — exactly the low-parallelism shape where FA1-style batch×heads-only parallelisation underfills a GPU and FA2's sequence-dimension parallelism pays. On the 2060's SM count the starvation threshold arrives at even smaller batch×heads products than on A100, so the loop-order lesson matters *more* locally, not less. Any attention kernel the improved Ollama writes or selects for prefill should parallelise over query blocks, not just heads.
+- **Deferred rescaling is a free-standing trick worth stealing for decode-adjacent kernels.** Keeping accumulators unscaled and normalising once at the end reduces scalar work in any online-softmax kernel — including the split-K decode kernels (query length 1, KV split across blocks, partial states merged by logsumexp) that are the one place flash-style machinery touches batch-1 decode at long context. The merge state FA2 saves — a single logsumexp per row — is exactly the state such a decode split needs.
+- **Where it still does not pay:** as established in the FlashAttention dossier, batch-1 short-context decode is bound by compulsory weight + KV streaming (GEMV at ~1 FLOP/byte); no repartitioning of the attention kernel changes the bytes that must move. FA2's gains live in prefill, in long-context work, and in any batched or multi-token step. A 6 GB runner should therefore spend its attention-kernel effort in that order: prefill first, long-context decode splitting second, short-context decode not at all.
+- **Occupancy realism on 6 GB:** with one sequence and a small card, kernel-launch and occupancy effects are a larger fraction of step time than on A100 (the corpus's roofline dossier makes the same point about fixed costs at small scale). FA2's lesson — count SMs, count warps, make the decomposition fill the machine — applies to every kernel in the runner, not just attention.
+
+### (b) Project Aesir
+
+- **Grade kernels on achieved fraction of peak, and profile the partition before the arithmetic.** FA2's method is a template for Aesir kernel work: when a kernel sits at 25–40% of its roof, the cause is as likely to be work decomposition (occupancy, inter-warp communication) as instruction choice. Aesir's kernel reviews should require an occupancy/partition account alongside the FLOP account.
+- **Minimise non-matmul work as a standing rule.** The 16× cost asymmetry between matmul and scalar FLOPs on A100 has an analogue on every Aesir target — AMD wavefronts, NPU vector units, ARM NEON — usually worse. Deferred normalisation, fused rescaling, and keeping statistics in one logsumexp are portable habits, not CUDA trivia.
+- **Parallelise over the sequence dimension whenever batch × heads underfills the device.** This is the normal case for Aesir's local, single-user, long-context targets — and doubly so for hybrid models, where attention layers alternate with SSM layers and per-layer parallelism is thinner. Aesir's attention design should treat query-block parallelism and split-K-with-logsumexp-merge as the two standard decompositions and choose per shape, as FlashInfer later automated.
+- **Keep the algorithm/hardware split clean.** FA2 is one algorithm expressed per generation; FA3 then replaced only the hardware-specific layer. Aesir should hold the same boundary: tiling + online softmax as the portable algorithm, with per-target scheduling (block sizes, warp/wavefront partition, async features) isolated underneath — so a future hardware-specific rewrite is an FA3-sized job, not a redesign.
+
+## 7. Cross-links
+
+- `papers/flashattention.md` — the predecessor: the IO analysis and tiling this paper re-partitions. Read first; §4 of that dossier carries the Turing analysis of the shared algorithm.
+- `papers/flashattention-3.md` — the successor this paper's discussion section predicts: Hopper asynchrony + FP8, and the point where the lineage stops being portable to Turing.
+- `papers/flashinfer.md` — FA2's algorithm as a serving template library (Turing sm75 through Ada sm89 in its documented coverage), plus the load-balanced scheduling that generalises §3's occupancy lesson to variable-length serving batches.
+- `memory/memory-wall-and-roofline.md` — the roofline framing for §4's "% of peak" accounting, and for why these kernel gains do not move batch-1 decode.
+- `memory/kv-cache-design.md` — the KV layouts FA2-class kernels must read (including why GQA index-mapping, §3 above, is a kernel contract).
+- `papers/gqa.md` — the architecture whose KV sharing FA2 implements by index manipulation rather than duplication.
+- `papers/pagedattention-vllm.md` — the memory-management half of the serving stack; FA2 kernels originally assumed contiguous KV, and paged/block-sparse variants are FlashInfer's contribution.
+- `runners/vllm.md`, `runners/sglang.md` — production backend selection by hardware generation (FA2-era kernels on Ampere/Ada).
+- `runners/llamacpp-ggml.md` §6, `runners/ollama.md` §4.5 — the local stack's own flash-attention implementation and enablement, the practical baseline for the improved-Ollama work.
+
+## 8. Sources
+
+All sources accessed **2026-11-15**.
+
+1. Dao, T. (2024). *FlashAttention-2: Faster Attention with Better Parallelism and Work Partitioning.* ICLR 2024 (arXiv July 2023). arXiv:2307.08691. Abstract page: https://arxiv.org/abs/2307.08691 — verified author, title, and headline claims (FA at 25–40% of peak; ~2× speedup; 50–73% of peak on A100; 225 TFLOPs/s / 72% MFU end-to-end).
+2. Same paper, full HTML text: https://arxiv.org/html/2307.08691v1 — read for the three mechanisms in detail (deferred rescaling + logsumexp-only state; loop-order swap and sequence-dimension parallelism, forward and backward; split-Q warp partitioning replacing split-K), the A100 non-matmul cost figure (312 vs 19.5 TFLOPs/s), causal-mask block skipping (~1.7–1.8×), the benchmark sweep (1.7–3.0× over FA1; up to 230 TFLOPs/s; 73% forward / 63% backward of peak), end-to-end Table 1 (196/220, 205/225 TFLOPs/s at 2K/8K), and the H100 note (335 TFLOPs/s with no Hopper-specific features).
+3. ICLR 2024 proceedings record for the paper (proceedings.iclr.cc, FlashAttention-2 paper PDF) — venue verification for §1; the arXiv record alone does not state a venue.
+4. Ye, Z. et al. (2025). *FlashInfer.* MLSys 2025. arXiv:2501.01005, §3.2 — the documented statement that FA2-algorithm templates cover Turing (sm75) to Ada (sm89), used in §4's portability caveat. Full dossier: `papers/flashinfer.md`.
+5. Corpus dossiers read for §5 (banked in this repository, accessed 2026-11-15): `runners/vllm.md` (attention-backend priority orders, forceable FA versions), `runners/sglang.md` (auto-selection: FA3 on Hopper, FlashInfer on Ampere/Ada), `runners/llamacpp-ggml.md`, `runners/ollama.md`.
