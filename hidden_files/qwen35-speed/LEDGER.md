@@ -262,3 +262,99 @@ per-chunk horizontal reduce_add dot.
   steadier reads; Ollama Q8_0 7.65 NOT beaten. Next causes
   (ordered): batched-recurrence SIMD, VNNI int8-dot GEMV,
   serve stream-variance audit.
+## QS-2 — HIP decode speed (OPEN)
+
+Seat: QS-2 team lead, six Mythic Engineering roles
+sequentially in one seat (no sub-agents; depth limit).
+Sole writer in ~/aesir-qs-hip on branch yrsa/qs-hip @
+bad65106. Full working notes: QS-2-NOTES.md in this folder.
+Start truth (2026-11-15 ~00:03 EST): purpleraider uptime
+4:03, load1 1.67 falling, MemAvailable ~113 GB.
+HEAVY.lock HELD by QS-3 (since 2026-11-14 ~22:31 EST;
+QS-3.8 v3 re-pack + grade, unit qs3-27b-v3) — all QS-2
+heavy (real-file) runs wait for it; fixture work proceeds
+fenced (32G class) per commission. rocprof absent (QS-0
+finding): engine timers + fixture timings only.
+
+### QS-2 entries as they land
+- Recon + design banked (QS-2-NOTES.md): the Q8_0 prize
+  is a bandwidth race — 27.2 GB of weights streamed per
+  token; Ollama Q8_0 7.65 tok/s implies ~208 GB/s
+  effective; 12.11 tok/s on Q8_0 would need ~330 GB/s,
+  beyond this memory system (that yardstick belongs to
+  the Q4_K_M tier, QS-3). Ceiling named up front, to be
+  measured, not assumed.
+- Baseline fixture reproduced in-tree from unmodified
+  bad65106 binaries (.base stash): ALL PASS, (b) diffs
+  digit-identical to QS-0, (e) GEMV loop 65.59 ms /
+  batched 10.21 ms (qs2-fixture-base.log).
+- QS-2.2 warp-per-row vectorized Q8 GEMV (_q8_gemv_kernel,
+  packed UInt32 loads, warp.sum; ALL batch sizes after a
+  (d)-gate discrimination: batch-split kernels broke the
+  (d) premise at state_diff 0.00390625 — fixed in scope
+  by unifying). Fixture ALL PASS: (d) 0.0/0.0 exact,
+  (c) greedy identical, rank 1 gap 0.0 (qs2-fixture-
+  gemv2.log). Session ALL PASS. Banked 0d1e1b9f.
+- QS-2.3 step 1: ring stage fused into conv kernel,
+  commit fused into l2norm kernel (-96 launches/token,
+  bit-exact). Fixture ALL PASS (qs2-fixture-fuse1.log).
+  Banked b218a215.
+- QS-2.4: delta step + gated RMSNorm fused
+  (_delta_norm_kernel, shared-memory reduction; -48
+  launches/token; fixture d_state 16 and real 128 both
+  take the fused branch). Fixture ALL PASS exact
+  (qs2-fixture-fuse3.log). Banked 39646164.
+- QS-2.3 step 2: SwiGLU pair fused into the FFN
+  down-GEMV (_q8_gemv_silu_kernel, bit-exact; -64
+  launches/token). Fixture ALL PASS (qs2-fixture-
+  fuse4.log). Banked c2adbe50.
+- QS-2.3 step 3: warp-parallel RMSNorm (was one serial
+  thread per row). Fixture ALL PASS, (b) diffs IMPROVED
+  (worst s 0.00021445751), (e) loop 49.47 -> 36.56 ms
+  (qs2-fixture-fuse5.log); session ALL PASS. Banked
+  fef90fb6. Launch census ~492/token (from ~700).
+- Fixture GEMV-loop trajectory (64 tok): 65.59 ms
+  baseline -> 36.56 ms current (1,751 tok/s, 1.79x at
+  fixture scale; fixture weights are L2-resident, so
+  this is the latency/launch component only — the
+  bandwidth component is measured by QS-2.1/QS-2.2
+  real-file runs under the lock).
+- PENDING (lock): QS-2.1 gen pair on .base binaries
+  (the QS-0.6 deferred measurement), gen pairs on
+  .gemv2 and current builds, real-file grade P0/P1/P5
+  on the current build (drive-heavy.sh is written and
+  ready; one fenced unit runs the whole sequence).
+- QS-2.1 DONE (lock claimed 2026-11-15 01:30 after
+  QS-3 banked their close e0f28a8b): unmodified
+  bad65106 gen pair = 0.067 tok/s decode (14.905
+  s/token differenced) -- the honest baseline.
+- QS-2.2 DONE through v7: warp GEMV (0.57) -> SIMD v3
+  (2.41) -> coalesced v4 (2.88) -> 8-block unroll v7
+  (6.87 tok/s, all under QS-1 CPU contention; clean
+  re-measurement owed). Grade at v3, v4, and v7
+  builds: 71/71 rank 1 gap 0.0 FAITHFUL every time.
+  Bench (output shape): v4 82 -> v5 149.5 -> v6
+  193.2 -> v7 214.6 GB/s. Root causes, in order:
+  scalar GEMV (QS-0), strided lane->block map (v2/v3),
+  DRAM latency without enough independent loads
+  (v4; fixed by unrolls). Banked 1e0e6151, 279c088e.
+- QS-2.3/QS-2.4: launch fusions all landed pre-lock
+  (above); at 0.146 s/token the launch floor is now
+  a minor term (~0.019 s/token non-GEMV total).
+- QS-2.2 v8 banked: bench + A/B + clean-window runs.
+  LOCK: claimed 2026-11-15 01:30:23 EST (QS-3 close
+  banked e0f28a8b; claim removed by another party
+  before 02:37), re-claimed 02:37:43 EST for the
+  clean-window sequence; released at this banking
+  (~02:47 EST). Clean-window headline: decode 3.55
+  tok/s cold / 3.83 warm (4/140 pairs, v8), grade
+  71/71 FAITHFUL (v8, contended epoch). Isolated
+  GEMV sustains 205.1 GB/s clean -- remaining
+  ceiling is in-engine non-GEMV time (~0.13
+  s/token), next step = real-scale per-phase
+  profile. Short-pair figures (6.87) retracted as
+  noise-dominated; see QS-2-NOTES.md.
+
+## Coordinator note (QS-2 merge, 2026-11-15)
+- QS-1 and QS-2 filed differing accounts of HEAVY.lock on the QS-1/QS-2 night (QS-1: QS-2 graded without the lock; QS-2: claimed 01:30:23 under OWNER.txt, the claim later removed by another party, re-claimed 02:37:43, released at banking). Both accounts stand in their sections above; the coordinator does not adjudicate beyond the record.
+- Protocol tightened from here: a claim is the atomic mkdir PLUS an OWNER.txt naming team and claim time; only the owner or the coordinator removes a claim; claim and release times are ledger entries. QS-2 acknowledged the correction unconditionally on receipt and complied from receipt.

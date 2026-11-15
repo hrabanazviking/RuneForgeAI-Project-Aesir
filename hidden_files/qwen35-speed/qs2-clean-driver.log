@@ -1,0 +1,33 @@
+CLEAN START Sun Nov 15 02:37:47 AM EST 2026
+0.94 6.24 8.47 1/1272 502631
+MemAvailable:   125252820 kB
++ cd /home/volmarr/aesir-qs-hip
++ export PATH=/home/volmarr/.pixi/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/snap/bin
++ PATH=/home/volmarr/.pixi/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/snap/bin
++ SH=hidden_files/hip-serve/shims
++ export LD_LIBRARY_PATH=/home/volmarr/aesir-qs-hip/hidden_files/hip-serve/shims
++ LD_LIBRARY_PATH=/home/volmarr/aesir-qs-hip/hidden_files/hip-serve/shims
++ QS=/home/volmarr/aesir-qs-hip/hidden_files/qwen35-speed
++ AD=/home/volmarr/aesir-qs-hip/hidden_files/qwen35-adapter
++ GGUF=/mnt/vault/models/gguf/Qwen3.8-27B-Ultimate-Heretic-Uncn-Turbo-Brilli-50x-AGI-NEO-Q8_0.gguf
++ grep MemAvailable /proc/meminfo
+MemAvailable:   125252820 kB
++ cat /proc/loadavg
+0.94 6.24 8.47 1/1273 502635
++ uptime
+ 02:37:47 up  6:38,  1 user,  load average: 0.94, 6.24, 8.47
++ cd /home/volmarr/aesir-qs-hip/hidden_files/qwen35-adapter
++ /usr/bin/time -v /home/volmarr/aesir-qs-hip/hidden_files/qwen35-speed/grade_qwen35_hip_q35_6b.v8 gen /mnt/vault/models/gguf/Qwen3.8-27B-Ultimate-Heretic-Uncn-Turbo-Brilli-50x-AGI-NEO-Q8_0.gguf q35-3b-tokens.txt 0 4
++ echo GEN4_EXIT=0
+GEN4_EXIT=0
++ /usr/bin/time -v /home/volmarr/aesir-qs-hip/hidden_files/qwen35-speed/grade_qwen35_hip_q35_6b.v8 gen /mnt/vault/models/gguf/Qwen3.8-27B-Ultimate-Heretic-Uncn-Turbo-Brilli-50x-AGI-NEO-Q8_0.gguf q35-3b-tokens.txt 0 140
++ echo GEN140_EXIT=0
+GEN140_EXIT=0
++ grep MemAvailable /proc/meminfo
+MemAvailable:   77393700 kB
++ echo QS2_GENPAIR140_DONE
+QS2_GENPAIR140_DONE
+CLEAN_PAIR_DONE Sun Nov 15 02:38:52 AM EST 2026
+1.12 5.26 7.98 2/1275 502903
+CLEAN_BENCH_DONE Sun Nov 15 02:39:53 AM EST 2026
+QS2_CLEAN_DONE
