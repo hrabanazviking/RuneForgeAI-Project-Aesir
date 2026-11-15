@@ -153,7 +153,7 @@ Included from /home/volmarr/aesir-qs-hip/aesir_engine/aesir.mojo:6:
                 var v_per_group = v_heads // groups
                                           ^
 Included from /home/volmarr/aesir-qs-hip/aesir_engine/tests/test_qwen35_hip_q35_6.mojo:44:
-/home/volmarr/aesir-qs-hip/aesir_engine/core/qwen35_hip.mojo:288:18: warning: assignment to 'ctx' was never used; assign to '_' instead?
+/home/volmarr/aesir-qs-hip/aesir_engine/core/qwen35_hip.mojo:954:18: warning: assignment to 'ctx' was never used; assign to '_' instead?
     var ctx = Int(ctx_arg)
                  ^
 Included from /home/volmarr/aesir-qs-hip/aesir_engine/tests/test_qwen35_hip_q35_6.mojo:45:
@@ -208,7 +208,7 @@ Included from /home/volmarr/aesir-qs-hip/aesir_engine/core/hip_gemv.mojo:43:
                 var version = -1
                               ^
 Included from /home/volmarr/aesir-qs-hip/aesir_engine/tests/grade_qwen35_hip_q35_6b.mojo:26:
-/home/volmarr/aesir-qs-hip/aesir_engine/core/qwen35_hip.mojo:288:18: warning: assignment to 'ctx' was never used; assign to '_' instead?
+/home/volmarr/aesir-qs-hip/aesir_engine/core/qwen35_hip.mojo:954:18: warning: assignment to 'ctx' was never used; assign to '_' instead?
     var ctx = Int(ctx_arg)
                  ^
 + echo BUILD_grade_qwen35_hip_q35_6b=0
@@ -248,7 +248,7 @@ Imported from /home/volmarr/aesir-qs-hip/aesir_engine/aesir.mojo:6:
 <unknown>:0: note: 'free' declared here
 Included from /home/volmarr/aesir-qs-hip/aesir_engine/tests/test_qwen35_hip_session_q35_6.mojo:24:
 Included from /home/volmarr/aesir-qs-hip/aesir_engine/qwen35_hip_session.mojo:55:
-Included from /home/volmarr/aesir-qs-hip/aesir_engine/core/qwen35_hip.mojo:44:
+Included from /home/volmarr/aesir-qs-hip/aesir_engine/core/qwen35_hip.mojo:47:
 Included from /home/volmarr/aesir-qs-hip/aesir_engine/core/hip_gemv.mojo:45:
 /home/volmarr/aesir-qs-hip/aesir_engine/core/mojo_gpu_target.mojo:96:20: warning: 'except' logic is unreachable, try doesn't raise an exception
             return -1
@@ -260,14 +260,14 @@ Included from /home/volmarr/aesir-qs-hip/aesir_engine/loader/packed_gguf.mojo:7:
                             ^
 Included from /home/volmarr/aesir-qs-hip/aesir_engine/tests/test_qwen35_hip_session_q35_6.mojo:24:
 Included from /home/volmarr/aesir-qs-hip/aesir_engine/qwen35_hip_session.mojo:55:
-Included from /home/volmarr/aesir-qs-hip/aesir_engine/core/qwen35_hip.mojo:44:
+Included from /home/volmarr/aesir-qs-hip/aesir_engine/core/qwen35_hip.mojo:47:
 Included from /home/volmarr/aesir-qs-hip/aesir_engine/core/hip_gemv.mojo:43:
 /home/volmarr/aesir-qs-hip/aesir_engine/core/amd_gate.mojo:380:31: warning: assignment to 'version' was never used; assign to '_' instead?
                 var version = -1
                               ^
 Included from /home/volmarr/aesir-qs-hip/aesir_engine/tests/test_qwen35_hip_session_q35_6.mojo:24:
 Included from /home/volmarr/aesir-qs-hip/aesir_engine/qwen35_hip_session.mojo:55:
-/home/volmarr/aesir-qs-hip/aesir_engine/core/qwen35_hip.mojo:288:18: warning: assignment to 'ctx' was never used; assign to '_' instead?
+/home/volmarr/aesir-qs-hip/aesir_engine/core/qwen35_hip.mojo:954:18: warning: assignment to 'ctx' was never used; assign to '_' instead?
     var ctx = Int(ctx_arg)
                  ^
 + echo BUILD_test_qwen35_hip_session_q35_6=0
