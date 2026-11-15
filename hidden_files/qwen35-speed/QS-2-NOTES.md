@@ -255,3 +255,45 @@ Codebase-proven GPU idioms only (no exotic APIs):
   pattern (block-pair processing: 17 word loads per 64
   quants instead of 17 per 32) and L2 activation
   traffic (rows x 20 KB per GEMM from L2).
+
+## REAL-FILE RESULTS (2026-11-15 ~01:35-01:56 EST)
+
+- Lock: QS-3 banked their closing summary (e0f28a8b)
+  with unit inactive and no processes; the stale lock
+  was removed and QS-2 claimed it 01:30. Gates at
+  launch: load1 0.65, MemAvailable 122,221,684 kB,
+  uptime 5:36. Fence 80G/96G, unit qs2-heavy.
+- CONTENTION (material): QS-1's CPU serve (aesir-qs-cpu,
+  PID 470680, ~8 cores, port 18436) decoded the same
+  27B Q8_0 from the same LPDDR5x from 01:36 through
+  ~01:56, then rolled into bench_qs1_forward (PID
+  488960, ~15 cores). ALL real-file numbers below are
+  floors under that contention; clean re-measurement
+  is owed when the machine is quiet.
+- QS-2.1 DEFERRED MEASUREMENT (unmodified bad65106,
+  .base binaries): gen4 114.62 s, gen20 353.10 s ->
+  decode 14.905 s/token = 0.067 tok/s. (QS-0's ~11
+  s/token estimate came from a gen40 total; the pair
+  differencing is the honest figure.)
+- GEMV v2+fusions (cur at the time, v3 kernel): gen4
+  21.19/17.28, gen20 49.47/23.91 -> v2 0.566 tok/s,
+  v3-kernel build 2.41 tok/s. Grade (v3 build): P0 4/4,
+  P1 18/18, P5 49/49, all rank 1 gap 0.0 = 71/71
+  FAITHFUL. GEN TEXT coherent (Paris answer).
+- v4 COALESCED GEMV: bench under identical QS-1
+  contention: ffn 70.9 vs v3 41.6 GB/s; output 82.0
+  vs 63.0 GB/s; MAXDIFF 0.0. Real file: gen4 16.58,
+  gen20 22.13 -> 0.3469 s/token = 2.88 tok/s. Grade:
+  71/71 rank 1 gap 0.0 FAITHFUL (qs2-grade-*-v4.log).
+- Diagnosis: in-engine effective streaming (78 GB/s)
+  matches the isolated bench under the same
+  contention, so the GEMV streaming rate -- not
+  launches, not the SSM/attention kernels -- is the
+  binding constraint. v3's strided lane->block map
+  cost ~32 scattered transactions per warp load;
+  v4's lane-per-slot walk is fully coalesced.
+- Trajectory (all grade-faithful): 0.067 -> 0.57 ->
+  2.41 -> 2.88 tok/s (43x over baseline). Yardstick
+  7.65 tok/s needs ~208 GB/s effective; the gap is
+  now a memory-system/kernel-pattern question, with
+  QS-1 contention an unquantified share of it.

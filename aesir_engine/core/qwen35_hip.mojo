@@ -190,6 +190,82 @@ def _q8_gemv_kernel(w: Bytes, a: Floats, base_arg: Int64, rows_arg: Int64, cols_
             a.unsafe_store(dst + b * rows + row, _f16r(acc))
 
 
+def _q8_gemv_kernel_v4(w: Bytes, a: Floats, base_arg: Int64, rows_arg: Int64, cols_arg: Int64, src_arg: Int64, dst_arg: Int64, batch_arg: Int64):
+    """QS-2.2 v4 candidate (bench only until graded):
+    one warp per output row, but the lanes split each
+    block's 32 quant slots (lane = slot) and the warp
+    walks blocks sequentially -- every load is fully
+    coalesced (32 consecutive bytes / floats per warp
+    instruction) instead of v3's 32-way strided block
+    map. Lane j accumulates slot j over all blocks;
+    warp.sum combines. Accumulation order differs --
+    graded under the Q35-6 standard before dispatch."""
+    var base = Int(base_arg)
+    var rows = Int(rows_arg)
+    var cols = Int(cols_arg)
+    var src = Int(src_arg)
+    var dst = Int(dst_arg)
+    var idx = Int(global_idx.x)
+    var lane = idx % 32
+    var warp_id = idx // 32
+    var b = warp_id // rows
+    var row = warp_id % rows
+    if warp_id < Int(batch_arg) * rows:
+        var blocks = cols // 32
+        var wf = w.unsafe_offset(base).unsafe_bitcast[Scalar[DType.float16]]()
+        var wb = w.unsafe_offset(base)
+        var acc: Float32 = 0.0
+        var abase = src + b * cols
+        var wrow = row * blocks
+        for blk in range(blocks):
+            var gblk = wrow + blk
+            var scale = wf.unsafe_load(gblk * 17).cast[DType.float32]()
+            var raw = Int(wb.unsafe_load(gblk * 34 + 2 + lane))
+            var q = raw - 256 if raw >= 128 else raw
+            acc += scale * Float32(q) * a.unsafe_load(abase + blk * 32 + lane)
+        acc = warp.sum(acc)
+        if lane == 0:
+            a.unsafe_store(dst + b * rows + row, _f16r(acc))
+
+
+def _q8_gemv_silu_kernel_v4(w: Bytes, a: Floats, base_arg: Int64, rows_arg: Int64, cols_arg: Int64, src_arg: Int64, dst_arg: Int64, batch_arg: Int64, gate_arg: Int64):
+    """QS-2.2 v4 candidate (bench only until graded):
+    one warp per output row, but the lanes split each
+    block's 32 quant slots (lane = slot) and the warp
+    walks blocks sequentially -- every load is fully
+    coalesced (32 consecutive bytes / floats per warp
+    instruction) instead of v3's 32-way strided block
+    map. Lane j accumulates slot j over all blocks;
+    warp.sum combines. Accumulation order differs --
+    graded under the Q35-6 standard before dispatch."""
+    var base = Int(base_arg)
+    var rows = Int(rows_arg)
+    var cols = Int(cols_arg)
+    var src = Int(src_arg)
+    var dst = Int(dst_arg)
+    var idx = Int(global_idx.x)
+    var lane = idx % 32
+    var warp_id = idx // 32
+    var b = warp_id // rows
+    var row = warp_id % rows
+    if warp_id < Int(batch_arg) * rows:
+        var blocks = cols // 32
+        var wf = w.unsafe_offset(base).unsafe_bitcast[Scalar[DType.float16]]()
+        var wb = w.unsafe_offset(base)
+        var acc: Float32 = 0.0
+        var abase = src + b * cols
+        var wrow = row * blocks
+        for blk in range(blocks):
+            var gblk = wrow + blk
+            var scale = wf.unsafe_load(gblk * 17).cast[DType.float32]()
+            var raw = Int(wb.unsafe_load(gblk * 34 + 2 + lane))
+            var q = raw - 256 if raw >= 128 else raw
+            acc += scale * Float32(q) * _silu_pair(a, abase + blk * 32 + lane, Int(gate_arg) + b * cols + blk * 32 + lane)
+        acc = warp.sum(acc)
+        if lane == 0:
+            a.unsafe_store(dst + b * rows + row, _f16r(acc))
+
+
 def _q8_gemv_silu_kernel(w: Bytes, a: Floats, base_arg: Int64, rows_arg: Int64, cols_arg: Int64, src_arg: Int64, dst_arg: Int64, batch_arg: Int64, gate_arg: Int64):
     """QS-2.2 vectorized Q8_0 GEMV: one warp (32 lanes) per
     output row. Lane l accumulates blocks l, l+32, ... of
@@ -938,7 +1014,7 @@ struct Qwen35HipExecutor:
 
     def _gemm(mut self, t: Q35TensorRef, src: Int, dst: Int, batch: Int) raises:
         var n = batch * t.rows * 32
-        self.context.enqueue_function[_q8_gemv_kernel](self.w(), self.a(), Int64(t.base), Int64(t.rows), Int64(t.cols), Int64(src), Int64(dst), Int64(batch), grid_dim=(n + 255) // 256, block_dim=256)
+        self.context.enqueue_function[_q8_gemv_kernel_v4](self.w(), self.a(), Int64(t.base), Int64(t.rows), Int64(t.cols), Int64(src), Int64(dst), Int64(batch), grid_dim=(n + 255) // 256, block_dim=256)
 
     def _norm(mut self, t: Q35TensorRef, src: Int, dst: Int, width: Int, batch: Int) raises:
         self.context.enqueue_function[_rmsnorm_kernel](self.w(), self.a(), Int64(t.base), Int64(t.kind), Int64(width), Int64(src), Int64(dst), Int64(batch), Float32(1e-5), grid_dim=(batch * 32 + 255) // 256, block_dim=256)
@@ -951,7 +1027,7 @@ struct Qwen35HipExecutor:
 
     def _gemm_silu(mut self, t: Q35TensorRef, src: Int, gate: Int, dst: Int, batch: Int) raises:
         var n = batch * t.rows * 32
-        self.context.enqueue_function[_q8_gemv_silu_kernel](self.w(), self.a(), Int64(t.base), Int64(t.rows), Int64(t.cols), Int64(src), Int64(dst), Int64(batch), Int64(gate), grid_dim=(n + 255) // 256, block_dim=256)
+        self.context.enqueue_function[_q8_gemv_silu_kernel_v4](self.w(), self.a(), Int64(t.base), Int64(t.rows), Int64(t.cols), Int64(src), Int64(dst), Int64(batch), Int64(gate), grid_dim=(n + 255) // 256, block_dim=256)
 
     def _ffn(mut self, layer: Q35HipLayer, batch: Int) raises:
         ref p = self.profile

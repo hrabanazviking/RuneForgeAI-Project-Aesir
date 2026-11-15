@@ -13,7 +13,7 @@ from std.time import perf_counter_ns
 from std.memory import Pointer
 from max.gpu.host import DeviceContext, DeviceBuffer, HostBuffer
 from core.packed_quantization import Bytes
-from core.qwen35_hip import _q8_gemm_kernel, _q8_gemv_kernel
+from core.qwen35_hip import _q8_gemm_kernel, _q8_gemv_kernel, _q8_gemv_kernel_v4
 from core.hip_gemv import HipGemv
 
 comptime Floats = Pointer[Float32, MutUntrackedOrigin]
@@ -76,6 +76,24 @@ def run_shape(ctx: DeviceContext, rows: Int, cols: Int, reps: Int) raises:
             d = -d
         if d > md:
             md = d
+    # v4 (coalesced lane-per-slot) kernel
+    t0 = perf_counter_ns()
+    for _ in range(reps):
+        ctx.enqueue_function[_q8_gemv_kernel_v4](w, a, Int64(0), Int64(rows), Int64(cols), Int64(0), Int64(cols), Int64(1), grid_dim=(n_new + 255) // 256, block_dim=256)
+    ctx.synchronize()
+    var v4_ns = perf_counter_ns() - t0
+    ctx.enqueue_copy(host_a, dev_a)
+    ctx.synchronize()
+    var md4 = Float32(0.0)
+    for i in range(rows):
+        var d = host_a[cols + i] - old_out[i]
+        if d < Float32(0.0):
+            d = -d
+        if d > md4:
+            md4 = d
+    var gbs_v4 = Float64(wbytes) * Float64(reps) / (Float64(v4_ns) / 1e9) / 1e9
+    print("V4 ms_per_rep=", Float64(v4_ns) / 1e6 / Float64(reps), " GB_s=", gbs_v4)
+    print("MAXDIFF old_vs_v4=", md4)
     var gbs_old = Float64(wbytes) * Float64(reps) / (Float64(old_ns) / 1e9) / 1e9
     var gbs_new = Float64(wbytes) * Float64(reps) / (Float64(new_ns) / 1e9) / 1e9
     print("OLD ms_per_rep=", Float64(old_ns) / 1e6 / Float64(reps), " GB_s=", gbs_old)

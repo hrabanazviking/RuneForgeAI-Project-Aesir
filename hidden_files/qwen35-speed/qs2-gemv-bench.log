@@ -1,14 +1,18 @@
-MemAvailable:   122123728 kB
+MemAvailable:   124255788 kB
 Secondary CUID not available: AMDCUID support not enabled.
 SHAPE rows= 17408  cols= 5120  weight_bytes= 94699520
-OLD ms_per_rep= 99.3696046  GB_s= 0.9530028863574647
-NEW ms_per_rep= 1.2421182  GB_s= 76.24034492047537
+V4 ms_per_rep= 1.3364746  GB_s= 70.85770279509988
+MAXDIFF old_vs_v4= 0.0
+OLD ms_per_rep= 97.1984774  GB_s= 0.9742901589937868
+NEW ms_per_rep= 2.2750247999999997  GB_s= 41.6257088713934
 MAXDIFF old_vs_new= 0.0
 SHAPE rows= 248320  cols= 5120  weight_bytes= 1350860800
-OLD ms_per_rep= 2480.312243  GB_s= 0.5446333637276651
-NEW ms_per_rep= 21.117973  GB_s= 63.967351411993945
+V4 ms_per_rep= 16.482848  GB_s= 81.95554554649779
+MAXDIFF old_vs_v4= 0.0
+OLD ms_per_rep= 2638.50248  GB_s= 0.5119801138106188
+NEW ms_per_rep= 21.4404024  GB_s= 63.00538463774355
 MAXDIFF old_vs_new= 0.0
 QS2_GEMV_BENCH DONE
 Warning: Resource leak detected by SharedSignalPool, 89 Signals leaked.
 BENCH_EXIT=0
-MemAvailable:   75945884 kB
+MemAvailable:   101599752 kB
