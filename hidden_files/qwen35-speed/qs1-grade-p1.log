@@ -5,22 +5,22 @@ LOADED resident: qwen35 blocks: 64 vocab: 248320
 PROMPT TOKENS: 19
 GRADE WRITTEN: hidden_files/qwen35-speed/qs1-grade-p1.csv
 	Command being timed: "./hidden_files/qwen35-speed/grade_qs1 grade /mnt/vault/models/gguf/Qwen3.8-27B-Ultimate-Heretic-Uncn-Turbo-Brilli-50x-AGI-NEO-Q8_0.gguf hidden_files/qwen35-adapter/q35-3b-tokens.txt 1 hidden_files/qwen35-adapter/q35-3b-comp.csv hidden_files/qwen35-speed/qs1-grade-p1.csv"
-	User time (seconds): 110.16
-	System time (seconds): 1.90
-	Percent of CPU this job got: 1344%
-	Elapsed (wall clock) time (h:mm:ss or m:ss): 0:08.33
+	User time (seconds): 117.12
+	System time (seconds): 3.47
+	Percent of CPU this job got: 1550%
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 0:07.77
 	Average shared text size (kbytes): 0
 	Average unshared data size (kbytes): 0
 	Average stack size (kbytes): 0
 	Average total size (kbytes): 0
-	Maximum resident set size (kbytes): 30996744
+	Maximum resident set size (kbytes): 30992212
 	Average resident set size (kbytes): 0
-	Major (requiring I/O) page faults: 1
-	Minor (reclaiming a frame) page faults: 1267549
-	Voluntary context switches: 268001
-	Involuntary context switches: 5094
+	Major (requiring I/O) page faults: 6
+	Minor (reclaiming a frame) page faults: 1502429
+	Voluntary context switches: 270512
+	Involuntary context switches: 5093
 	Swaps: 0
-	File system inputs: 816
+	File system inputs: 47568
 	File system outputs: 16
 	Socket messages sent: 0
 	Socket messages received: 0
