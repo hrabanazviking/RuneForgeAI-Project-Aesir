@@ -231,3 +231,20 @@ finding): engine timers + fixture timings only.
   .gemv2 and current builds, real-file grade P0/P1/P5
   on the current build (drive-heavy.sh is written and
   ready; one fenced unit runs the whole sequence).
+- QS-2.1 DONE (lock claimed 2026-11-15 01:30 after
+  QS-3 banked their close e0f28a8b): unmodified
+  bad65106 gen pair = 0.067 tok/s decode (14.905
+  s/token differenced) -- the honest baseline.
+- QS-2.2 DONE through v7: warp GEMV (0.57) -> SIMD v3
+  (2.41) -> coalesced v4 (2.88) -> 8-block unroll v7
+  (6.87 tok/s, all under QS-1 CPU contention; clean
+  re-measurement owed). Grade at v3, v4, and v7
+  builds: 71/71 rank 1 gap 0.0 FAITHFUL every time.
+  Bench (output shape): v4 82 -> v5 149.5 -> v6
+  193.2 -> v7 214.6 GB/s. Root causes, in order:
+  scalar GEMV (QS-0), strided lane->block map (v2/v3),
+  DRAM latency without enough independent loads
+  (v4; fixed by unrolls). Banked 1e0e6151, 279c088e.
+- QS-2.3/QS-2.4: launch fusions all landed pre-lock
+  (above); at 0.146 s/token the launch floor is now
+  a minor term (~0.019 s/token non-GEMV total).
