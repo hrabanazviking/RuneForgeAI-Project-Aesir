@@ -317,3 +317,61 @@ exhausts at E2B scale (it was built for stories-size files).
 Named remaining work rather than silently dropped; the stories
 grade (QS-3.3) + unit MSE (QS-3.2) + the 27B strict grade
 (QS-3.5) carry the fit question.
+
+## SLICE QS-3.5 — THE 27B APPLICATION (banked)
+
+Gate: fresh-boot conditions verified live at 21:00 EST
+(uptime 1:00, load1 0.19, MemAvailable ~114 GB). HEAVY.lock
+claimed atomically, held 21:00-22:31 EST, released after the
+serve smoke. Run: systemd unit qs3-27b (MemoryHigh 56G /
+Max 72G), script run-qs-3-27b.sh.
+
+CONVERSION: aesir quantize <Q8_0 source> --to q4_k_m
+--streaming --fit searched. Wall 1:19:57, max RSS ~28 GB.
+Product: /mnt/vault/models/gguf/Qwen3.8-27B-Ultimate-Heretic-
+Uncn-Turbo-Brilli-50x-AGI-NEO-Q4_K_M-searchedfit.gguf
+16,223,236,576 B (byte-identical size to the legacy product),
+sha256 793cf77549456073fc166c56cc43afe1a609b3ce8722aa069fa75
+400a2932f99. The legacy product was NOT overwritten.
+
+STRICT GRADE (QC-6 battery, RAW prompts, teacher-forcing,
+CPU-vs-CPU; source rows re-graded fresh through the resident
+Q8 path vs the banked llama.cpp comparator; product rows vs
+the source rows) — graded TWICE, through the default packed
+path and through the QS-3.4 resident-K path, with IDENTICAL
+results (qs-3-grade-summary.log / -residentk.log):
+  IN_BAND 197/198 = 99.49%   agreement 192/198 = 96.97%
+  rank dist {1: 192, 2: 5, 4: 1}
+  VERDICT: DIVERGENT (not FAITHFUL) — 1 of 198 out of band.
+vs the legacy product (QC-6): in-band UNCHANGED 197/198;
+agreement UP 190 -> 192; the QC-6 named record p5 pos22 is
+FIXED (p5's worst in-band gap is now 15 milli at pos0). The
+sole out-of-band record MOVED: p5 pos8, gap 453 milli, rank 4
+(true 5335 = the source's own argmax; product argmax 321).
+Generation witnesses: product default-path and resident-K
+40-token greedy runs are token-IDENTICAL to each other
+(a third path-equality confirmation); both open " Paris."
+like the source, then continue differently (witness only).
+
+READING (no inflation): the searched fit did exactly what
+the fixture slices measured — it fixed the named record and
+bought agreement — and the strict gate still fails on ONE
+record, a different one. Measured twice now (stories + 27B):
+the fit term governs the bulk error; the last record is a
+knife-edge argmax flip at flat Q4_K_M density that moves
+under any small perturbation of the packing. NEXT NAMED
+CAUSE + decisive experiment (QS-3.6): grade a llama.cpp-
+produced Q4_K_M of the same Q8_0 source on the identical
+battery. If llama's own product also lands at 197/198-class,
+the remaining gap is the density itself, not Aesir's writer,
+and the honest road is a denser policy for the tail tensors
+(e.g. Q6_K on the worst-census classes). If llama's product
+is FAITHFUL, the delta lives in fit details (imatrix-style
+weighting, super-block rounding) and the hunt continues there.
+
+RESIDENT SERVE SMOKE (qs-3-serve-smoke-27b.log): the searched
+product served under --qwen35-resident-k on fenced port
+18435; census 498 large = 457 Q4_K + 41 Q6_K, k_bytes
+16,201,420,800, F16 avoided 53,786,705,920; a real completion
+returned (eos, 13 tokens). The small resident form is now a
+SERVED form as well as a packed one.
