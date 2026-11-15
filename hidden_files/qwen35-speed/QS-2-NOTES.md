@@ -233,3 +233,25 @@ Codebase-proven GPU idioms only (no exotic APIs):
   load per quant vs ~0.53 for weights), split FMA
   accumulators to break the serial acc chain, row-pair
   work per lane for more independent streams.
+
+## GEMV v3 — SIMD accumulator (fixture + bench)
+
+- _q8_gemv_kernel v3: activation read as 4 scalar loads
+  packed into a SIMD4 (this Mojo Pointer has no SIMD
+  unsafe_load — the compiler-facing form is 4 scalar
+  loads + SIMD construction), products accumulate in a
+  SIMD4 register (4 independent FMA chains vs 1 serial
+  chain in v2). _q8_gemv_silu_kernel ported identically.
+- Fixture: ALL PASS, (d)/(f) exact (qs2-fixture-gemv3s
+  .log; loop 37.19 ms — fixture is latency-bound, the
+  SIMD change is a bandwidth-regime lever).
+- Bench rerun (same QS-3 contention): ffn shape 76.24
+  GB/s (v2: 70.24), output shape 63.97 GB/s (v2:
+  62.75); MAXDIFF 0.0 both. The contended ceiling is
+  NOT the FMA chain — suspects are package power /
+  bandwidth shared with QS-3 CPU work. The quiet-window
+  gen pairs are the deciding measurement; if they land
+  far under ~200 GB/s, next levers are the weight-load
+  pattern (block-pair processing: 17 word loads per 64
+  quants instead of 17 per 32) and L2 activation
+  traffic (rows x 20 KB per GEMM from L2).
