@@ -6,7 +6,8 @@
 # analogue is the registry extension in model_registry plus this
 # default-path load, reported honestly in QC-6-NOTES). An optional
 # 7th argument selects the mode: "resident" (default, Q35-3b
-# behaviour) or "default".
+# behaviour), "default", or "resident_k" (QS-3: the Q4_K_M
+# resident contract; grades a K product through the resident path).
 #
 # Q35-3b oracle grade driver (not a suite test).
 #
@@ -115,11 +116,15 @@ def main() raises:
         raise Error("usage: grade|gen|batch ... (see header)")
     var mode = arguments[1]
     var resident = True
+    var resident_k = False
     for ai in range(6, len(arguments)):
         if arguments[ai] == "default":
             resident = False
-    var engine = AesirEngine(arguments[2], knowledge_capacity=1, qwen35_resident=resident)
-    print("LOAD MODE:", "q8_0_resident" if resident else "default_packed")
+        if arguments[ai] == "resident_k":
+            resident = False
+            resident_k = True
+    var engine = AesirEngine(arguments[2], knowledge_capacity=1, qwen35_resident=resident, qwen35_resident_k=resident_k)
+    print("LOAD MODE:", "q4_k_m_resident" if resident_k else ("q8_0_resident" if resident else "default_packed"))
     if engine.parser.config.architecture != "qwen35":
         raise Error("architecture is not qwen35")
     print("LOADED:", engine.parser.config.architecture, "blocks:", engine.parser.config.block_count, "vocab:", engine.tokenizer.vocab_size)
