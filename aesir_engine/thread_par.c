@@ -59,12 +59,68 @@ static void *aesir_tramp(void *p) {
     return NULL;
 }
 
-long aesir_par_for(aesir_range_fn fn, void *ctx, long n, long want) {
-    if (!fn || n <= 0) return -1;
-    if (want < 1) want = 1;
-    if (want > 256) want = 256;
-    if (want > n) want = n;
-    if (want == 1) { fn(ctx, 0, n); return 1; }
+/* QS-1.3: persistent worker pool behind the same aesir_par_for
+ * contract. The create-per-call body above measured ~210 us of
+ * pthread_create+join per dispatch (bench_qs1_gemm QS1SPAWN);
+ * the qwen35 decode path dispatches ~450 GEMMs per token, so
+ * spawn churn alone cost ~95 ms/token. The pool spawns each
+ * worker once (grow-only, up to the largest chunk count ever
+ * requested), dispatches by generation counter, and keeps the
+ * exact contract: chunk 0 on the calling thread, identical
+ * contiguous partitioning, a chunk whose worker could not be
+ * spawned runs on the calling thread, and any pool failure
+ * degrades to the original create-per-call body below
+ * (aesir_par_for_spawn), never to lost work. Dispatches are
+ * serialized by a mutex; a pool worker that itself calls
+ * aesir_par_for runs its range serially (no nested dispatch,
+ * no deadlock). Workers block on a condition variable between
+ * dispatches and live for the process lifetime. */
+#define AESIR_POOL_MAX 255
+static pthread_mutex_t pool_mu = PTHREAD_MUTEX_INITIALIZER;
+static pthread_mutex_t pool_dispatch_mu = PTHREAD_MUTEX_INITIALIZER;
+static pthread_cond_t pool_work_cond = PTHREAD_COND_INITIALIZER;
+static pthread_cond_t pool_done_cond = PTHREAD_COND_INITIALIZER;
+static aesir_range_fn pool_fn = NULL;
+static void *pool_ctx = NULL;
+static long pool_n = 0;
+static long pool_want = 0;
+static long pool_generation = 0;
+static long pool_pending = 0;
+static long pool_workers = 0; /* spawned workers; worker i runs chunk i+1 */
+static __thread int pool_in_worker = 0;
+
+static void aesir_chunk_bounds(long n, long want, long i, long *start, long *end) {
+    long base = n / want, rem = n % want;
+    long pos = i * base + (i < rem ? i : rem);
+    *start = pos;
+    *end = pos + base + (i < rem ? 1 : 0);
+}
+
+static void *aesir_pool_worker(void *arg) {
+    long idx = (long)(size_t)arg; /* this worker's chunk index minus 1 */
+    long seen = 0;
+    pool_in_worker = 1;
+    pthread_mutex_lock(&pool_mu);
+    for (;;) {
+        while (pool_generation == seen)
+            pthread_cond_wait(&pool_work_cond, &pool_mu);
+        seen = pool_generation;
+        if (idx + 1 < pool_want) {
+            aesir_range_fn fn = pool_fn;
+            void *ctx = pool_ctx;
+            long start, end;
+            aesir_chunk_bounds(pool_n, pool_want, idx + 1, &start, &end);
+            pthread_mutex_unlock(&pool_mu);
+            fn(ctx, start, end);
+            pthread_mutex_lock(&pool_mu);
+            if (--pool_pending == 0)
+                pthread_cond_signal(&pool_done_cond);
+        }
+    }
+    return NULL;
+}
+
+static long aesir_par_for_spawn(aesir_range_fn fn, void *ctx, long n, long want) {
     aesir_job *jobs = (aesir_job *)calloc((size_t)want, sizeof(aesir_job));
     if (!jobs) { fn(ctx, 0, n); return 1; }
     long base = n / want, rem = n % want, pos = 0;
@@ -84,6 +140,52 @@ long aesir_par_for(aesir_range_fn fn, void *ctx, long n, long want) {
         else jobs[i].fn(jobs[i].ctx, jobs[i].start, jobs[i].end);
     }
     free(jobs);
+    return want;
+}
+
+long aesir_par_for(aesir_range_fn fn, void *ctx, long n, long want) {
+    if (!fn || n <= 0) return -1;
+    if (want < 1) want = 1;
+    if (want > 256) want = 256;
+    if (want > n) want = n;
+    if (want == 1) { fn(ctx, 0, n); return 1; }
+    if (pool_in_worker) { fn(ctx, 0, n); return 1; }
+    pthread_mutex_lock(&pool_dispatch_mu);
+    pthread_mutex_lock(&pool_mu);
+    /* Grow the pool toward want-1 workers; a spawn failure stops
+     * growth and the unspawned chunks fall to the caller below. */
+    while (pool_workers < want - 1 && pool_workers < AESIR_POOL_MAX) {
+        pthread_t tid;
+        if (pthread_create(&tid, NULL, aesir_pool_worker,
+                           (void *)(size_t)pool_workers) != 0)
+            break;
+        pthread_detach(tid);
+        pool_workers++;
+    }
+    if (pool_workers == 0) {
+        pthread_mutex_unlock(&pool_mu);
+        pthread_mutex_unlock(&pool_dispatch_mu);
+        return aesir_par_for_spawn(fn, ctx, n, want);
+    }
+    long covered = pool_workers + 1; /* chunks 0..pool_workers */
+    if (covered > want) covered = want;
+    pool_fn = fn; pool_ctx = ctx; pool_n = n; pool_want = want;
+    pool_pending = covered - 1;
+    pool_generation++;
+    pthread_cond_broadcast(&pool_work_cond);
+    pthread_mutex_unlock(&pool_mu);
+    long start, end;
+    aesir_chunk_bounds(n, want, 0, &start, &end);
+    fn(ctx, start, end);
+    for (long i = covered; i < want; i++) {
+        aesir_chunk_bounds(n, want, i, &start, &end);
+        fn(ctx, start, end);
+    }
+    pthread_mutex_lock(&pool_mu);
+    while (pool_pending != 0)
+        pthread_cond_wait(&pool_done_cond, &pool_mu);
+    pthread_mutex_unlock(&pool_mu);
+    pthread_mutex_unlock(&pool_dispatch_mu);
     return want;
 }
 
