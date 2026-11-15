@@ -1,0 +1,276 @@
++ cd /home/volmarr/aesir-qs-hip
++ export PATH=/home/volmarr/.pixi/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/snap/bin
++ PATH=/home/volmarr/.pixi/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/snap/bin
++ SH=hidden_files/hip-serve/shims
++ mkdir -p hidden_files/hip-serve/shims hidden_files/qwen35-speed
++ '[' '!' -f hidden_files/hip-serve/shims/libaesir_hip.so ']'
++ LK='-Xlinker -Lhidden_files/hip-serve/shims -Xlinker -laesir_hailo10h -Xlinker -laesir_par -Xlinker -laesir_hip -Xlinker -laesir_vulkan -Xlinker -laesir_zc -Xlinker -laesir_aff'
++ for t in test_qwen35_hip_q35_6 grade_qwen35_hip_q35_6b test_qwen35_hip_session_q35_6
++ pixi run --frozen mojo build -I . --target-accelerator gfx1151 -Xlinker -Lhidden_files/hip-serve/shims -Xlinker -laesir_hailo10h -Xlinker -laesir_par -Xlinker -laesir_hip -Xlinker -laesir_vulkan -Xlinker -laesir_zc -Xlinker -laesir_aff aesir_engine/tests/test_qwen35_hip_q35_6.mojo -o hidden_files/qwen35-speed/test_qwen35_hip_q35_6
+Imported from /home/volmarr/aesir-qs-hip/aesir_engine/tests/test_qwen35_hip_q35_6.mojo:45:
+Imported from /home/volmarr/aesir-qs-hip/aesir_engine/aesir.mojo:6:
+/home/volmarr/aesir-qs-hip/aesir_engine/core/inference.mojo:2181:9: warning: '__del__' is deprecated; use '__deinit__'
+    def __del__(deinit self):
+        ^~~~~~~
+        __deinit__
+Imported from /home/volmarr/aesir-qs-hip/aesir_engine/tests/test_qwen35_hip_q35_6.mojo:45:
+Imported from /home/volmarr/aesir-qs-hip/aesir_engine/aesir.mojo:6:
+/home/volmarr/aesir-qs-hip/aesir_engine/core/inference.mojo:2182:20: warning: 'free' is deprecated, use 'unsafe_free' instead
+        self.s_data.free()
+        ~~~~~~~~~~~^~~~~
+                    unsafe_free
+<unknown>:0: note: 'free' declared here
+Imported from /home/volmarr/aesir-qs-hip/aesir_engine/tests/test_qwen35_hip_q35_6.mojo:45:
+Imported from /home/volmarr/aesir-qs-hip/aesir_engine/aesir.mojo:6:
+/home/volmarr/aesir-qs-hip/aesir_engine/core/inference.mojo:2183:23: warning: 'free' is deprecated, use 'unsafe_free' instead
+        self.conv_data.free()
+        ~~~~~~~~~~~~~~^~~~~
+                       unsafe_free
+<unknown>:0: note: 'free' declared here
+Imported from /home/volmarr/aesir-qs-hip/aesir_engine/tests/test_qwen35_hip_q35_6.mojo:45:
+Imported from /home/volmarr/aesir-qs-hip/aesir_engine/aesir.mojo:6:
+/home/volmarr/aesir-qs-hip/aesir_engine/core/inference.mojo:2184:21: warning: 'free' is deprecated, use 'unsafe_free' instead
+        self.scratch.free()
+        ~~~~~~~~~~~~^~~~~
+                     unsafe_free
+<unknown>:0: note: 'free' declared here
+Imported from /home/volmarr/aesir-qs-hip/aesir_engine/tests/test_qwen35_hip_q35_6.mojo:45:
+Imported from /home/volmarr/aesir-qs-hip/aesir_engine/aesir.mojo:6:
+Imported from /home/volmarr/aesir-qs-hip/aesir_engine/core/inference.mojo:11:
+/home/volmarr/aesir-qs-hip/aesir_engine/core/compute.mojo:1267:14: warning: `alloc` without a `Layout` is deprecated, use the `Layout`-based `alloc` instead; as a temporary migration step, use `unsafe_alloc`
+    var cp = alloc[Int64](6)
+             ^~~~~
+<unknown>:0: note: 'alloc' declared here
+Imported from /home/volmarr/aesir-qs-hip/aesir_engine/tests/test_qwen35_hip_q35_6.mojo:45:
+Imported from /home/volmarr/aesir-qs-hip/aesir_engine/aesir.mojo:6:
+Imported from /home/volmarr/aesir-qs-hip/aesir_engine/core/inference.mojo:11:
+Imported from /home/volmarr/aesir-qs-hip/aesir_engine/core/compute.mojo:9:
+/home/volmarr/aesir-qs-hip/aesir_engine/core/parallel.mojo:39:1: warning: 'alias' is deprecated; use 'comptime'
+alias RangeFn = def(Int64, Int64, Int64) thin -> None
+^~~~~
+comptime
+Imported from /home/volmarr/aesir-qs-hip/aesir_engine/tests/test_qwen35_hip_q35_6.mojo:45:
+Imported from /home/volmarr/aesir-qs-hip/aesir_engine/aesir.mojo:6:
+Imported from /home/volmarr/aesir-qs-hip/aesir_engine/core/inference.mojo:11:
+/home/volmarr/aesir-qs-hip/aesir_engine/core/compute.mojo:2638:14: warning: `alloc` without a `Layout` is deprecated, use the `Layout`-based `alloc` instead; as a temporary migration step, use `unsafe_alloc`
+    var cp = alloc[Int64](6)
+             ^~~~~
+<unknown>:0: note: 'alloc' declared here
+Imported from /home/volmarr/aesir-qs-hip/aesir_engine/tests/test_qwen35_hip_q35_6.mojo:45:
+Imported from /home/volmarr/aesir-qs-hip/aesir_engine/aesir.mojo:6:
+/home/volmarr/aesir-qs-hip/aesir_engine/core/inference.mojo:965:27: warning: `alloc` without a `Layout` is deprecated, use the `Layout`-based `alloc` instead; as a temporary migration step, use `unsafe_alloc`
+            var scratch = alloc[Float32](256)
+                          ^~~~~
+<unknown>:0: note: 'alloc' declared here
+Imported from /home/volmarr/aesir-qs-hip/aesir_engine/tests/test_qwen35_hip_q35_6.mojo:45:
+Imported from /home/volmarr/aesir-qs-hip/aesir_engine/aesir.mojo:6:
+/home/volmarr/aesir-qs-hip/aesir_engine/core/inference.mojo:986:30: warning: `alloc` without a `Layout` is deprecated, use the `Layout`-based `alloc` instead; as a temporary migration step, use `unsafe_alloc`
+            var nl_scratch = alloc[Float32](32)
+                             ^~~~~
+<unknown>:0: note: 'alloc' declared here
+Imported from /home/volmarr/aesir-qs-hip/aesir_engine/tests/test_qwen35_hip_q35_6.mojo:45:
+Imported from /home/volmarr/aesir-qs-hip/aesir_engine/aesir.mojo:6:
+Imported from /home/volmarr/aesir-qs-hip/aesir_engine/core/inference.mojo:11:
+/home/volmarr/aesir-qs-hip/aesir_engine/core/compute.mojo:1976:15: warning: `alloc` without a `Layout` is deprecated, use the `Layout`-based `alloc` instead; as a temporary migration step, use `unsafe_alloc`
+    var dst = alloc[UInt16](2048)
+              ^~~~~
+<unknown>:0: note: 'alloc' declared here
+Imported from /home/volmarr/aesir-qs-hip/aesir_engine/tests/test_qwen35_hip_q35_6.mojo:45:
+Imported from /home/volmarr/aesir-qs-hip/aesir_engine/aesir.mojo:6:
+Imported from /home/volmarr/aesir-qs-hip/aesir_engine/core/inference.mojo:11:
+/home/volmarr/aesir-qs-hip/aesir_engine/core/compute.mojo:2181:14: warning: `alloc` without a `Layout` is deprecated, use the `Layout`-based `alloc` instead; as a temporary migration step, use `unsafe_alloc`
+    var cp = alloc[Int64](7)
+             ^~~~~
+<unknown>:0: note: 'alloc' declared here
+Imported from /home/volmarr/aesir-qs-hip/aesir_engine/tests/test_qwen35_hip_q35_6.mojo:45:
+Imported from /home/volmarr/aesir-qs-hip/aesir_engine/aesir.mojo:6:
+Imported from /home/volmarr/aesir-qs-hip/aesir_engine/core/inference.mojo:11:
+/home/volmarr/aesir-qs-hip/aesir_engine/core/compute.mojo:1094:19: warning: `alloc` without a `Layout` is deprecated, use the `Layout`-based `alloc` instead; as a temporary migration step, use `unsafe_alloc`
+    var scratch = alloc[Float32](a_cols)
+                  ^~~~~
+<unknown>:0: note: 'alloc' declared here
+Imported from /home/volmarr/aesir-qs-hip/aesir_engine/tests/test_qwen35_hip_q35_6.mojo:45:
+Imported from /home/volmarr/aesir-qs-hip/aesir_engine/aesir.mojo:6:
+Imported from /home/volmarr/aesir-qs-hip/aesir_engine/core/inference.mojo:11:
+/home/volmarr/aesir-qs-hip/aesir_engine/core/compute.mojo:1941:14: warning: `alloc` without a `Layout` is deprecated, use the `Layout`-based `alloc` instead; as a temporary migration step, use `unsafe_alloc`
+    var cp = alloc[Int64](9)
+             ^~~~~
+<unknown>:0: note: 'alloc' declared here
+Imported from /home/volmarr/aesir-qs-hip/aesir_engine/tests/test_qwen35_hip_q35_6.mojo:45:
+Imported from /home/volmarr/aesir-qs-hip/aesir_engine/aesir.mojo:6:
+Imported from /home/volmarr/aesir-qs-hip/aesir_engine/core/inference.mojo:11:
+/home/volmarr/aesir-qs-hip/aesir_engine/core/compute.mojo:2093:14: warning: `alloc` without a `Layout` is deprecated, use the `Layout`-based `alloc` instead; as a temporary migration step, use `unsafe_alloc`
+    var cp = alloc[Int64](8)
+             ^~~~~
+<unknown>:0: note: 'alloc' declared here
+Imported from /home/volmarr/aesir-qs-hip/aesir_engine/tests/test_qwen35_hip_q35_6.mojo:45:
+Imported from /home/volmarr/aesir-qs-hip/aesir_engine/aesir.mojo:6:
+Imported from /home/volmarr/aesir-qs-hip/aesir_engine/core/inference.mojo:11:
+/home/volmarr/aesir-qs-hip/aesir_engine/core/compute.mojo:2558:14: warning: `alloc` without a `Layout` is deprecated, use the `Layout`-based `alloc` instead; as a temporary migration step, use `unsafe_alloc`
+    var cp = alloc[Int64](8)
+             ^~~~~
+<unknown>:0: note: 'alloc' declared here
+Imported from /home/volmarr/aesir-qs-hip/aesir_engine/tests/test_qwen35_hip_q35_6.mojo:45:
+Imported from /home/volmarr/aesir-qs-hip/aesir_engine/aesir.mojo:6:
+Imported from /home/volmarr/aesir-qs-hip/aesir_engine/core/inference.mojo:11:
+/home/volmarr/aesir-qs-hip/aesir_engine/core/compute.mojo:1638:28: warning: unreachable code on right side of 'False and ...'
+    return VNNI_DEFAULT_ON and cpu_has_vnni()
+                           ^
+Imported from /home/volmarr/aesir-qs-hip/aesir_engine/tests/test_qwen35_hip_q35_6.mojo:45:
+Imported from /home/volmarr/aesir-qs-hip/aesir_engine/aesir.mojo:6:
+Imported from /home/volmarr/aesir-qs-hip/aesir_engine/core/inference.mojo:11:
+/home/volmarr/aesir-qs-hip/aesir_engine/core/compute.mojo:1749:18: warning: `alloc` without a `Layout` is deprecated, use the `Layout`-based `alloc` instead; as a temporary migration step, use `unsafe_alloc`
+        var xq = alloc[Int8](rows_here * a_cols)
+                 ^~~~~
+<unknown>:0: note: 'alloc' declared here
+Imported from /home/volmarr/aesir-qs-hip/aesir_engine/tests/test_qwen35_hip_q35_6.mojo:45:
+Imported from /home/volmarr/aesir-qs-hip/aesir_engine/aesir.mojo:6:
+Imported from /home/volmarr/aesir-qs-hip/aesir_engine/core/inference.mojo:11:
+/home/volmarr/aesir-qs-hip/aesir_engine/core/compute.mojo:1750:22: warning: `alloc` without a `Layout` is deprecated, use the `Layout`-based `alloc` instead; as a temporary migration step, use `unsafe_alloc`
+        var xscale = alloc[Float32](rows_here * blocks_per_row * nsub)
+                     ^~~~~
+<unknown>:0: note: 'alloc' declared here
+Imported from /home/volmarr/aesir-qs-hip/aesir_engine/tests/test_qwen35_hip_q35_6.mojo:45:
+Imported from /home/volmarr/aesir-qs-hip/aesir_engine/aesir.mojo:6:
+Imported from /home/volmarr/aesir-qs-hip/aesir_engine/core/inference.mojo:11:
+/home/volmarr/aesir-qs-hip/aesir_engine/core/compute.mojo:1751:21: warning: `alloc` without a `Layout` is deprecated, use the `Layout`-based `alloc` instead; as a temporary migration step, use `unsafe_alloc`
+        var xsums = alloc[Float32](rows_here * blocks_per_row * nsub)
+                    ^~~~~
+<unknown>:0: note: 'alloc' declared here
+Included from /home/volmarr/aesir-qs-hip/aesir_engine/tests/test_qwen35_hip_q35_6.mojo:43:
+Included from /home/volmarr/aesir-qs-hip/aesir_engine/core/hip_gemv.mojo:45:
+/home/volmarr/aesir-qs-hip/aesir_engine/core/mojo_gpu_target.mojo:96:20: warning: 'except' logic is unreachable, try doesn't raise an exception
+            return -1
+                   ^
+Included from /home/volmarr/aesir-qs-hip/aesir_engine/tests/test_qwen35_hip_q35_6.mojo:43:
+Included from /home/volmarr/aesir-qs-hip/aesir_engine/core/hip_gemv.mojo:43:
+/home/volmarr/aesir-qs-hip/aesir_engine/core/amd_gate.mojo:380:31: warning: assignment to 'version' was never used; assign to '_' instead?
+                var version = -1
+                              ^
+Included from /home/volmarr/aesir-qs-hip/aesir_engine/tests/test_qwen35_hip_q35_6.mojo:45:
+Included from /home/volmarr/aesir-qs-hip/aesir_engine/aesir.mojo:6:
+/home/volmarr/aesir-qs-hip/aesir_engine/core/inference.mojo:2433:43: warning: assignment to 'v_per_group' was never used; assign to '_' instead?
+                var v_per_group = v_heads // groups
+                                          ^
+Included from /home/volmarr/aesir-qs-hip/aesir_engine/tests/test_qwen35_hip_q35_6.mojo:44:
+/home/volmarr/aesir-qs-hip/aesir_engine/core/qwen35_hip.mojo:288:18: warning: assignment to 'ctx' was never used; assign to '_' instead?
+    var ctx = Int(ctx_arg)
+                 ^
+Included from /home/volmarr/aesir-qs-hip/aesir_engine/tests/test_qwen35_hip_q35_6.mojo:45:
+Included from /home/volmarr/aesir-qs-hip/aesir_engine/aesir.mojo:16:
+/home/volmarr/aesir-qs-hip/aesir_engine/loader/gguf.mojo:566:29: warning: assignment to 'width' was never used; assign to '_' instead?
+                var width = 0
+                            ^
++ echo BUILD_test_qwen35_hip_q35_6=0
+BUILD_test_qwen35_hip_q35_6=0
++ for t in test_qwen35_hip_q35_6 grade_qwen35_hip_q35_6b test_qwen35_hip_session_q35_6
++ pixi run --frozen mojo build -I . --target-accelerator gfx1151 -Xlinker -Lhidden_files/hip-serve/shims -Xlinker -laesir_hailo10h -Xlinker -laesir_par -Xlinker -laesir_hip -Xlinker -laesir_vulkan -Xlinker -laesir_zc -Xlinker -laesir_aff aesir_engine/tests/grade_qwen35_hip_q35_6b.mojo -o hidden_files/qwen35-speed/grade_qwen35_hip_q35_6b
+Imported from /home/volmarr/aesir-qs-hip/aesir_engine/tests/grade_qwen35_hip_q35_6b.mojo:28:
+Imported from /home/volmarr/aesir-qs-hip/aesir_engine/aesir.mojo:6:
+/home/volmarr/aesir-qs-hip/aesir_engine/core/inference.mojo:2181:9: warning: '__del__' is deprecated; use '__deinit__'
+    def __del__(deinit self):
+        ^~~~~~~
+        __deinit__
+Imported from /home/volmarr/aesir-qs-hip/aesir_engine/tests/grade_qwen35_hip_q35_6b.mojo:28:
+Imported from /home/volmarr/aesir-qs-hip/aesir_engine/aesir.mojo:6:
+/home/volmarr/aesir-qs-hip/aesir_engine/core/inference.mojo:2182:20: warning: 'free' is deprecated, use 'unsafe_free' instead
+        self.s_data.free()
+        ~~~~~~~~~~~^~~~~
+                    unsafe_free
+<unknown>:0: note: 'free' declared here
+Imported from /home/volmarr/aesir-qs-hip/aesir_engine/tests/grade_qwen35_hip_q35_6b.mojo:28:
+Imported from /home/volmarr/aesir-qs-hip/aesir_engine/aesir.mojo:6:
+/home/volmarr/aesir-qs-hip/aesir_engine/core/inference.mojo:2183:23: warning: 'free' is deprecated, use 'unsafe_free' instead
+        self.conv_data.free()
+        ~~~~~~~~~~~~~~^~~~~
+                       unsafe_free
+<unknown>:0: note: 'free' declared here
+Imported from /home/volmarr/aesir-qs-hip/aesir_engine/tests/grade_qwen35_hip_q35_6b.mojo:28:
+Imported from /home/volmarr/aesir-qs-hip/aesir_engine/aesir.mojo:6:
+/home/volmarr/aesir-qs-hip/aesir_engine/core/inference.mojo:2184:21: warning: 'free' is deprecated, use 'unsafe_free' instead
+        self.scratch.free()
+        ~~~~~~~~~~~~^~~~~
+                     unsafe_free
+<unknown>:0: note: 'free' declared here
+Included from /home/volmarr/aesir-qs-hip/aesir_engine/tests/grade_qwen35_hip_q35_6b.mojo:27:
+Included from /home/volmarr/aesir-qs-hip/aesir_engine/core/hip_gemv.mojo:45:
+/home/volmarr/aesir-qs-hip/aesir_engine/core/mojo_gpu_target.mojo:96:20: warning: 'except' logic is unreachable, try doesn't raise an exception
+            return -1
+                   ^
+Included from /home/volmarr/aesir-qs-hip/aesir_engine/tests/grade_qwen35_hip_q35_6b.mojo:28:
+Included from /home/volmarr/aesir-qs-hip/aesir_engine/aesir.mojo:16:
+/home/volmarr/aesir-qs-hip/aesir_engine/loader/gguf.mojo:566:29: warning: assignment to 'width' was never used; assign to '_' instead?
+                var width = 0
+                            ^
+Included from /home/volmarr/aesir-qs-hip/aesir_engine/tests/grade_qwen35_hip_q35_6b.mojo:27:
+Included from /home/volmarr/aesir-qs-hip/aesir_engine/core/hip_gemv.mojo:43:
+/home/volmarr/aesir-qs-hip/aesir_engine/core/amd_gate.mojo:380:31: warning: assignment to 'version' was never used; assign to '_' instead?
+                var version = -1
+                              ^
+Included from /home/volmarr/aesir-qs-hip/aesir_engine/tests/grade_qwen35_hip_q35_6b.mojo:26:
+/home/volmarr/aesir-qs-hip/aesir_engine/core/qwen35_hip.mojo:288:18: warning: assignment to 'ctx' was never used; assign to '_' instead?
+    var ctx = Int(ctx_arg)
+                 ^
++ echo BUILD_grade_qwen35_hip_q35_6b=0
+BUILD_grade_qwen35_hip_q35_6b=0
++ for t in test_qwen35_hip_q35_6 grade_qwen35_hip_q35_6b test_qwen35_hip_session_q35_6
++ pixi run --frozen mojo build -I . --target-accelerator gfx1151 -Xlinker -Lhidden_files/hip-serve/shims -Xlinker -laesir_hailo10h -Xlinker -laesir_par -Xlinker -laesir_hip -Xlinker -laesir_vulkan -Xlinker -laesir_zc -Xlinker -laesir_aff aesir_engine/tests/test_qwen35_hip_session_q35_6.mojo -o hidden_files/qwen35-speed/test_qwen35_hip_session_q35_6
+Imported from /home/volmarr/aesir-qs-hip/aesir_engine/tests/test_qwen35_hip_session_q35_6.mojo:24:
+Imported from /home/volmarr/aesir-qs-hip/aesir_engine/qwen35_hip_session.mojo:58:
+Imported from /home/volmarr/aesir-qs-hip/aesir_engine/aesir.mojo:6:
+/home/volmarr/aesir-qs-hip/aesir_engine/core/inference.mojo:2181:9: warning: '__del__' is deprecated; use '__deinit__'
+    def __del__(deinit self):
+        ^~~~~~~
+        __deinit__
+Imported from /home/volmarr/aesir-qs-hip/aesir_engine/tests/test_qwen35_hip_session_q35_6.mojo:24:
+Imported from /home/volmarr/aesir-qs-hip/aesir_engine/qwen35_hip_session.mojo:58:
+Imported from /home/volmarr/aesir-qs-hip/aesir_engine/aesir.mojo:6:
+/home/volmarr/aesir-qs-hip/aesir_engine/core/inference.mojo:2182:20: warning: 'free' is deprecated, use 'unsafe_free' instead
+        self.s_data.free()
+        ~~~~~~~~~~~^~~~~
+                    unsafe_free
+<unknown>:0: note: 'free' declared here
+Imported from /home/volmarr/aesir-qs-hip/aesir_engine/tests/test_qwen35_hip_session_q35_6.mojo:24:
+Imported from /home/volmarr/aesir-qs-hip/aesir_engine/qwen35_hip_session.mojo:58:
+Imported from /home/volmarr/aesir-qs-hip/aesir_engine/aesir.mojo:6:
+/home/volmarr/aesir-qs-hip/aesir_engine/core/inference.mojo:2183:23: warning: 'free' is deprecated, use 'unsafe_free' instead
+        self.conv_data.free()
+        ~~~~~~~~~~~~~~^~~~~
+                       unsafe_free
+<unknown>:0: note: 'free' declared here
+Imported from /home/volmarr/aesir-qs-hip/aesir_engine/tests/test_qwen35_hip_session_q35_6.mojo:24:
+Imported from /home/volmarr/aesir-qs-hip/aesir_engine/qwen35_hip_session.mojo:58:
+Imported from /home/volmarr/aesir-qs-hip/aesir_engine/aesir.mojo:6:
+/home/volmarr/aesir-qs-hip/aesir_engine/core/inference.mojo:2184:21: warning: 'free' is deprecated, use 'unsafe_free' instead
+        self.scratch.free()
+        ~~~~~~~~~~~~^~~~~
+                     unsafe_free
+<unknown>:0: note: 'free' declared here
+Included from /home/volmarr/aesir-qs-hip/aesir_engine/tests/test_qwen35_hip_session_q35_6.mojo:24:
+Included from /home/volmarr/aesir-qs-hip/aesir_engine/qwen35_hip_session.mojo:55:
+Included from /home/volmarr/aesir-qs-hip/aesir_engine/core/qwen35_hip.mojo:44:
+Included from /home/volmarr/aesir-qs-hip/aesir_engine/core/hip_gemv.mojo:45:
+/home/volmarr/aesir-qs-hip/aesir_engine/core/mojo_gpu_target.mojo:96:20: warning: 'except' logic is unreachable, try doesn't raise an exception
+            return -1
+                   ^
+Included from /home/volmarr/aesir-qs-hip/aesir_engine/tests/test_qwen35_hip_session_q35_6.mojo:23:
+Included from /home/volmarr/aesir-qs-hip/aesir_engine/loader/packed_gguf.mojo:7:
+/home/volmarr/aesir-qs-hip/aesir_engine/loader/gguf.mojo:566:29: warning: assignment to 'width' was never used; assign to '_' instead?
+                var width = 0
+                            ^
+Included from /home/volmarr/aesir-qs-hip/aesir_engine/tests/test_qwen35_hip_session_q35_6.mojo:24:
+Included from /home/volmarr/aesir-qs-hip/aesir_engine/qwen35_hip_session.mojo:55:
+Included from /home/volmarr/aesir-qs-hip/aesir_engine/core/qwen35_hip.mojo:44:
+Included from /home/volmarr/aesir-qs-hip/aesir_engine/core/hip_gemv.mojo:43:
+/home/volmarr/aesir-qs-hip/aesir_engine/core/amd_gate.mojo:380:31: warning: assignment to 'version' was never used; assign to '_' instead?
+                var version = -1
+                              ^
+Included from /home/volmarr/aesir-qs-hip/aesir_engine/tests/test_qwen35_hip_session_q35_6.mojo:24:
+Included from /home/volmarr/aesir-qs-hip/aesir_engine/qwen35_hip_session.mojo:55:
+/home/volmarr/aesir-qs-hip/aesir_engine/core/qwen35_hip.mojo:288:18: warning: assignment to 'ctx' was never used; assign to '_' instead?
+    var ctx = Int(ctx_arg)
+                 ^
++ echo BUILD_test_qwen35_hip_session_q35_6=0
+BUILD_test_qwen35_hip_session_q35_6=0
++ echo QS2_BUILD_DONE
+QS2_BUILD_DONE

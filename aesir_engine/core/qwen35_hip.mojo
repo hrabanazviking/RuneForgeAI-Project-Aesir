@@ -34,6 +34,7 @@
 # A-082: HIP gate not satisfied => raise, no host fallback.
 
 from std.gpu import global_idx
+from std.gpu.primitives import warp
 from std.memory import Pointer
 from std.math import sqrt, exp, log, cos, sin
 from max.gpu.host import DeviceContext, DeviceBuffer, HostBuffer
@@ -102,6 +103,72 @@ def _q8_gemm_kernel(w: Bytes, a: Floats, base_arg: Int64, rows_arg: Int64, cols_
                 var q = raw - 256 if raw >= 128 else raw
                 acc += scale * Float32(q) * a.unsafe_load(src + b * cols + k0 + lane)
         a.unsafe_store(dst + b * rows + row, _f16r(acc))
+
+
+def _q8_gemv_kernel(w: Bytes, a: Floats, base_arg: Int64, rows_arg: Int64, cols_arg: Int64, src_arg: Int64, dst_arg: Int64, batch_arg: Int64):
+    """QS-2.2 vectorized Q8_0 GEMV for the single-token path:
+    one warp (32 lanes) per output row. Lane l accumulates
+    blocks l, l+32, ... of the row; per block the 32 int8
+    quants are read as packed UInt32 words and unpacked
+    in-register (the block quant offset gblk*34+2 is
+    4-aligned only for odd gblk, so words are taken from
+    the aligned floor and shifted; the final word group of
+    an unaligned block falls back to scalar byte loads so
+    no read ever leaves the tensor). Lane partials are
+    combined with warp.sum; lane 0 stores f16-rounded (the
+    CPU gemm_f16 store contract). Accumulation order
+    differs from the sequential _q8_gemm_kernel -- a
+    legitimate difference per the file header, graded
+    under the Q35-6 standard (rank + logit gap)."""
+    var base = Int(base_arg)
+    var rows = Int(rows_arg)
+    var cols = Int(cols_arg)
+    var src = Int(src_arg)
+    var dst = Int(dst_arg)
+    var idx = Int(global_idx.x)
+    var lane = idx % 32
+    var warp_id = idx // 32
+    var b = warp_id // rows
+    var row = warp_id % rows
+    if warp_id < Int(batch_arg) * rows:
+        var blocks = cols // 32
+        var wf = w.unsafe_offset(base).unsafe_bitcast[Scalar[DType.float16]]()
+        var wq = w.unsafe_offset(base).unsafe_bitcast[Scalar[DType.uint32]]()
+        var wb = w.unsafe_offset(base)
+        var acc: Float32 = 0.0
+        for blk in range(lane, blocks, 32):
+            var gblk = row * blocks + blk
+            var scale = wf.unsafe_load(gblk * 17).cast[DType.float32]()
+            var k0 = blk * 32
+            var qbyte = gblk * 34 + 2
+            var w0 = qbyte // 4
+            var sh = (qbyte % 4) * 8
+            for p in range(8):
+                if sh == 0:
+                    var word = Int(wq.unsafe_load(w0 + p))
+                    for q4 in range(4):
+                        var raw = (word >> (q4 * 8)) & 255
+                        var q = raw - 256 if raw >= 128 else raw
+                        acc += scale * Float32(q) * a.unsafe_load(src + b * cols + k0 + p * 4 + q4)
+                elif p < 7:
+                    var word = (Int(wq.unsafe_load(w0 + p)) >> sh) | (Int(wq.unsafe_load(w0 + p + 1)) << (32 - sh))
+                    for q4 in range(4):
+                        var raw = (word >> (q4 * 8)) & 255
+                        var q = raw - 256 if raw >= 128 else raw
+                        acc += scale * Float32(q) * a.unsafe_load(src + b * cols + k0 + p * 4 + q4)
+                else:
+                    var word = Int(wq.unsafe_load(w0 + p)) >> sh
+                    for q4 in range(2):
+                        var raw = (word >> (q4 * 8)) & 255
+                        var q = raw - 256 if raw >= 128 else raw
+                        acc += scale * Float32(q) * a.unsafe_load(src + b * cols + k0 + p * 4 + q4)
+                    for q4 in range(2, 4):
+                        var raw = Int(wb.unsafe_load(qbyte + p * 4 + q4))
+                        var q = raw - 256 if raw >= 128 else raw
+                        acc += scale * Float32(q) * a.unsafe_load(src + b * cols + k0 + p * 4 + q4)
+        acc = warp.sum(acc)
+        if lane == 0:
+            a.unsafe_store(dst + b * rows + row, _f16r(acc))
 
 
 def _embed_kernel(w: Bytes, a: Floats, toks: Ints, base_arg: Int64, width_arg: Int64, dst_arg: Int64, batch_arg: Int64):
@@ -683,8 +750,8 @@ struct Qwen35HipExecutor:
         return Floats(unsafe_from_address=Int(self.kv_buf.unsafe_ptr()))
 
     def _gemm(mut self, t: Q35TensorRef, src: Int, dst: Int, batch: Int) raises:
-        var n = batch * t.rows
-        self.context.enqueue_function[_q8_gemm_kernel](self.w(), self.a(), Int64(t.base), Int64(t.rows), Int64(t.cols), Int64(src), Int64(dst), Int64(batch), grid_dim=(n + 255) // 256, block_dim=256)
+        var n = batch * t.rows * 32
+        self.context.enqueue_function[_q8_gemv_kernel](self.w(), self.a(), Int64(t.base), Int64(t.rows), Int64(t.cols), Int64(src), Int64(dst), Int64(batch), grid_dim=(n + 255) // 256, block_dim=256)
 
     def _norm(mut self, t: Q35TensorRef, src: Int, dst: Int, width: Int, batch: Int) raises:
         self.context.enqueue_function[_rmsnorm_kernel](self.w(), self.a(), Int64(t.base), Int64(t.kind), Int64(width), Int64(src), Int64(dst), Int64(batch), Float32(1e-5), grid_dim=(batch + 255) // 256, block_dim=256)

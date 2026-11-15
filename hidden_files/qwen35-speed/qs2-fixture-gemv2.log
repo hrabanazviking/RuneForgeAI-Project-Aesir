@@ -1,0 +1,42 @@
+Secondary CUID not available: AMDCUID support not enabled.
+Q35-6 HIP gate ok: device= AMD Radeon 8060S Graphics
+MimirWell initialized with 37896704 derived bytes.
+GGUF validated: 56 tensors, 23 metadata entries, architecture qwen35
+Q35-6 (a) executor constructed: layers= 4  ssm_layers= 3  attn_layers= 1
+Q35-6 (b) pos= 0  s_diff= 0.00018327683  conv_diff= 0.0078125  logits_diff= 0.015625  dev_argmax_rank_in_cpu= 1  gap= 0.0
+Q35-6 (b) pos= 1  s_diff= 0.00010411441  conv_diff= 0.0078125  logits_diff= 0.0087890625  dev_argmax_rank_in_cpu= 1  gap= 0.0
+Q35-6 (b) pos= 2  s_diff= 0.0007150769  conv_diff= 0.0078125  logits_diff= 0.008056641  dev_argmax_rank_in_cpu= 1  gap= 0.0
+Q35-6 (b) pos= 3  s_diff= 0.00033187866  conv_diff= 0.0009765625  logits_diff= 0.015625  dev_argmax_rank_in_cpu= 1  gap= 0.0
+Q35-6 (b) WORST s= 0.0007150769  conv= 0.0078125  logits= 0.015625  rank= 1  gap= 0.0
+Q35-6 (b) BAND q35-3a(c): s 0.0008479953 / conv 0.0078125 / logits 0.013671875
+Q35-6 (c) cpu_greedy= 679 194 893 673 322 687 585 758 136 104 316 224 916 54 103 47 
+Q35-6 (c) dev_greedy= 679 194 893 673 322 687 585 758 136 104 316 224 916 54 103 47 
+Q35-6 (c) greedy_identical= True
+Q35-6 (d) batched_vs_loop state_diff= 0.0  logits_diff= 0.0
+Q35-6 (e) prefill 64 tokens: gemv_loop_ms= 52.543201  batched_ms= 11.436964  gemv_loop_tok_s= 1218.0453185560584  batched_tok_s= 5595.8906576955205
+Q35-6 (f) snapshot_restore_continuation_logits_diff= 0.0
+Q35_6_TEST ALL PASS
+Warning: Resource leak detected by SharedSignalPool, 608 Signals leaked.
+	Command being timed: "./hidden_files/qwen35-speed/test_qwen35_hip_q35_6 aesir_engine/tests/fixtures/qwen35_forward.gguf"
+	User time (seconds): 0.17
+	System time (seconds): 1.43
+	Percent of CPU this job got: 94%
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 0:01.70
+	Average shared text size (kbytes): 0
+	Average unshared data size (kbytes): 0
+	Average stack size (kbytes): 0
+	Average total size (kbytes): 0
+	Maximum resident set size (kbytes): 1623368
+	Average resident set size (kbytes): 0
+	Major (requiring I/O) page faults: 25
+	Minor (reclaiming a frame) page faults: 432867
+	Voluntary context switches: 872
+	Involuntary context switches: 80
+	Swaps: 0
+	File system inputs: 35752
+	File system outputs: 8
+	Socket messages sent: 0
+	Socket messages received: 0
+	Signals delivered: 0
+	Page size (bytes): 4096
+	Exit status: 0
