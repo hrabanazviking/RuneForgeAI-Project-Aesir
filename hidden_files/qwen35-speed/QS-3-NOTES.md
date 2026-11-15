@@ -298,3 +298,22 @@ Serve smoke (qs-3-serve-smoke.log): fenced systemd unit on port
 /health reported weight_load_mode q4_k_m_resident; a real
 /v1/generate completion returned (12 tokens, finish length);
 unit stopped clean. The 27B resident serve smoke rides QS-3.5.
+
+## SLICE QS-3.3b — GEMMA E2B FIXTURE (conversion A/B, banked)
+
+Source: gemma-4-E2B-it-Q4_K_M.gguf (2.9 GB, the QC-3b fixture
+file). Streaming CLI conversions --to q4_k_m --fit legacy and
+--fit searched both exit 0; products byte-identical in size
+(2,698,735,712 B — same policy, same layout; only the fit
+differs). Timings (single-threaded converter): legacy 0:50.22,
+searched 10:59.72 — the searched fit costs 13.1x the legacy fit
+at conversion time. Extrapolated 27B conversion: ~44 min
+(QC-6 legacy was 3:21). Conversion is one-time; residency is
+forever — but a parallel/allocation-free searched fit is named
+future work (QS-3.6 candidate).
+Weight-space MSE A/B for E2B: NOT produced — the only dequant
+weight-set tool (dequantize_model_qc_5) is in-memory and pool-
+exhausts at E2B scale (it was built for stories-size files).
+Named remaining work rather than silently dropped; the stories
+grade (QS-3.3) + unit MSE (QS-3.2) + the 27B strict grade
+(QS-3.5) carry the fit question.
