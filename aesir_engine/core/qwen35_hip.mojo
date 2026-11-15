@@ -228,6 +228,277 @@ def _q8_gemv_kernel_v4(w: Bytes, a: Floats, base_arg: Int64, rows_arg: Int64, co
             a.unsafe_store(dst + b * rows + row, _f16r(acc))
 
 
+def _q8_gemv_kernel_v5(w: Bytes, a: Floats, base_arg: Int64, rows_arg: Int64, cols_arg: Int64, src_arg: Int64, dst_arg: Int64, batch_arg: Int64):
+    """QS-2.2 v4 candidate (bench only until graded):
+    one warp per output row, but the lanes split each
+    block's 32 quant slots (lane = slot) and the warp
+    walks blocks sequentially -- every load is fully
+    coalesced (32 consecutive bytes / floats per warp
+    instruction) instead of v3's 32-way strided block
+    map. Lane j accumulates slot j over all blocks;
+    warp.sum combines. Accumulation order differs --
+    graded under the Q35-6 standard before dispatch."""
+    var base = Int(base_arg)
+    var rows = Int(rows_arg)
+    var cols = Int(cols_arg)
+    var src = Int(src_arg)
+    var dst = Int(dst_arg)
+    var idx = Int(global_idx.x)
+    var lane = idx % 32
+    var warp_id = idx // 32
+    var b = warp_id // rows
+    var row = warp_id % rows
+    if warp_id < Int(batch_arg) * rows:
+        var blocks = cols // 32
+        var wf = w.unsafe_offset(base).unsafe_bitcast[Scalar[DType.float16]]()
+        var wb = w.unsafe_offset(base)
+        var acc: Float32 = 0.0
+        var acc1: Float32 = 0.0
+        var abase = src + b * cols
+        var wrow = row * blocks
+        if blocks % 2 == 0:
+            for blk2 in range(0, blocks, 2):
+                var g0 = wrow + blk2
+                var g1 = g0 + 1
+                var s0 = wf.unsafe_load(g0 * 17).cast[DType.float32]()
+                var s1 = wf.unsafe_load(g1 * 17).cast[DType.float32]()
+                var r0 = Int(wb.unsafe_load(g0 * 34 + 2 + lane))
+                var r1 = Int(wb.unsafe_load(g1 * 34 + 2 + lane))
+                var q0 = r0 - 256 if r0 >= 128 else r0
+                var q1 = r1 - 256 if r1 >= 128 else r1
+                acc += s0 * Float32(q0) * a.unsafe_load(abase + blk2 * 32 + lane)
+                acc1 += s1 * Float32(q1) * a.unsafe_load(abase + blk2 * 32 + 32 + lane)
+            acc += acc1
+        else:
+            for blk in range(blocks):
+                var gblk = wrow + blk
+                var scale = wf.unsafe_load(gblk * 17).cast[DType.float32]()
+                var raw = Int(wb.unsafe_load(gblk * 34 + 2 + lane))
+                var q = raw - 256 if raw >= 128 else raw
+                acc += scale * Float32(q) * a.unsafe_load(abase + blk * 32 + lane)
+        acc = warp.sum(acc)
+        if lane == 0:
+            a.unsafe_store(dst + b * rows + row, _f16r(acc))
+
+
+def _q8_gemv_kernel_v6(w: Bytes, a: Floats, base_arg: Int64, rows_arg: Int64, cols_arg: Int64, src_arg: Int64, dst_arg: Int64, batch_arg: Int64):
+    """QS-2.2 v4 candidate (bench only until graded):
+    one warp per output row, but the lanes split each
+    block's 32 quant slots (lane = slot) and the warp
+    walks blocks sequentially -- every load is fully
+    coalesced (32 consecutive bytes / floats per warp
+    instruction) instead of v3's 32-way strided block
+    map. Lane j accumulates slot j over all blocks;
+    warp.sum combines. Accumulation order differs --
+    graded under the Q35-6 standard before dispatch."""
+    var base = Int(base_arg)
+    var rows = Int(rows_arg)
+    var cols = Int(cols_arg)
+    var src = Int(src_arg)
+    var dst = Int(dst_arg)
+    var idx = Int(global_idx.x)
+    var lane = idx % 32
+    var warp_id = idx // 32
+    var b = warp_id // rows
+    var row = warp_id % rows
+    if warp_id < Int(batch_arg) * rows:
+        var blocks = cols // 32
+        var wf = w.unsafe_offset(base).unsafe_bitcast[Scalar[DType.float16]]()
+        var wb = w.unsafe_offset(base)
+        var acc: Float32 = 0.0
+        var acc1: Float32 = 0.0
+        var abase = src + b * cols
+        var wrow = row * blocks
+        if blocks % 4 == 0:
+            for blk4 in range(0, blocks, 4):
+                var g0 = wrow + blk4
+                var s0 = wf.unsafe_load(g0 * 17).cast[DType.float32]()
+                var s1 = wf.unsafe_load((g0 + 1) * 17).cast[DType.float32]()
+                var s2 = wf.unsafe_load((g0 + 2) * 17).cast[DType.float32]()
+                var s3 = wf.unsafe_load((g0 + 3) * 17).cast[DType.float32]()
+                var r0 = Int(wb.unsafe_load(g0 * 34 + 2 + lane))
+                var r1 = Int(wb.unsafe_load((g0 + 1) * 34 + 2 + lane))
+                var r2 = Int(wb.unsafe_load((g0 + 2) * 34 + 2 + lane))
+                var r3 = Int(wb.unsafe_load((g0 + 3) * 34 + 2 + lane))
+                var q0 = r0 - 256 if r0 >= 128 else r0
+                var q1 = r1 - 256 if r1 >= 128 else r1
+                var q2 = r2 - 256 if r2 >= 128 else r2
+                var q3 = r3 - 256 if r3 >= 128 else r3
+                acc += s0 * Float32(q0) * a.unsafe_load(abase + blk4 * 32 + lane)
+                acc1 += s1 * Float32(q1) * a.unsafe_load(abase + blk4 * 32 + 32 + lane)
+                var acc2 = s2 * Float32(q2) * a.unsafe_load(abase + blk4 * 32 + 64 + lane)
+                var acc3 = s3 * Float32(q3) * a.unsafe_load(abase + blk4 * 32 + 96 + lane)
+                acc += acc2
+                acc1 += acc3
+            acc += acc1
+        else:
+            for blk in range(blocks):
+                var gblk = wrow + blk
+                var scale = wf.unsafe_load(gblk * 17).cast[DType.float32]()
+                var raw = Int(wb.unsafe_load(gblk * 34 + 2 + lane))
+                var q = raw - 256 if raw >= 128 else raw
+                acc += scale * Float32(q) * a.unsafe_load(abase + blk * 32 + lane)
+        acc = warp.sum(acc)
+        if lane == 0:
+            a.unsafe_store(dst + b * rows + row, _f16r(acc))
+
+
+def _q8_gemv_kernel_v7(w: Bytes, a: Floats, base_arg: Int64, rows_arg: Int64, cols_arg: Int64, src_arg: Int64, dst_arg: Int64, batch_arg: Int64):
+    """QS-2.2 v4 candidate (bench only until graded):
+    one warp per output row, but the lanes split each
+    block's 32 quant slots (lane = slot) and the warp
+    walks blocks sequentially -- every load is fully
+    coalesced (32 consecutive bytes / floats per warp
+    instruction) instead of v3's 32-way strided block
+    map. Lane j accumulates slot j over all blocks;
+    warp.sum combines. Accumulation order differs --
+    graded under the Q35-6 standard before dispatch."""
+    var base = Int(base_arg)
+    var rows = Int(rows_arg)
+    var cols = Int(cols_arg)
+    var src = Int(src_arg)
+    var dst = Int(dst_arg)
+    var idx = Int(global_idx.x)
+    var lane = idx % 32
+    var warp_id = idx // 32
+    var b = warp_id // rows
+    var row = warp_id % rows
+    if warp_id < Int(batch_arg) * rows:
+        var blocks = cols // 32
+        var wf = w.unsafe_offset(base).unsafe_bitcast[Scalar[DType.float16]]()
+        var wb = w.unsafe_offset(base)
+        var acc: Float32 = 0.0
+        var acc1: Float32 = 0.0
+        var abase = src + b * cols
+        var wrow = row * blocks
+        if blocks % 8 == 0:
+            for blk4 in range(0, blocks, 8):
+                var g0 = wrow + blk4
+                var s0 = wf.unsafe_load(g0 * 17).cast[DType.float32]()
+                var s1 = wf.unsafe_load((g0 + 1) * 17).cast[DType.float32]()
+                var s2 = wf.unsafe_load((g0 + 2) * 17).cast[DType.float32]()
+                var s3 = wf.unsafe_load((g0 + 3) * 17).cast[DType.float32]()
+                var r0 = Int(wb.unsafe_load(g0 * 34 + 2 + lane))
+                var r1 = Int(wb.unsafe_load((g0 + 1) * 34 + 2 + lane))
+                var r2 = Int(wb.unsafe_load((g0 + 2) * 34 + 2 + lane))
+                var r3 = Int(wb.unsafe_load((g0 + 3) * 34 + 2 + lane))
+                var q0 = r0 - 256 if r0 >= 128 else r0
+                var q1 = r1 - 256 if r1 >= 128 else r1
+                var q2 = r2 - 256 if r2 >= 128 else r2
+                var q3 = r3 - 256 if r3 >= 128 else r3
+                acc += s0 * Float32(q0) * a.unsafe_load(abase + blk4 * 32 + lane)
+                acc1 += s1 * Float32(q1) * a.unsafe_load(abase + blk4 * 32 + 32 + lane)
+                var acc2 = s2 * Float32(q2) * a.unsafe_load(abase + blk4 * 32 + 64 + lane)
+                var acc3 = s3 * Float32(q3) * a.unsafe_load(abase + blk4 * 32 + 96 + lane)
+                var s4 = wf.unsafe_load((g0 + 4) * 17).cast[DType.float32]()
+                var s5 = wf.unsafe_load((g0 + 5) * 17).cast[DType.float32]()
+                var s6 = wf.unsafe_load((g0 + 6) * 17).cast[DType.float32]()
+                var s7 = wf.unsafe_load((g0 + 7) * 17).cast[DType.float32]()
+                var r4 = Int(wb.unsafe_load((g0 + 4) * 34 + 2 + lane))
+                var r5 = Int(wb.unsafe_load((g0 + 5) * 34 + 2 + lane))
+                var r6 = Int(wb.unsafe_load((g0 + 6) * 34 + 2 + lane))
+                var r7 = Int(wb.unsafe_load((g0 + 7) * 34 + 2 + lane))
+                var q4 = r4 - 256 if r4 >= 128 else r4
+                var q5 = r5 - 256 if r5 >= 128 else r5
+                var q6 = r6 - 256 if r6 >= 128 else r6
+                var q7 = r7 - 256 if r7 >= 128 else r7
+                acc2 += s4 * Float32(q4) * a.unsafe_load(abase + blk4 * 32 + 128 + lane)
+                acc3 += s5 * Float32(q5) * a.unsafe_load(abase + blk4 * 32 + 160 + lane)
+                acc += acc2
+                acc1 += acc3
+                acc += s6 * Float32(q6) * a.unsafe_load(abase + blk4 * 32 + 192 + lane)
+                acc1 += s7 * Float32(q7) * a.unsafe_load(abase + blk4 * 32 + 224 + lane)
+            acc += acc1
+        else:
+            for blk in range(blocks):
+                var gblk = wrow + blk
+                var scale = wf.unsafe_load(gblk * 17).cast[DType.float32]()
+                var raw = Int(wb.unsafe_load(gblk * 34 + 2 + lane))
+                var q = raw - 256 if raw >= 128 else raw
+                acc += scale * Float32(q) * a.unsafe_load(abase + blk * 32 + lane)
+        acc = warp.sum(acc)
+        if lane == 0:
+            a.unsafe_store(dst + b * rows + row, _f16r(acc))
+
+
+def _q8_gemv_silu_kernel_v7(w: Bytes, a: Floats, base_arg: Int64, rows_arg: Int64, cols_arg: Int64, src_arg: Int64, dst_arg: Int64, batch_arg: Int64, gate_arg: Int64):
+    """QS-2.2 v4 candidate (bench only until graded):
+    one warp per output row, but the lanes split each
+    block's 32 quant slots (lane = slot) and the warp
+    walks blocks sequentially -- every load is fully
+    coalesced (32 consecutive bytes / floats per warp
+    instruction) instead of v3's 32-way strided block
+    map. Lane j accumulates slot j over all blocks;
+    warp.sum combines. Accumulation order differs --
+    graded under the Q35-6 standard before dispatch."""
+    var base = Int(base_arg)
+    var rows = Int(rows_arg)
+    var cols = Int(cols_arg)
+    var src = Int(src_arg)
+    var dst = Int(dst_arg)
+    var idx = Int(global_idx.x)
+    var lane = idx % 32
+    var warp_id = idx // 32
+    var b = warp_id // rows
+    var row = warp_id % rows
+    if warp_id < Int(batch_arg) * rows:
+        var blocks = cols // 32
+        var wf = w.unsafe_offset(base).unsafe_bitcast[Scalar[DType.float16]]()
+        var wb = w.unsafe_offset(base)
+        var acc: Float32 = 0.0
+        var acc1: Float32 = 0.0
+        var abase = src + b * cols
+        var wrow = row * blocks
+        if blocks % 8 == 0:
+            for blk4 in range(0, blocks, 8):
+                var g0 = wrow + blk4
+                var s0 = wf.unsafe_load(g0 * 17).cast[DType.float32]()
+                var s1 = wf.unsafe_load((g0 + 1) * 17).cast[DType.float32]()
+                var s2 = wf.unsafe_load((g0 + 2) * 17).cast[DType.float32]()
+                var s3 = wf.unsafe_load((g0 + 3) * 17).cast[DType.float32]()
+                var r0 = Int(wb.unsafe_load(g0 * 34 + 2 + lane))
+                var r1 = Int(wb.unsafe_load((g0 + 1) * 34 + 2 + lane))
+                var r2 = Int(wb.unsafe_load((g0 + 2) * 34 + 2 + lane))
+                var r3 = Int(wb.unsafe_load((g0 + 3) * 34 + 2 + lane))
+                var q0 = r0 - 256 if r0 >= 128 else r0
+                var q1 = r1 - 256 if r1 >= 128 else r1
+                var q2 = r2 - 256 if r2 >= 128 else r2
+                var q3 = r3 - 256 if r3 >= 128 else r3
+                acc += s0 * Float32(q0) * _silu_pair(a, abase + blk4 * 32 + lane, Int(gate_arg) + b * cols + blk4 * 32 + lane)
+                acc1 += s1 * Float32(q1) * _silu_pair(a, abase + blk4 * 32 + 32 + lane, Int(gate_arg) + b * cols + blk4 * 32 + 32 + lane)
+                var acc2 = s2 * Float32(q2) * _silu_pair(a, abase + blk4 * 32 + 64 + lane, Int(gate_arg) + b * cols + blk4 * 32 + 64 + lane)
+                var acc3 = s3 * Float32(q3) * _silu_pair(a, abase + blk4 * 32 + 96 + lane, Int(gate_arg) + b * cols + blk4 * 32 + 96 + lane)
+                var s4 = wf.unsafe_load((g0 + 4) * 17).cast[DType.float32]()
+                var s5 = wf.unsafe_load((g0 + 5) * 17).cast[DType.float32]()
+                var s6 = wf.unsafe_load((g0 + 6) * 17).cast[DType.float32]()
+                var s7 = wf.unsafe_load((g0 + 7) * 17).cast[DType.float32]()
+                var r4 = Int(wb.unsafe_load((g0 + 4) * 34 + 2 + lane))
+                var r5 = Int(wb.unsafe_load((g0 + 5) * 34 + 2 + lane))
+                var r6 = Int(wb.unsafe_load((g0 + 6) * 34 + 2 + lane))
+                var r7 = Int(wb.unsafe_load((g0 + 7) * 34 + 2 + lane))
+                var q4 = r4 - 256 if r4 >= 128 else r4
+                var q5 = r5 - 256 if r5 >= 128 else r5
+                var q6 = r6 - 256 if r6 >= 128 else r6
+                var q7 = r7 - 256 if r7 >= 128 else r7
+                acc2 += s4 * Float32(q4) * _silu_pair(a, abase + blk4 * 32 + 128 + lane, Int(gate_arg) + b * cols + blk4 * 32 + 128 + lane)
+                acc3 += s5 * Float32(q5) * _silu_pair(a, abase + blk4 * 32 + 160 + lane, Int(gate_arg) + b * cols + blk4 * 32 + 160 + lane)
+                acc += acc2
+                acc1 += acc3
+                acc += s6 * Float32(q6) * _silu_pair(a, abase + blk4 * 32 + 192 + lane, Int(gate_arg) + b * cols + blk4 * 32 + 192 + lane)
+                acc1 += s7 * Float32(q7) * _silu_pair(a, abase + blk4 * 32 + 224 + lane, Int(gate_arg) + b * cols + blk4 * 32 + 224 + lane)
+            acc += acc1
+        else:
+            for blk in range(blocks):
+                var gblk = wrow + blk
+                var scale = wf.unsafe_load(gblk * 17).cast[DType.float32]()
+                var raw = Int(wb.unsafe_load(gblk * 34 + 2 + lane))
+                var q = raw - 256 if raw >= 128 else raw
+                acc += scale * Float32(q) * _silu_pair(a, abase + blk * 32 + lane, Int(gate_arg) + b * cols + blk * 32 + lane)
+        acc = warp.sum(acc)
+        if lane == 0:
+            a.unsafe_store(dst + b * rows + row, _f16r(acc))
+
+
 def _q8_gemv_silu_kernel_v4(w: Bytes, a: Floats, base_arg: Int64, rows_arg: Int64, cols_arg: Int64, src_arg: Int64, dst_arg: Int64, batch_arg: Int64, gate_arg: Int64):
     """QS-2.2 v4 candidate (bench only until graded):
     one warp per output row, but the lanes split each
@@ -1014,7 +1285,7 @@ struct Qwen35HipExecutor:
 
     def _gemm(mut self, t: Q35TensorRef, src: Int, dst: Int, batch: Int) raises:
         var n = batch * t.rows * 32
-        self.context.enqueue_function[_q8_gemv_kernel_v4](self.w(), self.a(), Int64(t.base), Int64(t.rows), Int64(t.cols), Int64(src), Int64(dst), Int64(batch), grid_dim=(n + 255) // 256, block_dim=256)
+        self.context.enqueue_function[_q8_gemv_kernel_v7](self.w(), self.a(), Int64(t.base), Int64(t.rows), Int64(t.cols), Int64(src), Int64(dst), Int64(batch), grid_dim=(n + 255) // 256, block_dim=256)
 
     def _norm(mut self, t: Q35TensorRef, src: Int, dst: Int, width: Int, batch: Int) raises:
         self.context.enqueue_function[_rmsnorm_kernel](self.w(), self.a(), Int64(t.base), Int64(t.kind), Int64(width), Int64(src), Int64(dst), Int64(batch), Float32(1e-5), grid_dim=(batch * 32 + 255) // 256, block_dim=256)
@@ -1027,7 +1298,7 @@ struct Qwen35HipExecutor:
 
     def _gemm_silu(mut self, t: Q35TensorRef, src: Int, gate: Int, dst: Int, batch: Int) raises:
         var n = batch * t.rows * 32
-        self.context.enqueue_function[_q8_gemv_silu_kernel_v4](self.w(), self.a(), Int64(t.base), Int64(t.rows), Int64(t.cols), Int64(src), Int64(dst), Int64(batch), Int64(gate), grid_dim=(n + 255) // 256, block_dim=256)
+        self.context.enqueue_function[_q8_gemv_silu_kernel_v7](self.w(), self.a(), Int64(t.base), Int64(t.rows), Int64(t.cols), Int64(src), Int64(dst), Int64(batch), Int64(gate), grid_dim=(n + 255) // 256, block_dim=256)
 
     def _ffn(mut self, layer: Q35HipLayer, batch: Int) raises:
         ref p = self.profile

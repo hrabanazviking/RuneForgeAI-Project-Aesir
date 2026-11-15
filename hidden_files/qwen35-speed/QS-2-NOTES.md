@@ -297,3 +297,24 @@ Codebase-proven GPU idioms only (no exotic APIs):
   7.65 tok/s needs ~208 GB/s effective; the gap is
   now a memory-system/kernel-pattern question, with
   QS-1 contention an unquantified share of it.
+
+## GEMV v5-v7 — unroll ladder (bench, QS-1 contention)
+
+- v5 = v4 + 2-block unroll: 136.3 / 149.5 GB/s.
+- v6 = 4-block unroll: 170.2 / 193.2 GB/s.
+- v7 = 8-block unroll: 196.7 / 214.6 GB/s (ffn /
+  output shapes). MAXDIFF 0.0 vs the sequential kernel
+  at every version. The unrolls work because each
+  iteration now holds 8 independent load->FMA chains
+  per lane, hiding DRAM latency; v3's SIMD-accumulator
+  theory was wrong -- latency, not FMA chains, bound
+  the coalesced kernel.
+- v7 dispatched (plain + silu port). Fixture ALL PASS
+  (loop 26.47 ms, batched 9,798 tok/s). Real file:
+  gen4 17.54, gen20 19.87 -> 0.1456 s/token = 6.87
+  tok/s, grade 71/71 rank 1 gap 0.0 FAITHFUL --
+  measured WHILE QS-1's bench_qs1_forward (PID
+  494226, ~14.5 cores) ran from 02:09. A clean-window
+  re-measurement is owed; at the bench's 214.6 GB/s
+  the GEMV stream alone is 0.127 s/token, so most of
+  the remaining 0.019 s/token is non-GEMM work.
