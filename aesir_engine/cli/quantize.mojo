@@ -641,6 +641,12 @@ def q4_k_m_plan(
         )
     if name == "output.weight":
         return (Int(Q6_K_GGML_TYPE), String(""))
+    if name.endswith(".attn_qkv.weight"):
+        # QS-3.7: llama.cpp's Q4_K_M policy stores the SSM blocks'
+        # fused attn_qkv at Q6_K (measured by census against a
+        # llama-produced control that grades FAITHFUL; the QC-6
+        # policy had it at Q4_K — the sole type difference).
+        return (Int(Q6_K_GGML_TYPE), String(""))
     var layer = _layer_index(name)
     if layer >= 0 and _use_more_bits(layer, n_layers):
         if name.endswith(".attn_v.weight"):
@@ -795,6 +801,8 @@ def q4_k_m_plan_qc6(
     var target = Int(Q4_K_GGML_TYPE)
     if name == "output.weight":
         target = Int(Q6_K_GGML_TYPE)
+    elif name.endswith(".attn_qkv.weight"):
+        target = Int(Q6_K_GGML_TYPE)  # QS-3.7 (see qc6_type_for_tensor)
     else:
         var layer = _layer_index(name)
         if layer >= 0 and _use_more_bits(layer, n_layers):

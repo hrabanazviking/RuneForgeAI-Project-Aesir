@@ -375,3 +375,30 @@ product served under --qwen35-resident-k on fenced port
 16,201,420,800, F16 avoided 53,786,705,920; a real completion
 returned (eos, 13 tokens). The small resident form is now a
 SERVED form as well as a packed one.
+
+## SLICE QS-3.6 — THE LLAMA CONTROL (banked)
+
+Question left by QS-3.5: is the last out-of-band record
+Aesir's writer or the flat Q4_K_M density itself? Method:
+llama-quantize --allow-requantize the same Q8_0 source to
+Q4_K_M (plain, no imatrix file; the flag is required — llama
+refuses requantize from Q8_0 by default, its own words in
+qs-3-llama-convert-time.log), then grade the control on the
+IDENTICAL battery against the same fresh source rows.
+Control: /mnt/vault/models/gguf/Qwen3.8-27B-...-Q4_K_M-
+llamacontrol.gguf, 16,547,639,776 B, converted in 0:56.
+GRADE (qs-3-grade-summary-llama.log): FAITHFUL —
+IN_BAND 198/198 = 100.00%, agreement 192/198 = 96.97%
+(SAME agreement as the QS-3.5 searched product), rank dist
+{1: 192, 2: 6}, worst gap 312 milli (p2 pos20); at QS-3.5's
+fatal record p5 pos8 the control sits at 265 milli rank 2,
+IN band (searched product: 453 milli, rank 4).
+So the searched fit EQUALS llama's fit in bulk (agreement
+identical); the gate difference is entirely in the tail —
+and the control is 324,403,200 B LARGER. Per-tensor census
+(qs3_census.py, headers only) names the whole difference:
+24 tensors — blk.*.attn_qkv.weight on the 24 SSM blocks —
+llama Q6_K vs Aesir QC-6 policy Q4_K. Counts: Aesir
+{Q4_K 457, Q6_K 41} vs llama {Q4_K 433, Q6_K 65}; every
+other tensor type identical. QS-3.7 applies exactly that
+one policy line and re-grades.
