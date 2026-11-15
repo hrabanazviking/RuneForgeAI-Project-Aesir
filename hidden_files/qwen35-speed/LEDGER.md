@@ -89,3 +89,57 @@ Compression cross-reference (QC_RESULTS.md / RESIDENCY-NOTE):
 
 ### QS-0 entries as they land
 - 20:09 EST recon + mining done (this file). MAP.md written.
+
+### QS-0 heavy window — lock contention + harness bug (2026-11-14 21:00 EST)
+- Fresh-boot gate PASSED 20:59-21:00 EST: uptime 60 min,
+  load1 0.31, MemAvailable 119,541,616 kB (qs0-gate-checks.log).
+- HEAVY.lock was claimed ~21:00 by the QS-3 team (branch
+  yrsa/qs-pack, tree ~/aesir-qs-pack; OWNER.txt in the lock:
+  27B searched-fit re-pack + strict grade + resident-K grade;
+  unit qs3-27b.service). Their claim landed seconds before
+  QS-0's claim attempt (lock birth 20:59:48). QS-0's bench +
+  perf units had already launched in the same invoke (sequencing
+  fault: mkdir failure did not halt the chain) and were STOPPED
+  at 21:02 once the contention was seen. QS-0 holds NO lock;
+  the HIP heavy run waits for QS-3's release, per the lock law.
+- BUG (found + fixed in scope): qs0_bench.py v1 parsed the
+  stream as raw NDJSON; the OpenAI route streams SSE
+  'data: {json}' lines ending 'data: [DONE]'
+  (native_serve.mojo format_chat_chunk path) -> 0 chunks
+  counted. v1's one completed probe is still a valid wall:
+  ~500-token-class prompt, max_tokens=1, wall 113.30 s under
+  QS-3 single-core quantize contention (load1 spiking) ->
+  prefill+first-token ~113 s, consistent with the ~4 tok/s
+  derived prefill class; NOT used as the baseline (contended).
+  Fixed in v2: SSE parsing + dual-method design (streaming
+  TTFT/chunk decode + non-streaming exact usage cross-check).
+- perf as unpriv user is BLOCKED (perf_event_paranoid=4, 'No
+  supported events found' even on a trivial own workload).
+  QS-0.5 method: root perf record -p <gate MainPID> via a
+  machine-level systemd unit during the bench window (sudo
+  verified available). rocprof: NOT present on this machine
+  (no /opt/rocm/bin, no rocprof in PATH/find) -> HIP timing
+  falls back to engine timers + time -v walls, as commissioned.
+- Note: Voxta.Server is RUNNING on this box (pid 2817 at recon)
+  and the gate showed multi-core CPU bursts after QS-0's bench
+  client was stopped -- consistent with live Voxta-side use of
+  the gate. QS-0 never touches either; baseline runs wait for
+  a quiet gate (CPU-time delta ~0) as well as the lock.
+
+### QS-0 lock error + restoration (2026-11-14 ~22:32 EST)
+- 22:26: qs3-27b.service went inactive; no QS-3 processes for
+  ~5 min. QS-0 judged the lock released-in-fact, moved it
+  aside (preserved) and claimed it. JUDGMENT WAS WRONG: at
+  22:32 QS-3 began a second heavy phase (llama.cpp-control
+  Q4_K_M grades, load1 spiked to 12.79) -- their campaign runs
+  in phases and the standing lock was still theirs in intent.
+- QS-0 restored QS-3's lock untouched (HEAVY.lock + their
+  OWNER.txt back in place; QS-0's brief claim preserved as
+  HEAVY.lock.qs0-claim-in-error-2231) and stands down. NO QS-0
+  heavy work ran during the error window (bench/perf/HIP were
+  never relaunched). True release = lock removed by QS-3 AND
+  no QS-3 processes; QS-0 waits for both.
+- Observed, not touched: ollama.service shows active/running
+  in the unit list (commission states Ollama is down by
+  Volmarr's order; the unit state is recorded here as seen,
+  QS-0 does not act on it).
