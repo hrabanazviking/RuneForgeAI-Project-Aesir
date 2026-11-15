@@ -1,0 +1,22 @@
+QS-1 micro-bench FINAL (patched kernels + pool shim, threads default 24, purpleraider). NOTE: both binaries link libaesir_par.so at runtime = the POOL shim in both runs; the kernel-only contrast is FINAL vs KERNEL-BASELINE. The spawn-shim dispatch numbers (210-310 us) are in QS-1-NOTES.md from the pre-pool runs.
+QS1SPAWN n=24 work=2M median_us=32.762
+QS1BENCH K=5120 N=17408 rows=1 median_ms=0.666747 checksum=2851.6553
+QS1BENCH K=5120 N=10240 rows=1 median_ms=0.191138 checksum=6882.2075
+QS1BENCH K=5120 N=6144 rows=1 median_ms=0.163997 checksum=4007.692
+QS1BENCH K=6144 N=5120 rows=1 median_ms=0.159378 checksum=1413.3281
+QS1BENCH K=17408 N=5120 rows=1 median_ms=0.599702 checksum=475.9242
+QS1BENCH K=5120 N=17408 rows=32 median_ms=6.761622 checksum=-12119.315
+QS1BENCH K=5120 N=17408 rows=256 median_ms=53.564326 checksum=-2865.364
+QS1BENCH K=5120 N=10240 rows=256 median_ms=33.316119 checksum=-70074.805
+QS1_BENCH_DONE
+
+KERNEL-BASELINE binary (pristine bad65106 kernels, POOL shim at runtime) same protocol:
+QS1SPAWN n=24 work=2M median_us=27.762
+QS1BENCH K=5120 N=17408 rows=1 median_ms=1.157356 checksum=2851.745
+QS1BENCH K=5120 N=10240 rows=1 median_ms=0.264384 checksum=6882.238
+QS1BENCH K=5120 N=6144 rows=1 median_ms=0.332242 checksum=4007.6885
+QS1BENCH K=6144 N=5120 rows=1 median_ms=0.327663 checksum=1413.3735
+QS1BENCH K=5120 N=17408 rows=32 median_ms=17.689209 checksum=-12119.903
+QS1BENCH K=5120 N=17408 rows=256 median_ms=121.787331 checksum=-2865.2703
+QS1BENCH K=5120 N=10240 rows=256 median_ms=78.91465 checksum=-70075.586
+QS1_BENCH_DONE
