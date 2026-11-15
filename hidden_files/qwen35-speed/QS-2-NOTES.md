@@ -171,3 +171,19 @@ Codebase-proven GPU idioms only (no exotic APIs):
   FFN silu_mul, residual _add — QS-2.3 continues after
   the real-scale profile (gen pairs) names the true
   ceiling: bandwidth vs launch vs serial-norm latency.
+
+## QS-2.3 step 2 — SiLU pair fused into the FFN down-GEMV
+
+- _q8_gemv_silu_kernel: the down projection computes the
+  SwiGLU activation on the fly (_silu_pair: both f16
+  roundings of _silu_mul_kernel reproduced exactly), so
+  the standalone silu_mul launch per layer is gone
+  (-64 launches/token) along with the FFN-width
+  activation round-trip through o_fu.
+- Fixture (qs2-fixture-fuse4.log): ALL PASS; (d) 0.0/0.0
+  and (f) 0.0 EXACT (bit-exact fusion); (e) GEMV loop
+  49.47 ms (1,294 tok/s fixture scale).
+- Launch census now ~492/token (from ~700): GEMV-class
+  launches 10/layer remain the spine; the rest is norms,
+  copies, adds and the attention block. Next steps wait
+  on the real-scale gen pairs (bandwidth vs latency).

@@ -108,6 +108,15 @@ def _q8_gemm_kernel(w: Bytes, a: Floats, base_arg: Int64, rows_arg: Int64, cols_
         a.unsafe_store(dst + b * rows + row, _f16r(acc))
 
 
+def _silu_pair(a: Floats, up_idx: Int, gate_idx: Int) -> Float32:
+    """The _silu_mul_kernel element pair, computed on the fly:
+    f16(silu_f16(gate) * up) with both f16 roundings, so the
+    fused FFN down-GEMV sees bit-identical activations."""
+    var g = a.unsafe_load(gate_idx)
+    var s = _f16r(g * _sigmoid(g))
+    return _f16r(s * a.unsafe_load(up_idx))
+
+
 def _q8_gemv_kernel(w: Bytes, a: Floats, base_arg: Int64, rows_arg: Int64, cols_arg: Int64, src_arg: Int64, dst_arg: Int64, batch_arg: Int64):
     """QS-2.2 vectorized Q8_0 GEMV for the single-token path:
     one warp (32 lanes) per output row. Lane l accumulates
@@ -169,6 +178,72 @@ def _q8_gemv_kernel(w: Bytes, a: Floats, base_arg: Int64, rows_arg: Int64, cols_
                         var raw = Int(wb.unsafe_load(qbyte + p * 4 + q4))
                         var q = raw - 256 if raw >= 128 else raw
                         acc += scale * Float32(q) * a.unsafe_load(src + b * cols + k0 + p * 4 + q4)
+        acc = warp.sum(acc)
+        if lane == 0:
+            a.unsafe_store(dst + b * rows + row, _f16r(acc))
+
+
+def _q8_gemv_silu_kernel(w: Bytes, a: Floats, base_arg: Int64, rows_arg: Int64, cols_arg: Int64, src_arg: Int64, dst_arg: Int64, batch_arg: Int64, gate_arg: Int64):
+    """QS-2.2 vectorized Q8_0 GEMV for the single-token path:
+    one warp (32 lanes) per output row. Lane l accumulates
+    blocks l, l+32, ... of the row; per block the 32 int8
+    quants are read as packed UInt32 words and unpacked
+    in-register (the block quant offset gblk*34+2 is
+    4-aligned only for odd gblk, so words are taken from
+    the aligned floor and shifted; the final word group of
+    an unaligned block falls back to scalar byte loads so
+    no read ever leaves the tensor). Lane partials are
+    combined with warp.sum; lane 0 stores f16-rounded (the
+    CPU gemm_f16 store contract). Accumulation order
+    differs from the sequential _q8_gemm_kernel -- a
+    legitimate difference per the file header, graded
+    under the Q35-6 standard (rank + logit gap)."""
+    var base = Int(base_arg)
+    var rows = Int(rows_arg)
+    var cols = Int(cols_arg)
+    var src = Int(src_arg)
+    var dst = Int(dst_arg)
+    var idx = Int(global_idx.x)
+    var lane = idx % 32
+    var warp_id = idx // 32
+    var b = warp_id // rows
+    var row = warp_id % rows
+    if warp_id < Int(batch_arg) * rows:
+        var blocks = cols // 32
+        var wf = w.unsafe_offset(base).unsafe_bitcast[Scalar[DType.float16]]()
+        var wq = w.unsafe_offset(base).unsafe_bitcast[Scalar[DType.uint32]]()
+        var wb = w.unsafe_offset(base)
+        var acc: Float32 = 0.0
+        for blk in range(lane, blocks, 32):
+            var gblk = row * blocks + blk
+            var scale = wf.unsafe_load(gblk * 17).cast[DType.float32]()
+            var k0 = blk * 32
+            var qbyte = gblk * 34 + 2
+            var w0 = qbyte // 4
+            var sh = (qbyte % 4) * 8
+            for p in range(8):
+                if sh == 0:
+                    var word = Int(wq.unsafe_load(w0 + p))
+                    for q4 in range(4):
+                        var raw = (word >> (q4 * 8)) & 255
+                        var q = raw - 256 if raw >= 128 else raw
+                        acc += scale * Float32(q) * _silu_pair(a, src + b * cols + k0 + p * 4 + q4, Int(gate_arg) + b * cols + k0 + p * 4 + q4)
+                elif p < 7:
+                    var word = (Int(wq.unsafe_load(w0 + p)) >> sh) | (Int(wq.unsafe_load(w0 + p + 1)) << (32 - sh))
+                    for q4 in range(4):
+                        var raw = (word >> (q4 * 8)) & 255
+                        var q = raw - 256 if raw >= 128 else raw
+                        acc += scale * Float32(q) * _silu_pair(a, src + b * cols + k0 + p * 4 + q4, Int(gate_arg) + b * cols + k0 + p * 4 + q4)
+                else:
+                    var word = Int(wq.unsafe_load(w0 + p)) >> sh
+                    for q4 in range(2):
+                        var raw = (word >> (q4 * 8)) & 255
+                        var q = raw - 256 if raw >= 128 else raw
+                        acc += scale * Float32(q) * _silu_pair(a, src + b * cols + k0 + p * 4 + q4, Int(gate_arg) + b * cols + k0 + p * 4 + q4)
+                    for q4 in range(2, 4):
+                        var raw = Int(wb.unsafe_load(qbyte + p * 4 + q4))
+                        var q = raw - 256 if raw >= 128 else raw
+                        acc += scale * Float32(q) * _silu_pair(a, src + b * cols + k0 + p * 4 + q4, Int(gate_arg) + b * cols + k0 + p * 4 + q4)
         acc = warp.sum(acc)
         if lane == 0:
             a.unsafe_store(dst + b * rows + row, _f16r(acc))
@@ -853,15 +928,17 @@ struct Qwen35HipExecutor:
     def _add(mut self, dst: Int, src: Int, count: Int) raises:
         self.context.enqueue_function[_add_kernel](self.a(), Int64(dst), Int64(src), Int64(count), grid_dim=(count + 255) // 256, block_dim=256)
 
+    def _gemm_silu(mut self, t: Q35TensorRef, src: Int, gate: Int, dst: Int, batch: Int) raises:
+        var n = batch * t.rows * 32
+        self.context.enqueue_function[_q8_gemv_silu_kernel](self.w(), self.a(), Int64(t.base), Int64(t.rows), Int64(t.cols), Int64(src), Int64(dst), Int64(batch), Int64(gate), grid_dim=(n + 255) // 256, block_dim=256)
+
     def _ffn(mut self, layer: Q35HipLayer, batch: Int) raises:
         ref p = self.profile
         self._copy(self.o_res, self.o_x, batch * p.hidden_size)
         self._norm(layer.post_attn_norm, self.o_x, self.o_x, p.hidden_size, batch)
         self._gemm(layer.ffn_gate, self.o_x, self.o_fg, batch)
         self._gemm(layer.ffn_up, self.o_x, self.o_fu, batch)
-        var n = batch * p.feed_forward_size
-        self.context.enqueue_function[_silu_mul_kernel](self.a(), Int64(self.o_fg), Int64(self.o_fu), Int64(n), grid_dim=(n + 255) // 256, block_dim=256)
-        self._gemm(layer.ffn_down, self.o_fu, self.o_x, batch)
+        self._gemm_silu(layer.ffn_down, self.o_fu, self.o_fg, self.o_x, batch)
         self._add(self.o_x, self.o_res, batch * p.hidden_size)
 
     def _layer_ssm(mut self, layer: Q35HipLayer, batch: Int, pos: Int) raises:
