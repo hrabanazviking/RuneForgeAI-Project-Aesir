@@ -157,6 +157,12 @@ def main():
                 n_insane += 1
         else:
             n_fail += 1
+            # Backoff (v2 fix): soak 1 spun 23k connection-
+            # refused lines in ~2 min when the gate was
+            # stopped externally — request latency is the
+            # loop's only pacing, so a fast failure must
+            # sleep explicitly.
+            time.sleep(15)
     stop.set()
     th.join(timeout=90)
     # least-squares slope of MemoryCurrent (bytes/hour)

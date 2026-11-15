@@ -297,7 +297,57 @@ NRestarts + health verdict to soak-mem.log; every
 request to soak-req.log; summary to soak-summary.json
 (all in hidden_files/qwen35-speed of the hipserve tree).
 
-SOAK_RESULTS_PLACEHOLDER
+SOAK RUN 1 (started 03:32:22 EST, qs5-soak unit):
+INVALIDATED at t=6,718 s by EXTERNAL stops — not by
+any serve failure. Record in full:
+- Until the event: 106 requests, ALL ok=True,
+  sane=True (short, resident, sampling, prefill-med,
+  generate-minp, prefill-long legs all cycling);
+  MemoryCurrent flat in a 5.25-5.28 GB band (sampler
+  peak 5.68 GB), NRestarts=0, watchdog ACTIONs=0,
+  watchdog v2 logging BUSY (never FAIL) during long
+  prefills. By every criterion the serve was passing.
+- 05:25:26 EST (soak t~6,780): journal + sudo log show
+  a Muse device session (musegadget system.run) issuing
+  "sudo systemctl stop aesir-gate". QS-5 issued no such
+  command; the stop came from outside this team.
+- The serve was mid-prefill and did not exit on
+  SIGTERM within TimeoutStopSec=60 s; systemd
+  SIGKILLed it at 05:26:26 ("Failed with result
+  timeout") and Restart=on-failure brought it back at
+  05:26:27 (new MainPID 543130, health ready seconds
+  later). ACCIDENTAL BUT REAL SELF-HEALING PROOF,
+  banked as evidence for QS-5.5: a stop that degrades
+  to SIGKILL still returns by itself.
+- During the ~70 s outage the soak client spun
+  23,263 connection-refused lines (harness flaw: no
+  failure backoff — fixed in qs5_soak.py v2 with a
+  15 s post-failure sleep) plus 1 in-flight
+  RemoteDisconnected. Soak 1 logs preserved as
+  soak1-req.log / soak1-mem.log in the hipserve tree.
+- 05:35:05 EST: a second external stop, this time
+  informed: the same route issued "systemctl disable
+  --now aesir-gate-watchdog.timer" AND "systemctl stop
+  aesir-gate.service" in the same second, followed at
+  05:36:13 by a systemd-run unit "zo0-7b" running
+  /home/volmarr/ai/ollama-bench.py — a sibling bench
+  team's run. Attribution: the zo0 bench team cleared
+  the gate (and, the second time, its watchdog) off
+  the machine for their benchmarks. Cross-team
+  collision on a shared machine; flagged to the
+  coordinator in the QS-5 closing report.
+- QS-5 restored the gate + watchdog at 05:37 EST
+  (active, enabled, health ready, MainPID 545702)
+  and stood down its own load. The idle serve costs
+  the bench nothing (~0 CPU, 5.2 GB of 121 GB).
+SOAK RUN 2: relaunched with the v2 harness after the
+machine quieted (load1 < 2 and falling, no zo0 units
+loaded). Same PASS criteria. If a further external
+stop lands, the run will be invalidated the same way
+and the pattern escalated — three strikes is a
+coordination problem, not a serve problem.
+
+SOAK2_RESULTS_PLACEHOLDER
 
 ## QS-5.5 CRASH RECOVERY
 

@@ -430,3 +430,19 @@ QS-5-NOTES.md in this folder.
   Live-proven mid-prefill at install. QS-5.4 health
   criterion amended accordingly in QS-5-NOTES.md
   (recorded at soak t+5 min, before any verdict).
+- QS-5.4 SOAK RUN 1 INVALIDATED by external stops
+  (not a serve failure): 106/106 requests OK + memory
+  flat to t=6,718 s, then a Muse device session
+  outside QS-5 issued "sudo systemctl stop aesir-gate"
+  at 05:25:26 EST (journal + sudo log). Serve ignored
+  SIGTERM mid-prefill -> SIGKILL at stop-timeout ->
+  Restart=on-failure returned it at 05:26:27 (real
+  self-healing proof, reused for QS-5.5). Second stop
+  05:35:05 disabled the watchdog timer + stopped the
+  gate, followed by a "zo0-7b" ollama-bench unit —
+  the sibling bench team clearing the machine.
+  QS-5 restored gate + watchdog 05:37 (ready, enabled).
+  Soak harness flaw found + fixed (no failure backoff:
+  23,263 refused-spin lines; v2 sleeps 15 s after a
+  failure). Soak 2 relaunched on the quiet machine;
+  full record in QS-5-NOTES.md.
