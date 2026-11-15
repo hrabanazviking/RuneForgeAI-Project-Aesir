@@ -211,3 +211,16 @@ per-chunk horizontal reduce_add dot.
   serve; next named causes: (1) delta-recurrence/conv
   serial sections, (2) int8-dot VNNI GEMV, (3) serve-layer
   per-token overhead. Full record: QS-1-NOTES.md.
+- QS-1.4 delta-recurrence SIMD (forward() only; the
+  forward_batched copy is separate text and remains
+  scalar — named follow-on): grade CSVs BYTE-IDENTICAL
+  to the QS-1.1-1.3 run (198/198 FAITHFUL); gen pair
+  0.392 -> 0.334 s/tok = 3.00 tok/s in-process decode
+  (x3 stable). Serve bench run 2 (qs1-bench-qs114.log):
+  p500 prompt >= 6.04 (QS-0 base 3.73, +62%), decode_plain
+  2.43 (base 2.14); p2000 prompt >= 5.29 (base 3.88,
+  +36%), decode_stream 2.28 (base 1.83, +25%). FINAL QS-1
+  serve verdict: prompt +36..62%, decode +14..25% by the
+  steadier reads; Ollama Q8_0 7.65 NOT beaten. Next causes
+  (ordered): batched-recurrence SIMD, VNNI int8-dot GEMV,
+  serve stream-variance audit.

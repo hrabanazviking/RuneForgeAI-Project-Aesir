@@ -2521,27 +2521,69 @@ struct Qwen35Block(Copyable):
                     var decay = exp(a_val * dt)
                     var beta = _sigmoid_f32(beta_raw.data.unsafe_load(vh).cast[DType.float32]())
                     var s_head = s_base.unsafe_offset(vh * d_state * d_state)
-                    for i in range(d_state):
-                        for j in range(d_state):
-                            var idx = i * d_state + j
-                            s_head.unsafe_store(idx, s_head.unsafe_load(idx) * decay)
-                    for j in range(d_state):
-                        var mem: Float32 = 0.0
-                        for i in range(d_state):
-                            mem += s_head.unsafe_load(i * d_state + j).cast[DType.float32]() * conv_out.data.unsafe_load(k_off + i).cast[DType.float32]()
-                        var delta = (conv_out.data.unsafe_load(v_off + j).cast[DType.float32]() - mem) * beta
-                        state.scratch.unsafe_store(j, Scalar[f32](delta))
-                    for i in range(d_state):
-                        var k_i = conv_out.data.unsafe_load(k_off + i).cast[DType.float32]()
-                        for j in range(d_state):
-                            var idx = i * d_state + j
-                            s_head.unsafe_store(idx, s_head.unsafe_load(idx) + Scalar[f32](k_i) * state.scratch.unsafe_load(j))
                     var head_scale = Float32(1.0) / sqrt(Float32(d_state))
-                    for j in range(d_state):
-                        var acc: Float32 = 0.0
+                    # QS-1.4: width-16 SIMD over the state width j.
+                    # Every j element keeps the scalar body's exact
+                    # per-element operation order (decay: one mult;
+                    # mem/readout: ascending-i accumulation; update:
+                    # one fused add of k_i * delta_j), so the f32
+                    # state math is bit-identical to the scalar
+                    # loops, which remain as the fallback for state
+                    # widths not divisible by 16.
+                    if d_state % 16 == 0:
+                        comptime W = 16
+                        var decay_vec = SIMD[DType.float32, W](decay)
                         for i in range(d_state):
-                            acc += s_head.unsafe_load(i * d_state + j).cast[DType.float32]() * conv_out.data.unsafe_load(q_off + i).cast[DType.float32]()
-                        state.scratch.unsafe_store(d_state + j, Scalar[f32](acc * head_scale))
+                            var row_base = i * d_state
+                            for j in range(0, d_state, W):
+                                s_head.unsafe_store[width=W](row_base + j, s_head.unsafe_load[width=W](row_base + j) * decay_vec)
+                        for j in range(0, d_state, W):
+                            state.scratch.unsafe_store[width=W](j, SIMD[DType.float32, W](0.0))
+                        for i in range(d_state):
+                            var k_vec = SIMD[DType.float32, W](conv_out.data.unsafe_load(k_off + i).cast[DType.float32]())
+                            var row_base = i * d_state
+                            for j in range(0, d_state, W):
+                                state.scratch.unsafe_store[width=W](j, state.scratch.unsafe_load[width=W](j) + s_head.unsafe_load[width=W](row_base + j) * k_vec)
+                        var beta_vec = SIMD[DType.float32, W](beta)
+                        for j in range(0, d_state, W):
+                            var v_vec = conv_out.data.unsafe_load[width=W](v_off + j).cast[DType.float32]()
+                            state.scratch.unsafe_store[width=W](j, (v_vec - state.scratch.unsafe_load[width=W](j)) * beta_vec)
+                        for i in range(d_state):
+                            var k_vec = SIMD[DType.float32, W](conv_out.data.unsafe_load(k_off + i).cast[DType.float32]())
+                            var row_base = i * d_state
+                            for j in range(0, d_state, W):
+                                s_head.unsafe_store[width=W](row_base + j, s_head.unsafe_load[width=W](row_base + j) + k_vec * state.scratch.unsafe_load[width=W](j))
+                        for j in range(0, d_state, W):
+                            state.scratch.unsafe_store[width=W](d_state + j, SIMD[DType.float32, W](0.0))
+                        for i in range(d_state):
+                            var q_vec = SIMD[DType.float32, W](conv_out.data.unsafe_load(q_off + i).cast[DType.float32]())
+                            var row_base = i * d_state
+                            for j in range(0, d_state, W):
+                                state.scratch.unsafe_store[width=W](d_state + j, state.scratch.unsafe_load[width=W](d_state + j) + s_head.unsafe_load[width=W](row_base + j) * q_vec)
+                        var hs_vec = SIMD[DType.float32, W](head_scale)
+                        for j in range(0, d_state, W):
+                            state.scratch.unsafe_store[width=W](d_state + j, state.scratch.unsafe_load[width=W](d_state + j) * hs_vec)
+                    else:
+                        for i in range(d_state):
+                            for j in range(d_state):
+                                var idx = i * d_state + j
+                                s_head.unsafe_store(idx, s_head.unsafe_load(idx) * decay)
+                        for j in range(d_state):
+                            var mem: Float32 = 0.0
+                            for i in range(d_state):
+                                mem += s_head.unsafe_load(i * d_state + j).cast[DType.float32]() * conv_out.data.unsafe_load(k_off + i).cast[DType.float32]()
+                            var delta = (conv_out.data.unsafe_load(v_off + j).cast[DType.float32]() - mem) * beta
+                            state.scratch.unsafe_store(j, Scalar[f32](delta))
+                        for i in range(d_state):
+                            var k_i = conv_out.data.unsafe_load(k_off + i).cast[DType.float32]()
+                            for j in range(d_state):
+                                var idx = i * d_state + j
+                                s_head.unsafe_store(idx, s_head.unsafe_load(idx) + Scalar[f32](k_i) * state.scratch.unsafe_load(j))
+                        for j in range(d_state):
+                            var acc: Float32 = 0.0
+                            for i in range(d_state):
+                                acc += s_head.unsafe_load(i * d_state + j).cast[DType.float32]() * conv_out.data.unsafe_load(q_off + i).cast[DType.float32]()
+                            state.scratch.unsafe_store(d_state + j, Scalar[f32](acc * head_scale))
                     # Per-head RMSNorm with the shared ssm_norm weight,
                     # gated by silu(z) for this v-head.
                     var mean: Float32 = 0.0

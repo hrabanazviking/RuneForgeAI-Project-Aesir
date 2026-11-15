@@ -209,3 +209,46 @@ for comparability). One bench key value reached the
 qs1-bench unit journal via set -x during the failed start;
 the key was rotated before the successful run and the key
 file is never committed.
+
+## QS-1.4 — delta-recurrence SIMD (forward(), decode path)
+Width-16 SIMD over the state width j for the four recurrence
+loops (decay / mem / rank-1 update / readout), per-element
+ascending-i order preserved; scalar body kept as fallback
+for d_state % 16 != 0. forward_batched carries a DIFFERENT
+recurrence copy (not identical text) and is NOT touched by
+this slice — its vectorization is the named follow-on.
+Evidence:
+- GRADE: re-run CSVs BYTE-IDENTICAL to the QS-1.1-1.3 run
+  (git status clean on all six) — 198/198 FAITHFUL, and the
+  f32 state math is bit-identical in practice.
+- Gen pair x3 runs: 0.334 s/tok = 3.00 tok/s decode
+  (pre-1.4: 0.392 / 2.55). Stable across repetitions.
+- Forward driver run 2: batched prefill 6.13 tok/s (was
+  5.96), decode-16 at ctx ~466 flat (2.25 vs 2.24),
+  per-token prefill 2.21 vs 2.44 in run 1 (unexplained;
+  thermal/codegen hypotheses named, not resolved).
+- SERVE BENCH RUN 2 (QS-1.4 build, :18436, QS-0 harness):
+  p500 prompt >= 6.04 (run 1: 3.80; QS-0 base 3.73),
+  decode_plain 2.43 (base 2.14), decode_stream 1.26
+  (outlier; inverts across runs — environment-dominated);
+  p2000 prompt >= 5.29 (base 3.88), decode_stream 2.28
+  (run 1: 2.30; base 1.83), decode_plain 0.97 (formula
+  artifact class as run 1 — plain wall includes its own
+  slower prefill; not a decode read).
+  Run 1's flat p500 TTFT (114.5 s) did not reproduce: with
+  the recurrence still scalar in forward_batched, the
+  run-2 TTFT improvement is attributed to run 1's
+  first-request/cold-serve effects + transient contention
+  (recorded in run 1's entry), NOT to QS-1.4. The serve
+  prompt rate now matches the in-process batched rate
+  (5.96-6.13) at p500 and sits 12% under it at p2000.
+FINAL QS-1 SERVE VERDICT (same harness, QS-0 -> QS-1.4):
+ prompt p500 3.73 -> 6.04 tok/s (+62%); p2000 3.88 -> 5.29
+ (+36%). Decode: 1.83 -> 2.28-2.30 stream at p2000 (+25%);
+ plain cross-check 2.14 -> 2.43 (+14%); in-process 3.00.
+ Ollama Q8_0 gen 7.65 tok/s: NOT beaten. Remaining named
+ causes: (1) forward_batched recurrence/conv SIMD (the
+ QS-1.4 pattern applied to the batched copy), (2) VNNI
+ int8-dot GEMV/GEMM (the Ollama-class road), (3) serve
+ stream-path variance audit (stream reads invert across
+ runs under live gate/Voxta sharing of memory bandwidth).
