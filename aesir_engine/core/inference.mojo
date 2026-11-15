@@ -2897,6 +2897,8 @@ def forward_pass_qwen35_batched(
     top_p: Scalar[f32] = 0.9,
     repetition_penalty: Scalar[f32] = 1.1,
     seed: UInt64 = 42,
+    min_p: Scalar[f32] = 0.0,
+    repeat_last_n: Int = 0,
 ) raises -> Int:
     """Batched twin of forward_pass_qwen35 for one prefill chunk of
     batch_len tokens at start_pos. Unlike forward_pass_qwen35 this
@@ -2961,7 +2963,9 @@ def forward_pass_qwen35_batched(
             repetition_penalty=repetition_penalty,
             context_tokens=tokens,
             rng=rng,
+            min_p=min_p,
             suppress_tokens=suppress_list,
+            repeat_last_n=repeat_last_n,
         )
         kv_cache.sample_ns_total += phase_now_ns() - _sample_t0
         well.offset = initial_offset
@@ -2983,6 +2987,8 @@ def forward_pass_qwen35(
     top_p: Scalar[f32] = 0.9,
     repetition_penalty: Scalar[f32] = 1.1,
     seed: UInt64 = 42,
+    min_p: Scalar[f32] = 0.0,
+    repeat_last_n: Int = 0,
 ) raises -> Int:
     """Full forward pass for the Qwen3.5 hybrid arch. Mirrors
     forward_pass's output stage (final norm, LM head, sampling) but runs
@@ -3033,7 +3039,9 @@ def forward_pass_qwen35(
             repetition_penalty=repetition_penalty,
             context_tokens=tokens,
             rng=rng,
+            min_p=min_p,
             suppress_tokens=suppress_list,
+            repeat_last_n=repeat_last_n,
         )
         kv_cache.sample_ns_total += phase_now_ns() - _sample_t0
         well.offset = initial_offset

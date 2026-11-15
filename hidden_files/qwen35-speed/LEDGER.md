@@ -168,3 +168,42 @@ Compression cross-reference (QC_RESULTS.md / RESIDENCY-NOTE):
   unit-state observation recorded, untouched per orders.
 - Gate never touched: aesir-gate still PID 5932, active,
   serving; QS-0 sent it client requests only.
+
+## QS-4 — Sampling parity on qwen35 (yrsa/qs-sample, base 183ee901)
+
+- QS-4.1 EVIDENCE + DESIGN banked: min_p and repeat_last_n are
+  silent no-ops on the qwen35 CPU serve path. Witness:
+  _gen_config().min_p = 0.0 under sampling.min_p = 0.95;
+  fixture probe streams A==B (min_p 0 vs 0.95) and C==D
+  (repeat_last_n 1 vs 8192 at rep 2.5) identical, A!=C proves
+  the penalty itself is wired full-context
+  (qs-4-probe-prefix.log). Full audit + reference semantics +
+  design in QS-4-NOTES.md.
+- QS-4.2 MIN_P banked: wired GenerationConfig.min_p through
+  the qwen35 forwards + CPU/HIP sessions into the existing
+  apply_min_p. Fixture proof: keep sets exact; distribution
+  0/512 vs 230/512 control; session default stream bit-exact
+  vs pre-fix probe, min_p 0.95 bites (qs-4-minp-test.log).
+  Fixture grade battery clean (forward ALL PASS, resident-K
+  logits diff 0.0, test_inference PASS). 27B grade re-run
+  pending HEAVY lock (QS-2).
+- QS-4.3 REPEAT_LAST_N banked: GenerationConfig gains the
+  field (default 0 = legacy full-context); sampler windows
+  the penalty context (rep + freq/presence, order unchanged);
+  qwen35 plumbing mirrors QS-4.2. Proof: seeded distributions
+  full 85 vs window 251 (rep), 184 vs 251 (freq); session
+  windows 1 vs 8192 now differ; defaults bit-exact; fixture
+  grade battery clean again (qs-4-rln-test.log).
+- QS-4.4 SERVE SMOKE banked: fenced fixture serve on :18437
+  (own units, stopped clean; gate untouched). min_p 0.95
+  diverges at token 10; repeat_last_n: rep 2.5 window 8192
+  diverges at the 11-apart repeat (~token 42), window 1
+  leaves the stream untouched, rep 1.0 controls identical
+  across instances at seed 42 (qs-4-smoke-r*.log).
+- QS-4 CLOSED: QS-4.1 fa047ba0, QS-4.2 fb370ad0, QS-4.3
+  bbc70045, QS-4.4 this entry. Named remainder: 27B grade
+  re-run (lock held by QS-1/QS-2 throughout; fixture battery
+  clean + structural grade-safety proof in QS-4-NOTES.md);
+  generic/gemma4 forwards share the dead-min_p defect
+  (follow-up slice); native /v1/generate lacks a per-request
+  repeat_last_n field (parser follow-up).

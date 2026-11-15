@@ -16,9 +16,9 @@ only the evaluation engine and the snapshot byte source differ:
   CPU path's own sampler (core.sampler.sample_token_from_logits
   + core.inference.replay_rng), so serve sampling semantics --
   temperature / top_k / top_p / repetition_penalty / seed -- are
-  the CPU session's by construction. min_p and repeat_last_n
-  have no CPU-forward counterpart and are not claimed (same
-  honest scope as Q35-4a).
+  the CPU session's by construction. min_p is honored through
+  the same sampler (QS-4.2); repeat_last_n windows the same
+  sampler's penalty context (QS-4.3).
 - Snapshots: at each committed turn boundary the session stores
   the executor's state image (readback_state: s + conv rings in
   Qwen35State order) and KV prefix image (readback_kv_prefix).
@@ -213,6 +213,8 @@ struct Qwen35HipSession(ControlledTextSession):
             top_k=self.sampling.top_k,
             top_p=self.sampling.top_p,
             repetition_penalty=self.sampling.repetition_penalty,
+            min_p=self.sampling.min_p,
+            repeat_last_n=self.sampling.repeat_last_n,
             context_tokens=self.stream,
             rng=rng,
             suppress_tokens=suppress,

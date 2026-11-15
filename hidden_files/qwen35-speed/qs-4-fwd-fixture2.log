@@ -1,0 +1,15 @@
+MimirWell initialized with 37896704 derived bytes.
+GGUF validated: 56 tensors, 23 metadata entries, architecture qwen35
+PASS (a0): engine state geometry layers=3 v_heads(dt_rank)=4 state=16 conv_dim(qkv_width)=128
+PASS (a): forward over 8 tokens -> finite logits, argmax 758 < vocab 1024, greedy token == argmax
+STATE EQUALITY (c): s_data max_abs_diff = 0.0028607845  conv_data max_abs_diff = 0.01171875  logits max_abs_diff = 0.015625  (max |logit| = 13.2890625 )
+PASS (c): batched == per-token (state/conv/logits diffs above; next token identical)
+CONTINUATION (d1) two-call stream: s max_abs_diff = 0.0  conv max_abs_diff = 0.0  logits max_abs_diff = 0.0
+PASS (d1): A then B as separate calls on one state == A+B in one stream, exact
+CONTINUATION (d2) batched-A + per-token-B: s max_abs_diff = 0.0016663075  conv max_abs_diff = 0.0078125  logits max_abs_diff = 0.01171875
+PASS (d2): batched prefill of A + per-token B == one stream within rounding bounds
+CONTINUATION (d3) per-token-A + batched-B: s max_abs_diff = 0.002854824  conv max_abs_diff = 0.01171875  logits max_abs_diff = 0.021484375
+PASS (d3): batched continuation chunk carries state without reset
+PASS (b): greedy 16 tokens identical across two runs, all < vocab 1024: 679 194 893 673 322 687 585 758 136 104 316 224 916 54 103 47 
+PASS (e): real signature q band 2048 @ 0, k band 2048 @ 2048, v band 6144 @ 4096, state/layer 48x128x128 = 786432
+Q35-3 qwen35 forward geometry: ALL PASS

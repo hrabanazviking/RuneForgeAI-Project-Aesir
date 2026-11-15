@@ -427,6 +427,7 @@ def sample_token_from_logits(
     presence_penalty: Float32 = 0.0,
     min_p: Float32 = 0.0,
     suppress_tokens: List[Int] = List[Int](),
+    repeat_last_n: Int = 0,
 ) -> Int:
     """Samples raw F16 logits; greedy equal finite maxima choose the lowest ID."""
     if vocab_size <= 0:
@@ -483,8 +484,19 @@ def sample_token_from_logits(
     if len(suppress_tokens) > 0:
         apply_token_mask(candidates, suppress_tokens)
 
-    apply_repetition_penalty(candidates, context_tokens, repetition_penalty)
-    apply_frequency_presence_penalty(candidates, context_tokens, frequency_penalty, presence_penalty)
+    # QS-4.3: repeat_last_n windows the penalty context (llama.cpp
+    # penalties semantics; the CUDA sampler's ring does the same).
+    # repeat_last_n <= 0 keeps the legacy full-context behavior;
+    # the window applies to repetition AND frequency/presence
+    # penalties, in the established order (penalties first, then
+    # temperature, top_k, top_p, min_p).
+    var penalty_tokens = context_tokens.copy()
+    if repeat_last_n > 0 and len(context_tokens) > repeat_last_n:
+        penalty_tokens = List[Int]()
+        for w in range(len(context_tokens) - repeat_last_n, len(context_tokens)):
+            penalty_tokens.append(context_tokens[w])
+    apply_repetition_penalty(candidates, penalty_tokens, repetition_penalty)
+    apply_frequency_presence_penalty(candidates, penalty_tokens, frequency_penalty, presence_penalty)
     apply_temperature(candidates, temperature)
     if top_k > 0:
         apply_top_k(candidates, top_k)

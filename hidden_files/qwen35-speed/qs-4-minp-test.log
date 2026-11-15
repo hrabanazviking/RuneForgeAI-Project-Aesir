@@ -1,0 +1,10 @@
+(m1) apply_min_p keep sets: PASS
+(m2) min_p distribution (control token1 draws=230/512): PASS
+MimirWell initialized with 50529280 derived bytes.
+GGUF validated: 56 tensors, 24 metadata entries, architecture qwen35
+MimirWell initialized with 50529280 derived bytes.
+GGUF validated: 56 tensors, 24 metadata entries, architecture qwen35
+MimirWell initialized with 50529280 derived bytes.
+GGUF validated: 56 tensors, 24 metadata entries, architecture qwen35
+(m3) session min_p: default bit-exact, min_p=0.95 bites: PASS
+QS-4 SAMPLING TESTS: PASS

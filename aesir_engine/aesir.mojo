@@ -118,6 +118,7 @@ struct GenerationConfig(Copyable):
     var min_p: Float32
     var suppress_tokens: List[Int]
     var seed: UInt64
+    var repeat_last_n: Int
 
     def __init__(
         out self,
@@ -133,6 +134,7 @@ struct GenerationConfig(Copyable):
         min_p: Float32 = 0.0,
         suppress_tokens: List[Int] = List[Int](),
         seed: UInt64 = 42,
+        repeat_last_n: Int = 0,
     ):
         self.max_new_tokens = max_new_tokens
         self.stop_tokens = stop_tokens.copy()
@@ -146,6 +148,7 @@ struct GenerationConfig(Copyable):
         self.min_p = min_p
         self.suppress_tokens = suppress_tokens.copy()
         self.seed = seed
+        self.repeat_last_n = repeat_last_n
 
     def __copyinit__(out self, existing: Self):
         self.max_new_tokens = existing.max_new_tokens
@@ -160,6 +163,7 @@ struct GenerationConfig(Copyable):
         self.min_p = existing.min_p
         self.suppress_tokens = existing.suppress_tokens.copy()
         self.seed = existing.seed
+        self.repeat_last_n = existing.repeat_last_n
 
     @always_inline
     def copy(self) -> Self:
@@ -176,6 +180,7 @@ struct GenerationConfig(Copyable):
             self.min_p,
             self.suppress_tokens.copy(),
             self.seed,
+            self.repeat_last_n,
         )
 
     def validate(self, context_length: Int = 4096) raises:
@@ -198,6 +203,8 @@ struct GenerationConfig(Copyable):
             raise Error("GenerationConfig presence_penalty must be between -2.0 and 2.0")
         if self.min_p < 0.0 or self.min_p > 1.0:
             raise Error("GenerationConfig min_p must be between 0.0 and 1.0")
+        if self.repeat_last_n < 0 or self.repeat_last_n > 8192:
+            raise Error("GenerationConfig repeat_last_n must be between 0 and 8192")
 
 
 struct GenerationResult(Copyable):
@@ -474,6 +481,8 @@ struct AesirEngine:
                 gen_config.top_p,
                 gen_config.repetition_penalty,
                 gen_config.seed,
+                gen_config.min_p,
+                gen_config.repeat_last_n,
             )
         return forward_pass(
             tokens,
@@ -1070,6 +1079,8 @@ struct AesirEngine:
                 gen_config.top_p,
                 gen_config.repetition_penalty,
                 gen_config.seed,
+                gen_config.min_p,
+                gen_config.repeat_last_n,
             )
         return forward_pass_batched(
             tokens,

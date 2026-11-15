@@ -1,0 +1,18 @@
+MimirWell initialized with 50529280 derived bytes.
+GGUF validated: 56 tensors, 24 metadata entries, architecture qwen35
+A len=49 stream=56,76,73,4,83,80,72,4,80,77,75,76,88,76,83,89,87,73,4,79,73,73,84,73,86,951,290,738,704,273,714,796,969,1012,704,501,32,823,635,568,877,978,130,355,603,81,24,537,843
+MimirWell initialized with 50529280 derived bytes.
+GGUF validated: 56 tensors, 24 metadata entries, architecture qwen35
+WITNESS gen_config.min_p under sampling.min_p=0.95 -> 0.0
+MimirWell initialized with 50529280 derived bytes.
+GGUF validated: 56 tensors, 24 metadata entries, architecture qwen35
+B len=49 stream=56,76,73,4,83,80,72,4,80,77,75,76,88,76,83,89,87,73,4,79,73,73,84,73,86,951,290,738,704,273,714,796,969,1012,704,501,32,823,635,568,877,978,130,355,603,81,24,537,843
+MimirWell initialized with 50529280 derived bytes.
+GGUF validated: 56 tensors, 24 metadata entries, architecture qwen35
+C len=49 stream=56,76,73,4,83,80,72,4,80,77,75,76,88,76,83,89,87,73,4,79,73,73,84,73,86,951,290,738,704,273,714,796,969,1012,509,600,547,800,216,646,409,491,654,101,69,633,454,237,446
+MimirWell initialized with 50529280 derived bytes.
+GGUF validated: 56 tensors, 24 metadata entries, architecture qwen35
+D len=49 stream=56,76,73,4,83,80,72,4,80,77,75,76,88,76,83,89,87,73,4,79,73,73,84,73,86,951,290,738,704,273,714,796,969,1012,509,600,547,800,216,646,409,491,654,101,69,633,454,237,446
+A==B (min_p no-op if True): True
+C==D (repeat_last_n no-op if True): True
+A==C (repetition_penalty wired if False): False
