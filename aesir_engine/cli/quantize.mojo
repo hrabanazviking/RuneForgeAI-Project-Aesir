@@ -44,7 +44,9 @@ from core.quantize import (
     q6_k_payload_bytes,
     q8_0_payload_bytes,
     quantize_q4_k,
+    quantize_q4_k_searched,
     quantize_q6_k,
+    quantize_q6_k_searched,
     quantize_q8_0,
 )
 from loader.gguf import GGMLType, GGUFSeer
@@ -294,6 +296,8 @@ def dispatch_quantize(args: List[String]) raises:
     var output = String("")
     var tier = String(QUANTIZE_TIER_Q8_0)
     var seen_to = False
+    var seen_fit = False
+    var fit = String("legacy")
     var streaming = False
     var index = 1
     while index < len(args):
@@ -303,6 +307,13 @@ def dispatch_quantize(args: List[String]) raises:
                 raise Error("quantize requires one value for --to")
             seen_to = True
             tier = args[index + 1]
+            index += 2
+            continue
+        if token == "--fit":
+            if seen_fit or index + 1 >= len(args):
+                raise Error("quantize requires one value for --fit")
+            seen_fit = True
+            fit = args[index + 1]
             index += 2
             continue
         if token == "--streaming":
@@ -329,14 +340,18 @@ def dispatch_quantize(args: List[String]) raises:
             + "' is not implemented; the wired tiers are q8_0 (QC-3)"
             + " and q4_k_m (QC-5)"
         )
+    if fit != "legacy" and fit != "searched":
+        raise Error("quantize: --fit '" + fit + "' is not implemented; the wired fits are legacy (QC-5 min/max) and searched (QS-3, ggml searched fit)")
+    if fit == "searched" and tier != QUANTIZE_TIER_Q4_K_M:
+        raise Error("quantize: --fit searched applies only to the q4_k_m tier; the q8_0 rule is already the ggml reference rule (QC-2)")
     if source == output:
         raise Error("quantize: source and output paths must differ")
     var report = QuantizeReport()
     if tier == QUANTIZE_TIER_Q4_K_M:
         if streaming:
-            report = quantize_gguf_q4_k_m_streaming_qc6(source, output)
+            report = quantize_gguf_q4_k_m_streaming_qc6(source, output, fit == "searched")
         else:
-            report = quantize_gguf_q4_k_m(source, output)
+            report = quantize_gguf_q4_k_m(source, output, fit == "searched")
     elif streaming:
         report = quantize_gguf_q8_0_streaming(source, output)
     else:
@@ -636,7 +651,7 @@ def q4_k_m_plan(
 
 
 def quantize_gguf_q4_k_m(
-    source_path: String, output_path: String
+    source_path: String, output_path: String, searched: Bool = False
 ) raises -> QuantizeReport:
     """Converts a whole GGUF to Q4_K_M under the policy above and writes it
     through the QC-1 writer with general.file_type = 15. Metadata is copied
@@ -677,9 +692,9 @@ def quantize_gguf_q4_k_m(
             var values = _read_dense_f32(seer, base, entry.copy())
             var payload = List[UInt8]()
             if plan[0] == Int(Q6_K_GGML_TYPE):
-                payload = quantize_q6_k(values)
+                payload = quantize_q6_k_searched(values) if searched else quantize_q6_k(values)
             else:
-                payload = quantize_q4_k(values)
+                payload = quantize_q4_k_searched(values) if searched else quantize_q4_k(values)
             report.quantized_names.append(String(entry.name))
             report.quantized_source_bytes.append(entry.byte_size)
             report.quantized_output_bytes.append(len(payload))
@@ -802,7 +817,7 @@ def q4_k_m_plan_qc6(
 
 
 def quantize_gguf_q4_k_m_streaming_qc6(
-    source_path: String, output_path: String
+    source_path: String, output_path: String, searched: Bool = False
 ) raises -> QuantizeReport:
     """Streaming whole-model Q4_K_M conversion under the QC-6 tiling
     rule. Same report contract as the QC-3b streaming converter:
@@ -862,11 +877,11 @@ def quantize_gguf_q4_k_m_streaming_qc6(
                 var values = _read_row_f32(seer, base, entry.copy(), row)
                 var payload = List[UInt8]()
                 if plan[0] == Int(Q6_K_GGML_TYPE):
-                    payload = quantize_q6_k(values)
+                    payload = quantize_q6_k_searched(values) if searched else quantize_q6_k(values)
                 elif plan[0] == Int(Q8_0_GGML_TYPE):
                     payload = quantize_q8_0(values)
                 else:
-                    payload = quantize_q4_k(values)
+                    payload = quantize_q4_k_searched(values) if searched else quantize_q4_k(values)
                 writer.write_chunk(payload)
             var out_bytes = 0
             if plan[0] == Int(Q6_K_GGML_TYPE):

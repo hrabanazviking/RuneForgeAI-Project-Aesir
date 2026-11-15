@@ -182,3 +182,36 @@ QS-3.5 (HEAVY — lock + fresh-boot gate): re-pack 27B Q8_0 source
 with searched fit to Qwen3.8-27B-...-Q4_K_M-searchedfit.gguf on
 /mnt/vault/models/gguf/ (existing product never overwritten),
 strict-grade the QC-6 battery, report verdict + pos22 fate.
+
+## SLICE QS-3.2 — SEARCHED-FIT PACKERS (banked)
+
+Code: core/quantize.mojo (+428 lines): _nearest_int_even (ggml
+nearest_int, ties-to-even), _make_qkx2_searched (exact
+make_qkx2_quants port: rmin -1.0, rdelta 0.1, nstep 20, weights
+av_x + |x|, closed-form weighted-LS affine solve, min clamped
+<= 0), quantize_q4_k_searched; _make_qx_searched (make_qx_quants
+rmse_type 1, weights x^2, is sweep -9..9, signed scale),
+quantize_q6_k_searched (super-block iscale -128/max_scale,
+d = f16(1/iscale), signed i8 group scales). Legacy writers
+untouched. cli/quantize.mojo: --fit legacy|searched on
+quantize_gguf_q4_k_m and quantize_gguf_q4_k_m_streaming_qc6
+(default legacy); --fit searched with --to q8_0 refused by name;
+unknown fit refused by name (both CLI refusals exercised live).
+
+Unit proof (test_quantize_k_qs_3, ALL PASS, qs-3-k-test.log;
+dequant only through packed_value; MSE legacy -> searched):
+  case                Q4_K MSE              Q6_K MSE
+  random-uniform      1.267e-3 -> 9.79e-4   9.37e-5 -> 6.26e-5
+  clustered-outlier   2.566e-3 -> 8.30e-4   4.76e-4 -> 2.83e-4
+  gaussish-multiscale 4.80e-4 -> 3.85e-4    3.79e-5 -> 2.40e-5
+  all-negative        1.91e-4 -> 1.62e-4    5.29e-5 -> 4.70e-5
+  constant +0.625     5.7e-12 -> 5.7e-12    3.83e-4 -> 0.0 EXACT
+  constant -0.375     8.4e-9  -> 8.4e-9     5.2e-10 -> 0.0 EXACT
+Searched wins or ties EVERY case at unit level; the Q6_K constant
+cases expose the legacy symmetric fit's defect in pure form
+(a constant block it cannot represent at all; the signed searched
+scale represents it exactly). Zero blocks exact under both.
+Regression: QC-5 K test re-run on this tree ALL PASS with the
+banked worst ratios unchanged (q4 0.9989002, q6 0.9686628;
+qs-3-regress-qc5k.log). Builds: QS3_K/QC5_K/ENGINE all exit 0
+(qs-3-build.log).
