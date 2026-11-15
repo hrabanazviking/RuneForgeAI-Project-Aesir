@@ -209,3 +209,60 @@ Evidence (qs-4-rln-test.log, ALL PASS):
   (qs-4-fwd-fixture2.log), resident-K ALL PASS (qs-4-
   residentk2.log), test_inference PASS (qs-4-test-
   inference2.log). 27B grade still pending the HEAVY lock.
+
+## QS-4.4 SERVE SMOKE — proven on :18437 (2026-11-15)
+
+Setup: engine built from this tree (qs-4-engine-build.log,
+exit 0); fenced systemd units qs4-smoke1/2/3 (User=volmarr,
+MemoryHigh 8G / MemoryMax 12G), fixture fixtures/
+qwen35_k256_q8.gguf, --accel cpu --profile qwen35
+--experimental-qwen35 --qwen35-resident --context 512
+--max-tokens 64 --port 18437. (First launch without
+--experimental-qwen35 was refused by name: fixture geometry
+has no native profile — admission honesty working as
+designed.) Client: POST /v1/generate, key read in-process,
+never printed. All requests: prompt "The old lighthouse
+keeper", temperature 1.0, top_k 256, top_p 1.0, seed 42.
+
+Results (qs-4-smoke-r*.log):
+- min_p: R1 (min_p 0) vs R2 (min_p 0.95), 24 tokens: streams
+  identical for 9 tokens, DIVERGE at token 10 — min_p
+  observably changes serve generation.
+- repeat_last_n (64-token runs): R5 (rep 1.0, win 8192) ==
+  R7 (rep 1.0, win 1) — window is a no-op at penalty 1.0,
+  and the fixed seed reproduces across instances. R6
+  (rep 2.5, win 8192) DIVERGES from R5 at token ~42, exactly
+  where token 375 repeats (11 tokens after its previous
+  occurrence). R8 (rep 2.5, win 1) == R7: with a 1-token
+  window the penalty cannot reach an 11-apart repeat, so
+  the stream is untouched. R6 != R8 is the window proof, in
+  the expected direction both ways.
+- Honest note: at 24 tokens R3/R4 (rep 2.5, either window)
+  matched R1 — no repeat fell inside the sampled stream's
+  reach that early on this fixture; the 64-token runs are
+  the discriminating ones. Recorded, not hidden.
+- Units stopped clean; the live gate on :18434 was never
+  touched.
+
+## Remaining / next work (named, not hidden)
+
+- 27B 198-record teacher-forcing grade re-run on the final
+  QS-4 tree: NOT run — the HEAVY lock was held by QS-1 then
+  QS-2 for the whole QS-4 window and load1 stayed > 8.
+  Grade safety rests on: logit-row capture precedes sampling
+  in both qwen35 forwards; the greedy fast path is untouched;
+  defaults are bit-identical (m3 stream pin + resident-K
+  logits diff 0.0 + forward fixture ALL PASS, re-run after
+  each slice). QS-6's final gate re-grades the merged tree
+  regardless; run the grade there or in the first free lock
+  window.
+- The generic (llama) and gemma4 CPU forwards have the same
+  dead GenerationConfig.min_p (never passed to the sampler)
+  and no repeat_last_n plumbing — same defect class, outside
+  QS-4's qwen35 scope; the sampler + config support now
+  exists, so wiring them is a small follow-up slice.
+- The native /v1/generate request parser accepts min_p and
+  repeat_penalty per request but not repeat_last_n (serve-
+  default only, via --repeat-last-n / modelfile / Ollama
+  options). Per-request repeat_last_n on the native route
+  is a small parser follow-up if Volmarr wants it.

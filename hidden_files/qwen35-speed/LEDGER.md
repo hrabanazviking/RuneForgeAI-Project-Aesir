@@ -194,3 +194,16 @@ Compression cross-reference (QC_RESULTS.md / RESIDENCY-NOTE):
   full 85 vs window 251 (rep), 184 vs 251 (freq); session
   windows 1 vs 8192 now differ; defaults bit-exact; fixture
   grade battery clean again (qs-4-rln-test.log).
+- QS-4.4 SERVE SMOKE banked: fenced fixture serve on :18437
+  (own units, stopped clean; gate untouched). min_p 0.95
+  diverges at token 10; repeat_last_n: rep 2.5 window 8192
+  diverges at the 11-apart repeat (~token 42), window 1
+  leaves the stream untouched, rep 1.0 controls identical
+  across instances at seed 42 (qs-4-smoke-r*.log).
+- QS-4 CLOSED: QS-4.1 fa047ba0, QS-4.2 fb370ad0, QS-4.3
+  bbc70045, QS-4.4 this entry. Named remainder: 27B grade
+  re-run (lock held by QS-1/QS-2 throughout; fixture battery
+  clean + structural grade-safety proof in QS-4-NOTES.md);
+  generic/gemma4 forwards share the dead-min_p defect
+  (follow-up slice); native /v1/generate lacks a per-request
+  repeat_last_n field (parser follow-up).
