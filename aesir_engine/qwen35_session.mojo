@@ -173,6 +173,8 @@ struct Qwen35CPUSession(ControlledTextSession):
     var turn_generated_text: String
     # Q35-3r: Q8_0-resident load opt-in (default off).
     var resident_q8: Bool
+    # QS-3: Q4_K_M-resident load opt-in (default off).
+    var resident_k: Bool
     # Q35-7 F-4b-2: stop set derived from the model's tokenizer
     # (eos + CONTROL token_type entries); see header.
     var stop_token_ids: List[Int]
@@ -182,10 +184,12 @@ struct Qwen35CPUSession(ControlledTextSession):
 
     def __init__(out self, path: String, context_length: Int,
                  sampling: NativeSamplingConfig = NativeSamplingConfig(),
-                 resident_q8: Bool = False) raises:
+                 resident_q8: Bool = False,
+                 resident_k: Bool = False) raises:
         sampling.validate()
         self.resident_q8 = resident_q8
-        self.engine = AesirEngine(path, knowledge_capacity=1, qwen35_resident=resident_q8)
+        self.resident_k = resident_k
+        self.engine = AesirEngine(path, knowledge_capacity=1, qwen35_resident=resident_q8, qwen35_resident_k=resident_k)
         if self.engine.parser.config.architecture != "qwen35":
             raise Error("Qwen35 CPU session requires a qwen35 model")
         self.stop_token_ids = List[Int]()
@@ -228,6 +232,8 @@ struct Qwen35CPUSession(ControlledTextSession):
         resident opt-in, "" (unreported) on the default load -- the
         serve health payload gains the key only when a mode is
         reported, so other profiles stay byte-identical."""
+        if self.resident_k:
+            return String("q4_k_m_resident")
         if self.resident_q8:
             return String("q8_0_resident")
         return String("")

@@ -121,7 +121,7 @@ def build(path, bad_qkv=False, type_probe=False):
 # recurrence is stable by construction; norms sit near 1.0.
 import random as _random
 
-def build_forward(path, f16_name="", geom=None, seed=20261114):
+def build_forward(path, f16_name="", geom=None, seed=20261114, file_type=None):
     # Q35-3r: optional overrides, used ONLY by the new fixture profiles
     # below. With defaults this is the banked Q35-3/Q35-4 generator,
     # byte-identical output (same RNG seed and call order). f16_name
@@ -152,6 +152,7 @@ def build_forward(path, f16_name="", geom=None, seed=20261114):
     def kf32(k, v): kvs.append((k, 6, struct.pack("<f", v)))
     def kstr(k, v): kvs.append((k, 8, struct.pack("<Q", len(v.encode())) + v.encode()))
     kstr("general.architecture", "qwen35")
+    if file_type is not None: ku32("general.file_type", file_type)
     ku32("qwen35.context_length", CTX2); ku32("qwen35.embedding_length", H2)
     ku32("qwen35.feed_forward_length", FFN2); ku32("qwen35.block_count", NB2)
     ku32("qwen35.attention.head_count", NHEAD2); ku32("qwen35.attention.head_count_kv", NKV2)

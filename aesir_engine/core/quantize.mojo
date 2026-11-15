@@ -53,7 +53,7 @@
 # dequantizes to (near-)zero -- documented behaviour for absurdly
 # tiny blocks, exercised by the QC-2 tiny-value tests.
 
-from std.math import isfinite
+from std.math import isfinite, sqrt
 from std.memory import bitcast
 
 from core.mimir_well import f16, f32
@@ -527,6 +527,434 @@ def quantize_q6_k(values: List[Float32]) raises -> List[UInt8]:
             for i in range(16):
                 var l = _round_half_away_from_zero(values[sub + i] / s_hat)
                 stored[j * 16 + i] = _clamp_int(l, -32, 31) + 32
+        for half in range(2):
+            for lane in range(32):
+                var s0 = stored[half * 128 + lane]
+                var s1 = stored[half * 128 + lane + 32]
+                var s2 = stored[half * 128 + lane + 64]
+                var s3 = stored[half * 128 + lane + 96]
+                blk[half * 64 + lane] = UInt8((s0 & 15) | ((s2 & 15) << 4))
+                blk[half * 64 + lane + 32] = UInt8(
+                    (s1 & 15) | ((s3 & 15) << 4)
+                )
+                blk[128 + half * 32 + lane] = UInt8(
+                    (s0 >> 4)
+                    | ((s1 >> 4) << 2)
+                    | ((s2 >> 4) << 4)
+                    | ((s3 >> 4) << 6)
+                )
+        for j in range(16):
+            blk[192 + j] = UInt8(sc[j] & 0xFF)
+        var d_bits = bitcast[DType.uint16](d_hat)
+        blk[208] = UInt8(d_bits & 0xFF)
+        blk[209] = UInt8((d_bits >> 8) & 0xFF)
+        for i in range(Q6_K_BLOCK_BYTES):
+            out.append(blk[i])
+    return out^
+
+
+# ---------------------------------------------------------------------
+# QS-3: searched-fit K-quant packers -- ggml's own fits, ported.
+#
+# Same byte layouts, same super-block scale/min quantization, same
+# stored-scale re-form second pass as the QC-5 writers above. The
+# ONLY change is how each sub-block's (scale, min) [Q4_K] or signed
+# scale [Q6_K] is chosen: ggml's weighted least-squares SEARCH
+# instead of the plain min/max endpoint fit. Sources re-read from
+# disk for this slice (~/llama.cpp-build/ggml/src/ggml-quants.c):
+# make_qkx2_quants (L808), make_qx_quants (L637),
+# quantize_row_q4_K_ref (L1467), quantize_row_q6_K_ref (L1879).
+# Rounding inside the searched writers is ggml's nearest_int:
+# round-to-nearest-EVEN (the QC-5 writers' half-away rule differs
+# only on exact .5 ties; the searched writers use even so the port
+# is faithful on ties too).
+#
+# Q4_K searched fit (per 32-value sub-block): weights
+# w_i = av_x + |x_i|, av_x = sqrt(mean(x^2)) over the sub-block.
+# Baseline: min clamped <= 0, iscale = 15/(max-min), weighted SSE
+# of the affine reconstruction. Then 21 candidates
+# is = 0..20 with iscale = (15 - 1.0 + 0.1*is)/(max-min): each
+# candidate's levels are solved in closed form as the weighted
+# least-squares affine fit (scale, min) of x on the levels
+# (min re-clamped to <= 0 with scale = sum_xl/sum_l2), and the
+# candidate with the lowest weighted SSE wins.
+#
+# Q6_K searched fit (per 16-value group): make_qx_quants with
+# rmse_type 1 (weights w = x^2), qw = NULL. iscale = -32/max with
+# max the SIGNED largest-|x| lane; initial levels clamped to
+# [-32, 31]; least-squares scale = sum(w*x*l)/sum(w*l^2). Search
+# is = -9..9 (skip 0) with iscale = -(32 + 0.1*is)/max, keeping
+# the candidate maximizing sumlx^2/suml2. The returned scale is
+# SIGNED (sign of max). Super-block: iscale = -128/max_scale over
+# the signed group scales (max_scale = the largest-|scale| group
+# scale, sign kept), d = f16(1/iscale), per-group i8 scale =
+# min(127, nearest_int(iscale*scale_j)) -- signed, read back by
+# packed_value kind 14 as Int8. Groups with amax < 1e-15
+# (GROUP_MAX_EPS) are zero; a super-block whose every group is
+# zero is emitted as 210 zero bytes, mirroring the ref's memset.
+#
+# Refusals: identical to the QC-5 writers (count, finiteness,
+# f16-overflow of the stored super scale), with the tensor index
+# named. The legacy writers remain the default everywhere; the
+# searched writers are selected only by the CLI --fit searched
+# mode (QS-3.2) until fixture grades (QS-3.3) arbitrate.
+
+
+def _nearest_int_even(value: Float32) -> Int:
+    """ggml nearest_int semantics (round to nearest, ties to even)
+    for the small magnitudes the K fits produce (|value| <= ~130).
+    Truncation toward zero plus the fractional part decides; exact
+    .5 ties go to the even neighbour."""
+    var t = Int(value)
+    var frac = value - Float32(t)
+    if frac > Float32(0.5):
+        return t + 1
+    if frac < Float32(-0.5):
+        return t - 1
+    if frac == Float32(0.5):
+        return t if t % 2 == 0 else t + 1
+    if frac == Float32(-0.5):
+        return t if t % 2 == 0 else t - 1
+    return t
+
+
+def _make_qkx2_searched(
+    values: List[Float32], off: Int, weights: List[Float32]
+) -> Tuple[Float32, Float32, List[Int]]:
+    """ggml make_qkx2_quants(32, 15, x, weights, ..., rmin=-1.0,
+    rdelta=0.1, nstep=20, use_mad=false) for the 32 values at
+    values[off..off+32]: returns (scale, minute, levels) with
+    minute = -min >= 0 and levels in [0, 15]."""
+    var mn = values[off]
+    var mx = values[off]
+    var sum_w = weights[0]
+    var sum_x = weights[0] * values[off]
+    for i in range(1, 32):
+        var v = values[off + i]
+        if v < mn:
+            mn = v
+        if v > mx:
+            mx = v
+        sum_w += weights[i]
+        sum_x += weights[i] * v
+    if mn > Float32(0.0):
+        mn = Float32(0.0)
+    var levels = List[Int]()
+    levels.resize(32, 0)
+    if mx == mn:
+        return (Float32(0.0), -mn, levels^)
+    var iscale = Float32(15.0) / (mx - mn)
+    var scale = Float32(1.0) / iscale
+    var minimum = mn
+    var best_error = Float32(0.0)
+    for i in range(32):
+        var l = _clamp_int(
+            _nearest_int_even(iscale * (values[off + i] - minimum)), 0, 15
+        )
+        levels[i] = l
+        var diff = scale * Float32(l) + minimum - values[off + i]
+        best_error += weights[i] * diff * diff
+    for istep in range(21):
+        var cand_iscale = (
+            Float32(-1.0) + Float32(0.1) * Float32(istep) + Float32(15.0)
+        ) / (mx - mn)
+        var aux = List[Int]()
+        aux.resize(32, 0)
+        var sum_l = Float32(0.0)
+        var sum_l2 = Float32(0.0)
+        var sum_xl = Float32(0.0)
+        for i in range(32):
+            var l = _clamp_int(
+                _nearest_int_even(cand_iscale * (values[off + i] - mn)),
+                0,
+                15,
+            )
+            aux[i] = l
+            var w = weights[i]
+            sum_l += w * Float32(l)
+            sum_l2 += w * Float32(l) * Float32(l)
+            sum_xl += w * Float32(l) * values[off + i]
+        var d_denom = sum_w * sum_l2 - sum_l * sum_l
+        if d_denom > Float32(0.0):
+            var this_scale = (sum_w * sum_xl - sum_x * sum_l) / d_denom
+            var this_min = (sum_l2 * sum_x - sum_l * sum_xl) / d_denom
+            if this_min > Float32(0.0):
+                this_min = Float32(0.0)
+                this_scale = sum_xl / sum_l2
+            var cur_error = Float32(0.0)
+            for i in range(32):
+                var diff = (
+                    this_scale * Float32(aux[i]) + this_min - values[off + i]
+                )
+                cur_error += weights[i] * diff * diff
+            if cur_error < best_error:
+                for i in range(32):
+                    levels[i] = aux[i]
+                best_error = cur_error
+                scale = this_scale
+                minimum = this_min
+    return (scale, -minimum, levels^)
+
+
+def quantize_q4_k_searched(values: List[Float32]) raises -> List[UInt8]:
+    """Q4_K payload with ggml's searched fit (make_qkx2_quants).
+    Byte layout, super-block quantization and stored re-form pass
+    mirror quantize_q4_k exactly; only the per-sub-block fit and
+    the tie rounding differ. Rule: see the QS-3 header above."""
+    var count = len(values)
+    if count <= 0:
+        raise Error(
+            "quantize_q4_k_searched: element count must be positive (got 0)"
+        )
+    if count % Q4_K_BLOCK_ELEMENTS != 0:
+        raise Error(
+            "quantize_q4_k_searched: element count " + String(count)
+            + " is not a multiple of the 256-value Q4_K super-block;"
+            + " refusing to pad (GGUF has no padding semantics)"
+        )
+    var out = List[UInt8]()
+    out.reserve(q4_k_payload_bytes(count))
+    for block in range(count // Q4_K_BLOCK_ELEMENTS):
+        var base = block * Q4_K_BLOCK_ELEMENTS
+        var scales = List[Float32]()
+        scales.resize(8, Float32(0.0))
+        var mins = List[Float32]()
+        mins.resize(8, Float32(0.0))
+        var quants = List[Int]()
+        quants.resize(Q4_K_BLOCK_ELEMENTS, 0)
+        var max_scale = Float32(0.0)
+        var max_min = Float32(0.0)
+        for j in range(8):
+            var sub = base + j * 32
+            var sum_x2 = Float32(0.0)
+            for i in range(32):
+                var value = values[sub + i]
+                if not isfinite(value):
+                    raise Error(
+                        "quantize_q4_k_searched: non-finite value at index "
+                        + String(sub + i) + " has no Q4_K encoding"
+                    )
+                sum_x2 += value * value
+            var av_x = sqrt(sum_x2 / Float32(32.0))
+            var weights = List[Float32]()
+            weights.resize(32, Float32(0.0))
+            for i in range(32):
+                weights[i] = av_x + _abs_f32(values[sub + i])
+            var fit = _make_qkx2_searched(values, sub, weights)
+            scales[j] = fit[0]
+            mins[j] = fit[1]
+            for i in range(32):
+                quants[j * 32 + i] = fit[2][i]
+            if fit[0] > max_scale:
+                max_scale = fit[0]
+            if fit[1] > max_min:
+                max_min = fit[1]
+        var d = max_scale / Float32(63.0)
+        var dmin = max_min / Float32(63.0)
+        var d_hat = d.cast[f16]()
+        var dmin_hat = dmin.cast[f16]()
+        if not isfinite(d_hat.cast[f32]()) or not isfinite(
+            dmin_hat.cast[f32]()
+        ):
+            raise Error(
+                "quantize_q4_k_searched: block " + String(block)
+                + " super scale overflows the f16 range (max_scale "
+                + String(max_scale) + ", max_min " + String(max_min)
+                + "); refusing to emit a corrupt block"
+            )
+        var d_hat_f32 = d_hat.cast[f32]()
+        var dmin_hat_f32 = dmin_hat.cast[f32]()
+        var inv_scale = Float32(0.0)
+        if max_scale > Float32(0.0):
+            inv_scale = Float32(63.0) / max_scale
+        var inv_min = Float32(0.0)
+        if max_min > Float32(0.0):
+            inv_min = Float32(63.0) / max_min
+        var ls = List[Int]()
+        ls.resize(8, 0)
+        var lm = List[Int]()
+        lm.resize(8, 0)
+        for j in range(8):
+            ls[j] = _clamp_int(
+                _nearest_int_even(inv_scale * scales[j]), 0, 63
+            )
+            lm[j] = _clamp_int(_nearest_int_even(inv_min * mins[j]), 0, 63)
+        # Re-form against the STORED scale/min (the ref's second
+        # pass), exactly as the legacy writer does.
+        for j in range(8):
+            var s_hat = d_hat_f32 * Float32(ls[j])
+            if s_hat == Float32(0.0):
+                continue
+            var m_hat = dmin_hat_f32 * Float32(lm[j])
+            var sub = base + j * 32
+            for i in range(32):
+                var q = _nearest_int_even(
+                    (values[sub + i] + m_hat) / s_hat
+                )
+                quants[j * 32 + i] = _clamp_int(q, 0, 15)
+        var blk = List[UInt8]()
+        blk.resize(Q4_K_BLOCK_BYTES, UInt8(0))
+        var d_bits = bitcast[DType.uint16](d_hat)
+        blk[0] = UInt8(d_bits & 0xFF)
+        blk[1] = UInt8((d_bits >> 8) & 0xFF)
+        var dmin_bits = bitcast[DType.uint16](dmin_hat)
+        blk[2] = UInt8(dmin_bits & 0xFF)
+        blk[3] = UInt8((dmin_bits >> 8) & 0xFF)
+        for j in range(8):
+            if j < 4:
+                blk[4 + j] = UInt8(ls[j] & 63)
+                blk[8 + j] = UInt8(lm[j] & 63)
+            else:
+                blk[8 + j] = UInt8(
+                    (ls[j] & 15) | ((lm[j] & 15) << 4)
+                )
+                blk[j] = blk[j] | UInt8((ls[j] >> 4) << 6)
+                blk[4 + j] = blk[4 + j] | UInt8((lm[j] >> 4) << 6)
+        for chunk in range(4):
+            for lane in range(32):
+                blk[16 + chunk * 32 + lane] = UInt8(
+                    quants[chunk * 64 + lane]
+                    | (quants[chunk * 64 + lane + 32] << 4)
+                )
+        for i in range(Q4_K_BLOCK_BYTES):
+            out.append(blk[i])
+    return out^
+
+
+def _make_qx_searched(
+    values: List[Float32], off: Int
+) -> Tuple[Float32, List[Int]]:
+    """ggml make_qx_quants(16, 32, x, L, rmse_type=1, qw=NULL) for
+    the 16 values at values[off..off+16]: returns (signed scale,
+    levels) with levels in [-32, 31] (NOT offset by +32; the
+    caller stores level + 32). Weights are x^2 (rmse_type 1)."""
+    var levels = List[Int]()
+    levels.resize(16, 0)
+    var max_signed = values[off]
+    var amax = _abs_f32(values[off])
+    for i in range(1, 16):
+        var magnitude = _abs_f32(values[off + i])
+        if magnitude > amax:
+            amax = magnitude
+            max_signed = values[off + i]
+    if amax < Float32(1e-15):
+        return (Float32(0.0), levels^)
+    var iscale = Float32(-32.0) / max_signed
+    var sumlx = Float32(0.0)
+    var suml2 = Float32(0.0)
+    for i in range(16):
+        var l = _clamp_int(
+            _nearest_int_even(iscale * values[off + i]), -32, 31
+        )
+        levels[i] = l
+        var w = values[off + i] * values[off + i]
+        sumlx += w * values[off + i] * Float32(l)
+        suml2 += w * Float32(l) * Float32(l)
+    var scale = Float32(0.0)
+    if suml2 != Float32(0.0):
+        scale = sumlx / suml2
+    var best = scale * sumlx
+    for istep in range(-9, 10):
+        if istep == 0:
+            continue
+        var cand_iscale = (
+            -(Float32(32.0) + Float32(0.1) * Float32(istep)) / max_signed
+        )
+        var cand_sumlx = Float32(0.0)
+        var cand_suml2 = Float32(0.0)
+        var cand = List[Int]()
+        cand.resize(16, 0)
+        for i in range(16):
+            var l = _clamp_int(
+                _nearest_int_even(cand_iscale * values[off + i]), -32, 31
+            )
+            cand[i] = l
+            var w = values[off + i] * values[off + i]
+            cand_sumlx += w * values[off + i] * Float32(l)
+            cand_suml2 += w * Float32(l) * Float32(l)
+        if cand_suml2 > Float32(0.0) and cand_sumlx * cand_sumlx > best * cand_suml2:
+            for i in range(16):
+                levels[i] = cand[i]
+            scale = cand_sumlx / cand_suml2
+            best = scale * cand_sumlx
+    return (scale, levels^)
+
+
+def quantize_q6_k_searched(values: List[Float32]) raises -> List[UInt8]:
+    """Q6_K payload with ggml's searched fit (make_qx_quants,
+    signed scales). Byte layout and stored re-form pass mirror
+    quantize_q6_k; the fit and the super-block rule are the ref's:
+    iscale = -128/max_scale (signed), d = f16(1/iscale), per-group
+    i8 scales signed. Rule: see the QS-3 header above."""
+    var count = len(values)
+    if count <= 0:
+        raise Error(
+            "quantize_q6_k_searched: element count must be positive (got 0)"
+        )
+    if count % Q6_K_BLOCK_ELEMENTS != 0:
+        raise Error(
+            "quantize_q6_k_searched: element count " + String(count)
+            + " is not a multiple of the 256-value Q6_K super-block;"
+            + " refusing to pad (GGUF has no padding semantics)"
+        )
+    var out = List[UInt8]()
+    out.reserve(q6_k_payload_bytes(count))
+    for block in range(count // Q6_K_BLOCK_ELEMENTS):
+        var base = block * Q6_K_BLOCK_ELEMENTS
+        var scales = List[Float32]()
+        scales.resize(16, Float32(0.0))
+        var stored = List[Int]()
+        stored.resize(Q6_K_BLOCK_ELEMENTS, 32)
+        var max_scale = Float32(0.0)
+        var max_abs_scale = Float32(0.0)
+        for j in range(16):
+            var sub = base + j * 16
+            for i in range(16):
+                if not isfinite(values[sub + i]):
+                    raise Error(
+                        "quantize_q6_k_searched: non-finite value at index "
+                        + String(sub + i) + " has no Q6_K encoding"
+                    )
+            var fit = _make_qx_searched(values, sub)
+            scales[j] = fit[0]
+            for i in range(16):
+                stored[j * 16 + i] = fit[1][i] + 32
+            var magnitude = _abs_f32(fit[0])
+            if magnitude > max_abs_scale:
+                max_abs_scale = magnitude
+                max_scale = fit[0]
+        var blk = List[UInt8]()
+        blk.resize(Q6_K_BLOCK_BYTES, UInt8(0))
+        if max_abs_scale < Float32(1e-15):
+            for i in range(Q6_K_BLOCK_BYTES):
+                out.append(blk[i])
+            continue
+        var iscale = Float32(-128.0) / max_scale
+        var d_hat = (Float32(1.0) / iscale).cast[f16]()
+        if not isfinite(d_hat.cast[f32]()):
+            raise Error(
+                "quantize_q6_k_searched: block " + String(block)
+                + " super scale overflows the f16 range (max_scale "
+                + String(max_scale)
+                + "); refusing to emit a corrupt block"
+            )
+        var d_hat_f32 = d_hat.cast[f32]()
+        var sc = List[Int]()
+        sc.resize(16, 0)
+        for j in range(16):
+            var s = _nearest_int_even(iscale * scales[j])
+            if s > 127:
+                s = 127
+            sc[j] = s
+            var s_hat = d_hat_f32 * Float32(sc[j])
+            if s_hat == Float32(0.0):
+                continue
+            var sub = base + j * 16
+            for i in range(16):
+                var l = _clamp_int(
+                    _nearest_int_even(values[sub + i] / s_hat), -32, 31
+                )
+                stored[j * 16 + i] = l + 32
         for half in range(2):
             for lane in range(32):
                 var s0 = stored[half * 128 + lane]
