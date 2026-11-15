@@ -1079,6 +1079,10 @@ def _gemm_q8_0_fast_range(
     data every order agrees bitwise. The bit-exact serial body
     remains in _gemm_q8_0_range. A-042 evidence:
     hidden_files/A042_LEDGER.md (before/after bench rows).
+    QS-1.2: the dot half no longer pays a horizontal reduce_add
+    per chunk per row — it vector-accumulates with 4-row register
+    blocking (one scratch load per 4 A rows, one reduction per
+    output). Evidence: hidden_files/qwen35-speed/QS-1-NOTES.md.
     """
     var a_data = Pointer[Scalar[f16], MutUntrackedOrigin](
         unsafe_from_address=Int(a_addr)
@@ -1105,21 +1109,65 @@ def _gemm_q8_0_fast_range(
             var q_hi = qs_ptr.unsafe_load[width=16](16).cast[DType.float32]()
             scratch.unsafe_store[width=16](col, q_lo * svec)
             scratch.unsafe_store[width=16](col + 16, q_hi * svec)
-        for row in range(a_rows):
+        # QS-1.2: vector-accumulate dot with 4-row register
+        # blocking. The A-042 body paid one horizontal
+        # reduce_add per 16-wide chunk per row and re-read the
+        # scratch row from memory for every A row. Here each
+        # scratch vector is loaded once per 4 A rows and applied
+        # to four independent SIMD accumulators; each output is
+        # reduced exactly once (lane-grouped, the same accepted
+        # fast-path class as the GEMV range; on exact dyadic
+        # data every order agrees bitwise). The scalar tail
+        # (a_cols % W) keeps the A-042 order: vector part first,
+        # then ascending scalar lanes added to the reduced sum.
+        var row = 0
+        while row + 4 <= a_rows:
+            var acc0 = SIMD[DType.float32, W](0.0)
+            var acc1 = SIMD[DType.float32, W](0.0)
+            var acc2 = SIMD[DType.float32, W](0.0)
+            var acc3 = SIMD[DType.float32, W](0.0)
+            var base0 = row * a_cols
+            var base1 = base0 + a_cols
+            var base2 = base1 + a_cols
+            var base3 = base2 + a_cols
+            for inner in range(0, simd_end, W):
+                var weight_values = scratch.unsafe_load[width=W](inner)
+                acc0 += a_data.unsafe_load[width=W](base0 + inner).cast[f32]() * weight_values
+                acc1 += a_data.unsafe_load[width=W](base1 + inner).cast[f32]() * weight_values
+                acc2 += a_data.unsafe_load[width=W](base2 + inner).cast[f32]() * weight_values
+                acc3 += a_data.unsafe_load[width=W](base3 + inner).cast[f32]() * weight_values
+            var sum0 = acc0.reduce_add()
+            var sum1 = acc1.reduce_add()
+            var sum2 = acc2.reduce_add()
+            var sum3 = acc3.reduce_add()
+            for inner in range(simd_end, a_cols):
+                var w_tail = scratch.unsafe_load(inner)
+                sum0 += a_data.unsafe_load(base0 + inner).cast[f32]() * w_tail
+                sum1 += a_data.unsafe_load(base1 + inner).cast[f32]() * w_tail
+                sum2 += a_data.unsafe_load(base2 + inner).cast[f32]() * w_tail
+                sum3 += a_data.unsafe_load(base3 + inner).cast[f32]() * w_tail
+            c_data.unsafe_store(row * c_cols + output, sum0.cast[f16]())
+            c_data.unsafe_store((row + 1) * c_cols + output, sum1.cast[f16]())
+            c_data.unsafe_store((row + 2) * c_cols + output, sum2.cast[f16]())
+            c_data.unsafe_store((row + 3) * c_cols + output, sum3.cast[f16]())
+            row += 4
+        while row < a_rows:
             var a_base = row * a_cols
-            var sum: Scalar[f32] = 0.0
+            var acc = SIMD[DType.float32, W](0.0)
             for inner in range(0, simd_end, W):
                 var input_values = a_data.unsafe_load[width=W](
                     a_base + inner
                 ).cast[f32]()
                 var weight_values = scratch.unsafe_load[width=W](inner)
-                sum += (input_values * weight_values).reduce_add()
+                acc += input_values * weight_values
+            var sum = acc.reduce_add()
             for inner in range(simd_end, a_cols):
                 sum += (
                     a_data.unsafe_load(a_base + inner).cast[f32]()
                     * scratch.unsafe_load(inner)
                 )
             c_data.unsafe_store(row * c_cols + output, sum.cast[f16]())
+            row += 1
     scratch.unsafe_free()
 
 
