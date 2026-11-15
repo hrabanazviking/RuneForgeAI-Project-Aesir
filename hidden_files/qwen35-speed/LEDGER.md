@@ -143,3 +143,28 @@ Compression cross-reference (QC_RESULTS.md / RESIDENCY-NOTE):
   in the unit list (commission states Ollama is down by
   Volmarr's order; the unit state is recorded here as seen,
   QS-0 does not act on it).
+
+### QS-0 close (2026-11-15 ~00:05 EST)
+- Baseline bench DONE (qs0-bench.log): p500 (435 tok) TTFT
+  116.60 s, prompt >= 3.73 tok/s, decode 2.14 plain; p2000
+  (1743 tok) TTFT 448.87 s, prompt >= 3.88 tok/s, decode
+  1.83 stream / 1.75 plain. Perf artifact (stream 0.40 under
+  dwarf profiling) discriminated and explained in baseline.
+- CPU profile DONE: root perf, 155K samples, 0 lost;
+  _gemm_q8_0_fast_range 86.27% self; fused GEMV only 3.54%
+  (serve generates via _forward_batch). qs0-perf-flat.txt.
+- HIP fixture profile DONE tonight: ALL PASS, (e) batched
+  6780 vs GEMV-loop 1021 tok/s at 64 fixture tokens.
+- HIP real-file gen pair: NOT RUN -- HEAVY.lock held by QS-3
+  through QS-0's whole window (phases 3.5/3.6/3.7+, still
+  building at 00:01). Named as QS-0.6-addendum / QS-2.1
+  first measurement in QS-0-BASELINE.md. rocprof absent.
+- QS-0-BASELINE.md filed with baseline table, both
+  indictments, and the QS-1/QS-2 slice order (QS-1.1 route
+  decode through the GEMV; QS-1.2 fast_range inner loop;
+  QS-2.1 vectorized HIP GEMV).
+- No bugs left silent: harness SSE bug fixed in scope;
+  lock-error self-reported + restored; ollama.service
+  unit-state observation recorded, untouched per orders.
+- Gate never touched: aesir-gate still PID 5932, active,
+  serving; QS-0 sent it client requests only.
