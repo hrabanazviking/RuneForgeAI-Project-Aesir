@@ -128,3 +128,92 @@ def validate_qwen35_resident(seer: GGUFSeer) raises -> Qwen35ResidentReport:
     for i in range(len(names)):
         _require_q8_resident(seer, names[i], report)
     return report^
+
+
+# ---------------------------------------------------------------------
+# QS-3: the Q4_K_M-resident weight contract for qwen35.
+#
+# The packed resident form must be a TRUE resident form: under this
+# opt-in the large weights stay in their stored Q4_K / Q6_K bytes
+# for the whole session and are consumed in that form -- gemm_f16
+# dispatches packed Q4_K views to gemm_q4_k_m and Q6_K views to
+# gemm_q6_k, and the per-row embedding dequant reads K kinds
+# 10..14 through packed_value (core/inference _embed_token_into).
+# Nothing on this path materializes a whole tensor to F16.
+#
+# Contract (per large tensor, the qwen35_large_weight_names set):
+# stored GGML type is Q4_K (12) or Q6_K (14); the loader view is a
+# packed quantized view; the input width is a multiple of 256
+# (the K super-block: flat tiling == per-row tiling exactly there,
+# the QC-6 census fact for this file class). Anything else --
+# Q8_0, F16/F32 storage, a non-packed view, a non-256 width -- is
+# REFUSED BY NAME. There is no silent fallback: a Q8_0 file under
+# this opt-in is refused and directed at --qwen35-resident, and
+# vice versa. Small tensors keep the loader's pool conversion on
+# both paths, as in Q35-3r.
+
+
+struct Qwen35KResidentReport(Copyable):
+    """Census of the large weights admitted under the K contract."""
+
+    var large_count: Int
+    var q4_count: Int
+    var q6_count: Int
+    var large_elements: Int
+    var k_bytes: Int
+    var f16_bytes: Int
+
+    def __init__(out self, large_count: Int = 0, q4_count: Int = 0,
+                 q6_count: Int = 0, large_elements: Int = 0,
+                 k_bytes: Int = 0, f16_bytes: Int = 0):
+        self.large_count = large_count
+        self.q4_count = q4_count
+        self.q6_count = q6_count
+        self.large_elements = large_elements
+        self.k_bytes = k_bytes
+        self.f16_bytes = f16_bytes
+
+    def load_mode(self) -> String:
+        return String("q4_k_m_resident")
+
+
+def _require_k_resident(seer: GGUFSeer, name: String, mut report: Qwen35KResidentReport) raises:
+    if name not in seer.tensors:
+        raise Error("Qwen35 resident Q4_K_M load refused: missing large tensor '" + name + "'")
+    var stored = seer.tensor_types.get(name, UInt32(99))
+    if stored != UInt32(GGMLType.Q4_K) and stored != UInt32(GGMLType.Q6_K):
+        raise Error(
+            "Qwen35 resident Q4_K_M load refused tensor '" + name
+            + "': stored GGML type " + String(stored)
+            + " is not Q4_K (12) or Q6_K (14); the K resident path holds large weights in native K form and never materializes F16 weights -- convert the file to Q4_K_M (aesir quantize --to q4_k_m) or load without this resident option"
+        )
+    ref tensor = seer.tensors[name]
+    if not tensor.is_quantized:
+        raise Error("Qwen35 resident Q4_K_M load refused tensor '" + name + "': view is not a packed quantized view")
+    if tensor.cols % 256 != 0:
+        raise Error(
+            "Qwen35 resident Q4_K_M load refused tensor '" + name
+            + "': input width " + String(tensor.cols) + " is not a multiple of 256 (Q4_K/Q6_K super-block width; flat and per-row tiling coincide only there)"
+        )
+    report.large_count += 1
+    report.large_elements += tensor.rows * tensor.cols
+    if stored == UInt32(GGMLType.Q4_K):
+        report.q4_count += 1
+        report.k_bytes += (tensor.rows * tensor.cols // 256) * 144
+    else:
+        report.q6_count += 1
+        report.k_bytes += (tensor.rows * tensor.cols // 256) * 210
+    report.f16_bytes += tensor.rows * tensor.cols * 2
+
+
+def validate_qwen35_resident_k(seer: GGUFSeer) raises -> Qwen35KResidentReport:
+    """Enforce the Q4_K_M resident contract over a loaded seer and
+    price it. Raises, naming the first offending tensor, when any
+    large weight is not stored Q4_K/Q6_K at a 256-aligned width."""
+    if seer.config.architecture != "qwen35":
+        raise Error("Qwen35 resident Q4_K_M load requires a qwen35 model")
+    var report = Qwen35KResidentReport()
+    var names = qwen35_large_weight_names(seer.config.block_count, seer.config.full_attention_interval)
+    for i in range(len(names)):
+        _require_k_resident(seer, names[i], report)
+    return report^

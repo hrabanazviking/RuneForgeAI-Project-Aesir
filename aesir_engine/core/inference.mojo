@@ -47,6 +47,23 @@ def _require_q8_resident_weight(seer: GGUFSeer, key: String) raises:
         raise Error("Qwen35Block: resident Q8_0 load refused tensor '" + key + "': input width is not a multiple of 32")
 
 
+def _require_k_resident_weight(seer: GGUFSeer, key: String) raises:
+    """QS-3 K-resident contract, per-tensor: a large qwen35 weight
+    admitted under the K resident opt-in must be the loader's packed
+    Q4_K or Q6_K view of a K-stored tensor with a 256-aligned input
+    width (the super-block width where flat == per-row tiling).
+    Refusal names the tensor; there is no F16 fallback on this path."""
+    if key not in seer.tensors:
+        raise Error("Qwen35Block: missing required tensor '" + key + "'")
+    var stored = seer.tensor_types.get(key, UInt32(99))
+    if stored != UInt32(GGMLType.Q4_K) and stored != UInt32(GGMLType.Q6_K):
+        raise Error("Qwen35Block: resident Q4_K_M load refused tensor '" + key + "': stored GGML type " + String(stored) + " is not Q4_K (12) or Q6_K (14); the K resident path never materializes F16 weights")
+    if not seer.tensors[key].is_quantized:
+        raise Error("Qwen35Block: resident Q4_K_M load refused tensor '" + key + "': view is not a packed quantized view")
+    if seer.tensors[key].cols % 256 != 0:
+        raise Error("Qwen35Block: resident Q4_K_M load refused tensor '" + key + "': input width is not a multiple of 256")
+
+
 def _optional_block_weight(seer: GGUFSeer, key: String) raises -> RuneTensor[f16]:
     """Returns optional layer weight tensor if present."""
     if key in seer.tensors:
@@ -2226,6 +2243,7 @@ struct Qwen35Block(Copyable):
         num_heads: Int,
         mut seer: GGUFSeer,
         resident_q8: Bool = False,
+        resident_k: Bool = False,
     ) raises:
         self.layer_idx = layer_idx
         self.head_dim = head_dim
@@ -2300,6 +2318,24 @@ struct Qwen35Block(Copyable):
                 _require_q8_resident_weight(seer, prefix + "ssm_alpha.weight")
                 _require_q8_resident_weight(seer, prefix + "ssm_beta.weight")
                 _require_q8_resident_weight(seer, prefix + "ssm_out.weight")
+        # QS-3: under the K resident opt-in, the same large set must
+        # all be native Q4_K/Q6_K at 256-aligned widths (refused by
+        # name above); the small F32 tensors keep the pool path.
+        if resident_k:
+            _require_k_resident_weight(seer, prefix + "ffn_gate.weight")
+            _require_k_resident_weight(seer, prefix + "ffn_up.weight")
+            _require_k_resident_weight(seer, prefix + "ffn_down.weight")
+            if self.is_full_attn:
+                _require_k_resident_weight(seer, prefix + "attn_q.weight")
+                _require_k_resident_weight(seer, prefix + "attn_k.weight")
+                _require_k_resident_weight(seer, prefix + "attn_v.weight")
+                _require_k_resident_weight(seer, prefix + "attn_output.weight")
+            else:
+                _require_k_resident_weight(seer, prefix + "attn_qkv.weight")
+                _require_k_resident_weight(seer, prefix + "attn_gate.weight")
+                _require_k_resident_weight(seer, prefix + "ssm_alpha.weight")
+                _require_k_resident_weight(seer, prefix + "ssm_beta.weight")
+                _require_k_resident_weight(seer, prefix + "ssm_out.weight")
 
     def __copyinit__(out self, existing: Self):
         self.layer_idx = existing.layer_idx

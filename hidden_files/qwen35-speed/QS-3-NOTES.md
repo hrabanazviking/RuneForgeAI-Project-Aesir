@@ -255,3 +255,46 @@ variable there. QS-3.5 arbitrates.
 Gemma E2B fixture: NOT run in this slice (stories + unit A/B
 arbitrate the fit; the E2B streaming A/B is named remaining
 fixture work, behind QS-3.4/3.5 in priority).
+
+## SLICE QS-3.4 — Q4_K_M RESIDENT CONTRACT (banked)
+
+Code: qwen35_resident.mojo gains Qwen35KResidentReport +
+validate_qwen35_resident_k (large set = Q35-3r's; per tensor:
+stored in {Q4_K 12, Q6_K 14}, packed view, cols % 256 == 0, else
+refused BY NAME; pricing 144/210 B per 256 el vs F16 2 B/el).
+core/inference.mojo: _require_k_resident_weight + Qwen35Block
+resident_k param mirroring the Q8_0 block checks. aesir.mojo:
+AesirEngine qwen35_resident_k (arch refusal; both-modes refusal
+by name; whole-model census print). qwen35_session.mojo:
+resident_k + weight_load_mode q4_k_m_resident. runtime_plan:
+NativeModelPlan.resident_k. native_serve: --qwen35-resident-k
+flag (profile-gated, mutually exclusive with --qwen35-resident),
+plan + CPU session wiring. HIP session untouched (it hardcodes
+the Q8_0 resident contract; K-HIP is named future work, not
+silently implied).
+
+Fixture (make_k256_fixture.py via the banked generator at a
+custom geom; scripts/make_qwen35_fixtures.py gained an opt-in
+file_type kwarg, default None = byte-identical banked fixtures):
+H=512 FFN=512 V=1024 NB=4, QW=512, INNER=256 — every large
+matrix 256-aligned. Streaming CLI conversion (legacy fit):
+33 large tensors all K-packed.
+
+Proof (test_qwen35_resident_k_qs_3, ALL PASS,
+qs-3-resident-k-test.log):
+  k1 census: 33 large = 29 Q4_K + 4 Q6_K; k_bytes 4,366,080 vs
+     F16 14,442,496 (30.2% — the packed form is the resident form).
+  k2 resident-K vs default on the same product: greedy identical,
+     logits max_abs_diff == 0.0.
+  k3 refusals by name: K-mode on Q8_0 source (names
+     blk.0.ffn_gate.weight, type 8); Q8-mode on K product (type
+     12); both modes together refused.
+  k4 session: mode string only under opt-in; replies equal.
+Regression: test_qwen35_resident_q35_3r re-run ALL PASS
+(qs-3-regress-q35-3r.log) — the Q8_0 path is untouched in
+behaviour. Builds all exit 0.
+Serve smoke (qs-3-serve-smoke.log): fenced systemd unit on port
+18435 served the fixture product under --qwen35-resident-k;
+/health reported weight_load_mode q4_k_m_resident; a real
+/v1/generate completion returned (12 tokens, finish length);
+unit stopped clean. The 27B resident serve smoke rides QS-3.5.

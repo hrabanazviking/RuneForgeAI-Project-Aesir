@@ -714,6 +714,7 @@ def dispatch_native_serve(args: List[String]) raises:
     var ollama = False
     var experimental_qwen35 = False
     var qwen35_resident = False
+    var qwen35_resident_k = False
     var prefix_cache = True
     var prefill_batch = 0
     var model_store = String(".aesir/models")
@@ -749,6 +750,10 @@ def dispatch_native_serve(args: List[String]) raises:
             continue
         if flag == "--qwen35-resident":
             qwen35_resident = True
+            i += 1
+            continue
+        if flag == "--qwen35-resident-k":
+            qwen35_resident_k = True
             i += 1
             continue
         if i + 1 >= len(args):
@@ -818,6 +823,10 @@ def dispatch_native_serve(args: List[String]) raises:
         raise Error("--experimental-qwen35 applies only to --profile qwen35")
     if qwen35_resident and profile != "qwen35":
         raise Error("--qwen35-resident applies only to --profile qwen35")
+    if qwen35_resident_k and profile != "qwen35":
+        raise Error("--qwen35-resident-k applies only to --profile qwen35")
+    if qwen35_resident and qwen35_resident_k:
+        raise Error("--qwen35-resident and --qwen35-resident-k are mutually exclusive")
     if ollama and "--port" not in seen:
         port = 11434
     if (not show_settings and not ollama and key_path == "") or (ollama and key_path != "") or port < 1024 or port > 65535 or context < 0 or context > 32768:
@@ -856,12 +865,12 @@ def dispatch_native_serve(args: List[String]) raises:
         acceleration = resolve_automatic_acceleration()
     var plan: NativeModelPlan
     if acceleration == "cpu":
-        plan = NativeModelPlan(model_path, profile, context, experimental_qwen35, qwen35_resident)
+        plan = NativeModelPlan(model_path, profile, context, experimental_qwen35, qwen35_resident, qwen35_resident_k)
     elif profile == "qwen35" and acceleration == "hip":
         # Q35-6: plan-level admission is the Q35-4a truth (real
         # file native, fixture experimental-only); the HIP route
         # itself is experimental-gated above regardless of file.
-        plan = NativeModelPlan(model_path, profile, context, experimental_qwen35, qwen35_resident)
+        plan = NativeModelPlan(model_path, profile, context, experimental_qwen35, qwen35_resident, qwen35_resident_k)
     else:
         var selection: NativeDeviceSelection
         if acceleration == "hip":
@@ -889,7 +898,7 @@ def dispatch_native_serve(args: List[String]) raises:
         var hip_session = Qwen35HipSession(model_path, plan.context_length, sampling)
         serve_loaded(hip_session, port, key, plan.profile, plan.context_length, token_limit, timeout_ms, io_timeout_ms, interrupts.fd, ollama, model_info, model_store, resolved.from_catalog, plan.memory.device_bytes, sampling, effective.system, effective.has_system, queue_limit, queue_timeout_ms, True, 1, backend="hip", post_history=effective.post_history, experimental=True, prefix_reuse_detail="snapshot-based at committed turn boundaries only", weight_load_mode=hip_session.weight_load_mode(), model_variant=plan.variant)
     elif plan.profile == "qwen35":
-        var session = Qwen35CPUSession(model_path, plan.context_length, sampling, plan.resident_q8)
+        var session = Qwen35CPUSession(model_path, plan.context_length, sampling, plan.resident_q8, resident_k=plan.resident_k)
         serve_loaded(session, port, key, plan.profile, plan.context_length, token_limit, timeout_ms, io_timeout_ms, interrupts.fd, ollama, model_info, model_store, resolved.from_catalog, plan.memory.device_bytes, sampling, effective.system, effective.has_system, queue_limit, queue_timeout_ms, True, 1, backend="cpu", post_history=effective.post_history, experimental=plan.experimental, prefix_reuse_detail="snapshot-based at committed turn boundaries only", weight_load_mode=session.weight_load_mode(), model_variant=plan.variant)
     elif plan.profile == "llama3" or plan.profile == "qwen3":
         var session = Llama3CUDASession(model_path, plan.context_length, device, reserve, sampling, prefix_cache, prefill_batch, api=acceleration)

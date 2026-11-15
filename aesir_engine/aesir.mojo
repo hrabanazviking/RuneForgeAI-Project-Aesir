@@ -24,7 +24,7 @@ from core.gemma4_cuda import Gemma4CUDASession
 from core.llama3_cuda import Llama3CUDASession
 from core.runtime_plan import NativeModelPlan, NativeDeviceSelection, choose_native_cuda, choose_native_cuda_plan, choose_native_hip_plan, explain_host_fit
 from core.inference_memory import MemoryFitExplanation, llama3_memory_plan
-from qwen35_resident import validate_qwen35_resident
+from qwen35_resident import validate_qwen35_resident, validate_qwen35_resident_k
 from core.native_hardware import observe_host_memory, observe_cpu_name, bounded_decimal
 from core.cuda_gate import CUDAGate
 from core.sampling_config import NativeSamplingConfig
@@ -281,6 +281,8 @@ struct AesirEngine:
     var qwen35_state: Qwen35State
     # Q35-3r: opt-in Q8_0-resident load mode for qwen35 (default off).
     var qwen35_resident: Bool
+    # QS-3: opt-in Q4_K_M-resident load mode for qwen35 (default off).
+    var qwen35_resident_k: Bool
     var enable_npu: Bool
     var target_backend: NPUBackendType
     var enable_gpu_realm: Bool
@@ -307,6 +309,7 @@ struct AesirEngine:
         target_gpu_realm: GPURealmType = GPURealmType(GPURealmType.NVIDIA_CUDA),
         knowledge_capacity: Int = 100,
         qwen35_resident: Bool = False,
+        qwen35_resident_k: Bool = False,
     ) raises:
         var _construct_t0 = phase_now_ns()
         validate_runtime_backend_config(
@@ -345,8 +348,13 @@ struct AesirEngine:
         self.tokenizer = RuneWeaver()
         self.parser.mmap_and_load(self.pool, self.tokenizer)
         self.qwen35_resident = qwen35_resident
+        self.qwen35_resident_k = qwen35_resident_k
         if self.qwen35_resident and self.parser.config.architecture != "qwen35":
             raise Error("AesirEngine: qwen35_resident Q8_0 load mode requires a qwen35 model")
+        if self.qwen35_resident_k and self.parser.config.architecture != "qwen35":
+            raise Error("AesirEngine: qwen35_resident_k Q4_K_M load mode requires a qwen35 model")
+        if self.qwen35_resident and self.qwen35_resident_k:
+            raise Error("AesirEngine: qwen35 resident Q8_0 and Q4_K_M load modes are mutually exclusive; a file's large weights are stored in one form")
         self.knowledge_base = MimirStore(
             max(1, knowledge_capacity),
             self.parser.config.embedding_length,
@@ -381,6 +389,7 @@ struct AesirEngine:
                         self.parser.config.head_count,
                         self.parser,
                         self.qwen35_resident,
+                        self.qwen35_resident_k,
                     )
                 )
             var fai = self.parser.config.full_attention_interval
@@ -416,6 +425,11 @@ struct AesirEngine:
             # prices the admitted set both ways for the record.
             var resident_report = validate_qwen35_resident(self.parser)
             print("Qwen35 resident load: mode=" + resident_report.load_mode() + " large_tensors=" + String(resident_report.large_count) + " q8_0_bytes=" + String(resident_report.q8_bytes) + " f16_materialized_bytes_avoided=" + String(resident_report.f16_bytes))
+        if self.qwen35_resident_k:
+            # QS-3: whole-model K census (covers token_embd / output)
+            # + both-ways pricing, mirroring the Q8_0 pass above.
+            var k_report = validate_qwen35_resident_k(self.parser)
+            print("Qwen35 resident load: mode=" + k_report.load_mode() + " large_tensors=" + String(k_report.large_count) + " q4_k_tensors=" + String(k_report.q4_count) + " q6_k_tensors=" + String(k_report.q6_count) + " k_bytes=" + String(k_report.k_bytes) + " f16_materialized_bytes_avoided=" + String(k_report.f16_bytes))
         self.load_ns = phase_now_ns() - _construct_t0
 
     def _forward_position(
