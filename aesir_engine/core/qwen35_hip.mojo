@@ -1357,6 +1357,8 @@ def _qs_prof_mode() -> Int:
     if Int(raw) == 0:
         return 0
     var c = raw.unsafe_load(0)
+    if c == 52:
+        return 4
     if c == 51:
         return 3
     if c == 50:
@@ -1433,6 +1435,9 @@ struct Qwen35HipExecutor:
     var p_wchain_ns: Int
     var p_wachain_ns: Int
     var p_wffn_ns: Int
+    var p_wab_ns: Int
+    var p_wconvl2_ns: Int
+    var p_wdelta_ns: Int
 
     def __init__(out self, path: String, context_length: Int, max_batch: Int = 32) raises:
         if not HipGemv.gate_ok():
@@ -1463,6 +1468,9 @@ struct Qwen35HipExecutor:
         self.p_wchain_ns = 0
         self.p_wachain_ns = 0
         self.p_wffn_ns = 0
+        self.p_wab_ns = 0
+        self.p_wconvl2_ns = 0
+        self.p_wdelta_ns = 0
         self.max_batch = max_batch
         ref p = self.profile
         self.embd = _ref_of(self.model, "token_embd.weight")
@@ -1623,6 +1631,12 @@ struct Qwen35HipExecutor:
         if self.prof_mode > 0:
             self._prof_add(True, _qs_now_ns() - _t0)
 
+    def _silu_mul(mut self, gate: Int, up: Int, count: Int) raises:
+        var _t0 = _qs_now_ns() if self.prof_mode > 0 else 0
+        self.context.enqueue_function[_silu_mul_kernel](self.a(), Int64(gate), Int64(up), Int64(count), grid_dim=(count + 255) // 256, block_dim=256)
+        if self.prof_mode > 0:
+            self._prof_add(False, _qs_now_ns() - _t0)
+
     def _ffn(mut self, layer: Q35HipLayer, batch: Int) raises:
         self.prof_ctx = 3
         ref p = self.profile
@@ -1630,20 +1644,34 @@ struct Qwen35HipExecutor:
         self._norm(layer.post_attn_norm, self.o_x, self.o_x, p.hidden_size, batch)
         self._gemm(layer.ffn_gate, self.o_x, self.o_fg, batch)
         self._gemm(layer.ffn_up, self.o_x, self.o_fu, batch)
-        self._gemm_silu(layer.ffn_down, self.o_fu, self.o_fg, self.o_x, batch)
+        # QS-2.5.2: SwiGLU precomputed ONCE into o_fu (in place,
+        # _silu_mul_kernel arithmetic == _silu_pair exactly),
+        # then the down projection is the plain v8 GEMV. The
+        # QS-2 fused _gemm_silu recomputed silu+exp per (row,k)
+        # — 5,120x redundant (QS-2.5.1 indictment).
+        self._silu_mul(self.o_fg, self.o_fu, batch * p.feed_forward_size)
+        self._gemm(layer.ffn_down, self.o_fu, self.o_x, batch)
         self._add(self.o_x, self.o_res, batch * p.hidden_size)
 
     def _layer_ssm(mut self, layer: Q35HipLayer, batch: Int, pos: Int) raises:
         self.prof_ctx = 1
-        var _lw0s = _qs_now_ns() if self.prof_mode == 3 else 0
+        var _lw0s = _qs_now_ns() if self.prof_mode >= 3 else 0
+        var _ab0 = 0
+        var _cd0 = 0
         ref p = self.profile
         self._copy(self.o_res, self.o_x, batch * p.hidden_size)
         self._norm(layer.attn_norm, self.o_x, self.o_x, p.hidden_size, batch)
         self._gemm(layer.qkv, self.o_x, self.o_qkv, batch)
         self._gemm(layer.gate, self.o_x, self.o_z, batch)
+        if self.prof_mode == 4:
+            self.context.synchronize()
+            _ab0 = _qs_now_ns()
         self._gemm(layer.alpha, self.o_x, self.o_alpha, batch)
         self._gemm(layer.beta, self.o_x, self.o_beta, batch)
-        if self.prof_mode == 3:
+        if self.prof_mode == 4:
+            self.context.synchronize()
+            self.p_wab_ns += _qs_now_ns() - _ab0
+        if self.prof_mode >= 3:
             self.context.synchronize()
             var _n1 = _qs_now_ns()
             self.p_wproj_ns += _n1 - _lw0s
@@ -1657,6 +1685,10 @@ struct Qwen35HipExecutor:
             var conv_grid = conv_dim if p.ssm_conv_kernel <= 1 else rn
             self.context.enqueue_function[_conv_silu_kernel](self.w(), self.a(), self.s(), self.rtmp(), Int64(layer.conv1d.base), Int64(layer.conv1d.kind), Int64(self.o_qkv), Int64(self.o_conv), Int64(ring), Int64(conv_dim), Int64(p.ssm_conv_kernel), Int64(r), grid_dim=(conv_grid + 255) // 256, block_dim=256)
             self.context.enqueue_function[_l2norm_kernel](self.a(), self.s(), self.rtmp(), Int64(self.o_conv), Int64(conv_dim), Int64(p.ssm_group_count * p.ssm_state_size), Int64(p.ssm_state_size), Int64(p.ssm_group_count), Int64(r), Int64(ring), Int64(rn), grid_dim=1, block_dim=256)
+            if self.prof_mode == 4:
+                self.context.synchronize()
+                _cd0 = _qs_now_ns()
+                self.p_wconvl2_ns += _cd0 - _lw0s
             var dn = p.ssm_time_step_rank * p.ssm_state_size
             if p.ssm_state_size <= 256 and (256 % p.ssm_state_size) == 0:
                 self.context.enqueue_function[_delta_norm_kernel](self.w(), self.a(), self.s(), Int64(layer.ssm_a.base), Int64(layer.ssm_a.kind), Int64(self.o_conv), Int64(self.o_alpha), Int64(self.o_beta), Int64(layer.dt_bias.base), Int64(self.o_scr), Int64(s_base), Int64(conv_dim), Int64(p.ssm_group_count * p.ssm_state_size), Int64(p.ssm_state_size), Int64(p.ssm_time_step_rank), Int64(p.ssm_group_count), Int64(r), Int64(layer.ssm_norm.base), Int64(self.o_z), Int64(self.o_y), p.normalization_epsilon, grid_dim=(dn + 255) // 256, block_dim=256)
@@ -1667,19 +1699,22 @@ struct Qwen35HipExecutor:
             self._prof_add(False, _qs_now_ns() - _sec0)
         self._gemm(layer.ssm_out, self.o_y, self.o_x, batch)
         self._add(self.o_x, self.o_res, batch * p.hidden_size)
-        if self.prof_mode == 3:
+        if self.prof_mode == 4:
+            self.context.synchronize()
+            self.p_wdelta_ns += _qs_now_ns() - _cd0
+        if self.prof_mode >= 3:
             self.context.synchronize()
             var _n2 = _qs_now_ns()
             self.p_wchain_ns += _n2 - _lw0s
             _lw0s = _n2
         self._ffn(layer, batch)
-        if self.prof_mode == 3:
+        if self.prof_mode >= 3:
             self.context.synchronize()
             self.p_wffn_ns += _qs_now_ns() - _lw0s
 
     def _layer_attn(mut self, layer: Q35HipLayer, batch: Int, pos: Int) raises:
         self.prof_ctx = 2
-        var _lw0s = _qs_now_ns() if self.prof_mode == 3 else 0
+        var _lw0s = _qs_now_ns() if self.prof_mode >= 3 else 0
         ref p = self.profile
         self._copy(self.o_res, self.o_x, batch * p.hidden_size)
         self._norm(layer.attn_norm, self.o_x, self.o_x, p.hidden_size, batch)
@@ -1709,13 +1744,13 @@ struct Qwen35HipExecutor:
             self._prof_add(False, _qs_now_ns() - _sec0)
         self._gemm(layer.o, self.o_att, self.o_x, batch)
         self._add(self.o_x, self.o_res, batch * p.hidden_size)
-        if self.prof_mode == 3:
+        if self.prof_mode >= 3:
             self.context.synchronize()
             var _n2 = _qs_now_ns()
             self.p_wachain_ns += _n2 - _lw0s
             _lw0s = _n2
         self._ffn(layer, batch)
-        if self.prof_mode == 3:
+        if self.prof_mode >= 3:
             self.context.synchronize()
             self.p_wffn_ns += _qs_now_ns() - _lw0s
 
@@ -1793,7 +1828,7 @@ struct Qwen35HipExecutor:
             if self.prof_mode > 0 and b_len == 1:
                 var _wall = _qs_now_ns() - _w0
                 var _enq = self.p_g_ns + self.p_ss_ns + self.p_sa_ns + self.p_sf_ns + self.p_so_ns
-                print("QS_PROF wall_us=", _wall // 1000, " gemm_us=", self.p_g_ns // 1000, " gemm_n=", self.p_g_n, " ssm_us=", self.p_ss_ns // 1000, " ssm_n=", self.p_ss_n, " attn_us=", self.p_sa_ns // 1000, " attn_n=", self.p_sa_n, " ffn_us=", self.p_sf_ns // 1000, " ffn_n=", self.p_sf_n, " oth_us=", self.p_so_ns // 1000, " oth_n=", self.p_so_n, " sync_us=", self.p_sync_ns // 1000, " hostoth_us=", (_wall - _enq - self.p_sync_ns) // 1000, " wssm_us=", self.p_wssm_ns // 1000, " watt_us=", self.p_watt_ns // 1000, " wproj_us=", self.p_wproj_ns // 1000, " wchain_us=", self.p_wchain_ns // 1000, " wachain_us=", self.p_wachain_ns // 1000, " wffn_us=", self.p_wffn_ns // 1000)
+                print("QS_PROF wall_us=", _wall // 1000, " gemm_us=", self.p_g_ns // 1000, " gemm_n=", self.p_g_n, " ssm_us=", self.p_ss_ns // 1000, " ssm_n=", self.p_ss_n, " attn_us=", self.p_sa_ns // 1000, " attn_n=", self.p_sa_n, " ffn_us=", self.p_sf_ns // 1000, " ffn_n=", self.p_sf_n, " oth_us=", self.p_so_ns // 1000, " oth_n=", self.p_so_n, " sync_us=", self.p_sync_ns // 1000, " hostoth_us=", (_wall - _enq - self.p_sync_ns) // 1000, " wssm_us=", self.p_wssm_ns // 1000, " watt_us=", self.p_watt_ns // 1000, " wproj_us=", self.p_wproj_ns // 1000, " wchain_us=", self.p_wchain_ns // 1000, " wachain_us=", self.p_wachain_ns // 1000, " wffn_us=", self.p_wffn_ns // 1000, " wab_us=", self.p_wab_ns // 1000, " wconvl2_us=", self.p_wconvl2_ns // 1000, " wdelta_us=", self.p_wdelta_ns // 1000)
                 self.p_g_ns = 0
                 self.p_g_n = 0
                 self.p_ss_ns = 0
@@ -1812,6 +1847,9 @@ struct Qwen35HipExecutor:
                 self.p_wchain_ns = 0
                 self.p_wachain_ns = 0
                 self.p_wffn_ns = 0
+                self.p_wab_ns = 0
+                self.p_wconvl2_ns = 0
+                self.p_wdelta_ns = 0
         return logits^
 
     def readback_state(mut self) raises -> List[Float32]:

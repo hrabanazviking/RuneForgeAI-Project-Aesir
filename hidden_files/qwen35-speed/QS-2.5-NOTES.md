@@ -71,3 +71,61 @@ same stream, proving the stream itself is healthy. Remainder
 ATTN 9-kernel chain) + tiny alpha/beta GEMVs.
 
 ## QS-2.5.2 — ATTACK (next entry)
+
+## QS-2.5.2 — DE-FUSED SwiGLU (DONE, banked)
+
+Attack: _ffn no longer calls _gemm_silu. The SwiGLU
+activation is precomputed ONCE per layer into o_fu in place
+by the pre-existing _silu_mul_kernel (its arithmetic is
+_silu_pair verbatim: f16r(f16r(g*sigmoid(g)) * up)), then the
+down projection runs the plain _q8_gemv_kernel_v8. The fused
+silu kernels stay in-file as reference (QS-2 precedent).
+Cost: +1 tiny launch/layer (17,408 elements). Saves the
+5,120x redundant silu+exp evaluation.
+- Fixture: ALL PASS; (d)/(f) EXACT 0.0; (b) rank 1 gap 0.0,
+  worst logits diff 0.0078125 (QS-2 band). Session ALL PASS.
+- Real-file grade (lock held, QS-5 co-resident): P0 4/4,
+  P1 18/18, P5 49/49 — 71/71 rank 1 gap 0.0 FAITHFUL.
+- FFN segment (prof3): 196.4 -> 100.4 ms/token (floor 88.7).
+  Profiled wall: 271.4 -> 181.3 ms/token.
+- Long gen pairs (4/140, profile off, QS-5 rehearsal serve
+  co-resident, load1 ~8.5): pair 1 (44.61-15.28)/136 =
+  0.2156 s/token = 4.64 tok/s; pair 2 (44.89-15.00)/136 =
+  0.2198 = 4.55 tok/s. GEN TEXT coherent (Paris.).
+  vs QS-2 clean-window 0.2608-0.2815 (3.55-3.83 tok/s):
+  ~1.21x. NOT across the 7.65 line — see ceiling below.
+
+## QS-2.5.3 — attributed remainder (mode 4 sub-brackets)
+
+Mode 4 (adds alpha/beta, conv+l2, delta sub-brackets;
+fixture ALL PASS) per-SSM-layer: proj 658 us (alpha+beta
+only 52; qkv+gate stream at ~129 GB/s in-engine vs 199
+isolated), conv+l2 114 us, delta+ssm_out+add 435 us
+(ssm_out stream ~168 -> delta_norm itself ~260 us/layer
+= ~12.5 ms/token; state-traffic floor ~80 us — the delta
+kernel is latency/occupancy-bound on dependent state RMW
+chains). ATTN chain 1,314 us/layer vs ~392 us GEMV floor
+(~10-15 ms/token across the 9-kernel small chain + GEMV
+rate gap). FFN residual excess over stream floor ~12-25
+ms/token, variable across runs (co-residency/clocks).
+No further slice taken: each remaining item is ~5% class
+and the delta/attention kernels are numerics-sensitive
+rewrites that deserve their own graded campaign, not a
+rush under a noisy co-resident window.
+
+## Honest ceiling statement
+Q8_0 streams 28.6 GB/token; at the best sustained rate
+this memory system has shown (205-210 GB/s isolated) the
+stream floor alone is 0.137-0.140 s/token = 7.2 tok/s.
+Crossing Ollama's 7.65 needs >219 GB/s sustained IN-ENGINE
+plus zero overhead — beyond the demonstrated memory rate.
+Current: 0.216-0.220 s/token (4.55-4.64) co-resident;
+remaining gap = ~35 ms small-chain/delta + ~40 ms GEMV
+in-engine rate shortfall vs isolated bench. The 12.11
+tier remains QS-3's (Q4_K_M, 16.2 GB/token).
+
+## Lock record
+Claimed 2026-11-15 02:51:29 EST (atomic mkdir + OWNER.txt);
+released at QS-2.5.2 banking (see ledger). All heavy runs
+above ran inside fenced systemd units (80G/96G) under the
+claim, QS-5 rehearsal co-residency recorded per run.

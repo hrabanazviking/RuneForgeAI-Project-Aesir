@@ -377,3 +377,15 @@ recorded for every real-file run of this section.
   down GEMV recomputes _silu_pair (one exp) per (row,k) —
   5,120x redundant, ~5.7B exp/token; lmhead plain GEMV runs
   at bench rate in-stream. Next: QS-2.5.2 de-fuse.
+- QS-2.5.2 DONE (de-fused SwiGLU): _silu_mul precompute +
+  plain v8 down GEMV replaces the silu-fused GEMV. Fixture
+  ALL PASS (d)/(f) exact; real-file grade 71/71 rank 1
+  gap 0.0 FAITHFUL; FFN segment 196.4 -> 100.4 ms/token;
+  long pairs 0.2156 + 0.2198 s/token = 4.64/4.55 tok/s
+  (QS-5 co-resident) vs QS-2 clean 3.55-3.83. QS-2.5.3:
+  mode-4 sub-attribution filed (delta_norm ~260 us/layer,
+  ATTN small chain, in-engine GEMV rate gap); no further
+  slice — remainder is 5%-class numerics-sensitive work.
+  Ceiling: Q8_0 stream floor 0.137 s/token at 205 GB/s;
+  7.65 needs >219 GB/s in-engine (not demonstrated).
+  LOCK: released at this banking (03:08:42 EST).
