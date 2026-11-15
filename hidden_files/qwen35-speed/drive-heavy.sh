@@ -13,10 +13,10 @@ echo "GENPAIR_BASE_DONE $(date)"
 export GRADEBIN=grade_qwen35_hip_q35_6b.gemv2 TAG=gemv2
 /usr/bin/bash $QS/run-qs2-genpair.sh
 echo "GENPAIR_GEMV2_DONE $(date)"
-export GRADEBIN=grade_qwen35_hip_q35_6b TAG=fuse5
+export GRADEBIN=grade_qwen35_hip_q35_6b TAG=cur
 /usr/bin/bash $QS/run-qs2-genpair.sh
-echo "GENPAIR_FUSE5_DONE $(date)"
+echo "GENPAIR_CUR_DONE $(date)"
 /usr/bin/bash $QS/run-qs2-grade.sh
-echo "GRADE_FUSE5_DONE $(date)"
+echo "GRADE_CUR_DONE $(date)"
 grep MemAvailable /proc/meminfo
 echo QS2_HEAVY_SEQUENCE_DONE
