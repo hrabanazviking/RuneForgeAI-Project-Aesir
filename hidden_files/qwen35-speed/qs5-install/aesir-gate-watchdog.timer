@@ -1,0 +1,12 @@
+[Unit]
+Description=Run the Aesir gate watchdog every 2 minutes (QS-5)
+
+[Timer]
+OnBootSec=2min
+OnUnitActiveSec=2min
+AccuracySec=10s
+Persistent=true
+Unit=aesir-gate-watchdog.service
+
+[Install]
+WantedBy=timers.target

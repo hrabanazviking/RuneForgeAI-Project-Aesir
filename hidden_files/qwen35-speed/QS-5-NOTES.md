@@ -143,7 +143,51 @@ for this serve in either build.
 
 ## QS-5.2 THE UNIT + WATCHDOG
 
-UNIT_PLACEHOLDER
+Sources in the branch (qs5-install/, reproducible
+install): aesir-gate.service, aesir-gate-watchdog.service,
+aesir-gate-watchdog.timer, aesir-gate-health.sh,
+install-qs5.sh. Installed 2026-11-15 ~03:27 EST:
+- /etc/systemd/system/aesir-gate.service (byte-identical
+  to the repo source, diff-verified): User=volmarr,
+  WorkingDirectory=/home/volmarr/aesir-gate-serve,
+  ExecStart = the proven command on the gate tree
+  (absolute paths, LD_LIBRARY_PATH = gate-tree shims),
+  MemoryHigh=40G / MemoryMax=52G (QS-5.1 derivation),
+  Restart=on-failure, RestartSec=10s,
+  StartLimitIntervalSec=600 / Burst=5,
+  RequiresMountsFor=/mnt/vault + After=mnt-vault.mount,
+  TimeoutStopSec=60s, stdout/stderr appended to
+  hidden_files/qwen35-speed/aesir-gate-permanent.log in
+  the gate tree, WantedBy=multi-user.target.
+- Watchdog: /usr/local/sbin/aesir-gate-health.sh (mode
+  755, bash -n clean), run by aesir-gate-watchdog.service
+  (oneshot, root) on aesir-gate-watchdog.timer
+  (OnBootSec=2min, OnUnitActiveSec=2min, Persistent).
+  Each run: reads the key at runtime (never logged),
+  curls /health (15 s cap), requires unit active +
+  status ready; logs every check to the journal
+  (tag aesir-gate-watchdog) and to
+  hidden_files/qwen35-speed/watchdog.log in the
+  hipserve tree; consecutive-failure count in
+  watchdog-state.txt beside it; at 3 consecutive
+  failures it reset-failed + restarts the unit and
+  logs the ACTION both places.
+- systemd-analyze verify on all three units: exit 0.
+- Live-fire test of the checker (against the still-
+  running transient gate): exit 0, watchdog.log gained
+  "2026-11-15T03:28:10-05:00 OK fails=0", state = 0.
+- Enable state: watchdog timer ENABLED. aesir-gate.service
+  enable DEFERRED to the swap by systemd itself: while
+  the Q35-7 transient of the same name is loaded it
+  shadows the file and enable is refused ("Unit
+  /run/systemd/transient/aesir-gate.service is transient
+  or generated"). install-qs5.sh handles this case with
+  an explicit note. The swap (QS-5.3) stops the
+  transient, daemon-reloads, enables, and starts — the
+  enable is part of the single-restart window.
+- The real unit was NOT started in this slice. The
+  transient gate served throughout (MainPID 5932,
+  never interrupted).
 
 ## QS-5.3 THE SWAP
 

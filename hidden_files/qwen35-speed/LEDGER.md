@@ -384,3 +384,20 @@ QS-5-NOTES.md in this folder.
   /v1/chat/completions is refused 400 by design —
   min_p + repeat_penalty exercised via /v1/generate
   instead (HTTP 200, QS-4 wiring live on merged build).
+- QS-5.2 DONE: permanent unit + watchdog installed
+  from qs5-install/ sources (install-qs5.sh):
+  /etc/systemd/system/aesir-gate.service (User=volmarr,
+  gate tree, Restart=on-failure/10s, MemoryHigh=40G /
+  MemoryMax=52G, RequiresMountsFor=/mnt/vault,
+  WantedBy=multi-user.target; byte-identical to repo
+  source), watchdog timer every 2 min running
+  /usr/local/sbin/aesir-gate-health.sh (key read at
+  runtime, never logged; 3 consecutive failures ->
+  reset-failed + restart; journal + watchdog.log).
+  systemd-analyze verify exit 0; checker live-fired
+  OK against the transient gate. Timer ENABLED;
+  aesir-gate.service enable deferred to the swap
+  (the loaded transient of the same name shadows the
+  file; enable refused as transient/generated —
+  handled in the installer). Real unit NOT started;
+  transient gate never interrupted.
