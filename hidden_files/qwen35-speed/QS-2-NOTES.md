@@ -206,3 +206,30 @@ Codebase-proven GPU idioms only (no exotic APIs):
 - Fixture loop trajectory so far (64 tok, ms): baseline
   65.59 -> GEMV 52.54 -> +ring fusion 51.04 -> +delta
   fusion 50.76 -> +silu fusion 49.47 -> +warp norm 36.56.
+
+## GEMV bandwidth micro-bench (synthetic, contended)
+
+- bench_qwen35_gemv_qs2 (this folder): synthetic Q8_0
+  weights at real shapes, scales pinned to f16 0.03125,
+  5 reps back-to-back per kernel. Run fenced while QS-3
+  held the machine (their CPU re-pack/grade shares the
+  same LPDDR5x — numbers are a FLOOR, to be re-measured
+  in the quiet heavy window).
+- ffn shape 17408x5120 (94.7 MB): OLD 1.13 GB/s, NEW
+  70.24 GB/s (62x). Output shape 248320x5120 (1.35 GB):
+  OLD 0.63 GB/s, NEW 62.75 GB/s (99x). Old-vs-new output
+  MAXDIFF 0.0 on both shapes (an earlier random-scale
+  run showed 96.0 — overflow-range f32 rounding noise
+  from random f16 scales incl. huge values, confirmed
+  by the pinned-scale rerun; NOT a kernel defect).
+- HIP pool claim measured: MemAvailable 122,376,344 kB
+  before the bench, 80,581,916 kB after — opening the
+  HIP context + buffers claimed ~42 GB of the unified
+  pool on this box. Heavy-window memory checks are
+  taken BEFORE any HIP context opens (QS-0 pattern).
+- If the quiet-window rate stays far under ~200 GB/s,
+  GEMV v3 levers (prepped, not yet built): SIMD4
+  activation loads (activation is currently 1 scalar
+  load per quant vs ~0.53 for weights), split FMA
+  accumulators to break the serial acc chain, row-pair
+  work per lane for more independent streams.
