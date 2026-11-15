@@ -191,11 +191,78 @@ install-qs5.sh. Installed 2026-11-15 ~03:27 EST:
 
 ## QS-5.3 THE SWAP
 
-SWAP_PLACEHOLDER
+Pre-swap: transient gate healthy (old Q35-7 build, PID
+5932, up since 2026-11-14 20:05:35 EST), last requests
+completed clean, no generation in flight.
+
+Attempt 1 (03:29:42 EST): stop + daemon-reload + enable
++ start in one breath. systemd restarted the TRANSIENT
+definition (old tree ~/aesir-q35-7, new PID 519897):
+the transient unit file in /run/systemd/transient still
+shadowed the /etc file, and enable was refused again
+("transient or generated"). Health was ready again by
+03:29:51 on the old build — the user-facing gap was
+seconds, but the swap had NOT happened. Recorded, not
+hidden: a same-name transient shadows its file until
+the transient unit is fully retired.
+
+Attempt 2 (the real transition): stop at
+T_STOP2 = 2026-11-15T03:29:55-05:00; the stopped
+transient stayed loaded (LoadState=loaded, inactive)
+because its file persisted, so the file was removed
+(sudo rm /run/systemd/transient/aesir-gate.service) and
+daemon-reloaded: FragmentPath became
+/etc/systemd/system/aesir-gate.service. Enable then
+succeeded (multi-user.target.wants symlink created,
+is-enabled = enabled). Start at 03:30:40; health ready
+at 2026-11-15T03:30:45-05:00.
+- Outage, final transition: 03:29:55 -> 03:30:45 = 50 s.
+- Whole swap window: 03:29:42 -> 03:30:45 = 63 s, with
+  the old build serving in between.
+Post-swap verification (qs5-postswap-verify.log):
+- Unit: active/running, FragmentPath = /etc file,
+  MainPID 520736 with cwd /home/volmarr/aesir-gate-serve,
+  MemoryHigh readback 42,949,672,960 (40 GiB),
+  MemoryMax 55,834,574,848 (52 GiB), Restart=on-failure,
+  RestartUSec=10s, NRestarts=0.
+- qs5_verify.py postswap: ALL_PASS — health ready
+  naming qwen35 / qwen35-27B / q8_0_resident; live
+  completion 200 in 19.5 s; turn 2 completion 200 in
+  11.9 s with reused_prompt_tokens=69 (prefix reuse
+  across two turns on the permanent unit).
+- Serve output lands in the gate tree's
+  hidden_files/qwen35-speed/aesir-gate-permanent.log
+  (resident load lines + requests as expected).
+- Watchdog timer started after verification; first
+  timer fire 03:32:00 EST.
+- Display note: in this boot the manager still flags
+  the unit object "Transient: yes" (sticky from the
+  replaced transient incarnation). FragmentPath,
+  enablement, and the wants symlink are all the
+  permanent file's; at any reboot the unit loads purely
+  as the enabled file unit.
 
 ## QS-5.4 SOAK
 
-SOAK_PLACEHOLDER
+PASS criteria (stated before the soak starts):
+- Duration >= 3 h of mixed load against the permanent
+  unit (qs5_soak.py: short stateless, resident
+  multi-turn, medium + long prefill, QS-4 sampling
+  exercised — chat temperature/top_p legs and
+  /v1/generate min_p + repeat_penalty legs).
+- No unit restart during the soak (NRestarts stays 0,
+  sampler health = ready at every minute sample).
+- No failed requests (every request HTTP 200) and all
+  completions sane (non-trivial text).
+- Memory flat: least-squares slope of MemoryCurrent
+  over the soak <= +5 MB/h in magnitude beyond noise
+  (actual slope reported either way).
+Sampler: every 60 s, MemoryCurrent + MemoryPeak +
+NRestarts + health verdict to soak-mem.log; every
+request to soak-req.log; summary to soak-summary.json
+(all in hidden_files/qwen35-speed of the hipserve tree).
+
+SOAK_RESULTS_PLACEHOLDER
 
 ## QS-5.5 CRASH RECOVERY
 

@@ -1,0 +1,8 @@
+HEALTH postswap status=200 {"status": "ready", "backend": "cpu", "cpu_offload": 0, "profile": "qwen35", "context": 4096, "model": "/mnt/vault/models/gguf/Qwen3.8-27B-Ultimate-Heretic-Uncn-Turbo-Brilli-50x-AGI-NEO-Q8_0.gguf", "model_digest": "", "max_tokens": 512, "generation_timeout_ms": 900000, "capabilities": {"text_generation": true, "embeddings": false, "exact_prefix_reuse": true, "exact_prefix_reuse_detail": "snapshot-based at committed turn boundaries only", "post_history_configured": false, "session_residency": true, "memory_injection": true, "experimental_admission": false, "weight_load_mode": "q8_0_resident", "model_variant": "qwen35-27B"}, "prefill_batch": 1, "queue_limit": 4}
+HEALTH_CHECK postswap PASS
+TURN1 postswap http=200 wall=19.5s usage={"prompt_tokens": 21, "completion_tokens": 48, "total_tokens": 69, "reused_prompt_tokens": 0} text="\n\n<think>\nThe user wants a short, one-sentence definition of a lighthouse.\nKey elements to include:\n- It's a tower or st"
+TURN1_CHECK postswap PASS
+TURN2 postswap http=200 wall=11.9s usage={"prompt_tokens": 79, "completion_tokens": 29, "total_tokens": 108, "reused_prompt_tokens": 69} text='\n</think>\n\nA lighthouse is a tower or structure with a powerful light used to guide ships safely along coastlines and wa'
+TURN2_CHECK postswap PASS reused=69
+VERIFY postswap ALL_PASS fails=0
+VERIFY_EXIT=0

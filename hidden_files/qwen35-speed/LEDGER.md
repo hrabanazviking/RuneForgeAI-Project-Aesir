@@ -401,3 +401,17 @@ QS-5-NOTES.md in this folder.
   file; enable refused as transient/generated —
   handled in the installer). Real unit NOT started;
   transient gate never interrupted.
+- QS-5.3 DONE (the swap, single-restart protocol):
+  attempt 1 at 03:29:42 EST restarted the TRANSIENT
+  definition instead (same-name transient file in
+  /run/systemd/transient shadowed /etc; old build back
+  healthy by 03:29:51 — recorded, not hidden).
+  Attempt 2: stop 03:29:55, retired the transient file,
+  daemon-reload (FragmentPath -> /etc), enable OK,
+  start 03:30:40, health ready 03:30:45. Final-transition
+  outage 50 s; whole window 63 s. Post-swap verify
+  ALL_PASS (unit active + enabled, fences read back
+  40G/52G, Restart=on-failure/10s, completion 200,
+  turn-2 reused_prompt_tokens=69). Watchdog timer
+  started. QS-5.4 soak criteria stated in QS-5-NOTES.md
+  before the soak starts.
