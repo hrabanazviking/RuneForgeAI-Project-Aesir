@@ -446,3 +446,18 @@ QS-5-NOTES.md in this folder.
   23,263 refused-spin lines; v2 sleeps 15 s after a
   failure). Soak 2 relaunched on the quiet machine;
   full record in QS-5-NOTES.md.
+- QS-5.4 SOAK RUN 2 INVALIDATED by a third external strike —
+  this one a deliberate pause: at 05:52–05:53 EST the operator
+  stopped the soak + gate (SIGKILL after the 60 s stop timeout),
+  MASKED aesir-gate.service + watchdog service + timer, and
+  moved the unit files to *.qs5-paused (preserved intact,
+  byte-identical). Then ollama surgery + a "zo-rev-7b" bench
+  unit — the zo bench line again. Soak 2 to the stop: 11/11
+  requests OK, memory flat, NRestarts=0 (logs soak2-*.log).
+  Masked = cannot self-heal; QS-5 did not unmask (above this
+  seat — escalated to the coordinator as a three-strike
+  coordination failure). Also recorded: after the 05:37
+  re-enable the watchdog timer showed Started but fired no
+  runs before the mask (soak 1: fired every 2 min) — to be
+  investigated on restoration. Soak + QS-5.5 kill test OWED,
+  pending a protected window. Full record in QS-5-NOTES.md.

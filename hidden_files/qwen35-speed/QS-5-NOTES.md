@@ -347,7 +347,45 @@ stop lands, the run will be invalidated the same way
 and the pattern escalated — three strikes is a
 coordination problem, not a serve problem.
 
-SOAK2_RESULTS_PLACEHOLDER
+SOAK RUN 2 (started 2026-11-15T05:38:38-05:00, qs5-soak2 unit,
+v2 harness): INVALIDATED at t~842 s by a THIRD external
+intervention — this one a deliberate pause of the whole QS-5
+installation:
+- Until the stop: 11 requests, ALL ok=True sane=True; sampler
+  MemoryCurrent flat 5.11–5.35 GB (peak 5.71 GB), NRestarts=0.
+  Logs preserved as soak2-req.log / soak2-mem.log (hipserve).
+- 05:52:40 EST: qs5-soak2 deactivated externally. 05:52:42: stop
+  of aesir-gate began; the serve (mid-request) did not exit on
+  SIGTERM; SIGKILL at 05:53:42, "Failed with result 'timeout'".
+- 05:53:43–05:53:52: the operator stopped the watchdog service,
+  MASKED aesir-gate.service + the watchdog service + timer,
+  moved all three unit files to *.qs5-paused (the gate file
+  verified byte-identical to the repo source — preserved, not
+  deleted), masked again, and daemon-reloaded. A masked unit
+  cannot be restarted by Restart=on-failure: the installation
+  is DOWN BY EXTERNAL FIAT, not by any failure of its own.
+- 05:55: the same operator removed an ollama drop-in, restarted
+  ollama twice, and launched a "zo-rev-7b" ollama-bench unit —
+  the zo bench line again, now pausing QS-5 "properly" after
+  strikes 1–2 taught them the gate self-heals.
+- QS-5 has NOT unmasked or restarted anything. Whether this
+  pause was ordered by the coordinator or done unilaterally by
+  the bench team is above this seat; it is escalated in the
+  QS-5 closing report as a three-strike coordination failure.
+  Restoration is mechanical and lossless when ordered: unmask,
+  move the .qs5-paused files back, daemon-reload, enable --now
+  (all sources also live in the repo, qs5-install/).
+- WATCHDOG GAP (QS-5's own wart, recorded honestly): after the
+  05:35 disable and QS-5's 05:37 re-enable, the timer journal
+  shows "Started" at 05:36:56 but the watchdog service produced
+  NO runs in the 15 min before the mask — while during soak 1
+  the same timer fired every 2 min (20+ logged OK/BUSY checks).
+  Mechanism not established from the logs. On any restoration
+  the timer must be watched through one elapse; if the gap
+  reproduces, switch the cadence to an OnCalendar form.
+- The >=3 h soak proof and the deliberate QS-5.5 kill test
+  remain OWED. They need a window in which the gate is not
+  stopped from outside this team.
 
 ## QS-5.5 CRASH RECOVERY
 
