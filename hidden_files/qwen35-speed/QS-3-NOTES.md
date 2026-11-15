@@ -431,3 +431,61 @@ pos8, the delta is per-block fit minutiae accumulated in
 the deep tail, and the named instrument is a byte-level fit
 A/B on real rows (Aesir searched packer vs ggml quantize_row
 on identical inputs) to find any systematic slip.
+
+## SLICE QS-3.8 — POLICY-IDENTICAL v3 + CLOSING RECORD (banked)
+
+Product: ...-Q4_K_M-searchedfit3.gguf, 16,547,639,776 B —
+byte-identical SIZE to the llama control; census vs control:
+ZERO differing tensor types (433 Q4_K / 65 Q6_K / 353 F32).
+sha256 d029dfef165e7a99cecf1a0fb593798c8d0248710be7cca556a8
+8a632fe6d7ea. Conversion 1:19:51 under the lock.
+STRICT GRADE (default packed AND resident-K, identical for
+the fourth time): IN_BAND 197/198 = 99.49%, agreement
+195/198 = 98.48% — HIGHER than the llama control (192/198);
+rank dist {1: 195, 2: 2, 3: 1}; worst gap 234 milli (llama
+312). VERDICT BY THE GATE LETTER: DIVERGENT — the sole
+out-of-band record remains p5 pos8: gap 218 milli (llama
+265 — the searched product is CLOSER there), rank 3 vs
+llama rank 2. Two tokens crowd above the true token in the
+Aesir product where one does in llama's. p3 went to 59/59
+agreement; p5 agreement 48/49 (llama 47/49).
+Resident serve smoke (qs-3-serve-smoke-27b-v3.log): v3
+served under --qwen35-resident-k on 18435; census 498 large
+= 433 Q4_K + 65 Q6_K, k_bytes 16,525,824,000; real
+completion returned (eos). Lock released ~01:30 EST.
+
+## QS-3 CLOSING SUMMARY — the whole arc, as measured
+
+The workstream set out to make the small resident form TRUE.
+Delivered and banked on yrsa/qs-pack:
+- ggml searched-fit Q4_K/Q6_K packers behind --fit searched
+  (QS-3.2), winning or tying every unit case vs legacy.
+- The Q4_K_M resident contract (QS-3.4): the packed form is
+  now a served resident form, logits-identical to the packed
+  path on fixtures and on the 27B (four identical grade
+  pairs), 30.2% of F16 bytes at fixture scale, 16.5 GB
+  resident at 27B scale with 53.8 GB of F16 avoided.
+- Three 27B products + a llama control, all strict-graded
+  on the identical RAW-prompt battery:
+    legacy (QC-6)      197/198, agree 190, worst 2054-class
+    searched v1        197/198, agree 192, fatal p5p8 453/4
+    searched v2        197/198, agree 192, fatal p5p8 265/4
+    searched v3        197/198, agree 195, fatal p5p8 218/3
+    llama control      198/198 FAITHFUL, agree 192, p5p8 265/2
+  (fatal record shown as gap-milli/rank.)
+- The named QC-6 record p5 pos22 was fixed by the searched
+  fit in v1 and stayed fixed. The gate's last record is a
+  rank-3-vs-2 knife-edge at p5 pos8 where the Aesir product
+  beats the control on gap AND on total agreement.
+REMAINING NAMED WORK (for the coordinator to schedule):
+  1. Byte-level fit A/B on real rows (Aesir searched vs
+     ggml quantize_row_q4_K_ref/q6_K_ref on identical
+     inputs) to hunt any residual transcription minutia.
+  2. Searched-fit converter speed: 13.1x legacy at gemma
+     scale, ~80 min at 27B scale, single-threaded —
+     allocation-free inner loops + row parallelism.
+  3. E2B weight-space MSE (needs a streaming dequantizer;
+     the in-memory one pool-exhausts at that scale).
+  4. K-resident HIP session (contract is CPU-path only).
+The QS-3 seat ran the six Mythic Engineering roles
+sequentially (depth limit — no sub-agents), as commissioned.
