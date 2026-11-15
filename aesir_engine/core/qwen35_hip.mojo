@@ -40,6 +40,8 @@ from max.gpu import barrier
 from std.gpu.primitives import warp
 from std.memory import Pointer
 from std.math import sqrt, exp, log, cos, sin
+from std.collections import InlineArray
+from std.ffi import external_call
 from max.gpu.host import DeviceContext, DeviceBuffer, HostBuffer
 from loader.packed_gguf import PackedGGUF, PackedTensor
 from core.packed_quantization import Bytes, packed_value
@@ -1335,6 +1337,37 @@ def _require_q8_of(model: PackedGGUF, name: String) raises:
     if t.columns % 32 != 0:
         raise Error("Qwen35HipExecutor: HIP load refused tensor '" + name + "': input width is not a multiple of 32")
 
+
+def _qs_now_ns() raises -> Int:
+    var ts = InlineArray[Int64, 2](fill=0)
+    if external_call["clock_gettime", Int32](Int32(1), ts.unsafe_ptr()) != 0:
+        raise Error("QS profile: cannot observe monotonic clock")
+    return Int(ts[0]) * 1000000000 + Int(ts[1])
+
+
+def _qs_prof_mode() -> Int:
+    """AESIR_QS_PROFILE: unset/0 = off, 1 = enqueue attribution,
+    2 = enqueue + per-layer sync-bracketed walls (QS-2.5.1)."""
+    var name = String("AESIR_QS_PROFILE")
+    var buf = InlineArray[Int8, 32](fill=0)
+    var nb = name.as_bytes()
+    for i in range(len(nb)):
+        buf[i] = Int8(nb[i])
+    var raw = external_call["getenv", Pointer[UInt8, MutUntrackedOrigin]](buf.unsafe_ptr())
+    if Int(raw) == 0:
+        return 0
+    var c = raw.unsafe_load(0)
+    if c == 52:
+        return 4
+    if c == 51:
+        return 3
+    if c == 50:
+        return 2
+    if c == 49:
+        return 1
+    return 0
+
+
 struct Qwen35HipExecutor:
     """Device-resident qwen35 forward over one HIP context.
     Weights, activations, KV and the SSM state (s + conv rings)
@@ -1382,6 +1415,29 @@ struct Qwen35HipExecutor:
     var s_elems: Int
     var ring_elems: Int
     var kv_elems: Int
+    var prof_mode: Int
+    var prof_ctx: Int
+    var p_g_ns: Int
+    var p_g_n: Int
+    var p_ss_ns: Int
+    var p_ss_n: Int
+    var p_sa_ns: Int
+    var p_sa_n: Int
+    var p_sf_ns: Int
+    var p_sf_n: Int
+    var p_so_ns: Int
+    var p_so_n: Int
+    var p_sync_ns: Int
+    var p_sync_n: Int
+    var p_wssm_ns: Int
+    var p_watt_ns: Int
+    var p_wproj_ns: Int
+    var p_wchain_ns: Int
+    var p_wachain_ns: Int
+    var p_wffn_ns: Int
+    var p_wab_ns: Int
+    var p_wconvl2_ns: Int
+    var p_wdelta_ns: Int
 
     def __init__(out self, path: String, context_length: Int, max_batch: Int = 32) raises:
         if not HipGemv.gate_ok():
@@ -1392,6 +1448,29 @@ struct Qwen35HipExecutor:
         if context_length < 2 or context_length > self.profile.context_cap:
             raise Error("Qwen35HipExecutor: context_length outside the profile cap")
         self.context_length = context_length
+        self.prof_mode = _qs_prof_mode()
+        self.prof_ctx = 0
+        self.p_g_ns = 0
+        self.p_g_n = 0
+        self.p_ss_ns = 0
+        self.p_ss_n = 0
+        self.p_sa_ns = 0
+        self.p_sa_n = 0
+        self.p_sf_ns = 0
+        self.p_sf_n = 0
+        self.p_so_ns = 0
+        self.p_so_n = 0
+        self.p_sync_ns = 0
+        self.p_sync_n = 0
+        self.p_wssm_ns = 0
+        self.p_watt_ns = 0
+        self.p_wproj_ns = 0
+        self.p_wchain_ns = 0
+        self.p_wachain_ns = 0
+        self.p_wffn_ns = 0
+        self.p_wab_ns = 0
+        self.p_wconvl2_ns = 0
+        self.p_wdelta_ns = 0
         self.max_batch = max_batch
         ref p = self.profile
         self.embd = _ref_of(self.model, "token_embd.weight")
@@ -1503,59 +1582,139 @@ struct Qwen35HipExecutor:
     def kvp(self) -> Floats:
         return Floats(unsafe_from_address=Int(self.kv_buf.unsafe_ptr()))
 
+    def _prof_add(mut self, is_gemm: Bool, dt: Int):
+        if is_gemm:
+            self.p_g_ns += dt
+            self.p_g_n += 1
+        elif self.prof_ctx == 1:
+            self.p_ss_ns += dt
+            self.p_ss_n += 1
+        elif self.prof_ctx == 2:
+            self.p_sa_ns += dt
+            self.p_sa_n += 1
+        elif self.prof_ctx == 3:
+            self.p_sf_ns += dt
+            self.p_sf_n += 1
+        else:
+            self.p_so_ns += dt
+            self.p_so_n += 1
+
     def _gemm(mut self, t: Q35TensorRef, src: Int, dst: Int, batch: Int) raises:
         var n = batch * t.rows * 32
+        var _t0 = _qs_now_ns() if self.prof_mode > 0 else 0
         self.context.enqueue_function[_q8_gemv_kernel_v8](self.w(), self.a(), Int64(t.base), Int64(t.rows), Int64(t.cols), Int64(src), Int64(dst), Int64(batch), grid_dim=(n + 255) // 256, block_dim=256)
+        if self.prof_mode > 0:
+            self._prof_add(True, _qs_now_ns() - _t0)
 
     def _norm(mut self, t: Q35TensorRef, src: Int, dst: Int, width: Int, batch: Int) raises:
+        var _t0 = _qs_now_ns() if self.prof_mode > 0 else 0
         self.context.enqueue_function[_rmsnorm_kernel](self.w(), self.a(), Int64(t.base), Int64(t.kind), Int64(width), Int64(src), Int64(dst), Int64(batch), Float32(1e-5), grid_dim=(batch * 32 + 255) // 256, block_dim=256)
+        if self.prof_mode > 0:
+            self._prof_add(False, _qs_now_ns() - _t0)
 
     def _copy(mut self, dst: Int, src: Int, count: Int) raises:
+        var _t0 = _qs_now_ns() if self.prof_mode > 0 else 0
         self.context.enqueue_function[_copy_kernel](self.a(), Int64(dst), Int64(src), Int64(count), grid_dim=(count + 255) // 256, block_dim=256)
+        if self.prof_mode > 0:
+            self._prof_add(False, _qs_now_ns() - _t0)
 
     def _add(mut self, dst: Int, src: Int, count: Int) raises:
+        var _t0 = _qs_now_ns() if self.prof_mode > 0 else 0
         self.context.enqueue_function[_add_kernel](self.a(), Int64(dst), Int64(src), Int64(count), grid_dim=(count + 255) // 256, block_dim=256)
+        if self.prof_mode > 0:
+            self._prof_add(False, _qs_now_ns() - _t0)
 
     def _gemm_silu(mut self, t: Q35TensorRef, src: Int, gate: Int, dst: Int, batch: Int) raises:
         var n = batch * t.rows * 32
+        var _t0 = _qs_now_ns() if self.prof_mode > 0 else 0
         self.context.enqueue_function[_q8_gemv_silu_kernel_v8](self.w(), self.a(), Int64(t.base), Int64(t.rows), Int64(t.cols), Int64(src), Int64(dst), Int64(batch), Int64(gate), grid_dim=(n + 255) // 256, block_dim=256)
+        if self.prof_mode > 0:
+            self._prof_add(True, _qs_now_ns() - _t0)
+
+    def _silu_mul(mut self, gate: Int, up: Int, count: Int) raises:
+        var _t0 = _qs_now_ns() if self.prof_mode > 0 else 0
+        self.context.enqueue_function[_silu_mul_kernel](self.a(), Int64(gate), Int64(up), Int64(count), grid_dim=(count + 255) // 256, block_dim=256)
+        if self.prof_mode > 0:
+            self._prof_add(False, _qs_now_ns() - _t0)
 
     def _ffn(mut self, layer: Q35HipLayer, batch: Int) raises:
+        self.prof_ctx = 3
         ref p = self.profile
         self._copy(self.o_res, self.o_x, batch * p.hidden_size)
         self._norm(layer.post_attn_norm, self.o_x, self.o_x, p.hidden_size, batch)
         self._gemm(layer.ffn_gate, self.o_x, self.o_fg, batch)
         self._gemm(layer.ffn_up, self.o_x, self.o_fu, batch)
-        self._gemm_silu(layer.ffn_down, self.o_fu, self.o_fg, self.o_x, batch)
+        # QS-2.5.2: SwiGLU precomputed ONCE into o_fu (in place,
+        # _silu_mul_kernel arithmetic == _silu_pair exactly),
+        # then the down projection is the plain v8 GEMV. The
+        # QS-2 fused _gemm_silu recomputed silu+exp per (row,k)
+        # — 5,120x redundant (QS-2.5.1 indictment).
+        self._silu_mul(self.o_fg, self.o_fu, batch * p.feed_forward_size)
+        self._gemm(layer.ffn_down, self.o_fu, self.o_x, batch)
         self._add(self.o_x, self.o_res, batch * p.hidden_size)
 
     def _layer_ssm(mut self, layer: Q35HipLayer, batch: Int, pos: Int) raises:
+        self.prof_ctx = 1
+        var _lw0s = _qs_now_ns() if self.prof_mode >= 3 else 0
+        var _ab0 = 0
+        var _cd0 = 0
         ref p = self.profile
         self._copy(self.o_res, self.o_x, batch * p.hidden_size)
         self._norm(layer.attn_norm, self.o_x, self.o_x, p.hidden_size, batch)
         self._gemm(layer.qkv, self.o_x, self.o_qkv, batch)
         self._gemm(layer.gate, self.o_x, self.o_z, batch)
+        if self.prof_mode == 4:
+            self.context.synchronize()
+            _ab0 = _qs_now_ns()
         self._gemm(layer.alpha, self.o_x, self.o_alpha, batch)
         self._gemm(layer.beta, self.o_x, self.o_beta, batch)
+        if self.prof_mode == 4:
+            self.context.synchronize()
+            self.p_wab_ns += _qs_now_ns() - _ab0
+        if self.prof_mode >= 3:
+            self.context.synchronize()
+            var _n1 = _qs_now_ns()
+            self.p_wproj_ns += _n1 - _lw0s
+            _lw0s = _n1
         var conv_dim = p.qkv_width()
         var ring = self.s_elems + layer.ssm_slot * max(0, p.ssm_conv_kernel - 1) * conv_dim
         var s_base = layer.ssm_slot * p.ssm_time_step_rank * p.ssm_state_size * p.ssm_state_size
+        var _sec0 = _qs_now_ns() if self.prof_mode > 0 else 0
         for r in range(batch):
             var rn = (p.ssm_conv_kernel - 1) * conv_dim
             var conv_grid = conv_dim if p.ssm_conv_kernel <= 1 else rn
             self.context.enqueue_function[_conv_silu_kernel](self.w(), self.a(), self.s(), self.rtmp(), Int64(layer.conv1d.base), Int64(layer.conv1d.kind), Int64(self.o_qkv), Int64(self.o_conv), Int64(ring), Int64(conv_dim), Int64(p.ssm_conv_kernel), Int64(r), grid_dim=(conv_grid + 255) // 256, block_dim=256)
             self.context.enqueue_function[_l2norm_kernel](self.a(), self.s(), self.rtmp(), Int64(self.o_conv), Int64(conv_dim), Int64(p.ssm_group_count * p.ssm_state_size), Int64(p.ssm_state_size), Int64(p.ssm_group_count), Int64(r), Int64(ring), Int64(rn), grid_dim=1, block_dim=256)
+            if self.prof_mode == 4:
+                self.context.synchronize()
+                _cd0 = _qs_now_ns()
+                self.p_wconvl2_ns += _cd0 - _lw0s
             var dn = p.ssm_time_step_rank * p.ssm_state_size
             if p.ssm_state_size <= 256 and (256 % p.ssm_state_size) == 0:
                 self.context.enqueue_function[_delta_norm_kernel](self.w(), self.a(), self.s(), Int64(layer.ssm_a.base), Int64(layer.ssm_a.kind), Int64(self.o_conv), Int64(self.o_alpha), Int64(self.o_beta), Int64(layer.dt_bias.base), Int64(self.o_scr), Int64(s_base), Int64(conv_dim), Int64(p.ssm_group_count * p.ssm_state_size), Int64(p.ssm_state_size), Int64(p.ssm_time_step_rank), Int64(p.ssm_group_count), Int64(r), Int64(layer.ssm_norm.base), Int64(self.o_z), Int64(self.o_y), p.normalization_epsilon, grid_dim=(dn + 255) // 256, block_dim=256)
             else:
                 self.context.enqueue_function[_delta_kernel](self.w(), self.a(), self.s(), Int64(layer.ssm_a.base), Int64(layer.ssm_a.kind), Int64(self.o_conv), Int64(self.o_alpha), Int64(self.o_beta), Int64(layer.dt_bias.base), Int64(self.o_scr), Int64(s_base), Int64(conv_dim), Int64(p.ssm_group_count * p.ssm_state_size), Int64(p.ssm_state_size), Int64(p.ssm_time_step_rank), Int64(p.ssm_group_count), Int64(r), grid_dim=(dn + 255) // 256, block_dim=256)
                 self.context.enqueue_function[_gated_norm_kernel](self.w(), self.a(), Int64(layer.ssm_norm.base), Int64(layer.ssm_norm.kind), Int64(self.o_scr), Int64(self.o_z), Int64(self.o_y), Int64(p.ssm_state_size), Int64(p.ssm_time_step_rank), Int64(r), p.normalization_epsilon, grid_dim=1, block_dim=256)
+        if self.prof_mode > 0:
+            self._prof_add(False, _qs_now_ns() - _sec0)
         self._gemm(layer.ssm_out, self.o_y, self.o_x, batch)
         self._add(self.o_x, self.o_res, batch * p.hidden_size)
+        if self.prof_mode == 4:
+            self.context.synchronize()
+            self.p_wdelta_ns += _qs_now_ns() - _cd0
+        if self.prof_mode >= 3:
+            self.context.synchronize()
+            var _n2 = _qs_now_ns()
+            self.p_wchain_ns += _n2 - _lw0s
+            _lw0s = _n2
         self._ffn(layer, batch)
+        if self.prof_mode >= 3:
+            self.context.synchronize()
+            self.p_wffn_ns += _qs_now_ns() - _lw0s
 
     def _layer_attn(mut self, layer: Q35HipLayer, batch: Int, pos: Int) raises:
+        self.prof_ctx = 2
+        var _lw0s = _qs_now_ns() if self.prof_mode >= 3 else 0
         ref p = self.profile
         self._copy(self.o_res, self.o_x, batch * p.hidden_size)
         self._norm(layer.attn_norm, self.o_x, self.o_x, p.hidden_size, batch)
@@ -1565,6 +1724,7 @@ struct Qwen35HipExecutor:
         var qw = p.query_width()
         var kvw = p.kv_width()
         var n = batch * qw
+        var _sec0 = _qs_now_ns() if self.prof_mode > 0 else 0
         self.context.enqueue_function[_split_q_gate_kernel](self.a(), Int64(self.o_qf), Int64(self.o_q), Int64(self.o_gate), Int64(qw), Int64(p.head_dim), Int64(batch), grid_dim=(n + 255) // 256, block_dim=256)
         self.context.enqueue_function[_head_norm_kernel](self.w(), self.a(), Int64(layer.q_norm.base), Int64(layer.q_norm.kind), Int64(p.head_dim), Int64(p.attention_heads), Int64(self.o_q), Int64(batch), p.normalization_epsilon, grid_dim=(batch * p.attention_heads + 255) // 256, block_dim=256)
         self.context.enqueue_function[_head_norm_kernel](self.w(), self.a(), Int64(layer.k_norm.base), Int64(layer.k_norm.kind), Int64(p.head_dim), Int64(p.kv_heads), Int64(self.o_k), Int64(batch), p.normalization_epsilon, grid_dim=(batch * p.kv_heads + 255) // 256, block_dim=256)
@@ -1580,9 +1740,19 @@ struct Qwen35HipExecutor:
         var an = batch * qw
         self.context.enqueue_function[_attention_kernel](self.a(), self.kvp(), Int64(self.o_q), Int64(self.o_att), Int64(k_base), Int64(v_base), Int64(self.context_length), Int64(pos), Int64(batch), Int64(p.attention_heads), Int64(p.kv_heads), Int64(p.head_dim), grid_dim=(an + 255) // 256, block_dim=256)
         self.context.enqueue_function[_gate_mul_kernel](self.a(), Int64(self.o_att), Int64(self.o_gate), Int64(n), grid_dim=(n + 255) // 256, block_dim=256)
+        if self.prof_mode > 0:
+            self._prof_add(False, _qs_now_ns() - _sec0)
         self._gemm(layer.o, self.o_att, self.o_x, batch)
         self._add(self.o_x, self.o_res, batch * p.hidden_size)
+        if self.prof_mode >= 3:
+            self.context.synchronize()
+            var _n2 = _qs_now_ns()
+            self.p_wachain_ns += _n2 - _lw0s
+            _lw0s = _n2
         self._ffn(layer, batch)
+        if self.prof_mode >= 3:
+            self.context.synchronize()
+            self.p_wffn_ns += _qs_now_ns() - _lw0s
 
     def reset_state(mut self) raises:
         var n = self.s_elems + self.ring_elems
@@ -1609,6 +1779,7 @@ struct Qwen35HipExecutor:
         var done = 0
         while done < len(tokens):
             var b_len = min(cap, len(tokens) - done)
+            var _w0 = _qs_now_ns() if self.prof_mode > 0 else 0
             for i in range(b_len):
                 self.host_toks[i] = Int32(tokens[done + i])
             self.context.enqueue_copy(self.toks, self.host_toks)
@@ -1617,7 +1788,19 @@ struct Qwen35HipExecutor:
             self.context.enqueue_function[_embed_kernel](self.w(), self.a(), self.toks.unsafe_ptr(), Int64(self.embd.base), Int64(p.hidden_size), Int64(self.o_x), Int64(b_len), grid_dim=(en + 255) // 256, block_dim=256)
             for li in range(len(self.layers)):
                 var layer = self.layers[li].copy()
-                if layer.is_full_attn:
+                if self.prof_mode >= 2:
+                    self.context.synchronize()
+                    var _lw0 = _qs_now_ns()
+                    if layer.is_full_attn:
+                        self._layer_attn(layer, b_len, pos)
+                    else:
+                        self._layer_ssm(layer, b_len, pos)
+                    self.context.synchronize()
+                    if layer.is_full_attn:
+                        self.p_watt_ns += _qs_now_ns() - _lw0
+                    else:
+                        self.p_wssm_ns += _qs_now_ns() - _lw0
+                elif layer.is_full_attn:
                     self._layer_attn(layer, b_len, pos)
                 else:
                     self._layer_ssm(layer, b_len, pos)
@@ -1629,11 +1812,44 @@ struct Qwen35HipExecutor:
                 self._norm(onorm, last_src, last_src, p.hidden_size, 1)
                 self._gemm(ow, last_src, self.o_logits, 1)
                 self.context.enqueue_copy(self.host_acts, self.acts)
+                var _s0 = _qs_now_ns() if self.prof_mode > 0 else 0
                 self.context.synchronize()
+                if self.prof_mode > 0:
+                    self.p_sync_ns += _qs_now_ns() - _s0
+                    self.p_sync_n += 1
                 for i in range(p.vocabulary_size):
                     logits.append(self.host_acts[self.o_logits + i])
             else:
+                var _s0 = _qs_now_ns() if self.prof_mode > 0 else 0
                 self.context.synchronize()
+                if self.prof_mode > 0:
+                    self.p_sync_ns += _qs_now_ns() - _s0
+                    self.p_sync_n += 1
+            if self.prof_mode > 0 and b_len == 1:
+                var _wall = _qs_now_ns() - _w0
+                var _enq = self.p_g_ns + self.p_ss_ns + self.p_sa_ns + self.p_sf_ns + self.p_so_ns
+                print("QS_PROF wall_us=", _wall // 1000, " gemm_us=", self.p_g_ns // 1000, " gemm_n=", self.p_g_n, " ssm_us=", self.p_ss_ns // 1000, " ssm_n=", self.p_ss_n, " attn_us=", self.p_sa_ns // 1000, " attn_n=", self.p_sa_n, " ffn_us=", self.p_sf_ns // 1000, " ffn_n=", self.p_sf_n, " oth_us=", self.p_so_ns // 1000, " oth_n=", self.p_so_n, " sync_us=", self.p_sync_ns // 1000, " hostoth_us=", (_wall - _enq - self.p_sync_ns) // 1000, " wssm_us=", self.p_wssm_ns // 1000, " watt_us=", self.p_watt_ns // 1000, " wproj_us=", self.p_wproj_ns // 1000, " wchain_us=", self.p_wchain_ns // 1000, " wachain_us=", self.p_wachain_ns // 1000, " wffn_us=", self.p_wffn_ns // 1000, " wab_us=", self.p_wab_ns // 1000, " wconvl2_us=", self.p_wconvl2_ns // 1000, " wdelta_us=", self.p_wdelta_ns // 1000)
+                self.p_g_ns = 0
+                self.p_g_n = 0
+                self.p_ss_ns = 0
+                self.p_ss_n = 0
+                self.p_sa_ns = 0
+                self.p_sa_n = 0
+                self.p_sf_ns = 0
+                self.p_sf_n = 0
+                self.p_so_ns = 0
+                self.p_so_n = 0
+                self.p_sync_ns = 0
+                self.p_sync_n = 0
+                self.p_wssm_ns = 0
+                self.p_watt_ns = 0
+                self.p_wproj_ns = 0
+                self.p_wchain_ns = 0
+                self.p_wachain_ns = 0
+                self.p_wffn_ns = 0
+                self.p_wab_ns = 0
+                self.p_wconvl2_ns = 0
+                self.p_wdelta_ns = 0
         return logits^
 
     def readback_state(mut self) raises -> List[Float32]:

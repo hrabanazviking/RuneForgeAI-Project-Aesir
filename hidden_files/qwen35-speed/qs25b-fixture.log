@@ -1,0 +1,19 @@
+Secondary CUID not available: AMDCUID support not enabled.
+Q35-6 HIP gate ok: device= AMD Radeon 8060S Graphics
+MimirWell initialized with 37896704 derived bytes.
+GGUF validated: 56 tensors, 23 metadata entries, architecture qwen35
+Q35-6 (a) executor constructed: layers= 4  ssm_layers= 3  attn_layers= 1
+Q35-6 (b) pos= 0  s_diff= 7.450581e-09  conv_diff= 0.0  logits_diff= 0.0009765625  dev_argmax_rank_in_cpu= 1  gap= 0.0
+Q35-6 (b) pos= 1  s_diff= 7.450581e-09  conv_diff= 0.001953125  logits_diff= 0.0078125  dev_argmax_rank_in_cpu= 1  gap= 0.0
+Q35-6 (b) pos= 2  s_diff= 5.9604645e-08  conv_diff= 0.001953125  logits_diff= 0.0078125  dev_argmax_rank_in_cpu= 1  gap= 0.0
+Q35-6 (b) pos= 3  s_diff= 5.9604645e-08  conv_diff= 0.001953125  logits_diff= 0.0078125  dev_argmax_rank_in_cpu= 1  gap= 0.0
+Q35-6 (b) WORST s= 5.9604645e-08  conv= 0.001953125  logits= 0.0078125  rank= 1  gap= 0.0
+Q35-6 (b) BAND q35-3a(c): s 0.0008479953 / conv 0.0078125 / logits 0.013671875
+Q35-6 (c) cpu_greedy= 679 194 893 673 322 687 585 758 136 104 316 224 916 54 103 47 
+Q35-6 (c) dev_greedy= 679 194 893 673 322 687 585 758 136 104 316 224 916 54 103 47 
+Q35-6 (c) greedy_identical= True
+Q35-6 (d) batched_vs_loop state_diff= 0.0  logits_diff= 0.0
+Q35-6 (e) prefill 64 tokens: gemv_loop_ms= 47.473303  batched_ms= 11.598388  gemv_loop_tok_s= 1348.126124697917  batched_tok_s= 5518.0081921729125
+Q35-6 (f) snapshot_restore_continuation_logits_diff= 0.0
+Q35_6_TEST ALL PASS
+Warning: Resource leak detected by SharedSignalPool, 608 Signals leaked.

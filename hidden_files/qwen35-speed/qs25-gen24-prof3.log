@@ -1,0 +1,58 @@
+Secondary CUID not available: AMDCUID support not enabled.
+PROMPT TOKENS: 5
+EXECUTOR LOADED: layers= 64  vocab= 248320
+MimirWell initialized with 4232837120 derived bytes.
+GGUF validated: 851 tensors, 48 metadata entries, architecture qwen35
+Qwen35 resident load: mode=q8_0_resident large_tensors=498 q8_0_bytes=28574187520 f16_materialized_bytes_avoided=53786705920
+QS_PROF wall_us= 242835  gemm_us= 4772  gemm_n= 994  ssm_us= 14865  ssm_n= 384  attn_us= 5282  attn_n= 128  ffn_us= 2776  ffn_n= 386  oth_us= 0  oth_n= 0  sync_us= 11169  hostoth_us= 203970  wssm_us= 1009092  watt_us= 318309  wproj_us= 130219  wchain_us= 109460  wachain_us= 61514  wffn_us= 1026053
+QS_PROF wall_us= 241643  gemm_us= 1990  gemm_n= 497  ssm_us= 1256  ssm_n= 192  attn_us= 903  attn_n= 64  ffn_us= 888  ffn_n= 193  oth_us= 0  oth_n= 0  sync_us= 6332  hostoth_us= 230272  wssm_us= 176315  watt_us= 58332  wproj_us= 27300  wchain_us= 18813  wachain_us= 14911  wffn_us= 173553
+QS_PROF wall_us= 241058  gemm_us= 1925  gemm_n= 497  ssm_us= 1252  ssm_n= 192  attn_us= 751  attn_n= 64  ffn_us= 867  ffn_n= 193  oth_us= 0  oth_n= 0  sync_us= 6375  hostoth_us= 229885  wssm_us= 175559  watt_us= 58582  wproj_us= 26331  wchain_us= 18875  wachain_us= 15115  wffn_us= 173747
+QS_PROF wall_us= 242836  gemm_us= 1947  gemm_n= 497  ssm_us= 1334  ssm_n= 192  attn_us= 786  attn_n= 64  ffn_us= 839  ffn_n= 193  oth_us= 0  oth_n= 0  sync_us= 6399  hostoth_us= 231529  wssm_us= 176707  watt_us= 58851  wproj_us= 26761  wchain_us= 19530  wachain_us= 15396  wffn_us= 173793
+QS_PROF wall_us= 244106  gemm_us= 1940  gemm_n= 497  ssm_us= 1389  ssm_n= 192  attn_us= 777  attn_n= 64  ffn_us= 842  ffn_n= 193  oth_us= 0  oth_n= 0  sync_us= 6388  hostoth_us= 232767  wssm_us= 177812  watt_us= 59218  wproj_us= 27479  wchain_us= 19391  wachain_us= 15641  wffn_us= 174440
+QS_PROF wall_us= 242674  gemm_us= 1964  gemm_n= 497  ssm_us= 1319  ssm_n= 192  attn_us= 755  attn_n= 64  ffn_us= 878  ffn_n= 193  oth_us= 0  oth_n= 0  sync_us= 6362  hostoth_us= 231394  wssm_us= 176365  watt_us= 59067  wproj_us= 26826  wchain_us= 19227  wachain_us= 15727  wffn_us= 173574
+QS_PROF wall_us= 242710  gemm_us= 2001  gemm_n= 497  ssm_us= 1364  ssm_n= 192  attn_us= 817  attn_n= 64  ffn_us= 875  ffn_n= 193  oth_us= 0  oth_n= 0  sync_us= 6383  hostoth_us= 231269  wssm_us= 176123  watt_us= 59295  wproj_us= 27070  wchain_us= 18884  wachain_us= 15954  wffn_us= 173438
+QS_PROF wall_us= 242874  gemm_us= 1984  gemm_n= 497  ssm_us= 1355  ssm_n= 192  attn_us= 749  attn_n= 64  ffn_us= 866  ffn_n= 193  oth_us= 0  oth_n= 0  sync_us= 6398  hostoth_us= 231521  wssm_us= 176305  watt_us= 59543  wproj_us= 27015  wchain_us= 19016  wachain_us= 16231  wffn_us= 173511
+QS_PROF wall_us= 242752  gemm_us= 1815  gemm_n= 497  ssm_us= 1221  ssm_n= 192  attn_us= 862  attn_n= 64  ffn_us= 859  ffn_n= 193  oth_us= 0  oth_n= 0  sync_us= 6419  hostoth_us= 231573  wssm_us= 175532  watt_us= 59788  wproj_us= 26505  wchain_us= 18936  wachain_us= 16420  wffn_us= 173389
+QS_PROF wall_us= 243478  gemm_us= 1982  gemm_n= 497  ssm_us= 1299  ssm_n= 192  attn_us= 756  attn_n= 64  ffn_us= 835  ffn_n= 193  oth_us= 0  oth_n= 0  sync_us= 6429  hostoth_us= 232174  wssm_us= 176376  watt_us= 60115  wproj_us= 26894  wchain_us= 18909  wachain_us= 16666  wffn_us= 173958
+QS_PROF wall_us= 611538  gemm_us= 1536  gemm_n= 497  ssm_us= 1135  ssm_n= 192  attn_us= 811  attn_n= 64  ffn_us= 664  ffn_n= 193  oth_us= 0  oth_n= 0  sync_us= 7479  hostoth_us= 599908  wssm_us= 329643  watt_us= 273888  wproj_us= 28152  wchain_us= 20430  wachain_us= 18174  wffn_us= 536717
+QS_PROF wall_us= 264965  gemm_us= 1416  gemm_n= 497  ssm_us= 1193  ssm_n= 192  attn_us= 632  attn_n= 64  ffn_us= 765  ffn_n= 193  oth_us= 0  oth_n= 0  sync_us= 6297  hostoth_us= 254660  wssm_us= 192241  watt_us= 65886  wproj_us= 28788  wchain_us= 21184  wachain_us= 19023  wffn_us= 189101
+QS_PROF wall_us= 250974  gemm_us= 1673  gemm_n= 497  ssm_us= 1194  ssm_n= 192  attn_us= 677  attn_n= 64  ffn_us= 793  ffn_n= 193  oth_us= 0  oth_n= 0  sync_us= 6432  hostoth_us= 240201  wssm_us= 181574  watt_us= 62413  wproj_us= 27197  wchain_us= 19557  wachain_us= 18120  wffn_us= 179055
+QS_PROF wall_us= 253845  gemm_us= 1863  gemm_n= 497  ssm_us= 1319  ssm_n= 192  attn_us= 796  attn_n= 64  ffn_us= 884  ffn_n= 193  oth_us= 0  oth_n= 0  sync_us= 6310  hostoth_us= 242672  wssm_us= 183299  watt_us= 63730  wproj_us= 28038  wchain_us= 19780  wachain_us= 18627  wffn_us= 180530
+QS_PROF wall_us= 257440  gemm_us= 1633  gemm_n= 497  ssm_us= 1275  ssm_n= 192  attn_us= 686  attn_n= 64  ffn_us= 861  ffn_n= 193  oth_us= 0  oth_n= 0  sync_us= 6549  hostoth_us= 246434  wssm_us= 185748  watt_us= 64592  wproj_us= 27990  wchain_us= 20549  wachain_us= 19154  wffn_us= 182603
+QS_PROF wall_us= 248771  gemm_us= 1984  gemm_n= 497  ssm_us= 1318  ssm_n= 192  attn_us= 892  attn_n= 64  ffn_us= 915  ffn_n= 193  oth_us= 0  oth_n= 0  sync_us= 6448  hostoth_us= 237211  wssm_us= 178942  watt_us= 62744  wproj_us= 26967  wchain_us= 19208  wachain_us= 18645  wffn_us= 176805
+QS_PROF wall_us= 248958  gemm_us= 1756  gemm_n= 497  ssm_us= 1196  ssm_n= 192  attn_us= 759  attn_n= 64  ffn_us= 770  ffn_n= 193  oth_us= 0  oth_n= 0  sync_us= 6563  hostoth_us= 237911  wssm_us= 178952  watt_us= 62942  wproj_us= 27551  wchain_us= 19136  wachain_us= 18612  wffn_us= 176533
+QS_PROF wall_us= 247346  gemm_us= 1538  gemm_n= 497  ssm_us= 994  ssm_n= 192  attn_us= 634  attn_n= 64  ffn_us= 661  ffn_n= 193  oth_us= 0  oth_n= 0  sync_us= 6518  hostoth_us= 236999  wssm_us= 177637  watt_us= 62687  wproj_us= 26745  wchain_us= 19014  wachain_us= 18753  wffn_us= 175754
+QS_PROF wall_us= 249212  gemm_us= 1584  gemm_n= 497  ssm_us= 1062  ssm_n= 192  attn_us= 652  attn_n= 64  ffn_us= 777  ffn_n= 193  oth_us= 0  oth_n= 0  sync_us= 6386  hostoth_us= 238749  wssm_us= 178994  watt_us= 63162  wproj_us= 27236  wchain_us= 19234  wachain_us= 19043  wffn_us= 176589
+QS_PROF wall_us= 250432  gemm_us= 1562  gemm_n= 497  ssm_us= 1147  ssm_n= 192  attn_us= 694  attn_n= 64  ffn_us= 712  ffn_n= 193  oth_us= 0  oth_n= 0  sync_us= 6717  hostoth_us= 239596  wssm_us= 178962  watt_us= 64226  wproj_us= 27060  wchain_us= 19071  wachain_us= 19677  wffn_us= 177313
+QS_PROF wall_us= 252557  gemm_us= 1515  gemm_n= 497  ssm_us= 1030  ssm_n= 192  attn_us= 779  attn_n= 64  ffn_us= 694  ffn_n= 193  oth_us= 0  oth_n= 0  sync_us= 6651  hostoth_us= 241885  wssm_us= 181178  watt_us= 64219  wproj_us= 27916  wchain_us= 19410  wachain_us= 19734  wffn_us= 178281
+QS_PROF wall_us= 253368  gemm_us= 1505  gemm_n= 497  ssm_us= 1066  ssm_n= 192  attn_us= 815  attn_n= 64  ffn_us= 631  ffn_n= 193  oth_us= 0  oth_n= 0  sync_us= 6557  hostoth_us= 242789  wssm_us= 181111  watt_us= 65109  wproj_us= 27159  wchain_us= 19563  wachain_us= 19981  wffn_us= 179460
+QS_PROF wall_us= 361349  gemm_us= 1533  gemm_n= 497  ssm_us= 1340  ssm_n= 192  attn_us= 810  attn_n= 64  ffn_us= 727  ffn_n= 193  oth_us= 0  oth_n= 0  sync_us= 6525  hostoth_us= 350412  wssm_us= 289667  watt_us= 64623  wproj_us= 28257  wchain_us= 80026  wachain_us= 20054  wffn_us= 225880
+QS_PROF wall_us= 246441  gemm_us= 1605  gemm_n= 497  ssm_us= 1127  ssm_n= 192  attn_us= 751  attn_n= 64  ffn_us= 737  ffn_n= 193  oth_us= 0  oth_n= 0  sync_us= 6357  hostoth_us= 235862  wssm_us= 175795  watt_us= 63718  wproj_us= 26442  wchain_us= 18683  wachain_us= 20034  wffn_us= 174284
+GEN IDS: 11751 13 271 4639 369 4252 13 2972 57590 332 369 279 6511 321 1379 91188 3177 314 9338 13 1049 369 7172 303 
+GEN TEXT:  Paris.
+
+That is correct. **Paris** is the capital and most populous city of France. It is located in
+Warning: Resource leak detected by SharedSignalPool, 108 Signals leaked.
+	Command being timed: "/home/volmarr/aesir-qs-phase/hidden_files/qwen35-speed/grade_qwen35_hip_q35_6b.qs25 gen /mnt/vault/models/gguf/Qwen3.8-27B-Ultimate-Heretic-Uncn-Turbo-Brilli-50x-AGI-NEO-Q8_0.gguf q35-3b-tokens.txt 0 24"
+	User time (seconds): 13.76
+	System time (seconds): 14.16
+	Percent of CPU this job got: 96%
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 0:28.90
+	Average shared text size (kbytes): 0
+	Average unshared data size (kbytes): 0
+	Average stack size (kbytes): 0
+	Average total size (kbytes): 0
+	Maximum resident set size (kbytes): 30187240
+	Average resident set size (kbytes): 0
+	Major (requiring I/O) page faults: 1070
+	Minor (reclaiming a frame) page faults: 1925618
+	Voluntary context switches: 2169
+	Involuntary context switches: 1043
+	Swaps: 0
+	File system inputs: 2791264
+	File system outputs: 56
+	Socket messages sent: 0
+	Socket messages received: 0
+	Signals delivered: 0
+	Page size (bytes): 4096
+	Exit status: 0
