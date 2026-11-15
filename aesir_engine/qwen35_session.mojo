@@ -79,8 +79,10 @@ Capabilities, stated honestly:
   feature; the snapshot store is internal to this session.
 - structured output / tool calls: refused, like the Llama 3 session.
 - sampling: the engine CPU sampler honors temperature/top_k/top_p/
-  repetition_penalty/seed from NativeSamplingConfig; min_p and
-  repeat_last_n have no CPU-forward counterpart and are not claimed.
+  repetition_penalty/seed/min_p from NativeSamplingConfig (min_p
+  wired QS-4.2 through GenerationConfig -> the qwen35 forwards ->
+  core.sampler.apply_min_p); repeat_last_n has no CPU-forward
+  counterpart yet and is not claimed (QS-4.3).
 
 Q35-7 serve-surface fixes (F-4b-1 / F-4b-2, from Q35-4b's findings):
 - Stop tokens: generation halts on the model's own end/control
@@ -305,6 +307,7 @@ struct Qwen35CPUSession(ControlledTextSession):
             top_p=self.sampling.top_p,
             repetition_penalty=self.sampling.repetition_penalty,
             seed=self.sampling.seed,
+            min_p=self.sampling.min_p,
         )
 
     def _attn_layers(self) -> List[Int]:

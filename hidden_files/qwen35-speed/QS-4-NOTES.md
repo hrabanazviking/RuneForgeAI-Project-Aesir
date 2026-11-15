@@ -130,3 +130,37 @@ must reproduce the pre-fix streams bit-exactly), existing
 qwen35 fixture tests re-run, teacher-forcing grade battery
 re-run (fixture grade now; 27B grade when the HEAVY lock
 frees).
+
+## QS-4.2 MIN_P — implemented + proven (2026-11-15)
+
+Changes (defaults bit-identical everywhere):
+- core/inference.mojo: forward_pass_qwen35 +
+  forward_pass_qwen35_batched gain min_p: Scalar[f32] = 0.0,
+  passed to sample_token_from_logits (which already implements
+  apply_min_p; it was simply never fed on this path).
+- aesir.mojo: _forward_position/_forward_batch qwen35 branches
+  pass gen_config.min_p (the GenerationConfig field existed
+  and was dead on every CPU forward).
+- qwen35_session._gen_config(): min_p=self.sampling.min_p.
+- qwen35_hip_session: host sampler call gains min_p likewise;
+  both session headers updated to claim min_p (QS-4.2) and
+  keep repeat_last_n honestly unclaimed until QS-4.3.
+
+Evidence (logs in this folder):
+- qs-4-minp-test.log — test_qwen35_sampling_qs_4 ALL PASS:
+  (m1) apply_min_p keep sets exact on a known ladder
+  (probs .644/.237/.087/.032: min_p 0.1 keeps 3, 0.5 keeps 1,
+  0 keeps 4); (m2) distribution: logits 3.0 vs 2.9 (ratio
+  0.905), min_p 0.95 -> token 1 drawn 0/512 seeded draws,
+  min_p 0 control -> 230/512 (expectation ~243);
+  (m3) session on k256 fixture: min_p=0 stream BIT-EXACT vs
+  the pre-fix QS-4.1 probe stream; min_p=0.95 stream differs;
+  _gen_config().min_p witness now 0.95.
+- Grade safety: qs-4-fwd-fixture.log (test_qwen35_forward_
+  q35_3 ALL PASS, greedy identical), qs-4-residentk.log
+  (QS-3 K-resident ALL PASS, logits diff 0.0), qs-4-test-
+  inference.log (test_inference PASS, exit 0). Logit-row
+  capture precedes sampling in both qwen35 forwards, so the
+  teacher-forcing grade cannot move; the 27B 198-record
+  grade re-run waits on the HEAVY lock (QS-2 phase) and is
+  scheduled before QS-4.4 closes.

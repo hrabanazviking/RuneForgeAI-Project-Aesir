@@ -474,6 +474,7 @@ struct AesirEngine:
                 gen_config.top_p,
                 gen_config.repetition_penalty,
                 gen_config.seed,
+                gen_config.min_p,
             )
         return forward_pass(
             tokens,
@@ -1070,6 +1071,7 @@ struct AesirEngine:
                 gen_config.top_p,
                 gen_config.repetition_penalty,
                 gen_config.seed,
+                gen_config.min_p,
             )
         return forward_pass_batched(
             tokens,

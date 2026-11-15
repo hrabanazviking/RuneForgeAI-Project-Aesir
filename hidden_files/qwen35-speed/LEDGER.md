@@ -179,3 +179,11 @@ Compression cross-reference (QC_RESULTS.md / RESIDENCY-NOTE):
   the penalty itself is wired full-context
   (qs-4-probe-prefix.log). Full audit + reference semantics +
   design in QS-4-NOTES.md.
+- QS-4.2 MIN_P banked: wired GenerationConfig.min_p through
+  the qwen35 forwards + CPU/HIP sessions into the existing
+  apply_min_p. Fixture proof: keep sets exact; distribution
+  0/512 vs 230/512 control; session default stream bit-exact
+  vs pre-fix probe, min_p 0.95 bites (qs-4-minp-test.log).
+  Fixture grade battery clean (forward ALL PASS, resident-K
+  logits diff 0.0, test_inference PASS). 27B grade re-run
+  pending HEAVY lock (QS-2).
