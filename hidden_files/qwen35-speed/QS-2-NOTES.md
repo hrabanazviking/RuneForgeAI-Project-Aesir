@@ -318,3 +318,38 @@ Codebase-proven GPU idioms only (no exotic APIs):
   re-measurement is owed; at the bench's 214.6 GB/s
   the GEMV stream alone is 0.127 s/token, so most of
   the remaining 0.019 s/token is non-GEMM work.
+
+## A/B + CLEAN-WINDOW RESULTS (2026-11-15 ~02:26-02:43)
+
+- MEASUREMENT LESSON: at 0.15-0.3 s/token the 4/20
+  gen pair is noise-dominated (construction variance
+  +-2 s vs decode diffs of 1-5 s; one pair implied an
+  impossible 348 GB/s). All headline numbers now use
+  the 4/140 pair (136-token difference). Short-pair
+  readings (v7 6.87, v8 3.17) are RETRACTED as
+  unreliable; the gen60 pair (v7, 5.51) is indicative
+  only.
+- Same-epoch long pairs (QS-1 serve contended): v8
+  0.2940 s/token (3.40 tok/s) vs v7 0.3196 (3.13) --
+  v8 >= v7 confirmed; v8 stays dispatched.
+- CLEAN WINDOW (lock re-claimed 02:37:43 after the
+  01:30 claim was removed by another party; load1
+  0.94, MemAvailable 125 GB, no QS-1 processes):
+  v8 long pair cold 0.2815 s/token (3.55 tok/s);
+  warm repeat 0.2608 (3.83). Sustained bench in the
+  same window: v8 209.6 / 205.1 GB/s, v7 200.4 /
+  201.6 -- the isolated kernel streams at Ollama-
+  class rates, so the remaining ceiling is IN-ENGINE:
+  ~0.13 s/token of non-GEMV-stream time per token
+  (launch/sync/host path or small-kernel chain), NOT
+  the GEMV kernel and NOT QS-1 contention. Named
+  next step: real-scale per-phase profile (engine
+  timers at 27B geometry) to attribute the 0.13 s.
+- LOCK RECORD (per coordinator correction 02:37):
+  QS-2 claims: 01:30:23 (removed by another party
+  before 02:37), 02:37:43 (this window). All QS-2
+  real-file runs of the night ran inside fenced
+  units while a QS-2 OWNER.txt claim stood, except
+  the fixture-scale and synthetic-bench light work
+  of 00:0x-01:2x (pre-claim). Release recorded in
+  LEDGER at banking.

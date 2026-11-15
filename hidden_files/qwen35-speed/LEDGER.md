@@ -248,3 +248,16 @@ finding): engine timers + fixture timings only.
 - QS-2.3/QS-2.4: launch fusions all landed pre-lock
   (above); at 0.146 s/token the launch floor is now
   a minor term (~0.019 s/token non-GEMV total).
+- QS-2.2 v8 banked: bench + A/B + clean-window runs.
+  LOCK: claimed 2026-11-15 01:30:23 EST (QS-3 close
+  banked e0f28a8b; claim removed by another party
+  before 02:37), re-claimed 02:37:43 EST for the
+  clean-window sequence; released at this banking
+  (~02:47 EST). Clean-window headline: decode 3.55
+  tok/s cold / 3.83 warm (4/140 pairs, v8), grade
+  71/71 FAITHFUL (v8, contended epoch). Isolated
+  GEMV sustains 205.1 GB/s clean -- remaining
+  ceiling is in-engine non-GEMV time (~0.13
+  s/token), next step = real-scale per-phase
+  profile. Short-pair figures (6.87) retracted as
+  noise-dominated; see QS-2-NOTES.md.

@@ -13,7 +13,7 @@ from std.time import perf_counter_ns
 from std.memory import Pointer
 from max.gpu.host import DeviceContext, DeviceBuffer, HostBuffer
 from core.packed_quantization import Bytes
-from core.qwen35_hip import _q8_gemm_kernel, _q8_gemv_kernel, _q8_gemv_kernel_v4, _q8_gemv_kernel_v5, _q8_gemv_kernel_v6, _q8_gemv_kernel_v7
+from core.qwen35_hip import _q8_gemm_kernel, _q8_gemv_kernel, _q8_gemv_kernel_v4, _q8_gemv_kernel_v5, _q8_gemv_kernel_v6, _q8_gemv_kernel_v7, _q8_gemv_kernel_v8
 from core.hip_gemv import HipGemv
 
 comptime Floats = Pointer[Float32, MutUntrackedOrigin]
@@ -148,6 +148,24 @@ def run_shape(ctx: DeviceContext, rows: Int, cols: Int, reps: Int) raises:
     var gbs_v7 = Float64(wbytes) * Float64(reps) / (Float64(v7_ns) / 1e9) / 1e9
     print("V7 ms_per_rep=", Float64(v7_ns) / 1e6 / Float64(reps), " GB_s=", gbs_v7)
     print("MAXDIFF old_vs_v7=", md7)
+    # v8 (v4 + 16-block unroll) kernel
+    t0 = perf_counter_ns()
+    for _ in range(reps):
+        ctx.enqueue_function[_q8_gemv_kernel_v8](w, a, Int64(0), Int64(rows), Int64(cols), Int64(0), Int64(cols), Int64(1), grid_dim=(n_new + 255) // 256, block_dim=256)
+    ctx.synchronize()
+    var v8_ns = perf_counter_ns() - t0
+    ctx.enqueue_copy(host_a, dev_a)
+    ctx.synchronize()
+    var md8 = Float32(0.0)
+    for i in range(rows):
+        var d = host_a[cols + i] - old_out[i]
+        if d < Float32(0.0):
+            d = -d
+        if d > md8:
+            md8 = d
+    var gbs_v8 = Float64(wbytes) * Float64(reps) / (Float64(v8_ns) / 1e9) / 1e9
+    print("V8 ms_per_rep=", Float64(v8_ns) / 1e6 / Float64(reps), " GB_s=", gbs_v8)
+    print("MAXDIFF old_vs_v8=", md8)
     var gbs_old = Float64(wbytes) * Float64(reps) / (Float64(old_ns) / 1e9) / 1e9
     var gbs_new = Float64(wbytes) * Float64(reps) / (Float64(new_ns) / 1e9) / 1e9
     print("OLD ms_per_rep=", Float64(old_ns) / 1e6 / Float64(reps), " GB_s=", gbs_old)
