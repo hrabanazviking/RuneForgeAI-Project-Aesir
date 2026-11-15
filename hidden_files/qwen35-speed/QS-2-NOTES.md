@@ -124,3 +124,24 @@ Codebase-proven GPU idioms only (no exotic APIs):
 - NEXT: QS-2.1 gen pair on .base binaries the moment the
   HEAVY.lock frees (QS-3 v3 unit still active at last
   check), then QS-2.2 real-file grade + gen pair.
+
+## QS-2.3 step 1 — ring stage+commit fusion (fixture-proven)
+
+- Stage fused into _conv_silu_kernel (writes tmp only; conv
+  reads ring/qkv, writes conv row — disjoint, bit-exact).
+  Commit fused into _l2norm_kernel (copies tmp -> ring at
+  kernel head; l2norm never reads the ring; the delta
+  kernel launches after it on the same stream). The two
+  standalone ring launches per SSM layer per row are gone:
+  -96 launches/token at 48 SSM layers, batch 1.
+  _ring_shift_stage_kernel / _ring_commit_kernel kept
+  in-file as the D2 reference, now unreferenced.
+- Fixture (qs2-fixture-fuse1.log): ALL PASS; (d) 0.0/0.0
+  and (f) 0.0 EXACT (fusion changed no math); (c) greedy
+  identical; (e) GEMV loop 51.04 ms vs 52.54 ms for the
+  GEMV-only build (fixture is launch-bound; ~4 us per
+  removed launch incl. host enqueue). Real-scale effect
+  measured with the gen pairs under the lock.
+- Attribution stash: pre-fusion binaries kept as *.gemv2
+  beside the *.base baseline copies, so the heavy window
+  can gen-pair base vs gemv2 vs fused builds separately.

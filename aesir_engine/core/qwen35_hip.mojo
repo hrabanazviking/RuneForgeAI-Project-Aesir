@@ -364,17 +364,32 @@ def _copy_kernel(a: Floats, dst_arg: Int64, src_arg: Int64, count_arg: Int64):
         a.unsafe_store(Int(dst_arg) + idx, a.unsafe_load(Int(src_arg) + idx))
 
 
-def _conv_silu_kernel(w: Bytes, a: Floats, st: Floats, convw_arg: Int64, kind_arg: Int64, qkv_arg: Int64, conv_arg: Int64, ring_arg: Int64, conv_dim_arg: Int64, kernel_arg: Int64, row_arg: Int64):
+def _conv_silu_kernel(w: Bytes, a: Floats, st: Floats, tmp: Floats, convw_arg: Int64, kind_arg: Int64, qkv_arg: Int64, conv_arg: Int64, ring_arg: Int64, conv_dim_arg: Int64, kernel_arg: Int64, row_arg: Int64):
     """Causal depthwise conv1d + SiLU for ONE row (the ring is
     sequential state): conv[c] = f16(silu(f16(sum_tap w[c, tap] *
     sample_tap))) with samples from the f32 ring (previous raw
     qkv rows, exactly as the CPU stores them) and the current
-    qkv row as the last tap."""
+    qkv row as the last tap. QS-2.3: the D2 ring stage is fused
+    into this launch -- threads covering (kernel-1)*conv_dim
+    also write the staged shift into tmp (tap t = old ring tap
+    t+1, newest tap = the current raw qkv row). Stage reads
+    only ring/qkv and writes only tmp; the conv reads only
+    ring/qkv and writes only the conv row: disjoint, so the
+    fusion is bit-exact vs the separate stage launch. The
+    commit half of D2 is fused into _l2norm_kernel."""
     var convw = Int(convw_arg)
     var kind = Int(kind_arg)
     var conv_dim = Int(conv_dim_arg)
     var kernel = Int(kernel_arg)
-    var c = Int(global_idx.x)
+    var idx = Int(global_idx.x)
+    if idx < (kernel - 1) * conv_dim:
+        var tap = idx // conv_dim
+        var c2 = idx % conv_dim
+        if tap < kernel - 2:
+            tmp.unsafe_store(tap * conv_dim + c2, st.unsafe_load(Int(ring_arg) + (tap + 1) * conv_dim + c2))
+        else:
+            tmp.unsafe_store(tap * conv_dim + c2, a.unsafe_load(Int(qkv_arg) + Int(row_arg) * conv_dim + c2))
+    var c = idx
     if c < conv_dim:
         var acc: Float32 = 0.0
         for tap in range(kernel):
@@ -417,14 +432,21 @@ def _ring_commit_kernel(st: Floats, tmp: Floats, ring_arg: Int64, count_arg: Int
         st.unsafe_store(Int(ring_arg) + idx, tmp.unsafe_load(idx))
 
 
-def _l2norm_kernel(a: Floats, conv_arg: Int64, conv_dim_arg: Int64, qk_band_arg: Int64, d_state_arg: Int64, groups_arg: Int64, row_arg: Int64):
+def _l2norm_kernel(a: Floats, st: Floats, tmp: Floats, conv_arg: Int64, conv_dim_arg: Int64, qk_band_arg: Int64, d_state_arg: Int64, groups_arg: Int64, row_arg: Int64, ring_arg: Int64, ring_count_arg: Int64):
     """L2-normalize the q and k group bands of one conv row in
     place (CPU: scale = 1/sqrt(sum + 1e-6), stored f16). One
     thread per group."""
     var conv_dim = Int(conv_dim_arg)
     var qk_band = Int(qk_band_arg)
     var d_state = Int(d_state_arg)
-    var g = Int(global_idx.x)
+    var idx = Int(global_idx.x)
+    var rc = Int(ring_count_arg)
+    var ring = Int(ring_arg)
+    var ci = idx
+    while ci < rc:
+        st.unsafe_store(ring + ci, tmp.unsafe_load(ci))
+        ci += 256
+    var g = idx
     if g < Int(groups_arg):
         var base = Int(conv_arg) + Int(row_arg) * conv_dim
         var q_off = g * d_state
@@ -785,12 +807,10 @@ struct Qwen35HipExecutor:
         var ring = self.s_elems + layer.ssm_slot * max(0, p.ssm_conv_kernel - 1) * conv_dim
         var s_base = layer.ssm_slot * p.ssm_time_step_rank * p.ssm_state_size * p.ssm_state_size
         for r in range(batch):
-            self.context.enqueue_function[_conv_silu_kernel](self.w(), self.a(), self.s(), Int64(layer.conv1d.base), Int64(layer.conv1d.kind), Int64(self.o_qkv), Int64(self.o_conv), Int64(ring), Int64(conv_dim), Int64(p.ssm_conv_kernel), Int64(r), grid_dim=(conv_dim + 255) // 256, block_dim=256)
-            if p.ssm_conv_kernel > 1:
-                var rn = (p.ssm_conv_kernel - 1) * conv_dim
-                self.context.enqueue_function[_ring_shift_stage_kernel](self.a(), self.s(), self.rtmp(), Int64(self.o_qkv), Int64(ring), Int64(conv_dim), Int64(p.ssm_conv_kernel), Int64(r), grid_dim=(rn + 255) // 256, block_dim=256)
-                self.context.enqueue_function[_ring_commit_kernel](self.s(), self.rtmp(), Int64(ring), Int64(rn), grid_dim=(rn + 255) // 256, block_dim=256)
-            self.context.enqueue_function[_l2norm_kernel](self.a(), Int64(self.o_conv), Int64(conv_dim), Int64(p.ssm_group_count * p.ssm_state_size), Int64(p.ssm_state_size), Int64(p.ssm_group_count), Int64(r), grid_dim=1, block_dim=256)
+            var rn = (p.ssm_conv_kernel - 1) * conv_dim
+            var conv_grid = conv_dim if p.ssm_conv_kernel <= 1 else rn
+            self.context.enqueue_function[_conv_silu_kernel](self.w(), self.a(), self.s(), self.rtmp(), Int64(layer.conv1d.base), Int64(layer.conv1d.kind), Int64(self.o_qkv), Int64(self.o_conv), Int64(ring), Int64(conv_dim), Int64(p.ssm_conv_kernel), Int64(r), grid_dim=(conv_grid + 255) // 256, block_dim=256)
+            self.context.enqueue_function[_l2norm_kernel](self.a(), self.s(), self.rtmp(), Int64(self.o_conv), Int64(conv_dim), Int64(p.ssm_group_count * p.ssm_state_size), Int64(p.ssm_state_size), Int64(p.ssm_group_count), Int64(r), Int64(ring), Int64(rn), grid_dim=1, block_dim=256)
             var dn = p.ssm_time_step_rank * p.ssm_state_size
             self.context.enqueue_function[_delta_kernel](self.w(), self.a(), self.s(), Int64(layer.ssm_a.base), Int64(layer.ssm_a.kind), Int64(self.o_conv), Int64(self.o_alpha), Int64(self.o_beta), Int64(layer.dt_bias.base), Int64(self.o_scr), Int64(s_base), Int64(conv_dim), Int64(p.ssm_group_count * p.ssm_state_size), Int64(p.ssm_state_size), Int64(p.ssm_time_step_rank), Int64(p.ssm_group_count), Int64(r), grid_dim=(dn + 255) // 256, block_dim=256)
             self.context.enqueue_function[_gated_norm_kernel](self.w(), self.a(), Int64(layer.ssm_norm.base), Int64(layer.ssm_norm.kind), Int64(self.o_scr), Int64(self.o_z), Int64(self.o_y), Int64(p.ssm_state_size), Int64(p.ssm_time_step_rank), Int64(r), p.normalization_epsilon, grid_dim=1, block_dim=256)
