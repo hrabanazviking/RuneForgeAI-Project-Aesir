@@ -187,3 +187,22 @@ Codebase-proven GPU idioms only (no exotic APIs):
   launches 10/layer remain the spine; the rest is norms,
   copies, adds and the attention block. Next steps wait
   on the real-scale gen pairs (bandwidth vs latency).
+
+## QS-2.3 step 3 — warp-parallel RMSNorm
+
+- _rmsnorm_kernel was one thread per row doing two serial
+  width-length passes (2 per layer + final = 129 serial
+  reductions per token at 5120 wide). Now one warp per
+  row (lane-strided, warp.sum), same in-place safety
+  (pass 1 stores nothing). Sum order changes (rounding
+  class); _norm launch grid scales by 32.
+- Fixture (qs2-fixture-fuse5.log): ALL PASS; (b) diffs
+  IMPROVED vs the serial norm (worst s 0.00021445751 vs
+  0.0007150769; logits 0.0078125 vs 0.015625), rank 1
+  gap 0.0; (c) identical; (d)/(f) exact 0.0; (e) GEMV
+  loop 36.56 ms (1,751 tok/s) vs 49.47 ms — the serial
+  norms were ~27% of the fixture loop time. Session
+  test ALL PASS (qs2-session-fuse5.log, POS1=72/POS2=106).
+- Fixture loop trajectory so far (64 tok, ms): baseline
+  65.59 -> GEMV 52.54 -> +ring fusion 51.04 -> +delta
+  fusion 50.76 -> +silu fusion 49.47 -> +warp norm 36.56.

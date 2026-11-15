@@ -274,21 +274,27 @@ def _embed_kernel(w: Bytes, a: Floats, toks: Ints, base_arg: Int64, width_arg: I
 
 def _rmsnorm_kernel(w: Bytes, a: Floats, weight_arg: Int64, kind_arg: Int64, width_arg: Int64, src_arg: Int64, dst_arg: Int64, batch_arg: Int64, eps: Float32):
     """Per-row RMSNorm over width, in place allowed (src == dst):
-    reads the row fully before storing. Weight via _small_value.
-    One thread per row (sequential reduction, CPU order)."""
+    pass 1 computes the row sum of squares before any store.
+    Weight via _small_value. QS-2.3: one warp per row (was one
+    thread per row, a serial 2xwidth reduction per launch);
+    the sum order differs from the CPU order (rounding class
+    only, graded under the Q35-6 standard)."""
     var weight = Int(weight_arg)
     var kind = Int(kind_arg)
     var width = Int(width_arg)
     var src = Int(src_arg)
     var dst = Int(dst_arg)
-    var b = Int(global_idx.x)
+    var idx = Int(global_idx.x)
+    var lane = idx % 32
+    var b = idx // 32
     if b < Int(batch_arg):
         var ss: Float32 = 0.0
-        for i in range(width):
+        for i in range(lane, width, 32):
             var v = a.unsafe_load(src + b * width + i)
             ss += v * v
+        ss = warp.sum(ss)
         var scale = Float32(1.0) / sqrt(ss / Float32(width) + eps)
-        for i in range(width):
+        for i in range(lane, width, 32):
             var v = a.unsafe_load(src + b * width + i) * scale * _small_value(w, weight, kind, i)
             a.unsafe_store(dst + b * width + i, _f16r(v))
 
@@ -920,7 +926,7 @@ struct Qwen35HipExecutor:
         self.context.enqueue_function[_q8_gemv_kernel](self.w(), self.a(), Int64(t.base), Int64(t.rows), Int64(t.cols), Int64(src), Int64(dst), Int64(batch), grid_dim=(n + 255) // 256, block_dim=256)
 
     def _norm(mut self, t: Q35TensorRef, src: Int, dst: Int, width: Int, batch: Int) raises:
-        self.context.enqueue_function[_rmsnorm_kernel](self.w(), self.a(), Int64(t.base), Int64(t.kind), Int64(width), Int64(src), Int64(dst), Int64(batch), Float32(1e-5), grid_dim=(batch + 255) // 256, block_dim=256)
+        self.context.enqueue_function[_rmsnorm_kernel](self.w(), self.a(), Int64(t.base), Int64(t.kind), Int64(width), Int64(src), Int64(dst), Int64(batch), Float32(1e-5), grid_dim=(batch * 32 + 255) // 256, block_dim=256)
 
     def _copy(mut self, dst: Int, src: Int, count: Int) raises:
         self.context.enqueue_function[_copy_kernel](self.a(), Int64(dst), Int64(src), Int64(count), grid_dim=(count + 255) // 256, block_dim=256)
